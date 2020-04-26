@@ -1,0 +1,575 @@
+---
+# CLASSES
+classes:
+  Barbarian:
+    abilities:
+      1: Strength
+      2: Constitution
+    background: Outlander
+    features:
+      1: ['Rage', 'Unarmored Defense']
+      2: ['Danger Sense', 'Reckless Attack']
+      3: ['Primal Path']
+      5: ['Extra Attack', 'Fast Movement']
+      7: ['Feral Instinct']
+      9: ['Brutal Critical']
+      11: ['Relentless Rage']
+      13: ['Brutal Critical']
+      15: ['Persistent Rage']
+      17: ['Brutal Critical']
+      18: ['Indomitable Might']
+      20: ['Primal Champion']
+    hit_die: 12
+    paths:
+      - Path of the Berserker
+      - Path of the Totem Warrior
+    proficiency:
+      armors: ['Light', 'Medium', 'Shield']
+      tools: []
+      weapons: ['Simple', 'Martial']
+    saves: ['Constitution', 'Strength']
+    spell_slots: {}
+  Bard:
+    abilities:
+      1: Charisma
+      2: Dexterity
+    background: Entertainer
+    features:
+      1: ['Bardic Inspiration', 'Spellcasting']
+      2: ['Jack of All Trades', 'Song of Rest']
+      3: ['Bard College', 'Expertise']
+      5: ['Bardic Inspiration', 'Font of Inspiration']
+      6: ['Countercharm']
+      9: ['Song of Rest']
+      10: ['Bardic Inspiration', 'Expertise', 'Magical Secrets']
+      13: ['Song of Rest']
+      14: ['Magical Secrets']
+      15: ['Bardic Inspiration']
+      17: ['Song of Rest']
+      18: ['Magical Secrets']
+      20: ['Superior Inspiration']
+    hit_die: 8
+    paths:
+      - College of Lore
+      - College of Valor
+    proficiency:
+      armors: ['Light']
+      tools: []
+      weapons:
+        - Simple
+        - Hand Crossbow
+        - Longsword
+        - Rapier
+        - Shortsword
+    saves: ['Charisma', 'Dexterity']
+    spell_slots:
+      1: 2
+      2: 3
+      3: 4,2
+      4: 4,3
+      5: 4,3,2
+      6: 4,3,3
+      7: 4,3,3,1
+      8: 4,3,3,2
+      9: 4,3,3,3,1
+      10: 4,3,3,3,2
+      11: 4,3,3,3,2,1
+      12: 4,3,3,3,2,1
+      13: 4,3,3,3,2,1,1
+      14: 4,3,3,3,2,1,1
+      15: 4,3,3,3,2,1,1,1
+      16: 4,3,3,3,2,1,1,1
+      17: 4,3,3,3,2,1,1,1,1
+      18: 4,3,3,3,3,1,1,1,1
+      19: 4,3,3,3,3,2,1,1,1
+      20: 4,3,3,3,3,2,2,1,1
+  Cleric:
+    abilities:
+      1: Wisdom
+      2: ['Constitution', 'Strength']
+    background: Acolyte
+    features:
+      1: ['Divine Domain', 'Spellcasting']
+      2: ['Channel Divinity - Turn Undead']
+      5: ['Destroy Undead']
+      8: ['Destroy Undead']
+      10: ['Divine Intervention']
+      11: ['Destroy Undead']
+      14: ['Destroy Undead']
+      17: ['Destroy Undead']
+      20: ['Divine Intervention']
+    hit_die: 8
+    paths:
+      - Knowledge
+      - Life
+      - Light
+      - Nature
+      - Tempest
+      - Trickery
+      - War
+    proficiency:
+      armors: ['Light', 'Medium', 'Shield']
+      tools: []
+      weapons: ['Simple']
+    saves: ['Charisma', 'Wisdom']
+    spell_slots:
+      1: 2
+      2: 3
+      3: 4,2
+      4: 4,3
+      5: 4,3,2
+      6: 4,3,3
+      7: 4,3,3,1
+      8: 4,3,3,2
+      9: 4,3,3,3,1
+      10: 4,3,3,3,2
+      11: 4,3,3,3,2,1
+      12: 4,3,3,3,2,1
+      13: 4,3,3,3,2,1,1
+      14: 4,3,3,3,2,1,1
+      15: 4,3,3,3,2,1,1,1
+      16: 4,3,3,3,2,1,1,1
+      17: 4,3,3,3,2,1,1,1,1
+      18: 4,3,3,3,3,1,1,1,1
+      19: 4,3,3,3,3,2,1,1,1
+      20: 4,3,3,3,3,2,2,1,1
+  Druid:
+    abilities:
+      1: Wisdom
+      2: Constitution
+    background: Hermit
+    features:
+      1: ['Spellcasting']
+      2: ['Druidic Circle', 'Wild Shape']
+      4: ['Wild Shape']
+      8: ['Wild Shape']
+      18: ['Beast Spells', 'Timeless Body']
+      20: ['Archdruid']
+    hit_die: 8
+    paths:
+      - Circle of the Land
+      - Circle of the Moon
+    proficiency:
+      armors: ['Light', 'Medium', 'Shield']
+      tools:
+        - Herbalism Kit
+      weapons:
+        - Club
+        - Dagger
+        - Dart
+        - Javelin
+        - Mace
+        - Quarterstaff
+        - Scimitar
+        - Sickle
+        - Sling
+        - Spear
+    saves: ['Intelligence', 'Wisdom']
+    spell_slots:
+      1: 2
+      2: 3
+      3: 4,2
+      4: 4,3
+      5: 4,3,2
+      6: 4,3,3
+      7: 4,3,3,1
+      8: 4,3,3,2
+      9: 4,3,3,3,1
+      10: 4,3,3,3,2
+      11: 4,3,3,3,2,1
+      12: 4,3,3,3,2,1
+      13: 4,3,3,3,2,1,1
+      14: 4,3,3,3,2,1,1
+      15: 4,3,3,3,2,1,1,1
+      16: 4,3,3,3,2,1,1,1
+      17: 4,3,3,3,2,1,1,1,1
+      18: 4,3,3,3,3,1,1,1,1
+      19: 4,3,3,3,3,2,1,1,1
+      20: 4,3,3,3,3,2,2,1,1
+  Fighter:
+    abilities:
+      1: ['Dexterity', 'Strength']
+      2: ['Constitution', 'Intelligence']
+    background: Soldier
+    features:
+      1: ['Fighting Style', 'Second Wind']
+      2: ['Action Surge']
+      3: ['Martial Archetype']
+      5: ['Extra Attack']
+      9: ['Indomitable']
+      11: ['Extra Attack']
+      13: ['Indomitable']
+      17: ['Action Surge', 'Indomitable']
+      20: ['Extra Attack']
+    hit_die: 10
+    paths:
+      - Champion
+      - Battle Master
+      - Eldritch Knight
+    proficiency:
+      armors: ['Light', 'Medium', 'Heavy', 'Shield']
+      tools: []
+      weapons: ['Simple', 'Martial']
+    saves: ['Constitution', 'Strength']
+    spell_slots:
+      3: 2
+      4: 3
+      5: 3
+      6: 3
+      7: 4,2
+      8: 4,2
+      9: 4,2
+      10: 4,3
+      11: 4,3
+      12: 4,3
+      13: 4,3,2
+      14: 4,3,2
+      15: 4,3,2
+      16: 4,3,3
+      17: 4,3,3
+      18: 4,3,3
+      19: 4,3,3,1
+      20: 4,3,3,1
+  Monk:
+    abilities:
+      1: Dexterity
+      2: Wisdom
+    background: Hermit
+    features:
+      1: ['Martial Arts', 'Unarmored Defense']
+      2: ['Ki', 'Unarmored Movement']
+      3: ['Deflect Missiles', 'Monastic Tradition']
+      4: ['Slow Fall']
+      5: ['Extra Attack']
+      6: ['Ki-Empowered Strikes']
+      7: ['Evasion', 'Stillness of Mind']
+      10: ['Purity of Body']
+      13: ['Tongue of the Sun and Moon']
+      14: ['Diamond Soul']
+      15: ['Timeless Body']
+      17: ['Monastic Tradition']
+      18: ['Empty Body']
+      20: ['Perfect Self']
+    hit_die: 8
+    paths:
+      - Way of the Four Elements
+      - Way of the Open Hand
+      - Way of Shadow
+    proficiency:
+      armors: []
+      tools:
+        - Artisan's tools - Alchemists supplies
+        - Artisan's tools - Brewer's supplies
+        - Artisan's tools - Calligrapher's supplies
+        - Artisan's tools - Carpenter's tools
+        - Artisan's tools - Cartographer's tools
+        - Artisan's tools - Cobbler's tools
+        - Artisan's tools - Cook's utensils
+        - Artisan's tools - Glassblower's tools
+        - Artisan's tools - Jeweler's tools
+        - Artisan's tools - Leatherworker's tools
+        - Artisan's tools - Mason's tools
+        - Artisan's tools - Painter's supplies
+        - Artisan's tools - Potter's tools
+        - Artisan's tools - Smith's tools
+        - Artisan's tools - Tinker's tools
+        - Artisan's tools - Weaver's tools
+        - Artisan's tools - Woodcarver's tools
+        - Musical instrument - Bagpipes
+        - Musical instrument - Drum
+        - Musical instrument - Dulcimer
+        - Musical instrument - Flute
+        - Musical instrument - Lute
+        - Musical instrument - Lyre
+        - Musical instrument - Horn
+        - Musical instrument - Pan flute
+        - Musical instrument - Shawm
+        - Musical instrument - Viol
+      weapons: ['Simple', 'Shortsword']
+    saves: ['Dexterity', 'Strength']
+    spell_slots: {}
+  Paladin:
+    abilities:
+      1: Strength
+      2: Charisma
+    background: Noble
+    features:
+      1: ['Divine Sense', 'Lay on Hands']
+      2: ['Divine Smite', 'Fighting Style', 'Spellcasting']
+      3: ['Divine Health', 'Sacred Oath']
+      5: ['Extra Attack']
+      6: ['Aura of Protection']
+      10: ['Aura of Courage']
+      11: ['Improved Divine Smite']
+      14: ['Cleansing Touch']
+      18: ['Aura of Courage', 'Aura of Protection']
+    hit_die: 10
+    paths:
+      - Oath of Devotion
+      - Oath of Vengeance
+      - Oath of the Ancients
+    proficiency:
+      armors: ['Light', 'Medium', 'Heavy', 'Shield']
+      tools: []
+      weapons: ['Simple', 'Martial']
+    saves: ['Charisma', 'Wisdom']
+    spell_slots:
+      2: 2
+      3: 3
+      4: 3
+      5: 4,2
+      6: 4,2
+      7: 4,3
+      8: 4,3
+      9: 4,3,2
+      10: 4,3,2
+      11: 4,3,3
+      12: 4,3,3
+      13: 4,3,3,1
+      14: 4,3,3,1
+      15: 4,3,3,2
+      16: 4,3,3,2
+      17: 4,3,3,3,1
+      18: 4,3,3,3,1
+      19: 4,3,3,3,2
+      20: 4,3,3,3,2
+  Ranger:
+    abilities:
+      1: ['Dexterity', 'Strength']
+      2: Wisdom
+    background: Outlander
+    features:
+      1: ['Favored Enemy', 'Natural Explorer']
+      2: ['Fighting Style', 'Spellcasting']
+      3: ['Primeval Awareness', 'Ranger Archetype']
+      5: ['Extra Attack']
+      6: ['Favored Enemy', 'Natural Explorer']
+      8: ["Land's Stride"]
+      10: ['Hide in Plain Sight', 'Natural Explorer']
+      14: ['Favored Enemy', 'Vanish']
+      18: ['Feral Senses']
+      20: ['Foe Slayer']
+    hit_die: 10
+    paths:
+      - Beast Master
+      - Hunter
+    proficiency:
+      armors: ['Light', 'Medium', 'Shield']
+      tools: []
+      weapons: ['Simple', 'Martial']
+    saves: ['Dexterity', 'Strength']
+    spell_slots:
+      2: 2
+      3: 3
+      4: 3
+      5: 4,2
+      6: 4,2
+      7: 4,3
+      8: 4,3
+      9: 4,3,2
+      10: 4,3,2
+      11: 4,3,3
+      12: 4,3,3
+      13: 4,3,3,1
+      14: 4,3,3,1
+      15: 4,3,3,2
+      16: 4,3,3,2
+      17: 4,3,3,3,1
+      18: 4,3,3,3,1
+      19: 4,3,3,3,2
+      20: 4,3,3,3,2
+  Rogue:
+    abilities:
+      1: Dexterity
+      2: ['Charisma', 'Intelligence']
+    background: Charlatan
+    features:
+      1: ['Expertise', 'Sneak Attack']
+      2: ['Cunning Action']
+      3: ['Roguish Archetype']
+      5: ['Uncanny Dodge']
+      6: ['Expertise']
+      7: ['Evasion']
+      11: ['Reliable Talent']
+      14: ['Blindsense']
+      15: ['Slippery Mind']
+      18: ['Elusive']
+      20: ['Stroke of Luck']
+    hit_die: 8
+    paths:
+      - Arcane Trickster
+      - Assassin
+      - Thief
+    proficiency:
+      armors: ['Light']
+      tools:
+        - Thieves' tools
+      weapons:
+        - Simple
+        - Hand Crossbow
+        - Longsword
+        - Rapier
+        - Shortsword
+    saves: ['Dexterity', 'Intelligence']
+    spell_slots:
+      3: 2
+      4: 3
+      5: 3
+      6: 3
+      7: 4,2
+      8: 4,2
+      9: 4,2
+      10: 4,3
+      11: 4,3
+      12: 4,3
+      13: 4,3,2
+      14: 4,3,2
+      15: 4,3,2
+      16: 4,3,3
+      17: 4,3,3
+      18: 4,3,3
+      19: 4,3,3,1
+      20: 4,3,3,1
+  Sorcerer:
+    abilities:
+      1: Charisma
+      2: Constitution
+    background: Hermit
+    features:
+      1: ['Sorcerous Origins', 'Spellcasting']
+      2: ['Font of Magic']
+      3: ['Metamagic']
+      10: ['Metamagic']
+      17: ['Metamagic']
+      20: ['Sorcerous Restoration']
+    hit_die: 6
+    paths:
+      - Draconic Bloodline
+      - Wild Magic
+    proficiency:
+      armors: []
+      tools: []
+      weapons:
+        - Dagger
+        - Dart
+        - Sling
+        - Quarterstaff
+        - Light Crossbow
+    saves: ['Charisma', 'Constitution']
+    spell_slots:
+      1: 2
+      2: 3
+      3: 4,2
+      4: 4,3
+      5: 4,3,2
+      6: 4,3,3
+      7: 4,3,3,1
+      8: 4,3,3,2
+      9: 4,3,3,3,1
+      10: 4,3,3,3,2
+      11: 4,3,3,3,2,1
+      12: 4,3,3,3,2,1
+      13: 4,3,3,3,2,1,1
+      14: 4,3,3,3,2,1,1
+      15: 4,3,3,3,2,1,1,1
+      16: 4,3,3,3,2,1,1,1
+      17: 4,3,3,3,2,1,1,1,1
+      18: 4,3,3,3,3,1,1,1,1
+      19: 4,3,3,3,3,2,1,1,1
+      20: 4,3,3,3,3,2,2,1,1
+  Warlock:
+    abilities:
+      1: Charisma
+      2: Constitution
+    background: Charlatan
+    features:
+      1: ['Otherworldly Patron', 'Pact Magic']
+      2: ['Eldritch Invocations']
+      3: ['Pact Boon']
+      11: ['Mystic Arcanum']
+      13: ['Mystic Arcanum']
+      15: ['Mystic Arcanum']
+      17: ['Mystic Arcanum']
+      20: ['Eldritch Master']
+    hit_die: 8
+    paths:
+      - The Archfey
+      - The Fiend
+      - The Great Old One
+    proficiency:
+      armors: ['Light']
+      tools: []
+      weapons: ['Simple']
+    saves: ['Charisma', 'Wisdom']
+    spell_slots:
+      1: 1
+      2: 2
+      3: 2
+      4: 2
+      5: 2
+      6: 2
+      7: 2
+      8: 2
+      9: 2
+      10: 2
+      11: 3
+      12: 3
+      13: 3
+      14: 3
+      15: 3
+      16: 3
+      17: 4
+      18: 4
+      19: 4
+      20: 4
+  Wizard:
+    abilities:
+      1: Intelligence
+      2: ['Constitution', 'Dexterity']
+    background: Sage
+    features:
+      1: ['Arcane Recovery', 'Spellcasting']
+      2: ['Arcane Tradition']
+      18: ['Spell Mastery']
+      20: ['Signature Spell']
+    hit_die: 6
+    paths:
+      - Abjuration
+      - Conjuration
+      - Divination
+      - Enchantment
+      - Evocation
+      - Illusion
+      - Necromancy
+      - Transmutation
+    proficiency:
+      armors: []
+      tools: []
+      weapons:
+        - Dagger
+        - Dart
+        - Sling
+        - Quarterstaff
+        - Light Crossbow
+    saves: ['Intelligence', 'Wisdom']
+    spell_slots:
+      1: 2
+      2: 3
+      3: 4,2
+      4: 4,3
+      5: 4,3,2
+      6: 4,3,3
+      7: 4,3,3,1
+      8: 4,3,3,2
+      9: 4,3,3,3,1
+      10: 4,3,3,3,2
+      11: 4,3,3,3,2,1
+      12: 4,3,3,3,2,1
+      13: 4,3,3,3,2,1,1
+      14: 4,3,3,3,2,1,1
+      15: 4,3,3,3,2,1,1,1
+      16: 4,3,3,3,2,1,1,1
+      17: 4,3,3,3,2,1,1,1,1
+      18: 4,3,3,3,3,1,1,1,1
+      19: 4,3,3,3,3,2,1,1,1
+      20: 4,3,3,3,3,2,2,1,1

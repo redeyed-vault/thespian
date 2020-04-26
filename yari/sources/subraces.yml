@@ -1,0 +1,129 @@
+---
+# SUBRACES
+subraces:
+  Deep:
+    parent: Gnome
+    traits:
+      abilities:
+        Dexterity: 1
+      camouflage: ['Stealth']
+      darkvision: 120
+      languages: ['Undercommon']
+  Drow:
+    parent: Elf
+    traits:
+      abilities:
+        Charisma: 1
+      darkvision: 120
+      magic:
+        1: Dancing Lights
+        3: Faerie Fire
+        5: Darkness
+      proficiency:
+        weapons: ['Hand Crossbow', 'Rapier', 'Shortsword']
+      sensitivity: Sunlight
+  Duergar:
+    parent: Dwarf
+    traits:
+      abilities:
+        Strength: 1
+      darkvision: 120
+      languages: ['Undercommon']
+      magic:
+        3: ['Enlarge', 'Reduce']
+        5: Invisibility
+      resistance: ['Charm', 'Illusion', 'Paralysis']
+      sensitivity: Sunlight
+  Eladrin:
+    parent: Elf
+    traits:
+      abilities:
+        Intelligence: 1
+      proficiency:
+        weapons: ['Longsword', 'Shortsword', 'Shortbow', 'Longbow']
+  Forest:
+    parent: Gnome
+    traits:
+      abilities:
+        Dexterity: 1
+      magic: ['Minor Illusion']
+      speak: ['Small Beasts']
+  High:
+    parent: Elf
+    traits:
+      abilities:
+        Intelligence: 1
+      cantrip:
+        - Acid Splash
+        - Blade Ward
+        - Chill Touch
+        - Dancing Lights
+        - Fire Bolt
+        - Friends
+        - Light
+        - Mage Hand
+        - Mending
+        - Message
+        - Minor Illusion
+        - Poison Spray
+        - Prestidigitation
+        - Ray of Frost
+        - Shocking Grasp
+        - True Strike
+      proficiency:
+        weapons: ['Longsword', 'Shortsword', 'Shortbow', 'Longbow']
+  Hill:
+    parent: Dwarf
+    traits:
+      abilities:
+        Wisdom: 1
+      toughness: 1
+  Lightfoot:
+    parent: Halfling
+    traits:
+      abilities:
+        Charisma: 1
+      stealthy: []
+  Mountain:
+    parent: Dwarf
+    traits:
+      abilities:
+        Strength: 2
+      proficiency:
+        armors: ['Light', 'Medium']
+  Rock:
+    parent: Gnome
+    traits:
+      abilities:
+        Constitution: 1
+      proficiency:
+        tools:
+          - Artisan's tools - Tinker's tools
+      tinker: ['Clockwork Toy', 'Fire Starter', 'Music Box']
+  Sea:
+    parent: Elf
+    traits:
+      abilities:
+        Constitution: 1
+      languages: ['Aquan']
+      proficiency:
+        weapons: ['Light Crossbow', 'Net', 'Spear', 'Trident']
+  Shadar-kai:
+    parent: Elf
+    traits:
+      abilities:
+        Constitution: 1
+      resistance: ['Necrotic']
+  Stout:
+    parent: Halfling
+    traits:
+      abilities:
+        Constitution: 1
+      resistance: ['Poison']
+  Wood:
+    parent: Elf
+    traits:
+      abilities:
+        Wisdom: 1
+      proficiency:
+        weapons: ['Longsword', 'Shortsword', 'Shortbow', 'Longbow']

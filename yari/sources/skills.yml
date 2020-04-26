@@ -1,0 +1,162 @@
+---
+# SKILLS
+skills:
+  Acrobatics:
+    classes:
+      - Bard
+      - Fighter
+      - Monk
+      - Rogue
+    ability: Dexterity
+  Animal Handling:
+    classes:
+      - Barbarian
+      - Bard
+      - Druid
+      - Fighter
+      - Ranger
+      - Rogue
+    ability: Wisdom
+  Arcana:
+    classes:
+      - Bard
+      - Druid
+      - Sorcerer
+      - Warlock
+      - Wizard
+    ability: Intelligence
+  Athletics:
+    classes:
+      - Barbarian
+      - Bard
+      - Fighter
+      - Monk
+      - Paladin
+      - Ranger
+      - Rogue
+      - Sorcerer
+    ability: Strength
+  Deception:
+    classes:
+      - Bard
+      - Rogue
+      - Sorcerer
+      - Warlock
+    ability: Charisma
+  History:
+    classes:
+      - Bard
+      - Cleric
+      - Fighter
+      - Monk
+      - Sorcerer
+      - Warlock
+      - Wizard
+    ability: Intelligence
+  Insight:
+    classes:
+      - Bard
+      - Cleric
+      - Druid
+      - Fighter
+      - Monk
+      - Paladin
+      - Ranger
+      - Rogue
+      - Sorcerer
+      - Wizard
+    ability: Wisdom
+  Intimidation:
+    classes:
+      - Barbarian
+      - Bard
+      - Fighter
+      - Paladin
+      - Rogue
+      - Sorcerer
+      - Warlock
+    ability: Charisma
+  Investigation:
+    classes:
+      - Bard
+      - Paladin
+      - Ranger
+      - Rogue
+      - Warlock
+      - Wizard
+    ability: Intelligence
+  Medicine:
+    classes:
+      - Bard
+      - Cleric
+      - Druid
+      - Paladin
+      - Ranger
+      - Warlock
+      - Wizard
+    ability: Wisdom
+  Nature:
+    classes:
+      - Barbarian
+      - Bard
+      - Druid
+      - Ranger
+      - Sorcerer
+      - Warlock
+    ability: Intelligence
+  Perception:
+    classes:
+      - Barbarian
+      - Bard
+      - Druid
+      - Fighter
+      - Ranger
+      - Rogue
+    ability: Wisdom
+  Performance:
+    classes:
+      - Bard
+      - Rogue
+    ability: Charisma
+  Persuasion:
+    classes:
+      - Bard
+      - Cleric
+      - Paladin
+      - Rogue
+      - Sorcerer
+      - Warlock
+    ability: Charisma
+  Religion:
+    classes:
+      - Bard
+      - Cleric
+      - Druid
+      - Monk
+      - Paladin
+      - Sorcerer
+      - Warlock
+      - Wizard
+    ability: Intelligence
+  Sleight of Hand:
+    classes:
+      - Bard
+      - Rogue
+    ability: Dexterity
+  Stealth:
+    classes:
+      - Bard
+      - Monk
+      - Ranger
+      - Rogue
+    ability: Dexterity
+  Survival:
+    classes:
+      - Barbarian
+      - Bard
+      - Druid
+      - Fighter
+      - Ranger
+      - Rogue
+      - Sorcerer
+    ability: Wisdom

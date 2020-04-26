@@ -1,0 +1,69 @@
+---
+# FEATS
+feats:
+  Actor: {}
+  Alert: {}
+  Athlete: {}
+  Charger: {}
+  Crossbow Expert: {}
+  Defensive Duelist:
+    abilities:
+      Dexterity: 13
+  Dual Wielder: {}
+  Dungeon Delver: {}
+  Durable: {}
+  Elemental Adept:
+    caster: true
+  Grappler:
+    abilities:
+      Strength: 13
+  Great Weapon Master: {}
+  Healer: {}
+  Heavily Armored:
+    proficiency:
+      armors: ['Medium']
+  Heavy Armor Master:
+    proficiency:
+      armors: ['Heavy']
+  Inspiring Leader:
+    abilities:
+      Charisma: 13
+  Keen Mind: {}
+  Lightly Armored: {}
+  Linguist: {}
+  Lucky: {}
+  Mage Slayer: {}
+  Magic Initiative:
+    caster: true
+  Martial Adept: {}
+  Medium Armor Master:
+    proficiency:
+      armors: ['Medium']
+  Mobile: {}
+  Moderately Armored:
+    proficiency:
+      armors: ['Light']
+  Mounted Combatant: {}
+  Observant: {}
+  Polearm Master: {}
+  Resilient: {}
+  Ritual Caster:
+    abilities:
+      Intelligence: 13
+      Wisdom: 13
+    caster: true
+  Savage Attacker: {}
+  Sentinel: {}
+  Sharpshooter: {}
+  Shield Master: {}
+  Skilled: {}
+  Skulker:
+    abilities:
+      Dexterity: 13
+  Spell Sniper:
+    caster: true
+  Tavern Brawler: {}
+  Tough: {}
+  War Caster:
+    caster: true
+  Weapon Master: {}

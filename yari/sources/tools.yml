@@ -1,0 +1,44 @@
+---
+# TOOLS
+tools:
+  Artisan's tools:
+      - Alchemists supplies
+      - Brewer's supplies
+      - Calligrapher's supplies
+      - Carpenter's tools
+      - Cartographer's tools
+      - Cobbler's tools
+      - Cook's utensils
+      - Glassblower's tools
+      - Jeweler's tools
+      - Leatherworker's tools
+      - Mason's tools
+      - Painter's supplies
+      - Potter's tools
+      - Smith's tools
+      - Tinker's tools
+      - Weaver's tools
+      - Woodcarver's tools
+  Disguise kit: []
+  Forgery kit: []
+  Gaming set:
+    - Dice set
+    - Dragonchess set
+    - Playing card set
+    - Three-Dragon Ante set
+  Herbalism kit: []
+  Musical instrument:
+    - Bagpipes
+    - Drum
+    - Dulcimer
+    - Flute
+    - Lute
+    - Lyre
+    - Horn
+    - Pan flute
+    - Shawm
+    - Viol
+  Navigator's tools: []
+  Poisoner's kit: []
+  Thieves' tools: []
+  Vehicles: []

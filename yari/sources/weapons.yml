@@ -1,0 +1,42 @@
+---
+# WEAPONS
+weapons:
+  Simple:
+    - Club
+    - Dagger
+    - Dart
+    - Greatclub
+    - Handaxe
+    - Javelin
+    - Light Crossbow
+    - Light hammer
+    - Mace
+    - Quarterstaff
+    - Shortbow
+    - Sickle
+    - Sling
+    - Spear
+    - Unarmed strike
+  Martial:
+    - Battleaxe
+    - Blowgun
+    - Flail
+    - Greataxe
+    - Greatsword
+    - Halberd
+    - Hand Crossbow
+    - Heavy Crossbow
+    - Lance
+    - Longbow
+    - Longsword
+    - Maul
+    - Morningstar
+    - Net
+    - Pike
+    - Rapier
+    - Scimitar
+    - Shortsword
+    - Trident
+    - War pick
+    - Warhammer
+    - Whip

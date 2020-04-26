@@ -1,0 +1,164 @@
+---
+# RACES
+races:
+  Aasimar:
+    traits:
+      abilities:
+        Wisdom: 1
+        Charisma: 2
+      darkvision: 60
+      languages: ['Common', 'Celestial']
+      magic:
+        1: Light
+        3: Lesser Restoration
+        5: Daylight
+      resistance: ['Necrotic', 'Radiant']
+      size: Medium
+      speed: 30
+  Dragonborn:
+    traits:
+      abilities:
+        Strength: 2
+        Charisma: 1
+      ancestry: 
+        - Black
+        - Blue 
+        - Brass
+        - Bronze
+        - Copper
+        - Gold
+        - Green
+        - Red
+        - Silver
+        - White
+      languages: ['Common', 'Draconic']
+      size: Medium
+      speed: 30
+  Dwarf:
+    traits:
+      abilities:
+        Constitution: 2
+      darkvision: 60
+      languages: ['Common', 'Dwarvish']
+      proficiency:
+        tools:
+          - Artisan's tools - Brewer's supplies
+          - Artisan's tools - Mason's tools
+          - Artisan's tools - Smith's tools
+        weapons: ['Battleaxe', 'Handaxe', 'Throwing hammer', 'Warhammer']
+      resistance: ['Poison']
+      size: Medium
+      speed: 30
+  Elf:
+    traits:
+      abilities:
+        Dexterity: 2
+      darkvision: 60
+      languages: ['Common', 'Elvish']
+      resistance: ['Charm', 'Sleep']
+      size: Medium
+      speed: 30
+      trance: []
+  Gnome:
+    traits:
+      abilities:
+        Intelligence: 2
+      cunning: ['Intelligence', 'Wisdom', 'Charisma']
+      darkvision: 60
+      languages: ['Common', 'Gnomish']
+      size: Small
+      speed: 25
+  HalfElf:
+    traits:
+      abilities:
+        Charisma: 2
+      darkvision: 60
+      languages: ['Common', 'Elvish']
+      resistance: ['Charm', 'Sleep']
+      size: Medium
+      skills:
+        - Acrobatics
+        - Animal Handling
+        - Arcana
+        - Athletics
+        - Deception
+        - History
+        - Insight
+        - Intimidation
+        - Investigation
+        - Medicine
+        - Nature
+        - Perception
+        - Performance
+        - Persuasion
+        - Religion
+        - Sleight of Hand
+        - Stealth
+        - Survival
+      speed: 30
+  HalfOrc:
+    traits:
+      abilities:
+        Strength: 2
+        Constitution: 1
+      darkvision: 60
+      endurance: 0
+      languages: ['Common', 'Orc']
+      menacing: ['Intimidation']
+      savage: 1
+      size: Medium
+      speed: 30
+  Halfling:
+    traits:
+      abilities:
+        Dexterity: 2
+      brave: ['Fear']
+      languages: ['Common', 'Halfling']
+      nimbleness: Halfling
+      size: Small
+      speed: 30
+  Human:
+    traits:
+      abilities:
+        Strength: 1
+        Dexterity: 1
+        Constitution: 1
+        Intelligence: 1
+        Wisdom: 1
+        Charisma: 1
+      languages: ['Common']
+      size: Medium
+      skills:
+        - Acrobatics
+        - Animal Handling
+        - Arcana
+        - Athletics
+        - Deception
+        - History
+        - Insight
+        - Intimidation
+        - Investigation
+        - Medicine
+        - Nature
+        - Perception
+        - Performance
+        - Persuasion
+        - Religion
+        - Sleight of Hand
+        - Stealth
+        - Survival
+      speed: 30
+  Tiefling:
+    traits:
+      abilities:
+        Intelligence: 1
+        Charisma: 2
+      darkvision: 60
+      languages: ['Common', 'Infernal']
+      magic:
+        1: Thaumaturgy
+        3: Hellish Rebuke
+        5: Darkness
+      resistance: ['Fire']
+      size: Medium
+      speed: 30
