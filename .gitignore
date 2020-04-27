@@ -129,3 +129,5 @@ dmypy.json
 .pyre/
 
 # Editor Specific
+.idea
+.vscode
