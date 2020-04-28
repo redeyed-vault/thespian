@@ -64,26 +64,26 @@ class _Bonuses:
 class AbilityScoreGenerator(_Bonuses):
     """Assigns ability scores/bonuses by primary abilities."""
 
-    def __init__(self, race: str, primary: dict, variant: bool, subrace=None) -> None:
+    def __init__(self, race: str, class_abilities: dict, variant: bool, subrace=None) -> None:
         """
         Args:
             race (str): Character's race.
-            primary (dict): Class primary abilities.
+            class_abilities (dict): Class primary abilities.
             variant (bool): Use variant rules.
             subrace (str, None): Character's subrace (if applicable).
         """
-        super().__init__(race, variant, primary, subrace)
+        super().__init__(race, variant, class_abilities, subrace)
+        score_array = OrderedDict()
+        score_array["Strength"] = None
+        score_array["Dexterity"] = None
+        score_array["Constitution"] = None
+        score_array["Intelligence"] = None
+        score_array["Wisdom"] = None
+        score_array["Charisma"] = None
+        self.score_array = self._assign_score_array(score_array, class_abilities)
 
-        # Ability score array structure.
-        score_arr = OrderedDict()
-        score_arr["Strength"] = None
-        score_arr["Dexterity"] = None
-        score_arr["Constitution"] = None
-        score_arr["Intelligence"] = None
-        score_arr["Wisdom"] = None
-        score_arr["Charisma"] = None
-
-        # Assign class specific primary abilities first.
+    def _assign_score_array(self, score_array: OrderedDict, class_abilities: dict) -> OrderedDict:
+        """Creates detailed ability score array."""
         ability_choices = [
             "Strength",
             "Dexterity",
@@ -92,13 +92,12 @@ class AbilityScoreGenerator(_Bonuses):
             "Wisdom",
             "Charisma",
         ]
-
         generated_scores = list(self.roll_ability_scores(60))
         # Assign highest values to class specific abilities first.
-        for ability in tuple(primary.values()):
+        for ability in tuple(class_abilities.values()):
             value = max(generated_scores)
             modifier = get_ability_modifier(value)
-            score_arr[ability] = OrderedDict({"Value": value, "Modifier": modifier})
+            score_array[ability] = OrderedDict({"Value": value, "Modifier": modifier})
             ability_choices.remove(ability)
             generated_scores.remove(value)
 
@@ -107,16 +106,16 @@ class AbilityScoreGenerator(_Bonuses):
             ability = random.choice(ability_choices)
             value = random.choice(generated_scores)
             modifier = get_ability_modifier(value)
-            score_arr[ability] = OrderedDict({"Value": value, "Modifier": modifier})
+            score_array[ability] = OrderedDict({"Value": value, "Modifier": modifier})
             ability_choices.remove(ability)
             generated_scores.remove(value)
 
         # Apply racial bonuses.
         for ability, bonus in self.bonuses.items():
-            value = score_arr.get(ability).get("Value") + bonus
+            value = score_array.get(ability).get("Value") + bonus
             modifier = get_ability_modifier(value)
-            score_arr[ability] = OrderedDict({"Value": value, "Modifier": modifier})
-        self.get = score_arr
+            score_array[ability] = OrderedDict({"Value": value, "Modifier": modifier})
+        return score_array
 
     @staticmethod
     def roll_ability_scores(threshold: int) -> numpy.ndarray:
@@ -164,6 +163,7 @@ class _Features:
     Inherited in another class.
 
     Inherited by the following classes:
+
         - Barbarian
         - Bard
         - Cleric
@@ -187,10 +187,10 @@ class _Features:
         """
         self.class_ = self.__class__.__name__
         if self.class_ == "_Features":
-            raise Exception("error: to use this class it must be inherited")
+            raise Exception("this class must be inherited")
 
         if self.class_ not in tuple(reader("classes").keys()):
-            raise ValueError("error: class '{}' does not exist".format(self.class_))
+            raise ValueError("class '{}' does not exist".format(self.class_))
 
         valid_archetypes = get_paths_by_class(self.class_)
         if archetype not in valid_archetypes:
@@ -301,15 +301,17 @@ class _Features:
             c_magic = c_magic.get("magic_cleric")
         elif "magic_paladin" in c_magic:
             c_magic = c_magic.get("magic_paladin")
+        elif "magic_warlock" in c_magic:
+            c_magic = c_magic.get("magic_warlock")
 
         if c_magic is not None:
-            _c_magic = dict()
-            for lvl, magic in c_magic.items():
+            magic = dict()
+            for lvl, spells in c_magic.items():
                 if lvl <= level:
-                    _c_magic[lvl] = magic
+                    magic[lvl] = spells
 
             del c_magic
-            return _c_magic
+            return magic
 
     @staticmethod
     def _enc_class_proficiency(class_: str, archetype: str, level: int):
@@ -745,7 +747,7 @@ class ImprovementGenerator:
 
     def isadjustable(self, abilities: (list, str)) -> (bool, int):
         """Determines if an ability can be adjusted i.e: not over 20"""
-        if isinstance(abilities, (list)):
+        if isinstance(abilities, list):
             for ability in abilities:
                 cur_value = self.score_array.get(ability).get("Value")
                 if (cur_value + 1) > 20:
@@ -796,6 +798,7 @@ class _Traits:
     Based on the inheriting class.
 
     Inherited by the following classes:
+
         - Aasimar
         - Dragonborn
         - Dwarf
@@ -813,10 +816,10 @@ class _Traits:
         self.race = self.__class__.__name__
         try:
             if self.race == "_Traits":
-                raise Exception("error: to use this class it must be inherited")
+                raise Exception("to use this class it must be inherited")
 
             if self.race not in tuple(reader("races").keys()):
-                raise ValueError(f"error: race '{self.race}' does not exist")
+                raise ValueError(f"race '{self.race}' does not exist")
         except (Exception, ValueError) as error:
             exit(error)
         else:
@@ -869,7 +872,7 @@ class _Traits:
             self.valid_subraces = get_subraces_by_race(self.race)
             try:
                 if subrace not in self.valid_subraces:
-                    raise ValueError(f"error: invalid subrace '{subrace}'")
+                    raise ValueError(f"invalid subrace '{subrace}'")
             except ValueError as error:
                 exit(error)
             else:
@@ -1110,6 +1113,7 @@ def fuse(iterable: list, values: (list, tuple), unique=False) -> list:
     Args:
         iterable (list): Iterable to be fused with.
         values (list, tuple): Values to be fused with iterable.
+        unique (bool): Determines if only unique values with be fused.
     """
     try:
         if not isinstance(iterable, list):
@@ -1123,7 +1127,7 @@ def fuse(iterable: list, values: (list, tuple), unique=False) -> list:
     except ValueError:
         exit("cannot fuse from an empty iterable.")
     for value in values:
-        add(iterable, value)
+        add(iterable, value, unique)
     return iterable
 
 

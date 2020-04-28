@@ -18,6 +18,7 @@ class Writer:
         Args:
             data (OrderedDict): Character's detailed information.
         """
+        print(data)
         save_path = os.path.expanduser("~/Yari")
         if not os.path.exists(save_path):
             os.mkdir(save_path)
@@ -428,13 +429,8 @@ def main(
         try:
             if klass not in tuple(reader("classes").keys()):
                 raise ValueError
-
-            if klass in ("Warlock", "Wizard"):
-                raise NotImplementedError
         except ValueError:
             out(f"invalid character class '{klass}'", is_error=True)
-        except NotImplementedError:
-            out(f"class '{klass}' is not yet implemented", is_error=True)
 
     valid_class_paths = get_paths_by_class(klass)
     if path == "":
@@ -456,17 +452,18 @@ def main(
         out("argument variant must be 'false|true'", is_error=True)
 
     # Generate class features
-    this_class = eval(klass)
-    c = this_class(level, path)
+    try:
+        this_class = eval(klass)
+        c = this_class(level, path)
+        this_race = eval(race)
+        t = this_race(subrace)
+    except (Exception, ValueError) as e:
+        out(e, is_error=True)
 
     # Generate ability scores
     a = AbilityScoreGenerator(
-        race=race, primary=c.features.get("abilities"), variant=variant, subrace=subrace
+        race=race, class_abilities=c.features.get("abilities"), variant=variant, subrace=subrace
     )
-
-    # Generate racial traits
-    this_race = eval(race)
-    t = this_race(subrace)
 
     # Generate character armor, tool and weapon proficiencies
     try:
@@ -487,7 +484,7 @@ def main(
         primary_ability=c.features.get("abilities"),
         saves=c.features.get("saves"),
         spell_slots=c.features.get("spell_slots"),
-        score_array=a.get,
+        score_array=a.score_array,
         languages=t.traits.get("languages"),
         armor_proficiency=armors.proficiency,
         tool_proficiency=tools.proficiency,
