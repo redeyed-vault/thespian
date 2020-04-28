@@ -100,13 +100,13 @@ classes:
       20: ['Divine Intervention']
     hit_die: 8
     paths:
-      - Knowledge
-      - Life
-      - Light
-      - Nature
-      - Tempest
-      - Trickery
-      - War
+      - Knowledge Domain
+      - Life Domain
+      - Light Domain
+      - Nature Domain
+      - Tempest Domain
+      - Trickery Domain
+      - War Domain
     proficiency:
       armors: ['Light', 'Medium', 'Shield']
       tools: []
@@ -534,14 +534,14 @@ classes:
       20: ['Signature Spell']
     hit_die: 6
     paths:
-      - Abjuration
-      - Conjuration
-      - Divination
-      - Enchantment
-      - Evocation
-      - Illusion
-      - Necromancy
-      - Transmutation
+      - School of Abjuration
+      - School of Conjuration
+      - School of Divination
+      - School of Enchantment
+      - School of Evocation
+      - School of Illusion
+      - School of Necromancy
+      - School of Transmutation
     proficiency:
       armors: []
       tools: []

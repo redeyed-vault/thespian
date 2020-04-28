@@ -1,40 +1,178 @@
 ---
 # PATHS
 paths:
-  Battle Master:
+  # Barbarian Paths
+  Path of the Berserker:
     features:
-      3: ['Combat Superiority', 'Student of War']
-      7: ['Know Your Enemy']
-      10: ['Improved Combat Superiority']
-      15: ['Relentless']
-    parent: Fighter
+      3: ['Frenzy']
+      6: ['Mindless Rage']
+      10: ['Intimidating Presence']
+      14: ['Retaliation']
+    parent: Barbarian
     proficiency:
       armors: []
       tools: []
       weapons: []
-  Beast Master:
+  Path of the Totem Warrior:
     features:
-      3: ["Ranger's Companion"]
-      7: ['Exceptional Training']
-      11: ['Beastial Fury']
-      15: ['Share Spells']
-    parent: Ranger
+      3: ['Beast Sense', 'Speak with Animals', 'Totem Spirit']
+      6: ['Aspect of the Beast']
+      10: ['Spirit Walker']
+      14: ['Totemic Attunement']
+    parent: Barbarian
     proficiency:
       armors: []
       tools: []
       weapons: []
-  Champion:
+  # Bard Colleges
+  College of Lore:
     features:
-      3: ['Improved Critical']
-      7: ['Remarkable Athlete']
-      10: ['Additional Fighting Style']
-      15: ['Superior Critical']
-      18: ['Survivor']
-    parent: Fighter
+      3: ['Cutting Words']
+      6: ['Additional Magical Secrets']
+      14: ['Peerless Skill']
+    parent: Bard
     proficiency:
       armors: []
       tools: []
       weapons: []
+  College of Valor:
+    features:
+      3: ['Combat Inspiration']
+      6: ['Extra Attack']
+      14: ['Battle Magic']
+    parent: Bard
+    proficiency:
+      armors: ['Medium', 'Shield']
+      tools: []
+      weapons: ['Martial']
+  # Cleric Domains
+  Knowledge Domain:
+    features:
+      1: ['Blessings of Knowledge']
+      2: ['Channel Divinity - Knowledge of the Ages']
+      6: ['Channel Divinity - Read Thoughts']
+      8: ['Potent Spellcasting']
+      17: ['Visions of the Past']
+    magic_cleric:
+      1: ['Command', 'Identify']
+      3: ['Augury', 'Suggestion']
+      5: ['Nondetection', 'Speak with Dead']
+      7: ['Arcane Eye', 'Confusion']
+      9: ['Legend Lore', 'Scrying']
+    parent: Cleric
+    proficiency:
+      armors: []
+      tools: []
+      weapons: []
+  Life Domain:
+    features:
+      1: ['Disciple of Life']
+      3: ['Channel Divinity - Preserve Life']
+      6: ['Blessed Healer']
+      8: ['Divine Strike']
+      17: ['Supreme Healing']
+    magic_cleric:
+      1: ['Bless', 'Cure Wounds']
+      3: ['Lesser Restoration', 'Spiritual Weapon']
+      5: ['Beacon of Hope', 'Revivify']
+      7: ['Death Ward', 'Guardian of Faith']
+      9: ['Mass Cure Wounds', 'Raise Dead']
+    parent: Cleric
+    proficiency:
+      armors: ['Heavy']
+      tools: []
+      weapons: []
+  Light Domain:
+    features:
+      1: ['Bonus Cantrip', 'Warding Flare']
+      2: ['Channel Divinity - Radiance of the Dawn']
+      6: ['Improved Flare']
+      8: ['Potent Spellcasting']
+      17: ['Corona of Light']
+    magic_cleric:
+      1: ['Burning Hands', 'Faerie Fire']
+      3: ['Flaming Sphere', 'Scorching Ray']
+      5: ['Daylight', 'Fireball']
+      7: ['Guardian of Faith', 'Wall of Fire']
+      9: ['Flame Strike', 'Raise Dead']
+    parent: Cleric
+    proficiency:
+      armors: []
+      tools: []
+      weapons: []
+  Nature Domain:
+    features:
+      1: ['Acolyte of Nature']
+      2: ['Channel Divinity - Charm Animals and Plants']
+      6: ['Dampen Elements']
+      8: ['Divine Strike']
+      17: ['Master of Nature']
+    magic_cleric:
+      1: ['Animal Friendship', 'Speak with Animals']
+      3: ['Barkskin', 'Spike Growth']
+      5: ['Plant Growth', 'Wind Wall']
+      7: ['Dominate Beast', 'Grasping Vine']
+      9: ['Insect Plague', 'Tree Stride']
+    parent: Cleric
+    proficiency:
+      armors: ['Heavy']
+      tools: []
+      weapons: []
+  Tempest Domain:
+    features:
+      1: ['Wrath of the Storm']
+      2: ['Channel Divinity - Destructive Wrath']
+      6: ['Thunderbolt Strike']
+      8: ['Divine Strike']
+      17: ['Stormborn']
+    magic_cleric:
+      1: ['Fog Cloud', 'Thunderwave']
+      3: ['Gust of Wind', 'Shatter']
+      5: ['Call Lightning', 'Sleet Storm']
+      7: ['Control Water', 'Ice Storm']
+      9: ['Destructive Wave', 'Insect Plague']
+    parent: Cleric
+    proficiency:
+      armors: ['Heavy']
+      tools: []
+      weapons: ['Martial']
+  Trickery Domain:
+    features:
+      1: ['Blessing of the Trickster']
+      2: ['Channel Divinity - Invoke Duplicity']
+      6: ['Channel Divinity - Cloak of Shadows']
+      8: ['Divine Strike']
+      17: ['Improved Duplicity']
+    magic_cleric:
+      1: ['Charm Person', 'Disguise Self']
+      3: ['Mirror Image', 'Pass Without Trace']
+      5: ['Blink', 'Dispel Magic']
+      7: ['Dimension Door', 'Polymorph']
+      9: ['Dominate Person', 'Modify Memory']
+    parent: Cleric
+    proficiency:
+      armors: []
+      tools: []
+      weapons: []
+  War Domain:
+    features:
+      1: ['War Priest']
+      2: ['Channel Divinity - Guided Strike']
+      6: ["Channel Divinity - War God's Blessing"]
+      8: ['Divine Strike']
+      17: ['Avatar of Battle']
+    magic_cleric:
+      1: ['Divine Favor', 'Shield of Faith']
+      3: ['Magic Weapon', 'Spiritual Weapon']
+      5: ["Crusader's Mantle", 'Spirit Guardians']
+      7: ['Freedom of Movement', 'Stoneskin']
+      9: ['Flame Strike', 'Hold Monster']
+    parent: Cleric
+    proficiency:
+      armors: ['Heavy']
+      tools: []
+      weapons: ['Martial']
+  # Druid Circles
   Circle of the Land:
     features:
       2: ['Bonus Cantrip', 'Natural Recovery']
@@ -61,33 +199,26 @@ paths:
       armors: []
       tools: []
       weapons: []
-  College of Lore:
+  # Fighter Archetypes
+  Battle Master:
     features:
-      3: ['Cutting Words']
-      6: ['Additional Magical Secrets']
-      14: ['Peerless Skill']
-    parent: Bard
+      3: ['Combat Superiority', 'Student of War']
+      7: ['Know Your Enemy']
+      10: ['Improved Combat Superiority']
+      15: ['Relentless']
+    parent: Fighter
     proficiency:
       armors: []
       tools: []
       weapons: []
-  College of Valor:
+  Champion:
     features:
-      3: ['Combat Inspiration']
-      6: ['Extra Attack']
-      14: ['Battle Magic']
-    parent: Bard
-    proficiency:
-      armors: ['Medium', 'Shield']
-      tools: []
-      weapons: ['Martial']
-  Draconic Bloodline:
-    features:
-      1: ['Draconic Resilience', 'Dragon Ancestor']
-      6: ['Elemental Affinity']
-      14: ['Dragon Wings']
-      18: ['Draconic Presence']
-    parent: Sorcerer
+      3: ['Improved Critical']
+      7: ['Remarkable Athlete']
+      10: ['Additional Fighting Style']
+      15: ['Superior Critical']
+      18: ['Survivor']
+    parent: Fighter
     proficiency:
       armors: []
       tools: []
@@ -104,89 +235,41 @@ paths:
       armors: []
       tools: []
       weapons: []
-  Hunter:
+  # Monk Traditions
+  Way of Shadow:
     features:
-      3: ["Hunter's Prey"]
-      7: ['Defensive Tactics']
-      11: ['Multiattack']
-      15: ["Superior Hunter's Defense"]
-    parent: Ranger
+      3: ['Shadow Arts']
+      6: ['Shadow Step']
+      11: ['Cloak of Shadows']
+      17: ['Opportunist']
+    parent: Monk
     proficiency:
       armors: []
       tools: []
       weapons: []
-  Knowledge:
+  Way of the Four Elements:
     features:
-      1: ['Blessings of Knowledge']
-      2: ['Channel Divinity - Knowledge of the Ages']
-      6: ['Channel Divinity - Read Thoughts']
-      8: ['Potent Spellcasting']
-      17: ['Visions of the Past']
-    magic_cleric:
-      1: ['Command', 'Identify']
-      3: ['Augury', 'Suggestion']
-      5: ['Nondetection', 'Speak with Dead']
-      7: ['Arcane Eye', 'Confusion']
-      9: ['Legend Lore', 'Scrying']
-    parent: Cleric
+      3: ['Disciple of the Elements', 'Elemental Attunement', 'Fangs of the Fire Snake', 'Fist of Four Thunders', 'Fist of Unbroken Air', 'Rush of the Gale Spirits', 'Shade the Flowing River', 'Sweeping Cinder Strike', 'Water Whip']
+      6: ['Clench of the North Wind', 'Gong of the Summit']
+      11: ['Eternal Mountain Defense', 'Flames of the Phoenix', 'Mist Stance', 'Ride the Wind']
+      17: ['Breath of Winter', 'River of Hungry Flame', 'Wave of Rolling Earth']
+    parent: Monk
     proficiency:
       armors: []
       tools: []
       weapons: []
-  Life:
+  Way of the Open Hand:
     features:
-      1: ['Disciple of Life']
-      3: ['Channel Divinity - Preserve Life']
-      6: ['Blessed Healer']
-      8: ['Divine Strike']
-      17: ['Supreme Healing']
-    magic_cleric:
-      1: ['Bless', 'Cure Wounds']
-      3: ['Lesser Restoration', 'Spiritual Weapon']
-      5: ['Beacon of Hope', 'Revivify']
-      7: ['Death Ward', 'Guardian of Faith']
-      9: ['Mass Cure Wounds', 'Raise Dead']
-    parent: Cleric
-    proficiency:
-      armors: ['Heavy']
-      tools: []
-      weapons: []
-  Light:
-    features:
-      1: ['Bonus Cantrip', 'Warding Flare']
-      2: ['Channel Divinity - Radiance of the Dawn']
-      6: ['Improved Flare']
-      8: ['Potent Spellcasting']
-      17: ['Corona of Light']
-    magic_cleric:
-      1: ['Burning Hands', 'Faerie Fire']
-      3: ['Flaming Sphere', 'Scorching Ray']
-      5: ['Daylight', 'Fireball']
-      7: ['Guardian of Faith', 'Wall of Fire']
-      9: ['Flame Strike', 'Raise Dead']
-    parent: Cleric
+      3: ['Open Hand Technique']
+      6: ['Wholeness of Body']
+      11: ['Tranquility']
+      17: ['Quivering Palm']
+    parent: Monk
     proficiency:
       armors: []
       tools: []
       weapons: []
-  Nature:
-    features:
-      1: ['Acolyte of Nature']
-      2: ['Channel Divinity - Charm Animals and Plants']
-      6: ['Dampen Elements']
-      8: ['Divine Strike']
-      17: ['Master of Nature']
-    magic_cleric:
-      1: ['Animal Friendship', 'Speak with Animals']
-      3: ['Barkskin', 'Spike Growth']
-      5: ['Plant Growth', 'Wind Wall']
-      7: ['Dominate Beast', 'Grasping Vine']
-      9: ['Insect Plague', 'Tree Stride']
-    parent: Cleric
-    proficiency:
-      armors: ['Heavy']
-      tools: []
-      weapons: []
+  # Paladin Oaths
   Oath of Devotion:
     features:
       3: ['Channel Divinity - Sacred Weapon', 'Channel Divinity - Turn the Unholy']
@@ -238,46 +321,53 @@ paths:
       armors: []
       tools: []
       weapons: []
-  Path of the Berserker:
+  # Ranger Archetypes
+  Beast Master:
     features:
-      3: ['Frenzy']
-      6: ['Mindless Rage']
-      10: ['Intimidating Presence']
-      14: ['Retaliation']
-    parent: Barbarian
+      3: ["Ranger's Companion"]
+      7: ['Exceptional Training']
+      11: ['Beastial Fury']
+      15: ['Share Spells']
+    parent: Ranger
     proficiency:
       armors: []
       tools: []
       weapons: []
-  Path of the Totem Warrior:
+  Hunter:
     features:
-      3: ['Beast Sense', 'Speak with Animals', 'Totem Spirit']
-      6: ['Aspect of the Beast']
-      10: ['Spirit Walker']
-      14: ['Totemic Attunement']
-    parent: Barbarian
+      3: ["Hunter's Prey"]
+      7: ['Defensive Tactics']
+      11: ['Multiattack']
+      15: ["Superior Hunter's Defense"]
+    parent: Ranger
     proficiency:
       armors: []
       tools: []
       weapons: []
-  Tempest:
+  # Sorcerer Origins
+  Draconic Bloodline:
     features:
-      1: ['Wrath of the Storm']
-      2: ['Channel Divinity - Destructive Wrath']
-      6: ['Thunderbolt Strike']
-      8: ['Divine Strike']
-      17: ['Stormborn']
-    magic_cleric:
-      1: ['Fog Cloud', 'Thunderwave']
-      3: ['Gust of Wind', 'Shatter']
-      5: ['Call Lightning', 'Sleet Storm']
-      7: ['Control Water', 'Ice Storm']
-      9: ['Destructive Wave', 'Insect Plague']
-    parent: Cleric
+      1: ['Draconic Resilience', 'Dragon Ancestor']
+      6: ['Elemental Affinity']
+      14: ['Dragon Wings']
+      18: ['Draconic Presence']
+    parent: Sorcerer
     proficiency:
-      armors: ['Heavy']
+      armors: []
       tools: []
-      weapons: ['Martial']
+      weapons: []
+  Wild Magic:
+    features:
+      1: ['Tides of Chaos', 'Wild Magic Surge']
+      6: ['Bend Luck']
+      14: ['Controlled Chaos']
+      18: ['Spell Bombardment']
+    parent: Sorcerer
+    proficiency:
+      armors: []
+      tools: []
+      weapons: []
+  # Warlock Pacts
   The Archfey:
     features:
       1: ['Fey Presence']
@@ -295,82 +385,125 @@ paths:
       armors: []
       tools: []
       weapons: []
-  Trickery:
+  The Fiend:
     features:
-      1: ['Blessing of the Trickster']
-      2: ['Channel Divinity - Invoke Duplicity']
-      6: ['Channel Divinity - Cloak of Shadows']
-      8: ['Divine Strike']
-      17: ['Improved Duplicity']
-    magic_cleric:
-      1: ['Charm Person', 'Disguise Self']
-      3: ['Mirror Image', 'Pass Without Trace']
-      5: ['Blink', 'Dispel Magic']
-      7: ['Dimension Door', 'Polymorph']
-      9: ['Dominate Person', 'Modify Memory']
-    parent: Cleric
+      1: ["Dark One's Blessing"]
+      6: ["Dark One's Own Luck"]
+      10: ['Fiendish Resilience']
+      14: ['Hurl Through Hell']
+    magic_warlock:
+      1: ['Burning Hands', 'Command']
+      2: ['Blindness/Deafness', 'Scorching Ray']
+      3: ['Fireball', 'Stinking Cloud']
+      4: ['Fire Shield', 'Wall of Fire']
+      5: ['Flame Strike', 'Hallow']
+    parent: Warlock
     proficiency:
       armors: []
       tools: []
       weapons: []
-  War:
+  The Great Old One:
     features:
-      1: ['War Priest']
-      2: ['Channel Divinity - Guided Strike']
-      6: ["Channel Divinity - War God's Blessing"]
-      8: ['Divine Strike']
-      17: ['Avatar of Battle']
-    magic_cleric:
-      1: ['Divine Favor', 'Shield of Faith']
-      3: ['Magic Weapon', 'Spiritual Weapon']
-      5: ["Crusader's Mantle", 'Spirit Guardians']
-      7: ['Freedom of Movement', 'Stoneskin']
-      9: ['Flame Strike', 'Hold Monster']
-    parent: Cleric
-    proficiency:
-      armors: ['Heavy']
-      tools: []
-      weapons: ['Martial']
-  Way of Shadow:
-    features:
-      3: ['Shadow Arts']
-      6: ['Shadow Step']
-      11: ['Cloak of Shadows']
-      17: ['Opportunist']
-    parent: Monk
+      1: ['Awakened Mind']
+      6: ['Entropic Ward']
+      10: ['Thought Shield']
+      14: ['Create Thrall']
+    magic_warlock:
+      1: ['Dissonant Whispers', "Tasha's Hideous Laughter"]
+      2: ['Detect Thoughts', 'Phantasmal Force']
+      3: ['Clairvoyance', 'Sending']
+      4: ['Dominate Beast', "Evard's Black Tentacles"]
+      5: ['Dominate Person', 'Telekinesis']
+    parent: Warlock
     proficiency:
       armors: []
       tools: []
       weapons: []
-  Way of the Four Elements:
+  # Wizard Schools
+  School of Abjuration:
     features:
-      3: ['Disciple of the Elements', 'Elemental Attunement', 'Fangs of the Fire Snake', 'Fist of Four Thunders', 'Fist of Unbroken Air', 'Rush of the Gale Spirits', 'Shade the Flowing River', 'Sweeping Cinder Strike', 'Water Whip']
-      6: ['Clench of the North Wind', 'Gong of the Summit']
-      11: ['Eternal Mountain Defense', 'Flames of the Phoenix', 'Mist Stance', 'Ride the Wind']
-      17: ['Breath of Winter', 'River of Hungry Flame', 'Wave of Rolling Earth']
-    parent: Monk
+      2: ['Abjuration Savant', 'Arcane Ward']
+      6: ['Projected Ward']
+      10: ['Improved Abjuration']
+      14: ['Spell Resistance']
+    parent: Wizard
     proficiency:
       armors: []
       tools: []
       weapons: []
-  Way of the Open Hand:
+  School of Conjuration:
     features:
-      3: ['Open Hand Technique']
-      6: ['Wholeness of Body']
-      11: ['Tranquility']
-      17: ['Quivering Palm']
-    parent: Monk
+      2: ['Conjuration Savant', 'Minor Conjuration']
+      6: ['Benign Transposition']
+      10: ['Focused Conjuration']
+      14: ['Durable Summons']
+    parent: Wizard
     proficiency:
       armors: []
       tools: []
       weapons: []
-  Wild Magic:
+  School of Divination:
     features:
-      1: ['Tides of Chaos', 'Wild Magic Surge']
-      6: ['Bend Luck']
-      14: ['Controlled Chaos']
-      18: ['Spell Bombardment']
-    parent: Sorcerer
+      2: ['Divination Savant', 'Portent']
+      6: ['Expert Divination']
+      10: ['The Third Eye']
+      14: ['Greater Portent']
+    parent: Wizard
+    proficiency:
+      armors: []
+      tools: []
+      weapons: []
+  School of Enchantment:
+    features:
+      2: ['Enchantment Savant', 'Hypnotic Gaze']
+      6: ['Instinctive Charm']
+      10: ['Split Enchantment']
+      14: ['Alter Memories']
+    parent: Wizard
+    proficiency:
+      armors: []
+      tools: []
+      weapons: []
+  School of Evocation:
+    features:
+      2: ['Evocation Savant', 'Sculpt Spells']
+      6: ['Potent Cantrip']
+      10: ['Empowered Evocation']
+      14: ['Overchannel']
+    parent: Wizard
+    proficiency:
+      armors: []
+      tools: []
+      weapons: []
+  School of Illusion:
+    features:
+      2: ['Illusion Savant', 'Improved Minor Illusion']
+      6: ['Malleable Illusions']
+      10: ['Illusory Self']
+      14: ['Illusory Reality']
+    parent: Wizard
+    proficiency:
+      armors: []
+      tools: []
+      weapons: []
+  School of Necromancy:
+    features:
+      2: ['Necromancy Savant', 'Grim Harvest']
+      6: ['Undead Thralls']
+      10: ['Inured to Undeath']
+      14: ['Command Undead']
+    parent: Wizard
+    proficiency:
+      armors: []
+      tools: []
+      weapons: []
+  School of Transmutation:
+    features:
+      2: ['Transmutation Savant', 'Minor Alchemy']
+      6: ["Transmuters Stone"]
+      10: ['Shapechanger']
+      14: ['Master Transmuter']
+    parent: Wizard
     proficiency:
       armors: []
       tools: []
