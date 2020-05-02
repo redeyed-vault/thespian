@@ -2,7 +2,7 @@
 
 Yari "Yet Another RPG Implementation" makes it quick an easy to generate 5th edition Dungeons & Dragons characters.
 
-* A "yari" is a Japanese long-bladed polearm.
+* A "yari" is a Japanese spear with a long straight sword-like blade.
 
 
 2. REQUIREMENTS
@@ -29,14 +29,14 @@ Here are some other options if you wish to fine tune your generated character.
 Usage: yari [OPTIONS]
 
 Options:
-  -file TEXT        Character sheet file name.  [required]
-  -race TEXT         Character's chosen race.  [default: Aasimar; required] [Aasimar|Dragonborn|Dwarf|Elf|Gnome|Half-elf|Half-orc|Halfling|Human|Tiefling]
-  -subrace TEXT      Character's chosen subrace.  [default: None; required] [Deep|Duergar|Eladrin|Forest|High|Hill|Lightfoot|Rock|Sea|Shadar-kai|Stout|Wood]
+  -file TEXT        Character sheet file name.
+  -race TEXT         Character's chosen race.  [default: Aasimar] [Aasimar|Dragonborn|Dwarf|Elf|Gnome|Half-elf|Half-orc|Halfling|Human|Tiefling]
+  -subrace TEXT      Character's chosen subrace.  [default: None] [Deep|Duergar|Eladrin|Forest|High|Hill|Lightfoot|Rock|Sea|Shadar-kai|Stout|Wood]
   -sex TEXT       Character's chosen gender.  [required]
-  -background TEXT   Character's chosen background.  [default: Acolyte; required] [Acolyte|Charlatan|Criminal|Entertainer|Folk Hero|Guild Artisan|Hermit|Noble|Outlander|Sage|Sailor|Soldier|Urchin]
-  -cls_ TEXT       Character's chosen class.  [default: Barbarian; required] [Barbarian|Bard|Cleric|Druid|Fighter|Monk|Paladin|Ranger|Rogue|Sorcerer|Warlock|Wizard]
+  -background TEXT   Character's chosen background. [Acolyte|Charlatan|Criminal|Entertainer|Folk Hero|Guild Artisan|Hermit|Noble|Outlander|Sage|Sailor|Soldier|Urchin]
+  -klass TEXT       Character's chosen class.  [default: Barbarian] [Barbarian|Bard|Cleric|Druid|Fighter|Monk|Paladin|Ranger|Rogue|Sorcerer|Warlock|Wizard]
   -path TEXT    Character's chosen path (archetype, domain, path, etc).
-  -level INTEGER     Character's class level.  [default: 1; required] [1-20]
-  -variant TEXT      Use variant rules (Humans only).  [default: false; required] [false|true]
+  -level INTEGER     Character's class level.  [default: 1] [1-20]
+  -variant TEXT      Use variant rules (Humans only).  [default: false] [false|true]
   --version          Show the version and exit.
   --help             Show this message and exit.
