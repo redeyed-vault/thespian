@@ -2,27 +2,31 @@
 
 Yari makes it quick an easy to generate 5th edition Dungeons & Dragons characters. 
 
+* A "yari" is a Japanese long-bladed polearm.
+
+* In this case the term is "Yet Another RPG Implementation".
+
 
 2. REQUIREMENTS
 
   * beautifulsoup4
   * click
   * lxml
-  * numpy
   * PyYAML
 
 
 3. INSTALLATION
 
-To install Yari, run the setup script: ```python setup.py install``` or ```python3 setup.py install```.
+To install Yari, clone the repository and run the setup script: ```python setup.py install``` or ```python3 setup.py install```.
 
 
 4. USAGE
 
-To run, type 'yari' in your terminal, which will run the application with the default options as defined below.
+To run, type 'yari' in your terminal.
 
-Here are some other options if you wish to fine tune your character.
+Using none of the arguments listed below will run the application with the default options as defined below.
 
+Here are some other options if you wish to fine tune your generated character.
 
 Usage: yari [OPTIONS]
 
