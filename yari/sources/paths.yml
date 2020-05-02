@@ -8,6 +8,7 @@ paths:
       6: ['Mindless Rage']
       10: ['Intimidating Presence']
       14: ['Retaliation']
+    magic: {}
     parent: Barbarian
     proficiency:
       armors: []
@@ -19,6 +20,7 @@ paths:
       6: ['Aspect of the Beast']
       10: ['Spirit Walker']
       14: ['Totemic Attunement']
+    magic: {}
     parent: Barbarian
     proficiency:
       armors: []
@@ -30,6 +32,7 @@ paths:
       3: ['Cutting Words']
       6: ['Additional Magical Secrets']
       14: ['Peerless Skill']
+    magic: {}
     parent: Bard
     proficiency:
       armors: []
@@ -40,6 +43,7 @@ paths:
       3: ['Combat Inspiration']
       6: ['Extra Attack']
       14: ['Battle Magic']
+    magic: {}
     parent: Bard
     proficiency:
       armors: ['Medium', 'Shield']
@@ -53,7 +57,7 @@ paths:
       6: ['Channel Divinity - Read Thoughts']
       8: ['Potent Spellcasting']
       17: ['Visions of the Past']
-    magic_cleric:
+    magic:
       1: ['Command', 'Identify']
       3: ['Augury', 'Suggestion']
       5: ['Nondetection', 'Speak with Dead']
@@ -71,7 +75,7 @@ paths:
       6: ['Blessed Healer']
       8: ['Divine Strike']
       17: ['Supreme Healing']
-    magic_cleric:
+    magic:
       1: ['Bless', 'Cure Wounds']
       3: ['Lesser Restoration', 'Spiritual Weapon']
       5: ['Beacon of Hope', 'Revivify']
@@ -89,7 +93,7 @@ paths:
       6: ['Improved Flare']
       8: ['Potent Spellcasting']
       17: ['Corona of Light']
-    magic_cleric:
+    magic:
       1: ['Burning Hands', 'Faerie Fire']
       3: ['Flaming Sphere', 'Scorching Ray']
       5: ['Daylight', 'Fireball']
@@ -107,7 +111,7 @@ paths:
       6: ['Dampen Elements']
       8: ['Divine Strike']
       17: ['Master of Nature']
-    magic_cleric:
+    magic:
       1: ['Animal Friendship', 'Speak with Animals']
       3: ['Barkskin', 'Spike Growth']
       5: ['Plant Growth', 'Wind Wall']
@@ -125,7 +129,7 @@ paths:
       6: ['Thunderbolt Strike']
       8: ['Divine Strike']
       17: ['Stormborn']
-    magic_cleric:
+    magic:
       1: ['Fog Cloud', 'Thunderwave']
       3: ['Gust of Wind', 'Shatter']
       5: ['Call Lightning', 'Sleet Storm']
@@ -143,7 +147,7 @@ paths:
       6: ['Channel Divinity - Cloak of Shadows']
       8: ['Divine Strike']
       17: ['Improved Duplicity']
-    magic_cleric:
+    magic:
       1: ['Charm Person', 'Disguise Self']
       3: ['Mirror Image', 'Pass Without Trace']
       5: ['Blink', 'Dispel Magic']
@@ -161,7 +165,7 @@ paths:
       6: ["Channel Divinity - War God's Blessing"]
       8: ['Divine Strike']
       17: ['Avatar of Battle']
-    magic_cleric:
+    magic:
       1: ['Divine Favor', 'Shield of Faith']
       3: ['Magic Weapon', 'Spiritual Weapon']
       5: ["Crusader's Mantle", 'Spirit Guardians']
@@ -183,6 +187,7 @@ paths:
       9: ['Circle Spells']
       10: ["Nature's Ward"]
       14: ["Nature's Sanctuary"]
+    magic: {}
     parent: Druid
     proficiency:
       armors: []
@@ -194,6 +199,7 @@ paths:
       6: ['Primal Strike']
       10: ['Elemental Wild Shape']
       14: ['Thousand Forms']
+    magic: {}
     parent: Druid
     proficiency:
       armors: []
@@ -206,6 +212,7 @@ paths:
       7: ['Know Your Enemy']
       10: ['Improved Combat Superiority']
       15: ['Relentless']
+    magic: {}
     parent: Fighter
     proficiency:
       armors: []
@@ -218,6 +225,7 @@ paths:
       10: ['Additional Fighting Style']
       15: ['Superior Critical']
       18: ['Survivor']
+    magic: {}
     parent: Fighter
     proficiency:
       armors: []
@@ -230,6 +238,7 @@ paths:
       10: ['Eldritch Strike']
       15: ['Arcane Charge']
       18: ['Improved War Magic']
+    magic: {}
     parent: Fighter
     proficiency:
       armors: []
@@ -242,6 +251,7 @@ paths:
       6: ['Shadow Step']
       11: ['Cloak of Shadows']
       17: ['Opportunist']
+    magic: {}
     parent: Monk
     proficiency:
       armors: []
@@ -253,6 +263,7 @@ paths:
       6: ['Clench of the North Wind', 'Gong of the Summit']
       11: ['Eternal Mountain Defense', 'Flames of the Phoenix', 'Mist Stance', 'Ride the Wind']
       17: ['Breath of Winter', 'River of Hungry Flame', 'Wave of Rolling Earth']
+    magic: {}
     parent: Monk
     proficiency:
       armors: []
@@ -264,6 +275,7 @@ paths:
       6: ['Wholeness of Body']
       11: ['Tranquility']
       17: ['Quivering Palm']
+    magic: {}
     parent: Monk
     proficiency:
       armors: []
@@ -276,7 +288,7 @@ paths:
       6: ['Aura of Devotion']
       15: ['Purity of Spirit']
       20: ['Holy Nimbus']
-    magic_paladin:
+    magic:
       3: ['Protected From Evil and Good', 'Sanctuary']
       5: ['Lesser Restoration', 'Zone of Truth']
       9: ['Beacon of Hope', 'Dispel Magic']
@@ -293,7 +305,7 @@ paths:
       7: ['Relentless Avenger']
       15: ['Soul of Vengeance']
       20: ['Avenging Angel']
-    magic_paladin:
+    magic:
       3: ['Bane', "Hunter's Mark"]
       5: ['Hold Person', 'Misty Step']
       9: ['Haste', 'Protection From Energy']
@@ -310,7 +322,7 @@ paths:
       7: ['Aura of Warding']
       15: ['Undying Sentinel']
       20: ['Elder Champion']
-    magic_paladin:
+    magic:
       3: ['Ensnaring Strike', 'Speak With Animals']
       5: ['Moonbeam', 'Misty Step']
       9: ['Plant Growth', 'Protection From Energy']
@@ -328,6 +340,7 @@ paths:
       7: ['Exceptional Training']
       11: ['Beastial Fury']
       15: ['Share Spells']
+    magic: {}
     parent: Ranger
     proficiency:
       armors: []
@@ -339,6 +352,7 @@ paths:
       7: ['Defensive Tactics']
       11: ['Multiattack']
       15: ["Superior Hunter's Defense"]
+    magic: {}
     parent: Ranger
     proficiency:
       armors: []
@@ -351,6 +365,7 @@ paths:
       6: ['Elemental Affinity']
       14: ['Dragon Wings']
       18: ['Draconic Presence']
+    magic: {}
     parent: Sorcerer
     proficiency:
       armors: []
@@ -362,6 +377,7 @@ paths:
       6: ['Bend Luck']
       14: ['Controlled Chaos']
       18: ['Spell Bombardment']
+    magic: {}
     parent: Sorcerer
     proficiency:
       armors: []
@@ -374,7 +390,7 @@ paths:
       6: ['Misty Escape']
       10: ['Beguiling Defenses']
       14: ['Dark Delerium']
-    magic_warlock:
+    magic:
       1: ['Faerie Fire', 'Sleep']
       2: ['Calm Emotions', 'Phantasmal Force']
       3: ['Blink', 'Plant Growth']
@@ -391,7 +407,7 @@ paths:
       6: ["Dark One's Own Luck"]
       10: ['Fiendish Resilience']
       14: ['Hurl Through Hell']
-    magic_warlock:
+    magic:
       1: ['Burning Hands', 'Command']
       2: ['Blindness/Deafness', 'Scorching Ray']
       3: ['Fireball', 'Stinking Cloud']
@@ -408,7 +424,7 @@ paths:
       6: ['Entropic Ward']
       10: ['Thought Shield']
       14: ['Create Thrall']
-    magic_warlock:
+    magic:
       1: ['Dissonant Whispers', "Tasha's Hideous Laughter"]
       2: ['Detect Thoughts', 'Phantasmal Force']
       3: ['Clairvoyance', 'Sending']
@@ -426,6 +442,7 @@ paths:
       6: ['Projected Ward']
       10: ['Improved Abjuration']
       14: ['Spell Resistance']
+    magic: {}
     parent: Wizard
     proficiency:
       armors: []
@@ -437,6 +454,7 @@ paths:
       6: ['Benign Transposition']
       10: ['Focused Conjuration']
       14: ['Durable Summons']
+    magic: {}
     parent: Wizard
     proficiency:
       armors: []
@@ -448,6 +466,7 @@ paths:
       6: ['Expert Divination']
       10: ['The Third Eye']
       14: ['Greater Portent']
+    magic: {}
     parent: Wizard
     proficiency:
       armors: []
@@ -459,6 +478,7 @@ paths:
       6: ['Instinctive Charm']
       10: ['Split Enchantment']
       14: ['Alter Memories']
+    magic: {}
     parent: Wizard
     proficiency:
       armors: []
@@ -470,6 +490,7 @@ paths:
       6: ['Potent Cantrip']
       10: ['Empowered Evocation']
       14: ['Overchannel']
+    magic: {}
     parent: Wizard
     proficiency:
       armors: []
@@ -481,6 +502,7 @@ paths:
       6: ['Malleable Illusions']
       10: ['Illusory Self']
       14: ['Illusory Reality']
+    magic: {}
     parent: Wizard
     proficiency:
       armors: []
@@ -492,6 +514,7 @@ paths:
       6: ['Undead Thralls']
       10: ['Inured to Undeath']
       14: ['Command Undead']
+    magic: {}
     parent: Wizard
     proficiency:
       armors: []
@@ -503,6 +526,7 @@ paths:
       6: ["Transmuters Stone"]
       10: ['Shapechanger']
       14: ['Master Transmuter']
+    magic: {}
     parent: Wizard
     proficiency:
       armors: []
