@@ -376,16 +376,6 @@ def main(
     level: int,
     variant: bool,
 ) -> None:
-    def _done(message: str) -> None:
-        click.secho(f"success: {message}", bold=True, fg="bright_green")
-
-    def _error(message: str) -> None:
-        click.secho(f"error: {message}", bold=True, err=True, fg="red")
-        exit()
-
-    def _warn(message: str) -> None:
-        click.secho(f"warning: {message}", bold=True, fg="yellow")
-
     def out(message: str, is_error=False, is_warning=False):
         if is_error:
             click.secho(f"error: {message}", bold=True, fg="red")
@@ -398,7 +388,7 @@ def main(
     # Handle application argument processing.
     if race != "":
         if race not in tuple(reader("races").keys()):
-            _error(f"invalid character race '{race}'")
+            out(f"invalid character race '{race}'", is_error=True)
 
     if subrace == "":
         subrace = None
@@ -410,8 +400,8 @@ def main(
 
             if subrace not in valid_subraces:
                 raise ValueError(f"invalid subrace race '{subrace}'")
-        except ValueError as error:
-            out(error, is_error=True)
+        except ValueError as e:
+            out(str(e), is_error=True)
 
     the_sexes = ["Female", "Male"]
     if sex in the_sexes:
@@ -453,6 +443,9 @@ def main(
         out("argument variant must be 'false|true'", is_error=True)
 
     # Generate class features
+    c = None
+    t = None
+
     try:
         this_class = eval(klass)
         c = this_class(level=level, path=path)
@@ -472,12 +465,16 @@ def main(
     )
 
     # Generate character armor, tool and weapon proficiencies
+    armors = None
+    tools = None
+    weapons = None
+
     try:
         armors = ProficiencyGenerator("armors", c.features, t.traits)
         tools = ProficiencyGenerator("tools", c.features, t.traits)
         weapons = ProficiencyGenerator("weapons", c.features, t.traits)
     except ValueError as e:
-        out(e, is_error=True)
+        out(str(e), is_error=True)
 
     # Generate character skills
     g = SkillGenerator(background, klass, t.traits.get("skills"))
