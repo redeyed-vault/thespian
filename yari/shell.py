@@ -18,11 +18,13 @@ class Writer:
         Args:
             data (OrderedDict): Character's detailed information.
         """
-        print(data)
+        # print(data)
         save_path = os.path.expanduser("~/Yari")
         if not os.path.exists(save_path):
             os.mkdir(save_path)
-            raise FileNotFoundError(f"save directory '{save_path}' not found. Creating...")
+            raise FileNotFoundError(
+                f"save directory '{save_path}' not found. Creating..."
+            )
 
         if not isinstance(data, OrderedDict):
             raise TypeError("data argument must be of type 'OrderedDict'")
@@ -166,7 +168,7 @@ class Writer:
             """Formats skills for character sheet."""
             ms = ""
             for skill_array in skills:
-                ms += '<entry name="%s" ability="%s" value="%s" />' % skill_array
+                ms += '<entry name="%s" modifier="%s" />' % skill_array
             return ms
 
         def format_traits(traits: dict, race: str, subrace=None) -> str:
@@ -393,7 +395,6 @@ def main(
         else:
             click.secho(f"success: {message}", bold=True, fg="bright_green")
 
-
     # Handle application argument processing.
     if race != "":
         if race not in tuple(reader("races").keys()):
@@ -454,15 +455,20 @@ def main(
     # Generate class features
     try:
         this_class = eval(klass)
-        c = this_class(level, path)
+        c = this_class(level=level, path=path)
         this_race = eval(race)
-        t = this_race(subrace)
+        t = this_race(
+            class_attr=c.features.get("abilities"), subrace=subrace, variant=variant
+        )
     except (Exception, ValueError) as e:
         out(e, is_error=True)
 
     # Generate ability scores
     a = AbilityScoreGenerator(
-        race=race, class_abilities=c.features.get("abilities"), variant=variant, subrace=subrace
+        race=race,
+        class_attr=c.features.get("abilities"),
+        variant=variant,
+        subrace=subrace,
     )
 
     # Generate character armor, tool and weapon proficiencies
@@ -474,14 +480,15 @@ def main(
         out(e, is_error=True)
 
     # Generate character skills
-    g = SkillGenerator(race, background, klass, path, level, variant)
+    g = SkillGenerator(background, klass, t.traits.get("skills"))
 
     # Assign ability/feat improvements
     u = ImprovementGenerator(
         race=race,
-        class_=klass,
+        path=path,
+        klass=klass,
         level=level,
-        primary_ability=c.features.get("abilities"),
+        class_attr=c.features.get("abilities"),
         saves=c.features.get("saves"),
         spell_slots=c.features.get("spell_slots"),
         score_array=a.score_array,
@@ -503,7 +510,7 @@ def main(
     class_info = OrderedDict()
     class_info["class"] = klass
     class_info["level"] = level
-    class_info["archetype"] = c.features.get("archetype")
+    class_info["archetype"] = c.features.get("path")
     class_info["proficiency"] = get_proficiency_bonus(level)
     cs["class"] = class_info
     cs["score_array"] = u.score_array
@@ -515,7 +522,7 @@ def main(
     proficiency_info["weapons"] = u.weapon_proficiency
     cs["proficiency"] = proficiency_info
     cs["languages"] = u.languages
-    cs["skills"] = g.expand_skill_list(u.skills, u.score_array)
+    cs["skills"] = expand_skills(u.skills, u.score_array)
     cs["feats"] = u.feats
     cs["equipment"] = reader("backgrounds", (background, "equipment"))
     cs["features"] = c.features.get("features")
@@ -528,7 +535,7 @@ def main(
             else:
                 writer.write(file)
     except (FileExistsError, FileNotFoundError, TypeError) as e:
-        out(error, is_error=True)
+        out(e, is_error=True)
     else:
         out(f"character saved to '{writer.save_path}'")
 

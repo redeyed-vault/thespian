@@ -1,8 +1,6 @@
 from collections import OrderedDict
-import math
+from math import ceil
 import random
-
-import numpy
 
 from yari.reader import reader
 
@@ -11,16 +9,18 @@ from yari.reader import reader
 class _Bonuses:
     """Determines ability bonuses by race and subrace (if applicable)."""
 
-    def __init__(self, race: str, variant: bool, primary: dict, subrace=None) -> None:
+    def __init__(
+        self, race: str, variant: bool, class_attr: dict, subrace=None
+    ) -> None:
         """
         Args:
             race (str): Character's race.
             variant (bool): Use variant rules.
-            primary (tuple): Character's primary abilities.
-            subrace (str, None): Character's subrace (if applicable).
+            class_attr (tuple): Character's primary abilities.
+            subrace (str, None): Character's subrace (if applicable).       
         """
         bonuses = dict()
-        primary = list(primary.values())
+        class_attr = list(class_attr.values())
         # Half-elf ability bonuses.
         if race == "HalfElf":
             ability_choices = [
@@ -30,17 +30,17 @@ class _Bonuses:
                 "Intelligence",
                 "Wisdom",
             ]
-            if "Charisma" in primary:
-                primary.remove("Charisma")
+            if "Charisma" in class_attr:
+                class_attr.remove("Charisma")
                 # Get the remaining primary ability, assign the bonus.
-                saved_ability = pick(primary)
+                saved_ability = pick(class_attr)
                 bonuses[saved_ability] = 1
                 # Remove the remaining ability from the choices.
                 ability_choices.remove(saved_ability)
                 # Choose third ability.
                 bonuses[pick(ability_choices)] = 1
             else:
-                for ability in primary:
+                for ability in class_attr:
                     bonuses[ability] = 1
         # Non-human or human non-variant ability bonuses.
         elif race == "Human" and not variant or race != "Human":
@@ -49,7 +49,7 @@ class _Bonuses:
                 bonuses[ability] = bonus
         # Human variant bonuses.
         elif race == "Human" and variant:
-            racial_bonuses = primary
+            racial_bonuses = class_attr
             for ability in racial_bonuses:
                 bonuses[ability] = 1
 
@@ -64,15 +64,17 @@ class _Bonuses:
 class AbilityScoreGenerator(_Bonuses):
     """Assigns ability scores/bonuses by primary abilities."""
 
-    def __init__(self, race: str, class_abilities: dict, variant: bool, subrace=None) -> None:
+    def __init__(
+        self, race: str, class_attr: dict, variant: bool, subrace=None
+    ) -> None:
         """
         Args:
             race (str): Character's race.
-            class_abilities (dict): Class primary abilities.
+            class_attr (dict): Class primary abilities.
             variant (bool): Use variant rules.
             subrace (str, None): Character's subrace (if applicable).
         """
-        super().__init__(race, variant, class_abilities, subrace)
+        super().__init__(race, variant, class_attr, subrace)
         score_array = OrderedDict()
         score_array["Strength"] = None
         score_array["Dexterity"] = None
@@ -80,10 +82,7 @@ class AbilityScoreGenerator(_Bonuses):
         score_array["Intelligence"] = None
         score_array["Wisdom"] = None
         score_array["Charisma"] = None
-        self.score_array = self._assign_score_array(score_array, class_abilities)
 
-    def _assign_score_array(self, score_array: OrderedDict, class_abilities: dict) -> OrderedDict:
-        """Creates detailed ability score array."""
         ability_choices = [
             "Strength",
             "Dexterity",
@@ -92,9 +91,10 @@ class AbilityScoreGenerator(_Bonuses):
             "Wisdom",
             "Charisma",
         ]
-        generated_scores = list(self.roll_ability_scores(60))
+
+        generated_scores = self.roll_ability_scores(60)
         # Assign highest values to class specific abilities first.
-        for ability in tuple(class_abilities.values()):
+        for ability in tuple(class_attr.values()):
             value = max(generated_scores)
             modifier = get_ability_modifier(value)
             score_array[ability] = OrderedDict({"Value": value, "Modifier": modifier})
@@ -115,35 +115,31 @@ class AbilityScoreGenerator(_Bonuses):
             value = score_array.get(ability).get("Value") + bonus
             modifier = get_ability_modifier(value)
             score_array[ability] = OrderedDict({"Value": value, "Modifier": modifier})
-        return score_array
+        self.score_array = score_array
 
     @staticmethod
-    def roll_ability_scores(threshold: int) -> numpy.ndarray:
+    def roll_ability_scores(threshold: int) -> list:
         """Generates six ability scores."""
 
-        def roll() -> numpy.ndarray:
-            """Returns random array between 1-6 x4."""
-            return numpy.random.randint(low=1, high=6, size=4)
+        def roll() -> list:
+            """Returns random list between 1-6 x4."""
+            rst = list()
+            for _ in range(0, 4):
+                rst.append(random.randint(1, 6))
+            return rst
 
-        results = numpy.array([], dtype=int)
-        while results.sum() < threshold:
-            for _ in range(1, 7):
+        results = list()
+        while sum(results) < threshold:
+            for _ in range(0, 6):
                 result = roll()
-                excl_result = result.min(initial=None)
-                ability_score = result.sum() - excl_result
-                results = numpy.append(results, ability_score)
-            score_total = results.sum()
+                results.append(sum(result) - min(result))
 
-            try:
-                maximum_score = results.max(initial=None)
-                minimum_score = results.min(initial=None)
-            except ValueError:
-                # FIX: Empty array bug, forces re-roll w/ bad values.
-                maximum_score = 14
-                minimum_score = 7
+            score_total = sum(results)
+            maximum_score = max(results)
+            minimum_score = min(results)
 
             if score_total < threshold or maximum_score < 15 or minimum_score < 8:
-                results = numpy.array([], dtype=int)
+                results = list()
         return results
 
 
@@ -154,7 +150,7 @@ def get_ability_modifier(score: int) -> int:
 
 def get_proficiency_bonus(level: int) -> int:
     """Returns a proficiency bonus value by level."""
-    return math.ceil((level / 4) + 1)
+    return ceil((level / 4) + 1)
 
 
 # CHARACTER CLASS GENERATOR
@@ -179,235 +175,228 @@ class _Features:
 
     """
 
-    def __init__(self, archetype: (None, str), level: int) -> None:
+    def __init__(self, **kw) -> None:
         """
         Args:
-            archetype (str, None): Character's archetype.
-            level (int): Character's level.
+            kw:
+                - level (int): Character's chosen level.
+                - path (str): Character's chosen path.
+                - roll_hp (bool): True: Roll or False: use default HP by class/level.
         """
         self.class_ = self.__class__.__name__
         if self.class_ == "_Features":
             raise Exception("this class must be inherited")
 
-        if self.class_ not in tuple(reader("classes").keys()):
+        if not get_is_class(self.class_):
             raise ValueError("class '{}' does not exist".format(self.class_))
 
-        valid_archetypes = get_paths_by_class(self.class_)
-        if archetype not in valid_archetypes:
-            archetype = random.choice(valid_archetypes)
+        if "level" not in kw or not isinstance(kw["level"], int):
+            kw["level"] = 1
+
+        if "path" not in kw or not get_is_path(kw["path"], self.class_):
+            kw["path"] = None
+
+        if "roll_hp" not in kw or not isinstance(kw["roll_hp"], bool):
+            kw["roll_hp"] = False
+
+        self.level = kw.get("level")
+        self.path = kw.get("path")
+        self.roll_hp = kw.get("roll_hp")
 
         self.features = reader("classes", (self.class_,))
-
-        self.features["abilities"] = self._enc_class_abilities(self.class_, archetype)
-        self.features["archetype"] = archetype
-        self.features["features"] = self._enc_class_features(
-            self.features["features"], archetype, level
-        )
-
-        def roll(d: int, lv: int) -> numpy.ndarray:
-            """Returns random array between low and d by lv."""
-            return numpy.random.randint(low=1, high=d, size=lv)
-
-        hit_die = self.features.get("hit_die")
-        self.features["hit_die"] = f"{level}d{hit_die}"
-        if level > 1:
-            level = level - 1
-        hp = roll(hit_die, level)
-
-        if level > 1:
-            self.features["hit_points"] = hp.sum() + hit_die
-        else:
-            self.features["hit_points"] = hit_die
-
-        if has_class_spells(archetype):
-            self.features["magic_class"] = self._enc_class_magic(archetype, level)
-
-        prof = self._enc_class_proficiency(self.class_, archetype, level)
-        self.features["proficiency"]["armors"] = prof["armors"]
-        self.features["proficiency"]["tools"] = prof["tools"]
-        self.features["proficiency"]["weapons"] = prof["weapons"]
-
+        self.features["abilities"] = self._enc_class_abilities()
+        self.features["features"] = self._enc_class_features()
+        self.features["path"] = self.path
         if (
             self.class_ == "Fighter"
-            and archetype != "Eldritch Knight"
+            and self.path != "Eldritch Knight"
             or self.class_ == "Rogue"
-            and archetype != "Arcane Trickster"
+            and self.path != "Arcane Trickster"
         ):
             self.features["spell_slots"] = ""
         else:
-            self.features["spell_slots"] = self.features["spell_slots"].get(level)
+            self.features["spell_slots"] = self.features["spell_slots"].get(self.level)
+
+        if has_class_spells(self.path):
+            self._enc_class_magic_list()
+
+        self._enc_class_hit_die()
+        self._enc_class_proficiency("armors")
+        self._enc_class_proficiency("tools")
+        self._enc_class_proficiency("weapons")
 
         del self.features["paths"]
 
-    @staticmethod
-    def _enc_class_abilities(class_: str, archetype: str):
-        a_list = reader("classes", (class_, "abilities",))
-        if class_ == "Cleric":
+    def _enc_class_abilities(self):
+        a_list = reader("classes", (self.class_, "abilities",))
+        if self.class_ == "Cleric":
             a_list[2] = random.choice(a_list[2])
-        elif class_ in ("Fighter", "Ranger"):
+        elif self.class_ in ("Fighter", "Ranger"):
             ability_choices = a_list.get(1)
             a_list[1] = random.choice(ability_choices)
-            if class_ == "Fighter" and archetype != "Eldritch Knight":
+            if self.class_ == "Fighter" and self.path != "Eldritch Knight":
                 a_list[2] = "Constitution"
-            elif class_ == "Fighter" and archetype == "Eldritch Knight":
+            elif self.class_ == "Fighter" and self.path == "Eldritch Knight":
                 a_list[2] = "Intelligence"
             else:
                 a_list[2] = a_list.get(2)
-        elif class_ == "Rogue":
-            if archetype != "Arcane Trickster":
+        elif self.class_ == "Rogue":
+            if self.path != "Arcane Trickster":
                 a_list[2] = "Charisma"
             else:
                 a_list[2] = "Intelligence"
-        elif class_ == "Wizard":
+        elif self.class_ == "Wizard":
             ability_choices = a_list.get(2)
             a_list[2] = random.choice(ability_choices)
         return a_list
 
-    @staticmethod
-    def _enc_class_features(f_list: dict, archetype: str, level: int):
-        c_features = dict()
-        for lvl, feature in f_list.items():
-            c_features[lvl] = feature
-        f_list = c_features
+    def _enc_class_features(self):
+        """Builds a dictionary of features by class, path & level."""
+        final_feature_list = dict()
+        feature_list = reader("classes", (self.class_,)).get("features")
+        path_feature_list = reader("paths", (self.path,)).get("features")
 
-        a_features = reader("paths", (archetype,))
-        a_features = a_features.get("features")
-        for lvl, feature in a_features.items():
-            if lvl in f_list:
-                for _feature in a_features.get(lvl):
-                    f_list[lvl].append(_feature)
-                f_list[lvl].sort()
-            else:
-                f_list[lvl] = list()
-                for _feature in a_features.get(lvl):
-                    f_list[lvl].append(_feature)
-                f_list[lvl].sort()
+        for level in range(1, self.level + 1):
+            feature_row = list()
+            if level in feature_list:
+                fuse(feature_row, feature_list[level])
+            if level in path_feature_list:
+                fuse(feature_row, path_feature_list[level])
+            if len(feature_row) is not 0:
+                final_feature_list[level] = feature_row
 
-        levels = list(f_list.keys())
-        levels.sort()
-        ff_list = dict()
-        for _level in levels:
-            if _level <= level:
-                ff_list[_level] = f_list[_level]
+        return final_feature_list
 
-        del a_features
-        del f_list
-        return ff_list
+    def _enc_class_hit_die(self):
+        hit_die = self.features.get("hit_die")
+        self.features["hit_die"] = f"{self.level}d{hit_die}"
+        self.features["hit_points"] = hit_die
+        if self.level > 1:
+            new_level = self.level - 1
+            die_rolls = list()
+            for _ in range(0, new_level):
+                if self.roll_hp:
+                    hp_result = random.randint(1, hit_die)
+                else:
+                    hp_result = int((hit_die / 2) + 1)
+                die_rolls.append(hp_result)
+            self.features["hit_points"] += sum(die_rolls)
 
-    @staticmethod
-    def _enc_class_magic(archetype: str, level: int):
-        c_magic = reader("paths", (archetype,))
-        if "magic_cleric" in c_magic:
-            c_magic = c_magic.get("magic_cleric")
-        elif "magic_paladin" in c_magic:
-            c_magic = c_magic.get("magic_paladin")
-        elif "magic_warlock" in c_magic:
-            c_magic = c_magic.get("magic_warlock")
+    def _enc_class_magic_list(self):
+        """Builds a dictionary list of specialized magic spells."""
+        magic = dict()
+        class_magic = reader("paths", (self.path,)).get("magic")
 
-        if c_magic is not None:
-            magic = dict()
-            for lvl, spells in c_magic.items():
-                if lvl <= level:
-                    magic[lvl] = spells
+        if len(class_magic) is not 0:
+            for level, spells in class_magic.items():
+                if level <= self.level:
+                    magic[level] = spells
 
-            del c_magic
-            return magic
+            del class_magic
+            self.features["magic"] = magic
 
-    @staticmethod
-    def _enc_class_proficiency(class_: str, archetype: str, level: int):
-        c_prof = reader("classes", (class_, "proficiency"))
-        a_prof = reader("paths", (archetype, "proficiency"))
-        for prof_type in ("armors", "tools", "weapons"):
-            if prof_type == "tools":
-                if archetype == "Assassin" and level < 3:
-                    continue
-                elif class_ == "Monk":
-                    monk_bonus_tool = random.choice(c_prof[prof_type])
-                    c_prof[prof_type] = list()
-                    c_prof[prof_type].append(monk_bonus_tool)
-            elif (
-                prof_type == "weapons" and archetype == "College of Valor" and level < 3
-            ):
-                continue
-            else:
-                p_list = a_prof[prof_type]
-                if len(p_list) is not 0:
-                    for prof in p_list:
-                        c_prof[prof_type].append(prof)
-                    c_prof[prof_type].sort()
-        return c_prof
+    def _enc_class_proficiency(self, prof_type: str):
+        class_proficiency = reader("classes", (self.class_, "proficiency"))
+        path_proficiency = reader("paths", (self.path, "proficiency"))
+        if prof_type not in ("armors", "tools", "weapons"):
+            raise ValueError
+
+        if prof_type == "tools":
+            if self.path == "Assassin" and self.level < 3:
+                return
+            elif self.class_ == "Monk":
+                monk_bonus_tool = random.choice(class_proficiency[prof_type])
+                class_proficiency[prof_type] = [monk_bonus_tool]
+        elif (
+            prof_type == "weapons"
+            and self.path == "College of Valor"
+            and self.level < 3
+        ):
+            return
+        else:
+            path_list = path_proficiency[prof_type]
+            if len(path_list) is not 0:
+                for proficiency in path_list:
+                    class_proficiency[prof_type].append(proficiency)
+                class_proficiency[prof_type].sort()
+        self.features["proficiency"][prof_type] = class_proficiency[prof_type]
 
 
 class Barbarian(_Features):
-    def __init__(self, level, archetype=None) -> None:
-        super().__init__(archetype, level)
+    def __init__(self, **kw) -> None:
+        super(Barbarian, self).__init__(**kw)
 
 
 class Bard(_Features):
-    def __init__(self, level, archetype=None) -> None:
-        super().__init__(archetype, level)
+    def __init__(self, **kw) -> None:
+        super(Bard, self).__init__(**kw)
 
 
 class Cleric(_Features):
-    def __init__(self, level, archetype=None) -> None:
-        super().__init__(archetype, level)
+    def __init__(self, **kw) -> None:
+        super(Cleric, self).__init__(**kw)
 
 
 class Druid(_Features):
-    def __init__(self, level, archetype=None) -> None:
-        super().__init__(archetype, level)
+    def __init__(self, **kw) -> None:
+        super(Druid, self).__init__(**kw)
 
 
 class Fighter(_Features):
-    def __init__(self, level, archetype=None) -> None:
-        super().__init__(archetype, level)
+    def __init__(self, **kw) -> None:
+        super(Fighter, self).__init__(**kw)
 
 
 class Monk(_Features):
-    def __init__(self, level, archetype=None) -> None:
-        super().__init__(archetype, level)
+    def __init__(self, **kw) -> None:
+        super(Monk, self).__init__(**kw)
 
 
 class Paladin(_Features):
-    def __init__(self, level, archetype=None) -> None:
-        super().__init__(archetype, level)
+    def __init__(self, **kw) -> None:
+        super(Paladin, self).__init__(**kw)
 
 
 class Ranger(_Features):
-    def __init__(self, level, archetype=None) -> None:
-        super().__init__(archetype, level)
+    def __init__(self, **kw) -> None:
+        super(Ranger, self).__init__(**kw)
 
 
 class Rogue(_Features):
-    def __init__(self, level, archetype=None) -> None:
-        super().__init__(archetype, level)
+    def __init__(self, **kw) -> None:
+        super(Rogue, self).__init__(**kw)
 
 
 class Sorcerer(_Features):
-    def __init__(self, level, archetype=None) -> None:
-        super().__init__(archetype, level)
+    def __init__(self, **kw) -> None:
+        super(Sorcerer, self).__init__(**kw)
 
 
 class Warlock(_Features):
-    def __init__(self, level, archetype=None) -> None:
-        super().__init__(archetype, level)
+    def __init__(self, **kw) -> None:
+        super(Warlock, self).__init__(**kw)
 
 
 class Wizard(_Features):
-    def __init__(self, level, archetype=None) -> None:
-        super().__init__(archetype, level)
+    def __init__(self, **kw) -> None:
+        super(Wizard, self).__init__(**kw)
 
 
-def get_paths_by_class(class_: str) -> tuple:
+def get_is_class(class_) -> bool:
+    return class_ in tuple(reader("classes").keys())
+
+
+def get_is_path(path, class_) -> bool:
+    return path in tuple(reader("classes", (class_, "paths")))
+
+
+def get_paths_by_class(class_) -> tuple:
     return tuple(reader("classes", (class_, "paths")))
 
 
-def has_class_spells(archetype: str) -> bool:
-    spell_list = reader("paths", (archetype,))
-    if "magic_cleric" in spell_list:
-        return "magic_cleric" in spell_list
-    elif "magic_paladin" in spell_list:
-        return "magic_paladin" in spell_list
+def has_class_spells(path) -> bool:
+    class_spells = reader("paths", (path,)).get("magic")
+    return len(class_spells) is not 0
 
 
 # CHARACTER IMPROVEMENT GENERATOR
@@ -417,9 +406,10 @@ class ImprovementGenerator:
     def __init__(
         self,
         race: str,
-        class_: str,
+        klass: str,
+        path: str,
         level: int,
-        primary_ability: dict,
+        class_attr: dict,
         saves: list,
         spell_slots: str,
         score_array: OrderedDict,
@@ -433,9 +423,9 @@ class ImprovementGenerator:
         """
         Args:
             race (str): Character's race.
-            class_ (str): Character's class.
+            klass (str): Character's class.
             level (int): Character's level.
-            primary_ability (dict): Primary abilities for class_.
+            class_attr (dict): Primary abilities for class_.
             saves (list): Character's proficient saving throws.
             spell_slots (str): Character's spell slots.
             score_array (OrderedDict): Character's ability scores.
@@ -446,7 +436,7 @@ class ImprovementGenerator:
             skills (list): Character's skills.
             variant (bool): Use variant rules.
         """
-        self.class_ = class_
+        self.klass = klass
         self.level = level
         self.saves = saves
         self.spell_slots = spell_slots
@@ -463,11 +453,17 @@ class ImprovementGenerator:
             self.add_feat()
 
         # Add special class languages (if applicable).
-        if class_ == "Druid":
+        if klass == "Druid":
             self.languages.append("Druidic")
 
-        if class_ == "Rogue":
+        if klass == "Rogue":
             self.languages.append("Thieves' cant")
+
+        # Bards in the College of Lore get three bonus skills at level 3.
+        if path == "College of Lore" and level >= 3:
+            all_skills = get_all_skills()
+            purge(all_skills, self.skills)
+            fuse(self.skills, random.sample(all_skills, 3))
 
         # Determine number of applicable upgrades
         upgrades = 0
@@ -475,13 +471,13 @@ class ImprovementGenerator:
             if (_ % 4) == 0 and _ is not 20:
                 upgrades += 1
 
-        if class_ == "Fighter" and level >= 6:
+        if klass == "Fighter" and level >= 6:
             upgrades += 1
 
-        if class_ == "Rogue" and level >= 8:
+        if klass == "Rogue" and level >= 8:
             upgrades += 1
 
-        if class_ == "Fighter" and level >= 14:
+        if klass == "Fighter" and level >= 14:
             upgrades += 1
 
         if level >= 19:
@@ -491,27 +487,27 @@ class ImprovementGenerator:
         if upgrades is 0:
             return
 
-        primary_ability = list(primary_ability.values())
+        class_attr = list(class_attr.values())
         for _ in range(1, upgrades):
-            if len(primary_ability) is 0:
+            if len(class_attr) is 0:
                 upgrade_option = "Feat"
             else:
                 upgrade_option = random.choice(["Ability", "Feat"])
 
             if upgrade_option == "Ability":
                 try:
-                    if len(primary_ability) is 2:
-                        if self.isadjustable(primary_ability):
-                            for ability in primary_ability:
+                    if len(class_attr) is 2:
+                        if self.isadjustable(class_attr):
+                            for ability in class_attr:
                                 self.set_score_array(ability, 1)
                                 if not self.isadjustable(ability):
-                                    primary_ability.remove(ability)
-                        elif len(primary_ability) is 1:
-                            ability = primary_ability[0]
+                                    class_attr.remove(ability)
+                        elif len(class_attr) is 1:
+                            ability = class_attr[0]
                             if self.isadjustable(ability):
                                 self.set_score_array(ability, 2)
                                 if not self.isadjustable(ability):
-                                    primary_ability.remove(ability)
+                                    class_attr.remove(ability)
                         else:
                             raise ValueError
                     else:
@@ -594,9 +590,9 @@ class ImprovementGenerator:
 
         # Observant
         if feat == "Observant":
-            if self.class_ in ("Cleric", "Druid"):
+            if self.klass in ("Cleric", "Druid"):
                 self.set_score_array("Wisdom", 1)
-            elif self.class_ in ("Wizard",):
+            elif self.klass in ("Wizard",):
                 self.set_score_array("Intelligence", 1)
 
         # Resilient
@@ -682,7 +678,7 @@ class ImprovementGenerator:
         # If Heavily, Lightly, or Moderately Armored feat and a Monk.
         if (
             feat in ("Heavily Armored", "Lightly Armored", "Moderately Armored",)
-            and self.class_ == "Monk"
+            and self.klass == "Monk"
         ):
             return False
         # Chosen feat is "Armored" or Weapon Master but already proficient w/ assoc. armor type.
@@ -720,7 +716,7 @@ class ImprovementGenerator:
                     return False
 
                 # Magic Initiative
-                if feat == "Magic Initiative" and self.class_ not in (
+                if feat == "Magic Initiative" and self.klass not in (
                     "Bard",
                     "Cleric",
                     "Druid",
@@ -734,10 +730,10 @@ class ImprovementGenerator:
                 if feat == "Ritual Caster":
                     my_score = 0
                     required_score = 0
-                    if self.class_ in ("Cleric", "Druid"):
+                    if self.klass in ("Cleric", "Druid"):
                         my_score = self.score_array["Wisdom"]["Value"]
                         required_score = prq.get("abilities").get("Wisdom")
-                    elif self.class_ == "Wizard":
+                    elif self.klass == "Wizard":
                         my_score = self.score_array["Intelligence"]["Value"]
                         required_score = prq.get("abilities").get("Intelligence")
 
@@ -788,7 +784,7 @@ class ProficiencyGenerator:
                 trait_proficiency = traits.get("proficiency")
                 if prof_type in trait_proficiency:
                     trait_proficiency = trait_proficiency.get(prof_type)
-                    class_proficiency = fuse(class_proficiency, trait_proficiency)
+                    fuse(class_proficiency, trait_proficiency)
             self.proficiency = class_proficiency
 
 
@@ -812,18 +808,32 @@ class _Traits:
 
     """
 
-    def __init__(self, subrace: (None, str)) -> None:
+    def __init__(self, **kw) -> None:
         self.race = self.__class__.__name__
-        try:
-            if self.race == "_Traits":
-                raise Exception("to use this class it must be inherited")
+        """
+            Args:
+                kw:
+                    - class_attr (dict)
+                    - subrace (str)
+                    - variant (bool)
+        """
 
-            if self.race not in tuple(reader("races").keys()):
-                raise ValueError(f"race '{self.race}' does not exist")
-        except (Exception, ValueError) as error:
-            exit(error)
-        else:
-            self.traits = reader("races", (self.race, "traits"))
+        if self.race == "_Traits":
+            raise Exception("this class must be inherited")
+
+        if "class_attr" not in kw and not isinstance(kw.get("class_attr"), dict):
+            kw["class_attr"] = None
+        if "subrace" not in kw:
+            kw["subrace"] = None
+        if "variant" not in kw or not isinstance(kw.get("variant"), bool):
+            kw["variant"] = False
+
+        self.class_attr = tuple(kw.get("class_attr").values())
+        self.subrace = kw.get("subrace")
+        self.variant = kw.get("variant")
+
+        self.traits = reader("races", (self.race, "traits"))
+        self.traits["skills"] = list()
 
         # Dragonborn character's get draconic ancestry.
         if self.race == "Dragonborn":
@@ -851,39 +861,49 @@ class _Traits:
             tool_bonus = random.choice(self.traits.get("proficiency").get("tools"))
             self.traits["proficiency"]["tools"] = [tool_bonus]
 
-        standard_languages = [
-            "Common",
-            "Dwarvish",
-            "Elvish",
-            "Giant",
-            "Gnomish",
-            "Goblin",
-            "Halfling",
-            "Orc",
-        ]
-        # Humans and Half-elves get a bonus language
-        if self.race == "HalfElf" or self.race == "Human":
+        # Elves and HalfOrcs get a specific bonus skill.
+        if self.race in ("Elf", "HalfOrc",):
+            if self.race == "Elf":
+                self.traits["skills"] = ["Perception"]
+            elif self.race == "HalfOrc":
+                self.traits["skills"] = ["Intimidation"]
+
+        # Bonus languages for Half-Elf, Human or High Elf.
+        if self.race in ("HalfElf", "Human") or self.subrace == "High":
+            standard_languages = [
+                "Common",
+                "Dwarvish",
+                "Elvish",
+                "Giant",
+                "Gnomish",
+                "Goblin",
+                "Halfling",
+                "Orc",
+            ]
             purge(standard_languages, self.traits.get("languages"))
             self.traits["languages"].append(random.choice(standard_languages))
 
-        if subrace is None:
-            pass
+        # Bonus skills for HalfElf and Human variants.
+        if self.race == "Human" and self.variant or self.race == "HalfElf":
+            all_skills = reader("races", (self.race, "traits", "skills"))
+            if self.race == "HalfElf":
+                self.traits["skills"] = random.sample(all_skills, 2)
+            elif self.race == "Human":
+                self.traits["skills"] = random.sample(all_skills, 1)
+
+        # Human variants only have two bonus "racial" abilities.
+        if self.race == "Human" and self.variant:
+            if self.class_attr is not None:
+                bonus_abilities = dict()
+                for ability in self.class_attr:
+                    bonus_abilities[ability] = 1
+                self.traits["abilities"] = bonus_abilities
+
+        if self.subrace is None:
+            return
         else:
-            self.valid_subraces = get_subraces_by_race(self.race)
-            try:
-                if subrace not in self.valid_subraces:
-                    raise ValueError(f"invalid subrace '{subrace}'")
-            except ValueError as error:
-                exit(error)
-            else:
-                subrace_traits = reader("subraces", (subrace, "traits"))
-
-                # High elves get a random bonus language
-                if subrace == "High":
-                    purge(standard_languages, self.traits.get("languages"))
-                    self.traits["languages"].append(random.choice(standard_languages))
-
-                self.traits = self._merge_traits(self.traits, subrace_traits)
+            subrace_traits = reader("subraces", (self.subrace, "traits"))
+            self.traits = self._merge_traits(self.traits, subrace_traits)
 
     @staticmethod
     def _merge_traits(base_traits: dict, sub_traits: dict) -> dict:
@@ -936,53 +956,53 @@ class _Traits:
 
 
 class Aasimar(_Traits):
-    def __init__(self, subrace=None) -> None:
-        super().__init__(subrace)
+    def __init__(self, **kw) -> None:
+        super(Aasimar, self).__init__(**kw)
 
 
 class Dragonborn(_Traits):
-    def __init__(self, subrace=None) -> None:
-        super().__init__(subrace)
+    def __init__(self, **kw) -> None:
+        super(Dragonborn, self).__init__(**kw)
 
 
 class Dwarf(_Traits):
-    def __init__(self, subrace=None) -> None:
-        super().__init__(subrace)
+    def __init__(self, **kw) -> None:
+        super(Dwarf, self).__init__(**kw)
 
 
 class Elf(_Traits):
-    def __init__(self, subrace=None) -> None:
-        super().__init__(subrace)
+    def __init__(self, **kw) -> None:
+        super(Elf, self).__init__(**kw)
 
 
 class Gnome(_Traits):
-    def __init__(self, subrace=None) -> None:
-        super().__init__(subrace)
+    def __init__(self, **kw) -> None:
+        super(Gnome, self).__init__(**kw)
 
 
 class HalfElf(_Traits):
-    def __init__(self, subrace=None) -> None:
-        super().__init__(subrace)
+    def __init__(self, **kw) -> None:
+        super(HalfElf, self).__init__(**kw)
 
 
 class HalfOrc(_Traits):
-    def __init__(self, subrace=None) -> None:
-        super().__init__(subrace)
+    def __init__(self, **kw) -> None:
+        super(HalfOrc, self).__init__(**kw)
 
 
 class Halfling(_Traits):
-    def __init__(self, subrace=None) -> None:
-        super().__init__(subrace)
+    def __init__(self, **kw) -> None:
+        super(Halfling, self).__init__(**kw)
 
 
 class Human(_Traits):
-    def __init__(self, subrace=None) -> None:
-        super().__init__(subrace)
+    def __init__(self, **kw) -> None:
+        super(Human, self).__init__(**kw)
 
 
 class Tiefling(_Traits):
-    def __init__(self, subrace=None) -> None:
-        super().__init__(subrace)
+    def __init__(self, **kw) -> None:
+        super(Tiefling, self).__init__(**kw)
 
 
 def get_subraces_by_race(race: str) -> tuple:
@@ -996,103 +1016,61 @@ def get_subraces_by_race(race: str) -> tuple:
 
 # CHARACTER SKILL GENERATOR
 class SkillGenerator:
-    """Generates skill set by race, background, class_, level and variant."""
+    """Generates skill set by background and klass."""
 
-    def __init__(
-        self,
-        race: str,
-        background: str,
-        class_: str,
-        archetype: str,
-        level: int,
-        variant: bool,
-    ) -> None:
+    def __init__(self, background: str, klass: str, bonus_racial_skills: list,) -> None:
         """
         Args:
-            race (str): Character's race.
             background (str): Character background.
-            class_ (str): Character's class.
-            archetype (str): Character's archetype.
-            level (int): Character's level.
-            variant (bool): Use variant rules.
+            klass (str): Character's class.
+            bonus_racial_skills (list): Character's skills.
         """
-        self.level = level
-        generated_skill_list = list()
-        # Organize skills by class.
-        class_skills = self.get_skills_by_class(class_)
+        skill_list = reader("skills")
+        class_skills = list()
+        for skill, attributes in skill_list.items():
+            if klass in attributes.get("classes"):
+                class_skills.append(skill)
 
-        # Remove background skills from class skills.
+        generated_skills = list()
+
+        # Remove bonus racial skills from class skills.
+        if len(bonus_racial_skills) is not 0:
+            purge(class_skills, bonus_racial_skills)
+            fuse(generated_skills, bonus_racial_skills)
+
+        # Remove bonus background skills from class skills.
         background_skills = reader("backgrounds", (background, "skills"))
-        purge(class_skills, background_skills)
-
-        # Add racial skills first.
-        if race in ("Elf", "Half-orc"):
-            if race == "Half-orc":
-                racial_skill = "Intimidation"
-            else:
-                racial_skill = "Perception"
-            # If racial skill is class skill, remove it.
-            if racial_skill in class_skills:
-                class_skills.remove(racial_skill)
-            generated_skill_list.append(racial_skill)
-        elif race == "Half-elf" or race == "Human":
-            # Remove background, class and racial skills from skill choices.
-            all_skill_choices = list(reader("skills").keys())
-            purge(all_skill_choices, background_skills)
-            purge(all_skill_choices, class_skills)
-            if race == "Half-elf":
-                fuse(generated_skill_list, random.sample(all_skill_choices, 2))
-            elif race == "Human" and variant:
-                generated_skill_list.append(random.choice(all_skill_choices))
-
-        # Next, add background skills.
         if len(background_skills) is not 0:
-            fuse(generated_skill_list, background_skills)
+            purge(class_skills, background_skills)
+            fuse(generated_skills, background_skills)
 
-        # Finally, choose class skills.
-        if class_ in ("Rogue",):
+        if klass in ("Rogue",):
             skill_allotment = 4
-        elif class_ in ("Bard", "Ranger"):
+        elif klass in ("Bard", "Ranger"):
             skill_allotment = 3
         else:
             skill_allotment = 2
-        fuse(generated_skill_list, random.sample(class_skills, skill_allotment))
-
-        if archetype == "College of Lore" and level >= 3:
-            all_skill_choices = list(reader("skills").keys())
-            all_skill_choices = purge(all_skill_choices, generated_skill_list)
-            fuse(generated_skill_list, random.sample(all_skill_choices, 3))
-        self.skills = generated_skill_list
-
-    def expand_skill_list(self, skills: list, abilities: (dict, OrderedDict)) -> list:
-        # Creates a detailed skill "list".
-        expanded_skill_list = list()
-        for skill in skills:
-            skill_ability = reader("skills", (skill, "ability"))
-            ability_score = abilities.get(skill_ability).get("Value")
-            skill_value = get_proficiency_bonus(self.level) + get_ability_modifier(
-                ability_score
-            )
-            expanded_skill_list.append((skill, skill_ability, skill_value))
-        return expanded_skill_list
-
-    @staticmethod
-    def get_skills_by_class(class_: str) -> list:
-        """Gets skills list by class_."""
-        class_skills = list()
-        if class_ != "Bard":
-            for skill, attributes in reader("skills").items():
-                if class_ in attributes.get("classes"):
-                    class_skills.append(skill)
-        else:
-            skill_list = list(reader("skills").keys())
-            class_skills = random.sample(skill_list, 3)
-        return class_skills
+        fuse(generated_skills, random.sample(class_skills, skill_allotment))
+        self.skills = generated_skills
 
 
-def add(
-    iterable: list, value: (bool, dict, float, int, list, str, tuple), unique=False
-) -> (list, bool):
+def expand_skills(skills: list, score_array: OrderedDict) -> list:
+    # Creates a detailed skill "list".
+    exp_skill_list = list()
+    for skill in skills:
+        skill_ability = reader("skills", (skill, "ability"))
+        ability_score = score_array.get(skill_ability).get("Value")
+        skill_modifier = get_ability_modifier(ability_score)
+        exp_skill_list.append((skill, skill_modifier))
+    return exp_skill_list
+
+
+def get_all_skills() -> list:
+    return list(reader("skills").keys())
+
+
+# LIST HELPER FUNCTIONS
+def add(iterable: list, value: (bool, float, int, str), unique=False) -> list:
     """Adds a value into iterable.
     
     Args:
@@ -1101,13 +1079,14 @@ def add(
         unique (bool): Only unique values will be added if True.
     """
     if unique and value in iterable:
-        return False
+        return iterable
+
     iterable.append(value)
     iterable.sort()
     return iterable
 
 
-def fuse(iterable: list, values: (list, tuple), unique=False) -> list:
+def fuse(iterable: list, values: (list, tuple), unique=True) -> list:
     """Individual fuses values to iterable collection.
 
     Args:
@@ -1115,19 +1094,19 @@ def fuse(iterable: list, values: (list, tuple), unique=False) -> list:
         values (list, tuple): Values to be fused with iterable.
         unique (bool): Determines if only unique values with be fused.
     """
-    try:
-        if not isinstance(iterable, list):
-            raise TypeError("argument 'iterable' must be of type 'list'.")
-        if not isinstance(values, (list, tuple)):
-            raise TypeError("argument 'values' must be of type 'list' or 'tuple'.")
-        if len(values) is 0:
-            raise ValueError
-    except TypeError as e:
-        exit(e)
-    except ValueError:
-        exit("cannot fuse from an empty iterable.")
+    if not isinstance(iterable, list):
+        raise TypeError("argument 'iterable' must be of type 'list'.")
+
+    if not isinstance(values, (list, tuple)):
+        raise TypeError("argument 'values' must be of type 'list' or 'tuple'.")
+
+    if len(values) is 0:
+        return iterable
+
     for value in values:
         add(iterable, value, unique)
+
+    iterable.sort()
     return iterable
 
 
@@ -1136,15 +1115,12 @@ def pick(iterable: list) -> (bool, dict, float, int, list, str, tuple):
     Args:
         iterable (list): Iterable to pick from.
     """
-    try:
-        if not isinstance(iterable, list):
-            raise TypeError
-        if len(iterable) is 0:
-            raise ValueError
-    except TypeError:
-        exit("argument 'iterable' must be of type 'list'.")
-    except ValueError:
-        exit("cannot pick from an empty iterable.")
+    if not isinstance(iterable, list):
+        raise TypeError("argument 'iterable' must be of type 'list'.")
+
+    if len(iterable) is 0:
+        raise ValueError("cannot pick from an empty iterable.")
+
     selection = random.choice(iterable)
     iterable.remove(selection)
     return selection
@@ -1157,15 +1133,12 @@ def purge(iterable: list, values: (list, tuple)) -> list:
         iterable (list): Iterable to remove values from.
         values (values): Collection of values to remove from iterable.
     """
-    try:
-        if not isinstance(iterable, list):
-            raise TypeError("argument iterable must be of type 'list'.")
-        if not isinstance(values, (list, tuple)):
-            raise TypeError(
-                "argument 'values' must be of type 'list' or 'tuple'."
-            )
-    except TypeError as error:
-        exit(error)
+    if not isinstance(iterable, list):
+        raise TypeError("argument iterable must be of type 'list'.")
+
+    if not isinstance(values, (list, tuple)):
+        raise TypeError("argument 'values' must be of type 'list' or 'tuple'.")
+
     for value in values:
         if value in iterable:
             iterable.remove(value)
