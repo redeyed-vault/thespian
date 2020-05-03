@@ -5,76 +5,25 @@ import random
 from yari.reader import reader
 
 
-# ATTRIBUTE GENERATOR
-class _Bonuses:
-    """Determines ability bonuses by race and subrace (if applicable)."""
+class AbilityScoreGenerator:
+    """Assigns abilities and their respective value/modifier pairs.
+        Uses class primary class ability scores in assignments.
+        Applies racial bonuses to generated scores (if applicable)."""
 
     def __init__(
-        self, race: str, variant: bool, class_attr: dict, subrace=None
+        self, race: str, subrace: (str, None), class_attr: dict, variant: bool
     ) -> None:
         """
         Args:
             race (str): Character's race.
-            variant (bool): Use variant rules.
-            class_attr (tuple): Character's primary abilities.
-            subrace (str, None): Character's subrace (if applicable).       
-        """
-        bonuses = dict()
-        class_attr = list(class_attr.values())
-        # Half-elf ability bonuses.
-        if race == "HalfElf":
-            ability_choices = [
-                "Strength",
-                "Dexterity",
-                "Constitution",
-                "Intelligence",
-                "Wisdom",
-            ]
-            if "Charisma" in class_attr:
-                class_attr.remove("Charisma")
-                # Get the remaining primary ability, assign the bonus.
-                saved_ability = pick(class_attr)
-                bonuses[saved_ability] = 1
-                # Remove the remaining ability from the choices.
-                ability_choices.remove(saved_ability)
-                # Choose third ability.
-                bonuses[pick(ability_choices)] = 1
-            else:
-                for ability in class_attr:
-                    bonuses[ability] = 1
-        # Non-human or human non-variant ability bonuses.
-        elif race == "Human" and not variant or race != "Human":
-            racial_bonuses = reader("races", (race, "traits", "abilities"))
-            for ability, bonus in racial_bonuses.items():
-                bonuses[ability] = bonus
-        # Human variant bonuses.
-        elif race == "Human" and variant:
-            racial_bonuses = class_attr
-            for ability in racial_bonuses:
-                bonuses[ability] = 1
-
-        if subrace is not None:
-            if subrace in get_subraces_by_race(race):
-                subracial_bonuses = reader("subraces", (subrace, "traits", "abilities"))
-                for ability, bonus in subracial_bonuses.items():
-                    bonuses[ability] = bonus
-        self.bonuses = bonuses
-
-
-class AbilityScoreGenerator(_Bonuses):
-    """Assigns ability scores/bonuses by primary abilities."""
-
-    def __init__(
-        self, race: str, class_attr: dict, variant: bool, subrace=None
-    ) -> None:
-        """
-        Args:
-            race (str): Character's race.
-            class_attr (dict): Class primary abilities.
-            variant (bool): Use variant rules.
             subrace (str, None): Character's subrace (if applicable).
+            class_attr (dict): Class primary abilities.
+            variant (bool): Use variant rules (only used if race is Human).
         """
-        super().__init__(race, variant, class_attr, subrace)
+        self.race = race
+        self.subrace = subrace
+        self.class_attr = list(class_attr.values())
+
         score_array = OrderedDict()
         score_array["Strength"] = None
         score_array["Dexterity"] = None
@@ -94,7 +43,7 @@ class AbilityScoreGenerator(_Bonuses):
 
         generated_scores = self.roll_ability_scores(60)
         # Assign highest values to class specific abilities first.
-        for ability in tuple(class_attr.values()):
+        for ability in self.class_attr:
             value = max(generated_scores)
             modifier = get_ability_modifier(value)
             score_array[ability] = OrderedDict({"Value": value, "Modifier": modifier})
@@ -111,11 +60,62 @@ class AbilityScoreGenerator(_Bonuses):
             generated_scores.remove(value)
 
         # Apply racial bonuses.
-        for ability, bonus in self.bonuses.items():
+        for ability, bonus in self.get_racial_bonus(variant).items():
             value = score_array.get(ability).get("Value") + bonus
             modifier = get_ability_modifier(value)
             score_array[ability] = OrderedDict({"Value": value, "Modifier": modifier})
         self.score_array = score_array
+
+    def get_racial_bonus(self, variant: bool) -> dict:
+        """
+        Determines racial bonus modifiers by race.
+        Uses class in cases where bonus not specifically stated but implied.
+        i.e: In the cases of variant humans or half-elves.
+
+        Args:
+            variant (bool): Use variant rules (only used if race is Human).
+        """
+        bonuses = dict()
+        # Half-elf ability bonuses.
+        if self.race == "HalfElf":
+            ability_choices = [
+                "Strength",
+                "Dexterity",
+                "Constitution",
+                "Intelligence",
+                "Wisdom",
+            ]
+            if "Charisma" in self.class_attr:
+                self.class_attr.remove("Charisma")
+                # Get the remaining primary ability, assign the bonus.
+                saved_ability = pick(self.class_attr)
+                bonuses[saved_ability] = 1
+                # Remove the remaining ability from the choices.
+                ability_choices.remove(saved_ability)
+                # Choose third ability.
+                bonuses[pick(ability_choices)] = 1
+            else:
+                for ability in self.class_attr:
+                    bonuses[ability] = 1
+        # Non-human or human non-variant ability bonuses.
+        elif self.race == "Human" and not variant or self.race != "Human":
+            racial_bonuses = reader("races", (self.race, "traits", "abilities"))
+            for ability, bonus in racial_bonuses.items():
+                bonuses[ability] = bonus
+        # Human variant bonuses.
+        elif self.race == "Human" and variant:
+            racial_bonuses = self.class_attr
+            for ability in racial_bonuses:
+                bonuses[ability] = 1
+
+        if self.subrace is not None:
+            if self.subrace in get_subraces_by_race(self.race):
+                subracial_bonuses = reader(
+                    "subraces", (self.subrace, "traits", "abilities")
+                )
+                for ability, bonus in subracial_bonuses.items():
+                    bonuses[ability] = bonus
+        return bonuses
 
     @staticmethod
     def roll_ability_scores(threshold: int) -> list:
@@ -401,7 +401,8 @@ def has_class_spells(path) -> bool:
 
 # CHARACTER IMPROVEMENT GENERATOR
 class ImprovementGenerator:
-    """Determines/applies feats and ability upgrades (if applicable)."""
+    """Handles leveled character's ability upgrades.
+        Chooses between a class ability or feat (where applicable)."""
 
     def __init__(
         self,
@@ -660,13 +661,12 @@ class ImprovementGenerator:
                 add(self.weapon_proficiency, weapon)
 
     def expand_saving_throws(self) -> list:
-        """Adds detailed saving throw details (associated score/modifier)."""
+        """Adds detailed saving throw details (associated ability save/modifier)."""
         es = list()
         for save in self.saves:
             ability_score = self.score_array.get(save).get("Value")
             ability_modifier = get_ability_modifier(ability_score)
-            save_value = get_proficiency_bonus(self.level) + ability_modifier
-            es.append((save, save_value))
+            es.append((save, ability_modifier))
         return es
 
     def has_feat_prerequisites(self, feat: str) -> bool:

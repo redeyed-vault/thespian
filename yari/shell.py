@@ -459,9 +459,9 @@ def main(
     # Generate ability scores
     a = AbilityScoreGenerator(
         race=race,
+        subrace=subrace,
         class_attr=c.features.get("abilities"),
         variant=variant,
-        subrace=subrace,
     )
 
     # Generate character armor, tool and weapon proficiencies
