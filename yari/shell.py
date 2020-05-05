@@ -18,7 +18,6 @@ class Writer:
         Args:
             data (OrderedDict): Character's detailed information.
         """
-        # print(data)
         save_path = os.path.expanduser("~/Yari")
         if not os.path.exists(save_path):
             os.mkdir(save_path)
@@ -31,8 +30,13 @@ class Writer:
 
         data_keys = (
             "race",
+            "subrace",
+            "sex",
             "background",
             "class",
+            "level",
+            "path",
+            "bonus",
             "score_array",
             "saves",
             "proficiency",
@@ -80,17 +84,17 @@ class Writer:
 
         def format_background(background: str) -> str:
             """Formats race for character sheet."""
-            return f'<Background name="{background}" />'
+            return f"<Background>{background}</Background>"
 
-        def format_class(class_: str, level: int, path: str) -> str:
+        def format_class(klass: str, level: int, path: str) -> str:
             """Formats class for character sheet.
 
             Args:
-                class_ (str): Character's chosen class.
-                level (int): Character's level.
-                path (str): Character's chosen archetype.
+                klass (str): Character's chosen class.
+                level (int): Character's chosen class level.
+                path (str): Character's chosen path.
             """
-            return f'<Class name="{class_}" level="{level}" path="{path}" />'
+            return f"<Class>{klass}</Class><Level>{level}</Level><Path>{path}</Path>"
 
         def format_equipment(items: list) -> str:
             """Format equipment for character sheet.
@@ -155,7 +159,9 @@ class Writer:
 
         def format_race(race: str, subrace: str, sex: str) -> str:
             """Formats race for character sheet."""
-            return f'<Race name="{race}" subrace="{subrace}" sex="{sex}" />'
+            if subrace is not None:
+                race = f"{race}, {subrace}"
+            return f"<Race>{race}</Race><Sex>{sex}</Sex>"
 
         def format_saving_throws(saves: list) -> str:
             """Formats saves for character sheet."""
@@ -299,24 +305,18 @@ class Writer:
                 timestamp, __version__
             )
             x += format_race(
-                self.data.get("race").get("race"),
-                self.data.get("race").get("subrace"),
-                self.data.get("race").get("sex"),
+                self.data.get("race"), self.data.get("subrace"), self.data.get("sex"),
             )
             x += format_background(self.data.get("background"))
             x += format_class(
-                self.data.get("class").get("class"),
-                self.data.get("class").get("level"),
-                self.data.get("class").get("archetype"),
+                self.data.get("class"), self.data.get("level"), self.data.get("path"),
             )
             x += "<AbilityScores>"
             x += format_ability_scores(self.data.get("score_array"))
             x += "</AbilityScores>"
             x += '<Spell slots="{}" />'.format(self.data.get("spell_slots"))
             x += "<Proficiencies>"
-            x += '<Proficiency bonus="{}" />'.format(
-                self.data.get("class").get("proficiency")
-            )
+            x += f'<Proficiency>{self.data.get("bonus")}</Proficiency>'
             x += format_proficiencies(self.data.get("proficiency"))
             x += "<Languages>"
             x += format_languages(self.data.get("languages"))
@@ -331,13 +331,11 @@ class Writer:
             x += "</Equipment><Traits>"
             x += format_traits(
                 self.data.get("traits"),
-                self.data.get("race").get("race"),
-                self.data.get("race").get("subrace"),
+                self.data.get("race"),
+                self.data.get("subrace"),
             )
             x += "</Traits><Features>"
-            x += format_features(
-                self.data.get("class").get("class"), self.data.get("features")
-            )
+            x += format_features(self.data.get("class"), self.data.get("features"))
             x += "</Features></Writer>"
             cs.write(BeautifulSoup(x, "xml").prettify())
         cs.close()
@@ -498,18 +496,14 @@ def main(
     )
 
     cs = OrderedDict()
-    race_info = OrderedDict()
-    race_info["race"] = race
-    race_info["subrace"] = subrace
-    race_info["sex"] = sex
-    cs["race"] = race_info
+    cs["race"] = race
+    cs["subrace"] = subrace
+    cs["sex"] = sex
     cs["background"] = background
-    class_info = OrderedDict()
-    class_info["class"] = klass
-    class_info["level"] = level
-    class_info["archetype"] = c.features.get("path")
-    class_info["proficiency"] = get_proficiency_bonus(level)
-    cs["class"] = class_info
+    cs["class"] = klass
+    cs["level"] = level
+    cs["path"] = c.features.get("path")
+    cs["bonus"] = get_proficiency_bonus(level)
     cs["score_array"] = u.score_array
     cs["saves"] = u.expand_saving_throws()
     cs["spell_slots"] = c.features.get("spell_slots")
