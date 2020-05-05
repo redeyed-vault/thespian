@@ -16,7 +16,10 @@ paths:
       weapons: []
   Path of the Totem Warrior:
     features:
-      3: ['Beast Sense', 'Speak with Animals', 'Totem Spirit']
+      3:
+        - Beast Sense
+        - Speak with Animals
+        - Totem Spirit
       6: ['Aspect of the Beast']
       10: ['Spirit Walker']
       14: ['Totemic Attunement']
@@ -354,6 +357,45 @@ paths:
       15: ["Superior Hunter's Defense"]
     magic: {}
     parent: Ranger
+    proficiency:
+      armors: []
+      tools: []
+      weapons: []
+  # Rogue Archetypes
+  Arcane Trickster:
+    features:
+      3: ['Mage Hand Legerdemain', 'Spellcasting']
+      9: ['Magical Ambush']
+      13: ['Versatile Trickster']
+      17: ['Spell Thief']
+    magic: {}
+    parent: Rogue
+    proficiency:
+      armors: []
+      tools: []
+      weapons: []
+  Assassin:
+    features:
+      3: ['Assassinate']
+      9: ['Infiltration Expertise']
+      13: ['Impostor']
+      17: ['Death Strike']
+    magic: {}
+    parent: Rogue
+    proficiency:
+      armors: []
+      tools:
+        - Disguise kit
+        - Poisoner's kit
+      weapons: []
+  Thief:
+    features:
+      3: ['Fast Hands', 'Second-Story Work']
+      9: ['Supreme Sneak']
+      13: ['Use Magic Device']
+      17: ["Thief's Reflexes"]
+    magic: {}
+    parent: Rogue
     proficiency:
       armors: []
       tools: []
