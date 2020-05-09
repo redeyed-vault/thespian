@@ -7,7 +7,7 @@ from yari.reader import reader
 
 class AbilityScoreGenerator:
     """Assigns abilities and their respective value/modifier pairs.
-        Uses class primary class ability scores in assignments.
+        Uses class' primary abilities in assignments.
         Applies racial bonuses to generated scores (if applicable)."""
 
     def __init__(
@@ -119,7 +119,11 @@ class AbilityScoreGenerator:
 
     @staticmethod
     def roll_ability_scores(threshold: int) -> list:
-        """Generates six ability scores."""
+        """Generates six ability scores that total gte threshold.
+        
+        Args:
+            threshold (int): The minimal required total of ALL generated scores.
+        """
 
         def roll() -> list:
             """Returns random list between 1-6 x4."""
@@ -228,27 +232,35 @@ class _Features:
         del self.features["paths"]
 
     def _enc_class_abilities(self):
-        a_list = reader("classes", (self.class_, "abilities",))
+        """Assigns abilities where classes might have a choice of a primary ability.
+        
+            - Fighter: Strength|Dexterity
+            - Fighter: Constitution|Intelligence
+            - Ranger: Dexterity|Strength
+            - Rogue: Charisma|Intelligence
+            - Wizard: Constitution|Dexterity
+        """
+        class_abilities = reader("classes", (self.class_, "abilities",))
         if self.class_ == "Cleric":
-            a_list[2] = random.choice(a_list[2])
+            class_abilities[2] = random.choice(class_abilities[2])
         elif self.class_ in ("Fighter", "Ranger"):
-            ability_choices = a_list.get(1)
-            a_list[1] = random.choice(ability_choices)
+            ability_choices = class_abilities.get(1)
+            class_abilities[1] = random.choice(ability_choices)
             if self.class_ == "Fighter" and self.path != "Eldritch Knight":
-                a_list[2] = "Constitution"
+                class_abilities[2] = "Constitution"
             elif self.class_ == "Fighter" and self.path == "Eldritch Knight":
-                a_list[2] = "Intelligence"
+                class_abilities[2] = "Intelligence"
             else:
-                a_list[2] = a_list.get(2)
+                class_abilities[2] = class_abilities.get(2)
         elif self.class_ == "Rogue":
             if self.path != "Arcane Trickster":
-                a_list[2] = "Charisma"
+                class_abilities[2] = "Charisma"
             else:
-                a_list[2] = "Intelligence"
+                class_abilities[2] = "Intelligence"
         elif self.class_ == "Wizard":
-            ability_choices = a_list.get(2)
-            a_list[2] = random.choice(ability_choices)
-        return a_list
+            ability_choices = class_abilities.get(2)
+            class_abilities[2] = random.choice(ability_choices)
+        return class_abilities
 
     def _enc_class_features(self):
         """Builds a dictionary of features by class, path & level."""
@@ -268,6 +280,7 @@ class _Features:
         return final_feature_list
 
     def _enc_class_hit_die(self):
+        """Generates hit die and point totals."""
         hit_die = self.features.get("hit_die")
         self.features["hit_die"] = f"{self.level}d{hit_die}"
         self.features["hit_points"] = hit_die
@@ -294,6 +307,8 @@ class _Features:
 
             del class_magic
             self.features["magic"] = magic
+        else:
+            self.features["magic"] = dict()
 
     def _enc_class_proficiency(self, prof_type: str):
         class_proficiency = reader("classes", (self.class_, "proficiency"))
@@ -382,26 +397,30 @@ class Wizard(_Features):
         super(Wizard, self).__init__(**kw)
 
 
-def get_is_class(class_) -> bool:
-    return class_ in tuple(reader("classes").keys())
+def get_is_class(klass) -> bool:
+    """Returns whether klass is a valid class."""
+    return klass in tuple(reader("classes").keys())
 
 
-def get_is_path(path, class_) -> bool:
-    return path in tuple(reader("classes", (class_, "paths")))
+def get_is_path(path, klass) -> bool:
+    """Returns whether path is a valid path of klass."""
+    return path in tuple(reader("classes", (klass, "paths")))
 
 
-def get_paths_by_class(class_) -> tuple:
-    return tuple(reader("classes", (class_, "paths")))
+def get_paths_by_class(klass) -> tuple:
+    """Returns a tuple of valid paths for klass."""
+    return tuple(reader("classes", (klass, "paths")))
 
 
 def has_class_spells(path) -> bool:
+    """Returns whether class has spells."""
     class_spells = reader("paths", (path,)).get("magic")
     return len(class_spells) is not 0
 
 
 # CHARACTER IMPROVEMENT GENERATOR
 class ImprovementGenerator:
-    """Handles leveled character's ability upgrades.
+    """Handles leveled character's ability upgrades or addition feats.
         Chooses between a class ability or feat (where applicable)."""
 
     def __init__(
@@ -493,21 +512,27 @@ class ImprovementGenerator:
             if len(class_attr) is 0:
                 upgrade_option = "Feat"
             else:
-                upgrade_option = random.choice(["Ability", "Feat"])
+                percentage = random.randint(1, 100)
+                if percentage % 3:
+                    upgrade_option = "Feat"
+                elif percentage % 2:
+                    upgrade_option = "Ability"
+                else:
+                    upgrade_option = "Feat"
 
             if upgrade_option == "Ability":
                 try:
                     if len(class_attr) is 2:
-                        if self.isadjustable(class_attr):
+                        if self.is_adjustable(class_attr):
                             for ability in class_attr:
                                 self.set_score_array(ability, 1)
-                                if not self.isadjustable(ability):
+                                if not self.is_adjustable(ability):
                                     class_attr.remove(ability)
                         elif len(class_attr) is 1:
                             ability = class_attr[0]
-                            if self.isadjustable(ability):
+                            if self.is_adjustable(ability):
                                 self.set_score_array(ability, 2)
-                                if not self.isadjustable(ability):
+                                if not self.is_adjustable(ability):
                                     class_attr.remove(ability)
                         else:
                             raise ValueError
@@ -520,20 +545,24 @@ class ImprovementGenerator:
                 self.feats.append(self.add_feat())
 
     def add_feat(self) -> str:
+        """Randomly selects and adds a valid feats."""
         feats = list(reader("feats").keys())
-        # Remove feats already possessed by the character
         purge(feats, self.feats)
-        feat_choice = pick(feats)
 
-        # Keep choosing a feat until prerequisites are met
-        if not self.has_feat_prerequisites(feat_choice):
-            while not self.has_feat_prerequisites(feat_choice):
+        # Keep choosing a feat until prerequisites are met.
+        feat_choice = pick(feats)
+        if not self.has_prerequisites(feat_choice):
+            while not self.has_prerequisites(feat_choice):
                 feat_choice = pick(feats)
         self.add_features(feat_choice)
         return feat_choice
 
     def add_features(self, feat: str) -> None:
-        """Assign associated features by specified feat."""
+        """Assign associated features by specified feat.
+        
+        Args:
+            feat (str): Feat to add features for.
+        """
         # Actor
         if feat == "Actor":
             self.set_score_array("Charisma", 1)
@@ -661,7 +690,7 @@ class ImprovementGenerator:
                 add(self.weapon_proficiency, weapon)
 
     def expand_saving_throws(self) -> list:
-        """Adds detailed saving throw details (associated ability save/modifier)."""
+        """Adds detailed saving throws (ability/modifier)."""
         es = list()
         for save in self.saves:
             ability_score = self.score_array.get(save).get("Value")
@@ -669,7 +698,7 @@ class ImprovementGenerator:
             es.append((save, ability_modifier))
         return es
 
-    def has_feat_prerequisites(self, feat: str) -> bool:
+    def has_prerequisites(self, feat: str) -> bool:
         """Determines if character has the prerequisites for a feat."""
         # If character already has feat.
         if feat in self.feats:
@@ -702,10 +731,10 @@ class ImprovementGenerator:
                 return False
 
         # Go through ALL additional prerequisites.
-        prq = reader("feats", (feat,))
-        for requirement, _ in prq.items():
+        prerequisite = reader("feats", (feat,))
+        for requirement, _ in prerequisite.items():
             if requirement == "abilities":
-                for ability, required_score in prq.get("abilities").items():
+                for ability, required_score in prerequisite.get("abilities").items():
                     my_score = self.score_array[ability]["Value"]
                     if my_score < required_score:
                         return False
@@ -732,37 +761,49 @@ class ImprovementGenerator:
                     required_score = 0
                     if self.klass in ("Cleric", "Druid"):
                         my_score = self.score_array["Wisdom"]["Value"]
-                        required_score = prq.get("abilities").get("Wisdom")
+                        required_score = prerequisite.get("abilities").get("Wisdom")
                     elif self.klass == "Wizard":
                         my_score = self.score_array["Intelligence"]["Value"]
-                        required_score = prq.get("abilities").get("Intelligence")
+                        required_score = prerequisite.get("abilities").get(
+                            "Intelligence"
+                        )
 
                     if my_score < required_score:
                         return False
         return True
 
-    def isadjustable(self, abilities: (list, str)) -> (bool, int):
+    def is_adjustable(self, abilities: (list, str)) -> (bool, int):
         """Determines if an ability can be adjusted i.e: not over 20"""
         if isinstance(abilities, list):
             for ability in abilities:
-                cur_value = self.score_array.get(ability).get("Value")
-                if (cur_value + 1) > 20:
+                value = self.score_array.get(ability).get("Value")
+                if (value + 1) > 20:
                     return False
         elif isinstance(abilities, str):
             for bonus in (2, 1):
-                cur_value = self.score_array.get(abilities).get("Value")
-                if (cur_value + bonus) <= 20:
+                value = self.score_array.get(abilities).get("Value")
+                if (value + bonus) <= 20:
                     return bonus
             return False
         return True
 
     def set_score_array(self, ability: str, bonus: int) -> None:
-        """Adjust a specified ability with bonus."""
+        """Adjust a specified ability with bonus.
+
+        Args:
+            ability (str): Ability score to set.
+            bonus (int): Value to apply to the ability score.
+        """
         if not isinstance(self.score_array, OrderedDict):
             raise TypeError("argument 'score_array' must be 'OrderedDict' object")
-        value = self.score_array[ability]["Value"] + bonus
-        modifier = get_ability_modifier(value)
-        self.score_array[ability] = OrderedDict({"Value": value, "Modifier": modifier})
+        elif ability not in self.score_array:
+            raise KeyError(f"not an available ability '{ability}'")
+        else:
+            value = self.score_array[ability]["Value"] + bonus
+            modifier = get_ability_modifier(value)
+            self.score_array[ability] = OrderedDict(
+                {"Value": value, "Modifier": modifier}
+            )
 
 
 # CHARACTER PROFICIENCY GENERATOR
@@ -772,12 +813,12 @@ class ProficiencyGenerator:
     def __init__(self, prof_type: str, features: dict, traits: dict) -> None:
         """
         Args:
-            prof_type (str): Defines proficiency type (armors|tools|weapons).
-            features (dict): Gets class proficiency by prof_type.
-            traits (dict): Gets racial proficiency by prof_type (if applicable).
+            prof_type (str): Proficiency type (armors|tools|weapons).
+            features (dict): Class proficiency by prof_type.
+            traits (dict): Racial proficiency by prof_type (if applicable).
         """
         if prof_type not in ("armors", "tools", "weapons"):
-            raise ValueError(f"error: invalid 'prof_type' argument '{prof_type}'")
+            raise ValueError(f"invalid 'prof_type' argument '{prof_type}'")
         else:
             class_proficiency = features.get("proficiency").get(prof_type)
             if "proficiency" in traits:
@@ -813,9 +854,9 @@ class _Traits:
         """
             Args:
                 kw:
-                    - class_attr (dict)
-                    - subrace (str)
-                    - variant (bool)
+                    - class_attr (dict): Characters's chosen class' primary abilities.
+                    - subrace (str): Character's chosen subrace (if any).
+                    - variant (bool): Use variant rules.
         """
 
         if self.race == "_Traits":
@@ -907,7 +948,12 @@ class _Traits:
 
     @staticmethod
     def _merge_traits(base_traits: dict, sub_traits: dict) -> dict:
-        """Combines racial and subracial traits if applicable."""
+        """Combines racial and subracial traits if applicable.
+        
+        Args:
+            base_traits (dict): Dict of base racial traits.
+            sub_traits (dict): Dict of sub racial traits (if applicable).
+        """
         for trait, value in sub_traits.items():
             # No proficiency key index in base traits, add it.
             if trait not in base_traits:
@@ -1006,7 +1052,7 @@ class Tiefling(_Traits):
 
 
 def get_subraces_by_race(race: str) -> tuple:
-    """Returns a list of subraces by race."""
+    """Returns a list of valid subraces by race."""
     valid_subraces = list()
     for name, traits in reader("subraces").items():
         if traits.get("parent") == race:
@@ -1016,9 +1062,9 @@ def get_subraces_by_race(race: str) -> tuple:
 
 # CHARACTER SKILL GENERATOR
 class SkillGenerator:
-    """Generates skill set by background and klass."""
+    """Generates a random skill set by background and klass."""
 
-    def __init__(self, background: str, klass: str, bonus_racial_skills: list,) -> None:
+    def __init__(self, background: str, klass: str, bonus_racial_skills: list) -> None:
         """
         Args:
             background (str): Character background.
@@ -1055,17 +1101,23 @@ class SkillGenerator:
 
 
 def expand_skills(skills: list, score_array: OrderedDict) -> list:
-    # Creates a detailed skill "list".
+    """Creates a detailed skill "list".
+    
+    Args:
+        skills (list): A list of skills.
+        score_array (OrderedDict): A OrderedDict of ability values/modifiers.
+    """
     exp_skill_list = list()
     for skill in skills:
         skill_ability = reader("skills", (skill, "ability"))
-        ability_score = score_array.get(skill_ability).get("Value")
-        skill_modifier = get_ability_modifier(ability_score)
-        exp_skill_list.append((skill, skill_modifier))
+        ability = score_array.get(skill_ability).get("Value")
+        value = get_ability_modifier(ability)
+        exp_skill_list.append((skill, value))
     return exp_skill_list
 
 
 def get_all_skills() -> list:
+    """Returns a list of ALL valid skills."""
     return list(reader("skills").keys())
 
 
@@ -1087,7 +1139,7 @@ def add(iterable: list, value: (bool, float, int, str), unique=False) -> list:
 
 
 def fuse(iterable: list, values: (list, tuple), unique=True) -> list:
-    """Individual fuses values to iterable collection.
+    """Individually fuses values items to iterable collection.
 
     Args:
         iterable (list): Iterable to be fused with.
@@ -1110,7 +1162,7 @@ def fuse(iterable: list, values: (list, tuple), unique=True) -> list:
     return iterable
 
 
-def pick(iterable: list) -> (bool, dict, float, int, list, str, tuple):
+def pick(iterable: list) -> (bool, float, int, str):
     """Chooses random value from list then removes it.
     Args:
         iterable (list): Iterable to pick from.

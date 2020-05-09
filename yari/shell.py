@@ -11,12 +11,12 @@ from yari.reader import reader
 
 
 class Writer:
-    """Responsible for writing XML character sheet from data."""
+    """Handles the writing of the character sheet."""
 
     def __init__(self, data: OrderedDict) -> None:
         """
         Args:
-            data (OrderedDict): Character's detailed information.
+            data (OrderedDict): Character's information packet.
         """
         save_path = os.path.expanduser("~/Yari")
         if not os.path.exists(save_path):
@@ -82,20 +82,6 @@ class Writer:
                 ma += '<ability name="%s" value="%s" modifier="%s" />' % ability_array
             return ma
 
-        def format_background(background: str) -> str:
-            """Formats race for character sheet."""
-            return f"<Background>{background}</Background>"
-
-        def format_class(klass: str, level: int, path: str) -> str:
-            """Formats class for character sheet.
-
-            Args:
-                klass (str): Character's chosen class.
-                level (int): Character's chosen class level.
-                path (str): Character's chosen path.
-            """
-            return f"<Class>{klass}</Class><Level>{level}</Level><Path>{path}</Path>"
-
         def format_equipment(items: list) -> str:
             """Format equipment for character sheet.
 
@@ -144,24 +130,13 @@ class Writer:
 
         def format_proficiencies(proficiencies: OrderedDict) -> str:
             """Formats proficiencies for character sheet."""
-
-            def ufirst(text: str):
-                first_letter = text[0].upper()
-                return f"{first_letter}{text[1:len(text)]}"
-
             mp = ""
             for type, proficiency_list in proficiencies.items():
-                mp += f"<{ufirst(type)}>"
+                mp += f"<{type}>"
                 for proficiency in proficiency_list:
                     mp += f'<entry type="proficiency" value="{proficiency}" />'
                 mp += f"</{type}>"
             return mp
-
-        def format_race(race: str, subrace: str, sex: str) -> str:
-            """Formats race for character sheet."""
-            if subrace is not None:
-                race = f"{race}, {subrace}"
-            return f"<Race>{race}</Race><Sex>{sex}</Sex>"
 
         def format_saving_throws(saves: list) -> str:
             """Formats saves for character sheet."""
@@ -298,46 +273,54 @@ class Writer:
         if os.path.exists(self.save_path):
             raise FileExistsError(f"character save '{self.save_path}' already exists.")
 
+        now = datetime.now()
+        timestamp = datetime.fromtimestamp(datetime.timestamp(now))
+
+        if self.data.get("subrace") is not None:
+            race = f'{self.data.get("race")}, {self.data.get("subrace")}'
+        else:
+            race = self.data.get("race")
+
+        x = '<?xml version="1.0"?><yari>'
+        x += f"<meta><created>{timestamp}</created>"
+        x += f"<version>{__version__}</version></meta>"
+        x += f"<character><race>{race}</race>"
+        x += f'<sex>{self.data.get("sex")}</sex>'
+        x += f'<background>{self.data.get("background")}</background>'
+        x += f'<class>{self.data.get("class")}</class>'
+        x += f'<level>{self.data.get("level")}</level>'
+        x += f'<path>{self.data.get("path")}</path>'
+        x += "<ability_scores>"
+        x += format_ability_scores(self.data.get("score_array"))
+        x += "</ability_scores>"
+        x += f'<spell_slots>{self.data.get("spell_slots")}</spell_slots>'
+        x += "<proficiencies>"
+        x += f'<proficiency>{self.data.get("bonus")}</proficiency>'
+        x += format_proficiencies(self.data.get("proficiency"))
+        x += (
+            f'<languages>{format_languages(self.data.get("languages"))}</languages>'
+        )
+        x += "<saving_throws>"
+        x += format_saving_throws(self.data.get("saves"))
+        x += "</saving_throws><skills>"
+        x += format_skills(self.data.get("skills"))
+        x += "</skills></proficiencies><feats>"
+        x += format_feats(self.data.get("feats"))
+        x += "</feats><equipment>"
+        x += format_equipment(self.data.get("equipment"))
+        x += "</equipment><traits>"
+        x += format_traits(
+            self.data.get("traits"),
+            self.data.get("race"),
+            self.data.get("subrace"),
+        )
+        x += "</traits><features>"
+        x += format_features(self.data.get("class"), self.data.get("features"))
+        x += "</features></character></yari>"
+        x = BeautifulSoup(x, "xml").prettify()
+        
         with open(self.save_path, "w+") as cs:
-            now = datetime.now()
-            timestamp = datetime.fromtimestamp(datetime.timestamp(now))
-            x = '<?xml version="1.0"?><Writer created="{}" version="{}">'.format(
-                timestamp, __version__
-            )
-            x += format_race(
-                self.data.get("race"), self.data.get("subrace"), self.data.get("sex"),
-            )
-            x += format_background(self.data.get("background"))
-            x += format_class(
-                self.data.get("class"), self.data.get("level"), self.data.get("path"),
-            )
-            x += "<AbilityScores>"
-            x += format_ability_scores(self.data.get("score_array"))
-            x += "</AbilityScores>"
-            x += '<Spell slots="{}" />'.format(self.data.get("spell_slots"))
-            x += "<Proficiencies>"
-            x += f'<Proficiency>{self.data.get("bonus")}</Proficiency>'
-            x += format_proficiencies(self.data.get("proficiency"))
-            x += "<Languages>"
-            x += format_languages(self.data.get("languages"))
-            x += "</Languages><SavingThrows>"
-            x += format_saving_throws(self.data.get("saves"))
-            x += "</SavingThrows><Skills>"
-            x += format_skills(self.data.get("skills"))
-            x += "</Skills></Proficiencies><Feats>"
-            x += format_feats(self.data.get("feats"))
-            x += "</Feats><Equipment>"
-            x += format_equipment(self.data.get("equipment"))
-            x += "</Equipment><Traits>"
-            x += format_traits(
-                self.data.get("traits"),
-                self.data.get("race"),
-                self.data.get("subrace"),
-            )
-            x += "</Traits><Features>"
-            x += format_features(self.data.get("class"), self.data.get("features"))
-            x += "</Features></Writer>"
-            cs.write(BeautifulSoup(x, "xml").prettify())
+            cs.write(x)
         cs.close()
 
 
