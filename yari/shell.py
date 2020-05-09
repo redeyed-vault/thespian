@@ -5,7 +5,15 @@ import os
 from bs4 import BeautifulSoup
 import click
 
-from yari.generator import *
+from yari.classes import *
+from yari.generator import (
+    AttributeGenerator,
+    ImprovementGenerator,
+    ProficiencyGenerator,
+    SkillGenerator,
+    expand_skills,
+)
+from yari.races import *
 from yari.version import __version__
 from yari.reader import reader
 
@@ -438,7 +446,7 @@ def main(
         out(e, is_error=True)
 
     # Generate ability scores
-    a = AbilityScoreGenerator(
+    a = AttributeGenerator(
         race=race,
         subrace=subrace,
         class_attr=c.features.get("abilities"),
