@@ -5,7 +5,13 @@ Yari "Yet Another RPG Implementation" makes it quick and easy to generate 5th ed
 * A "yari" is a Japanese spear with a long straight sword-like blade.
 
 
-2. REQUIREMENTS
+2. DISCLAIMER
+
+This software is not affiliated with, endorsed, sponsored, or specifically approved
+by Wizards of the Coast LLC. This software is a fan made tool.
+
+
+3. REQUIREMENTS
 
   * beautifulsoup4
   * click
@@ -13,12 +19,12 @@ Yari "Yet Another RPG Implementation" makes it quick and easy to generate 5th ed
   * PyYAML
 
 
-3. INSTALLATION
+4. INSTALLATION
 
 To install Yari, clone the repository and run the setup script: ```python setup.py install``` or ```python3 setup.py install```.
 
 
-4. USAGE
+5. USAGE
 
 To run, type 'yari' in your terminal.
 
