@@ -13,13 +13,8 @@ setup(
     author="Marcus T Taylor",
     description="Generate 5th edition Dungeons & Dragons characters.",
     long_description=open("README", "r", encoding="utf8", errors="ignore").read(),
-    #long_description_content_type="text/markdown",
-    install_requires=[
-        "beautifulsoup4",
-        "click",
-        "lxml",
-        "PyYAML",
-    ],
+    # long_description_content_type="text/markdown",
+    install_requires=["beautifulsoup4", "click", "lxml", "PyYAML", ],
     python_requires=">=3.0",
     entry_points={"console_scripts": ["yari=yari.shell:main"]},
     classifiers=[
