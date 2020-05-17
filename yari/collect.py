@@ -1,7 +1,6 @@
 import random
 
 
-# LIST HELPER FUNCTIONS
 def add(iterable: list, value: (bool, float, int, str), unique=False) -> list:
     """Adds a value into iterable.
 
