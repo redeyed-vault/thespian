@@ -4,7 +4,6 @@ from yari.collect import purge
 from yari.reader import reader
 
 
-# CHARACTER RACE GENERATOR
 class _Races:
     """DO NOT call class directly. Used to generate racial traits.
     Based on the inheriting class.
