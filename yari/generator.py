@@ -11,18 +11,12 @@ class AttributeGenerator:
         Uses class' primary abilities in assignments.
         Applies racial bonuses to generated scores (if applicable)."""
 
-    def __init__(
-        self, race: str, subrace: (str, None), class_attr: dict, variant: bool
-    ) -> None:
+    def __init__(self, class_attr: dict, threshold=65) -> None:
         """
         Args:
-            race (str): Character's race.
-            subrace (str, None): Character's subrace (if applicable).
-            class_attr (dict): Class primary abilities.
-            variant (bool): Use variant rules (only used if race is Human).
+            class_attr (dict): Character class primary abilities.
+            threshold (int): Ability score array minimal threshold total.
         """
-        self.race = race
-        self.subrace = subrace
         self.class_attr = list(class_attr.values())
 
         score_array = OrderedDict()
@@ -42,7 +36,7 @@ class AttributeGenerator:
             "Charisma",
         ]
 
-        generated_scores = self.roll_ability_scores(60)
+        generated_scores = self.roll_ability_scores(threshold)
         # Assign highest values to class specific abilities first.
         for ability in self.class_attr:
             value = max(generated_scores)
@@ -60,11 +54,67 @@ class AttributeGenerator:
             ability_choices.remove(ability)
             generated_scores.remove(value)
 
+        self.score_array = score_array
+
+    @staticmethod
+    def roll_ability_scores(threshold: int) -> list:
+        """Generates six ability scores that total gte threshold.
+        
+        Args:
+            threshold (int): The minimal required total of ALL generated scores.
+        """
+
+        def roll() -> list:
+            """Returns random list between 1-6 x4."""
+            rst = list()
+            for _ in range(0, 4):
+                rst.append(random.randint(1, 6))
+            return rst
+
+        results = list()
+        while sum(results) < threshold:
+            for _ in range(0, 6):
+                result = roll()
+                results.append(sum(result) - min(result))
+
+            score_total = sum(results)
+            maximum_score = max(results)
+            minimum_score = min(results)
+
+            if score_total < threshold or maximum_score < 15 or minimum_score < 8:
+                results = list()
+        return results
+
+
+class AttributeRacialBonusGenerator:
+    """Applies racial bonuses to ability scores (if applicable)."""
+
+    def __init__(
+        self,
+        race: str,
+        subrace: (str, None),
+        class_attr: dict,
+        score_array: OrderedDict,
+        variant: bool,
+    ) -> None:
+        """
+        Args:
+            race (str): Character's race.
+            subrace (str, None): Character's subrace (if applicable).
+            class_attr (dict): Class primary abilities.
+            score_array (OrderedDict): Character's ability score array.
+            variant (bool): Use variant rules (only used if race is Human).
+        """
+        self.race = race
+        self.subrace = subrace
+        self.class_attr = list(class_attr.values())
+
         # Apply racial bonuses.
         for ability, bonus in self.get_racial_bonus(variant).items():
             value = score_array.get(ability).get("Value") + bonus
             modifier = get_ability_modifier(value)
             score_array[ability] = OrderedDict({"Value": value, "Modifier": modifier})
+            
         self.score_array = score_array
 
     def get_racial_bonus(self, variant: bool) -> dict:
@@ -117,35 +167,6 @@ class AttributeGenerator:
                 for ability, bonus in subracial_bonuses.items():
                     bonuses[ability] = bonus
         return bonuses
-
-    @staticmethod
-    def roll_ability_scores(threshold: int) -> list:
-        """Generates six ability scores that total gte threshold.
-        
-        Args:
-            threshold (int): The minimal required total of ALL generated scores.
-        """
-
-        def roll() -> list:
-            """Returns random list between 1-6 x4."""
-            rst = list()
-            for _ in range(0, 4):
-                rst.append(random.randint(1, 6))
-            return rst
-
-        results = list()
-        while sum(results) < threshold:
-            for _ in range(0, 6):
-                result = roll()
-                results.append(sum(result) - min(result))
-
-            score_total = sum(results)
-            maximum_score = max(results)
-            minimum_score = min(results)
-
-            if score_total < threshold or maximum_score < 15 or minimum_score < 8:
-                results = list()
-        return results
 
 
 def get_ability_modifier(score: int) -> int:
@@ -413,20 +434,25 @@ class ImprovementGenerator:
 
         # Weapon Master
         if feat == "Weapon Master":
-            weapons = reader("weapons", "Martial")
-            if "Simple" not in self.weapon_proficiency:
-                fuse(weapons, reader("weapons", "Simple"))
+            selections = reader("weapons")
+            # Has simple weapon proficiency and a few other weapons.
+            if "Simple" in self.weapon_proficiency:
+                del selections["Simple"]
+                selections = selections.get("Martial")
+                if len(self.weapon_proficiency) > 1:
+                    temp_proficiencies = list()
+                    for proficiency in self.weapon_proficiency:
+                        if proficiency != "Simple":
+                            temp_proficiencies.append(proficiency)
+                    purge(selections, temp_proficiencies)
+                    temp_proficiencies.clear()
+            # Doesn't have simple or martial proficiency but a tight list.
+            elif "Simple" and "Martial" not in self.weapon_proficiency:
+                selections = fuse(selections.get("Martial"), selections.get("Simple"))
+                purge(selections, self.weapon_proficiency)
 
-            for weapon in self.weapon_proficiency:
-                if weapon in ("Simple", "Martial"):
-                    continue
-
-                if weapon in weapons:
-                    weapons.remove(weapon)
-
-            bonus_weapons = random.sample(weapons, 4)
-            for weapon in bonus_weapons:
-                add(self.weapon_proficiency, weapon)
+            selections.clear()
+            fuse(self.weapon_proficiency, random.sample(selections, 4))
 
     def expand_saving_throws(self) -> list:
         """Adds detailed saving throws (ability/modifier)."""
@@ -627,3 +653,16 @@ def expand_skills(skills: list, score_array: OrderedDict) -> list:
 def get_all_skills() -> list:
     """Returns a list of ALL valid skills."""
     return list(reader("skills").keys())
+
+
+def get_skills_by_class(klass):
+    """Returns a list of skills by klass.
+
+    Args:
+        klass (str): Class to get skill list for.
+    """
+    skills = list()
+    for skill, attributes in reader("skills").items():
+        if klass in attributes.get("classes"):
+            skills.append(skill)
+    return skills
