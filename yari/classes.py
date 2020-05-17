@@ -59,10 +59,10 @@ class _Classes:
         self.features["features"] = self._enc_class_features()
         self.features["path"] = self.path
         if (
-                self.class_ == "Fighter"
-                and self.path != "Eldritch Knight"
-                or self.class_ == "Rogue"
-                and self.path != "Arcane Trickster"
+            self.class_ == "Fighter"
+            and self.path != "Eldritch Knight"
+            or self.class_ == "Rogue"
+            and self.path != "Arcane Trickster"
         ):
             self.features["spell_slots"] = ""
         else:
@@ -170,9 +170,9 @@ class _Classes:
                 monk_bonus_tool = random.choice(class_proficiency[prof_type])
                 class_proficiency[prof_type] = [monk_bonus_tool]
         elif (
-                prof_type == "weapons"
-                and self.path == "College of Valor"
-                and self.level < 3
+            prof_type == "weapons"
+            and self.path == "College of Valor"
+            and self.level < 3
         ):
             return
         else:
