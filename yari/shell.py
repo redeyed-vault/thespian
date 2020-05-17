@@ -8,6 +8,7 @@ import click
 from yari.classes import *
 from yari.generator import (
     AttributeGenerator,
+    AttributeRacialBonusGenerator,
     ImprovementGenerator,
     ProficiencyGenerator,
     SkillGenerator,
@@ -305,9 +306,7 @@ class Writer:
         x += "<proficiencies>"
         x += f'<proficiency>{self.data.get("bonus")}</proficiency>'
         x += format_proficiencies(self.data.get("proficiency"))
-        x += (
-            f'<languages>{format_languages(self.data.get("languages"))}</languages>'
-        )
+        x += f'<languages>{format_languages(self.data.get("languages"))}</languages>'
         x += "<saving_throws>"
         x += format_saving_throws(self.data.get("saves"))
         x += "</saving_throws><skills>"
@@ -318,15 +317,13 @@ class Writer:
         x += format_equipment(self.data.get("equipment"))
         x += "</equipment><traits>"
         x += format_traits(
-            self.data.get("traits"),
-            self.data.get("race"),
-            self.data.get("subrace"),
+            self.data.get("traits"), self.data.get("race"), self.data.get("subrace"),
         )
         x += "</traits><features>"
         x += format_features(self.data.get("class"), self.data.get("features"))
         x += "</features></character></yari>"
         x = BeautifulSoup(x, "xml").prettify()
-        
+
         with open(self.save_path, "w+") as cs:
             cs.write(x)
         cs.close()
@@ -438,6 +435,7 @@ def main(
     try:
         this_class = eval(klass)
         c = this_class(level=level, path=path)
+        
         this_race = eval(race)
         t = this_race(
             class_attr=c.features.get("abilities"), subrace=subrace, variant=variant
@@ -446,10 +444,13 @@ def main(
         out(e, is_error=True)
 
     # Generate ability scores
-    a = AttributeGenerator(
+    a = AttributeGenerator(c.features.get("abilities"))
+
+    b = AttributeRacialBonusGenerator(
         race=race,
         subrace=subrace,
         class_attr=c.features.get("abilities"),
+        score_array=a.score_array,
         variant=variant,
     )
 
@@ -477,7 +478,7 @@ def main(
         class_attr=c.features.get("abilities"),
         saves=c.features.get("saves"),
         spell_slots=c.features.get("spell_slots"),
-        score_array=a.score_array,
+        score_array=b.score_array,
         languages=t.traits.get("languages"),
         armor_proficiency=armors.proficiency,
         tool_proficiency=tools.proficiency,
