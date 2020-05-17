@@ -2,13 +2,14 @@
 # SKILLS
 skills:
   Acrobatics:
+    ability: Dexterity
     classes:
       - Bard
       - Fighter
       - Monk
       - Rogue
-    ability: Dexterity
   Animal Handling:
+    ability: Wisdom
     classes:
       - Barbarian
       - Bard
@@ -16,34 +17,34 @@ skills:
       - Fighter
       - Ranger
       - Rogue
-    ability: Wisdom
   Arcana:
+    ability: Intelligence
     classes:
       - Bard
       - Druid
       - Sorcerer
       - Warlock
       - Wizard
-    ability: Intelligence
   Athletics:
-    classes:
-      - Barbarian
-      - Bard
-      - Fighter
-      - Monk
-      - Paladin
-      - Ranger
-      - Rogue
-      - Sorcerer
     ability: Strength
+    classes:
+      - Barbarian
+      - Bard
+      - Fighter
+      - Monk
+      - Paladin
+      - Ranger
+      - Rogue
+      - Sorcerer
   Deception:
+    ability: Charisma
     classes:
       - Bard
       - Rogue
       - Sorcerer
       - Warlock
-    ability: Charisma
   History:
+    ability: Intelligence
     classes:
       - Bard
       - Cleric
@@ -52,8 +53,8 @@ skills:
       - Sorcerer
       - Warlock
       - Wizard
-    ability: Intelligence
   Insight:
+    ability: Wisdom
     classes:
       - Bard
       - Cleric
@@ -65,8 +66,8 @@ skills:
       - Rogue
       - Sorcerer
       - Wizard
-    ability: Wisdom
   Intimidation:
+    ability: Charisma
     classes:
       - Barbarian
       - Bard
@@ -75,8 +76,8 @@ skills:
       - Rogue
       - Sorcerer
       - Warlock
-    ability: Charisma
   Investigation:
+    ability: Intelligence
     classes:
       - Bard
       - Paladin
@@ -84,8 +85,8 @@ skills:
       - Rogue
       - Warlock
       - Wizard
-    ability: Intelligence
   Medicine:
+    ability: Wisdom
     classes:
       - Bard
       - Cleric
@@ -94,8 +95,8 @@ skills:
       - Ranger
       - Warlock
       - Wizard
-    ability: Wisdom
   Nature:
+    ability: Intelligence
     classes:
       - Barbarian
       - Bard
@@ -103,8 +104,8 @@ skills:
       - Ranger
       - Sorcerer
       - Warlock
-    ability: Intelligence
   Perception:
+    ability: Wisdom
     classes:
       - Barbarian
       - Bard
@@ -112,13 +113,13 @@ skills:
       - Fighter
       - Ranger
       - Rogue
-    ability: Wisdom
   Performance:
+    ability: Charisma
     classes:
       - Bard
       - Rogue
-    ability: Charisma
   Persuasion:
+    ability: Charisma
     classes:
       - Bard
       - Cleric
@@ -126,8 +127,8 @@ skills:
       - Rogue
       - Sorcerer
       - Warlock
-    ability: Charisma
   Religion:
+    ability: Intelligence
     classes:
       - Bard
       - Cleric
@@ -137,20 +138,20 @@ skills:
       - Sorcerer
       - Warlock
       - Wizard
-    ability: Intelligence
   Sleight of Hand:
+    ability: Dexterity
     classes:
       - Bard
       - Rogue
-    ability: Dexterity
   Stealth:
+    ability: Dexterity
     classes:
       - Bard
       - Monk
       - Ranger
       - Rogue
-    ability: Dexterity
   Survival:
+    ability: Wisdom
     classes:
       - Barbarian
       - Bard
@@ -159,4 +160,3 @@ skills:
       - Ranger
       - Rogue
       - Sorcerer
-    ability: Wisdom
