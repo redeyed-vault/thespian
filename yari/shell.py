@@ -8,7 +8,6 @@ import click
 from yari.classes import *
 from yari.generator import (
     AttributeGenerator,
-    AttributeRacialBonusGenerator,
     ImprovementGenerator,
     ProficiencyGenerator,
     SkillGenerator,
@@ -435,7 +434,7 @@ def main(
     try:
         this_class = eval(klass)
         c = this_class(level=level, path=path)
-        
+
         this_race = eval(race)
         t = this_race(
             class_attr=c.features.get("abilities"), subrace=subrace, variant=variant
@@ -445,12 +444,10 @@ def main(
 
     # Generate ability scores
     a = AttributeGenerator(c.features.get("abilities"))
-
-    b = AttributeRacialBonusGenerator(
+    a.set_racial_bonus(
         race=race,
         subrace=subrace,
         class_attr=c.features.get("abilities"),
-        score_array=a.score_array,
         variant=variant,
     )
 
@@ -478,7 +475,7 @@ def main(
         class_attr=c.features.get("abilities"),
         saves=c.features.get("saves"),
         spell_slots=c.features.get("spell_slots"),
-        score_array=b.score_array,
+        score_array=a.score_array,
         languages=t.traits.get("languages"),
         armor_proficiency=armors.proficiency,
         tool_proficiency=tools.proficiency,
