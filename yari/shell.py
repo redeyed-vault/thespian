@@ -6,12 +6,19 @@ from bs4 import BeautifulSoup
 import click
 
 from yari.classes import *
-from yari.generator import (
+from yari.attributes import (
     AttributeGenerator,
+    Charisma,
+    Constitution,
+    Dexterity,
+    Intelligence,
+    Strength,
+    Wisdom,
+)
+from yari.generator import (
     ImprovementGenerator,
     ProficiencyGenerator,
     SkillGenerator,
-    expand_skills,
 )
 from yari.races import *
 from yari.version import __version__
@@ -74,21 +81,32 @@ class Writer:
             fp (str): File to write character data to.
         """
 
-        def format_ability_scores(abilities: OrderedDict) -> str:
-            """Formats ability scores for character sheet.
-
-            Args:
-                abilities (OrderedDict): Character's ability scores.
-            """
-            ma = ""
-            for ability, value_modifier in abilities.items():
-                ability_array = (
-                    ability,
-                    value_modifier.get("Value"),
-                    value_modifier.get("Modifier"),
-                )
-                ma += '<ability name="%s" value="%s" modifier="%s" />' % ability_array
-            return ma
+        def format_ability(attributes: dict):
+            """Formats ability scores and associated ability check values."""
+            block = '<ability label="{}" value="{}" modifier="{}">'.format(
+                attributes.get("name"),
+                attributes.get("value"),
+                attributes.get("modifier"),
+            )
+            for index, value in attributes.items():
+                if index == "ability_checks":
+                    block += f'<entry label="Ability Checks" value="{value}"/>'
+                if index == "saving_throws":
+                    block += f'<entry label="Saving Throws" value="{value}"/>'
+                if index == "skills":
+                    if len(value) is not 0:
+                        for skill, modifier in value.items():
+                            block += f'<entry label="{skill} Skill Checks" value="{modifier}"/>'
+                if index == "carry_capacity":
+                    block += f'<entry label="Carry Capacity" values="{value}"/>'
+                if index == "push_pull_carry":
+                    block += (
+                        f'<entry label="Push Pull Carry Capacity" values="{value}"/>'
+                    )
+                if index == "maximum_lift":
+                    block += f'<entry label="Maximum Lift Capacity" values="{value}"/>'
+            block += "</{}>".format(attributes.get("name"))
+            return block
 
         def format_equipment(items: list) -> str:
             """Format equipment for character sheet.
@@ -96,10 +114,10 @@ class Writer:
             Args:
                 items (list): Character's equipment list.
             """
-            me = ""
+            block = ""
             for item in items:
-                me += f'<entry type="equipment" value="{item}" />'
-            return me
+                block += f'<entry label="equipment" value="{item}" />'
+            return block
 
         def format_feats(feats: list) -> str:
             """Formats feats for character sheet.
@@ -107,10 +125,10 @@ class Writer:
             Args:
                 feats (list): Character's feat list.
             """
-            mf = ""
+            block = ""
             for feat in feats:
-                mf += f'<entry type="feat" value="{feat}" />'
-            return mf
+                block += f'<entry label="feat" value="{feat}" />'
+            return block
 
         def format_features(class_: str, features: dict) -> str:
             """Formats class features for character sheet.
@@ -119,11 +137,11 @@ class Writer:
                 class_ (str): Character's chosen class.
                 features (dict): Character's class features.
             """
-            mf = ""
+            block = ""
             for level, _features in features.items():
                 for feature in _features:
-                    mf += f'<entry level="{level}" name="{feature}" type="{class_} Class Feature" />'
-            return mf
+                    block += f'<entry label="{class_} Class Feature" level="{level}" name="{feature}" />'
+            return block
 
         def format_languages(languages: list) -> str:
             """Format languages for character sheet.
@@ -131,34 +149,38 @@ class Writer:
             Args:
                 languages (list): Character's list of languages.
             """
-            ml = ""
+            block = ""
             for language in languages:
-                ml += f'<entry type="language" value="{language}" />'
-            return ml
+                block += f'<entry label="language" value="{language}" />'
+            return block
 
         def format_proficiencies(proficiencies: OrderedDict) -> str:
             """Formats proficiencies for character sheet."""
-            mp = ""
+            block = ""
             for type, proficiency_list in proficiencies.items():
-                mp += f"<{type}>"
+                block += f"<{type}>"
                 for proficiency in proficiency_list:
-                    mp += f'<entry type="proficiency" value="{proficiency}" />'
-                mp += f"</{type}>"
-            return mp
+                    block += f'<entry label="proficiency" value="{proficiency}" />'
+                block += f"</{type}>"
+            return block
 
         def format_saving_throws(saves: list) -> str:
             """Formats saves for character sheet."""
-            ms = ""
-            for save_array in saves:
-                ms += '<entry ability="%s" type="save" value="%s" />' % save_array
-            return ms
+            block = ""
+            for save in saves:
+                block += '<entry label="save" value="%s" />' % save
+            return block
 
         def format_skills(skills: list) -> str:
-            """Formats skills for character sheet."""
-            ms = ""
-            for skill_array in skills:
-                ms += '<entry name="%s" modifier="%s" />' % skill_array
-            return ms
+            """Format skills for character sheet.
+
+            Args:
+                skills (list): Character's list of skills.
+            """
+            block = ""
+            for skill in skills:
+                block += f'<entry label="skill" value="{skill}" />'
+            return block
 
         def format_traits(traits: dict, race: str, subrace=None) -> str:
             """Formats trait values for character sheet."""
@@ -289,6 +311,18 @@ class Writer:
         else:
             race = self.data.get("race")
 
+        score_array = self.data.get("score_array")
+        strength = Strength(score_array.get("Strength"), self.data.get("skills"))
+        dexterity = Dexterity(score_array.get("Dexterity"), self.data.get("skills"))
+        constitution = Constitution(
+            score_array.get("Constitution"), self.data.get("skills")
+        )
+        intelligence = Intelligence(
+            score_array.get("Intelligence"), self.data.get("skills")
+        )
+        wisdom = Wisdom(score_array.get("Wisdom"), self.data.get("skills"))
+        charisma = Charisma(score_array.get("Charisma"), self.data.get("skills"))
+
         x = '<?xml version="1.0"?><yari>'
         x += f"<meta><created>{timestamp}</created>"
         x += f"<version>{__version__}</version></meta>"
@@ -299,7 +333,12 @@ class Writer:
         x += f'<level>{self.data.get("level")}</level>'
         x += f'<path>{self.data.get("path")}</path>'
         x += "<ability_scores>"
-        x += format_ability_scores(self.data.get("score_array"))
+        x += format_ability(strength.attr)
+        x += format_ability(dexterity.attr)
+        x += format_ability(constitution.attr)
+        x += format_ability(intelligence.attr)
+        x += format_ability(wisdom.attr)
+        x += format_ability(charisma.attr)
         x += "</ability_scores>"
         x += f'<spell_slots>{self.data.get("spell_slots")}</spell_slots>'
         x += "<proficiencies>"
@@ -494,7 +533,7 @@ def main(
     cs["path"] = c.features.get("path")
     cs["bonus"] = get_proficiency_bonus(level)
     cs["score_array"] = u.score_array
-    cs["saves"] = u.expand_saving_throws()
+    cs["saves"] = u.saves
     cs["spell_slots"] = c.features.get("spell_slots")
     proficiency_info = OrderedDict()
     proficiency_info["armors"] = u.armor_proficiency
@@ -502,7 +541,7 @@ def main(
     proficiency_info["weapons"] = u.weapon_proficiency
     cs["proficiency"] = proficiency_info
     cs["languages"] = u.languages
-    cs["skills"] = expand_skills(u.skills, u.score_array)
+    cs["skills"] = u.skills
     cs["feats"] = u.feats
     cs["equipment"] = reader("backgrounds", (background, "equipment"))
     cs["features"] = c.features.get("features")
