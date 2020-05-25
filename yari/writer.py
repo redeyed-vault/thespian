@@ -147,7 +147,7 @@ def format_ability(attributes: dict):
         if index == "ability_checks":
             block += f'<entry label="Ability Checks" value="{value}"/>'
         if index == "saving_throws":
-            block += f'<entry label="Saving Throws" value="{value}"/>'
+            block += f'<entry label="Saving Throw Checks" value="{value}"/>'
         if index == "skills":
             if len(value) is not 0:
                 for skill, modifier in value.items():
