@@ -322,7 +322,7 @@ class ImprovementGenerator:
         for requirement, _ in prerequisite.items():
             if requirement == "abilities":
                 for ability, required_score in prerequisite.get("abilities").items():
-                    my_score = self.score_array[ability]["Value"]
+                    my_score = self.score_array[ability]
                     if my_score < required_score:
                         return False
 
@@ -347,10 +347,10 @@ class ImprovementGenerator:
                     my_score = 0
                     required_score = 0
                     if self.klass in ("Cleric", "Druid"):
-                        my_score = self.score_array["Wisdom"]["Value"]
+                        my_score = self.score_array.get("Wisdom")
                         required_score = prerequisite.get("abilities").get("Wisdom")
                     elif self.klass == "Wizard":
-                        my_score = self.score_array["Intelligence"]["Value"]
+                        my_score = self.score_array.get("Intelligence")
                         required_score = prerequisite.get("abilities").get(
                             "Intelligence"
                         )
@@ -363,12 +363,12 @@ class ImprovementGenerator:
         """Determines if an ability can be adjusted i.e: not over 20"""
         if isinstance(abilities, list):
             for ability in abilities:
-                value = self.score_array.get(ability).get("Value")
+                value = self.score_array.get(ability)
                 if (value + 1) > 20:
                     return False
         elif isinstance(abilities, str):
             for bonus in (2, 1):
-                value = self.score_array.get(abilities).get("Value")
+                value = self.score_array.get(abilities)
                 if (value + bonus) <= 20:
                     return bonus
             return False
@@ -386,11 +386,8 @@ class ImprovementGenerator:
         elif ability not in self.score_array:
             raise KeyError(f"not an available ability '{ability}'")
         else:
-            value = self.score_array[ability]["Value"] + bonus
-            modifier = get_ability_modifier(value)
-            self.score_array[ability] = OrderedDict(
-                {"Value": value, "Modifier": modifier}
-            )
+            value = self.score_array.get(ability) + bonus
+            self.score_array[ability] = value
 
 
 class ProficiencyGenerator:
