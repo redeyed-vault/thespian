@@ -8,8 +8,6 @@ from yari.reader import reader
 
 class _Attributes:
     """DO NOT call class directly. Used to generate attribute features.
-    Inherited from another class.
-
     Inherited by the following classes:
 
         - Charisma
@@ -21,7 +19,7 @@ class _Attributes:
 
     """
 
-    def __init__(self, score, skills) -> None:
+    def __init__(self, score: int, skills: list) -> None:
         """
         Args:
             score (int): Character's chosen level.
@@ -46,27 +44,27 @@ class _Attributes:
 
 
 class Charisma(_Attributes):
-    def __init__(self, score, skills) -> None:
+    def __init__(self, score: int, skills: list) -> None:
         super(Charisma, self).__init__(score, skills)
 
 
 class Constitution(_Attributes):
-    def __init__(self, score, skills) -> None:
+    def __init__(self, score: int, skills: list) -> None:
         super(Constitution, self).__init__(score, skills)
 
 
 class Dexterity(_Attributes):
-    def __init__(self, score, skills) -> None:
+    def __init__(self, score: int, skills: list) -> None:
         super(Dexterity, self).__init__(score, skills)
 
 
 class Intelligence(_Attributes):
-    def __init__(self, score, skills) -> None:
+    def __init__(self, score: int, skills: list) -> None:
         super(Intelligence, self).__init__(score, skills)
 
 
 class Strength(_Attributes):
-    def __init__(self, score, skills) -> None:
+    def __init__(self, score: int, skills: list) -> None:
         super(Strength, self).__init__(score, skills)
         self.attr["carry_capacity"] = score * 15
         self.attr["push_pull_carry"] = self.attr.get("carry_capacity") * 2
@@ -74,7 +72,7 @@ class Strength(_Attributes):
 
 
 class Wisdom(_Attributes):
-    def __init__(self, score, skills) -> None:
+    def __init__(self, score: int, skills: list) -> None:
         super(Wisdom, self).__init__(score, skills)
 
 
@@ -134,25 +132,14 @@ class AttributeGenerator:
             threshold (int): The minimal required total of ALL generated scores.
         """
 
-        def roll() -> list:
-            """Returns random list between 1-6 x4."""
-            rst = list()
-            for _ in range(0, 4):
-                rst.append(random.randint(1, 6))
-            return rst
+        def roll() -> int:
+            random_numbers = [random.randint(1, 6) for x in range(4)]
+            return sum(random_numbers) - min(random_numbers)
 
         results = list()
-        while sum(results) < threshold:
-            for _ in range(0, 6):
-                result = roll()
-                results.append(sum(result) - min(result))
+        while sum(results) < threshold or min(results) < 8 or max(results) < 15:
+            results = [roll() for x in range(6)]
 
-            score_total = sum(results)
-            maximum_score = max(results)
-            minimum_score = min(results)
-
-            if score_total < threshold or maximum_score < 15 or minimum_score < 8:
-                results = list()
         return results
 
     def set_racial_bonus(
@@ -218,6 +205,7 @@ def get_ability_modifier(score: int) -> int:
 
 
 def get_skills_by_attribute(attribute: str) -> list:
+    """Returns a skill list by attribute."""
     skills = list()
     for skill, attributes in reader("skills").items():
         if attributes.get("ability") == attribute:
