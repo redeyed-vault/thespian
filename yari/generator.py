@@ -1,7 +1,6 @@
 from collections import OrderedDict
 import random
 
-from yari.attributes import get_ability_modifier
 from yari.collect import add, fuse, pick, purge
 from yari.reader import reader
 
@@ -266,10 +265,11 @@ class ImprovementGenerator:
         # Weapon Master
         if feat == "Weapon Master":
             selections = reader("weapons")
-            # Has simple weapon proficiency and a few other weapons.
+            # Has Simple weapon proficiency.
             if "Simple" in self.weapon_proficiency:
                 del selections["Simple"]
                 selections = selections.get("Martial")
+                # Has Simple and tight list of weapon proficiencies.
                 if len(self.weapon_proficiency) > 1:
                     temp_proficiencies = list()
                     for proficiency in self.weapon_proficiency:
@@ -277,17 +277,20 @@ class ImprovementGenerator:
                             temp_proficiencies.append(proficiency)
                     purge(selections, temp_proficiencies)
                     temp_proficiencies.clear()
-            # Doesn't have simple or martial proficiency but a tight list.
+            # Doesn't have Simple or Martial proficiency but a tight list.
             elif "Simple" and "Martial" not in self.weapon_proficiency:
                 selections = fuse(selections.get("Martial"), selections.get("Simple"))
                 purge(selections, self.weapon_proficiency)
 
-            selections.clear()
             fuse(self.weapon_proficiency, random.sample(selections, 4))
+            selections.clear()
 
     def has_prerequisites(self, feat: str) -> bool:
-        """Determines if character has the prerequisites for a feat."""
-        # If character already has feat.
+        """Determines if character has the prerequisites for a feat.
+
+        Args:
+            feat (str): Feat to check prerequisites for.
+        """
         if feat in self.feats:
             return False
 
@@ -360,7 +363,11 @@ class ImprovementGenerator:
         return True
 
     def is_adjustable(self, abilities: (list, str)) -> (bool, int):
-        """Determines if an ability can be adjusted i.e: not over 20"""
+        """Determines if an ability can be adjusted i.e: not over 20.
+
+        Args:
+            abilities (list, str): skills to be checked.
+        """
         if isinstance(abilities, list):
             for ability in abilities:
                 value = self.score_array.get(ability)
@@ -422,12 +429,7 @@ class SkillGenerator:
             klass (str): Character's class.
             bonus_racial_skills (list): Character's skills.
         """
-        skill_list = reader("skills")
-        class_skills = list()
-        for skill, attributes in skill_list.items():
-            if klass in attributes.get("classes"):
-                class_skills.append(skill)
-
+        class_skills = self.get_skills_by_class(klass)
         generated_skills = list()
 
         # Remove bonus racial skills from class skills.
@@ -450,20 +452,20 @@ class SkillGenerator:
         fuse(generated_skills, random.sample(class_skills, skill_allotment))
         self.skills = generated_skills
 
+    @staticmethod
+    def get_skills_by_class(klass):
+        """Returns a list of skills by klass.
+
+        Args:
+            klass (str): Class to get skill list for.
+        """
+        skills = list()
+        for skill, attributes in reader("skills").items():
+            if klass in attributes.get("classes"):
+                skills.append(skill)
+        return skills
+
 
 def get_all_skills() -> list:
     """Returns a list of ALL valid skills."""
     return list(reader("skills").keys())
-
-
-def get_skills_by_class(klass):
-    """Returns a list of skills by klass.
-
-    Args:
-        klass (str): Class to get skill list for.
-    """
-    skills = list()
-    for skill, attributes in reader("skills").items():
-        if klass in attributes.get("classes"):
-            skills.append(skill)
-    return skills
