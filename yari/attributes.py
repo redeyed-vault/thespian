@@ -133,12 +133,12 @@ class AttributeGenerator:
         """
 
         def roll() -> int:
-            random_numbers = [random.randint(1, 6) for x in range(4)]
+            random_numbers = [random.randint(1, 6) for _ in range(4)]
             return sum(random_numbers) - min(random_numbers)
 
         results = list()
         while sum(results) < threshold or min(results) < 8 or max(results) < 15:
-            results = [roll() for x in range(6)]
+            results = [roll() for _ in range(6)]
 
         return results
 
