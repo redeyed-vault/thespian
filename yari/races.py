@@ -6,8 +6,6 @@ from yari.reader import reader
 
 class _Races:
     """DO NOT call class directly. Used to generate racial traits.
-    Based on the inheriting class.
-
     Inherited by the following classes:
 
         - Aasimar
@@ -23,29 +21,31 @@ class _Races:
 
     """
 
-    def __init__(self, **kw) -> None:
-        self.race = self.__class__.__name__
+    def __init__(self, subrace: (None, str), class_attr: dict, variant: bool) -> None:
         """
             Args:
-                kw:
-                    - class_attr (dict): Characters's chosen class' primary abilities.
-                    - subrace (str): Character's chosen subrace (if any).
-                    - variant (bool): Use variant rules.
+                subrace (str): Character's chosen subrace (if any).
+                class_attr (dict): Characters's chosen class' primary abilities.
+                variant (bool): Use variant rules.
         """
-
+        self.race = self.__class__.__name__
         if self.race == "_Races":
             raise Exception("this class must be inherited")
 
-        if "class_attr" not in kw and not isinstance(kw.get("class_attr"), dict):
-            kw["class_attr"] = None
-        if "subrace" not in kw:
-            kw["subrace"] = None
-        if "variant" not in kw or not isinstance(kw.get("variant"), bool):
-            kw["variant"] = False
+        if subrace is not None and not get_subraces_by_race(self.race):
+            raise ValueError(f"invalid subrace '{subrace}'")
+        else:
+            self.subrace = subrace
 
-        self.class_attr = tuple(kw.get("class_attr").values())
-        self.subrace = kw.get("subrace")
-        self.variant = kw.get("variant")
+        if not isinstance(class_attr, dict):
+            raise ValueError("class_attr value must be of type 'dict'")
+        else:
+            self.class_attr = tuple(class_attr.values())
+
+        if not isinstance(variant, bool):
+            raise ValueError("variant value must be of type 'bool'")
+        else:
+            self.variant = variant
 
         self.traits = reader("races", (self.race, "traits"))
         self.traits["skills"] = list()
@@ -176,53 +176,53 @@ class _Races:
 
 
 class Aasimar(_Races):
-    def __init__(self, **kw) -> None:
-        super(Aasimar, self).__init__(**kw)
+    def __init__(self, subrace: (None, str), class_attr: dict, variant: bool) -> None:
+        super(Aasimar, self).__init__(subrace, class_attr, variant)
 
 
 class Dragonborn(_Races):
-    def __init__(self, **kw) -> None:
-        super(Dragonborn, self).__init__(**kw)
+    def __init__(self, subrace: (None, str), class_attr: dict, variant: bool) -> None:
+        super(Dragonborn, self).__init__(subrace, class_attr, variant)
 
 
 class Dwarf(_Races):
-    def __init__(self, **kw) -> None:
-        super(Dwarf, self).__init__(**kw)
+    def __init__(self, subrace: (None, str), class_attr: dict, variant: bool) -> None:
+        super(Dwarf, self).__init__(subrace, class_attr, variant)
 
 
 class Elf(_Races):
-    def __init__(self, **kw) -> None:
-        super(Elf, self).__init__(**kw)
+    def __init__(self, subrace: (None, str), class_attr: dict, variant: bool) -> None:
+        super(Elf, self).__init__(subrace, class_attr, variant)
 
 
 class Gnome(_Races):
-    def __init__(self, **kw) -> None:
-        super(Gnome, self).__init__(**kw)
+    def __init__(self, subrace: (None, str), class_attr: dict, variant: bool) -> None:
+        super(Gnome, self).__init__(subrace, class_attr, variant)
 
 
 class HalfElf(_Races):
-    def __init__(self, **kw) -> None:
-        super(HalfElf, self).__init__(**kw)
+    def __init__(self, subrace: (None, str), class_attr: dict, variant: bool) -> None:
+        super(HalfElf, self).__init__(subrace, class_attr, variant)
 
 
 class HalfOrc(_Races):
-    def __init__(self, **kw) -> None:
-        super(HalfOrc, self).__init__(**kw)
+    def __init__(self, subrace: (None, str), class_attr: dict, variant: bool) -> None:
+        super(HalfOrc, self).__init__(subrace, class_attr, variant)
 
 
 class Halfling(_Races):
-    def __init__(self, **kw) -> None:
-        super(Halfling, self).__init__(**kw)
+    def __init__(self, subrace: (None, str), class_attr: dict, variant: bool) -> None:
+        super(Halfling, self).__init__(subrace, class_attr, variant)
 
 
 class Human(_Races):
-    def __init__(self, **kw) -> None:
-        super(Human, self).__init__(**kw)
+    def __init__(self, subrace: (None, str), class_attr: dict, variant: bool) -> None:
+        super(Human, self).__init__(subrace, class_attr, variant)
 
 
 class Tiefling(_Races):
-    def __init__(self, **kw) -> None:
-        super(Tiefling, self).__init__(**kw)
+    def __init__(self, subrace: (None, str), class_attr: dict, variant: bool) -> None:
+        super(Tiefling, self).__init__(subrace, class_attr, variant)
 
 
 def get_subraces_by_race(race: str) -> tuple:
