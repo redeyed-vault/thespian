@@ -7,8 +7,6 @@ from yari.reader import reader
 
 class _Classes:
     """DO NOT call class directly. Used to generate class features.
-    Inherited in another class.
-
     Inherited by the following classes:
 
         - Barbarian
@@ -26,42 +24,46 @@ class _Classes:
 
     """
 
-    def __init__(self, **kw) -> None:
+    def __init__(self, path: str, level: int) -> None:
         """
         Args:
-            kw:
-                - level (int): Character's chosen level.
-                - path (str): Character's chosen path.
-                - roll_hp (bool): True: Roll or False: use default HP by class/level.
+            path (str): Character's chosen path.
+            level (int): Character's chosen level.
         """
-        self.class_ = self.__class__.__name__
-        if self.class_ == "_Classes":
+        self.klass = self.__class__.__name__
+        if self.klass == "_Classes":
             raise Exception("this class must be inherited")
 
-        if not get_is_class(self.class_):
-            raise ValueError("class '{}' does not exist".format(self.class_))
+        if not get_is_class(self.klass):
+            raise ValueError(f"class '{self.klass}' does not exist")
 
-        if "level" not in kw or not isinstance(kw["level"], int):
-            kw["level"] = 1
+        if path is not None and not get_is_path(path, self.klass):
+            raise ValueError(f"class path {path} is invalid")
+        else:
+            self.path = path
 
-        if "path" not in kw or not get_is_path(kw["path"], self.class_):
-            kw["path"] = None
+        if not isinstance(level, int):
+            raise ValueError("level value must be of type 'int'")
+        elif level not in range(1, 21):
+            raise ValueError("level value must be between 1-20")
+        else:
+            self.level = level
 
+        """
         if "roll_hp" not in kw or not isinstance(kw["roll_hp"], bool):
             kw["roll_hp"] = False
 
-        self.level = kw.get("level")
-        self.path = kw.get("path")
         self.roll_hp = kw.get("roll_hp")
+        """
 
-        self.features = reader("classes", (self.class_,))
+        self.features = reader("classes", (self.klass,))
         self.features["abilities"] = self._enc_class_abilities()
         self.features["features"] = self._enc_class_features()
         self.features["path"] = self.path
         if (
-            self.class_ == "Fighter"
+            self.klass == "Fighter"
             and self.path != "Eldritch Knight"
-            or self.class_ == "Rogue"
+            or self.klass == "Rogue"
             and self.path != "Arcane Trickster"
         ):
             self.features["spell_slots"] = ""
@@ -71,7 +73,7 @@ class _Classes:
         if has_class_spells(self.path):
             self._enc_class_magic_list()
 
-        self._enc_class_hit_die()
+        # self._enc_class_hit_die()
         self._enc_class_proficiency("armors")
         self._enc_class_proficiency("tools")
         self._enc_class_proficiency("weapons")
@@ -87,24 +89,24 @@ class _Classes:
             - Rogue: Charisma|Intelligence
             - Wizard: Constitution|Dexterity
         """
-        class_abilities = reader("classes", (self.class_, "abilities",))
-        if self.class_ == "Cleric":
+        class_abilities = reader("classes", (self.klass, "abilities",))
+        if self.klass == "Cleric":
             class_abilities[2] = random.choice(class_abilities[2])
-        elif self.class_ in ("Fighter", "Ranger"):
+        elif self.klass in ("Fighter", "Ranger"):
             ability_choices = class_abilities.get(1)
             class_abilities[1] = random.choice(ability_choices)
-            if self.class_ == "Fighter" and self.path != "Eldritch Knight":
+            if self.klass == "Fighter" and self.path != "Eldritch Knight":
                 class_abilities[2] = "Constitution"
-            elif self.class_ == "Fighter" and self.path == "Eldritch Knight":
+            elif self.klass == "Fighter" and self.path == "Eldritch Knight":
                 class_abilities[2] = "Intelligence"
             else:
                 class_abilities[2] = class_abilities.get(2)
-        elif self.class_ == "Rogue":
+        elif self.klass == "Rogue":
             if self.path != "Arcane Trickster":
                 class_abilities[2] = "Charisma"
             else:
                 class_abilities[2] = "Intelligence"
-        elif self.class_ == "Wizard":
+        elif self.klass == "Wizard":
             ability_choices = class_abilities.get(2)
             class_abilities[2] = random.choice(ability_choices)
         return class_abilities
@@ -112,7 +114,7 @@ class _Classes:
     def _enc_class_features(self):
         """Builds a dictionary of features by class, path & level."""
         final_feature_list = dict()
-        feature_list = reader("classes", (self.class_,)).get("features")
+        feature_list = reader("classes", (self.klass,)).get("features")
         path_feature_list = reader("paths", (self.path,)).get("features")
 
         for level in range(1, self.level + 1):
@@ -126,6 +128,7 @@ class _Classes:
 
         return final_feature_list
 
+    '''
     def _enc_class_hit_die(self):
         """Generates hit die and point totals."""
         hit_die = self.features.get("hit_die")
@@ -141,6 +144,7 @@ class _Classes:
                     hp_result = int((hit_die / 2) + 1)
                 die_rolls.append(hp_result)
             self.features["hit_points"] += sum(die_rolls)
+    '''
 
     def _enc_class_magic_list(self):
         """Builds a dictionary list of specialized magic spells."""
@@ -158,7 +162,7 @@ class _Classes:
             self.features["magic"] = dict()
 
     def _enc_class_proficiency(self, prof_type: str):
-        class_proficiency = reader("classes", (self.class_, "proficiency"))
+        class_proficiency = reader("classes", (self.klass, "proficiency"))
         path_proficiency = reader("paths", (self.path, "proficiency"))
         if prof_type not in ("armors", "tools", "weapons"):
             raise ValueError
@@ -166,7 +170,7 @@ class _Classes:
         if prof_type == "tools":
             if self.path == "Assassin" and self.level < 3:
                 return
-            elif self.class_ == "Monk":
+            elif self.klass == "Monk":
                 monk_bonus_tool = random.choice(class_proficiency[prof_type])
                 class_proficiency[prof_type] = [monk_bonus_tool]
         elif (
@@ -185,67 +189,67 @@ class _Classes:
 
 
 class Barbarian(_Classes):
-    def __init__(self, **kw) -> None:
-        super(Barbarian, self).__init__(**kw)
+    def __init__(self, path: str, level: int) -> None:
+        super(Barbarian, self).__init__(path, level)
 
 
 class Bard(_Classes):
-    def __init__(self, **kw) -> None:
-        super(Bard, self).__init__(**kw)
+    def __init__(self, path: str, level: int) -> None:
+        super(Bard, self).__init__(path, level)
 
 
 class Cleric(_Classes):
-    def __init__(self, **kw) -> None:
-        super(Cleric, self).__init__(**kw)
+    def __init__(self, path: str, level: int) -> None:
+        super(Cleric, self).__init__(path, level)
 
 
 class Druid(_Classes):
-    def __init__(self, **kw) -> None:
-        super(Druid, self).__init__(**kw)
+    def __init__(self, path: str, level: int) -> None:
+        super(Druid, self).__init__(path, level)
 
 
 class Fighter(_Classes):
-    def __init__(self, **kw) -> None:
-        super(Fighter, self).__init__(**kw)
+    def __init__(self, path: str, level: int) -> None:
+        super(Fighter, self).__init__(path, level)
 
 
 class Monk(_Classes):
-    def __init__(self, **kw) -> None:
-        super(Monk, self).__init__(**kw)
+    def __init__(self, path: str, level: int) -> None:
+        super(Monk, self).__init__(path, level)
 
 
 class Paladin(_Classes):
-    def __init__(self, **kw) -> None:
-        super(Paladin, self).__init__(**kw)
+    def __init__(self, path: str, level: int) -> None:
+        super(Paladin, self).__init__(path, level)
 
 
 class Ranger(_Classes):
-    def __init__(self, **kw) -> None:
-        super(Ranger, self).__init__(**kw)
+    def __init__(self, path: str, level: int) -> None:
+        super(Ranger, self).__init__(path, level)
 
 
 class Rogue(_Classes):
-    def __init__(self, **kw) -> None:
-        super(Rogue, self).__init__(**kw)
+    def __init__(self, path: str, level: int) -> None:
+        super(Rogue, self).__init__(path, level)
 
 
 class Sorcerer(_Classes):
-    def __init__(self, **kw) -> None:
-        super(Sorcerer, self).__init__(**kw)
+    def __init__(self, path: str, level: int) -> None:
+        super(Sorcerer, self).__init__(path, level)
 
 
 class Warlock(_Classes):
-    def __init__(self, **kw) -> None:
-        super(Warlock, self).__init__(**kw)
+    def __init__(self, path: str, level: int) -> None:
+        super(Warlock, self).__init__(path, level)
 
 
 class Wizard(_Classes):
-    def __init__(self, **kw) -> None:
-        super(Wizard, self).__init__(**kw)
+    def __init__(self, path: str, level: int) -> None:
+        super(Wizard, self).__init__(path, level)
 
 
 def get_is_class(klass) -> bool:
-    """Returns whether klass is a valid class."""
+    """Returns whether klass is valid."""
     return klass in tuple(reader("classes").keys())
 
 
@@ -259,12 +263,12 @@ def get_paths_by_class(klass) -> tuple:
     return tuple(reader("classes", (klass, "paths")))
 
 
-def has_class_spells(path) -> bool:
-    """Returns whether class has spells."""
-    class_spells = reader("paths", (path,)).get("magic")
-    return len(class_spells) is not 0
-
-
 def get_proficiency_bonus(level: int) -> int:
     """Returns a proficiency bonus value by level."""
     return math.ceil((level / 4) + 1)
+
+
+def has_class_spells(path) -> bool:
+    """Returns whether class path has spells."""
+    class_spells = reader("paths", (path,)).get("magic")
+    return len(class_spells) is not 0
