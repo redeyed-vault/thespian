@@ -121,23 +121,16 @@ def main(
 
     try:
         this_class = eval(klass)
-        c = this_class(level=level, path=path)
+        c = this_class(path, level)
 
         this_race = eval(race)
-        t = this_race(
-            class_attr=c.features.get("abilities"), subrace=subrace, variant=variant
-        )
+        t = this_race(subrace, c.features.get("abilities"), variant)
     except (Exception, ValueError) as e:
         out(e, is_error=True)
 
     # Generate ability scores
     a = AttributeGenerator(c.features.get("abilities"))
-    a.set_racial_bonus(
-        race=race,
-        subrace=subrace,
-        class_attr=c.features.get("abilities"),
-        variant=variant,
-    )
+    a.set_racial_bonus(race, subrace, c.features.get("abilities"), variant)
 
     # Generate character armor, tool and weapon proficiencies
     armors = None
