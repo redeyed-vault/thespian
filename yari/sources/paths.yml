@@ -262,7 +262,16 @@ paths:
       weapons: []
   Way of the Four Elements:
     features:
-      3: ['Disciple of the Elements', 'Elemental Attunement', 'Fangs of the Fire Snake', 'Fist of Four Thunders', 'Fist of Unbroken Air', 'Rush of the Gale Spirits', 'Shade the Flowing River', 'Sweeping Cinder Strike', 'Water Whip']
+      3:
+        - Disciple of the Elements
+        - Elemental Attunement
+        - Fangs of the Fire Snake
+        - Fist of Four Thunders
+        - Fist of Unbroken Air
+        - Rush of the Gale Spirits
+        - Shade the Flowing River
+        - Sweeping Cinder Strike
+        - Water Whip
       6: ['Clench of the North Wind', 'Gong of the Summit']
       11: ['Eternal Mountain Defense', 'Flames of the Phoenix', 'Mist Stance', 'Ride the Wind']
       17: ['Breath of Winter', 'River of Hungry Flame', 'Wave of Rolling Earth']
