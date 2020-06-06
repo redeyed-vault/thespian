@@ -47,12 +47,12 @@ class _Races:
         else:
             self.variant = variant
 
-        self.traits = reader("races", (self.race, "traits"))
+        self.traits = reader("races", (self.race,)).get("traits")
         self.traits["skills"] = list()
 
         # Dragonborn character's get draconic ancestry.
         if self.race == "Dragonborn":
-            draconic_ancestry = reader("races", (self.race, "traits", "ancestry"))
+            draconic_ancestry = reader("races", (self.race,)).get("traits").get("ancestry")
             draconic_ancestry = random.choice(draconic_ancestry)
             damage_resistance = None
             if draconic_ancestry in ("Black", "Copper",):
@@ -117,7 +117,7 @@ class _Races:
         if self.subrace is None:
             return
         else:
-            subrace_traits = reader("subraces", (self.subrace, "traits"))
+            subrace_traits = reader("subraces", (self.subrace,)).get("traits")
             self.traits = self._merge_traits(self.traits, subrace_traits)
 
     @staticmethod
@@ -138,7 +138,7 @@ class _Races:
                     base_traits[trait][ability] = bonus
 
             if trait == "cantrip":
-                cantrip_list = reader("subraces", ("High", "traits", "cantrip"))
+                cantrip_list = reader("subraces", ("High",)).get("traits").get("cantrip")
                 bonus_cantrip = [random.choice(cantrip_list)]
                 base_traits[trait] = bonus_cantrip
 
@@ -176,52 +176,52 @@ class _Races:
 
 
 class Aasimar(_Races):
-    def __init__(self, subrace: (None, str), class_attr: dict, variant: bool) -> None:
+    def __init__(self, subrace, class_attr, variant) -> None:
         super(Aasimar, self).__init__(subrace, class_attr, variant)
 
 
 class Dragonborn(_Races):
-    def __init__(self, subrace: (None, str), class_attr: dict, variant: bool) -> None:
+    def __init__(self, subrace, class_attr, variant) -> None:
         super(Dragonborn, self).__init__(subrace, class_attr, variant)
 
 
 class Dwarf(_Races):
-    def __init__(self, subrace: (None, str), class_attr: dict, variant: bool) -> None:
+    def __init__(self, subrace, class_attr, variant) -> None:
         super(Dwarf, self).__init__(subrace, class_attr, variant)
 
 
 class Elf(_Races):
-    def __init__(self, subrace: (None, str), class_attr: dict, variant: bool) -> None:
+    def __init__(self, subrace, class_attr, variant) -> None:
         super(Elf, self).__init__(subrace, class_attr, variant)
 
 
 class Gnome(_Races):
-    def __init__(self, subrace: (None, str), class_attr: dict, variant: bool) -> None:
+    def __init__(self, subrace, class_attr, variant) -> None:
         super(Gnome, self).__init__(subrace, class_attr, variant)
 
 
 class HalfElf(_Races):
-    def __init__(self, subrace: (None, str), class_attr: dict, variant: bool) -> None:
+    def __init__(self, subrace, class_attr, variant) -> None:
         super(HalfElf, self).__init__(subrace, class_attr, variant)
 
 
 class HalfOrc(_Races):
-    def __init__(self, subrace: (None, str), class_attr: dict, variant: bool) -> None:
+    def __init__(self, subrace, class_attr, variant) -> None:
         super(HalfOrc, self).__init__(subrace, class_attr, variant)
 
 
 class Halfling(_Races):
-    def __init__(self, subrace: (None, str), class_attr: dict, variant: bool) -> None:
+    def __init__(self, subrace, class_attr, variant) -> None:
         super(Halfling, self).__init__(subrace, class_attr, variant)
 
 
 class Human(_Races):
-    def __init__(self, subrace: (None, str), class_attr: dict, variant: bool) -> None:
+    def __init__(self, subrace, class_attr, variant) -> None:
         super(Human, self).__init__(subrace, class_attr, variant)
 
 
 class Tiefling(_Races):
-    def __init__(self, subrace: (None, str), class_attr: dict, variant: bool) -> None:
+    def __init__(self, subrace, class_attr, variant) -> None:
         super(Tiefling, self).__init__(subrace, class_attr, variant)
 
 
