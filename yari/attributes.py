@@ -8,7 +8,7 @@ from yari.reader import reader
 
 class _Attributes:
     """DO NOT call class directly. Used to generate attribute features.
-    Inherited by the following classes:
+        Inherited by the following classes:
 
         - Charisma
         - Constitution
@@ -23,7 +23,8 @@ class _Attributes:
         """
         Args:
             score (int): Character's chosen level.
-            skills (list): Character's chosen path.
+            skills (list): Character's chosen skills.
+
         """
         self.attribute = self.__class__.__name__
         if self.attribute == "_Attributes":
@@ -37,10 +38,17 @@ class _Attributes:
         self.attr["saving_throws"] = self.attr.get("modifier")
         self.attr["skills"] = dict()
 
-        attribute_skills = get_skills_by_attribute(self.attribute)
+        attribute_skills = list(x for x in self._get_skills_by_attribute())
         for skill in skills:
             if skill in attribute_skills:
                 self.attr["skills"].update({skill: get_ability_modifier(score)})
+
+    def _get_skills_by_attribute(self):
+        """Returns a skill list by attribute."""
+        for skill in reader("skills"):
+            attribute = reader("skills", (skill,)).get("ability")
+            if attribute == self.attribute:
+                yield skill
 
 
 class Charisma(_Attributes):
@@ -86,6 +94,7 @@ class AttributeGenerator:
         Args:
             class_attr (dict): Character class primary abilities.
             threshold (int): Ability score array minimal threshold total.
+
         """
         self.class_attr = list(class_attr.values())
 
@@ -130,11 +139,12 @@ class AttributeGenerator:
         
         Args:
             threshold (int): The minimal required total of ALL generated scores.
+
         """
 
         def roll() -> int:
-            random_numbers = [random.randint(1, 6) for _ in range(4)]
-            return sum(random_numbers) - min(random_numbers)
+            die_rolls = [random.randint(1, 6) for _ in range(4)]
+            return sum(die_rolls) - min(die_rolls)
 
         results = list()
         while sum(results) < threshold or min(results) < 8 or max(results) < 15:
@@ -151,6 +161,7 @@ class AttributeGenerator:
             subrace (str, None): Character's subrace (if applicable).
             class_attr (dict): Class primary abilities.
             variant (bool): Use variant rules (only used if race is Human).
+
         """
         class_attr = list(class_attr.values())
 
@@ -178,7 +189,7 @@ class AttributeGenerator:
                     bonuses[ability] = 1
         # Non-human or human non-variant ability bonuses.
         elif race == "Human" and not variant or race != "Human":
-            racial_bonuses = reader("races", (race, "traits", "abilities"))
+            racial_bonuses = reader("races", (race,)).get("traits").get("abilities")
             for ability, bonus in racial_bonuses.items():
                 bonuses[ability] = bonus
         # Human variant bonuses.
@@ -189,7 +200,7 @@ class AttributeGenerator:
 
         if subrace is not None:
             if subrace in get_subraces_by_race(race):
-                subracial_bonuses = reader("subraces", (subrace, "traits", "abilities"))
+                subracial_bonuses = reader("subraces", (subrace,)).get("traits").get("abilities")
                 for ability, bonus in subracial_bonuses.items():
                     bonuses[ability] = bonus
 
@@ -202,13 +213,3 @@ class AttributeGenerator:
 def get_ability_modifier(score: int) -> int:
     """Returns ability modifier by score."""
     return score is not 0 and int((score - 10) / 2) or 0
-
-
-def get_skills_by_attribute(attribute: str) -> list:
-    """Returns a skill list by attribute."""
-    skills = list()
-    for skill, attributes in reader("skills").items():
-        if attributes.get("ability") == attribute:
-            skills.append(skill)
-    skills.sort()
-    return skills
