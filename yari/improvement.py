@@ -3,6 +3,7 @@ import random
 
 from yari.collect import add, fuse, pick, purge
 from yari.reader import reader
+from yari.skills import get_all_skills
 
 
 class ImprovementGenerator:
@@ -136,7 +137,7 @@ class ImprovementGenerator:
 
     def add_feat(self) -> str:
         """Randomly selects and adds a valid feats."""
-        feats = list(reader("feats").keys())
+        feats = list(reader("feats"))
         purge(feats, self.feats)
 
         # Keep choosing a feat until prerequisites are met.
@@ -237,22 +238,10 @@ class ImprovementGenerator:
             for _ in range(3):
                 skilled_choice = random.choice(["Skill", "Tool"])
                 if skilled_choice == "Skill":
-                    skill_list = list(reader("skills").keys())
-                    skills = purge(skill_list, self.skills)
+                    skills = purge(list(reader("skills")), self.skills)
                     add(self.skills, random.choice(skills))
                 elif skilled_choice == "Tool":
-                    tool_list = list()
-                    for main_tool, sub_tools in reader("tools").items():
-                        if main_tool in (
-                            "Artisan's tools",
-                            "Gaming tools",
-                            "Musical instrument",
-                        ):
-                            for sub_tool in sub_tools:
-                                sub_tool = f"{main_tool} - {sub_tool}"
-                                tool_list.append(sub_tool)
-                        else:
-                            tool_list.append(main_tool)
+                    tool_list = [t for t in self.get_tool_chest()]
                     purge(tool_list, self.tool_proficiency)
                     add(self.tool_proficiency, random.choice(tool_list))
 
@@ -264,7 +253,8 @@ class ImprovementGenerator:
 
         # Weapon Master
         if feat == "Weapon Master":
-            selections = reader("weapons")
+            weapons = [t for t in self.get_weapon_chest()]
+            selections = weapons[0]
             # Has Simple weapon proficiency.
             if "Simple" in self.weapon_proficiency:
                 del selections["Simple"]
@@ -284,6 +274,24 @@ class ImprovementGenerator:
 
             fuse(self.weapon_proficiency, random.sample(selections, 4))
             selections.clear()
+
+    @staticmethod
+    def get_tool_chest():
+        """Returns a full collection of tools."""
+        for main_tool in reader("tools"):
+            if main_tool in ("Artisan's tools", "Gaming set", "Musical instrument"):
+                for sub_tool in reader("tools", (main_tool,)):
+                    yield f"{main_tool} - {sub_tool}"
+            else:
+                yield main_tool
+
+    @staticmethod
+    def get_weapon_chest():
+        """Returns a full collection of weapons."""
+        weapon_chest = dict()
+        for weapon_category in ("Simple", "Martial"):
+            weapon_chest[weapon_category] = reader("weapons", (weapon_category,))
+        yield weapon_chest
 
     def has_prerequisites(self, feat: str) -> bool:
         """Determines if character has the prerequisites for a feat.
@@ -395,77 +403,3 @@ class ImprovementGenerator:
         else:
             value = self.score_array.get(ability) + bonus
             self.score_array[ability] = value
-
-
-class ProficiencyGenerator:
-    """Merges class with racial proficiencies (if applicable)."""
-
-    def __init__(self, prof_type: str, features: dict, traits: dict) -> None:
-        """
-        Args:
-            prof_type (str): Proficiency type (armors|tools|weapons).
-            features (dict): Class proficiency by prof_type.
-            traits (dict): Racial proficiency by prof_type (if applicable).
-        """
-        if prof_type not in ("armors", "tools", "weapons"):
-            raise ValueError(f"invalid 'prof_type' argument '{prof_type}'")
-        else:
-            class_proficiency = features.get("proficiency").get(prof_type)
-            if "proficiency" in traits:
-                trait_proficiency = traits.get("proficiency")
-                if prof_type in trait_proficiency:
-                    trait_proficiency = trait_proficiency.get(prof_type)
-                    fuse(class_proficiency, trait_proficiency)
-            self.proficiency = class_proficiency
-
-
-class SkillGenerator:
-    """Generates a random skill set by background and klass."""
-
-    def __init__(self, background: str, klass: str, bonus_racial_skills: list) -> None:
-        """
-        Args:
-            background (str): Character background.
-            klass (str): Character's class.
-            bonus_racial_skills (list): Character's skills.
-        """
-        class_skills = self.get_skills_by_class(klass)
-        generated_skills = list()
-
-        # Remove bonus racial skills from class skills.
-        if len(bonus_racial_skills) is not 0:
-            purge(class_skills, bonus_racial_skills)
-            fuse(generated_skills, bonus_racial_skills)
-
-        # Remove bonus background skills from class skills.
-        background_skills = reader("backgrounds", (background, "skills"))
-        if len(background_skills) is not 0:
-            purge(class_skills, background_skills)
-            fuse(generated_skills, background_skills)
-
-        if klass in ("Rogue",):
-            skill_allotment = 4
-        elif klass in ("Bard", "Ranger"):
-            skill_allotment = 3
-        else:
-            skill_allotment = 2
-        fuse(generated_skills, random.sample(class_skills, skill_allotment))
-        self.skills = generated_skills
-
-    @staticmethod
-    def get_skills_by_class(klass):
-        """Returns a list of skills by klass.
-
-        Args:
-            klass (str): Class to get skill list for.
-        """
-        skills = list()
-        for skill, attributes in reader("skills").items():
-            if klass in attributes.get("classes"):
-                skills.append(skill)
-        return skills
-
-
-def get_all_skills() -> list:
-    """Returns a list of ALL valid skills."""
-    return list(reader("skills").keys())
