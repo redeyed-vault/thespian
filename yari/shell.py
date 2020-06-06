@@ -5,12 +5,10 @@ import click
 
 from yari.classes import *
 from yari.attributes import AttributeGenerator
-from yari.generator import (
-    ImprovementGenerator,
-    ProficiencyGenerator,
-    SkillGenerator,
-)
+from yari.improvement import ImprovementGenerator
+from yari.proficiency import ProficiencyGenerator
 from yari.races import *
+from yari.skills import SkillGenerator
 from yari.version import __version__
 from yari.reader import reader
 from yari.writer import Writer
@@ -60,7 +58,7 @@ def main(
 
     # Handle application argument processing.
     if race != "":
-        if race not in tuple(reader("races").keys()):
+        if race not in reader("races"):
             out(f"invalid character race '{race}'", is_error=True)
 
     if subrace == "":
@@ -83,15 +81,15 @@ def main(
         sex = random.choice(the_sexes)
 
     if background == "":
-        background = reader("classes", (klass, "background"))
+        background = reader("classes", (klass,)).get("background")
     else:
-        valid_backgrounds = tuple(reader("backgrounds").keys())
+        valid_backgrounds = reader("backgrounds")
         if background not in valid_backgrounds:
             out(f"invalid character background '{background}'", is_error=True)
 
     if klass != "":
         try:
-            if klass not in tuple(reader("classes").keys()):
+            if klass not in reader("classes"):
                 raise ValueError
         except ValueError:
             out(f"invalid character class '{klass}'", is_error=True)
@@ -125,7 +123,7 @@ def main(
 
         this_race = eval(race)
         t = this_race(subrace, c.features.get("abilities"), variant)
-    except (Exception, ValueError) as e:
+    except (ClassesInheritError, ClassesValueError) as e:
         out(e, is_error=True)
 
     # Generate ability scores
