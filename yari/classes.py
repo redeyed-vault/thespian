@@ -5,9 +5,17 @@ from yari.collect import fuse
 from yari.reader import reader
 
 
+class ClassesInheritError(Exception):
+    """Generic _Classes error."""
+
+
+class ClassesValueError(ValueError):
+    """Raised for _Classes ValueError occurrences."""
+
+
 class _Classes:
     """DO NOT call class directly. Used to generate class features.
-    Inherited by the following classes:
+        Inherited by the following classes:
 
         - Barbarian
         - Bard
@@ -29,23 +37,24 @@ class _Classes:
         Args:
             path (str): Character's chosen path.
             level (int): Character's chosen level.
+
         """
         self.klass = self.__class__.__name__
         if self.klass == "_Classes":
-            raise Exception("this class must be inherited")
+            raise ClassesInheritError("this class must be inherited")
 
         if not get_is_class(self.klass):
-            raise ValueError(f"class '{self.klass}' does not exist")
+            raise ClassesValueError(f"class '{self.klass}' does not exist")
 
         if path is not None and not get_is_path(path, self.klass):
-            raise ValueError(f"class path {path} is invalid")
+            raise ClassesValueError(f"class path {path} is invalid")
         else:
             self.path = path
 
         if not isinstance(level, int):
-            raise ValueError("level value must be of type 'int'")
+            raise ClassesValueError("level value must be of type 'int'")
         elif level not in range(1, 21):
-            raise ValueError("level value must be between 1-20")
+            raise ClassesValueError("level value must be between 1-20")
         else:
             self.level = level
 
@@ -57,8 +66,8 @@ class _Classes:
         """
 
         self.features = reader("classes", (self.klass,))
-        self.features["abilities"] = self._enc_class_abilities()
-        self.features["features"] = self._enc_class_features()
+        self.features["abilities"] = self._get_class_abilities()
+        self.features["features"] = self._get_class_features()
         self.features["path"] = self.path
         if (
             self.klass == "Fighter"
@@ -71,25 +80,27 @@ class _Classes:
             self.features["spell_slots"] = self.features["spell_slots"].get(self.level)
 
         if has_class_spells(self.path):
-            self._enc_class_magic_list()
+            self._get_class_path_magic()
 
         # self._enc_class_hit_die()
-        self._enc_class_proficiency("armors")
-        self._enc_class_proficiency("tools")
-        self._enc_class_proficiency("weapons")
+        self._get_class_proficiency("armors")
+        self._get_class_proficiency("tools")
+        self._get_class_proficiency("weapons")
 
         del self.features["paths"]
 
-    def _enc_class_abilities(self):
-        """Assigns abilities where classes might have a choice of a primary ability.
+    def _get_class_abilities(self):
+        """Gets primary class abilities.
+            Classes with multiple primary ability choices will select one.
 
             - Fighter: Strength|Dexterity
             - Fighter: Constitution|Intelligence
             - Ranger: Dexterity|Strength
             - Rogue: Charisma|Intelligence
             - Wizard: Constitution|Dexterity
+
         """
-        class_abilities = reader("classes", (self.klass, "abilities",))
+        class_abilities = reader("classes", (self.klass,)).get("abilities")
         if self.klass == "Cleric":
             class_abilities[2] = random.choice(class_abilities[2])
         elif self.klass in ("Fighter", "Ranger"):
@@ -111,7 +122,7 @@ class _Classes:
             class_abilities[2] = random.choice(ability_choices)
         return class_abilities
 
-    def _enc_class_features(self):
+    def _get_class_features(self):
         """Builds a dictionary of features by class, path & level."""
         final_feature_list = dict()
         feature_list = reader("classes", (self.klass,)).get("features")
@@ -146,7 +157,7 @@ class _Classes:
             self.features["hit_points"] += sum(die_rolls)
     '''
 
-    def _enc_class_magic_list(self):
+    def _get_class_path_magic(self):
         """Builds a dictionary list of specialized magic spells."""
         magic = dict()
         class_magic = reader("paths", (self.path,)).get("magic")
@@ -161,11 +172,11 @@ class _Classes:
         else:
             self.features["magic"] = dict()
 
-    def _enc_class_proficiency(self, prof_type: str):
-        class_proficiency = reader("classes", (self.klass, "proficiency"))
-        path_proficiency = reader("paths", (self.path, "proficiency"))
+    def _get_class_proficiency(self, prof_type: str):
+        class_proficiency = reader("classes", (self.klass,)).get("proficiency")
+        path_proficiency = reader("paths", (self.path,)).get("proficiency")
         if prof_type not in ("armors", "tools", "weapons"):
-            raise ValueError
+            raise ClassesValueError
 
         if prof_type == "tools":
             if self.path == "Assassin" and self.level < 3:
@@ -189,78 +200,78 @@ class _Classes:
 
 
 class Barbarian(_Classes):
-    def __init__(self, path: str, level: int) -> None:
+    def __init__(self, path, level) -> None:
         super(Barbarian, self).__init__(path, level)
 
 
 class Bard(_Classes):
-    def __init__(self, path: str, level: int) -> None:
+    def __init__(self, path, level) -> None:
         super(Bard, self).__init__(path, level)
 
 
 class Cleric(_Classes):
-    def __init__(self, path: str, level: int) -> None:
+    def __init__(self, path, level) -> None:
         super(Cleric, self).__init__(path, level)
 
 
 class Druid(_Classes):
-    def __init__(self, path: str, level: int) -> None:
+    def __init__(self, path, level) -> None:
         super(Druid, self).__init__(path, level)
 
 
 class Fighter(_Classes):
-    def __init__(self, path: str, level: int) -> None:
+    def __init__(self, path, level) -> None:
         super(Fighter, self).__init__(path, level)
 
 
 class Monk(_Classes):
-    def __init__(self, path: str, level: int) -> None:
+    def __init__(self, path, level) -> None:
         super(Monk, self).__init__(path, level)
 
 
 class Paladin(_Classes):
-    def __init__(self, path: str, level: int) -> None:
+    def __init__(self, path, level) -> None:
         super(Paladin, self).__init__(path, level)
 
 
 class Ranger(_Classes):
-    def __init__(self, path: str, level: int) -> None:
+    def __init__(self, path, level) -> None:
         super(Ranger, self).__init__(path, level)
 
 
 class Rogue(_Classes):
-    def __init__(self, path: str, level: int) -> None:
+    def __init__(self, path, level) -> None:
         super(Rogue, self).__init__(path, level)
 
 
 class Sorcerer(_Classes):
-    def __init__(self, path: str, level: int) -> None:
+    def __init__(self, path, level) -> None:
         super(Sorcerer, self).__init__(path, level)
 
 
 class Warlock(_Classes):
-    def __init__(self, path: str, level: int) -> None:
+    def __init__(self, path, level) -> None:
         super(Warlock, self).__init__(path, level)
 
 
 class Wizard(_Classes):
-    def __init__(self, path: str, level: int) -> None:
+    def __init__(self, path, level) -> None:
         super(Wizard, self).__init__(path, level)
 
 
 def get_is_class(klass) -> bool:
     """Returns whether klass is valid."""
-    return klass in tuple(reader("classes").keys())
+    return klass in reader("classes")
 
 
 def get_is_path(path, klass) -> bool:
     """Returns whether path is a valid path of klass."""
-    return path in tuple(reader("classes", (klass, "paths")))
+    return path in reader("classes", (klass,)).get("paths")
 
 
 def get_paths_by_class(klass) -> tuple:
     """Returns a tuple of valid paths for klass."""
-    return tuple(reader("classes", (klass, "paths")))
+    return reader("classes", (klass,)).get("paths")
 
 
 def get_proficiency_bonus(level: int) -> int:
