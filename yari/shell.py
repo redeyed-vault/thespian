@@ -16,14 +16,14 @@ from yari.writer import Writer
 
 @click.command()
 @click.option("-file", default="", help="Character sheet file name.", type=str)
-@click.option("-race", default="Human", help="Character's chosen race.", type=str)
+@click.option("-race", default="", help="Character's chosen race.", type=str)
 @click.option("-subrace", default="", help="Character's chosen subrace.", type=str)
 @click.option("-sex", default="", help="Character's chosen gender.", type=str)
 @click.option(
     "-background", default="", help="Character's chosen background.", type=str
 )
 @click.option(
-    "-klass", default="Barbarian", help="Character's chosen class.", type=str,
+    "-klass", default="", help="Character's chosen class.", type=str,
 )
 @click.option(
     "-path",
@@ -60,12 +60,15 @@ def main(
     if race != "":
         if race not in reader("races"):
             out(f"invalid character race '{race}'", is_error=True)
+    else:
+        race = random.choice(reader("races"))
 
+    valid_subraces = [r for r in get_subraces_by_race(race)]
     if subrace == "":
-        subrace = None
+        if len(valid_subraces) is not 0:
+            subrace = random.choice(valid_subraces)
     else:
         try:
-            valid_subraces = get_subraces_by_race(race)
             if len(valid_subraces) is 0:
                 raise ValueError(f"race '{race}' has no available subraces")
 
@@ -80,19 +83,21 @@ def main(
     else:
         sex = random.choice(the_sexes)
 
+    if klass == "":
+        klass = random.choice(reader("classes"))
+    else:
+        try:
+            if klass not in reader("classes"):
+                raise ValueError
+        except ValueError:
+            out(f"invalid character class '{klass}'", is_error=True)
+
     if background == "":
         background = reader("classes", (klass,)).get("background")
     else:
         valid_backgrounds = reader("backgrounds")
         if background not in valid_backgrounds:
             out(f"invalid character background '{background}'", is_error=True)
-
-    if klass != "":
-        try:
-            if klass not in reader("classes"):
-                raise ValueError
-        except ValueError:
-            out(f"invalid character class '{klass}'", is_error=True)
 
     valid_class_paths = get_paths_by_class(klass)
     if path == "":
@@ -123,7 +128,12 @@ def main(
 
         this_race = eval(race)
         t = this_race(subrace, c.features.get("abilities"), variant)
-    except (ClassesInheritError, ClassesValueError) as e:
+    except (
+        ClassesInheritError,
+        ClassesValueError,
+        RacesInheritError,
+        RacesValueError,
+    ) as e:
         out(e, is_error=True)
 
     # Generate ability scores
