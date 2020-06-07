@@ -132,7 +132,7 @@ class Writer:
         x += format_features(self.data.get("class"), self.data.get("features"))
         x += "</features></character></yari>"
         x = BeautifulSoup(x, "xml").prettify()
-
+        
         with open(self.save_path, "w+") as cs:
             cs.write(x)
         cs.close()
