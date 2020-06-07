@@ -4,9 +4,17 @@ from yari.collect import purge
 from yari.reader import reader
 
 
+class RacesInheritError(Exception):
+    """Generic _Races error."""
+
+
+class RacesValueError(ValueError):
+    """Raised for _Races ValueError occurrences."""
+
+
 class _Races:
     """DO NOT call class directly. Used to generate racial traits.
-    Inherited by the following classes:
+        Inherited by the following classes:
 
         - Aasimar
         - Dragonborn
@@ -27,10 +35,11 @@ class _Races:
                 subrace (str): Character's chosen subrace (if any).
                 class_attr (dict): Characters's chosen class' primary abilities.
                 variant (bool): Use variant rules.
+
         """
         self.race = self.__class__.__name__
         if self.race == "_Races":
-            raise Exception("this class must be inherited")
+            raise RacesInheritError("this class must be inherited")
 
         if subrace is not None and not get_subraces_by_race(self.race):
             raise ValueError(f"invalid subrace '{subrace}'")
@@ -38,12 +47,12 @@ class _Races:
             self.subrace = subrace
 
         if not isinstance(class_attr, dict):
-            raise ValueError("class_attr value must be of type 'dict'")
+            raise RacesValueError("class_attr value must be of type 'dict'")
         else:
             self.class_attr = tuple(class_attr.values())
 
         if not isinstance(variant, bool):
-            raise ValueError("variant value must be of type 'bool'")
+            raise RacesValueError("variant value must be of type 'bool'")
         else:
             self.variant = variant
 
@@ -52,7 +61,9 @@ class _Races:
 
         # Dragonborn character's get draconic ancestry.
         if self.race == "Dragonborn":
-            draconic_ancestry = reader("races", (self.race,)).get("traits").get("ancestry")
+            draconic_ancestry = (
+                reader("races", (self.race,)).get("traits").get("ancestry")
+            )
             draconic_ancestry = random.choice(draconic_ancestry)
             damage_resistance = None
             if draconic_ancestry in ("Black", "Copper",):
@@ -100,23 +111,32 @@ class _Races:
 
         # Bonus skills for HalfElf and Human variants.
         if self.race == "Human" and self.variant or self.race == "HalfElf":
-            all_skills = reader("races", (self.race, "traits", "skills"))
+            all_skills = reader("races", (self.race,)).get("traits").get("skills")
             if self.race == "HalfElf":
                 self.traits["skills"] = random.sample(all_skills, 2)
             elif self.race == "Human":
                 self.traits["skills"] = random.sample(all_skills, 1)
 
+        # HalfElf gets one extra bonus "racial" ability.
+        if self.race == "HalfElf":
+            bonus_abilities = dict()
+            if "Charisma" in self.class_attr:
+                self.class_attr = list(self.class_attr)
+                self.class_attr.remove("Charisma")
+                ability = self.class_attr[0]
+            else:
+                ability = random.choice(self.class_attr)
+
+            self.traits["abilities"][ability] = 1
+
         # Human variants only have two bonus "racial" abilities.
         if self.race == "Human" and self.variant:
-            if self.class_attr is not None:
-                bonus_abilities = dict()
-                for ability in self.class_attr:
-                    bonus_abilities[ability] = 1
-                self.traits["abilities"] = bonus_abilities
+            bonus_abilities = dict()
+            for ability in self.class_attr:
+                bonus_abilities[ability] = 1
+            self.traits["abilities"] = bonus_abilities
 
-        if self.subrace is None:
-            return
-        else:
+        if self.subrace != "":
             subrace_traits = reader("subraces", (self.subrace,)).get("traits")
             self.traits = self._merge_traits(self.traits, subrace_traits)
 
@@ -127,18 +147,21 @@ class _Races:
         Args:
             base_traits (dict): Dict of base racial traits.
             sub_traits (dict): Dict of sub racial traits (if applicable).
+
         """
         for trait, value in sub_traits.items():
-            # No proficiency key index in base traits, add it.
+            # No trait key index in base_traits, add it.
             if trait not in base_traits:
-                base_traits[trait] = {}
+                base_traits[trait] = list()
 
             if trait == "abilities":
                 for ability, bonus in value.items():
                     base_traits[trait][ability] = bonus
 
             if trait == "cantrip":
-                cantrip_list = reader("subraces", ("High",)).get("traits").get("cantrip")
+                cantrip_list = (
+                    reader("subraces", ("High",)).get("traits").get("cantrip")
+                )
                 bonus_cantrip = [random.choice(cantrip_list)]
                 base_traits[trait] = bonus_cantrip
 
@@ -225,14 +248,14 @@ class Tiefling(_Races):
         super(Tiefling, self).__init__(subrace, class_attr, variant)
 
 
-def get_subraces_by_race(race: str) -> tuple:
-    """Returns a list of valid subraces by race.
+def get_subraces_by_race(race: str):
+    """Yields a list of valid subraces by race.
 
     Args:
         race (str): Race to retrieve subraces for.
+
     """
-    valid_subraces = list()
-    for name, traits in reader("subraces").items():
-        if traits.get("parent") == race:
-            valid_subraces.append(name)
-    return tuple(valid_subraces)
+    for subrace in reader("subraces"):
+        parent = reader("subraces", (subrace,))
+        if parent.get("parent") == race:
+            yield subrace
