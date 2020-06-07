@@ -200,7 +200,9 @@ class AttributeGenerator:
 
         if subrace is not None:
             if subrace in get_subraces_by_race(race):
-                subracial_bonuses = reader("subraces", (subrace,)).get("traits").get("abilities")
+                subracial_bonuses = (
+                    reader("subraces", (subrace,)).get("traits").get("abilities")
+                )
                 for ability, bonus in subracial_bonuses.items():
                     bonuses[ability] = bonus
 
