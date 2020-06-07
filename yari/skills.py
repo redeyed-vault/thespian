@@ -14,7 +14,7 @@ class SkillGenerator:
             klass (str): Character's class.
             bonus_racial_skills (list): Character's skills.
         """
-        class_skills = self.get_skills_by_class(klass)
+        class_skills = [s for s in self.get_skills_by_class(klass)]
         generated_skills = list()
 
         # Remove bonus racial skills from class skills.
@@ -44,11 +44,9 @@ class SkillGenerator:
         Args:
             klass (str): Class to get skill list for.
         """
-        skills = list()
         for skill in reader("skills"):
             if klass in reader("skills", (skill,)).get("classes"):
-                skills.append(skill)
-        return skills
+                yield skill
 
 
 def get_all_skills() -> list:
