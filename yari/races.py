@@ -119,7 +119,6 @@ class _Races:
 
         # HalfElf gets one extra bonus "racial" ability.
         if self.race == "HalfElf":
-            bonus_abilities = dict()
             if "Charisma" in self.class_attr:
                 self.class_attr = list(self.class_attr)
                 self.class_attr.remove("Charisma")
