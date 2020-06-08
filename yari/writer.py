@@ -315,6 +315,8 @@ def format_traits(traits: dict, race: str, subrace=None) -> str:
                 magic_name = "Drow Magic"
             elif subrace == "Duergar":
                 magic_name = "Duergar Magic"
+            elif subrace == "Forest":
+                magic_name = "Natural Illusionist"
 
             for level, spell in traits[trait].items():
                 if isinstance(spell, list):
