@@ -1,5 +1,4 @@
 from collections import OrderedDict
-from datetime import datetime
 
 import click
 
@@ -173,6 +172,12 @@ def main(
         variant=variant,
     )
 
+    # Create the data packet for the Writer
+    proficiency_info = OrderedDict()
+    proficiency_info["armors"] = u.armor_proficiency
+    proficiency_info["tools"] = u.tool_proficiency
+    proficiency_info["weapons"] = u.weapon_proficiency
+
     cs = OrderedDict()
     cs["race"] = race
     cs["subrace"] = subrace
@@ -185,10 +190,6 @@ def main(
     cs["score_array"] = u.score_array
     cs["saves"] = u.saves
     cs["spell_slots"] = c.features.get("spell_slots")
-    proficiency_info = OrderedDict()
-    proficiency_info["armors"] = u.armor_proficiency
-    proficiency_info["tools"] = u.tool_proficiency
-    proficiency_info["weapons"] = u.weapon_proficiency
     cs["proficiency"] = proficiency_info
     cs["languages"] = u.languages
     cs["skills"] = u.skills
@@ -199,11 +200,8 @@ def main(
 
     try:
         with Writer(cs) as writer:
-            if file == "":
-                writer.write(str(datetime.timestamp(datetime.now())))
-            else:
-                writer.write(file)
-    except (FileExistsError, FileNotFoundError, TypeError) as e:
+            writer.write(file)
+    except (FileExistsError, IOError, OSError, TypeError, ValueError) as e:
         out(e, is_error=True)
     else:
         out(f"character saved to '{writer.save_path}'")
