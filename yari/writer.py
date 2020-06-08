@@ -22,13 +22,13 @@ class Writer:
         """
         Args:
             data (OrderedDict): Character's information packet.
+
         """
         save_path = os.path.expanduser("~/Yari")
         if not os.path.exists(save_path):
             os.mkdir(save_path)
-            raise FileNotFoundError(
-                f"save directory '{save_path}' not found. Creating..."
-            )
+
+        self.save_path = save_path
 
         if not isinstance(data, OrderedDict):
             raise TypeError("data argument must be of type 'OrderedDict'")
@@ -55,9 +55,8 @@ class Writer:
         )
         if not all(k in data for k in data_keys):
             raise ValueError("data: all keys must have a value!")
-
-        self.data = data
-        self.save_path = save_path
+        else:
+            self.data = data
 
     def __enter__(self):
         return self
@@ -66,9 +65,11 @@ class Writer:
         pass
 
     def write(self, fp: str) -> None:
-        """
+        """Writes character sheet data to file.
+
         Args:
             fp (str): File to write character data to.
+
         """
         self.save_path = os.path.join(self.save_path, f"{fp}.xml")
         if os.path.exists(self.save_path):
@@ -133,13 +134,18 @@ class Writer:
         x += "</features></character></yari>"
         x = BeautifulSoup(x, "xml").prettify()
         
-        with open(self.save_path, "w+") as cs:
+        with open(self.save_path, "w+", encoding="utf-8") as cs:
             cs.write(x)
         cs.close()
 
 
 def format_ability(attributes: dict):
-    """Formats ability scores and associated ability check values."""
+    """Formats ability scores and associated ability check values.
+
+    Args:
+        attributes (dict):
+
+    """
     block = '<ability label="{}" value="{}">'.format(
         attributes.get("name"), attributes.get("value"),
     )
@@ -167,6 +173,7 @@ def format_equipment(items: list) -> str:
 
     Args:
         items (list): Character's equipment list.
+
     """
     block = ""
     for item in items:
@@ -179,6 +186,7 @@ def format_feats(feats: list) -> str:
 
     Args:
         feats (list): Character's feat list.
+
     """
     block = ""
     for feat in feats:
@@ -192,6 +200,7 @@ def format_features(class_: str, features: dict) -> str:
     Args:
         class_ (str): Character's chosen class.
         features (dict): Character's class features.
+
     """
     block = ""
     for level, _features in features.items():
@@ -205,6 +214,7 @@ def format_languages(languages: list) -> str:
 
     Args:
         languages (list): Character's list of languages.
+
     """
     block = ""
     for language in languages:
@@ -213,7 +223,12 @@ def format_languages(languages: list) -> str:
 
 
 def format_proficiencies(proficiencies: OrderedDict) -> str:
-    """Formats proficiencies for character sheet."""
+    """Formats proficiencies for character sheet.
+
+    Args:
+        proficiencies (OrderedDict): OrderedDict of proficiency types/lists.
+
+    """
     block = ""
     for type, proficiency_list in proficiencies.items():
         block += f"<{type}>"
@@ -224,7 +239,12 @@ def format_proficiencies(proficiencies: OrderedDict) -> str:
 
 
 def format_saving_throws(saves: list) -> str:
-    """Formats saves for character sheet."""
+    """Formats proficient saves for character sheet.
+
+    Args:
+        saves (list): List of proficient saving throws.
+
+    """
     block = ""
     for save in saves:
         block += '<entry label="save" value="%s" />' % save
@@ -236,6 +256,7 @@ def format_skills(skills: list) -> str:
 
     Args:
         skills (list): Character's list of skills.
+
     """
     block = ""
     for skill in skills:
@@ -250,6 +271,7 @@ def format_traits(traits: dict, race: str, subrace=None) -> str:
         traits (dict): Character's racial/sub-racial traits.
         race (str): Character's race.
         subrace(None, str): Character's subrace (if applicable).
+
     """
     if subrace is not None:
         trait_label = f"{subrace} {race} Trait"
