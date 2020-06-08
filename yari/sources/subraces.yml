@@ -46,7 +46,8 @@ subraces:
     traits:
       abilities:
         Dexterity: 1
-      magic: ['Minor Illusion']
+      magic:
+        1: Minor Illusion
       speak: ['Small Beasts']
   High:
     parent: Elf
