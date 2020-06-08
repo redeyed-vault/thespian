@@ -142,17 +142,17 @@ class _Races:
 
     @staticmethod
     def _merge_traits(base_traits: dict, sub_traits: dict) -> dict:
-        """Combines racial and subracial traits if applicable.
+        """Combines racial and subracial traits (if applicable).
 
         Args:
-            base_traits (dict): Dict of base racial traits.
-            sub_traits (dict): Dict of sub racial traits (if applicable).
+            base_traits (dict): Dictionary of base racial traits.
+            sub_traits (dict): Dictionary of sub-racial traits (if applicable).
 
         """
         for trait, value in sub_traits.items():
             # No trait key index in base_traits, add it.
             if trait not in base_traits:
-                base_traits[trait] = list()
+                base_traits[trait] = None
 
             if trait == "abilities":
                 for ability, bonus in value.items():
@@ -175,6 +175,9 @@ class _Races:
                 base_traits[trait].sort()
 
             if trait == "resistance":
+                if base_traits[trait] is None:
+                    base_traits[trait] = list()
+
                 for element in value:
                     base_traits.get(trait).append(element)
                 base_traits[trait].sort()
@@ -183,6 +186,9 @@ class _Races:
                 base_traits[trait] = sub_traits.get(trait)
 
             if trait == "proficiency":
+                if base_traits[trait] is None:
+                    base_traits[trait] = dict()
+
                 for proficiency_type in list(sub_traits[trait].keys()):
                     if proficiency_type == "armors":
                         base_traits[trait].update(armors=sub_traits[trait]["armors"])
