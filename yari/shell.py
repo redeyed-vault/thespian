@@ -3,9 +3,9 @@ from collections import OrderedDict
 import click
 
 from yari.classes import *
-from yari.attributes import AttributeGenerator
+from yari.attributes import AttributeGenerator, AttributesInheritError
 from yari.improvement import ImprovementGenerator
-from yari.proficiency import ProficiencyGenerator
+from yari.proficiency import ProficiencyGenerator, ProficiencyTypeValueError
 from yari.races import *
 from yari.skills import SkillGenerator
 from yari.version import __version__
@@ -118,6 +118,7 @@ def main(
         out("argument variant must be 'false|true'", is_error=True)
 
     # Generate class features
+    a = None
     c = None
     t = None
 
@@ -136,8 +137,11 @@ def main(
         out(e, is_error=True)
 
     # Generate ability scores
-    a = AttributeGenerator(c.features.get("abilities"))
-    a.set_racial_bonus(race, subrace, c.features.get("abilities"), variant)
+    try:
+        a = AttributeGenerator(c.features.get("abilities"))
+        a.set_racial_bonus(race, subrace, c.features.get("abilities"), variant)
+    except AttributesInheritError as e:
+        out(str(e), is_error=True)
 
     # Generate character armor, tool and weapon proficiencies
     armors = None
@@ -148,7 +152,7 @@ def main(
         armors = ProficiencyGenerator("armors", c.features, t.traits)
         tools = ProficiencyGenerator("tools", c.features, t.traits)
         weapons = ProficiencyGenerator("weapons", c.features, t.traits)
-    except ValueError as e:
+    except ProficiencyTypeValueError as e:
         out(str(e), is_error=True)
 
     # Generate character skills
