@@ -6,6 +6,10 @@ from yari.races import get_subraces_by_race
 from yari.reader import reader
 
 
+class AttributesInheritError(Exception):
+    """Generic _Races inheritance error."""
+
+
 class _Attributes:
     """DO NOT call class directly. Used to generate attribute features.
         Inherited by the following classes:
@@ -28,7 +32,7 @@ class _Attributes:
         """
         self.attribute = self.__class__.__name__
         if self.attribute == "_Attributes":
-            raise Exception("this class must be inherited")
+            raise AttributesInheritError("this class must be inherited")
 
         self.attr = dict()
         self.attr["value"] = score
@@ -97,6 +101,7 @@ class AttributeGenerator:
 
         """
         self.class_attr = list(class_attr.values())
+        self.threshold = threshold
 
         score_array = OrderedDict()
         score_array["Strength"] = None
@@ -115,7 +120,7 @@ class AttributeGenerator:
             "Charisma",
         ]
 
-        generated_scores = self.roll_ability_scores(threshold)
+        generated_scores = self.determine_ability_scores()
         # Assign highest values to class specific abilities first.
         for ability in self.class_attr:
             value = max(generated_scores)
@@ -133,21 +138,15 @@ class AttributeGenerator:
 
         self.score_array = score_array
 
-    @staticmethod
-    def roll_ability_scores(threshold: int) -> list:
-        """Generates six ability scores that total gte threshold.
-        
-        Args:
-            threshold (int): The minimal required total of ALL generated scores.
-
-        """
+    def determine_ability_scores(self) -> list:
+        """Generates six ability scores that total gte threshold."""
 
         def roll() -> int:
             die_rolls = [random.randint(1, 6) for _ in range(4)]
             return sum(die_rolls) - min(die_rolls)
 
         results = list()
-        while sum(results) < threshold or min(results) < 8 or max(results) < 15:
+        while sum(results) < self.threshold or min(results) < 8 or max(results) < 15:
             results = [roll() for _ in range(6)]
 
         return results
