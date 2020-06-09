@@ -32,9 +32,9 @@ class _Races:
     def __init__(self, subrace: (None, str), class_attr: dict, variant: bool) -> None:
         """
             Args:
-                subrace (str): Character's chosen subrace (if any).
+                subrace (str): Character's chosen subrace (if applicable).
                 class_attr (dict): Characters's chosen class' primary abilities.
-                variant (bool): Use variant rules.
+                variant (bool): Use variant rules (Human only).
 
         """
         self.race = self.__class__.__name__
@@ -42,7 +42,7 @@ class _Races:
             raise RacesInheritError("this class must be inherited")
 
         if subrace is not None and not get_subraces_by_race(self.race):
-            raise ValueError(f"invalid subrace '{subrace}'")
+            raise RacesValueError(f"invalid subrace '{subrace}'")
         else:
             self.subrace = subrace
 
@@ -57,36 +57,23 @@ class _Races:
             self.variant = variant
 
         self.traits = reader("races", (self.race,)).get("traits")
-        self.traits["skills"] = list()
-
-        if self.race == "Dragonborn":
-            self._add_ancestry_traits()
+        self._add_ability_traits()
+        self._add_ancestry_traits()
+        self._add_language_traits()
+        self._add_skill_traits()
 
         # Dwarves get a random tool proficiency.
         if self.race == "Dwarf":
             tool_bonus = random.choice(self.traits.get("proficiency").get("tools"))
             self.traits["proficiency"]["tools"] = [tool_bonus]
 
-        # Elves and HalfOrcs get a specific bonus skill.
-        if self.race in ("Elf", "HalfOrc",):
-            if self.race == "Elf":
-                self.traits["skills"] = ["Perception"]
-            elif self.race == "HalfOrc":
-                self.traits["skills"] = ["Intimidation"]
+        # Merge racial and subracial traits (if applicable).
+        if self.subrace != "":
+            subrace_traits = reader("subraces", (self.subrace,)).get("traits")
+            self.traits = self._merge_traits(self.traits, subrace_traits)
 
-        # Bonus languages for Half-Elf, Human or High Elf.
-        if self.race in ("HalfElf", "Human") or self.subrace == "High":
-            self._add_language_traits()
-
-        # Bonus skills for HalfElf and Human variants.
-        if self.race == "Human" and self.variant or self.race == "HalfElf":
-            all_skills = reader("races", (self.race,)).get("traits").get("skills")
-            if self.race == "HalfElf":
-                self.traits["skills"] = random.sample(all_skills, 2)
-            elif self.race == "Human":
-                self.traits["skills"] = random.sample(all_skills, 1)
-
-        # HalfElf gets one extra bonus "racial" ability.
+    def _add_ability_traits(self):
+        """Add HalfElf, Human "racial" ability traits."""
         if self.race == "HalfElf":
             if "Charisma" in self.class_attr:
                 self.class_attr = list(self.class_attr)
@@ -96,43 +83,42 @@ class _Races:
                 ability = random.choice(self.class_attr)
 
             self.traits["abilities"][ability] = 1
-
-        # Human variants only have two bonus "racial" abilities.
-        if self.race == "Human" and self.variant:
+        elif self.race == "Human" and self.variant:
             bonus_abilities = dict()
             for ability in self.class_attr:
                 bonus_abilities[ability] = 1
             self.traits["abilities"] = bonus_abilities
 
-        if self.subrace != "":
-            subrace_traits = reader("subraces", (self.subrace,)).get("traits")
-            self.traits = self._merge_traits(self.traits, subrace_traits)
-
     def _add_ancestry_traits(self):
         """Add Dragonborn character ancestry traits."""
-        draconic_ancestry = (
-            reader("races", (self.race,)).get("traits").get("ancestry")
-        )
-        draconic_ancestry = random.choice(draconic_ancestry)
-        damage_resistance = None
-        if draconic_ancestry in ("Black", "Copper",):
-            damage_resistance = "Acid"
-        elif draconic_ancestry in ("Blue", "Bronze",):
-            damage_resistance = "Lightning"
-        elif draconic_ancestry in ("Brass", "Gold", "Red",):
-            damage_resistance = "Fire"
-        elif draconic_ancestry == "Green":
-            damage_resistance = "Poison"
-        elif draconic_ancestry in ("Silver", "White"):
-            damage_resistance = "Cold"
+        if self.race != "Dragonborn":
+            return
+        else:
+            draconic_ancestry = (
+                reader("races", (self.race,)).get("traits").get("ancestry")
+            )
+            draconic_ancestry = random.choice(draconic_ancestry)
+            damage_resistance = None
+            if draconic_ancestry in ("Black", "Copper",):
+                damage_resistance = "Acid"
+            elif draconic_ancestry in ("Blue", "Bronze",):
+                damage_resistance = "Lightning"
+            elif draconic_ancestry in ("Brass", "Gold", "Red",):
+                damage_resistance = "Fire"
+            elif draconic_ancestry == "Green":
+                damage_resistance = "Poison"
+            elif draconic_ancestry in ("Silver", "White"):
+                damage_resistance = "Cold"
 
-        self.traits["ancestry"] = draconic_ancestry
-        self.traits["breath"] = damage_resistance
-        self.traits["resistance"] = [damage_resistance]
+            self.traits["ancestry"] = draconic_ancestry
+            self.traits["breath"] = damage_resistance
+            self.traits["resistance"] = [damage_resistance]
 
     def _add_language_traits(self):
         """Add Half-Elf, Human or High Elf character language traits."""
-        if self.race in ("HalfElf", "Human") or self.subrace == "High":
+        if self.race not in ("HalfElf", "Human") or self.subrace != "High":
+            return
+        else:
             standard_languages = [
                 "Common",
                 "Dwarvish",
@@ -145,6 +131,21 @@ class _Races:
             ]
             purge(standard_languages, self.traits.get("languages"))
             self.traits["languages"].append(random.choice(standard_languages))
+
+    def _add_skill_traits(self):
+        """Add Elf, HalfOrcs, HighElf or Human character skill traits."""
+        self.traits["skills"] = list()
+        if self.race in ("Elf", "HalfOrc",):
+            if self.race == "Elf":
+                self.traits["skills"] = ["Perception"]
+            elif self.race == "HalfOrc":
+                self.traits["skills"] = ["Intimidation"]
+        elif self.race == "Human" and self.variant or self.race == "HalfElf":
+            all_skills = reader("races", (self.race,)).get("traits").get("skills")
+            if self.race == "HalfElf":
+                self.traits["skills"] = random.sample(all_skills, 2)
+            elif self.race == "Human":
+                self.traits["skills"] = random.sample(all_skills, 1)
 
     @staticmethod
     def _merge_traits(base_traits: dict, sub_traits: dict) -> dict:
