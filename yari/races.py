@@ -161,6 +161,7 @@ class _Races:
             if trait not in base_traits:
                 base_traits[trait] = None
 
+            # Begin merging traits.
             if trait == "abilities":
                 for ability, bonus in value.items():
                     base_traits[trait][ability] = bonus
