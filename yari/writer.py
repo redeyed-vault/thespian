@@ -133,7 +133,7 @@ class Writer:
         x += format_features(self.data.get("class"), self.data.get("features"))
         x += "</features></character></yari>"
         x = BeautifulSoup(x, "xml").prettify()
-        
+
         with open(self.save_path, "w+", encoding="utf-8") as cs:
             cs.write(x)
         cs.close()
@@ -143,7 +143,7 @@ def format_ability(attributes: dict):
     """Formats ability scores and associated ability check values.
 
     Args:
-        attributes (dict):
+        attributes (dict): Ability to be formatted.
 
     """
     block = '<ability label="{}" value="{}">'.format(
@@ -194,18 +194,18 @@ def format_feats(feats: list) -> str:
     return block
 
 
-def format_features(class_: str, features: dict) -> str:
+def format_features(klass: str, features: dict) -> str:
     """Formats class features for character sheet.
 
     Args:
-        class_ (str): Character's chosen class.
+        klass (str): Character's chosen class.
         features (dict): Character's class features.
 
     """
     block = ""
     for level, _features in features.items():
         for feature in _features:
-            block += f'<entry label="{class_} Class Feature" level="{level}" name="{feature}" />'
+            block += f'<entry label="{klass} Class Feature" level="{level}" name="{feature}" />'
     return block
 
 
