@@ -6,7 +6,7 @@ from yari.reader import reader
 
 
 class ClassesInheritError(Exception):
-    """Generic _Classes error."""
+    """Generic _Classes inheritance error."""
 
 
 class ClassesValueError(ValueError):

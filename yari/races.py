@@ -5,7 +5,7 @@ from yari.reader import reader
 
 
 class RacesInheritError(Exception):
-    """Generic _Races error."""
+    """Generic _Races inheritance error."""
 
 
 class RacesValueError(ValueError):
@@ -59,28 +59,8 @@ class _Races:
         self.traits = reader("races", (self.race,)).get("traits")
         self.traits["skills"] = list()
 
-        # Dragonborn character's get draconic ancestry.
         if self.race == "Dragonborn":
-            draconic_ancestry = (
-                reader("races", (self.race,)).get("traits").get("ancestry")
-            )
-            draconic_ancestry = random.choice(draconic_ancestry)
-            damage_resistance = None
-            if draconic_ancestry in ("Black", "Copper",):
-                damage_resistance = "Acid"
-            elif draconic_ancestry in ("Blue", "Bronze",):
-                damage_resistance = "Lightning"
-            elif draconic_ancestry in ("Brass", "Gold", "Red",):
-                damage_resistance = "Fire"
-            elif draconic_ancestry == "Green":
-                damage_resistance = "Poison"
-            elif draconic_ancestry in ("Silver", "White"):
-                damage_resistance = "Cold"
-
-            breath_weapon = damage_resistance
-            self.traits["ancestry"] = draconic_ancestry
-            self.traits["breath"] = breath_weapon
-            self.traits["resistance"] = [damage_resistance]
+            self._add_ancestry_traits()
 
         # Dwarves get a random tool proficiency.
         if self.race == "Dwarf":
@@ -96,18 +76,7 @@ class _Races:
 
         # Bonus languages for Half-Elf, Human or High Elf.
         if self.race in ("HalfElf", "Human") or self.subrace == "High":
-            standard_languages = [
-                "Common",
-                "Dwarvish",
-                "Elvish",
-                "Giant",
-                "Gnomish",
-                "Goblin",
-                "Halfling",
-                "Orc",
-            ]
-            purge(standard_languages, self.traits.get("languages"))
-            self.traits["languages"].append(random.choice(standard_languages))
+            self._add_language_traits()
 
         # Bonus skills for HalfElf and Human variants.
         if self.race == "Human" and self.variant or self.race == "HalfElf":
@@ -138,6 +107,44 @@ class _Races:
         if self.subrace != "":
             subrace_traits = reader("subraces", (self.subrace,)).get("traits")
             self.traits = self._merge_traits(self.traits, subrace_traits)
+
+    def _add_ancestry_traits(self):
+        """Add Dragonborn character ancestry traits."""
+        draconic_ancestry = (
+            reader("races", (self.race,)).get("traits").get("ancestry")
+        )
+        draconic_ancestry = random.choice(draconic_ancestry)
+        damage_resistance = None
+        if draconic_ancestry in ("Black", "Copper",):
+            damage_resistance = "Acid"
+        elif draconic_ancestry in ("Blue", "Bronze",):
+            damage_resistance = "Lightning"
+        elif draconic_ancestry in ("Brass", "Gold", "Red",):
+            damage_resistance = "Fire"
+        elif draconic_ancestry == "Green":
+            damage_resistance = "Poison"
+        elif draconic_ancestry in ("Silver", "White"):
+            damage_resistance = "Cold"
+
+        self.traits["ancestry"] = draconic_ancestry
+        self.traits["breath"] = damage_resistance
+        self.traits["resistance"] = [damage_resistance]
+
+    def _add_language_traits(self):
+        """Add Half-Elf, Human or High Elf character language traits."""
+        if self.race in ("HalfElf", "Human") or self.subrace == "High":
+            standard_languages = [
+                "Common",
+                "Dwarvish",
+                "Elvish",
+                "Giant",
+                "Gnomish",
+                "Goblin",
+                "Halfling",
+                "Orc",
+            ]
+            purge(standard_languages, self.traits.get("languages"))
+            self.traits["languages"].append(random.choice(standard_languages))
 
     @staticmethod
     def _merge_traits(base_traits: dict, sub_traits: dict) -> dict:
