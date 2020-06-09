@@ -1,6 +1,10 @@
 from yari.collect import fuse
 
 
+class ProficiencyTypeValueError(ValueError):
+    """Raised if invalid proficiency type specified."""
+
+
 class ProficiencyGenerator:
     """Merges class with racial proficiencies (if applicable)."""
 
@@ -12,7 +16,7 @@ class ProficiencyGenerator:
             traits (dict): Racial proficiency by prof_type (if applicable).
         """
         if prof_type not in ("armors", "tools", "weapons"):
-            raise ValueError(f"invalid 'prof_type' argument '{prof_type}'")
+            raise ProficiencyTypeValueError(f"invalid 'prof_type' argument '{prof_type}'")
         else:
             class_proficiency = features.get("proficiency").get(prof_type)
             if "proficiency" in traits:
