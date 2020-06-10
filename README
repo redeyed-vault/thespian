@@ -23,28 +23,187 @@ by Wizards of the Coast LLC. This software is a fan made tool.
 
 4. INSTALLATION
 
-To install Yari, clone the repository and run the setup script: ```python setup.py install``` or ```python3 setup.py install```.
+To install Yari, clone the repository and run the setup script:
+
+    python setup.py install or python3 setup.py install
 
 
 5. USAGE
 
-To run, type 'yari' in your terminal.
+To run, type 'yari' in your terminal, followed by any required arguments.
 
-Using none of the arguments listed below will run the application with the default options as defined below.
-
-Here are some other options if you wish to fine tune your generated character.
-
+=====================
 Usage: yari [OPTIONS]
 
 Options:
-  -file TEXT        Character sheet file name.
-  -race TEXT         Character's chosen race.  [default: Aasimar] [Aasimar|Dragonborn|Dwarf|Elf|Gnome|Half-elf|Half-orc|Halfling|Human|Tiefling]
-  -subrace TEXT      Character's chosen subrace.  [default: None] [Deep|Duergar|Eladrin|Forest|High|Hill|Lightfoot|Rock|Sea|Shadar-kai|Stout|Wood]
-  -sex TEXT       Character's chosen gender.
-  -background TEXT   Character's chosen background. [Acolyte|Charlatan|Criminal|Entertainer|Folk Hero|Guild Artisan|Hermit|Noble|Outlander|Sage|Sailor|Soldier|Urchin]
-  -klass TEXT       Character's chosen class.  [default: Barbarian] [Barbarian|Bard|Cleric|Druid|Fighter|Monk|Paladin|Ranger|Rogue|Sorcerer|Warlock|Wizard]
-  -path TEXT    Character's chosen path (archetype, domain, path, etc).
-  -level INTEGER     Character's class level.  [default: 1] [1-20]
-  -variant TEXT      Use variant rules (Humans only).  [default: false] [false|true]
+  -file TEXT         Character output file name.  [required]
+  -race TEXT         Character's chosen race.
+  -subrace TEXT      Character's chosen subrace.
+  -sex TEXT          Character's chosen gender.
+  -background TEXT   Character's chosen background.
+  -klass TEXT        Character's chosen class.
+  -path TEXT         Character's chosen path (archetype, domain, path, etc).
+  -level INTEGER     Character's class level.
+  -variant TEXT      Use variant rules (Humans only).
   --version          Show the version and exit.
   --help             Show this message and exit.
+=====================
+
+Only the -file argument is required.
+
+    yari -file=some_character_file
+
+If run with just the bare minimum arguments as shown above, Yari will randomly generate the character's race, subrace, sex, klass and path. Unless specified, the level will always be 1 and the background will be the default for the chosen klass.
+
+Valid argument parameters:
+
+-race
+
+    Aasimar
+    Dragonborn
+    Dwarf
+    Elf
+    Gnome
+    Half-elf
+    Half-orc
+    Halfling
+    Human
+    Tiefling
+
+-subrace (*valid subrace parameters are dependent on the chosen -race parameter)
+
+    -race=Dwarf
+        Duergar
+        Hill
+        Mountain
+
+    -race=Elf
+        Drow
+        Eladrin
+        High
+        Sea
+        Shadar-kai
+        Wood
+
+    -race=Gnome
+        Deep
+        Forest
+        Rock
+
+    -race=Halfling
+        Lightfoot
+        StoutWood
+
+* Note that Aasimar, Dragonborn, Half-Elf, Half-Orc, Human, and Tiefling characters have no valid subrace options implemented within this application.
+
+-sex
+
+    Female
+    Male
+
+-background
+
+    Acolyte
+    Charlatan
+    Criminal
+    Entertainer
+    Folk Hero
+    Guild Artisan
+    Hermit
+    Noble
+    Outlander
+    Sage
+    Sailor
+    Soldier
+    Urchin]
+
+-klass
+
+    Barbarian
+    Bard
+    Cleric
+    Druid
+    Fighter
+    Monk
+    Paladin
+    Ranger
+    Rogue
+    Sorcerer
+    Warlock
+    Wizard
+
+-path (*valid path parameters are dependent on the chosen -klass parameter)
+
+    -klass=Barbarian
+        Path of the Beserker
+        Path of the Totem Warrior
+
+    -klass=Bard
+        College of Lore
+        College of Valor
+
+    -klass=Cleric
+        Knowledge Domain
+        Life Domain
+        Light Domain
+        Nature Domain
+        Tempest Domain
+        Trickery Domain
+        War Domain
+
+    -klass=Druid
+        Circle of the Land
+        Circle of the Moon
+
+    -klass=Fighter
+        Battle Master
+        Champion
+        Eldritch Knight
+
+    -klass=Monk
+        Way of Shadow
+        Way of the Four Elements
+        Way of the Open Hand
+
+    -klass=Paladin
+        Oath of the Ancients
+        Oath of Devotion
+        Oath of Vengeance
+
+    -klass=Ranger
+        Beast Master
+        Hunter
+
+    -klass=Rogue
+        Arcane Trickster
+        Assassin
+        Thief
+
+    -klass=Sorcerer
+        Draconic Bloodline
+        Wild Magic
+
+    -klass=Warlock
+        The Archfey
+        The Fiend
+        The Great Old One
+
+    -klass=Wizard
+        School of Abjuration
+        School of Conjuration
+        School of Divination
+        School of Enchantment
+        School of Evocation
+        School of Illusion
+        School of Necromancy
+        School of Transmutation
+
+-level
+
+    1-20
+
+-variant
+    false
+    true
+
+* Note that the variant argument is only used by Human characters and is automatically set to "false" for non-humans.
