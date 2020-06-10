@@ -95,7 +95,7 @@ Valid argument parameters:
 
     -race=Halfling
         Lightfoot
-        StoutWood
+        Stout
 
 *Note that Aasimar, Dragonborn, Half-Elf, Half-Orc, Human, and Tiefling characters have no valid subrace options implemented within this application.
 
