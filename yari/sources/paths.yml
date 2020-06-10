@@ -180,17 +180,81 @@ paths:
       tools: []
       weapons: ['Martial']
   # Druid Circles
-  Circle of the Land:
+  Circle of the Arctic:
     features:
       2: ['Bonus Cantrip', 'Natural Recovery']
-      3: ['Circle Spells']
-      5: ['Circle Spells']
       6: ["Land's Stride"]
-      7: ['Circle Spells']
-      9: ['Circle Spells']
       10: ["Nature's Ward"]
       14: ["Nature's Sanctuary"]
-    magic: {}
+    magic:
+      3: ['Hold Person', 'Spike Growth']
+      5: ['Sleet Storm', 'Slow']
+      7: ['Freedom of Movement', 'Ice Storm']
+      9: ['Commune With Nature', 'Cone of Cold']
+    parent: Druid
+    proficiency:
+      armors: []
+      tools: []
+      weapons: []
+  Circle of the Coast:
+    features:
+      2: ['Bonus Cantrip', 'Natural Recovery']
+      6: ["Land's Stride"]
+      10: ["Nature's Ward"]
+      14: ["Nature's Sanctuary"]
+    magic:
+      3: ['Mirror Image', 'Misty Step']
+      5: ['Water Breathing', 'Water Walk']
+      7: ['Control Water', 'Freedom of Movement']
+      9: ['Conjure Elemental', 'Scrying']
+    parent: Druid
+    proficiency:
+      armors: []
+      tools: []
+      weapons: []
+  Circle of the Desert:
+    features:
+      2: ['Bonus Cantrip', 'Natural Recovery']
+      6: ["Land's Stride"]
+      10: ["Nature's Ward"]
+      14: ["Nature's Sanctuary"]
+    magic:
+      3: ['Blur', 'Silence']
+      5: ['Create Food and Water', 'Protection From Energy']
+      7: ['Blight', 'Hallucinatory Terrain']
+      9: ['Insect Plague', 'Wall of Stone']
+    parent: Druid
+    proficiency:
+      armors: []
+      tools: []
+      weapons: []
+  Circle of the Forest:
+    features:
+      2: ['Bonus Cantrip', 'Natural Recovery']
+      6: ["Land's Stride"]
+      10: ["Nature's Ward"]
+      14: ["Nature's Sanctuary"]
+    magic:
+      3: ['Barkskin', 'Spider Climb']
+      5: ['Call Lightning', 'Plant Growth']
+      7: ['Divination', 'Freedom of Movement']
+      9: ['Commune With Nature', 'Tree Stride']
+    parent: Druid
+    proficiency:
+      armors: []
+      tools: []
+      weapons: []
+  Circle of the Grassland:
+    features:
+      2: ['Bonus Cantrip', 'Natural Recovery']
+      6: ["Land's Stride"]
+      10: ["Nature's Ward"]
+      14: ["Nature's Sanctuary"]
+    magic:
+      3: ['Invisibility', 'Pass Without Trace']
+      5: ['Daylight', 'Haste']
+      7: ['Divination', 'Freedom of Movement']
+      9: ['Dream', 'Insect Plague']
     parent: Druid
     proficiency:
       armors: []
@@ -203,6 +267,54 @@ paths:
       10: ['Elemental Wild Shape']
       14: ['Thousand Forms']
     magic: {}
+    parent: Druid
+    proficiency:
+      armors: []
+      tools: []
+      weapons: []
+  Circle of the Mountain:
+    features:
+      2: ['Bonus Cantrip', 'Natural Recovery']
+      6: ["Land's Stride"]
+      10: ["Nature's Ward"]
+      14: ["Nature's Sanctuary"]
+    magic:
+      3: ['Spider Climb', 'Spike Growth']
+      5: ['Lightning Bolt', 'Meld Into Stone']
+      7: ['Stone Shape', 'Stoneskin']
+      9: ['Passwall', 'Wall of Stone']
+    parent: Druid
+    proficiency:
+      armors: []
+      tools: []
+      weapons: []
+  Circle of the Swamp:
+    features:
+      2: ['Bonus Cantrip', 'Natural Recovery']
+      6: ["Land's Stride"]
+      10: ["Nature's Ward"]
+      14: ["Nature's Sanctuary"]
+    magic:
+      3: ['Darkness', "Melf's Acid Arrow"]
+      5: ['Water Walk', 'Stinking Cloud']
+      7: ['Freedom of Movement', 'Locate Creature']
+      9: ['Insect Plague', 'Scrying']
+    parent: Druid
+    proficiency:
+      armors: []
+      tools: []
+      weapons: []
+  Circle of the Underdark:
+    features:
+      2: ['Bonus Cantrip', 'Natural Recovery']
+      6: ["Land's Stride"]
+      10: ["Nature's Ward"]
+      14: ["Nature's Sanctuary"]
+    magic:
+      3: ['Spider Climb', 'Web']
+      5: ['Gaseous Form', 'Stinking Cloud']
+      7: ['Greater Invisibility', 'Stone Shape']
+      9: ['Cloudkill', 'Insect Plague']
     parent: Druid
     proficiency:
       armors: []
