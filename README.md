@@ -1,7 +1,7 @@
-#Yari: "Yet Another RPG Implementation"
+# Yari: "Yet Another RPG Implementation"
 
 
-###DESCRIPTION
+### DESCRIPTION
 
 My tool for making quick and easy 5th edition Dungeons & Dragons characters.
 
@@ -10,13 +10,13 @@ Originally this project was known as personaednd and dndpersona.
 "Yari is the term for a traditionally-made Japanese blade in the form of a spear, or more specifically, the straight-headed spear."
  - From Wikipedia, the free encyclopedia - http://www.wikipedia.org
 
-###DISCLAIMER
+### DISCLAIMER
 
 This software is not affiliated with, endorsed, sponsored, or specifically approved
 by Wizards of the Coast LLC. This software is a fan made tool.
 
 
-###REQUIREMENTS
+### REQUIREMENTS
 
   * beautifulsoup4
   * click
