@@ -14,7 +14,7 @@ from yari.writer import Writer
 
 
 @click.command()
-@click.option("-file", default="", help="Character sheet file name.", type=str)
+@click.option("-file", default="", help="Character output file name.", required=True, type=str)
 @click.option("-race", default="", help="Character's chosen race.", type=str)
 @click.option("-subrace", default="", help="Character's chosen subrace.", type=str)
 @click.option("-sex", default="", help="Character's chosen gender.", type=str)
@@ -56,6 +56,9 @@ def main(
             click.secho(f"success: {message}", bold=True, fg="bright_green")
 
     # Handle application argument processing.
+    if file == "":
+        out("character must have a file name", is_error=True)
+
     if race != "":
         if race not in reader("races"):
             out(f"invalid character race '{race}'", is_error=True)
