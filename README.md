@@ -1,19 +1,22 @@
-1. DESCRIPTION
+#Yari: "Yet Another RPG Implementation"
 
-Yari "Yet Another RPG Implementation" makes it quick and easy to generate 5th edition Dungeons & Dragons characters.
+
+###DESCRIPTION
+
+My tool for making quick and easy 5th edition Dungeons & Dragons characters.
 
 Originally this project was known as personaednd and dndpersona.
 
 "Yari is the term for a traditionally-made Japanese blade in the form of a spear, or more specifically, the straight-headed spear."
  - From Wikipedia, the free encyclopedia - http://www.wikipedia.org
 
-2. DISCLAIMER
+###DISCLAIMER
 
 This software is not affiliated with, endorsed, sponsored, or specifically approved
 by Wizards of the Coast LLC. This software is a fan made tool.
 
 
-3. REQUIREMENTS
+###REQUIREMENTS
 
   * beautifulsoup4
   * click
@@ -21,18 +24,18 @@ by Wizards of the Coast LLC. This software is a fan made tool.
   * PyYAML
 
 
-4. INSTALLATION
+###4. INSTALLATION
 
 To install Yari, clone the repository and run the setup script:
 
-    python setup.py install or python3 setup.py install
+```python setup.py install``` or ```python3 setup.py install```
 
 
-5. USAGE
+###USAGE
 
 To run, type 'yari' in your terminal, followed by any required arguments.
 
-=====================
+```
 Usage: yari [OPTIONS]
 
 Options:
@@ -47,7 +50,7 @@ Options:
   -variant TEXT      Use variant rules (Humans only).
   --version          Show the version and exit.
   --help             Show this message and exit.
-=====================
+```
 
 Only the -file argument is required.
 
@@ -94,7 +97,7 @@ Valid argument parameters:
         Lightfoot
         StoutWood
 
-* Note that Aasimar, Dragonborn, Half-Elf, Half-Orc, Human, and Tiefling characters have no valid subrace options implemented within this application.
+*Note that Aasimar, Dragonborn, Half-Elf, Half-Orc, Human, and Tiefling characters have no valid subrace options implemented within this application.
 
 -sex
 
@@ -152,8 +155,15 @@ Valid argument parameters:
         War Domain
 
     -klass=Druid
-        Circle of the Land
+        Circle of the Artic
+        Circle of the Coast
+        Circle of the Desert
+        Circle of the Forest
+        Circle of the Grassland
         Circle of the Moon
+        Circle of the Mountain
+        Circle of the Swamp
+        Circle of the Underdark
 
     -klass=Fighter
         Battle Master
@@ -206,4 +216,4 @@ Valid argument parameters:
     false
     true
 
-* Note that the variant argument is only used by Human characters and is automatically set to "false" for non-humans.
+*Note that the variant argument is only used by Human characters and is automatically set to "false" for non-humans.
