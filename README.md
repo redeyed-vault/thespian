@@ -24,14 +24,14 @@ by Wizards of the Coast LLC. This software is a fan made tool.
   * PyYAML
 
 
-###4. INSTALLATION
+### INSTALLATION
 
 To install Yari, clone the repository and run the setup script:
 
 ```python setup.py install``` or ```python3 setup.py install```
 
 
-###USAGE
+### USAGE
 
 To run, type 'yari' in your terminal, followed by any required arguments.
 
@@ -118,7 +118,7 @@ Valid argument parameters:
     Sage
     Sailor
     Soldier
-    Urchin]
+    Urchin
 
 -klass
 
