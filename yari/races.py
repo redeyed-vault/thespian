@@ -1,15 +1,8 @@
 import random
 
 from yari.collect import purge
+from yari.exceptions import InheritanceError, InvalidValueError
 from yari.reader import reader
-
-
-class RacesInheritError(Exception):
-    """Generic _Races inheritance error."""
-
-
-class RacesValueError(ValueError):
-    """Raised for _Races ValueError occurrences."""
 
 
 class _Races:
@@ -39,20 +32,20 @@ class _Races:
         """
         self.race = self.__class__.__name__
         if self.race == "_Races":
-            raise RacesInheritError("this class must be inherited")
+            raise InheritanceError("this class must be inherited")
 
         if subrace is not None and not get_subraces_by_race(self.race):
-            raise RacesValueError(f"invalid subrace '{subrace}'")
+            raise InvalidValueError(f"invalid subrace '{subrace}'")
         else:
             self.subrace = subrace
 
         if not isinstance(class_attr, dict):
-            raise RacesValueError("class_attr value must be of type 'dict'")
+            raise InvalidValueError("class_attr value must be of type 'dict'")
         else:
             self.class_attr = tuple(class_attr.values())
 
         if not isinstance(variant, bool):
-            raise RacesValueError("variant value must be of type 'bool'")
+            raise InvalidValueError("variant value must be of type 'bool'")
         else:
             self.variant = variant
 

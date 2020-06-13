@@ -2,12 +2,9 @@ from collections import OrderedDict
 import random
 
 from yari.collect import pick
+from yari.exceptions import InheritanceError
 from yari.races import get_subraces_by_race
 from yari.reader import reader
-
-
-class AttributesInheritError(Exception):
-    """Generic _Races inheritance error."""
 
 
 class _Attributes:
@@ -32,7 +29,7 @@ class _Attributes:
         """
         self.attribute = self.__class__.__name__
         if self.attribute == "_Attributes":
-            raise AttributesInheritError("this class must be inherited")
+            raise InheritanceError("this class must be inherited")
 
         self.attr = dict()
         self.attr["value"] = score

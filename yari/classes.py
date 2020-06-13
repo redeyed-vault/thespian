@@ -2,15 +2,8 @@ import math
 import random
 
 from yari.collect import fuse
+from yari.exceptions import InheritanceError, InvalidValueError
 from yari.reader import reader
-
-
-class ClassesInheritError(Exception):
-    """Generic _Classes inheritance error."""
-
-
-class ClassesValueError(ValueError):
-    """Raised for _Classes ValueError occurrences."""
 
 
 class _Classes:
@@ -41,29 +34,22 @@ class _Classes:
         """
         self.klass = self.__class__.__name__
         if self.klass == "_Classes":
-            raise ClassesInheritError("this class must be inherited")
+            raise InheritanceError("this class must be inherited")
 
         if not get_is_class(self.klass):
-            raise ClassesValueError(f"class '{self.klass}' does not exist")
+            raise InvalidValueError(f"class '{self.klass}' does not exist")
 
         if path is not None and not get_is_path(path, self.klass):
-            raise ClassesValueError(f"class path {path} is invalid")
+            raise InvalidValueError(f"class path {path} is invalid")
         else:
             self.path = path
 
         if not isinstance(level, int):
-            raise ClassesValueError("level value must be of type 'int'")
+            raise InvalidValueError("level value must be of type 'int'")
         elif level not in range(1, 21):
-            raise ClassesValueError("level value must be between 1-20")
+            raise InvalidValueError("level value must be between 1-20")
         else:
             self.level = level
-
-        """
-        if "roll_hp" not in kw or not isinstance(kw["roll_hp"], bool):
-            kw["roll_hp"] = False
-
-        self.roll_hp = kw.get("roll_hp")
-        """
 
         self.features = reader("classes", (self.klass,))
         self.features["abilities"] = self._get_class_abilities()
@@ -75,14 +61,19 @@ class _Classes:
             or self.klass == "Rogue"
             and self.path != "Arcane Trickster"
         ):
-            self.features["spell_slots"] = ""
+            self.features["spell_slots"] = "0"
         else:
-            self.features["spell_slots"] = self.features["spell_slots"].get(self.level)
+            spell_slots = self.features.get("spell_slots")
+            if self.level not in spell_slots:
+                spell_slots = "0"
+            else:
+                spell_slots = spell_slots.get(self.level)
+            self.features["spell_slots"] = spell_slots
 
         if has_class_spells(self.path):
             self._get_class_path_magic()
 
-        # self._enc_class_hit_die()
+        self._get_class_hit_die()
         self._get_class_proficiency("armors")
         self._get_class_proficiency("tools")
         self._get_class_proficiency("weapons")
@@ -139,8 +130,7 @@ class _Classes:
 
         return final_feature_list
 
-    '''
-    def _enc_class_hit_die(self):
+    def _get_class_hit_die(self):
         """Generates hit die and point totals."""
         hit_die = self.features.get("hit_die")
         self.features["hit_die"] = f"{self.level}d{hit_die}"
@@ -149,13 +139,9 @@ class _Classes:
             new_level = self.level - 1
             die_rolls = list()
             for _ in range(0, new_level):
-                if self.roll_hp:
-                    hp_result = random.randint(1, hit_die)
-                else:
-                    hp_result = int((hit_die / 2) + 1)
+                hp_result = int((hit_die / 2) + 1)
                 die_rolls.append(hp_result)
             self.features["hit_points"] += sum(die_rolls)
-    '''
 
     def _get_class_path_magic(self):
         """Builds a dictionary list of specialized magic spells."""
@@ -176,7 +162,7 @@ class _Classes:
         class_proficiency = reader("classes", (self.klass,)).get("proficiency")
         path_proficiency = reader("paths", (self.path,)).get("proficiency")
         if prof_type not in ("armors", "tools", "weapons"):
-            raise ClassesValueError
+            raise InvalidValueError
 
         if prof_type == "tools":
             if self.path == "Assassin" and self.level < 3:
