@@ -1,7 +1,7 @@
 # Yari: "Yet Another RPG Implementation"
 
 
-### DESCRIPTION
+#### DESCRIPTION
 
 My tool for making quick and easy 5th edition Dungeons & Dragons characters.
 
@@ -10,13 +10,13 @@ Originally this project was known as personaednd and dndpersona.
 "Yari is the term for a traditionally-made Japanese blade in the form of a spear, or more specifically, the straight-headed spear."
  - From Wikipedia, the free encyclopedia - http://www.wikipedia.org
 
-### DISCLAIMER
+#### DISCLAIMER
 
 This software is not affiliated with, endorsed, sponsored, or specifically approved
 by Wizards of the Coast LLC. This software is a fan made tool.
 
 
-### REQUIREMENTS
+#### REQUIREMENTS
 
   * beautifulsoup4
   * click
@@ -24,16 +24,14 @@ by Wizards of the Coast LLC. This software is a fan made tool.
   * PyYAML
 
 
-### INSTALLATION
+#### INSTALLATION
 
 To install Yari, clone the repository and run the setup script:
 
 ```python setup.py install``` or ```python3 setup.py install```
 
 
-### USAGE
-
-To run, type 'yari' in your terminal, followed by any required arguments.
+#### USAGE
 
 ```
 Usage: yari [OPTIONS]
@@ -52,7 +50,7 @@ Options:
   --help             Show this message and exit.
 ```
 
-Only the -file argument is required.
+To run Yari with minimal arguments, type the following in your terminal:
 
     yari -file=some_character_file
 
