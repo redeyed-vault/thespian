@@ -29,9 +29,10 @@ class ImprovementGenerator:
     ) -> None:
         """
         Args:
-            race (str): Character's race.
-            klass (str): Character's class.
-            level (int): Character's level.
+            race (str): Character's chosen race.
+            klass (str): Character's chosen class.
+            path (str): Character's chosen path.
+            level (int): Character's chosen level.
             class_attr (dict): Primary abilities for class_.
             saves (list): Character's proficient saving throws.
             spell_slots (str): Character's spell slots.
@@ -43,7 +44,9 @@ class ImprovementGenerator:
             skills (list): Character's skills.
             variant (bool): Use variant rules.
         """
+        self.race = race
         self.klass = klass
+        self.path = path
         self.level = level
         self.saves = saves
         self.spell_slots = spell_slots
@@ -339,7 +342,7 @@ class ImprovementGenerator:
 
             if requirement == "caster":
                 # Basic spell caster check, does the character have spells?
-                if self.spell_slots == "":
+                if self.spell_slots == "0":
                     return False
 
                 # Magic Initiative
