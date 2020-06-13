@@ -78,7 +78,7 @@ class Writer:
         now = datetime.now()
         timestamp = datetime.fromtimestamp(datetime.timestamp(now))
 
-        if self.data.get("subrace") is not None:
+        if self.data.get("subrace") != "":
             race = f'{self.data.get("race")}, {self.data.get("subrace")}'
         else:
             race = self.data.get("race")
