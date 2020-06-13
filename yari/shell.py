@@ -3,7 +3,7 @@ from collections import OrderedDict
 import click
 
 from yari.classes import *
-from yari.attributes import AttributeGenerator, AttributesInheritError
+from yari.attributes import AttributeGenerator
 from yari.improvement import ImprovementGenerator
 from yari.proficiency import ProficiencyGenerator, ProficiencyTypeValueError
 from yari.races import *
@@ -123,27 +123,22 @@ def main(
     # Generate class features
     a = None
     c = None
-    t = None
+    r = None
 
     try:
         this_class = eval(klass)
         c = this_class(path, level)
 
         this_race = eval(race)
-        t = this_race(subrace, c.features.get("abilities"), variant)
-    except (
-        ClassesInheritError,
-        ClassesValueError,
-        RacesInheritError,
-        RacesValueError,
-    ) as e:
+        r = this_race(subrace, c.features.get("abilities"), variant)
+    except (InheritanceError, InvalidValueError) as e:
         out(e, is_error=True)
 
     # Generate ability scores
     try:
         a = AttributeGenerator(c.features.get("abilities"))
         a.set_racial_bonus(race, subrace, c.features.get("abilities"), variant)
-    except AttributesInheritError as e:
+    except InheritanceError as e:
         out(str(e), is_error=True)
 
     # Generate character armor, tool and weapon proficiencies
@@ -152,14 +147,14 @@ def main(
     weapons = None
 
     try:
-        armors = ProficiencyGenerator("armors", c.features, t.traits)
-        tools = ProficiencyGenerator("tools", c.features, t.traits)
-        weapons = ProficiencyGenerator("weapons", c.features, t.traits)
+        armors = ProficiencyGenerator("armors", c.features, r.traits)
+        tools = ProficiencyGenerator("tools", c.features, r.traits)
+        weapons = ProficiencyGenerator("weapons", c.features, r.traits)
     except ProficiencyTypeValueError as e:
         out(str(e), is_error=True)
 
     # Generate character skills
-    g = SkillGenerator(background, klass, t.traits.get("skills"))
+    g = SkillGenerator(background, klass, r.traits.get("skills"))
 
     # Assign ability/feat improvements
     u = ImprovementGenerator(
@@ -171,7 +166,7 @@ def main(
         saves=c.features.get("saves"),
         spell_slots=c.features.get("spell_slots"),
         score_array=a.score_array,
-        languages=t.traits.get("languages"),
+        languages=r.traits.get("languages"),
         armor_proficiency=armors.proficiency,
         tool_proficiency=tools.proficiency,
         weapon_proficiency=weapons.proficiency,
@@ -186,24 +181,24 @@ def main(
     proficiency_info["weapons"] = u.weapon_proficiency
 
     cs = OrderedDict()
-    cs["race"] = race
+    cs["race"] = u.race
     cs["subrace"] = subrace
     cs["sex"] = sex
     cs["background"] = background
     cs["class"] = klass
     cs["level"] = level
-    cs["path"] = c.features.get("path")
+    cs["path"] = u.path
     cs["bonus"] = get_proficiency_bonus(level)
     cs["score_array"] = u.score_array
     cs["saves"] = u.saves
-    cs["spell_slots"] = c.features.get("spell_slots")
+    cs["spell_slots"] = u.spell_slots
     cs["proficiency"] = proficiency_info
     cs["languages"] = u.languages
     cs["skills"] = u.skills
     cs["feats"] = u.feats
-    cs["equipment"] = reader("backgrounds", (background, "equipment"))
+    cs["equipment"] = reader("backgrounds", (background,)).get("equipment")
     cs["features"] = c.features.get("features")
-    cs["traits"] = t.traits
+    cs["traits"] = r.traits
 
     try:
         with Writer(cs) as writer:
