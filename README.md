@@ -54,7 +54,9 @@ To run Yari with minimal arguments, type the following in your terminal:
 
     yari -file=some_character_file
 
-If run with just the bare minimum arguments as shown above, Yari will randomly generate the character's race, subrace, sex, klass and path. Unless specified, the level will always be 1 and the background will be the default for the chosen klass.
+If run with just the bare minimum arguments as shown above, Yari will randomly generate the character's race, subrace, sex, klass and path. Level will be defaulted to 1 and the background defaults to the default for the chosen klass.
+
+Character's will always be saved to *$HOME/Yari*.
 
 Valid argument parameters:
 
