@@ -71,8 +71,8 @@ Valid argument parameters:
     Dwarf
     Elf
     Gnome
-    Half-elf
-    Half-orc
+    HalfElf
+    HalfOrc
     Halfling
     Human
     Tiefling
@@ -101,7 +101,7 @@ Valid argument parameters:
         Lightfoot
         Stout
 
-**Note that Aasimar, Dragonborn, Half-Elf, Half-Orc, Human, and Tiefling characters have no valid subrace options implemented within this application.*
+**Note that Aasimar, Dragonborn, HalfElf, HalfOrc, Human, and Tiefling characters have no valid subrace options implemented within this application.*
 
 **-sex**
 
