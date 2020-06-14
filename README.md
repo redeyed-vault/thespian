@@ -60,7 +60,7 @@ Character's will always be saved to *$HOME/Yari*.
 
 Valid argument parameters:
 
--race
+**-race**
 
     Aasimar
     Dragonborn
@@ -73,7 +73,7 @@ Valid argument parameters:
     Human
     Tiefling
 
--subrace (*valid subrace parameters are dependent on the chosen -race parameter)
+**-subrace** (*valid subrace parameters are dependent on the chosen -race parameter*)
 
     -race=Dwarf
         Duergar
@@ -97,14 +97,14 @@ Valid argument parameters:
         Lightfoot
         Stout
 
-*Note that Aasimar, Dragonborn, Half-Elf, Half-Orc, Human, and Tiefling characters have no valid subrace options implemented within this application.
+**Note that Aasimar, Dragonborn, Half-Elf, Half-Orc, Human, and Tiefling characters have no valid subrace options implemented within this application.*
 
--sex
+**-sex**
 
     Female
     Male
 
--background
+**-background**
 
     Acolyte
     Charlatan
@@ -120,7 +120,7 @@ Valid argument parameters:
     Soldier
     Urchin
 
--klass
+**-klass**
 
     Barbarian
     Bard
@@ -135,7 +135,7 @@ Valid argument parameters:
     Warlock
     Wizard
 
--path (*valid path parameters are dependent on the chosen -klass parameter)
+**-path** (**valid path parameters are dependent on the chosen -klass parameter*)
 
     -klass=Barbarian
         Path of the Beserker
@@ -208,13 +208,13 @@ Valid argument parameters:
         School of Necromancy
         School of Transmutation
 
--level
+**-level**
 
     1-20
 
--variant
+**-variant**
 
     false
     true
 
-*Note that the variant argument is only used by Human characters and is automatically set to "false" for non-humans.
+**Note that the variant argument is only used by Human characters and is automatically set to "false" for non-humans.*
