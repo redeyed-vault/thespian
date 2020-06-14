@@ -26,9 +26,13 @@ by Wizards of the Coast LLC. This software is a fan made tool.
 
 #### INSTALLATION
 
-To install Yari, clone the repository and run the setup script:
+To install Yari from source, clone the repository and run the setup script:
 
 ```python setup.py install``` or ```python3 setup.py install```
+
+To install Yari from PYPI, run the following command:
+
+```pip install Yari``` or ```pip3 install Yari```
 
 
 #### USAGE
