@@ -15,6 +15,9 @@ subraces:
       abilities:
         Charisma: 1
       darkvision: 120
+      height:
+        base: 53
+        modifier: 2d6
       magic:
         1: Dancing Lights
         3: Faerie Fire
@@ -22,6 +25,9 @@ subraces:
       proficiency:
         weapons: ['Hand Crossbow', 'Rapier', 'Shortsword']
       sensitivity: Sunlight
+      weight:
+        base: 75
+        modifier: 1d6
   Duergar:
     parent: Dwarf
     traits:
@@ -39,8 +45,14 @@ subraces:
     traits:
       abilities:
         Intelligence: 1
+      height:
+        base: 54
+        modifier: 2d12
       proficiency:
         weapons: ['Longsword', 'Shortsword', 'Shortbow', 'Longbow']
+      weight:
+        base: 90
+        modifier: 1d4
   Forest:
     parent: Gnome
     traits:
@@ -71,14 +83,26 @@ subraces:
         - Ray of Frost
         - Shocking Grasp
         - True Strike
+      height:
+        base: 54
+        modifier: 2d10
       proficiency:
         weapons: ['Longsword', 'Shortsword', 'Shortbow', 'Longbow']
+      weight:
+        base: 90
+        modifier: 1d4
   Hill:
     parent: Dwarf
     traits:
       abilities:
         Wisdom: 1
+      height:
+        base: 44
+        modifier: 2d4
       toughness: 1
+      weight:
+        base: 115
+        modifier: 2d6
   Lightfoot:
     parent: Halfling
     traits:
@@ -90,8 +114,14 @@ subraces:
     traits:
       abilities:
         Strength: 2
+      height:
+        base: 48
+        modifier: 2d4
       proficiency:
         armors: ['Light', 'Medium']
+      weight:
+        base: 130
+        modifier: 2d6
   Rock:
     parent: Gnome
     traits:
@@ -106,15 +136,27 @@ subraces:
     traits:
       abilities:
         Constitution: 1
+      height:
+        base: 54
+        modifier: 2d8
       languages: ['Aquan']
       proficiency:
         weapons: ['Light Crossbow', 'Net', 'Spear', 'Trident']
+      weight:
+        base: 90
+        modifier: 1d4
   Shadar-kai:
     parent: Elf
     traits:
       abilities:
         Constitution: 1
+      height:
+        base: 56
+        modifier: 2d8
       resistance: ['Necrotic']
+      weight:
+        base: 90
+        modifier: 1d4
   Stout:
     parent: Halfling
     traits:
@@ -126,5 +168,11 @@ subraces:
     traits:
       abilities:
         Wisdom: 1
+      height:
+        base: 54
+        modifier: 2d10
       proficiency:
         weapons: ['Longsword', 'Shortsword', 'Shortbow', 'Longbow']
+      weight:
+        base: 100
+        modifier: 1d4
