@@ -2,6 +2,7 @@ from collections import OrderedDict
 import random
 
 from yari.collect import pick
+from yari.dice import roll
 from yari.exceptions import InheritanceError
 from yari.races import get_subraces_by_race
 from yari.reader import reader
@@ -136,15 +137,16 @@ class AttributeGenerator:
         self.score_array = score_array
 
     def determine_ability_scores(self) -> list:
-        """Generates six ability scores that total gte threshold."""
+        """Generates six ability scores for assignment."""
 
-        def roll() -> int:
-            die_rolls = [random.randint(1, 6) for _ in range(4)]
-            return sum(die_rolls) - min(die_rolls)
+        def _roll() -> int:
+            rolls = list(roll("4d6"))
+            rolls.remove(min(rolls))
+            return sum(rolls)
 
         results = list()
         while sum(results) < self.threshold or min(results) < 8 or max(results) < 15:
-            results = [roll() for _ in range(6)]
+            results = [_roll() for _ in range(6)]
 
         return results
 
