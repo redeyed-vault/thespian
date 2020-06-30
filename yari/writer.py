@@ -16,7 +16,7 @@ from yari.version import __version__
 
 
 class Writer:
-    """Handles the writing of the character sheet."""
+    """Handles the authoring of the character sheet."""
 
     def __init__(self, data: OrderedDict) -> None:
         """
@@ -38,6 +38,8 @@ class Writer:
             "subrace",
             "sex",
             "background",
+            "height",
+            "weight",
             "class",
             "level",
             "path",
@@ -65,7 +67,7 @@ class Writer:
         pass
 
     def write(self, fp: str) -> None:
-        """Writes character sheet data to file.
+        """Writes data to character sheet in XML format.
 
         Args:
             fp (str): File to write character data to.
@@ -100,6 +102,8 @@ class Writer:
         x += f"<version>{__version__}</version></meta>"
         x += f"<character><race>{race}</race>"
         x += f'<sex>{self.data.get("sex")}</sex>'
+        x += f'<height>{self.data.get("height")}</height>'
+        x += f'<weight>{self.data.get("weight")}</weight>'
         x += f'<background>{self.data.get("background")}</background>'
         x += f'<class>{self.data.get("class")}</class>'
         x += f'<level>{self.data.get("level")}</level>'

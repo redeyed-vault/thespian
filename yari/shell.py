@@ -7,6 +7,7 @@ from yari.attributes import AttributeGenerator
 from yari.improvement import ImprovementGenerator
 from yari.proficiency import ProficiencyGenerator, ProficiencyTypeValueError
 from yari.races import *
+from yari.ratio import RatioGenerator
 from yari.skills import SkillGenerator
 from yari.version import __version__
 from yari.reader import reader
@@ -14,7 +15,9 @@ from yari.writer import Writer
 
 
 @click.command()
-@click.option("-file", default="", help="Character output file name.", required=True, type=str)
+@click.option(
+    "-file", default="", help="Character output file name.", required=True, type=str
+)
 @click.option("-race", default="", help="Character's chosen race.", type=str)
 @click.option("-subrace", default="", help="Character's chosen subrace.", type=str)
 @click.option("-sex", default="", help="Character's chosen gender.", type=str)
@@ -121,7 +124,7 @@ def main(
         out("argument variant must be 'false|true'", is_error=True)
 
     # Generate class features
-    a = None
+    ag = None
     c = None
     r = None
 
@@ -134,10 +137,15 @@ def main(
     except (InheritanceError, InvalidValueError) as e:
         out(e, is_error=True)
 
+    rg = RatioGenerator(race, subrace)
+    ratio = rg.calculate()
+    height = f'{ratio[0][0]}\' {ratio[0][1]}"'
+    weight = ratio[1]
+
     # Generate ability scores
     try:
-        a = AttributeGenerator(c.features.get("abilities"))
-        a.set_racial_bonus(race, subrace, c.features.get("abilities"), variant)
+        ag = AttributeGenerator(c.features.get("abilities"))
+        ag.set_racial_bonus(race, subrace, c.features.get("abilities"), variant)
     except InheritanceError as e:
         out(str(e), is_error=True)
 
@@ -154,7 +162,7 @@ def main(
         out(str(e), is_error=True)
 
     # Generate character skills
-    g = SkillGenerator(background, klass, r.traits.get("skills"))
+    sg = SkillGenerator(background, klass, r.traits.get("skills"))
 
     # Assign ability/feat improvements
     u = ImprovementGenerator(
@@ -165,12 +173,12 @@ def main(
         class_attr=c.features.get("abilities"),
         saves=c.features.get("saves"),
         spell_slots=c.features.get("spell_slots"),
-        score_array=a.score_array,
+        score_array=ag.score_array,
         languages=r.traits.get("languages"),
         armor_proficiency=armors.proficiency,
         tool_proficiency=tools.proficiency,
         weapon_proficiency=weapons.proficiency,
-        skills=g.skills,
+        skills=sg.skills,
         variant=variant,
     )
 
@@ -185,6 +193,8 @@ def main(
     cs["subrace"] = subrace
     cs["sex"] = sex
     cs["background"] = background
+    cs["height"] = height
+    cs["weight"] = weight
     cs["class"] = klass
     cs["level"] = level
     cs["path"] = u.path
