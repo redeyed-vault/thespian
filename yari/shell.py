@@ -125,27 +125,27 @@ def main(
 
     # Generate class features
     ag = None
-    c = None
-    r = None
+    cg = None
+    rg = None
 
     try:
         this_class = eval(klass)
-        c = this_class(path, level)
+        cg = this_class(path, level)
 
         this_race = eval(race)
-        r = this_race(subrace, c.features.get("abilities"), variant)
+        rg = this_race(subrace, cg.features.get("abilities"), variant)
     except (InheritanceError, InvalidValueError) as e:
         out(e, is_error=True)
 
-    rg = RatioGenerator(race, subrace)
-    ratio = rg.calculate()
+    mg = RatioGenerator(race, subrace)
+    ratio = mg.calculate()
     height = f'{ratio[0][0]}\' {ratio[0][1]}"'
     weight = ratio[1]
 
     # Generate ability scores
     try:
-        ag = AttributeGenerator(c.features.get("abilities"))
-        ag.set_racial_bonus(race, subrace, c.features.get("abilities"), variant)
+        ag = AttributeGenerator(cg.features.get("abilities"))
+        ag.set_racial_bonus(race, subrace, cg.features.get("abilities"), variant)
     except InheritanceError as e:
         out(str(e), is_error=True)
 
@@ -155,14 +155,14 @@ def main(
     weapons = None
 
     try:
-        armors = ProficiencyGenerator("armors", c.features, r.traits)
-        tools = ProficiencyGenerator("tools", c.features, r.traits)
-        weapons = ProficiencyGenerator("weapons", c.features, r.traits)
+        armors = ProficiencyGenerator("armors", cg.features, rg.traits)
+        tools = ProficiencyGenerator("tools", cg.features, rg.traits)
+        weapons = ProficiencyGenerator("weapons", cg.features, rg.traits)
     except ProficiencyTypeValueError as e:
         out(str(e), is_error=True)
 
     # Generate character skills
-    sg = SkillGenerator(background, klass, r.traits.get("skills"))
+    sg = SkillGenerator(background, klass, rg.traits.get("skills"))
 
     # Assign ability/feat improvements
     u = ImprovementGenerator(
@@ -170,11 +170,11 @@ def main(
         path=path,
         klass=klass,
         level=level,
-        class_attr=c.features.get("abilities"),
-        saves=c.features.get("saves"),
-        spell_slots=c.features.get("spell_slots"),
+        class_attr=cg.features.get("abilities"),
+        saves=cg.features.get("saves"),
+        spell_slots=cg.features.get("spell_slots"),
         score_array=ag.score_array,
-        languages=r.traits.get("languages"),
+        languages=rg.traits.get("languages"),
         armor_proficiency=armors.proficiency,
         tool_proficiency=tools.proficiency,
         weapon_proficiency=weapons.proficiency,
@@ -207,8 +207,8 @@ def main(
     cs["skills"] = u.skills
     cs["feats"] = u.feats
     cs["equipment"] = reader("backgrounds", (background,)).get("equipment")
-    cs["features"] = c.features.get("features")
-    cs["traits"] = r.traits
+    cs["features"] = cg.features.get("features")
+    cs["traits"] = rg.traits
 
     try:
         with Writer(cs) as writer:
