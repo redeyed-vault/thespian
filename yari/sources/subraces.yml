@@ -34,12 +34,18 @@ subraces:
       abilities:
         Strength: 1
       darkvision: 120
+      height:
+        base: 44
+        modifier: 2d4
       languages: ['Undercommon']
       magic:
         3: ['Enlarge', 'Reduce']
         5: Invisibility
       resistance: ['Charm', 'Illusion', 'Paralysis']
       sensitivity: Sunlight
+      weight:
+        base: 115
+        modifier: 2d6
   Eladrin:
     parent: Elf
     traits:
