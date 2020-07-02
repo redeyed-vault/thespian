@@ -49,11 +49,11 @@ def main(
     level: int,
     variant: bool,
 ) -> None:
-    def out(message: str, is_error=False, is_warning=False):
-        if is_error:
+    def out(message: str, **kw):
+        if "is_error" in kw and kw["is_error"]:
             click.secho(f"error: {message}", bold=True, fg="red")
             exit()
-        elif is_warning:
+        elif "is_warning" in kw and kw["is_warning"]:
             click.secho(f"warning: {message}", bold=True, fg="yellow")
         else:
             click.secho(f"success: {message}", bold=True, fg="bright_green")
