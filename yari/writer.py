@@ -291,6 +291,20 @@ def format_traits(traits: dict, race: str, subrace=None) -> str:
     for trait, values in traits.items():
         if trait in ("abilities", "languages", "skills"):
             continue
+        elif trait == "action":
+            action_name = None
+            if race == "Aasimar":
+                if subrace == "Fallen":
+                    action_name = "Necrotic Shroud"
+                elif subrace == "Protector":
+                    action_name = "Radiant Soul"
+                elif subrace == "Scourge":
+                    action_name = "Radiant Consumption"
+
+            for level, action in traits[trait].items():
+                block += '<entry name="{}" level="{}" type="{}" />'.format(
+                    action_name, level, trait_label
+                )
         elif trait == "ancestry":
             dragon_ancestry = traits.get(trait)
             block += '<entry name="Draconic Ancestry" type="{}" value="{}" />'.format(
