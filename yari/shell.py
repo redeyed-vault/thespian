@@ -29,7 +29,14 @@ from yari.writer import Writer
     "Dwarf, Elf, Gnome, HalfElf, HalfOrc, Halfling, Human and Tiefling.",
     type=str,
 )
-@click.option("-subrace", default="", help="Character's chosen subrace.", type=str)
+@click.option(
+    "-subrace",
+    default="",
+    help="Character's chosen subrace. Available subraces are based upon the "
+    "chosen race: Dwarf (Duergar, Hill, Mountain), Elf (Drow, Eladrin, High, Sea, "
+    "Shadar-kai, Wood), Gnome (Deep, Forest, Rock), Halfling (Lightfoot, Stout).",
+    type=str,
+)
 @click.option("-sex", default="", help="Character's chosen gender.", type=str)
 @click.option(
     "-background", default="", help="Character's chosen background.", type=str
