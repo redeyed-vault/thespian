@@ -143,6 +143,7 @@ def main(
     else:
         out("argument variant must be 'false|true'", is_error=True)
 
+    # Generate class features and racial traits.
     def callback(method, **kw):
         def init():
             call_class = eval(method)
@@ -155,7 +156,6 @@ def main(
 
         return init()
 
-    # Generate class features
     try:
         cg = callback(klass, path=path, level=level)
         features = cg.features
@@ -167,20 +167,20 @@ def main(
         )
         traits = rg.traits
 
-        # Generate ability scores
+        # Generate ability scores.
         ag = AttributeGenerator(features.get("abilities"))
         ag.set_racial_bonus(race, subrace, features.get("abilities"), variant)
         score_array = ag.score_array
 
-        # Generate character armor, tool and weapon proficiencies
+        # Generate character armor, tool and weapon proficiencies.
         armors = ProficiencyGenerator("armors", features, traits).proficiency
         tools = ProficiencyGenerator("tools", features, traits).proficiency
         weapons = ProficiencyGenerator("weapons", features, traits).proficiency
 
-        # Generate character skills
+        # Generate character skills.
         skills = SkillGenerator(background, klass, traits.get("skills")).skills
 
-        # Assign ability/feat improvements
+        # Assign ability/feat improvements.
         u = ImprovementGenerator(
             race=race,
             path=path,
