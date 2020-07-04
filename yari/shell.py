@@ -123,100 +123,110 @@ def main(
     else:
         out("argument variant must be 'false|true'", is_error=True)
 
+    def callback(method, **kw):
+        def init():
+            call_class = eval(method)
+            if "path" and "level" in kw:
+                return call_class(kw["path"], kw["level"])
+            elif "subrace" and "class_attr" and "variant" in kw:
+                return call_class(kw["subrace"], kw["class_attr"], kw["variant"])
+            else:
+                raise RuntimeError(f"Invalid callback {method}")
+
+        return init()
+
     # Generate class features
-    ag = None
-    cg = None
-    rg = None
-
     try:
-        this_class = eval(klass)
-        cg = this_class(path, level)
+        cg = callback(klass, path=path, level=level)
+        features = cg.features
+        rg = callback(
+            race,
+            subrace=subrace,
+            class_attr=features.get("abilities"),
+            variant=variant,
+        )
+        traits = rg.traits
 
-        this_race = eval(race)
-        rg = this_race(subrace, cg.features.get("abilities"), variant)
-    except (InheritanceError, InvalidValueError) as e:
+        # Generate ability scores
+        ag = AttributeGenerator(features.get("abilities"))
+        ag.set_racial_bonus(race, subrace, features.get("abilities"), variant)
+        score_array = ag.score_array
+
+        # Generate character armor, tool and weapon proficiencies
+        armors = ProficiencyGenerator("armors", features, traits).proficiency
+        tools = ProficiencyGenerator("tools", features, traits).proficiency
+        weapons = ProficiencyGenerator("weapons", features, traits).proficiency
+
+        # Generate character skills
+        skills = SkillGenerator(background, klass, traits.get("skills")).skills
+
+        # Assign ability/feat improvements
+        u = ImprovementGenerator(
+            race=race,
+            path=path,
+            klass=klass,
+            level=level,
+            class_attr=features.get("abilities"),
+            saves=features.get("saves"),
+            spell_slots=features.get("spell_slots"),
+            score_array=score_array,
+            languages=traits.get("languages"),
+            armor_proficiency=armors,
+            tool_proficiency=tools,
+            weapon_proficiency=weapons,
+            skills=skills,
+            variant=variant,
+        )
+
+        # Create proficiency data packet.
+        proficiency_info = OrderedDict()
+        proficiency_info["armors"] = u.armor_proficiency
+        proficiency_info["tools"] = u.tool_proficiency
+        proficiency_info["weapons"] = u.weapon_proficiency
+
+        # Calculate character height/weight.
+        mg = RatioGenerator(race, subrace)
+        ratio = mg.calculate()
+        height = f"{ratio[0][0]}' {ratio[0][1]}\""
+        weight = ratio[1]
+
+        # Gather data for character sheet.
+        cs = OrderedDict()
+        cs["race"] = u.race
+        cs["subrace"] = subrace
+        cs["sex"] = sex
+        cs["background"] = background
+        cs["height"] = height
+        cs["weight"] = weight
+        cs["class"] = klass
+        cs["level"] = level
+        cs["path"] = u.path
+        cs["bonus"] = get_proficiency_bonus(level)
+        cs["score_array"] = u.score_array
+        cs["saves"] = u.saves
+        cs["spell_slots"] = u.spell_slots
+        cs["proficiency"] = proficiency_info
+        cs["languages"] = u.languages
+        cs["skills"] = u.skills
+        cs["feats"] = u.feats
+        cs["equipment"] = reader("backgrounds", (background,)).get("equipment")
+        cs["features"] = features.get("features")
+        cs["traits"] = traits
+
+        try:
+            with Writer(cs) as writer:
+                writer.write(file)
+        except (FileExistsError, IOError, OSError, TypeError, ValueError) as e:
+            out(e, is_error=True)
+        else:
+            out(f"character saved to '{writer.save_path}'")
+    except (
+        InheritanceError,
+        InvalidValueError,
+        ProficiencyTypeValueError,
+        RuntimeError,
+    ) as e:
         out(e, is_error=True)
-
-    mg = RatioGenerator(race, subrace)
-    ratio = mg.calculate()
-    height = f'{ratio[0][0]}\' {ratio[0][1]}"'
-    weight = ratio[1]
-
-    # Generate ability scores
-    try:
-        ag = AttributeGenerator(cg.features.get("abilities"))
-        ag.set_racial_bonus(race, subrace, cg.features.get("abilities"), variant)
-    except InheritanceError as e:
-        out(str(e), is_error=True)
-
-    # Generate character armor, tool and weapon proficiencies
-    armors = None
-    tools = None
-    weapons = None
-
-    try:
-        armors = ProficiencyGenerator("armors", cg.features, rg.traits)
-        tools = ProficiencyGenerator("tools", cg.features, rg.traits)
-        weapons = ProficiencyGenerator("weapons", cg.features, rg.traits)
-    except ProficiencyTypeValueError as e:
-        out(str(e), is_error=True)
-
-    # Generate character skills
-    sg = SkillGenerator(background, klass, rg.traits.get("skills"))
-
-    # Assign ability/feat improvements
-    u = ImprovementGenerator(
-        race=race,
-        path=path,
-        klass=klass,
-        level=level,
-        class_attr=cg.features.get("abilities"),
-        saves=cg.features.get("saves"),
-        spell_slots=cg.features.get("spell_slots"),
-        score_array=ag.score_array,
-        languages=rg.traits.get("languages"),
-        armor_proficiency=armors.proficiency,
-        tool_proficiency=tools.proficiency,
-        weapon_proficiency=weapons.proficiency,
-        skills=sg.skills,
-        variant=variant,
-    )
-
-    # Create the data packet for the Writer
-    proficiency_info = OrderedDict()
-    proficiency_info["armors"] = u.armor_proficiency
-    proficiency_info["tools"] = u.tool_proficiency
-    proficiency_info["weapons"] = u.weapon_proficiency
-
-    cs = OrderedDict()
-    cs["race"] = u.race
-    cs["subrace"] = subrace
-    cs["sex"] = sex
-    cs["background"] = background
-    cs["height"] = height
-    cs["weight"] = weight
-    cs["class"] = klass
-    cs["level"] = level
-    cs["path"] = u.path
-    cs["bonus"] = get_proficiency_bonus(level)
-    cs["score_array"] = u.score_array
-    cs["saves"] = u.saves
-    cs["spell_slots"] = u.spell_slots
-    cs["proficiency"] = proficiency_info
-    cs["languages"] = u.languages
-    cs["skills"] = u.skills
-    cs["feats"] = u.feats
-    cs["equipment"] = reader("backgrounds", (background,)).get("equipment")
-    cs["features"] = cg.features.get("features")
-    cs["traits"] = rg.traits
-
-    try:
-        with Writer(cs) as writer:
-            writer.write(file)
-    except (FileExistsError, IOError, OSError, TypeError, ValueError) as e:
-        out(e, is_error=True)
-    else:
-        out(f"character saved to '{writer.save_path}'")
 
 
 if __name__ == "__main__":
