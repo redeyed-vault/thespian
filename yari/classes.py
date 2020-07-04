@@ -115,20 +115,23 @@ class _Classes:
 
     def _get_class_features(self):
         """Builds a dictionary of features by class, path & level."""
-        final_feature_list = dict()
-        feature_list = reader("classes", (self.klass,)).get("features")
-        path_feature_list = reader("paths", (self.path,)).get("features")
+        try:
+            feature_list = reader("classes", (self.klass,)).get("features")
+            path_feature_list = reader("paths", (self.path,)).get("features")
 
-        for level in range(1, self.level + 1):
-            feature_row = list()
-            if level in feature_list:
-                fuse(feature_row, feature_list[level])
-            if level in path_feature_list:
-                fuse(feature_row, path_feature_list[level])
-            if len(feature_row) is not 0:
-                final_feature_list[level] = feature_row
+            final_feature_list = dict()
+            for level in range(1, self.level + 1):
+                feature_row = list()
+                if level in feature_list:
+                    fuse(feature_row, feature_list[level])
+                if level in path_feature_list:
+                    fuse(feature_row, path_feature_list[level])
+                if len(feature_row) is not 0:
+                    final_feature_list[level] = feature_row
 
-        return final_feature_list
+            return final_feature_list
+        except AttributeError:
+            print(self.path)
 
     def _get_class_hit_die(self):
         """Generates hit die and point totals."""
