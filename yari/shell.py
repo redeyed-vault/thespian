@@ -33,8 +33,9 @@ from yari.writer import Writer
     "-subrace",
     default="",
     help="Character's chosen subrace. Available subraces are based upon the "
-    "chosen race: Dwarf (Duergar, Hill, Mountain), Elf (Drow, Eladrin, High, Sea, "
-    "Shadar-kai, Wood), Gnome (Deep, Forest, Rock), Halfling (Lightfoot, Stout).",
+    "chosen race: Aasimar (Fallen, Protector, Scourge), Dwarf (Duergar, Hill, "
+    "Mountain), Elf (Drow, Eladrin, High, Sea, Shadar-kai, Wood), "
+    "Gnome (Deep, Forest, Rock), Halfling (Lightfoot, Stout).",
     type=str,
 )
 @click.option("-sex", default="", help="Character's chosen gender.", type=str)
@@ -212,7 +213,7 @@ def main(
         proficiency_info["weapons"] = u.weapon_proficiency
 
         # Calculate character height/weight.
-        mg = RatioGenerator(race, subrace)
+        mg = RatioGenerator(race, subrace, sex)
         ratio = mg.calculate()
         height = f"{ratio[0][0]}' {ratio[0][1]}\""
         weight = ratio[1]
