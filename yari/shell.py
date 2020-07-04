@@ -16,24 +16,44 @@ from yari.writer import Writer
 
 @click.command()
 @click.option(
-    "-file", default="", help="Character output file name.", required=True, type=str
+    "-file",
+    default="",
+    help="File name to write character to.",
+    required=True,
+    type=str,
 )
-@click.option("-race", default="", help="Character's chosen race.", type=str)
+@click.option(
+    "-race",
+    default="",
+    help="Character's chosen race. Available races are: Aasimar, Dragonborn, "
+    "Dwarf, Elf, Gnome, HalfElf, HalfOrc, Halfling, Human and Tiefling.",
+    type=str,
+)
 @click.option("-subrace", default="", help="Character's chosen subrace.", type=str)
 @click.option("-sex", default="", help="Character's chosen gender.", type=str)
 @click.option(
     "-background", default="", help="Character's chosen background.", type=str
 )
 @click.option(
-    "-klass", default="", help="Character's chosen class.", type=str,
+    "-klass",
+    default="",
+    help="Character's chosen class. Available classes are: Barbarian, Bard, "
+    "Cleric, Druid, Fighter, Monk, Paladin, Ranger, Rogue, Sorcerer, "
+    "Warlock, and Wizard.",
+    type=str,
 )
 @click.option(
     "-path",
     default="",
-    help="Character's chosen path (archetype, domain, path, etc)",
+    help="Character's chosen path (archetype, domain, path, etc).",
     type=str,
 )
-@click.option("-level", default=1, help="Character's class level.", type=int)
+@click.option(
+    "-level",
+    default=1,
+    help="Character's class level. Must be at or inbetween 1 and 20.",
+    type=int,
+)
 @click.option(
     "-variant", default="false", help="Use variant rules (Humans only).", type=str,
 )
