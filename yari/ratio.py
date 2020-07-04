@@ -7,14 +7,16 @@ from yari.reader import reader
 class RatioGenerator:
     """Handles character ratio calculations for height & weight."""
 
-    def __init__(self, race: str, subrace: str) -> None:
+    def __init__(self, race: str, subrace: str, sex: str) -> None:
         """
         Args:
             race (str): Character's chosen race.
             subrace (str): Character's chosen subrace (if any).
+            sex (str): Character's chosen gender.
 
         """
         self.race = race
+        self.sex = sex
         self.subrace = subrace
 
     def _calculate_height(self, height_modifier: int) -> tuple:
@@ -55,6 +57,13 @@ class RatioGenerator:
             racial_traits = (
                 self._get_traits("subraces", self.subrace).get(ratio).get("base")
             )
+        if (
+            self.sex == "Female"
+            and self.subrace != "Drow"
+            or self.sex == "Male"
+            and self.subrace == "Drow"
+        ):
+            return racial_traits - int(float(racial_traits) * 0.15)
         return racial_traits
 
     def _get_modifier(self, ratio: str) -> str:
