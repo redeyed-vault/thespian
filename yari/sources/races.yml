@@ -4,7 +4,6 @@ races:
   Aasimar:
     traits:
       abilities:
-        Wisdom: 1
         Charisma: 2
       darkvision: 60
       height:
@@ -13,8 +12,6 @@ races:
       languages: ['Common', 'Celestial']
       magic:
         1: Light
-        3: Lesser Restoration
-        5: Daylight
       resistance: ['Necrotic', 'Radiant']
       size: Medium
       speed: 30
