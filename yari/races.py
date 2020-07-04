@@ -186,7 +186,7 @@ class _Races:
                     base_traits.get(trait).append(element)
                 base_traits[trait].sort()
 
-            if trait == "magic" or trait == "sensitivity" or trait == "toughness":
+            if trait == "action" or "magic" or "sensitivity" or "toughness":
                 base_traits[trait] = sub_traits.get(trait)
 
             if trait == "proficiency":
