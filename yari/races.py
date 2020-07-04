@@ -65,6 +65,9 @@ class _Races:
             subrace_traits = reader("subraces", (self.subrace,)).get("traits")
             self.traits = self._merge_traits(self.traits, subrace_traits)
 
+    def __repr__(self):
+        return "<{}, {}>".format(self.race, self.subrace)
+
     def _add_ability_traits(self):
         """Add HalfElf, Human "racial" ability traits."""
         if self.race == "HalfElf":

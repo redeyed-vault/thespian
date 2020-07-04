@@ -80,6 +80,9 @@ class _Classes:
 
         del self.features["paths"]
 
+    def __repr__(self):
+        return "<{}, {}>".format(self.klass, self.path)
+
     def _get_class_abilities(self):
         """Gets primary class abilities.
             Classes with multiple primary ability choices will select one.
