@@ -84,7 +84,6 @@ subraces:
       height:
         base: 60
         modifier: 2d12
-      languages: ['Common', 'Celestial']
       magic:
         1: Mage Hand
         3: Jump
