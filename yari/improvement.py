@@ -60,7 +60,7 @@ class ImprovementGenerator:
 
         # Human and variant rules are used, give bonus feat.
         if race == "Human" and variant:
-            self.add_feat()
+            self._add_feat()
 
         # Add special class languages (if applicable).
         if klass == "Druid":
@@ -117,16 +117,16 @@ class ImprovementGenerator:
             if upgrade_option == "Ability":
                 try:
                     if len(class_attr) is 2:
-                        if self.is_adjustable(class_attr):
+                        if self._is_adjustable(class_attr):
                             for ability in class_attr:
-                                self.set_score_array(ability, 1)
-                                if not self.is_adjustable(ability):
+                                self._set_score_array(ability, 1)
+                                if not self._is_adjustable(ability):
                                     class_attr.remove(ability)
                         elif len(class_attr) is 1:
                             ability = class_attr[0]
-                            if self.is_adjustable(ability):
-                                self.set_score_array(ability, 2)
-                                if not self.is_adjustable(ability):
+                            if self._is_adjustable(ability):
+                                self._set_score_array(ability, 2)
+                                if not self._is_adjustable(ability):
                                     class_attr.remove(ability)
                         else:
                             raise ValueError
@@ -136,22 +136,22 @@ class ImprovementGenerator:
                     upgrade_option = "Feat"
 
             if upgrade_option == "Feat":
-                self.feats.append(self.add_feat())
+                self.feats.append(self._add_feat())
 
-    def add_feat(self) -> str:
+    def _add_feat(self) -> str:
         """Randomly selects and adds a valid feats."""
         feats = list(reader("feats"))
         purge(feats, self.feats)
 
         # Keep choosing a feat until prerequisites are met.
         feat_choice = pick(feats)
-        if not self.has_prerequisites(feat_choice):
-            while not self.has_prerequisites(feat_choice):
+        if not self._has_prerequisites(feat_choice):
+            while not self._has_prerequisites(feat_choice):
                 feat_choice = pick(feats)
-        self.add_features(feat_choice)
+        self._add_features(feat_choice)
         return feat_choice
 
-    def add_features(self, feat: str) -> None:
+    def _add_features(self, feat: str) -> None:
         """Assign associated features by specified feat.
         
         Args:
@@ -159,7 +159,7 @@ class ImprovementGenerator:
         """
         # Actor
         if feat == "Actor":
-            self.set_score_array("Charisma", 1)
+            self._set_score_array("Charisma", 1)
 
         # Athlete/Lightly Armored/Moderately Armored/Weapon Master
         if feat in (
@@ -169,7 +169,7 @@ class ImprovementGenerator:
             "Weapon Master",
         ):
             ability_choice = random.choice(["Strength", "Dexterity"])
-            self.set_score_array(ability_choice, 1)
+            self._set_score_array(ability_choice, 1)
             if feat == "Lightly Armored":
                 add(self.armor_proficiency, "Light")
             elif feat == "Moderately Armored":
@@ -177,17 +177,17 @@ class ImprovementGenerator:
                 add(self.armor_proficiency, "Shield")
         # Durable
         if feat == "Durable":
-            self.set_score_array("Constitution", 1)
+            self._set_score_array("Constitution", 1)
 
         # Heavily Armored/Heavy Armor Master
         if feat in ("Heavily Armored", "Heavy Armor Master"):
-            self.set_score_array("Strength", 1)
+            self._set_score_array("Strength", 1)
             if feat == "Heavily Armored":
                 add(self.armor_proficiency, "Heavy")
 
         # Keen Mind/Linguist
         if feat in ("Keen Mind", "Linguist"):
-            self.set_score_array("Intelligence", 1)
+            self._set_score_array("Intelligence", 1)
             if feat == "Linguist":
                 # Remove already known languages.
                 linguist_languages = [
@@ -215,9 +215,9 @@ class ImprovementGenerator:
         # Observant
         if feat == "Observant":
             if self.klass in ("Cleric", "Druid"):
-                self.set_score_array("Wisdom", 1)
+                self._set_score_array("Wisdom", 1)
             elif self.klass in ("Wizard",):
-                self.set_score_array("Intelligence", 1)
+                self._set_score_array("Intelligence", 1)
 
         # Resilient
         if feat == "Resilient":
@@ -233,7 +233,7 @@ class ImprovementGenerator:
             purge(resilient_saves, self.saves)
             # Choose one non-proficient saving throw.
             ability_choice = random.choice(resilient_saves)
-            self.set_score_array(ability_choice, 1)
+            self._set_score_array(ability_choice, 1)
             add(self.saves, ability_choice)
 
         # Skilled
@@ -244,19 +244,19 @@ class ImprovementGenerator:
                     skills = purge(list(reader("skills")), self.skills)
                     add(self.skills, random.choice(skills))
                 elif skilled_choice == "Tool":
-                    tool_list = [t for t in self.get_tool_chest()]
+                    tool_list = [t for t in self._get_tool_chest()]
                     purge(tool_list, self.tool_proficiency)
                     add(self.tool_proficiency, random.choice(tool_list))
 
         # Tavern Brawler
         if feat == "Tavern Brawler":
-            self.set_score_array(random.choice(["Strength", "Constitution"]), 1)
+            self._set_score_array(random.choice(["Strength", "Constitution"]), 1)
             add(self.weapon_proficiency, "Improvised weapons")
             add(self.weapon_proficiency, "Unarmed strikes")
 
         # Weapon Master
         if feat == "Weapon Master":
-            weapons = [t for t in self.get_weapon_chest()]
+            weapons = [t for t in self._get_weapon_chest()]
             selections = weapons[0]
             # Has Simple weapon proficiency.
             if "Simple" in self.weapon_proficiency:
@@ -279,7 +279,7 @@ class ImprovementGenerator:
             selections.clear()
 
     @staticmethod
-    def get_tool_chest():
+    def _get_tool_chest():
         """Returns a full collection of tools."""
         for main_tool in reader("tools"):
             if main_tool in ("Artisan's tools", "Gaming set", "Musical instrument"):
@@ -289,14 +289,14 @@ class ImprovementGenerator:
                 yield main_tool
 
     @staticmethod
-    def get_weapon_chest():
+    def _get_weapon_chest():
         """Returns a full collection of weapons."""
         weapon_chest = dict()
         for weapon_category in ("Simple", "Martial"):
             weapon_chest[weapon_category] = reader("weapons", (weapon_category,))
         yield weapon_chest
 
-    def has_prerequisites(self, feat: str) -> bool:
+    def _has_prerequisites(self, feat: str) -> bool:
         """Determines if character has the prerequisites for a feat.
 
         Args:
@@ -373,7 +373,7 @@ class ImprovementGenerator:
                         return False
         return True
 
-    def is_adjustable(self, abilities: (list, str)) -> (bool, int):
+    def _is_adjustable(self, abilities: (list, str)) -> (bool, int):
         """Determines if an ability can be adjusted i.e: not over 20.
 
         Args:
@@ -392,7 +392,7 @@ class ImprovementGenerator:
             return False
         return True
 
-    def set_score_array(self, ability: str, bonus: int) -> None:
+    def _set_score_array(self, ability: str, bonus: int) -> None:
         """Adjust a specified ability with bonus.
 
         Args:
