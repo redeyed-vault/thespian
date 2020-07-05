@@ -13,6 +13,7 @@ class _Races:
         - Dragonborn
         - Dwarf
         - Elf
+        - Gith
         - Gnome
         - HalfElf
         - HalfOrc
@@ -111,8 +112,11 @@ class _Races:
             self.traits["resistance"] = [damage_resistance]
 
     def _add_language_traits(self):
-        """Add Half-Elf, Human or High Elf character language traits."""
-        if self.race not in ("HalfElf", "Human") or self.subrace != "High":
+        """Add Githyanki, Half-Elf, Human or High Elf character language traits."""
+        if self.race not in ("HalfElf", "Human") or self.subrace not in (
+            "Githyanki",
+            "High",
+        ):
             return
         else:
             standard_languages = [
@@ -226,6 +230,11 @@ class Dwarf(_Races):
 class Elf(_Races):
     def __init__(self, subrace, class_attr, variant) -> None:
         super(Elf, self).__init__(subrace, class_attr, variant)
+
+
+class Gith(_Races):
+    def __init__(self, subrace, class_attr, variant) -> None:
+        super(Gith, self).__init__(subrace, class_attr, variant)
 
 
 class Gnome(_Races):
