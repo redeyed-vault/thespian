@@ -111,7 +111,7 @@ Valid argument parameters:
         Lightfoot
         Stout
 
-**Note that Aasimar, Dragonborn, HalfElf, HalfOrc, Human, and Tiefling characters have no valid subrace options implemented within this application.*
+**Note that Dragonborn, HalfElf, HalfOrc, Human, and Tiefling characters have no valid subrace options currently implemented within this application.*
 
 **-sex**
 
