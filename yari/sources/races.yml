@@ -135,7 +135,6 @@ races:
         base: 58
         modifier: 2d8
       languages: ['Common', 'Orc']
-      menacing: ['Intimidation']
       savage: 1
       size: Medium
       speed: 30
@@ -146,12 +145,12 @@ races:
     traits:
       abilities:
         Dexterity: 2
-      brave: ['Fear']
       height:
         base: 31
         modifier: 2d4
       languages: ['Common', 'Halfling']
       nimbleness: Halfling
+      resistance: ['Fear']
       size: Small
       speed: 30
       weight:
