@@ -1,6 +1,7 @@
 import math
 
 from yari.dice import roll
+from yari.exceptions import RatioValueError
 from yari.reader import reader
 
 
@@ -52,19 +53,22 @@ class RatioGenerator:
 
         """
         try:
-            racial_traits = self._get_traits("races", self.race).get(ratio).get("base")
+            base_value = self._get_traits("races", self.race).get(ratio).get("base")
         except AttributeError:
-            racial_traits = (
-                self._get_traits("subraces", self.subrace).get(ratio).get("base")
-            )
+            if self.subrace == "":
+                raise RatioValueError("No base value found for '{ratio}' found!")
+            else:
+                base_value = (
+                    self._get_traits("subraces", self.subrace).get(ratio).get("base")
+                )
         if (
             self.sex == "Female"
             and self.subrace != "Drow"
             or self.sex == "Male"
             and self.subrace == "Drow"
         ):
-            return racial_traits - int(float(racial_traits) * 0.15)
-        return racial_traits
+            return base_value - int(float(base_value) * 0.15)
+        return base_value
 
     def _get_modifier(self, ratio: str) -> str:
         """Returns character's modifier values by ratio (height/weight).
@@ -74,14 +78,17 @@ class RatioGenerator:
 
         """
         try:
-            racial_traits = (
+            modifier_value = (
                 self._get_traits("races", self.race).get(ratio).get("modifier")
             )
         except AttributeError:
-            racial_traits = (
-                self._get_traits("subraces", self.subrace).get(ratio).get("modifier")
-            )
-        return racial_traits
+            if self.subrace == "":
+                raise RatioValueError("No modifier value found for '{ratio}' found!")
+            else:
+                modifier_value = (
+                    self._get_traits("subraces", self.subrace).get(ratio).get("modifier")
+                )
+        return modifier_value
 
     @staticmethod
     def _get_traits(file: str, race_or_subrace: str):
@@ -89,7 +96,7 @@ class RatioGenerator:
 
         Args:
             file (str): File to use i.e: "races" or "subraces".
-            race_or_subrace (str): Character race/subrace to retreive traits for.
+            race_or_subrace (str): Character race/subrace to retrieve traits for.
 
         """
         if file not in ("races", "subraces"):
