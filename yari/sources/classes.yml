@@ -147,7 +147,15 @@ classes:
       20: ['Archdruid']
     hit_die: 8
     paths:
-      - Circle of the Land
+      - Circle of the Arctic
+      - Circle of the Coast
+      - Circle of the Desert
+      - Circle of the Forest
+      - Circle of the Grassland
+      - Circle of the Moon
+      - Circle of the Mountain
+      - Circle of the Swamp
+      - Circle of the Underdark
       - Circle of the Moon
     proficiency:
       armors: ['Light', 'Medium', 'Shield']
