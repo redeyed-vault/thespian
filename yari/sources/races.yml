@@ -68,6 +68,13 @@ races:
       size: Medium
       speed: 30
       trance: []
+  Gith:
+    traits:
+      abilities:
+        Intelligence: 1
+      languages: ['Common', 'Gith']
+      size: Medium
+      speed: 30
   Gnome:
     traits:
       abilities:
