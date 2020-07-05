@@ -70,6 +70,7 @@ Valid argument parameters:
     Dragonborn
     Dwarf
     Elf
+    Gith
     Gnome
     HalfElf
     HalfOrc
@@ -79,6 +80,11 @@ Valid argument parameters:
 
 **-subrace** (*valid subrace parameters are dependent on the chosen -race parameter*)
 
+    -race=Aasimar
+        Fallen
+        Protector
+        Scourge
+        
     -race=Dwarf
         Duergar
         Hill
@@ -91,6 +97,10 @@ Valid argument parameters:
         Sea
         Shadar-kai
         Wood
+        
+    -race=Gith
+        Githyanki
+        Githzerai
 
     -race=Gnome
         Deep
