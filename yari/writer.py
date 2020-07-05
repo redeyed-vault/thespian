@@ -333,6 +333,10 @@ def format_traits(traits: dict, race: str, subrace=None) -> str:
                 magic_name = "Drow Magic"
             elif subrace == "Duergar":
                 magic_name = "Duergar Magic"
+            elif subrace == "Githyanki":
+                magic_name = "Githyanki Psionics"
+            elif subrace == "Githzerai":
+                magic_name = "Githzerai Psionics"
             elif subrace == "Forest":
                 magic_name = "Natural Illusionist"
 
@@ -346,9 +350,14 @@ def format_traits(traits: dict, race: str, subrace=None) -> str:
             proficiency_list = traits.get(trait)
             for proficiency_type in proficiency_list:
                 if proficiency_type == "armors":
+                    proficiency_title = None
+                    if subrace == "Mountain":
+                        proficiency_title = "Dwarven Armor Training"
+                    elif subrace == "Githyanki":
+                        proficiency_title = "Martial Prodigy"
                     armors = proficiency_list.get(proficiency_type)
-                    block += '<entry name="Dwarven Armor Training" type="{}" values="{}" />'.format(
-                        trait_label, ", ".join(armors)
+                    block += '<entry name="{}" type="{}" values="{}" />'.format(
+                        proficiency_title, trait_label, ", ".join(armors)
                     )
 
                 if proficiency_type == "tools":
@@ -360,16 +369,18 @@ def format_traits(traits: dict, race: str, subrace=None) -> str:
                 if proficiency_type == "weapons":
                     proficiency_title = None
                     if race == "Dwarf":
-                        proficiency_title = "Dwarven Combat"
+                        proficiency_title = "Dwarven Combat Training"
                     elif subrace is not None:
                         if subrace in ("Eladrin", "High", "Wood",):
-                            proficiency_title = "Elf Weapon"
+                            proficiency_title = "Elf Weapon Training"
+                        elif subrace == "Githyanki":
+                            proficiency_title = "Martial Prodigy"
                         elif subrace == "Drow":
-                            proficiency_title = "Drow Weapon"
+                            proficiency_title = "Drow Weapon Training"
                         elif subrace == "Sea":
-                            proficiency_title = "Sea Elf"
+                            proficiency_title = "Sea Elf Training"
                     weapons = proficiency_list.get(proficiency_type)
-                    block += '<entry name="{} Training" type="{}" values="{}" />'.format(
+                    block += '<entry name="{}" type="{}" values="{}" />'.format(
                         proficiency_title, trait_label, ", ".join(weapons)
                     )
         elif trait == "resistance":
