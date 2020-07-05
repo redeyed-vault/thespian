@@ -4,6 +4,7 @@ import click
 
 from yari.classes import *
 from yari.attributes import AttributeGenerator
+from yari.exceptions import RatioValueError
 from yari.improvement import ImprovementGenerator
 from yari.proficiency import ProficiencyGenerator, ProficiencyTypeValueError
 from yari.races import *
@@ -174,7 +175,18 @@ def main(
             class_attr=features.get("abilities"),
             variant=variant,
         )
-        traits = rg.traits
+
+        def trait_filter(base_traits: dict, base_level: int) -> dict:
+            """Removes traits character does not have level requirements for."""
+            if "magic" in base_traits:
+                magic_traits = dict()
+                for magic_level, spell in base_traits["magic"].items():
+                    if magic_level <= base_level:
+                        magic_traits[magic_level] = spell
+                base_traits["magic"] = magic_traits
+            return base_traits
+
+        traits = trait_filter(rg.traits, level)
 
         # Generate ability scores.
         ag = AttributeGenerator(features.get("abilities"))
@@ -214,41 +226,44 @@ def main(
         proficiency_info["weapons"] = u.weapon_proficiency
 
         # Calculate character height/weight.
-        mg = RatioGenerator(race, subrace, sex)
-        ratio = mg.calculate()
-        height = f"{ratio[0][0]}' {ratio[0][1]}\""
-        weight = ratio[1]
-
-        # Gather data for character sheet.
-        cs = OrderedDict()
-        cs["race"] = u.race
-        cs["subrace"] = subrace
-        cs["sex"] = sex
-        cs["background"] = background
-        cs["height"] = height
-        cs["weight"] = weight
-        cs["class"] = klass
-        cs["level"] = level
-        cs["path"] = u.path
-        cs["bonus"] = get_proficiency_bonus(level)
-        cs["score_array"] = u.score_array
-        cs["saves"] = u.saves
-        cs["spell_slots"] = u.spell_slots
-        cs["proficiency"] = proficiency_info
-        cs["languages"] = u.languages
-        cs["skills"] = u.skills
-        cs["feats"] = u.feats
-        cs["equipment"] = reader("backgrounds", (background,)).get("equipment")
-        cs["features"] = features.get("features")
-        cs["traits"] = traits
-
         try:
-            with Writer(cs) as writer:
-                writer.write(file)
-        except (FileExistsError, IOError, OSError, TypeError, ValueError) as e:
-            out(e, is_error=True)
+            mg = RatioGenerator(race, subrace, sex)
+            ratio = mg.calculate()
+            height = f"{ratio[0][0]}' {ratio[0][1]}\""
+            weight = ratio[1]
+        except RatioValueError as e:
+            out(str(e), is_error=True)
         else:
-            out(f"character saved to '{writer.save_path}'")
+            # Gather data for character sheet.
+            cs = OrderedDict()
+            cs["race"] = u.race
+            cs["subrace"] = subrace
+            cs["sex"] = sex
+            cs["background"] = background
+            cs["height"] = height
+            cs["weight"] = weight
+            cs["class"] = klass
+            cs["level"] = level
+            cs["path"] = u.path
+            cs["bonus"] = get_proficiency_bonus(level)
+            cs["score_array"] = u.score_array
+            cs["saves"] = u.saves
+            cs["spell_slots"] = u.spell_slots
+            cs["proficiency"] = proficiency_info
+            cs["languages"] = u.languages
+            cs["skills"] = u.skills
+            cs["feats"] = u.feats
+            cs["equipment"] = reader("backgrounds", (background,)).get("equipment")
+            cs["features"] = features.get("features")
+            cs["traits"] = traits
+
+            try:
+                with Writer(cs) as writer:
+                    writer.write(file)
+            except (FileExistsError, IOError, OSError, TypeError, ValueError) as e:
+                out(e, is_error=True)
+            else:
+                out(f"character saved to '{writer.save_path}'")
     except (
         NameError,
         RuntimeError,
