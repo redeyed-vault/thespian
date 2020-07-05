@@ -76,6 +76,45 @@ subraces:
       magic:
         1: Minor Illusion
       speak: ['Small Beasts']
+  Githyanki:
+    parent: Gith
+    traits:
+      abilities:
+        Strength: 2
+      height:
+        base: 60
+        modifier: 2d12
+      languages: ['Common', 'Celestial']
+      magic:
+        1: Mage Hand
+        3: Jump
+        5: Misty Step
+      proficiency:
+        armors: ['Light', 'Medium']
+        weapons: ['Greatsword', 'Longsword', 'Shortsword']
+      size: Medium
+      speed: 30
+      weight:
+        base: 100
+        modifier: 2d4
+  Githzerai:
+    parent: Gith
+    traits:
+      abilities:
+        Wisdom: 2
+      height:
+        base: 59
+        modifier: 2d12
+      magic:
+        1: Mage Hand
+        3: Shield
+        5: Detect Thoughts
+      resistance: ['Charm', 'Fright']
+      size: Medium
+      speed: 30
+      weight:
+        base: 90
+        modifier: 1d4
   High:
     parent: Elf
     traits:
