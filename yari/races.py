@@ -113,7 +113,7 @@ class _Races:
 
     def _add_language_traits(self):
         """Add Githyanki, Half-Elf, Human or High Elf character language traits."""
-        if self.race not in ("HalfElf", "Human") or self.subrace not in (
+        if self.race not in ("HalfElf", "Human") and self.subrace not in (
             "Githyanki",
             "High",
         ):
