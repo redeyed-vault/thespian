@@ -66,8 +66,6 @@ subraces:
         Strength: 1
       action:
         3: Necrotic Shroud
-      darkvision: 120
-      languages: ['Undercommon']
   Forest:
     parent: Gnome
     traits:
@@ -182,8 +180,6 @@ subraces:
         Wisdom: 1
       action:
         3: Radiant Soul
-      darkvision: 120
-      languages: ['Undercommon']
   Rock:
     parent: Gnome
     traits:
@@ -200,8 +196,6 @@ subraces:
         Constitution: 1
       action:
         3: Radiant Consumption
-      darkvision: 120
-      languages: ['Undercommon']
   Sea:
     parent: Elf
     traits:
