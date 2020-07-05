@@ -26,7 +26,7 @@ from yari.writer import Writer
     "-race",
     default="",
     help="Character's chosen race. Available races are: Aasimar, Dragonborn, "
-    "Dwarf, Elf, Gnome, HalfElf, HalfOrc, Halfling, Human and Tiefling.",
+    "Dwarf, Elf, Gith, Gnome, HalfElf, HalfOrc, Halfling, Human and Tiefling.",
     type=str,
 )
 @click.option(
@@ -35,7 +35,8 @@ from yari.writer import Writer
     help="Character's chosen subrace. Available subraces are based upon the "
     "chosen race: Aasimar (Fallen, Protector, Scourge), Dwarf (Duergar, Hill, "
     "Mountain), Elf (Drow, Eladrin, High, Sea, Shadar-kai, Wood), "
-    "Gnome (Deep, Forest, Rock), Halfling (Lightfoot, Stout).",
+    "Gith (Githyanki, Githzerai), Gnome (Deep, Forest, Rock), Halfling "
+    "(Lightfoot, Stout).",
     type=str,
 )
 @click.option("-sex", default="", help="Character's chosen gender.", type=str)
@@ -249,10 +250,11 @@ def main(
         else:
             out(f"character saved to '{writer.save_path}'")
     except (
+        NameError,
+        RuntimeError,
         InheritanceError,
         InvalidValueError,
         ProficiencyTypeValueError,
-        RuntimeError,
     ) as e:
         out(e, is_error=True)
 
