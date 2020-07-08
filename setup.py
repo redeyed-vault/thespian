@@ -19,9 +19,6 @@ setup(
     entry_points={"console_scripts": ["yari=yari.shell:main"]},
     classifiers=[
         "Development Status :: 4 - Beta",
-        "Environment :: Console",
-        "License :: OSI Approved :: MIT License",
         "Programming Language :: Python :: 3",
-        "Topic :: Games/Entertainment :: Role-Playing",
     ],
 )
