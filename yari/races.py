@@ -2,7 +2,7 @@ import random
 
 from yari.collect import purge
 from yari.exceptions import InheritanceError, InvalidValueError
-from yari.reader import reader
+from yari.yaml import _read
 
 
 class _Races:
@@ -50,7 +50,7 @@ class _Races:
         else:
             self.variant = variant
 
-        self.traits = reader("races", (self.race,)).get("traits")
+        self.traits = _read(self.race, "traits", file="races")
         self._add_ability_traits()
         self._add_ancestry_traits()
         self._add_language_traits()
@@ -63,7 +63,7 @@ class _Races:
 
         # Merge racial and subracial traits (if applicable).
         if self.subrace != "":
-            subrace_traits = reader("subraces", (self.subrace,)).get("traits")
+            subrace_traits = _read(self.subrace, "traits", file="subraces")
             self.traits = self._merge_traits(self.traits, subrace_traits)
 
     def __repr__(self):
@@ -91,9 +91,7 @@ class _Races:
         if self.race != "Dragonborn":
             return
         else:
-            draconic_ancestry = (
-                reader("races", (self.race,)).get("traits").get("ancestry")
-            )
+            draconic_ancestry = _read(self.race, "traits", "ancestry", file="races")
             draconic_ancestry = random.choice(draconic_ancestry)
             damage_resistance = None
             if draconic_ancestry in ("Black", "Copper",):
@@ -141,7 +139,7 @@ class _Races:
             elif self.race == "HalfOrc":
                 self.traits["skills"] = ["Intimidation"]
         elif self.race == "Human" and self.variant or self.race == "HalfElf":
-            all_skills = reader("races", (self.race,)).get("traits").get("skills")
+            all_skills = _read(self.race, "traits", "skills", file="races")
             if self.race == "HalfElf":
                 self.traits["skills"] = random.sample(all_skills, 2)
             elif self.race == "Human":
@@ -167,9 +165,7 @@ class _Races:
                     base_traits[trait][ability] = bonus
 
             if trait == "cantrip":
-                cantrip_list = (
-                    reader("subraces", ("High",)).get("traits").get("cantrip")
-                )
+                cantrip_list = _read("High", "traits", "cantrip", file="subraces")
                 bonus_cantrip = [random.choice(cantrip_list)]
                 base_traits[trait] = bonus_cantrip
 
@@ -274,7 +270,6 @@ def get_subraces_by_race(race: str):
         race (str): Race to retrieve subraces for.
 
     """
-    for subrace in reader("subraces"):
-        parent = reader("subraces", (subrace,))
-        if parent.get("parent") == race:
+    for subrace in _read(file="subraces"):
+        if _read(subrace, "parent", file="subraces") == race:
             yield subrace

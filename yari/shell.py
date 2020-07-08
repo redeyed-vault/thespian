@@ -11,7 +11,7 @@ from yari.races import *
 from yari.ratio import RatioGenerator
 from yari.skills import SkillGenerator
 from yari.version import __version__
-from yari.reader import reader
+from yari.yaml import _read
 from yari.writer import Writer
 
 
@@ -93,10 +93,10 @@ def main(
         out("character must have a file name", is_error=True)
 
     if race != "":
-        if race not in reader("races"):
+        if race not in _read(file="races"):
             out(f"invalid character race '{race}'", is_error=True)
     else:
-        race = random.choice(reader("races"))
+        race = random.choice(_read(file="races"))
 
     valid_subraces = [r for r in get_subraces_by_race(race)]
     if subrace == "":
@@ -119,18 +119,18 @@ def main(
         sex = random.choice(the_sexes)
 
     if klass == "":
-        klass = random.choice(reader("classes"))
+        klass = random.choice(_read(file="classes"))
     else:
         try:
-            if klass not in reader("classes"):
+            if klass not in _read(file="classes"):
                 raise ValueError
         except ValueError:
             out(f"invalid character class '{klass}'", is_error=True)
 
     if background == "":
-        background = reader("classes", (klass,)).get("background")
+        background = _read(klass, "background", file="classes")
     else:
-        valid_backgrounds = reader("backgrounds")
+        valid_backgrounds = _read(file="backgrounds")
         if background not in valid_backgrounds:
             out(f"invalid character background '{background}'", is_error=True)
 
@@ -253,7 +253,7 @@ def main(
             cs["languages"] = u.languages
             cs["skills"] = u.skills
             cs["feats"] = u.feats
-            cs["equipment"] = reader("backgrounds", (background,)).get("equipment")
+            cs["equipment"] = _read(background, "equipment", file="backgrounds")
             cs["features"] = features.get("features")
             cs["traits"] = traits
 

@@ -2,7 +2,7 @@ import math
 
 from yari.dice import roll
 from yari.exceptions import RatioValueError
-from yari.reader import reader
+from yari.yaml import _read
 
 
 class RatioGenerator:
@@ -86,7 +86,9 @@ class RatioGenerator:
                 raise RatioValueError("No modifier value found for '{ratio}' found!")
             else:
                 modifier_value = (
-                    self._get_traits("subraces", self.subrace).get(ratio).get("modifier")
+                    self._get_traits("subraces", self.subrace)
+                    .get(ratio)
+                    .get("modifier")
                 )
         return modifier_value
 
@@ -96,12 +98,12 @@ class RatioGenerator:
 
         Args:
             file (str): File to use i.e: "races" or "subraces".
-            race_or_subrace (str): Character race/subrace to retrieve traits for.
+            race_or_subrace (str): Name of the race or subrace to retrieve traits for.
 
         """
         if file not in ("races", "subraces"):
             raise FileNotFoundError("invalid file selection")
-        return reader(file, (race_or_subrace,)).get("traits")
+        return _read(race_or_subrace, "traits", file=file)
 
     def calculate(self) -> tuple:
         """Calculates character height/weight with base and modifier."""

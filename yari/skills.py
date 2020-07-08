@@ -1,7 +1,7 @@
 import random
 
 from yari.collect import fuse, purge
-from yari.reader import reader
+from yari.yaml import _read
 
 
 class SkillGenerator:
@@ -23,7 +23,7 @@ class SkillGenerator:
             fuse(generated_skills, bonus_racial_skills)
 
         # Remove bonus background skills from class skills.
-        background_skills = reader("backgrounds", (background,)).get("skills")
+        background_skills = _read(background, "skills", file="backgrounds")
         if len(background_skills) is not 0:
             purge(class_skills, background_skills)
             fuse(generated_skills, background_skills)
@@ -44,11 +44,11 @@ class SkillGenerator:
         Args:
             klass (str): Class to get skill list for.
         """
-        for skill in reader("skills"):
-            if klass in reader("skills", (skill,)).get("classes"):
+        for skill in _read(file="skills"):
+            if klass in _read(skill, "classes", file="skills"):
                 yield skill
 
 
 def get_all_skills() -> list:
     """Returns a list of ALL valid skills."""
-    return reader("skills")
+    return _read(file="skills")

@@ -3,7 +3,7 @@ import random
 
 from yari.collect import fuse
 from yari.exceptions import InheritanceError, InvalidValueError
-from yari.reader import reader
+from yari.yaml import _read
 
 
 class _Classes:
@@ -51,7 +51,7 @@ class _Classes:
         else:
             self.level = level
 
-        self.features = reader("classes", (self.klass,))
+        self.features = _read(self.klass, file="classes")
         self.features["abilities"] = self._get_class_abilities()
         self.features["features"] = self._get_class_features()
         self.features["path"] = self.path
@@ -94,7 +94,7 @@ class _Classes:
             - Wizard: Constitution|Dexterity
 
         """
-        class_abilities = reader("classes", (self.klass,)).get("abilities")
+        class_abilities = _read(self.klass, "abilities", file="classes")
         if self.klass == "Cleric":
             class_abilities[2] = random.choice(class_abilities[2])
         elif self.klass in ("Fighter", "Ranger"):
@@ -119,8 +119,8 @@ class _Classes:
     def _get_class_features(self):
         """Builds a dictionary of features by class, path & level."""
         try:
-            feature_list = reader("classes", (self.klass,)).get("features")
-            path_feature_list = reader("paths", (self.path,)).get("features")
+            feature_list = _read(self.klass, "features", file="classes")
+            path_feature_list = _read(self.path, "features", file="paths")
 
             final_feature_list = dict()
             for level in range(1, self.level + 1):
@@ -152,7 +152,7 @@ class _Classes:
     def _get_class_path_magic(self):
         """Builds a dictionary list of specialized magic spells."""
         magic = dict()
-        class_magic = reader("paths", (self.path,)).get("magic")
+        class_magic = _read(self.path, "magic", file="paths")
 
         if len(class_magic) is not 0:
             for level, spells in class_magic.items():
@@ -165,8 +165,8 @@ class _Classes:
             self.features["magic"] = dict()
 
     def _get_class_proficiency(self, prof_type: str):
-        class_proficiency = reader("classes", (self.klass,)).get("proficiency")
-        path_proficiency = reader("paths", (self.path,)).get("proficiency")
+        class_proficiency = _read(self.klass, "proficiency", file="classes")
+        path_proficiency = _read(self.path, "proficiency", file="paths")
         if prof_type not in ("armors", "tools", "weapons"):
             raise InvalidValueError
 
@@ -253,17 +253,17 @@ class Wizard(_Classes):
 
 def get_is_class(klass) -> bool:
     """Returns whether klass is valid."""
-    return klass in reader("classes")
+    return klass in _read(file="classes")
 
 
 def get_is_path(path, klass) -> bool:
     """Returns whether path is a valid path of klass."""
-    return path in reader("classes", (klass,)).get("paths")
+    return path in _read(klass, "paths", file="classes")
 
 
 def get_paths_by_class(klass) -> tuple:
     """Returns a tuple of valid paths for klass."""
-    return reader("classes", (klass,)).get("paths")
+    return _read(klass, "paths", file="classes")
 
 
 def get_proficiency_bonus(level: int) -> int:
@@ -273,5 +273,5 @@ def get_proficiency_bonus(level: int) -> int:
 
 def has_class_spells(path) -> bool:
     """Returns whether class path has spells."""
-    class_spells = reader("paths", (path,)).get("magic")
+    class_spells = _read(path, "magic", file="paths")
     return len(class_spells) is not 0

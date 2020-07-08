@@ -5,7 +5,7 @@ from yari.collect import pick
 from yari.dice import roll
 from yari.exceptions import InheritanceError
 from yari.races import get_subraces_by_race
-from yari.reader import reader
+from yari.yaml import _read
 
 
 class _Attributes:
@@ -47,8 +47,8 @@ class _Attributes:
 
     def _get_skills_by_attribute(self):
         """Returns a skill list by attribute."""
-        for skill in reader("skills"):
-            attribute = reader("skills", (skill,)).get("ability")
+        for skill in _read(file="skills"):
+            attribute = _read(skill, "ability", file="skills")
             if attribute == self.attribute:
                 yield skill
 
@@ -187,7 +187,7 @@ class AttributeGenerator:
                     bonuses[ability] = 1
         # Non-human or human non-variant ability bonuses.
         elif race == "Human" and not variant or race != "Human":
-            racial_bonuses = reader("races", (race,)).get("traits").get("abilities")
+            racial_bonuses = _read(race, "traits", "abilities", file="races")
             for ability, bonus in racial_bonuses.items():
                 bonuses[ability] = bonus
         # Human variant bonuses.
@@ -198,8 +198,8 @@ class AttributeGenerator:
 
         if subrace is not None:
             if subrace in get_subraces_by_race(race):
-                subracial_bonuses = (
-                    reader("subraces", (subrace,)).get("traits").get("abilities")
+                subracial_bonuses = _read(
+                    subrace, "traits", "abilities", file="subraces"
                 )
                 for ability, bonus in subracial_bonuses.items():
                     bonuses[ability] = bonus

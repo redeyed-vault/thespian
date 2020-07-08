@@ -2,7 +2,7 @@ from collections import OrderedDict
 import random
 
 from yari.collect import add, fuse, pick, purge
-from yari.reader import reader
+from yari.yaml import _read
 from yari.skills import get_all_skills
 
 
@@ -70,7 +70,7 @@ class ImprovementGenerator:
             self.languages.append("Thieves' cant")
             # Assassins level 3 or higher, get bonus proficiencies.
             if path == "Assassin" and level >= 3:
-                assassin_tools = reader("paths", (path, "proficiency", "tools"))
+                assassin_tools = _read(path, "proficiency", "tools", file="paths")
                 fuse(self.tool_proficiency, assassin_tools)
 
         # Bards in the College of Lore get three bonus skills at level 3.
@@ -140,7 +140,7 @@ class ImprovementGenerator:
 
     def _add_feat(self) -> str:
         """Randomly selects and adds a valid feats."""
-        feats = list(reader("feats"))
+        feats = list(_read(file="feats"))
         purge(feats, self.feats)
 
         # Keep choosing a feat until prerequisites are met.
@@ -241,7 +241,7 @@ class ImprovementGenerator:
             for _ in range(3):
                 skilled_choice = random.choice(["Skill", "Tool"])
                 if skilled_choice == "Skill":
-                    skills = purge(list(reader("skills")), self.skills)
+                    skills = purge(list(_read(file="skills")), self.skills)
                     add(self.skills, random.choice(skills))
                 elif skilled_choice == "Tool":
                     tool_list = [t for t in self._get_tool_chest()]
@@ -281,9 +281,9 @@ class ImprovementGenerator:
     @staticmethod
     def _get_tool_chest():
         """Returns a full collection of tools."""
-        for main_tool in reader("tools"):
+        for main_tool in _read(file="tools"):
             if main_tool in ("Artisan's tools", "Gaming set", "Musical instrument"):
-                for sub_tool in reader("tools", (main_tool,)):
+                for sub_tool in _read(main_tool, file="tools"):
                     yield f"{main_tool} - {sub_tool}"
             else:
                 yield main_tool
@@ -293,7 +293,7 @@ class ImprovementGenerator:
         """Returns a full collection of weapons."""
         weapon_chest = dict()
         for weapon_category in ("Simple", "Martial"):
-            weapon_chest[weapon_category] = reader("weapons", (weapon_category,))
+            weapon_chest[weapon_category] = _read(weapon_category, file="weapons")
         yield weapon_chest
 
     def _has_prerequisites(self, feat: str) -> bool:
@@ -332,7 +332,7 @@ class ImprovementGenerator:
                 return False
 
         # Go through ALL additional prerequisites.
-        prerequisite = reader("feats", (feat,))
+        prerequisite = _read(feat, file="feats")
         for requirement, _ in prerequisite.items():
             if requirement == "abilities":
                 for ability, required_score in prerequisite.get("abilities").items():
