@@ -41,17 +41,29 @@ To install Yari from PYPI, run the following command:
 Usage: yari [OPTIONS]
 
 Options:
-  -file TEXT         Character output file name.  [required]
-  -race TEXT         Character's chosen race.
-  -subrace TEXT      Character's chosen subrace.
-  -sex TEXT          Character's chosen gender.
-  -background TEXT   Character's chosen background.
-  -klass TEXT        Character's chosen class.
-  -path TEXT         Character's chosen path (archetype, domain, path, etc).
-  -level INTEGER     Character's class level.
-  -variant TEXT      Use variant rules (Humans only).
-  --version          Show the version and exit.
-  --help             Show this message and exit.
+  -file TEXT        File name to write character to.  [required]
+  -race TEXT        Character's chosen race. Available races are: Aasimar,
+                    Dragonborn, Dwarf, Elf, Gith, Gnome, HalfElf, HalfOrc,
+                    Halfling, Human and Tiefling.
+
+  -subrace TEXT     Character's chosen subrace. Available subraces are based
+                    upon the chosen race: Aasimar (Fallen, Protector,
+                    Scourge), Dwarf (Duergar, Hill, Mountain), Elf (Drow,
+                    Eladrin, High, Sea, Shadar-kai, Wood), Gith (Githyanki,
+                    Githzerai), Gnome (Deep, Forest, Rock), Halfling
+                    (Lightfoot, Stout).
+
+  -sex TEXT         Character's chosen gender.
+  -background TEXT  Character's chosen background.
+  -klass TEXT       Character's chosen class. Available classes are:
+                    Barbarian, Bard, Cleric, Druid, Fighter, Monk, Paladin,
+                    Ranger, Rogue, Sorcerer, Warlock, and Wizard.
+
+  -path TEXT        Character's chosen path (archetype, domain, path, etc).
+  -level INTEGER    Character's class level. Must be at or inbetween 1 and 20.
+  -variant TEXT     Use variant rules (Humans only).
+  --version         Show the version and exit.
+  --help            Show this message and exit.
 ```
 
 To run Yari with minimal arguments, type the following in your terminal:
