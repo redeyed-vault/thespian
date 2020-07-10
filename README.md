@@ -54,12 +54,36 @@ Options:
                     (Lightfoot, Stout).
 
   -sex TEXT         Character's chosen gender.
-  -background TEXT  Character's chosen background.
+  -background TEXT  Character's chosen background. Available backgrounds are:
+                    Acolyte, Charlatan, Criminal, Entertainer, Folk Hero,
+                    Guild Artisan, Hermit, Noble, Outlander, Sage, Sailor,
+                    Soldier, Urchin
+
   -klass TEXT       Character's chosen class. Available classes are:
                     Barbarian, Bard, Cleric, Druid, Fighter, Monk, Paladin,
                     Ranger, Rogue, Sorcerer, Warlock, and Wizard.
 
   -path TEXT        Character's chosen path (archetype, domain, path, etc).
+                    Available paths are based upon the chosen class: Barbarian
+                    (Path of the Berserker, Path of the Totem Warrior), Bard
+                    (College of Lore, College of Valor), Cleric (Knowledge
+                    Domain, Life Domain, Light Domain, Nature Domain, Tempest
+                    Domain, Trickery Domain, War Domain), Druid (Circle of the
+                    Arctic, Circle of the Coast, Circle of the Desert, Circle
+                    of the Forest, Circle of the Grassland, Circle of the
+                    Moon, Circle of the Mountain, Circle of the Swamp, Circle
+                    of the Underdark), Fighter (Battle Master, Champion,
+                    Eldritch Knight), Monk (Way of Shadow, Way of the Four
+                    Elements, Way of the Open Hand), Paladin (Oath of the
+                    Ancients, Oath of Devotion, Oath of Vengeance), Ranger
+                    (Beast Master, Hunter), Rogue (Arcane Trickster, Assassin,
+                    Thief), Sorcerer (Draconic Bloodline, Wild Magic), Warlock
+                    (The Archfey, The Fiend, The Great Old One, and Wizard
+                    (School of Abjuration, School of Conjuration, School of
+                    Divination, School of Enchantment, School of Evocation,
+                    School of Illusion, School of Necromancy, School of
+                    Transmutation).
+
   -level INTEGER    Character's class level. Must be at or inbetween 1 and 20.
   -variant TEXT     Use variant rules (Humans only).
   --version         Show the version and exit.
@@ -70,177 +94,6 @@ To run Yari with minimal arguments, type the following in your terminal:
 
     yari -file=some_character_file
 
-If run with just the bare minimum arguments as shown above, Yari will randomly generate the character's race, subrace, sex, klass and path. Level will be defaulted to 1 and the background defaults to the default for the chosen klass.
+If run with just the bare minimum arguments as shown above, Yari will randomly generate the character's race, subrace, sex, class and path. Level will be defaulted to 1 and the background defaults to the default for the chosen class.
 
-Character's will always be saved to *$HOME/Yari*.
-
-Valid argument parameters:
-
-**-race**
-
-    Aasimar
-    Dragonborn
-    Dwarf
-    Elf
-    Gith
-    Gnome
-    HalfElf
-    HalfOrc
-    Halfling
-    Human
-    Tiefling
-
-**-subrace** (*valid subrace parameters are dependent on the chosen -race parameter*)
-
-    -race=Aasimar
-        Fallen
-        Protector
-        Scourge
-        
-    -race=Dwarf
-        Duergar
-        Hill
-        Mountain
-
-    -race=Elf
-        Drow
-        Eladrin
-        High
-        Sea
-        Shadar-kai
-        Wood
-        
-    -race=Gith
-        Githyanki
-        Githzerai
-
-    -race=Gnome
-        Deep
-        Forest
-        Rock
-
-    -race=Halfling
-        Lightfoot
-        Stout
-
-**Note that Dragonborn, HalfElf, HalfOrc, Human, and Tiefling characters have no valid subrace options currently implemented within this application.*
-
-**-sex**
-
-    Female
-    Male
-
-**-background**
-
-    Acolyte
-    Charlatan
-    Criminal
-    Entertainer
-    Folk Hero
-    Guild Artisan
-    Hermit
-    Noble
-    Outlander
-    Sage
-    Sailor
-    Soldier
-    Urchin
-
-**-klass**
-
-    Barbarian
-    Bard
-    Cleric
-    Druid
-    Fighter
-    Monk
-    Paladin
-    Ranger
-    Rogue
-    Sorcerer
-    Warlock
-    Wizard
-
-**-path** (**valid path parameters are dependent on the chosen -klass parameter*)
-
-    -klass=Barbarian
-        Path of the Beserker
-        Path of the Totem Warrior
-
-    -klass=Bard
-        College of Lore
-        College of Valor
-
-    -klass=Cleric
-        Knowledge Domain
-        Life Domain
-        Light Domain
-        Nature Domain
-        Tempest Domain
-        Trickery Domain
-        War Domain
-
-    -klass=Druid
-        Circle of the Artic
-        Circle of the Coast
-        Circle of the Desert
-        Circle of the Forest
-        Circle of the Grassland
-        Circle of the Moon
-        Circle of the Mountain
-        Circle of the Swamp
-        Circle of the Underdark
-
-    -klass=Fighter
-        Battle Master
-        Champion
-        Eldritch Knight
-
-    -klass=Monk
-        Way of Shadow
-        Way of the Four Elements
-        Way of the Open Hand
-
-    -klass=Paladin
-        Oath of the Ancients
-        Oath of Devotion
-        Oath of Vengeance
-
-    -klass=Ranger
-        Beast Master
-        Hunter
-
-    -klass=Rogue
-        Arcane Trickster
-        Assassin
-        Thief
-
-    -klass=Sorcerer
-        Draconic Bloodline
-        Wild Magic
-
-    -klass=Warlock
-        The Archfey
-        The Fiend
-        The Great Old One
-
-    -klass=Wizard
-        School of Abjuration
-        School of Conjuration
-        School of Divination
-        School of Enchantment
-        School of Evocation
-        School of Illusion
-        School of Necromancy
-        School of Transmutation
-
-**-level**
-
-    1-20
-
-**-variant**
-
-    false
-    true
-
-**Note that the variant argument is only used by Human characters and is automatically set to "false" for non-humans.*
+Generated character's will always be saved to the directory *$HOME/Yari*.
