@@ -311,7 +311,13 @@ def format_traits(traits: dict, race: str, subrace=None) -> str:
             block += '<entry name="{}" range="{}" type="{}" />'.format(
                 darkvision_type, traits.get(trait), race_label
             )
-        elif trait in ("endurance", "nimbleness", "savage", "stonecunning", "toughness"):
+        elif trait in (
+            "endurance",
+            "nimbleness",
+            "savage",
+            "stonecunning",
+            "toughness",
+        ):
             trait_label = None
             if trait == "endurance":
                 trait_label = "Relentless Endurance"
@@ -340,7 +346,7 @@ def format_traits(traits: dict, race: str, subrace=None) -> str:
                 magic_name = "Githzerai Psionics"
 
             # For bonus Aasimar, Drow or Duergar innate magic.
-            if trait not in ("necrotic", "radiant", ):
+            if trait not in ("necrotic", "radiant",):
                 for level, spell in traits[trait].items():
                     if isinstance(spell, list):
                         spell = ", ".join(spell)
