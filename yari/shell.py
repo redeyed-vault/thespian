@@ -42,7 +42,12 @@ from yari.writer import Writer
 )
 @click.option("-sex", default="", help="Character's chosen gender.", type=str)
 @click.option(
-    "-background", default="", help="Character's chosen background.", type=str
+    "-background",
+    default="",
+    help="Character's chosen background. Available backgrounds are: Acolyte, "
+    "Charlatan, Criminal, Entertainer, Folk Hero, Guild Artisan, Hermit, Noble, "
+    "Outlander, Sage, Sailor, Soldier, Urchin",
+    type=str,
 )
 @click.option(
     "-klass",
@@ -55,7 +60,22 @@ from yari.writer import Writer
 @click.option(
     "-path",
     default="",
-    help="Character's chosen path (archetype, domain, path, etc).",
+    help="Character's chosen path (archetype, domain, path, etc). Available "
+    "paths are based upon the chosen class: Barbarian (Path of the Berserker, "
+    "Path of the Totem Warrior), Bard (College of Lore, College of Valor), "
+    "Cleric (Knowledge Domain, Life Domain, Light Domain, Nature Domain, "
+    "Tempest Domain, Trickery Domain, War Domain), Druid (Circle of the Arctic, "
+    "Circle of the Coast, Circle of the Desert, Circle of the Forest, Circle "
+    "of the Grassland, Circle of the Moon, Circle of the Mountain, Circle of "
+    "the Swamp, Circle of the Underdark), Fighter (Battle Master, Champion, "
+    "Eldritch Knight), Monk (Way of Shadow, Way of the Four Elements, Way of "
+    "the Open Hand), Paladin (Oath of the Ancients, Oath of Devotion, Oath of "
+    "Vengeance), Ranger (Beast Master, Hunter), Rogue (Arcane Trickster, "
+    "Assassin, Thief), Sorcerer (Draconic Bloodline, Wild Magic), Warlock "
+    "(The Archfey, The Fiend, The Great Old One, and Wizard (School of "
+    "Abjuration, School of Conjuration, School of Divination, School of "
+    "Enchantment, School of Evocation, School of Illusion, School of "
+    "Necromancy, School of Transmutation).",
     type=str,
 )
 @click.option(
