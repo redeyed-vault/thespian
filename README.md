@@ -1,4 +1,4 @@
-# Yari: "Yet Another RPG Implementation"
+# YARI: "Yet Another RPG Implement"
 
 
 #### DESCRIPTION
