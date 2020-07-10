@@ -277,55 +277,54 @@ def format_traits(traits: dict, race: str, subrace=None) -> str:
         subrace(None, str): Character's subrace (if applicable).
 
     """
-    if subrace is not None:
-        trait_label = f"{subrace} {race} Trait"
+    if subrace is not None and subrace != "":
+        race_label = f"{subrace} {race} Trait"
     elif race in ("HalfElf", "HalfOrc",):
         if race == "HalfElf":
-            trait_label = "Half-elf Trait"
+            race_label = "Half-elf Trait"
         else:
-            trait_label = "Half-orc Trait"
+            race_label = "Half-orc Trait"
     else:
-        trait_label = f"{race} Trait"
+        race_label = f"{race} Trait"
 
     block = ""
     for trait, values in traits.items():
         if trait in ("abilities", "languages", "skills"):
             continue
-        elif trait == "action":
-            action_name = None
-            if race == "Aasimar":
-                if subrace == "Fallen":
-                    action_name = "Necrotic Shroud"
-                elif subrace == "Protector":
-                    action_name = "Radiant Soul"
-                elif subrace == "Scourge":
-                    action_name = "Radiant Consumption"
-
-            for level, action in traits[trait].items():
-                block += '<entry name="{}" level="{}" type="{}" />'.format(
-                    action_name, level, trait_label
-                )
         elif trait == "ancestry":
             dragon_ancestry = traits.get(trait)
             block += '<entry name="Draconic Ancestry" type="{}" value="{}" />'.format(
-                trait_label, dragon_ancestry
+                race_label, dragon_ancestry
             )
             block += '<entry name="Breath Weapon" type="{}" value="{}" />'.format(
-                trait_label, dragon_ancestry
+                race_label, dragon_ancestry
             )
         elif trait == "cantrip":
             if subrace == "High":
                 block += '<entry name="Cantrip" type="{}" values="{}" />'.format(
-                    trait_label, ",".join(values)
+                    race_label, ",".join(values)
                 )
         elif trait == "darkvision":
             darkvision_type = "Darkvision"
             if traits.get(trait) > 60:
                 darkvision_type = "Superior Darkvision"
             block += '<entry name="{}" range="{}" type="{}" />'.format(
-                darkvision_type, traits.get(trait), trait_label
+                darkvision_type, traits.get(trait), race_label
             )
-        elif trait == "magic":
+        elif trait in ("endurance", "nimbleness", "savage", "stonecunning", "toughness"):
+            trait_label = None
+            if trait == "endurance":
+                trait_label = "Relentless Endurance"
+            elif trait == "nimbleness":
+                trait_label = "Halfling Nimbleness"
+            elif trait == "savage":
+                trait_label = "Savage Attacks"
+            elif trait == "stonecunning":
+                trait_label = "Stonecunning"
+            elif trait == "toughness":
+                trait_label = "Dwarven Toughness"
+            block += f'<entry name="{trait_label}" type="{race_label}" />'
+        elif trait in ("magic", "necrotic", "radiant"):
             magic_name = None
             if race == "Aasimar":
                 magic_name = "Celestial Legacy"
@@ -333,19 +332,31 @@ def format_traits(traits: dict, race: str, subrace=None) -> str:
                 magic_name = "Drow Magic"
             elif subrace == "Duergar":
                 magic_name = "Duergar Magic"
+            elif subrace == "Forest":
+                magic_name = "Natural Illusionist"
             elif subrace == "Githyanki":
                 magic_name = "Githyanki Psionics"
             elif subrace == "Githzerai":
                 magic_name = "Githzerai Psionics"
-            elif subrace == "Forest":
-                magic_name = "Natural Illusionist"
 
-            for level, spell in traits[trait].items():
-                if isinstance(spell, list):
-                    spell = ", ".join(spell)
-                block += '<entry name="{}" level="{}" spell="{}" type="{}" />'.format(
-                    magic_name, level, spell, trait_label
-                )
+            # For bonus Aasimar, Drow or Duergar innate magic.
+            if trait not in ("necrotic", "radiant", ):
+                for level, spell in traits[trait].items():
+                    if isinstance(spell, list):
+                        spell = ", ".join(spell)
+                    block += '<entry name="{}" level="{}" spell="{}" type="{}" />'.format(
+                        magic_name, level, spell, race_label
+                    )
+
+            # For Aasimar subraces: Necrotic Shroud, Radiant Soul/Consumption.
+            if trait in ("necrotic", "radiant"):
+                if subrace == "Fallen":
+                    magic_name = "Necrotic Shroud"
+                elif subrace == "Protector":
+                    magic_name = "Radiant Soul"
+                elif subrace == "Scourge":
+                    magic_name = "Radiant Consumption"
+                block += f'<entry name="{magic_name}" level="3" type="{race_label}" />'
         elif trait == "proficiency":
             proficiency_list = traits.get(trait)
             for proficiency_type in proficiency_list:
@@ -357,13 +368,13 @@ def format_traits(traits: dict, race: str, subrace=None) -> str:
                         proficiency_title = "Martial Prodigy"
                     armors = proficiency_list.get(proficiency_type)
                     block += '<entry name="{}" type="{}" values="{}" />'.format(
-                        proficiency_title, trait_label, ", ".join(armors)
+                        proficiency_title, race_label, ", ".join(armors)
                     )
 
                 if proficiency_type == "tools":
                     tools = proficiency_list.get(proficiency_type)
                     block += '<entry name="Tool Proficiency" type="{}" values="{}" />'.format(
-                        trait_label, ", ".join(tools)
+                        race_label, ", ".join(tools)
                     )
 
                 if proficiency_type == "weapons":
@@ -381,40 +392,40 @@ def format_traits(traits: dict, race: str, subrace=None) -> str:
                             proficiency_title = "Sea Elf Training"
                     weapons = proficiency_list.get(proficiency_type)
                     block += '<entry name="{}" type="{}" values="{}" />'.format(
-                        proficiency_title, trait_label, ", ".join(weapons)
+                        proficiency_title, race_label, ", ".join(weapons)
                     )
         elif trait == "resistance":
             # Celestial Resistance
             if race == "Aasimar":
-                block += f'<entry name="Celestial Resistance" type="{trait_label}" values="Necrotic, Radiant" />'
+                block += f'<entry name="Celestial Resistance" type="{race_label}" values="Necrotic, Radiant" />'
             # Dragonborn Damage Resistance
             elif race == "Dragonborn":
                 block += '<entry name="Damage Resistance" type="{}" values="{}" />'.format(
-                    trait_label, ",".join(values)
+                    race_label, ",".join(values)
                 )
             # Dwarf Resilience
             elif race == "Dwarf":
-                block += f'<entry name="Dwarven Resilience" type="{trait_label}" values="Poison" />'
+                block += f'<entry name="Dwarven Resilience" type="{race_label}" values="Poison" />'
             # Elf/Half-Elf Fey Ancestry
             elif race in ("Elf", "HalfElf",):
-                block += f'<entry name="Fey Ancestry" type="{trait_label}" values="Charm, Sleep" />'
+                block += f'<entry name="Fey Ancestry" type="{race_label}" values="Charm, Sleep" />'
             # Duergar/Stout Halfling Resilience
             elif subrace in ("Duergar", "Stout",):
                 if subrace == "Duergar":
-                    block += f'<entry name="Duergar Resilience" type="{trait_label}" values="Charm, Illusion, Paralysis" />'
+                    block += f'<entry name="Duergar Resilience" type="{race_label}" values="Charm, Illusion, Paralysis" />'
                 elif subrace == "Stout":
-                    block += f'<entry name="Stout Resilience" type="{trait_label}" values="Poison" />'
+                    block += f'<entry name="Stout Resilience" type="{race_label}" values="Poison" />'
             # Shadar-kai Resistance
             elif subrace == "Shadar-kai":
-                block += f'<entry name="Necrotic Resistance" type="{trait_label}" values="Necrotic" />'
+                block += f'<entry name="Necrotic Resistance" type="{race_label}" values="Necrotic" />'
         # Drow/Duergar have sensitivity to sunlight
         elif trait == "sensitivity":
             if subrace is not None and subrace in ("Drow", "Duergar"):
-                block += f'<entry name="Sunlight Sensitivity" type="{trait_label}" />'
+                block += f'<entry name="Sunlight Sensitivity" type="{race_label}" />'
         elif trait == "stealthy":
-            block += f'<entry name="Naturally Stealthy" type="{trait_label}" />'
+            block += f'<entry name="Naturally Stealthy" type="{race_label}" />'
         elif trait == "toughness":
-            block += f'<entry name="Toughness" type="{trait_label}" />'
+            block += f'<entry name="Toughness" type="{race_label}" />'
         elif trait == "trance":
-            block += f'<entry name="Trance" type="{trait_label}" />'
+            block += f'<entry name="Trance" type="{race_label}" />'
     return block
