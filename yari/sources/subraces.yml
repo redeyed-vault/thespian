@@ -64,8 +64,7 @@ subraces:
     traits:
       abilities:
         Strength: 1
-      action:
-        3: Necrotic Shroud
+      necrotic: 1
   Forest:
     parent: Gnome
     traits:
@@ -178,8 +177,7 @@ subraces:
     traits:
       abilities:
         Wisdom: 1
-      action:
-        3: Radiant Soul
+      radiant: 1
   Rock:
     parent: Gnome
     traits:
@@ -194,8 +192,7 @@ subraces:
     traits:
       abilities:
         Constitution: 1
-      action:
-        3: Radiant Consumption
+      radiant: 2
   Sea:
     parent: Elf
     traits:
