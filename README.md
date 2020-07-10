@@ -1,14 +1,18 @@
 # YARI: "Yet Another RPG Implement"
 
 
+> "Yari is the term for a traditionally-made Japanese blade in the form of a spear, or more specifically, the straight-headed spear. - From [Wikipedia](http://www.wikipedia.org), the free encyclopedia
+
+
 #### DESCRIPTION
 
-My tool for making quick and easy 5th edition Dungeons & Dragons characters.
+Yari is my tool for making quick and easy 5th edition Dungeons & Dragons characters.
 
-Originally this project was known as *personaednd* and *dndpersona*.
+Originally this project was known as *personaednd* and later *dndpersona*.
 
-"Yari is the term for a traditionally-made Japanese blade in the form of a spear, or more specifically, the straight-headed spear."
- - From Wikipedia, the free encyclopedia - http://www.wikipedia.org
+- Yari's *git* repository can be found [here](https://github.com/taylormarcus/Yari)
+- Yari's *PyPI* page can be found [here](https://pypi.org/project/Yari)
+
 
 #### DISCLAIMER
 
