@@ -58,6 +58,7 @@ races:
       resistance: ['Poison']
       size: Medium
       speed: 30
+      stonecunning: 1
   Elf:
     traits:
       abilities:
@@ -130,7 +131,7 @@ races:
         Strength: 2
         Constitution: 1
       darkvision: 60
-      endurance: 0
+      endurance: 1
       height:
         base: 58
         modifier: 2d8
@@ -149,7 +150,7 @@ races:
         base: 31
         modifier: 2d4
       languages: ['Common', 'Halfling']
-      nimbleness: Halfling
+      nimbleness: 1
       resistance: ['Fear']
       size: Small
       speed: 30
