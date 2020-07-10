@@ -5,7 +5,7 @@
 
 My tool for making quick and easy 5th edition Dungeons & Dragons characters.
 
-Originally this project was known as personaednd and dndpersona.
+Originally this project was known as *personaednd* and *dndpersona*.
 
 "Yari is the term for a traditionally-made Japanese blade in the form of a spear, or more specifically, the straight-headed spear."
  - From Wikipedia, the free encyclopedia - http://www.wikipedia.org
