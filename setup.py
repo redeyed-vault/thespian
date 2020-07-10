@@ -8,7 +8,7 @@ setup(
     version=__version__,
     packages=find_packages(),
     package_data={"yari": ["sources/*.yml"]},
-    url="https://github.com/taylormarcus/Yari",
+    url="https://taylormarcus.github.io/Yari/",
     license="MIT",
     author="Marcus T Taylor",
     description="Generate 5th edition Dungeons & Dragons characters.",
