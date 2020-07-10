@@ -78,7 +78,7 @@ Options:
                     Ancients, Oath of Devotion, Oath of Vengeance), Ranger
                     (Beast Master, Hunter), Rogue (Arcane Trickster, Assassin,
                     Thief), Sorcerer (Draconic Bloodline, Wild Magic), Warlock
-                    (The Archfey, The Fiend, The Great Old One, and Wizard
+                    (The Archfey, The Fiend, The Great Old One), and Wizard
                     (School of Abjuration, School of Conjuration, School of
                     Divination, School of Enchantment, School of Evocation,
                     School of Illusion, School of Necromancy, School of
