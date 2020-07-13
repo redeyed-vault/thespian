@@ -1,9 +1,8 @@
 import math
 import random
 
-from yari.collect import fuse
 from yari.exceptions import InheritanceError, InvalidValueError
-from yari.yaml import _read
+from yari.loader import _read
 
 
 class _Classes:
@@ -81,7 +80,7 @@ class _Classes:
         del self.features["paths"]
 
     def __repr__(self):
-        return "<{}, {}>".format(self.klass, self.path)
+        return '<{} path="{}">'.format(self.klass, self.path)
 
     def _get_class_abilities(self):
         """Gets primary class abilities.
@@ -119,22 +118,22 @@ class _Classes:
     def _get_class_features(self):
         """Builds a dictionary of features by class, path & level."""
         try:
-            feature_list = _read(self.klass, "features", file="classes")
-            path_feature_list = _read(self.path, "features", file="paths")
+            class_features = _read(self.klass, "features", file="classes")
+            path_features = _read(self.path, "features", file="paths")
 
             final_feature_list = dict()
             for level in range(1, self.level + 1):
-                feature_row = list()
-                if level in feature_list:
-                    fuse(feature_row, feature_list[level])
-                if level in path_feature_list:
-                    fuse(feature_row, path_feature_list[level])
-                if len(feature_row) is not 0:
-                    final_feature_list[level] = feature_row
+                level_features = list()
+                if level in class_features:
+                    level_features = level_features + class_features[level]
+                if level in path_features:
+                    level_features = level_features + path_features[level]
+                if len(level_features) is not 0:
+                    final_feature_list[level] = level_features
 
             return final_feature_list
         except AttributeError:
-            print(self.path)
+            print(f"'{self.klass}' or '{self.path}' is invalid.")
 
     def _get_class_hit_die(self):
         """Generates hit die and point totals."""

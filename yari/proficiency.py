@@ -1,6 +1,3 @@
-from yari.collect import fuse
-
-
 class ProficiencyTypeValueError(ValueError):
     """Raised if invalid proficiency type specified."""
 
@@ -25,5 +22,5 @@ class ProficiencyGenerator:
                 trait_proficiency = traits.get("proficiency")
                 if prof_type in trait_proficiency:
                     trait_proficiency = trait_proficiency.get(prof_type)
-                    fuse(class_proficiency, trait_proficiency)
+                    class_proficiency = class_proficiency + trait_proficiency
             self.proficiency = class_proficiency

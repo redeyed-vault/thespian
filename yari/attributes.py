@@ -1,11 +1,10 @@
 from collections import OrderedDict
 import random
 
-from yari.collect import pick
 from yari.dice import roll
 from yari.exceptions import InheritanceError
+from yari.loader import _read
 from yari.races import get_subraces_by_race
-from yari.yaml import _read
 
 
 class _Attributes:
@@ -118,7 +117,7 @@ class AttributeGenerator:
             "Charisma",
         ]
 
-        generated_scores = self.determine_ability_scores()
+        generated_scores = self._determine_ability_scores()
         # Assign highest values to class specific abilities first.
         for ability in self.class_attr:
             value = max(generated_scores)
@@ -136,7 +135,7 @@ class AttributeGenerator:
 
         self.score_array = score_array
 
-    def determine_ability_scores(self) -> list:
+    def _determine_ability_scores(self) -> list:
         """Generates six ability scores for assignment."""
 
         def _roll() -> int:
@@ -153,7 +152,8 @@ class AttributeGenerator:
     def set_racial_bonus(
         self, race: str, subrace: (str, None), class_attr: dict, variant: bool,
     ) -> None:
-        """
+        """Apply bonuses by race, subrace and class_attr w/ variant rules (if human).
+
         Args:
             race (str): Character's race.
             subrace (str, None): Character's subrace (if applicable).
@@ -166,22 +166,22 @@ class AttributeGenerator:
         bonuses = dict()
         # Half-elf ability bonuses.
         if race == "HalfElf":
-            ability_choices = [
-                "Strength",
-                "Dexterity",
-                "Constitution",
-                "Intelligence",
-                "Wisdom",
-            ]
             if "Charisma" in class_attr:
+                ability_choices = [
+                    "Strength",
+                    "Dexterity",
+                    "Constitution",
+                    "Intelligence",
+                    "Wisdom",
+                ]
                 class_attr.remove("Charisma")
-                # Get the remaining primary ability, assign the bonus.
-                saved_ability = pick(class_attr)
+                # Assign the remaining ability.
+                saved_ability = class_attr.pop()
                 bonuses[saved_ability] = 1
-                # Remove the remaining ability from the choices.
                 ability_choices.remove(saved_ability)
-                # Choose third ability.
-                bonuses[pick(ability_choices)] = 1
+                # Choose alternative ability for bonus.
+                random.shuffle(ability_choices)
+                bonuses[ability_choices.pop()] = 1
             else:
                 for ability in class_attr:
                     bonuses[ability] = 1
@@ -211,5 +211,10 @@ class AttributeGenerator:
 
 
 def get_ability_modifier(score: int) -> int:
-    """Returns ability modifier by score."""
+    """Returns ability modifier by score.
+
+    Args:
+        score (int): Score to retrieve modifier for.
+
+    """
     return score is not 0 and int((score - 10) / 2) or 0

@@ -6,12 +6,12 @@ from yari.classes import *
 from yari.attributes import AttributeGenerator
 from yari.exceptions import RatioValueError
 from yari.improvement import ImprovementGenerator
+from yari.loader import _read
 from yari.proficiency import ProficiencyGenerator, ProficiencyTypeValueError
 from yari.races import *
 from yari.ratio import RatioGenerator
 from yari.skills import SkillGenerator
 from yari.version import __version__
-from yari.yaml import _read
 from yari.writer import Writer
 
 

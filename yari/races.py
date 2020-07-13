@@ -1,8 +1,7 @@
 import random
 
-from yari.collect import purge
 from yari.exceptions import InheritanceError, InvalidValueError
-from yari.yaml import _read
+from yari.loader import _read
 
 
 class _Races:
@@ -67,7 +66,7 @@ class _Races:
             self.traits = self._merge_traits(self.traits, subrace_traits)
 
     def __repr__(self):
-        return "<{}, {}>".format(self.race, self.subrace)
+        return '<{} subrace="{}">'.format(self.race, self.subrace)
 
     def _add_ability_traits(self):
         """Add HalfElf, Human "racial" ability traits."""
@@ -127,7 +126,11 @@ class _Races:
                 "Halfling",
                 "Orc",
             ]
-            purge(standard_languages, self.traits.get("languages"))
+            standard_languages = [
+                language
+                for language in standard_languages
+                if language not in self.traits.get("languages")
+            ]
             self.traits["languages"].append(random.choice(standard_languages))
 
     def _add_skill_traits(self):

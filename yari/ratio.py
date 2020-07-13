@@ -2,7 +2,7 @@ import math
 
 from yari.dice import roll
 from yari.exceptions import RatioValueError
-from yari.yaml import _read
+from yari.loader import _read
 
 
 class RatioGenerator:

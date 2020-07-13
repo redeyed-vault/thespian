@@ -179,6 +179,7 @@ def format_equipment(items: list) -> str:
         items (list): Character's equipment list.
 
     """
+    items.sort()
     block = ""
     for item in items:
         block += f'<entry label="equipment" value="{item}" />'
@@ -192,6 +193,7 @@ def format_feats(feats: list) -> str:
         feats (list): Character's feat list.
 
     """
+    feats.sort()
     block = ""
     for feat in feats:
         block += f'<entry label="feat" value="{feat}" />'
@@ -220,6 +222,7 @@ def format_languages(languages: list) -> str:
         languages (list): Character's list of languages.
 
     """
+    languages.sort()
     block = ""
     for language in languages:
         block += f'<entry label="language" value="{language}" />'
@@ -236,6 +239,7 @@ def format_proficiencies(proficiencies: OrderedDict) -> str:
     block = ""
     for type, proficiency_list in proficiencies.items():
         block += f"<{type}>"
+        proficiency_list.sort()
         for proficiency in proficiency_list:
             block += f'<entry label="proficiency" value="{proficiency}" />'
         block += f"</{type}>"
@@ -249,6 +253,7 @@ def format_saving_throws(saves: list) -> str:
         saves (list): List of proficient saving throws.
 
     """
+    saves.sort()
     block = ""
     for save in saves:
         block += '<entry label="save" value="%s" />' % save
@@ -262,6 +267,7 @@ def format_skills(skills: list) -> str:
         skills (list): Character's list of skills.
 
     """
+    skills.sort()
     block = ""
     for skill in skills:
         block += f'<entry label="skill" value="{skill}" />'

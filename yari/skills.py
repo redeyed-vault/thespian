@@ -1,32 +1,25 @@
 import random
 
-from yari.collect import fuse, purge
-from yari.yaml import _read
+from yari.loader import _read
 
 
 class SkillGenerator:
     """Generates a random skill set by background and klass."""
 
-    def __init__(self, background: str, klass: str, bonus_racial_skills: list) -> None:
+    def __init__(self, background: str, klass: str, racial_skills: list) -> None:
         """
         Args:
             background (str): Character background.
             klass (str): Character's class.
-            bonus_racial_skills (list): Character's skills.
+            racial_skills (list): Character's skills.
         """
-        class_skills = [s for s in self.get_skills_by_class(klass)]
-        generated_skills = list()
-
-        # Remove bonus racial skills from class skills.
-        if len(bonus_racial_skills) is not 0:
-            purge(class_skills, bonus_racial_skills)
-            fuse(generated_skills, bonus_racial_skills)
-
-        # Remove bonus background skills from class skills.
-        background_skills = _read(background, "skills", file="backgrounds")
-        if len(background_skills) is not 0:
-            purge(class_skills, background_skills)
-            fuse(generated_skills, background_skills)
+        background_skills = get_background_skills(background)
+        class_skills = [
+            skill
+            for skill in self.get_skills_by_class(klass)
+            if skill not in racial_skills and skill not in background_skills
+        ]
+        generated_skills = racial_skills + background_skills
 
         if klass in ("Rogue",):
             skill_allotment = 4
@@ -34,11 +27,11 @@ class SkillGenerator:
             skill_allotment = 3
         else:
             skill_allotment = 2
-        fuse(generated_skills, random.sample(class_skills, skill_allotment))
+        generated_skills = generated_skills + random.sample(class_skills, skill_allotment)
         self.skills = generated_skills
 
     @staticmethod
-    def get_skills_by_class(klass):
+    def get_skills_by_class(klass: str):
         """Returns a list of skills by klass.
 
         Args:
@@ -50,5 +43,15 @@ class SkillGenerator:
 
 
 def get_all_skills() -> list:
-    """Returns a list of ALL valid skills."""
+    """Returns a list of ALL skills."""
     return _read(file="skills")
+
+
+def get_background_skills(background: str):
+    """Returns bonus skills by background (if applicable).
+
+    Args:
+        background (str): Background to return background skills for.
+
+    """
+    return _read(background, "skills", file="backgrounds")

@@ -53,7 +53,7 @@ def _read(*fields, file: str) -> (dict, list):
     """Loads and reads from the requested file using query chain links.
 
     Args:
-        fields (None, tuple): Chain of values used to query YAML elements.
+        fields: Index(es) to query.
         file (str): YAML file to read from (file extension is not needed).
 
     """
@@ -64,14 +64,15 @@ def _read(*fields, file: str) -> (dict, list):
             raise FileNotFoundError(f"Cannot find the resource '{yaml_file}.yml'")
         else:
             resource = yaml.full_load(open(data))
-            try:
-                return Query(resource[yaml_file])
-            except KeyError:
-                raise HeaderInvalid(
-                    f"The opening key in '{yaml_file}.yml' is invalid. The first line "
-                    "in Yari specific YAML documents must begin with a key that "
-                    "matches the file name without the extension."
-                )
+
+        try:
+            return Query(resource[yaml_file])
+        except KeyError:
+            raise HeaderInvalid(
+                f"The opening key in '{yaml_file}.yml' is invalid. The first line "
+                "in Yari specific YAML documents must begin with a key that "
+                "matches the file name without the extension."
+            )
 
     try:
         y = yaml_open(file)
