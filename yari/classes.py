@@ -3,24 +3,26 @@ import random
 
 from yari.exceptions import InheritanceError, InvalidValueError
 from yari.loader import _read
+from yari.skills import get_all_skills
 
 
 class _Classes:
     """DO NOT call class directly. Used to generate class features.
+
         Inherited by the following classes:
 
-        - Barbarian
-        - Bard
-        - Cleric
-        - Druid
-        - Fighter
-        - Monk
-        - Paladin
-        - Ranger
-        - Rogue
-        - Sorcerer
-        - Warlock
-        - Wizard
+            - Barbarian
+            - Bard
+            - Cleric
+            - Druid
+            - Fighter
+            - Monk
+            - Paladin
+            - Ranger
+            - Rogue
+            - Sorcerer
+            - Warlock
+            - Wizard
 
     """
 
@@ -33,64 +35,63 @@ class _Classes:
         """
         self.klass = self.__class__.__name__
         if self.klass == "_Classes":
-            raise InheritanceError("this class must be inherited")
+            raise InheritanceError("This class must be inherited")
 
         if not get_is_class(self.klass):
-            raise InvalidValueError(f"class '{self.klass}' does not exist")
+            raise InvalidValueError(f"Character class '{self.klass}' is invalid")
 
         if path is not None and not get_is_path(path, self.klass):
-            raise InvalidValueError(f"class path {path} is invalid")
+            raise InvalidValueError(f"Character archetype '{path}' is invalid")
         else:
             self.path = path
 
         if not isinstance(level, int):
-            raise InvalidValueError("level value must be of type 'int'")
+            raise InvalidValueError("Argument level value must be of type 'int'")
         elif level not in range(1, 21):
-            raise InvalidValueError("level value must be between 1-20")
+            raise InvalidValueError("Argument level value must be between 1-20")
         else:
             self.level = level
 
-        self.features = _read(self.klass, file="classes")
-        self.features["abilities"] = self._get_class_abilities()
-        self.features["features"] = self._get_class_features()
-        self.features["path"] = self.path
-        if (
-            self.klass == "Fighter"
-            and self.path != "Eldritch Knight"
-            or self.klass == "Rogue"
-            and self.path != "Arcane Trickster"
-        ):
-            self.features["spell_slots"] = "0"
-        else:
-            spell_slots = self.features.get("spell_slots")
-            if self.level not in spell_slots:
-                spell_slots = "0"
-            else:
-                spell_slots = spell_slots.get(self.level)
-            self.features["spell_slots"] = spell_slots
+        self.all = _read(self.klass, file="classes")
 
-        if has_class_spells(self.path):
-            self._get_class_path_magic()
+        del self.all["paths"]
 
-        self._get_class_hit_die()
-        self._get_class_proficiency("armors")
-        self._get_class_proficiency("tools")
-        self._get_class_proficiency("weapons")
+        self._add_class_abilities()
+        self._add_class_features()
+        self._add_class_hit_die()
+        self._add_class_path_magic()
+        self._add_class_proficiency("Armor")
+        self._add_class_proficiency("Tools")
+        self._add_class_proficiency("Weapons")
+        self._add_class_spell_slots()
 
-        del self.features["paths"]
+        self.primary_ability = self.all.get("abilities")
+        self.default_background = self.all.get("background")
+        self.features = self.all.get("features")
+        self.hit_die = self.all.get("hit_die")
+        self.hit_points = self.all.get("hit_points")
+        self.proficiency_bonus = self.all.get("proficiency_bonus")
+        self.armor = self.all.get("proficiency")[0][1]
+        self.tools = self.all.get("proficiency")[1][1]
+        self.weapons = self.all.get("proficiency")[2][1]
+        self.saving_throws = self.all.get("proficiency")[3][1]
+        self.skills = self.all.get("proficiency")[4][1]
+        self.magic = self.all["magic"]
+        self.spell_slots = self.all.get("spell_slots")
 
     def __repr__(self):
-        return '<{} path="{}">'.format(self.klass, self.path)
+        return '<{} path="{}" level="{}">'.format(self.klass, self.path, self.level)
 
-    def _get_class_abilities(self):
-        """Gets primary class abilities.
+    def _add_class_abilities(self):
+        """Generates primary abilities by character class.
+
             Classes with multiple primary ability choices will select one.
 
-            - Fighter: Strength|Dexterity
-            - Fighter: Constitution|Intelligence
-            - Ranger: Dexterity|Strength
-            - Rogue: Charisma|Intelligence
-            - Wizard: Constitution|Dexterity
+                - Fighter: Strength|Dexterity
+                - Fighter: Constitution|Intelligence
+                - Ranger: Dexterity|Strength
+                - Rogue: Charisma|Intelligence
+                - Wizard: Constitution|Dexterity
 
         """
         class_abilities = _read(self.klass, "abilities", file="classes")
@@ -113,10 +114,11 @@ class _Classes:
         elif self.klass == "Wizard":
             ability_choices = class_abilities.get(2)
             class_abilities[2] = random.choice(ability_choices)
-        return class_abilities
 
-    def _get_class_features(self):
-        """Builds a dictionary of features by class, path & level."""
+        self.all["abilities"] = class_abilities
+
+    def _add_class_features(self):
+        """Generates a dictionary of features by class, path & level."""
         try:
             class_features = _read(self.klass, "features", file="classes")
             path_features = _read(self.path, "features", file="paths")
@@ -129,65 +131,118 @@ class _Classes:
                 if level in path_features:
                     level_features = level_features + path_features[level]
                 if len(level_features) is not 0:
-                    final_feature_list[level] = level_features
+                    level_features.sort()
+                    final_feature_list[level] = tuple(level_features)
 
-            return final_feature_list
+            self.all["features"] = final_feature_list
         except AttributeError:
-            print(f"'{self.klass}' or '{self.path}' is invalid.")
+            print(
+                f"Character class '{self.klass}' or the archetype '{self.path}' is invalid."
+            )
 
-    def _get_class_hit_die(self):
+    def _add_class_hit_die(self):
         """Generates hit die and point totals."""
-        hit_die = self.features.get("hit_die")
-        self.features["hit_die"] = f"{self.level}d{hit_die}"
-        self.features["hit_points"] = hit_die
+        hit_die = self.all.get("hit_die")
+        self.all["hit_die"] = f"{self.level}d{hit_die}"
+        self.all["hit_points"] = hit_die
         if self.level > 1:
             new_level = self.level - 1
             die_rolls = list()
             for _ in range(0, new_level):
                 hp_result = int((hit_die / 2) + 1)
                 die_rolls.append(hp_result)
-            self.features["hit_points"] += sum(die_rolls)
+            self.all["hit_points"] += sum(die_rolls)
 
-    def _get_class_path_magic(self):
+    def _add_class_path_magic(self):
         """Builds a dictionary list of specialized magic spells."""
+        self.all["magic"] = dict()
+
+        if not has_class_spells(self.path):
+            return
+
         magic = dict()
         class_magic = _read(self.path, "magic", file="paths")
 
         if len(class_magic) is not 0:
             for level, spells in class_magic.items():
                 if level <= self.level:
-                    magic[level] = spells
+                    magic[level] = tuple(spells)
 
             del class_magic
-            self.features["magic"] = magic
+            self.all["magic"] = magic
         else:
-            self.features["magic"] = dict()
+            self.all["magic"] = dict()
 
-    def _get_class_proficiency(self, prof_type: str):
-        class_proficiency = _read(self.klass, "proficiency", file="classes")
-        path_proficiency = _read(self.path, "proficiency", file="paths")
-        if prof_type not in ("armors", "tools", "weapons"):
-            raise InvalidValueError
+    def _add_class_proficiency(self, category: str):
+        """Generates character's proficiencies by category."""
+        path_proficiency = _read(self.path, file="paths")
 
-        if prof_type == "tools":
-            if self.path == "Assassin" and self.level < 3:
-                return
-            elif self.klass == "Monk":
-                monk_bonus_tool = random.choice(class_proficiency[prof_type])
-                class_proficiency[prof_type] = [monk_bonus_tool]
-        elif (
-            prof_type == "weapons"
-            and self.path == "College of Valor"
-            and self.level < 3
-        ):
+        # Skill handling and allotment.
+        skills = self.all["proficiency"][4]
+        if self.klass in ("Rogue",):
+            skill_allotment = 4
+        elif self.klass in ("Bard", "Ranger"):
+            skill_allotment = 3
+        else:
+            skill_allotment = 2
+
+        if self.path == "Assassin":
+            assassin_skills = path_proficiency.get("proficiency")[0][1]
+            skills = [x for x in skills[1] if x not in assassin_skills]
+            skills = random.sample(skills, skill_allotment)
+            if self.level >= 3:
+                skills = skills + assassin_skills
+            self.all["proficiency"][4] = ["Skills", skills]
+        elif self.path == "College of Lore":
+            skills = random.sample(skills[1], skill_allotment)
+            self.all["proficiency"][4] = ["Skills", skills]
+            if self.level >= 3:
+                my_skills = self.all["proficiency"][4][1]
+                lore_skills = [x for x in get_all_skills() if x not in my_skills]
+                skills = skills + random.sample(lore_skills, 3)
+                self.all["proficiency"][4] = ["Skills", skills]
+        else:
+            skills = random.sample(skills[1], skill_allotment)
+            self.all["proficiency"][4] = ["Skills", skills]
+        self.all["proficiency"][4][1].sort()
+
+        # Proficiency handling and allotment (if applicable).
+        self.all["proficiency_bonus"] = get_proficiency_bonus(self.level)
+
+        if "proficiency" not in path_proficiency:
             return
+
+        class_proficiency = self.all.get("proficiency")
+        path_proficiency = path_proficiency.get("proficiency")
+        class_extract = [cp for cp in class_proficiency if cp[0] == category]
+        path_extract = [pp for pp in path_proficiency if pp[0] == category]
+        for index, proficient in enumerate(class_proficiency):
+            if proficient[0] == category:
+                try:
+                    revised_proficiency = class_extract[0][1] + path_extract[0][1]
+                    revised_proficiency.sort()
+                    self.all["proficiency"][index] = [category, revised_proficiency]
+                except IndexError:
+                    pass
+
+        self.all["proficiency"] = [tuple(x) for x in self.all.get("proficiency")]
+
+    def _add_class_spell_slots(self):
+        """Generates character's spell slots."""
+        if (
+            self.klass == "Fighter"
+            and self.path != "Eldritch Knight"
+            or self.klass == "Rogue"
+            and self.path != "Arcane Trickster"
+        ):
+            self.all["spell_slots"] = "0"
         else:
-            path_list = path_proficiency[prof_type]
-            if len(path_list) is not 0:
-                for proficiency in path_list:
-                    class_proficiency[prof_type].append(proficiency)
-                class_proficiency[prof_type].sort()
-        self.features["proficiency"][prof_type] = class_proficiency[prof_type]
+            spell_slots = self.all.get("spell_slots")
+            if self.level not in spell_slots:
+                spell_slots = "0"
+            else:
+                spell_slots = spell_slots.get(self.level)
+            self.all["spell_slots"] = spell_slots
 
 
 class Barbarian(_Classes):
@@ -250,12 +305,12 @@ class Wizard(_Classes):
         super(Wizard, self).__init__(path, level)
 
 
-def get_is_class(klass) -> bool:
+def get_is_class(klass: str) -> bool:
     """Returns whether klass is valid."""
     return klass in _read(file="classes")
 
 
-def get_is_path(path, klass) -> bool:
+def get_is_path(path: str, klass: str) -> bool:
     """Returns whether path is a valid path of klass."""
     return path in _read(klass, "paths", file="classes")
 
@@ -270,7 +325,10 @@ def get_proficiency_bonus(level: int) -> int:
     return math.ceil((level / 4) + 1)
 
 
-def has_class_spells(path) -> bool:
+def has_class_spells(path: str) -> bool:
     """Returns whether class path has spells."""
-    class_spells = _read(path, "magic", file="paths")
-    return len(class_spells) is not 0
+    try:
+        class_spells = _read(path, "magic", file="paths")
+        return len(class_spells) is not 0
+    except TypeError:
+        return False
