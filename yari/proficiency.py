@@ -5,22 +5,18 @@ class ProficiencyTypeValueError(ValueError):
 class ProficiencyGenerator:
     """Merges class with racial proficiencies (if applicable)."""
 
-    def __init__(self, prof_type: str, features: dict, traits: dict) -> None:
+    def __init__(
+        self, prof_type: str, class_proficiency: list, race_proficiency: list
+    ) -> None:
         """
         Args:
             prof_type (str): Proficiency type (armors|tools|weapons).
-            features (dict): Class proficiency by prof_type.
-            traits (dict): Racial proficiency by prof_type (if applicable).
+            class_proficiency (dict): Class based proficiency by prof_type.
+            race_proficiency (dict): Race based proficiency by prof_type (if applicable).
         """
         if prof_type not in ("armors", "tools", "weapons"):
             raise ProficiencyTypeValueError(
-                f"invalid 'prof_type' argument '{prof_type}'"
+                f"Invalid 'prof_type' argument '{prof_type}' specified."
             )
-        else:
-            class_proficiency = features.get("proficiency").get(prof_type)
-            if "proficiency" in traits:
-                trait_proficiency = traits.get("proficiency")
-                if prof_type in trait_proficiency:
-                    trait_proficiency = trait_proficiency.get(prof_type)
-                    class_proficiency = class_proficiency + trait_proficiency
-            self.proficiency = class_proficiency
+
+        self.proficiency = class_proficiency + race_proficiency
