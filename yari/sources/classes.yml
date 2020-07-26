@@ -24,10 +24,11 @@ classes:
       - Path of the Berserker
       - Path of the Totem Warrior
     proficiency:
-      armors: ['Light', 'Medium', 'Shield']
-      tools: []
-      weapons: ['Simple', 'Martial']
-    saves: ['Constitution', 'Strength']
+      - ['Armor', ['Light', 'Medium', 'Shield']]
+      - ['Tools',  []]
+      - ['Weapons', ['Simple', 'Martial']]
+      - ['Saves', ['Constitution', 'Strength']]
+      - ['Skills', ['Animal Handling', 'Athletics', 'Intimidation', 'Nature', 'Perception', 'Survival']]
     spell_slots: {}
   Bard:
     abilities:
@@ -53,15 +54,11 @@ classes:
       - College of Lore
       - College of Valor
     proficiency:
-      armors: ['Light']
-      tools: []
-      weapons:
-        - Simple
-        - Hand Crossbow
-        - Longsword
-        - Rapier
-        - Shortsword
-    saves: ['Charisma', 'Dexterity']
+      - ['Armor', ['Light']]
+      - ['Tools',  []]
+      - ['Weapons', ['Simple', 'Hand Crossbow', 'Longsword', 'Rapier', 'Shortsword']]
+      - ['Saves', ['Charisma', 'Dexterity']]
+      - ['Skills', ['Acrobatics', 'Animal Handling', 'Arcana', 'Athletics', 'Deception', 'History', 'Insight', 'Intimidation', 'Investigation', 'Medicine', 'Nature', 'Perception', 'Performance', 'Persuasion', 'Religion', 'Sleight of Hand', 'Stealth', 'Survival']]
     spell_slots:
       1: 2
       2: 3
@@ -108,9 +105,11 @@ classes:
       - Trickery Domain
       - War Domain
     proficiency:
-      armors: ['Light', 'Medium', 'Shield']
-      tools: []
-      weapons: ['Simple']
+      - ['Armor', ['Light', 'Medium', 'Shield']]
+      - ['Tools',  []]
+      - ['Weapons', ['Simple']]
+      - ['Saves', ['Charisma', 'Wisdom']]
+      - ['Skills', ['History', 'Insight', 'Medicine', 'Persuasion', 'Religion']]
     saves: ['Charisma', 'Wisdom']
     spell_slots:
       1: 2
@@ -158,21 +157,11 @@ classes:
       - Circle of the Underdark
       - Circle of the Moon
     proficiency:
-      armors: ['Light', 'Medium', 'Shield']
-      tools:
-        - Herbalism Kit
-      weapons:
-        - Club
-        - Dagger
-        - Dart
-        - Javelin
-        - Mace
-        - Quarterstaff
-        - Scimitar
-        - Sickle
-        - Sling
-        - Spear
-    saves: ['Intelligence', 'Wisdom']
+      - ['Armor', ['Light', 'Medium', 'Shield']]
+      - ['Tools',  ['Herbalism Kit']]
+      - ['Weapons', ['Club', 'Dagger', 'Dart', 'Javelin', 'Mace', 'Quarterstaff', 'Scimitar', 'Sickle', 'Sling', 'Spear']]
+      - ['Saves', ['Intelligence', 'Wisdom']]
+      - ['Skills', ['Animal Handling', 'Arcana', 'Insight', 'Medicine', 'Nature', 'Perception', 'Religion', 'Survival']]
     spell_slots:
       1: 2
       2: 3
@@ -215,10 +204,11 @@ classes:
       - Battle Master
       - Eldritch Knight
     proficiency:
-      armors: ['Light', 'Medium', 'Heavy', 'Shield']
-      tools: []
-      weapons: ['Simple', 'Martial']
-    saves: ['Constitution', 'Strength']
+      - ['Armor', ['Light', 'Medium', 'Heavy', 'Shield']]
+      - ['Tools',  []]
+      - ['Weapons', ['Simple', 'Martial']]
+      - ['Saves', ['Constitution', 'Strength']]
+      - ['Skills', ['Acrobatics', 'Animal Handling', 'Athletics', 'History', 'Insight', 'Intimidation', 'Perception', 'Survival']]
     spell_slots:
       3: 2
       4: 3
@@ -264,37 +254,11 @@ classes:
       - Way of the Open Hand
       - Way of Shadow
     proficiency:
-      armors: []
-      tools:
-        - Artisan's tools - Alchemists supplies
-        - Artisan's tools - Brewer's supplies
-        - Artisan's tools - Calligrapher's supplies
-        - Artisan's tools - Carpenter's tools
-        - Artisan's tools - Cartographer's tools
-        - Artisan's tools - Cobbler's tools
-        - Artisan's tools - Cook's utensils
-        - Artisan's tools - Glassblower's tools
-        - Artisan's tools - Jeweler's tools
-        - Artisan's tools - Leatherworker's tools
-        - Artisan's tools - Mason's tools
-        - Artisan's tools - Painter's supplies
-        - Artisan's tools - Potter's tools
-        - Artisan's tools - Smith's tools
-        - Artisan's tools - Tinker's tools
-        - Artisan's tools - Weaver's tools
-        - Artisan's tools - Woodcarver's tools
-        - Musical instrument - Bagpipes
-        - Musical instrument - Drum
-        - Musical instrument - Dulcimer
-        - Musical instrument - Flute
-        - Musical instrument - Lute
-        - Musical instrument - Lyre
-        - Musical instrument - Horn
-        - Musical instrument - Pan flute
-        - Musical instrument - Shawm
-        - Musical instrument - Viol
-      weapons: ['Simple', 'Shortsword']
-    saves: ['Dexterity', 'Strength']
+      - ['Armor', []]
+      - ['Tools',  ["Artisan's tools - Alchemists supplies", "Artisan's tools - Brewer's supplies", "Artisan's tools - Calligrapher's supplies", "Artisan's tools - Carpenter's tools", "Artisan's tools - Cartographer's tools", "Artisan's tools - Cobbler's tools", "Artisan's tools - Cook's utensils", "Artisan's tools - Glassblower's tools", "Artisan's tools - Jeweler's tools", "Artisan's tools - Leatherworker's tools", "Artisan's tools - Mason's tools", "Artisan's tools - Painter's supplies", "Artisan's tools - Potter's tools", "Artisan's tools - Smith's tools", "Artisan's tools - Tinker's tools", "Artisan's tools - Weaver's tools", "Artisan's tools - Woodcarver's tools", "Musical instrument - Bagpipes", "Musical instrument - Drum", "Musical instrument - Dulcimer", "Musical instrument - Flute", "Musical instrument - Lute", "Musical instrument - Lyre", "Musical instrument - Horn", "Musical instrument - Pan flute", "Musical instrument - Shawm", "Musical instrument - Viol"]]
+      - ['Weapons', ['Simple', 'Shortsword']]
+      - ['Saves', ['Dexterity', 'Strength']]
+      - ['Skills', ['Acrobatics', 'Athletics', 'History', 'Insight', 'Religion', 'Stealth']]
     spell_slots: {}
   Paladin:
     abilities:
@@ -317,10 +281,11 @@ classes:
       - Oath of Vengeance
       - Oath of the Ancients
     proficiency:
-      armors: ['Light', 'Medium', 'Heavy', 'Shield']
-      tools: []
-      weapons: ['Simple', 'Martial']
-    saves: ['Charisma', 'Wisdom']
+      - ['Armor', ['Light', 'Medium', 'Heavy', 'Shield']]
+      - ['Tools',  []]
+      - ['Weapons', ['Simple', 'Martial']]
+      - ['Saves', ['Charisma', 'Wisdom']]
+      - ['Skills', ['Athletics', 'Insight', 'Intimidation', 'Medicine', 'Persuasion', 'Religion']]
     spell_slots:
       2: 2
       3: 3
@@ -362,10 +327,11 @@ classes:
       - Beast Master
       - Hunter
     proficiency:
-      armors: ['Light', 'Medium', 'Shield']
-      tools: []
-      weapons: ['Simple', 'Martial']
-    saves: ['Dexterity', 'Strength']
+      - ['Armor', ['Light', 'Medium', 'Shield']]
+      - ['Tools',  []]
+      - ['Weapons', ['Simple', 'Martial']]
+      - ['Saves', ['Dexterity', 'Strength']]
+      - ['Skills', ['Animal Handling', 'Athletics', 'Insight', 'Investigation', 'Nature', 'Perception', 'Sleight of Hand', 'Stealth', 'Survival']]
     spell_slots:
       2: 2
       3: 3
@@ -409,16 +375,11 @@ classes:
       - Assassin
       - Thief
     proficiency:
-      armors: ['Light']
-      tools:
-        - Thieves' tools
-      weapons:
-        - Simple
-        - Hand Crossbow
-        - Longsword
-        - Rapier
-        - Shortsword
-    saves: ['Dexterity', 'Intelligence']
+      - ['Armor', ['Light']]
+      - ['Tools',  ["Thieves' tools"]]
+      - ['Weapons', ['Simple', 'Hand Crossbow', 'Longsword', 'Rapier', 'Shortsword']]
+      - ['Saves', ['Dexterity', 'Intelligence']]
+      - ['Skills', ['Acrobatics', 'Athletics', 'Deception', 'Insight', 'Intimidation', 'Investigation', 'Perception', 'Performance', 'Persuasion', 'Sleight of Hand', 'Stealth']]
     spell_slots:
       3: 2
       4: 3
@@ -455,15 +416,11 @@ classes:
       - Draconic Bloodline
       - Wild Magic
     proficiency:
-      armors: []
-      tools: []
-      weapons:
-        - Dagger
-        - Dart
-        - Light Crossbow
-        - Sling
-        - Quarterstaff
-    saves: ['Charisma', 'Constitution']
+      - ['Armor', []]
+      - ['Tools',  []]
+      - ['Weapons', ['Dagger', 'Dart', 'Light Crossbow', 'Sling', 'Quarterstaff']]
+      - ['Saves', ['Charisma', 'Constitution']]
+      - ['Skills', ['Arcana', 'Deception', 'Insight', 'Intimidation', 'Persuasion', 'Religion']]
     spell_slots:
       1: 2
       2: 3
@@ -505,10 +462,11 @@ classes:
       - The Fiend
       - The Great Old One
     proficiency:
-      armors: ['Light']
-      tools: []
-      weapons: ['Simple']
-    saves: ['Charisma', 'Wisdom']
+      - ['Armor', ['Light']]
+      - ['Tools',  []]
+      - ['Weapons', ['Simple']]
+      - ['Saves', ['Charisma', 'Wisdom']]
+      - ['Skills', ['Arcana', 'Deception', 'History', 'Intimidation', 'Investigation', 'Nature', 'Religion']]
     spell_slots:
       1: 1
       2: 2
@@ -551,15 +509,11 @@ classes:
       - School of Necromancy
       - School of Transmutation
     proficiency:
-      armors: []
-      tools: []
-      weapons:
-        - Dagger
-        - Dart
-        - Sling
-        - Quarterstaff
-        - Light Crossbow
-    saves: ['Intelligence', 'Wisdom']
+      - ['Armor', []]
+      - ['Tools',  []]
+      - ['Weapons', ['Dagger', 'Dart', 'Light Crossbow', 'Sling', 'Quarterstaff']]
+      - ['Saves', ['Intelligence', 'Wisdom']]
+      - ['Skills', ['Arcana', 'History', 'Insight', 'Investigation', 'Medicine', 'Religion']]
     spell_slots:
       1: 2
       2: 3

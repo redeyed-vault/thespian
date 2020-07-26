@@ -8,12 +8,7 @@ paths:
       6: ['Mindless Rage']
       10: ['Intimidating Presence']
       14: ['Retaliation']
-    magic: {}
     parent: Barbarian
-    proficiency:
-      armors: []
-      tools: []
-      weapons: []
   Path of the Totem Warrior:
     features:
       3:
@@ -23,35 +18,23 @@ paths:
       6: ['Aspect of the Beast']
       10: ['Spirit Walker']
       14: ['Totemic Attunement']
-    magic: {}
     parent: Barbarian
-    proficiency:
-      armors: []
-      tools: []
-      weapons: []
   # Bard Colleges
   College of Lore:
     features:
       3: ['Cutting Words']
       6: ['Additional Magical Secrets']
       14: ['Peerless Skill']
-    magic: {}
     parent: Bard
-    proficiency:
-      armors: []
-      tools: []
-      weapons: []
   College of Valor:
     features:
       3: ['Combat Inspiration']
       6: ['Extra Attack']
       14: ['Battle Magic']
-    magic: {}
     parent: Bard
     proficiency:
-      armors: ['Medium', 'Shield']
-      tools: []
-      weapons: ['Martial']
+      - ['Armor', ['Medium', 'Shield']]
+      - ['Weapons', ['Martial']]
   # Cleric Domains
   Knowledge Domain:
     features:
@@ -67,10 +50,6 @@ paths:
       7: ['Arcane Eye', 'Confusion']
       9: ['Legend Lore', 'Scrying']
     parent: Cleric
-    proficiency:
-      armors: []
-      tools: []
-      weapons: []
   Life Domain:
     features:
       1: ['Disciple of Life']
@@ -86,9 +65,7 @@ paths:
       9: ['Mass Cure Wounds', 'Raise Dead']
     parent: Cleric
     proficiency:
-      armors: ['Heavy']
-      tools: []
-      weapons: []
+      - ['Armor', ['Heavy']]
   Light Domain:
     features:
       1: ['Bonus Cantrip', 'Warding Flare']
@@ -103,10 +80,6 @@ paths:
       7: ['Guardian of Faith', 'Wall of Fire']
       9: ['Flame Strike', 'Raise Dead']
     parent: Cleric
-    proficiency:
-      armors: []
-      tools: []
-      weapons: []
   Nature Domain:
     features:
       1: ['Acolyte of Nature']
@@ -122,9 +95,7 @@ paths:
       9: ['Insect Plague', 'Tree Stride']
     parent: Cleric
     proficiency:
-      armors: ['Heavy']
-      tools: []
-      weapons: []
+      - ['Armor', ['Heavy']]
   Tempest Domain:
     features:
       1: ['Wrath of the Storm']
@@ -140,9 +111,8 @@ paths:
       9: ['Destructive Wave', 'Insect Plague']
     parent: Cleric
     proficiency:
-      armors: ['Heavy']
-      tools: []
-      weapons: ['Martial']
+      - ['Armor', ['Heavy']]
+      - ['Weapons', ['Martial']]
   Trickery Domain:
     features:
       1: ['Blessing of the Trickster']
@@ -157,10 +127,6 @@ paths:
       7: ['Dimension Door', 'Polymorph']
       9: ['Dominate Person', 'Modify Memory']
     parent: Cleric
-    proficiency:
-      armors: []
-      tools: []
-      weapons: []
   War Domain:
     features:
       1: ['War Priest']
@@ -176,9 +142,8 @@ paths:
       9: ['Flame Strike', 'Hold Monster']
     parent: Cleric
     proficiency:
-      armors: ['Heavy']
-      tools: []
-      weapons: ['Martial']
+      - ['Armor', ['Heavy']]
+      - ['Weapons', ['Martial']]
   # Druid Circles
   Circle of the Arctic:
     features:
@@ -192,10 +157,6 @@ paths:
       7: ['Freedom of Movement', 'Ice Storm']
       9: ['Commune With Nature', 'Cone of Cold']
     parent: Druid
-    proficiency:
-      armors: []
-      tools: []
-      weapons: []
   Circle of the Coast:
     features:
       2: ['Bonus Cantrip', 'Natural Recovery']
@@ -208,10 +169,6 @@ paths:
       7: ['Control Water', 'Freedom of Movement']
       9: ['Conjure Elemental', 'Scrying']
     parent: Druid
-    proficiency:
-      armors: []
-      tools: []
-      weapons: []
   Circle of the Desert:
     features:
       2: ['Bonus Cantrip', 'Natural Recovery']
@@ -224,10 +181,6 @@ paths:
       7: ['Blight', 'Hallucinatory Terrain']
       9: ['Insect Plague', 'Wall of Stone']
     parent: Druid
-    proficiency:
-      armors: []
-      tools: []
-      weapons: []
   Circle of the Forest:
     features:
       2: ['Bonus Cantrip', 'Natural Recovery']
@@ -240,10 +193,6 @@ paths:
       7: ['Divination', 'Freedom of Movement']
       9: ['Commune With Nature', 'Tree Stride']
     parent: Druid
-    proficiency:
-      armors: []
-      tools: []
-      weapons: []
   Circle of the Grassland:
     features:
       2: ['Bonus Cantrip', 'Natural Recovery']
@@ -256,22 +205,13 @@ paths:
       7: ['Divination', 'Freedom of Movement']
       9: ['Dream', 'Insect Plague']
     parent: Druid
-    proficiency:
-      armors: []
-      tools: []
-      weapons: []
   Circle of the Moon:
     features:
       2: ['Circle Forms', 'Combat Wild Shape']
       6: ['Primal Strike']
       10: ['Elemental Wild Shape']
       14: ['Thousand Forms']
-    magic: {}
     parent: Druid
-    proficiency:
-      armors: []
-      tools: []
-      weapons: []
   Circle of the Mountain:
     features:
       2: ['Bonus Cantrip', 'Natural Recovery']
@@ -284,10 +224,6 @@ paths:
       7: ['Stone Shape', 'Stoneskin']
       9: ['Passwall', 'Wall of Stone']
     parent: Druid
-    proficiency:
-      armors: []
-      tools: []
-      weapons: []
   Circle of the Swamp:
     features:
       2: ['Bonus Cantrip', 'Natural Recovery']
@@ -300,10 +236,6 @@ paths:
       7: ['Freedom of Movement', 'Locate Creature']
       9: ['Insect Plague', 'Scrying']
     parent: Druid
-    proficiency:
-      armors: []
-      tools: []
-      weapons: []
   Circle of the Underdark:
     features:
       2: ['Bonus Cantrip', 'Natural Recovery']
@@ -316,10 +248,6 @@ paths:
       7: ['Greater Invisibility', 'Stone Shape']
       9: ['Cloudkill', 'Insect Plague']
     parent: Druid
-    proficiency:
-      armors: []
-      tools: []
-      weapons: []
   # Fighter Archetypes
   Battle Master:
     features:
@@ -327,12 +255,7 @@ paths:
       7: ['Know Your Enemy']
       10: ['Improved Combat Superiority']
       15: ['Relentless']
-    magic: {}
     parent: Fighter
-    proficiency:
-      armors: []
-      tools: []
-      weapons: []
   Champion:
     features:
       3: ['Improved Critical']
@@ -340,12 +263,7 @@ paths:
       10: ['Additional Fighting Style']
       15: ['Superior Critical']
       18: ['Survivor']
-    magic: {}
     parent: Fighter
-    proficiency:
-      armors: []
-      tools: []
-      weapons: []
   Eldritch Knight:
     features:
       3: ['Spellcasting', 'Weapon Bond']
@@ -353,12 +271,7 @@ paths:
       10: ['Eldritch Strike']
       15: ['Arcane Charge']
       18: ['Improved War Magic']
-    magic: {}
     parent: Fighter
-    proficiency:
-      armors: []
-      tools: []
-      weapons: []
   # Monk Traditions
   Way of Shadow:
     features:
@@ -366,12 +279,7 @@ paths:
       6: ['Shadow Step']
       11: ['Cloak of Shadows']
       17: ['Opportunist']
-    magic: {}
     parent: Monk
-    proficiency:
-      armors: []
-      tools: []
-      weapons: []
   Way of the Four Elements:
     features:
       3:
@@ -389,22 +297,13 @@ paths:
       17: ['Breath of Winter', 'River of Hungry Flame', 'Wave of Rolling Earth']
     magic: {}
     parent: Monk
-    proficiency:
-      armors: []
-      tools: []
-      weapons: []
   Way of the Open Hand:
     features:
       3: ['Open Hand Technique']
       6: ['Wholeness of Body']
       11: ['Tranquility']
       17: ['Quivering Palm']
-    magic: {}
     parent: Monk
-    proficiency:
-      armors: []
-      tools: []
-      weapons: []
   # Paladin Oaths
   Oath of Devotion:
     features:
@@ -419,10 +318,6 @@ paths:
       13: ['Freedom of Movement', 'Guardian of Faith']
       17: ['Commune', 'Flame Strike']
     parent: Paladin
-    proficiency:
-      armors: []
-      tools: []
-      weapons: []
   Oath of Vengeance:
     features:
       3: ['Channel Divinity - Abjure Enemy', 'Channel Divinity - Vow of Enmity']
@@ -436,10 +331,6 @@ paths:
       13: ['Banishment', 'Dimension Door']
       17: ['Hold Monster', 'Scrying']
     parent: Paladin
-    proficiency:
-      armors: []
-      tools: []
-      weapons: []
   Oath of the Ancients:
     features:
       3: ["Channel Divinity - Nature's Wrath", 'Turn the Faithless']
@@ -453,10 +344,6 @@ paths:
       13: ['Ice Storm', 'Stoneskin']
       17: ['Commune With Nature', 'Tree Stride']
     parent: Paladin
-    proficiency:
-      armors: []
-      tools: []
-      weapons: []
   # Ranger Archetypes
   Beast Master:
     features:
@@ -464,24 +351,14 @@ paths:
       7: ['Exceptional Training']
       11: ['Beastial Fury']
       15: ['Share Spells']
-    magic: {}
     parent: Ranger
-    proficiency:
-      armors: []
-      tools: []
-      weapons: []
   Hunter:
     features:
       3: ["Hunter's Prey"]
       7: ['Defensive Tactics']
       11: ['Multiattack']
       15: ["Superior Hunter's Defense"]
-    magic: {}
     parent: Ranger
-    proficiency:
-      armors: []
-      tools: []
-      weapons: []
   # Rogue Archetypes
   Arcane Trickster:
     features:
@@ -489,38 +366,23 @@ paths:
       9: ['Magical Ambush']
       13: ['Versatile Trickster']
       17: ['Spell Thief']
-    magic: {}
     parent: Rogue
-    proficiency:
-      armors: []
-      tools: []
-      weapons: []
   Assassin:
     features:
       3: ['Assassinate']
       9: ['Infiltration Expertise']
       13: ['Impostor']
       17: ['Death Strike']
-    magic: {}
     parent: Rogue
     proficiency:
-      armors: []
-      tools:
-        - Disguise kit
-        - Poisoner's kit
-      weapons: []
+      - ['Tools',  ['Disguise kit', "Poisoner's kit"]]
   Thief:
     features:
       3: ['Fast Hands', 'Second-Story Work']
       9: ['Supreme Sneak']
       13: ['Use Magic Device']
       17: ["Thief's Reflexes"]
-    magic: {}
     parent: Rogue
-    proficiency:
-      armors: []
-      tools: []
-      weapons: []
   # Sorcerer Origins
   Draconic Bloodline:
     features:
@@ -528,24 +390,14 @@ paths:
       6: ['Elemental Affinity']
       14: ['Dragon Wings']
       18: ['Draconic Presence']
-    magic: {}
     parent: Sorcerer
-    proficiency:
-      armors: []
-      tools: []
-      weapons: []
   Wild Magic:
     features:
       1: ['Tides of Chaos', 'Wild Magic Surge']
       6: ['Bend Luck']
       14: ['Controlled Chaos']
       18: ['Spell Bombardment']
-    magic: {}
     parent: Sorcerer
-    proficiency:
-      armors: []
-      tools: []
-      weapons: []
   # Warlock Pacts
   The Archfey:
     features:
@@ -560,10 +412,6 @@ paths:
       4: ['Dominate Beast', 'Greater Invisibility']
       5: ['Dominate Person', 'Seeming']
     parent: Warlock
-    proficiency:
-      armors: []
-      tools: []
-      weapons: []
   The Fiend:
     features:
       1: ["Dark One's Blessing"]
@@ -577,10 +425,6 @@ paths:
       4: ['Fire Shield', 'Wall of Fire']
       5: ['Flame Strike', 'Hallow']
     parent: Warlock
-    proficiency:
-      armors: []
-      tools: []
-      weapons: []
   The Great Old One:
     features:
       1: ['Awakened Mind']
@@ -594,10 +438,6 @@ paths:
       4: ['Dominate Beast', "Evard's Black Tentacles"]
       5: ['Dominate Person', 'Telekinesis']
     parent: Warlock
-    proficiency:
-      armors: []
-      tools: []
-      weapons: []
   # Wizard Schools
   School of Abjuration:
     features:
@@ -605,93 +445,53 @@ paths:
       6: ['Projected Ward']
       10: ['Improved Abjuration']
       14: ['Spell Resistance']
-    magic: {}
     parent: Wizard
-    proficiency:
-      armors: []
-      tools: []
-      weapons: []
   School of Conjuration:
     features:
       2: ['Conjuration Savant', 'Minor Conjuration']
       6: ['Benign Transposition']
       10: ['Focused Conjuration']
       14: ['Durable Summons']
-    magic: {}
     parent: Wizard
-    proficiency:
-      armors: []
-      tools: []
-      weapons: []
   School of Divination:
     features:
       2: ['Divination Savant', 'Portent']
       6: ['Expert Divination']
       10: ['The Third Eye']
       14: ['Greater Portent']
-    magic: {}
     parent: Wizard
-    proficiency:
-      armors: []
-      tools: []
-      weapons: []
   School of Enchantment:
     features:
       2: ['Enchantment Savant', 'Hypnotic Gaze']
       6: ['Instinctive Charm']
       10: ['Split Enchantment']
       14: ['Alter Memories']
-    magic: {}
     parent: Wizard
-    proficiency:
-      armors: []
-      tools: []
-      weapons: []
   School of Evocation:
     features:
       2: ['Evocation Savant', 'Sculpt Spells']
       6: ['Potent Cantrip']
       10: ['Empowered Evocation']
       14: ['Overchannel']
-    magic: {}
     parent: Wizard
-    proficiency:
-      armors: []
-      tools: []
-      weapons: []
   School of Illusion:
     features:
       2: ['Illusion Savant', 'Improved Minor Illusion']
       6: ['Malleable Illusions']
       10: ['Illusory Self']
       14: ['Illusory Reality']
-    magic: {}
     parent: Wizard
-    proficiency:
-      armors: []
-      tools: []
-      weapons: []
   School of Necromancy:
     features:
       2: ['Necromancy Savant', 'Grim Harvest']
       6: ['Undead Thralls']
       10: ['Inured to Undeath']
       14: ['Command Undead']
-    magic: {}
     parent: Wizard
-    proficiency:
-      armors: []
-      tools: []
-      weapons: []
   School of Transmutation:
     features:
       2: ['Transmutation Savant', 'Minor Alchemy']
       6: ["Transmuters Stone"]
       10: ['Shapechanger']
       14: ['Master Transmuter']
-    magic: {}
     parent: Wizard
-    proficiency:
-      armors: []
-      tools: []
-      weapons: []
