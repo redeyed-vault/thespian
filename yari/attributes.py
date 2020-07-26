@@ -4,7 +4,6 @@ import random
 from yari.dice import roll
 from yari.exceptions import InheritanceError
 from yari.loader import _read
-from yari.races import get_subraces_by_race
 
 
 class _Attributes:
@@ -90,14 +89,16 @@ class AttributeGenerator:
         Uses class' primary abilities in assignments.
         Applies racial bonuses to generated scores (if applicable)."""
 
-    def __init__(self, class_attr: dict, threshold=65) -> None:
+    def __init__(self, primary_ability: dict, racial_bonus: dict, threshold=65) -> None:
         """
         Args:
-            class_attr (dict): Character class primary abilities.
+            primary_ability (dict): Character class' primary abilities.
+            racial_bonus (dict): Character racial bonuses.
             threshold (int): Ability score array minimal threshold total.
 
         """
-        self.class_attr = list(class_attr.values())
+        self.primary_ability = list(primary_ability.values())
+        self.racial_bonus = racial_bonus
         self.threshold = threshold
 
         score_array = OrderedDict()
@@ -119,7 +120,7 @@ class AttributeGenerator:
 
         generated_scores = self._determine_ability_scores()
         # Assign highest values to class specific abilities first.
-        for ability in self.class_attr:
+        for ability in self.primary_ability:
             value = max(generated_scores)
             score_array[ability] = value
             ability_choices.remove(ability)
@@ -135,6 +136,11 @@ class AttributeGenerator:
 
         self.score_array = score_array
 
+        # Apply racial bonuses.
+        for ability, bonus in self.racial_bonus.items():
+            value = self.score_array.get(ability) + bonus
+            self.score_array[ability] = value
+
     def _determine_ability_scores(self) -> list:
         """Generates six ability scores for assignment."""
 
@@ -148,66 +154,6 @@ class AttributeGenerator:
             results = [_roll() for _ in range(6)]
 
         return results
-
-    def set_racial_bonus(
-        self, race: str, subrace: (str, None), class_attr: dict, variant: bool,
-    ) -> None:
-        """Apply bonuses by race, subrace and class_attr w/ variant rules (if human).
-
-        Args:
-            race (str): Character's race.
-            subrace (str, None): Character's subrace (if applicable).
-            class_attr (dict): Class primary abilities.
-            variant (bool): Use variant rules (only used if race is Human).
-
-        """
-        class_attr = list(class_attr.values())
-
-        bonuses = dict()
-        # Half-elf ability bonuses.
-        if race == "HalfElf":
-            if "Charisma" in class_attr:
-                ability_choices = [
-                    "Strength",
-                    "Dexterity",
-                    "Constitution",
-                    "Intelligence",
-                    "Wisdom",
-                ]
-                class_attr.remove("Charisma")
-                # Assign the remaining ability.
-                saved_ability = class_attr.pop()
-                bonuses[saved_ability] = 1
-                ability_choices.remove(saved_ability)
-                # Choose alternative ability for bonus.
-                random.shuffle(ability_choices)
-                bonuses[ability_choices.pop()] = 1
-            else:
-                for ability in class_attr:
-                    bonuses[ability] = 1
-        # Non-human or human non-variant ability bonuses.
-        elif race == "Human" and not variant or race != "Human":
-            racial_bonuses = _read(race, "traits", "abilities", file="races")
-            for ability, bonus in racial_bonuses.items():
-                bonuses[ability] = bonus
-        # Human variant bonuses.
-        elif race == "Human" and variant:
-            racial_bonuses = class_attr
-            for ability in racial_bonuses:
-                bonuses[ability] = 1
-
-        if subrace is not None:
-            if subrace in get_subraces_by_race(race):
-                subracial_bonuses = _read(
-                    subrace, "traits", "abilities", file="subraces"
-                )
-                for ability, bonus in subracial_bonuses.items():
-                    bonuses[ability] = bonus
-
-        # Apply racial bonuses.
-        for ability, bonus in bonuses.items():
-            value = self.score_array.get(ability) + bonus
-            self.score_array[ability] = value
 
 
 def get_ability_modifier(score: int) -> int:
