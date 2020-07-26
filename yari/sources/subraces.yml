@@ -18,7 +18,8 @@ subraces:
       Dexterity: 1
     languages: ['Undercommon']
     other:
-      - [Darkvision, 120]
+      - [Extra Language, [Undercommon]]
+      - [Superior Darkvision, 120]
       - [Stone Camouflage]
     parent: Gnome
   Dispater:
@@ -50,6 +51,7 @@ subraces:
     other:
       - [Duergar Magic, [[3, Enlarge/Reduce], [5, Invisibility]]]
       - [Duergar Resilience, [Charm, Illusion, Paralysis]]
+      - [Extra Language, [Undercommon]]
       - [Sunlight Sensitivity]
       - [Superior Darkvision, 120]
     parent: Dwarf
