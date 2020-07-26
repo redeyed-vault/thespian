@@ -71,7 +71,7 @@ class _Classes:
         self.hit_die = self.all.get("hit_die")
         self.hit_points = self.all.get("hit_points")
         self.proficiency_bonus = self.all.get("proficiency_bonus")
-        self.armor = self.all.get("proficiency")[0][1]
+        self.armors = self.all.get("proficiency")[0][1]
         self.tools = self.all.get("proficiency")[1][1]
         self.weapons = self.all.get("proficiency")[2][1]
         self.saving_throws = self.all.get("proficiency")[3][1]
