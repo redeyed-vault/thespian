@@ -2,111 +2,149 @@ import random
 
 from yari.exceptions import InheritanceError, InvalidValueError
 from yari.loader import _read
+from yari.ratio import RatioGenerator
 
 
 class _Races:
     """DO NOT call class directly. Used to generate racial traits.
+
         Inherited by the following classes:
 
-        - Aasimar
-        - Dragonborn
-        - Dwarf
-        - Elf
-        - Gith
-        - Gnome
-        - HalfElf
-        - HalfOrc
-        - Halfling
-        - Human
-        - Tiefling
+            - Aasimar
+            - Dragonborn
+            - Dwarf
+            - Elf
+            - Gith
+            - Gnome
+            - HalfElf
+            - HalfOrc
+            - Halfling
+            - Human
+            - Tiefling
 
     """
 
-    def __init__(self, subrace: (None, str), class_attr: dict, variant: bool) -> None:
+    def __init__(self, subrace: str, sex: str, level: int) -> None:
         """
             Args:
                 subrace (str): Character's chosen subrace (if applicable).
-                class_attr (dict): Characters's chosen class' primary abilities.
-                variant (bool): Use variant rules (Human only).
+                sex (str): Characters's chosen gender.
+                level (int): Character's chosen level.
 
         """
         self.race = self.__class__.__name__
         if self.race == "_Races":
-            raise InheritanceError("this class must be inherited")
+            raise InheritanceError("This class must be inherited")
 
-        if subrace is not None and not get_subraces_by_race(self.race):
-            raise InvalidValueError(f"invalid subrace '{subrace}'")
+        if subrace != "" and subrace not in get_subraces_by_race(self.race):
+            raise InvalidValueError(f"Argument 'subrace' value '{subrace}' is invalid.")
+        elif (
+            len([get_subraces_by_race(self.race)]) is not 0
+            and subrace is None
+            or subrace == ""
+        ):
+            raise InvalidValueError(
+                f"Argument 'subrace' is required for '{self.race}'."
+            )
         else:
             self.subrace = subrace
 
-        if not isinstance(class_attr, dict):
-            raise InvalidValueError("class_attr value must be of type 'dict'")
+        if sex not in ("Female", "Male",):
+            raise InvalidValueError(
+                f"Argument 'sex' value must be either 'Female|Male'."
+            )
         else:
-            self.class_attr = tuple(class_attr.values())
+            self.sex = sex
 
-        if not isinstance(variant, bool):
-            raise InvalidValueError("variant value must be of type 'bool'")
+        if not isinstance(level, int):
+            raise InvalidValueError("Argument 'level' value must be of type 'int'.")
         else:
-            self.variant = variant
+            self.level = level
 
-        self.traits = _read(self.race, "traits", file="races")
+        # Retrieve racial/subracial traits (if applicable).
+        self.all = _read(self.race, file="races")
+        if self.subrace != "":
+            subrace_traits = _read(self.subrace, file="subraces")
+            self._merge_traits(subrace_traits)
+
         self._add_ability_traits()
         self._add_ancestry_traits()
+        self._add_cantrip_traits()
         self._add_language_traits()
+        self._add_other_traits()
+        self._add_ratio_traits()
         self._add_skill_traits()
 
-        # Dwarves get a random tool proficiency.
-        if self.race == "Dwarf":
-            tool_bonus = random.choice(self.traits.get("proficiency").get("tools"))
-            self.traits["proficiency"]["tools"] = [tool_bonus]
-
-        # Merge racial and subracial traits (if applicable).
-        if self.subrace != "":
-            subrace_traits = _read(self.subrace, "traits", file="subraces")
-            self.traits = self._merge_traits(self.traits, subrace_traits)
+        self.all["other"] = [tuple(x) for x in self.all["other"]]
+        self.bonus = self.all.get("bonus")
+        self.languages = self.all.get("languages")
+        self.other = self.all.get("other")
+        self.size = self.all.get("size")
+        self.speed = self.all.get("speed")
 
     def __repr__(self):
-        return '<{} subrace="{}">'.format(self.race, self.subrace)
+        if self.subrace != "":
+            return '<{} subrace="{}" sex="{}" level="{}">'.format(
+                self.race, self.subrace, self.sex, self.level
+            )
+        else:
+            return '<{} sex="{}" level="{}">'.format(self.race, self.sex, self.level)
 
     def _add_ability_traits(self):
         """Add HalfElf, Human "racial" ability traits."""
         if self.race == "HalfElf":
-            if "Charisma" in self.class_attr:
-                self.class_attr = list(self.class_attr)
-                self.class_attr.remove("Charisma")
-                ability = self.class_attr[0]
-            else:
-                ability = random.choice(self.class_attr)
-
-            self.traits["abilities"][ability] = 1
-        elif self.race == "Human" and self.variant:
-            bonus_abilities = dict()
-            for ability in self.class_attr:
-                bonus_abilities[ability] = 1
-            self.traits["abilities"] = bonus_abilities
+            valid_abilities = [
+                "Strength",
+                "Dexterity",
+                "Constitution",
+                "Intelligence",
+                "Wisdom",
+            ]
+            valid_abilities = random.sample(valid_abilities, 2)
+            for ability in valid_abilities:
+                self.all["bonus"][ability] = 1
 
     def _add_ancestry_traits(self):
         """Add Dragonborn character ancestry traits."""
         if self.race != "Dragonborn":
             return
-        else:
-            draconic_ancestry = _read(self.race, "traits", "ancestry", file="races")
-            draconic_ancestry = random.choice(draconic_ancestry)
-            damage_resistance = None
-            if draconic_ancestry in ("Black", "Copper",):
-                damage_resistance = "Acid"
-            elif draconic_ancestry in ("Blue", "Bronze",):
-                damage_resistance = "Lightning"
-            elif draconic_ancestry in ("Brass", "Gold", "Red",):
-                damage_resistance = "Fire"
-            elif draconic_ancestry == "Green":
-                damage_resistance = "Poison"
-            elif draconic_ancestry in ("Silver", "White"):
-                damage_resistance = "Cold"
 
-            self.traits["ancestry"] = draconic_ancestry
-            self.traits["breath"] = damage_resistance
-            self.traits["resistance"] = [damage_resistance]
+        for trait, value in self.all.items():
+            if trait == "other":
+                for index, feature in enumerate(value):
+                    if "Draconic Ancestry" in feature:
+                        draconic_ancestor = random.choice(feature[1])
+                        self.all[trait][index] = [feature[0], draconic_ancestor]
+
+                        damage_resistance = None
+                        if draconic_ancestor in ("Black", "Copper",):
+                            damage_resistance = "Acid"
+                        elif draconic_ancestor in ("Blue", "Bronze",):
+                            damage_resistance = "Lightning"
+                        elif draconic_ancestor in ("Brass", "Gold", "Red",):
+                            damage_resistance = "Fire"
+                        elif draconic_ancestor == "Green":
+                            damage_resistance = "Poison"
+                        elif draconic_ancestor in ("Silver", "White"):
+                            damage_resistance = "Cold"
+                        self.all[trait].append(["Breath Weapon", [damage_resistance]])
+                        self.all[trait].append(
+                            ["Damage Resistance", [damage_resistance]]
+                        )
+
+    def _add_cantrip_traits(self):
+        """Add HighElf, or Forest Gnome bonus cantrips."""
+        for trait, value in self.all.items():
+            if trait == "other":
+                if self.subrace == "Forest":
+                    pass
+                elif self.subrace == "High":
+                    for index, feature in enumerate(value):
+                        if "Cantrip" in feature:
+                            self.all[trait][index] = (
+                                feature[0],
+                                random.choice(feature[1]),
+                            )
 
     def _add_language_traits(self):
         """Add Githyanki, Half-Elf, Human or High Elf character language traits."""
@@ -129,141 +167,151 @@ class _Races:
             standard_languages = [
                 language
                 for language in standard_languages
-                if language not in self.traits.get("languages")
+                if language not in self.all.get("languages")
             ]
-            self.traits["languages"].append(random.choice(standard_languages))
+            self.all["languages"].append(random.choice(standard_languages))
+
+    def _add_other_traits(self):
+        """Add Elf, Dwarf and Githyanki bonus proficiencies."""
+        self.armors = self.tools = self.weapons = self.magic = list()
+
+        for trait, value in self.all.items():
+            if trait == "other":
+                for index, feature in enumerate(value):
+                    if (
+                        "Martial Prodigy (Armor)" in feature
+                        or "Dwarven Armor Training" in feature
+                    ):
+                        self.armors = feature[1]
+                    elif "Tool Proficiency" in feature:
+                        tool_choice = [random.choice(feature[1])]
+                        self.all[trait][index] = [feature[0], tool_choice]
+                        self.tools = tool_choice
+                    elif (
+                        "Drow Weapon Training" in feature
+                        or "Dwarven Combat Training" in feature
+                        or "Elf Weapon Training" in feature
+                        or "Martial Prodigy (Weapon)" in feature
+                    ):
+                        self.weapons = feature[1]
+                    elif (
+                        "Drow Magic" in feature
+                        or "Duergar Magic" in feature
+                        or "Githyanki Psionics" in feature
+                        or "Githzerai Psionics" in feature
+                        or "Infernal Legacy" in feature
+                        or "Legacy of Avernus" in feature
+                        or "Legacy of Cania" in feature
+                        or "Legacy of Dis" in feature
+                        or "Legacy of Maladomini" in feature
+                        or "Legacy of Malbolge" in feature
+                        or "Legacy of Minauros" in feature
+                        or "Legacy of Phlegethos" in feature
+                        or "Legacy of Stygia" in feature
+                    ):
+                        spells = [
+                            row
+                            for key, row in enumerate(feature[1])
+                            if self.level >= row[0]
+                        ]
+                        spells = [tuple(sp) for sp in spells]
+                        self.all[trait][index] = (feature[0], spells)
+                        self.magic = spells
+
+    def _add_ratio_traits(self):
+        (height, weight) = RatioGenerator(self.race, self.subrace, self.sex).calculate()
+        self.all["size"] = (self.all.get("size"), height, weight)
+        del self.all["ratio"]
 
     def _add_skill_traits(self):
-        """Add Elf, HalfOrcs, HighElf or Human character skill traits."""
-        self.traits["skills"] = list()
-        if self.race in ("Elf", "HalfOrc",):
-            if self.race == "Elf":
-                self.traits["skills"] = ["Perception"]
-            elif self.race == "HalfOrc":
-                self.traits["skills"] = ["Intimidation"]
-        elif self.race == "Human" and self.variant or self.race == "HalfElf":
-            all_skills = _read(self.race, "traits", "skills", file="races")
-            if self.race == "HalfElf":
-                self.traits["skills"] = random.sample(all_skills, 2)
-            elif self.race == "Human":
-                self.traits["skills"] = random.sample(all_skills, 1)
+        """Add Elf Keen Senses, HalfOrc Menacing and HalfElf Skill Affinity skill bonuses."""
+        self.skills = []
 
-    @staticmethod
-    def _merge_traits(base_traits: dict, sub_traits: dict) -> dict:
+        for trait, value in self.all.items():
+            if trait == "other":
+                for index, feature in enumerate(value):
+                    if "Keen Senses" in feature or "Menacing" in feature:
+                        self.skills = feature[1]
+                    elif "Skill Versatility" in feature:
+                        skills = random.sample(feature[1], 2)
+                        self.all[trait][index] = (feature[0], skills)
+                        self.skills = skills
+
+    def _merge_traits(self, sub_traits: dict):
         """Combines racial and subracial traits (if applicable).
 
         Args:
-            base_traits (dict): Dictionary of base racial traits.
             sub_traits (dict): Dictionary of sub-racial traits (if applicable).
 
         """
         for trait, value in sub_traits.items():
-            # No trait key index in base_traits, add it.
-            if trait not in base_traits:
-                base_traits[trait] = None
-
-            # Begin merging traits.
-            if trait == "abilities":
+            if trait not in self.all:
+                self.all[trait] = sub_traits[trait]
+            elif trait == "bonus":
                 for ability, bonus in value.items():
-                    base_traits[trait][ability] = bonus
-
-            if trait == "cantrip":
-                cantrip_list = _read("High", "traits", "cantrip", file="subraces")
-                bonus_cantrip = [random.choice(cantrip_list)]
-                base_traits[trait] = bonus_cantrip
-
-            if trait == "darkvision":
-                if sub_traits.get(trait) > base_traits.get(trait):
-                    base_traits[trait] = sub_traits.get(trait)
-
-            if trait == "languages":
+                    self.all[trait][ability] = bonus
+            elif trait == "languages":
                 for language in sub_traits.get(trait):
-                    base_traits.get(trait).append(language)
-                base_traits[trait].sort()
-
-            if trait == "resistance":
-                if base_traits[trait] is None:
-                    base_traits[trait] = list()
-
-                for element in value:
-                    base_traits.get(trait).append(element)
-                base_traits[trait].sort()
-
-            if trait == "action" or "magic" or "sensitivity" or "toughness":
-                base_traits[trait] = sub_traits.get(trait)
-
-            if trait == "proficiency":
-                if base_traits[trait] is None:
-                    base_traits[trait] = dict()
-
-                for proficiency_type in list(sub_traits[trait].keys()):
-                    if proficiency_type == "armors":
-                        base_traits[trait].update(armors=sub_traits[trait]["armors"])
-
-                    if proficiency_type == "tools":
-                        base_traits[trait].update(tools=sub_traits[trait]["tools"])
-
-                    if proficiency_type == "weapons":
-                        base_traits[trait].update(weapons=sub_traits[trait]["weapons"])
-
-            if trait == "tinker":
-                base_traits[trait] = sub_traits.get(trait)
-        return base_traits
+                    self.all.get(trait).append(language)
+                self.all[trait].sort()
+            elif trait == "other":
+                for other in sub_traits.get(trait):
+                    self.all.get(trait).append(other)
 
 
 class Aasimar(_Races):
-    def __init__(self, subrace, class_attr, variant) -> None:
-        super(Aasimar, self).__init__(subrace, class_attr, variant)
+    def __init__(self, subrace, sex, level) -> None:
+        super(Aasimar, self).__init__(subrace, sex, level)
 
 
 class Dragonborn(_Races):
-    def __init__(self, subrace, class_attr, variant) -> None:
-        super(Dragonborn, self).__init__(subrace, class_attr, variant)
+    def __init__(self, subrace, sex, level) -> None:
+        super(Dragonborn, self).__init__(subrace, sex, level)
 
 
 class Dwarf(_Races):
-    def __init__(self, subrace, class_attr, variant) -> None:
-        super(Dwarf, self).__init__(subrace, class_attr, variant)
+    def __init__(self, subrace, sex, level) -> None:
+        super(Dwarf, self).__init__(subrace, sex, level)
 
 
 class Elf(_Races):
-    def __init__(self, subrace, class_attr, variant) -> None:
-        super(Elf, self).__init__(subrace, class_attr, variant)
+    def __init__(self, subrace, sex, level) -> None:
+        super(Elf, self).__init__(subrace, sex, level)
 
 
 class Gith(_Races):
-    def __init__(self, subrace, class_attr, variant) -> None:
-        super(Gith, self).__init__(subrace, class_attr, variant)
+    def __init__(self, subrace, sex, level) -> None:
+        super(Gith, self).__init__(subrace, sex, level)
 
 
 class Gnome(_Races):
-    def __init__(self, subrace, class_attr, variant) -> None:
-        super(Gnome, self).__init__(subrace, class_attr, variant)
+    def __init__(self, subrace, sex, level) -> None:
+        super(Gnome, self).__init__(subrace, sex, level)
 
 
 class HalfElf(_Races):
-    def __init__(self, subrace, class_attr, variant) -> None:
-        super(HalfElf, self).__init__(subrace, class_attr, variant)
+    def __init__(self, subrace, sex, level) -> None:
+        super(HalfElf, self).__init__(subrace, sex, level)
 
 
 class HalfOrc(_Races):
-    def __init__(self, subrace, class_attr, variant) -> None:
-        super(HalfOrc, self).__init__(subrace, class_attr, variant)
+    def __init__(self, subrace, sex, level) -> None:
+        super(HalfOrc, self).__init__(subrace, sex, level)
 
 
 class Halfling(_Races):
-    def __init__(self, subrace, class_attr, variant) -> None:
-        super(Halfling, self).__init__(subrace, class_attr, variant)
+    def __init__(self, subrace, sex, level) -> None:
+        super(Halfling, self).__init__(subrace, sex, level)
 
 
 class Human(_Races):
-    def __init__(self, subrace, class_attr, variant) -> None:
-        super(Human, self).__init__(subrace, class_attr, variant)
+    def __init__(self, subrace, sex, level) -> None:
+        super(Human, self).__init__(subrace, sex, level)
 
 
 class Tiefling(_Races):
-    def __init__(self, subrace, class_attr, variant) -> None:
-        super(Tiefling, self).__init__(subrace, class_attr, variant)
+    def __init__(self, subrace, sex, level) -> None:
+        super(Tiefling, self).__init__(subrace, sex, level)
 
 
 def get_subraces_by_race(race: str):
@@ -276,3 +324,20 @@ def get_subraces_by_race(race: str):
     for subrace in _read(file="subraces"):
         if _read(subrace, "parent", file="subraces") == race:
             yield subrace
+
+
+"""
+r = Elf("Drow", "Female", 4)
+print(r)
+print(r.all)
+print(r.bonus)
+print(r.languages)
+print(r.other)
+print(r.magic)
+print(r.size)
+print(r.speed)
+print(r.armors)
+print(r.tools)
+print(r.weapons)
+print(r.skills)
+"""
