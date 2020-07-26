@@ -2,7 +2,6 @@ from collections import OrderedDict
 import random
 
 from yari.loader import _read
-from yari.skills import get_all_skills
 
 
 class ImprovementGenerator:
@@ -15,7 +14,7 @@ class ImprovementGenerator:
         klass: str,
         path: str,
         level: int,
-        class_attr: dict,
+        primary_ability: dict,
         saves: list,
         spell_slots: str,
         score_array: OrderedDict,
@@ -24,7 +23,6 @@ class ImprovementGenerator:
         tool_proficiency: list,
         weapon_proficiency: list,
         skills: list,
-        variant: bool,
     ) -> None:
         """
         Args:
@@ -32,7 +30,7 @@ class ImprovementGenerator:
             klass (str): Character's chosen class.
             path (str): Character's chosen path.
             level (int): Character's chosen level.
-            class_attr (dict): Primary abilities for class_.
+            primary_ability (dict): Primary abilities for the chosen klass.
             saves (list): Character's proficient saving throws.
             spell_slots (str): Character's spell slots.
             score_array (OrderedDict): Character's ability scores.
@@ -41,7 +39,6 @@ class ImprovementGenerator:
             tool_proficiency (list): Character's tool proficiencies.
             weapon_proficiency (list): Character's weapon proficiencies.
             skills (list): Character's skills.
-            variant (bool): Use variant rules.
 
         """
         self.race = race
@@ -58,27 +55,12 @@ class ImprovementGenerator:
         self.skills = skills
         self.feats = list()
 
-        # Human and variant rules are used, give bonus feat.
-        if race == "Human" and variant:
-            self._add_feat()
-
         # Add special class languages (if applicable).
         if klass == "Druid":
             self.languages.append("Druidic")
 
         if klass == "Rogue":
             self.languages.append("Thieves' cant")
-            # Assassins level 3 or higher, get bonus proficiencies.
-            if path == "Assassin" and level >= 3:
-                assassin_tools = _read(path, "proficiency", "tools", file="paths")
-                self.tool_proficiency = self.tool_proficiency + assassin_tools
-
-        # Bards in the College of Lore get three bonus skills at level 3.
-        if path == "College of Lore" and level >= 3:
-            all_skills = [
-                skill for skill in get_all_skills() if skill not in self.skills
-            ]
-            self.skills = self.skills + random.sample(all_skills, 3)
 
         # Determine number of applicable upgrades
         upgrades = 0
@@ -102,9 +84,9 @@ class ImprovementGenerator:
         if upgrades is 0:
             return
 
-        class_attr = list(class_attr.values())
+        primary_ability = list(primary_ability.values())
         for _ in range(1, upgrades):
-            if len(class_attr) is 0:
+            if len(primary_ability) is 0:
                 upgrade_option = "Feat"
             else:
                 percentage = random.randint(1, 100)
@@ -117,18 +99,18 @@ class ImprovementGenerator:
 
             if upgrade_option == "Ability":
                 try:
-                    if len(class_attr) is 2:
-                        if self._is_adjustable(class_attr):
-                            for ability in class_attr:
+                    if len(primary_ability) is 2:
+                        if self._is_adjustable(primary_ability):
+                            for ability in primary_ability:
                                 self._set_score_array(ability, 1)
                                 if not self._is_adjustable(ability):
-                                    class_attr.remove(ability)
-                        elif len(class_attr) is 1:
-                            ability = class_attr[0]
+                                    primary_ability.remove(ability)
+                        elif len(primary_ability) is 1:
+                            ability = primary_ability[0]
                             if self._is_adjustable(ability):
                                 self._set_score_array(ability, 2)
                                 if not self._is_adjustable(ability):
-                                    class_attr.remove(ability)
+                                    primary_ability.remove(ability)
                         else:
                             raise ValueError
                     else:
@@ -298,7 +280,9 @@ class ImprovementGenerator:
                     if selection not in self.weapon_proficiency
                 ]
 
-            self.weapon_proficiency = self.weapon_proficiency + random.sample(selections, 4)
+            self.weapon_proficiency = self.weapon_proficiency + random.sample(
+                selections, 4
+            )
             selections.clear()
 
     @staticmethod
