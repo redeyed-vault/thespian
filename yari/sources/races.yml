@@ -2,215 +2,170 @@
 # RACES
 races:
   Aasimar:
-    traits:
-      abilities:
-        Charisma: 2
-      darkvision: 60
+    bonus:
+      Charisma: 2
+    languages: ['Common', 'Celestial']
+    magic:
+      1: Light
+    other:
+      - ['Celestial Resistance', ['Necrotic', 'Radiant']]
+      - ['Darkvision', 60]
+    ratio:
       height:
         base: 56
         modifier: 2d10
-      languages: ['Common', 'Celestial']
-      magic:
-        1: Light
-      resistance: ['Necrotic', 'Radiant']
-      size: Medium
-      speed: 30
       weight:
         base: 110
         modifier: 2d4
+    size: Medium
+    speed: 30
   Dragonborn:
-    traits:
-      abilities:
-        Strength: 2
-        Charisma: 1
-      ancestry: 
-        - Black
-        - Blue 
-        - Brass
-        - Bronze
-        - Copper
-        - Gold
-        - Green
-        - Red
-        - Silver
-        - White
+    bonus:
+      Strength: 2
+      Charisma: 1
+    languages: ['Common', 'Draconic']
+    other:
+      - ['Draconic Ancestry', ['Black', 'Blue', 'Brass', 'Bronze', 'Copper', 'Gold', 'Green', 'Red', 'Silver', 'White']]
+    ratio:
       height:
         base: 66
         modifier: 2d8
-      languages: ['Common', 'Draconic']
-      size: Medium
-      speed: 30
       weight:
         base: 175
         modifier: 2d6
+    size: Medium
+    speed: 30
   Dwarf:
-    traits:
-      abilities:
-        Constitution: 2
-      darkvision: 60
-      languages: ['Common', 'Dwarvish']
-      proficiency:
-        tools:
-          - Artisan's tools - Brewer's supplies
-          - Artisan's tools - Mason's tools
-          - Artisan's tools - Smith's tools
-        weapons: ['Battleaxe', 'Handaxe', 'Throwing hammer', 'Warhammer']
-      resistance: ['Poison']
-      size: Medium
-      speed: 30
-      stonecunning: 1
+    bonus:
+      Constitution: 2
+    languages: ['Common', 'Dwarvish']
+    other:
+      - ['Darkvision', 60]
+      - ['Dwarven Combat Training', ['Battleaxe', 'Handaxe', 'Throwing hammer', 'Warhammer']]
+      - ['Dwarven Resilience', ['Poison']]
+      - [Dwarven Toughness]
+      - [Stonecunning]
+      - ['Tool Proficiency', ["Artisan's tools - Brewer's supplies", "Artisan's tools - Mason's tools", "Artisan's tools - Smith's tools"]]
+    size: Medium
+    speed: 30
   Elf:
-    traits:
-      abilities:
-        Dexterity: 2
-      darkvision: 60
-      languages: ['Common', 'Elvish']
-      resistance: ['Charm', 'Sleep']
-      size: Medium
-      speed: 30
-      trance: []
+    bonus:
+      Dexterity: 2
+    languages: ['Common', 'Elvish']
+    other:
+      - ['Darkvision', 60]
+      - ['Fey Ancestry', ['Charm', 'Sleep']]
+      - ['Keen Senses', ['Perception']]
+      - [Trance]
+    size: Medium
+    speed: 30
   Gith:
-    traits:
-      abilities:
-        Intelligence: 1
-      languages: ['Common', 'Gith']
-      size: Medium
-      speed: 30
+    bonus:
+      Intelligence: 1
+    languages: ['Common', 'Gith']
+    size: Medium
+    speed: 30
   Gnome:
-    traits:
-      abilities:
-        Intelligence: 2
-      cunning: ['Intelligence', 'Wisdom', 'Charisma']
-      darkvision: 60
+    bonus:
+      Intelligence: 2
+    languages: ['Common', 'Gnomish']
+    other:
+      - [Gnome Cunning]
+      - ['Darkvision', 60]
+    ratio:
       height:
         base: 35
         modifier: 2d4
-      languages: ['Common', 'Gnomish']
-      size: Small
-      speed: 25
       weight:
         base: 35
         modifier: 1
+    size: Small
+    speed: 25
   HalfElf:
-    traits:
-      abilities:
-        Charisma: 2
-      darkvision: 60
+    bonus:
+      Charisma: 2
+    languages: ['Common', 'Elvish']
+    other:
+      - ['Darkvision', 60]
+      - ['Fey Ancestry', ['Charm', 'Sleep']]
+      - ['Skill Versatility', ['Acrobatics', 'Animal Handling', 'Arcana', 'Athletics', 'Deception', 'History', 'Insight', 'Intimidation', 'Investigation', 'Medicine', 'Nature', 'Perception', 'Performance', 'Persuasion', 'Religion', 'Sleight of Hand', 'Stealth', 'Survival']]
+    ratio:
       height:
         base: 57
         modifier: 2d8
-      languages: ['Common', 'Elvish']
-      resistance: ['Charm', 'Sleep']
-      size: Medium
-      skills:
-        - Acrobatics
-        - Animal Handling
-        - Arcana
-        - Athletics
-        - Deception
-        - History
-        - Insight
-        - Intimidation
-        - Investigation
-        - Medicine
-        - Nature
-        - Perception
-        - Performance
-        - Persuasion
-        - Religion
-        - Sleight of Hand
-        - Stealth
-        - Survival
-      speed: 30
       weight:
         base: 110
         modifier: 2d4
+    size: Medium
+    speed: 30
   HalfOrc:
-    traits:
-      abilities:
-        Strength: 2
-        Constitution: 1
-      darkvision: 60
-      endurance: 1
+    bonus:
+      Strength: 2
+      Constitution: 1
+    languages: ['Common', 'Orc']
+    other:
+      - ['Darkvision', 60]
+      - ['Menacing', ['Intimidation']]
+      - [Relentless Endurance]
+      - [Savage Attacks]
+    ratio:
       height:
         base: 58
         modifier: 2d8
-      languages: ['Common', 'Orc']
-      savage: 1
-      size: Medium
-      speed: 30
       weight:
         base: 140
         modifier: 2d6
+    size: Medium
+    speed: 30
   Halfling:
-    traits:
-      abilities:
-        Dexterity: 2
+    bonus:
+      Dexterity: 2
+    languages: ['Common', 'Halfling']
+    other:
+      - [Brave]
+      - [Halfling Nimbleness]
+      - [Lucky]
+    ratio:
       height:
         base: 31
         modifier: 2d4
-      languages: ['Common', 'Halfling']
-      nimbleness: 1
-      resistance: ['Fear']
-      size: Small
-      speed: 30
       weight:
         base: 35
         modifier: 1
+    size: Small
+    speed: 25
   Human:
-    traits:
-      abilities:
-        Strength: 1
-        Dexterity: 1
-        Constitution: 1
-        Intelligence: 1
-        Wisdom: 1
-        Charisma: 1
+    bonus:
+      Strength: 1
+      Dexterity: 1
+      Constitution: 1
+      Intelligence: 1
+      Wisdom: 1
+      Charisma: 1
+    languages: ['Common']
+    other: []
+    ratio:
       height:
         base: 56
         modifier: 2d10
-      languages: ['Common']
-      size: Medium
-      skills:
-        - Acrobatics
-        - Animal Handling
-        - Arcana
-        - Athletics
-        - Deception
-        - History
-        - Insight
-        - Intimidation
-        - Investigation
-        - Medicine
-        - Nature
-        - Perception
-        - Performance
-        - Persuasion
-        - Religion
-        - Sleight of Hand
-        - Stealth
-        - Survival
-      speed: 30
       weight:
         base: 110
         modifier: 2d4
+    size: Medium
+    speed: 30
   Tiefling:
-    traits:
-      abilities:
-        Intelligence: 1
-        Charisma: 2
-      darkvision: 60
+    bonus:
+      Charisma: 2
+    languages: ['Common', 'Infernal']
+    other:
+      - ['Darkvision', 60]
+      - ['Hellish Resistance', ['Fire']]
+    ratio:
       height:
         base: 57
         modifier: 2d8
-      languages: ['Common', 'Infernal']
-      magic:
-        1: Thaumaturgy
-        3: Hellish Rebuke
-        5: Darkness
-      resistance: ['Fire']
-      size: Medium
-      speed: 30
       weight:
         base: 110
         modifier: 2d4
+    size: Medium
+    speed: 30

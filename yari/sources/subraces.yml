@@ -1,240 +1,275 @@
 ---
 # SUBRACES
 subraces:
+  Asmodeus:
+    bonus:
+      Intelligence: 1
+    other:
+      - [Infernal Legacy, [[1, Thaumaturgy], [3, Hellish Rebuke], [5, Darkness]]]
+    parent: Tiefling
+  Baalzebul:
+    bonus:
+      Intelligence: 1
+    other:
+      - [Legacy of Maladomini, [[1, Thaumaturgy], [3, Ray of Sickness], [5, Crown of Madness]]]
+    parent: Tiefling
   Deep:
+    bonus:
+      Dexterity: 1
+    languages: ['Undercommon']
+    other:
+      - [Darkvision, 120]
+      - [Stone Camouflage]
     parent: Gnome
-    traits:
-      abilities:
-        Dexterity: 1
-      camouflage: ['Stealth']
-      darkvision: 120
-      languages: ['Undercommon']
+  Dispater:
+    bonus:
+      Dexterity: 1
+    other:
+      - [Legacy of Dis, [[1, Thaumaturgy], [3, Disguise], [5, Detect Thoughts]]]
+    parent: Tiefling
   Drow:
+    bonus:
+      Charisma: 1
+    other:
+      - [Drow Magic, [[1, Dancing Lights], [3, Faerie Fire], [5, Darkness]]]
+      - [Drow Weapon Training, [Hand Crossbow, Rapier, Shortsword]]
+      - [Sunlight Sensitivity]
+      - [Superior Darkvision, 120]
     parent: Elf
-    traits:
-      abilities:
-        Charisma: 1
-      darkvision: 120
+    ratio:
       height:
         base: 53
         modifier: 2d6
-      magic:
-        1: Dancing Lights
-        3: Faerie Fire
-        5: Darkness
-      proficiency:
-        weapons: ['Hand Crossbow', 'Rapier', 'Shortsword']
-      sensitivity: Sunlight
       weight:
         base: 75
         modifier: 1d6
   Duergar:
+    bonus:
+      Strength: 1
+    languages: ['Undercommon']
+    other:
+      - [Duergar Magic, [[3, Enlarge/Reduce], [5, Invisibility]]]
+      - [Duergar Resilience, [Charm, Illusion, Paralysis]]
+      - [Sunlight Sensitivity]
+      - [Superior Darkvision, 120]
     parent: Dwarf
-    traits:
-      abilities:
-        Strength: 1
-      darkvision: 120
+    ratio:
       height:
         base: 44
         modifier: 2d4
-      languages: ['Undercommon']
-      magic:
-        3: ['Enlarge', 'Reduce']
-        5: Invisibility
-      resistance: ['Charm', 'Illusion', 'Paralysis']
-      sensitivity: Sunlight
       weight:
         base: 115
         modifier: 2d6
   Eladrin:
+    bonus:
+      Intelligence: 1
+    other:
+      - [Elf Weapon Training, [Longsword, Shortsword, Shortbow, Longbow]]
+      - [Fey Step]
     parent: Elf
-    traits:
-      abilities:
-        Intelligence: 1
+    ratio:
       height:
         base: 54
         modifier: 2d12
-      proficiency:
-        weapons: ['Longsword', 'Shortsword', 'Shortbow', 'Longbow']
       weight:
         base: 90
         modifier: 1d4
   Fallen:
+    bonus:
+      Strength: 1
+    other:
+      - [Necrotic Shroud, 3]
     parent: Aasimar
-    traits:
-      abilities:
-        Strength: 1
-      necrotic: 1
+  Fierna:
+    bonus:
+      Wisdom: 1
+    other:
+      - [Legacy of Phlegethos, [[1, Friends], [3, Charm Person], [5, Suggestion]]]
+    parent: Tiefling
   Forest:
+    bonus:
+      Dexterity: 1
+    other:
+      - [Natural Illusionist, ['Minor Illusion']]
+      - [Speak with Small Beasts]
     parent: Gnome
-    traits:
-      abilities:
-        Dexterity: 1
-      magic:
-        1: Minor Illusion
-      speak: ['Small Beasts']
   Githyanki:
+    bonus:
+      Strength: 2
+    other:
+      - [Decadent Mastery]
+      - [Githyanki Psionics, [[1, Mage Hand], [3, Jump], [5, Misty Step]]]
+      - [Martial Prodigy (Armor), [Light, Medium]]
+      - [Martial Prodigy (Weapon), [Greatsword, Longsword, Shortsword]]
     parent: Gith
-    traits:
-      abilities:
-        Strength: 2
+    ratio:
       height:
         base: 60
         modifier: 2d12
-      magic:
-        1: Mage Hand
-        3: Jump
-        5: Misty Step
-      proficiency:
-        armors: ['Light', 'Medium']
-        weapons: ['Greatsword', 'Longsword', 'Shortsword']
-      size: Medium
-      speed: 30
       weight:
         base: 100
         modifier: 2d4
+    size: Medium
+    speed: 30
   Githzerai:
+    bonus:
+      Wisdom: 2
+    other:
+      - [Githzerai Psionics, [[1, Mage Hand], [3, Shield], [5, Detect Thoughts]]]
+      - [Mental Discipline, [Charm, Fright]]
     parent: Gith
-    traits:
-      abilities:
-        Wisdom: 2
+    ratio:
       height:
         base: 59
         modifier: 2d12
-      magic:
-        1: Mage Hand
-        3: Shield
-        5: Detect Thoughts
-      resistance: ['Charm', 'Fright']
-      size: Medium
-      speed: 30
       weight:
         base: 90
         modifier: 1d4
+    size: Medium
+    speed: 30
+  Glasya:
+    bonus:
+      Dexterity: 1
+    other:
+      - [Legacy of Malbolge, [[1, Minor Illusion], [3, Disguise Self], [5, Invisibility]]]
+    parent: Tiefling
   High:
+    bonus:
+      Intelligence: 1
+    other:
+      - [Cantrip, [Acid Splash, Blade Ward, Chill Touch, Dancing Lights, Fire Bolt, Friends, Light, Mage Hand, Mending, Message, Minor Illusion, Poison Spray, Prestidigitation, Ray of Frost, Shocking Grasp, True Strike]]
+      - [Elf Weapon Training, [Longsword, Shortsword, Shortbow, Longbow]]
     parent: Elf
-    traits:
-      abilities:
-        Intelligence: 1
-      cantrip:
-        - Acid Splash
-        - Blade Ward
-        - Chill Touch
-        - Dancing Lights
-        - Fire Bolt
-        - Friends
-        - Light
-        - Mage Hand
-        - Mending
-        - Message
-        - Minor Illusion
-        - Poison Spray
-        - Prestidigitation
-        - Ray of Frost
-        - Shocking Grasp
-        - True Strike
+    ratio:
       height:
         base: 54
         modifier: 2d10
-      proficiency:
-        weapons: ['Longsword', 'Shortsword', 'Shortbow', 'Longbow']
       weight:
         base: 90
         modifier: 1d4
   Hill:
+    bonus:
+      Wisdom: 1
+    other:
+      - [Dwarven Toughness]
     parent: Dwarf
-    traits:
-      abilities:
-        Wisdom: 1
+    ratio:
       height:
         base: 44
         modifier: 2d4
-      toughness: 1
       weight:
         base: 115
         modifier: 2d6
+  Levistus:
+    bonus:
+      Constitution: 1
+    other:
+      - [Legacy of Stygia, [[1, Ray of Frost], [3, Armor of Agathys], [5, Darkness]]]
+    parent: Tiefling
   Lightfoot:
+    bonus:
+      Charisma: 1
+    other:
+      - [Naturally Stealthy]
     parent: Halfling
-    traits:
-      abilities:
-        Charisma: 1
-      stealthy: []
+  Mammon:
+    bonus:
+      Intelligence: 1
+    other:
+      - [Legacy of Minauros, [[1, Mage Hand], [3, Tensor's Floating Disk], [5, Arcane Lock]]]
+    parent: Tiefling
+  Memphistopheles:
+    bonus:
+      Intelligence: 1
+    other:
+      - [Legacy of Cania, [[1, Mage Hand], [3, Burning Hands], [5, Flame Blade]]]
+    parent: Tiefling
   Mountain:
+    bonus:
+      Strength: 2
+    other:
+      - [Dwarven Armor Training, ['Light', 'Medium']]
     parent: Dwarf
-    traits:
-      abilities:
-        Strength: 2
+    ratio:
       height:
         base: 48
         modifier: 2d4
-      proficiency:
-        armors: ['Light', 'Medium']
       weight:
         base: 130
         modifier: 2d6
   Protector:
+    bonus:
+      Wisdom: 1
+    other:
+      - [Radiant Soul, 3]
     parent: Aasimar
-    traits:
-      abilities:
-        Wisdom: 1
-      radiant: 1
   Rock:
+    bonus:
+      Constitution: 1
+    other:
+      - [Artificer's Lore]
+      - [Tinker, "Artisan's tools - Tinker's tools"]
     parent: Gnome
-    traits:
-      abilities:
-        Constitution: 1
-      proficiency:
-        tools:
-          - Artisan's tools - Tinker's tools
-      tinker: ['Clockwork Toy', 'Fire Starter', 'Music Box']
   Scourge:
+    bonus:
+      Constitution: 1
+    other:
+      - ['Radiant Consumption', 3]
     parent: Aasimar
-    traits:
-      abilities:
-        Constitution: 1
-      radiant: 2
   Sea:
-    parent: Elf
-    traits:
-      abilities:
+      bonus:
         Constitution: 1
-      height:
-        base: 54
-        modifier: 2d8
       languages: ['Aquan']
-      proficiency:
-        weapons: ['Light Crossbow', 'Net', 'Spear', 'Trident']
-      weight:
-        base: 90
-        modifier: 1d4
+      other:
+        - [Child of the Sea]
+        - [Friend of the Sea]
+        - [Sea Elf Training, [Light Crossbow, Net, Spear, Trident]]
+      parent: Elf
+      ratio:
+        height:
+          base: 54
+          modifier: 2d8
+        weight:
+          base: 90
+          modifier: 1d4
   Shadar-kai:
+    bonus:
+      Constitution: 1
+    other:
+      - [Blessing of the Raven Queen]
+      - [Necrotic Resistance, ['Necrotic']]
     parent: Elf
-    traits:
-      abilities:
-        Constitution: 1
+    ratio:
       height:
         base: 56
         modifier: 2d8
-      resistance: ['Necrotic']
       weight:
         base: 90
         modifier: 1d4
   Stout:
+    bonus:
+      Constitution: 1
+    other:
+      - [Stout Resilience, ['Poison']]
     parent: Halfling
-    traits:
-      abilities:
-        Constitution: 1
-      resistance: ['Poison']
   Wood:
+    bonus:
+      Wisdom: 1
+    other:
+      - [Elf Weapon Training, [Longsword, Shortsword, Shortbow, Longbow]]
+      - [Fleet of Foot]
+      - [Mask of the Wild]
     parent: Elf
-    traits:
-      abilities:
-        Wisdom: 1
+    ratio:
       height:
         base: 54
         modifier: 2d10
-      proficiency:
-        weapons: ['Longsword', 'Shortsword', 'Shortbow', 'Longbow']
       weight:
         base: 100
         modifier: 1d4
+  Zariel:
+    bonus:
+      Strength: 1
+    other:
+      - [Legacy of Avernus, [[1, Thaumaturgy], [3, Searing], [5, Branding Smite]]]
+    parent: Tiefling
