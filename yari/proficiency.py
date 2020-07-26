@@ -11,8 +11,8 @@ class ProficiencyGenerator:
         """
         Args:
             prof_type (str): Proficiency type (armors|tools|weapons).
-            class_proficiency (dict): Class based proficiency by prof_type.
-            race_proficiency (dict): Race based proficiency by prof_type (if applicable).
+            class_proficiency (list): Class based proficiency by prof_type.
+            race_proficiency (list): Race based proficiency by prof_type (if applicable).
         """
         if prof_type not in ("armors", "tools", "weapons"):
             raise ProficiencyTypeValueError(
