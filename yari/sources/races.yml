@@ -24,7 +24,7 @@ races:
       Charisma: 1
     languages: ['Common', 'Draconic']
     other:
-      - ['Draconic Ancestry', ['Black', 'Blue', 'Brass', 'Bronze', 'Copper', 'Gold', 'Green', 'Red', 'Silver', 'White']]
+      - [Draconic Ancestry, [Black, Blue, Brass, Bronze, Copper, Gold, Green, Red, Silver, White]]
     ratio:
       height:
         base: 66
