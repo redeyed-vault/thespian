@@ -324,20 +324,3 @@ def get_subraces_by_race(race: str):
     for subrace in _read(file="subraces"):
         if _read(subrace, "parent", file="subraces") == race:
             yield subrace
-
-
-"""
-r = Elf("Drow", "Female", 4)
-print(r)
-print(r.all)
-print(r.bonus)
-print(r.languages)
-print(r.other)
-print(r.magic)
-print(r.size)
-print(r.speed)
-print(r.armors)
-print(r.tools)
-print(r.weapons)
-print(r.skills)
-"""
