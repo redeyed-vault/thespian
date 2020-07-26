@@ -56,7 +56,7 @@ class RatioGenerator:
             base_value = self._get_traits("races", self.race).get(ratio).get("base")
         except AttributeError:
             if self.subrace == "":
-                raise RatioValueError("No base value found for '{ratio}' found!")
+                raise RatioValueError(f"No base value found for '{ratio}' found!")
             else:
                 base_value = (
                     self._get_traits("subraces", self.subrace).get(ratio).get("base")
@@ -67,7 +67,10 @@ class RatioGenerator:
             or self.sex == "Male"
             and self.subrace == "Drow"
         ):
-            return base_value - int(float(base_value) * 0.15)
+            if ratio == "height":
+                return base_value - int(base_value * 0.08)
+            elif ratio == "weight":
+                return base_value - int(base_value * 0.20)
         return base_value
 
     def _get_modifier(self, ratio: str) -> str:
@@ -83,7 +86,7 @@ class RatioGenerator:
             )
         except AttributeError:
             if self.subrace == "":
-                raise RatioValueError("No modifier value found for '{ratio}' found!")
+                raise RatioValueError(f"No modifier value found for '{ratio}' found!")
             else:
                 modifier_value = (
                     self._get_traits("subraces", self.subrace)
@@ -102,8 +105,8 @@ class RatioGenerator:
 
         """
         if file not in ("races", "subraces"):
-            raise FileNotFoundError("invalid file selection")
-        return _read(race_or_subrace, "traits", file=file)
+            raise FileNotFoundError(f"The file '{file}' is invalid.")
+        return _read(race_or_subrace, "ratio", file=file)
 
     def calculate(self) -> tuple:
         """Calculates character height/weight with base and modifier."""
