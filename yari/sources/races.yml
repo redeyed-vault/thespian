@@ -5,11 +5,10 @@ races:
     bonus:
       Charisma: 2
     languages: ['Common', 'Celestial']
-    magic:
-      1: Light
     other:
-      - ['Celestial Resistance', ['Necrotic', 'Radiant']]
-      - ['Darkvision', 60]
+      - [Celestial Legacy, [[1, Light]]]
+      - [Celestial Resistance, ['Necrotic', 'Radiant']]
+      - [Darkvision, 60]
     ratio:
       height:
         base: 56
@@ -40,12 +39,12 @@ races:
       Constitution: 2
     languages: ['Common', 'Dwarvish']
     other:
-      - ['Darkvision', 60]
-      - ['Dwarven Combat Training', ['Battleaxe', 'Handaxe', 'Throwing hammer', 'Warhammer']]
-      - ['Dwarven Resilience', ['Poison']]
+      - [Darkvision, 60]
+      - [Dwarven Combat Training, [Battleaxe, Handaxe, Throwing hammer, Warhammer]]
+      - [Dwarven Resilience, [Poison]]
       - [Dwarven Toughness]
       - [Stonecunning]
-      - ['Tool Proficiency', ["Artisan's tools - Brewer's supplies", "Artisan's tools - Mason's tools", "Artisan's tools - Smith's tools"]]
+      - [Tool Proficiency, ["Artisan's tools - Brewer's supplies", "Artisan's tools - Mason's tools", "Artisan's tools - Smith's tools"]]
     size: Medium
     speed: 30
   Elf:
@@ -53,9 +52,9 @@ races:
       Dexterity: 2
     languages: ['Common', 'Elvish']
     other:
-      - ['Darkvision', 60]
-      - ['Fey Ancestry', ['Charm', 'Sleep']]
-      - ['Keen Senses', ['Perception']]
+      - [Darkvision, 60]
+      - [Fey Ancestry, [Charm, Sleep]]
+      - [Keen Senses, [Perception]]
       - [Trance]
     size: Medium
     speed: 30
@@ -71,7 +70,7 @@ races:
     languages: ['Common', 'Gnomish']
     other:
       - [Gnome Cunning]
-      - ['Darkvision', 60]
+      - [Darkvision, 60]
     ratio:
       height:
         base: 35
@@ -86,9 +85,9 @@ races:
       Charisma: 2
     languages: ['Common', 'Elvish']
     other:
-      - ['Darkvision', 60]
-      - ['Fey Ancestry', ['Charm', 'Sleep']]
-      - ['Skill Versatility', ['Acrobatics', 'Animal Handling', 'Arcana', 'Athletics', 'Deception', 'History', 'Insight', 'Intimidation', 'Investigation', 'Medicine', 'Nature', 'Perception', 'Performance', 'Persuasion', 'Religion', 'Sleight of Hand', 'Stealth', 'Survival']]
+      - [Darkvision, 60]
+      - [Fey Ancestry, [Charm, Sleep]]
+      - [Skill Versatility, [Acrobatics, Animal Handling, Arcana, Athletics, Deception, History, Insight, Intimidation, Investigation, Medicine, Nature, Perception, Performance, Persuasion, Religion, Sleight of Hand, Stealth, Survival]]
     ratio:
       height:
         base: 57
@@ -104,8 +103,8 @@ races:
       Constitution: 1
     languages: ['Common', 'Orc']
     other:
-      - ['Darkvision', 60]
-      - ['Menacing', ['Intimidation']]
+      - [Darkvision, 60]
+      - [Menacing, [Intimidation]]
       - [Relentless Endurance]
       - [Savage Attacks]
     ratio:
@@ -158,8 +157,8 @@ races:
       Charisma: 2
     languages: ['Common', 'Infernal']
     other:
-      - ['Darkvision', 60]
-      - ['Hellish Resistance', ['Fire']]
+      - [Darkvision, 60]
+      - [Hellish Resistance, [Fire]]
     ratio:
       height:
         base: 57
