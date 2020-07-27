@@ -26,11 +26,12 @@ class _Classes:
 
     """
 
-    def __init__(self, path: str, level: int) -> None:
+    def __init__(self, path: str, level: int, race_skills: list) -> None:
         """
         Args:
             path (str): Character's chosen path.
             level (int): Character's chosen level.
+            race_skills (list): Character's racial skills.
 
         """
         self.klass = self.__class__.__name__
@@ -38,19 +39,24 @@ class _Classes:
             raise InheritanceError("This class must be inherited")
 
         if not get_is_class(self.klass):
-            raise InvalidValueError(f"Character class '{self.klass}' is invalid")
+            raise InvalidValueError(f"Character class '{self.klass}' is invalid.")
 
         if path is not None and not get_is_path(path, self.klass):
-            raise InvalidValueError(f"Character archetype '{path}' is invalid")
+            raise InvalidValueError(f"Character archetype '{path}' is invalid.")
         else:
             self.path = path
 
         if not isinstance(level, int):
-            raise InvalidValueError("Argument level value must be of type 'int'")
+            raise InvalidValueError("Argument 'level' value must be of type 'int'.")
         elif level not in range(1, 21):
-            raise InvalidValueError("Argument level value must be between 1-20")
+            raise InvalidValueError("Argument 'level' value must be between 1-20.")
         else:
             self.level = level
+
+        if not isinstance(race_skills, list):
+            raise InvalidValueError("Argument 'race_skills' value must be a 'list'.")
+        else:
+            self.race_skills = race_skills
 
         self.all = _read(self.klass, file="classes")
 
@@ -178,50 +184,60 @@ class _Classes:
         path_proficiency = _read(self.path, file="paths")
 
         # Skill handling and allotment.
-        skills = self.all["proficiency"][4]
+        skill_pool = self.all["proficiency"][4][1]
+        skills = list()
+
+        # Get skill allotment by class.
         if self.klass in ("Rogue",):
-            skill_allotment = 4
+            allotment = 4
         elif self.klass in ("Bard", "Ranger"):
-            skill_allotment = 3
+            allotment = 3
         else:
-            skill_allotment = 2
+            allotment = 2
+
+        # Remove any bonus racial skill from pool.
+        if len(self.race_skills) is not 0:
+            skill_pool = [x for x in skill_pool if x not in self.race_skills]
+            skills = skills + self.race_skills
 
         if self.path == "Assassin":
             assassin_skills = path_proficiency.get("proficiency")[0][1]
-            skills = [x for x in skills[1] if x not in assassin_skills]
-            skills = random.sample(skills, skill_allotment)
+            skill_pool = [x for x in skill_pool if x not in assassin_skills]
             if self.level >= 3:
                 skills = skills + assassin_skills
-            self.all["proficiency"][4] = ["Skills", skills]
-        elif self.path == "College of Lore":
-            skills = random.sample(skills[1], skill_allotment)
-            self.all["proficiency"][4] = ["Skills", skills]
-            if self.level >= 3:
-                my_skills = self.all["proficiency"][4][1]
-                lore_skills = [x for x in get_all_skills() if x not in my_skills]
-                skills = skills + random.sample(lore_skills, 3)
-                self.all["proficiency"][4] = ["Skills", skills]
-        else:
-            skills = random.sample(skills[1], skill_allotment)
-            self.all["proficiency"][4] = ["Skills", skills]
-        self.all["proficiency"][4][1].sort()
+
+        skills = skills + random.sample(skill_pool, allotment)
+
+        if self.path == "College of Lore" and self.level >= 3:
+            lore_skills = [x for x in get_all_skills() if x not in skills]
+            skills = skills + random.sample(lore_skills, 3)
+
+        skills.sort()
+        self.all["proficiency"][4] = ["Skills", skills]
 
         # Proficiency handling and allotment (if applicable).
         self.all["proficiency_bonus"] = get_proficiency_bonus(self.level)
 
-        if "proficiency" not in path_proficiency:
-            return
+        # Monk bonus tool or musical instrument proficiency.
+        proficiencies = self.all.get("proficiency")
+        if proficiencies[1][0] == "Tools" and self.klass == "Monk":
+            self.all["proficiency"][1][1] = ["Tools", [random.choice(proficiencies[1][1])]]
 
+        # Merge class proficiencies with any provided by archetypes.
         class_proficiency = self.all.get("proficiency")
-        path_proficiency = path_proficiency.get("proficiency")
-        class_extract = [cp for cp in class_proficiency if cp[0] == category]
-        path_extract = [pp for pp in path_proficiency if pp[0] == category]
-        for index, proficient in enumerate(class_proficiency):
+        class_proficiency = [cp for cp in class_proficiency if cp[0] == category][0][1]
+        if "proficiency" in path_proficiency:
+            path_proficiency = path_proficiency.get("proficiency")
+            path_proficiency = [pp for pp in path_proficiency if pp[0] == category][0][1]
+            class_proficiency = class_proficiency + path_proficiency
+
+        # Sort it all and put it together for assignment.
+        class_proficiency.sort()
+        for index, proficient in enumerate(proficiencies):
             if proficient[0] == category:
                 try:
-                    revised_proficiency = class_extract[0][1] + path_extract[0][1]
-                    revised_proficiency.sort()
-                    self.all["proficiency"][index] = [category, revised_proficiency]
+                    class_proficiency.sort()
+                    self.all["proficiency"][index] = [category, class_proficiency]
                 except IndexError:
                     pass
 
@@ -246,63 +262,63 @@ class _Classes:
 
 
 class Barbarian(_Classes):
-    def __init__(self, path, level) -> None:
-        super(Barbarian, self).__init__(path, level)
+    def __init__(self, path, level, race_skills) -> None:
+        super(Barbarian, self).__init__(path, level, race_skills)
 
 
 class Bard(_Classes):
-    def __init__(self, path, level) -> None:
-        super(Bard, self).__init__(path, level)
+    def __init__(self, path, level, race_skills) -> None:
+        super(Bard, self).__init__(path, level, race_skills)
 
 
 class Cleric(_Classes):
-    def __init__(self, path, level) -> None:
-        super(Cleric, self).__init__(path, level)
+    def __init__(self, path, level, race_skills) -> None:
+        super(Cleric, self).__init__(path, level, race_skills)
 
 
 class Druid(_Classes):
-    def __init__(self, path, level) -> None:
-        super(Druid, self).__init__(path, level)
+    def __init__(self, path, level, race_skills) -> None:
+        super(Druid, self).__init__(path, level, race_skills)
 
 
 class Fighter(_Classes):
-    def __init__(self, path, level) -> None:
-        super(Fighter, self).__init__(path, level)
+    def __init__(self, path, level, race_skills) -> None:
+        super(Fighter, self).__init__(path, level, race_skills)
 
 
 class Monk(_Classes):
-    def __init__(self, path, level) -> None:
-        super(Monk, self).__init__(path, level)
+    def __init__(self, path, level, race_skills) -> None:
+        super(Monk, self).__init__(path, level, race_skills)
 
 
 class Paladin(_Classes):
-    def __init__(self, path, level) -> None:
-        super(Paladin, self).__init__(path, level)
+    def __init__(self, path, level, race_skills) -> None:
+        super(Paladin, self).__init__(path, level, race_skills)
 
 
 class Ranger(_Classes):
-    def __init__(self, path, level) -> None:
-        super(Ranger, self).__init__(path, level)
+    def __init__(self, path, level, race_skills) -> None:
+        super(Ranger, self).__init__(path, level, race_skills)
 
 
 class Rogue(_Classes):
-    def __init__(self, path, level) -> None:
-        super(Rogue, self).__init__(path, level)
+    def __init__(self, path, level, race_skills) -> None:
+        super(Rogue, self).__init__(path, level, race_skills)
 
 
 class Sorcerer(_Classes):
-    def __init__(self, path, level) -> None:
-        super(Sorcerer, self).__init__(path, level)
+    def __init__(self, path, level, race_skills) -> None:
+        super(Sorcerer, self).__init__(path, level, race_skills)
 
 
 class Warlock(_Classes):
-    def __init__(self, path, level) -> None:
-        super(Warlock, self).__init__(path, level)
+    def __init__(self, path, level, race_skills) -> None:
+        super(Warlock, self).__init__(path, level, race_skills)
 
 
 class Wizard(_Classes):
-    def __init__(self, path, level) -> None:
-        super(Wizard, self).__init__(path, level)
+    def __init__(self, path, level, race_skills) -> None:
+        super(Wizard, self).__init__(path, level, race_skills)
 
 
 def get_is_class(klass: str) -> bool:
