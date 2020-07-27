@@ -4,13 +4,10 @@ import click
 
 from yari.classes import *
 from yari.attributes import AttributeGenerator
-from yari.exceptions import RatioValueError
 from yari.improvement import ImprovementGenerator
 from yari.loader import _read
 from yari.proficiency import ProficiencyGenerator, ProficiencyTypeValueError
 from yari.races import *
-from yari.ratio import RatioGenerator
-from yari.skills import SkillGenerator
 from yari.version import __version__
 from yari.writer import Writer
 
@@ -84,9 +81,6 @@ from yari.writer import Writer
     help="Character's class level. Must be at or inbetween 1 and 20.",
     type=int,
 )
-@click.option(
-    "-variant", default="false", help="Use variant rules (Humans only).", type=str,
-)
 @click.version_option(prog_name="Yari", version=__version__)
 def main(
     file: str,
@@ -97,7 +91,6 @@ def main(
     klass: str,
     path: str,
     level: int,
-    variant: bool,
 ) -> None:
     def out(message: str, **kw):
         if "is_error" in kw and kw["is_error"]:
@@ -118,7 +111,7 @@ def main(
     else:
         race = random.choice(_read(file="races"))
 
-    valid_subraces = [r for r in get_subraces_by_race(race)]
+    valid_subraces = [sr for sr in get_subraces_by_race(race)]
     if subrace == "":
         if len(valid_subraces) is not 0:
             subrace = random.choice(valid_subraces)
@@ -132,7 +125,7 @@ def main(
         except ValueError as e:
             out(str(e), is_error=True)
 
-    the_sexes = ["Female", "Male"]
+    the_sexes = ("Female", "Male")
     if sex in the_sexes:
         sex = sex
     else:
@@ -164,62 +157,34 @@ def main(
     if level not in range(1, 21):
         out(f"level must be between 1-20 ({level})", is_error=True)
 
-    if variant in ("false", "true"):
-        if variant == "false" or race != "Human":
-            variant = False
-        else:
-            variant = True
-            out("variant rules are being used.", is_warning=True)
-    else:
-        out("argument variant must be 'false|true'", is_error=True)
-
     # Generate class features and racial traits.
     def callback(method, **kw):
         def init():
             call_class = eval(method)
-            if "path" and "level" in kw:
-                return call_class(kw["path"], kw["level"])
-            elif "subrace" and "class_attr" and "variant" in kw:
-                return call_class(kw["subrace"], kw["class_attr"], kw["variant"])
+            if all(k in kw for k in ("path", "level", "race_skills")):
+                return call_class(kw["path"], kw["level"], kw["race_skills"])
+            elif all(k in kw for k in ("subrace", "sex", "level",)):
+                return call_class(kw["subrace"], kw["sex"], kw["level"])
             else:
-                raise RuntimeError(f"Invalid callback {method}")
+                raise RuntimeError(f"Invalid callback '{method}' specified.")
 
         return init()
 
     try:
-        cg = callback(klass, path=path, level=level)
-        features = cg.features
-        rg = callback(
-            race,
-            subrace=subrace,
-            class_attr=features.get("abilities"),
-            variant=variant,
-        )
+        # Racial traits
+        rg = callback(race, subrace=subrace, sex=sex, level=level,)
 
-        def trait_filter(base_traits: dict, base_level: int) -> dict:
-            """Removes traits character does not have level requirements for."""
-            if "magic" in base_traits:
-                magic_traits = dict()
-                for magic_level, spell in base_traits["magic"].items():
-                    if magic_level <= base_level:
-                        magic_traits[magic_level] = spell
-                base_traits["magic"] = magic_traits
-            return base_traits
-
-        traits = trait_filter(rg.traits, level)
+        # Class features
+        cg = callback(klass, path=path, level=level, race_skills=rg.skills)
 
         # Generate ability scores.
-        ag = AttributeGenerator(features.get("abilities"))
-        ag.set_racial_bonus(race, subrace, features.get("abilities"), variant)
+        ag = AttributeGenerator(cg.primary_ability, rg.bonus)
         score_array = ag.score_array
 
         # Generate character armor, tool and weapon proficiencies.
-        armors = ProficiencyGenerator("armors", features, traits).proficiency
-        tools = ProficiencyGenerator("tools", features, traits).proficiency
-        weapons = ProficiencyGenerator("weapons", features, traits).proficiency
-
-        # Generate character skills.
-        skills = SkillGenerator(background, klass, traits.get("skills")).skills
+        armors = ProficiencyGenerator("armors", cg.armors, rg.armors).proficiency
+        tools = ProficiencyGenerator("tools", cg.tools, rg.tools).proficiency
+        weapons = ProficiencyGenerator("weapons", cg.weapons, rg.weapons).proficiency
 
         # Assign ability/feat improvements.
         u = ImprovementGenerator(
@@ -227,16 +192,15 @@ def main(
             path=path,
             klass=klass,
             level=level,
-            class_attr=features.get("abilities"),
-            saves=features.get("saves"),
-            spell_slots=features.get("spell_slots"),
+            primary_ability=cg.primary_ability,
+            saves=cg.saving_throws,
+            spell_slots=cg.spell_slots,
             score_array=score_array,
-            languages=traits.get("languages"),
+            languages=rg.languages,
             armor_proficiency=armors,
             tool_proficiency=tools,
             weapon_proficiency=weapons,
-            skills=skills,
-            variant=variant,
+            skills=cg.skills,
         )
 
         # Create proficiency data packet.
@@ -245,45 +209,35 @@ def main(
         proficiency_info["tools"] = u.tool_proficiency
         proficiency_info["weapons"] = u.weapon_proficiency
 
-        # Calculate character height/weight.
-        try:
-            mg = RatioGenerator(race, subrace, sex)
-            ratio = mg.calculate()
-            height = f"{ratio[0][0]}' {ratio[0][1]}\""
-            weight = ratio[1]
-        except RatioValueError as e:
-            out(str(e), is_error=True)
-        else:
-            # Gather data for character sheet.
-            cs = OrderedDict()
-            cs["race"] = u.race
-            cs["subrace"] = subrace
-            cs["sex"] = sex
-            cs["background"] = background
-            cs["height"] = height
-            cs["weight"] = weight
-            cs["class"] = klass
-            cs["level"] = level
-            cs["path"] = u.path
-            cs["bonus"] = get_proficiency_bonus(level)
-            cs["score_array"] = u.score_array
-            cs["saves"] = u.saves
-            cs["spell_slots"] = u.spell_slots
-            cs["proficiency"] = proficiency_info
-            cs["languages"] = u.languages
-            cs["skills"] = u.skills
-            cs["feats"] = u.feats
-            cs["equipment"] = _read(background, "equipment", file="backgrounds")
-            cs["features"] = features.get("features")
-            cs["traits"] = traits
+        # Gather data for character sheet.
+        cs = OrderedDict()
+        cs["race"] = u.race
+        cs["subrace"] = subrace
+        cs["sex"] = sex
+        cs["background"] = background
+        cs["size"] = rg.size
+        cs["class"] = klass
+        cs["level"] = level
+        cs["path"] = u.path
+        cs["bonus"] = get_proficiency_bonus(level)
+        cs["score_array"] = u.score_array
+        cs["saves"] = u.saves
+        cs["spell_slots"] = u.spell_slots
+        cs["proficiency"] = proficiency_info
+        cs["languages"] = u.languages
+        cs["skills"] = u.skills
+        cs["feats"] = u.feats
+        cs["equipment"] = _read(background, "equipment", file="backgrounds")
+        cs["features"] = cg.features
+        cs["traits"] = rg.other
 
-            try:
-                with Writer(cs) as writer:
-                    writer.write(file)
-            except (FileExistsError, IOError, OSError, TypeError, ValueError) as e:
-                out(e, is_error=True)
-            else:
-                out(f"character saved to '{writer.save_path}'")
+        try:
+            with Writer(cs) as writer:
+                writer.write(file)
+        except (FileExistsError, IOError, OSError, TypeError, ValueError) as e:
+            out(e, is_error=True)
+        else:
+            out(f"character saved to '{writer.save_path}'")
     except (
         NameError,
         RuntimeError,
