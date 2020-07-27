@@ -38,8 +38,7 @@ class Writer:
             "subrace",
             "sex",
             "background",
-            "height",
-            "weight",
+            "size",
             "class",
             "level",
             "path",
@@ -52,8 +51,8 @@ class Writer:
             "skills",
             "feats",
             "equipment",
-            "traits",
             "features",
+            "traits",
         )
         if not all(k in data for k in data_keys):
             raise ValueError("data: all keys must have a value!")
@@ -102,8 +101,7 @@ class Writer:
         x += f"<version>{__version__}</version></meta>"
         x += f"<character><race>{race}</race>"
         x += f'<sex>{self.data.get("sex")}</sex>'
-        x += f'<height>{self.data.get("height")}</height>'
-        x += f'<weight>{self.data.get("weight")}</weight>'
+        x += f'<size>{self.data.get("size")}</size>'
         x += f'<background>{self.data.get("background")}</background>'
         x += f'<class>{self.data.get("class")}</class>'
         x += f'<level>{self.data.get("level")}</level>'
@@ -130,9 +128,7 @@ class Writer:
         x += "</feats><equipment>"
         x += format_equipment(self.data.get("equipment"))
         x += "</equipment><traits>"
-        x += format_traits(
-            self.data.get("traits"), self.data.get("race"), self.data.get("subrace"),
-        )
+        x += format_traits(self.data.get("traits"), race)
         x += "</traits><features>"
         x += format_features(self.data.get("class"), self.data.get("features"))
         x += "</features></character></yari>"
@@ -274,170 +270,26 @@ def format_skills(skills: list) -> str:
     return block
 
 
-def format_traits(traits: dict, race: str, subrace=None) -> str:
+def format_traits(traits: list, race: str) -> str:
     """Formats trait values for character sheet.
 
     Args:
-        traits (dict): Character's racial/sub-racial traits.
-        race (str): Character's race.
-        subrace(None, str): Character's subrace (if applicable).
+        traits (list): Character's racial traits.
+        race (str): Character's chosen race.
 
     """
-    if subrace is not None and subrace != "":
-        race_label = f"{subrace} {race} Trait"
-    elif race in ("HalfElf", "HalfOrc",):
-        if race == "HalfElf":
-            race_label = "Half-elf Trait"
-        else:
-            race_label = "Half-orc Trait"
-    else:
-        race_label = f"{race} Trait"
-
     block = ""
-    for trait, values in traits.items():
-        if trait in ("abilities", "languages", "skills"):
-            continue
-        elif trait == "ancestry":
-            dragon_ancestry = traits.get(trait)
-            block += '<entry name="Draconic Ancestry" type="{}" value="{}" />'.format(
-                race_label, dragon_ancestry
-            )
-            block += '<entry name="Breath Weapon" type="{}" value="{}" />'.format(
-                race_label, dragon_ancestry
-            )
-        elif trait == "cantrip":
-            if subrace == "High":
-                block += '<entry name="Cantrip" type="{}" values="{}" />'.format(
-                    race_label, ",".join(values)
-                )
-        elif trait == "darkvision":
-            darkvision_type = "Darkvision"
-            if traits.get(trait) > 60:
-                darkvision_type = "Superior Darkvision"
-            block += '<entry name="{}" range="{}" type="{}" />'.format(
-                darkvision_type, traits.get(trait), race_label
-            )
-        elif trait in (
-            "endurance",
-            "nimbleness",
-            "savage",
-            "stonecunning",
-            "toughness",
-        ):
-            trait_label = None
-            if trait == "endurance":
-                trait_label = "Relentless Endurance"
-            elif trait == "nimbleness":
-                trait_label = "Halfling Nimbleness"
-            elif trait == "savage":
-                trait_label = "Savage Attacks"
-            elif trait == "stonecunning":
-                trait_label = "Stonecunning"
-            elif trait == "toughness":
-                trait_label = "Dwarven Toughness"
-            block += f'<entry name="{trait_label}" type="{race_label}" />'
-        elif trait in ("magic", "necrotic", "radiant"):
-            magic_name = None
-            if race == "Aasimar":
-                magic_name = "Celestial Legacy"
-            elif subrace == "Drow":
-                magic_name = "Drow Magic"
-            elif subrace == "Duergar":
-                magic_name = "Duergar Magic"
-            elif subrace == "Forest":
-                magic_name = "Natural Illusionist"
-            elif subrace == "Githyanki":
-                magic_name = "Githyanki Psionics"
-            elif subrace == "Githzerai":
-                magic_name = "Githzerai Psionics"
-
-            # For bonus Aasimar, Drow or Duergar innate magic.
-            if trait not in ("necrotic", "radiant",):
-                for level, spell in traits[trait].items():
-                    if isinstance(spell, list):
-                        spell = ", ".join(spell)
-                    block += '<entry name="{}" level="{}" spell="{}" type="{}" />'.format(
-                        magic_name, level, spell, race_label
-                    )
-
-            # For Aasimar subraces: Necrotic Shroud, Radiant Soul/Consumption.
-            if trait in ("necrotic", "radiant"):
-                if subrace == "Fallen":
-                    magic_name = "Necrotic Shroud"
-                elif subrace == "Protector":
-                    magic_name = "Radiant Soul"
-                elif subrace == "Scourge":
-                    magic_name = "Radiant Consumption"
-                block += f'<entry name="{magic_name}" level="3" type="{race_label}" />'
-        elif trait == "proficiency":
-            proficiency_list = traits.get(trait)
-            for proficiency_type in proficiency_list:
-                if proficiency_type == "armors":
-                    proficiency_title = None
-                    if subrace == "Mountain":
-                        proficiency_title = "Dwarven Armor Training"
-                    elif subrace == "Githyanki":
-                        proficiency_title = "Martial Prodigy"
-                    armors = proficiency_list.get(proficiency_type)
-                    block += '<entry name="{}" type="{}" values="{}" />'.format(
-                        proficiency_title, race_label, ", ".join(armors)
-                    )
-
-                if proficiency_type == "tools":
-                    tools = proficiency_list.get(proficiency_type)
-                    block += '<entry name="Tool Proficiency" type="{}" values="{}" />'.format(
-                        race_label, ", ".join(tools)
-                    )
-
-                if proficiency_type == "weapons":
-                    proficiency_title = None
-                    if race == "Dwarf":
-                        proficiency_title = "Dwarven Combat Training"
-                    elif subrace is not None:
-                        if subrace in ("Eladrin", "High", "Wood",):
-                            proficiency_title = "Elf Weapon Training"
-                        elif subrace == "Githyanki":
-                            proficiency_title = "Martial Prodigy"
-                        elif subrace == "Drow":
-                            proficiency_title = "Drow Weapon Training"
-                        elif subrace == "Sea":
-                            proficiency_title = "Sea Elf Training"
-                    weapons = proficiency_list.get(proficiency_type)
-                    block += '<entry name="{}" type="{}" values="{}" />'.format(
-                        proficiency_title, race_label, ", ".join(weapons)
-                    )
-        elif trait == "resistance":
-            # Celestial Resistance
-            if race == "Aasimar":
-                block += f'<entry name="Celestial Resistance" type="{race_label}" values="Necrotic, Radiant" />'
-            # Dragonborn Damage Resistance
-            elif race == "Dragonborn":
-                block += '<entry name="Damage Resistance" type="{}" values="{}" />'.format(
-                    race_label, ",".join(values)
-                )
-            # Dwarf Resilience
-            elif race == "Dwarf":
-                block += f'<entry name="Dwarven Resilience" type="{race_label}" values="Poison" />'
-            # Elf/Half-Elf Fey Ancestry
-            elif race in ("Elf", "HalfElf",):
-                block += f'<entry name="Fey Ancestry" type="{race_label}" values="Charm, Sleep" />'
-            # Duergar/Stout Halfling Resilience
-            elif subrace in ("Duergar", "Stout",):
-                if subrace == "Duergar":
-                    block += f'<entry name="Duergar Resilience" type="{race_label}" values="Charm, Illusion, Paralysis" />'
-                elif subrace == "Stout":
-                    block += f'<entry name="Stout Resilience" type="{race_label}" values="Poison" />'
-            # Shadar-kai Resistance
-            elif subrace == "Shadar-kai":
-                block += f'<entry name="Necrotic Resistance" type="{race_label}" values="Necrotic" />'
-        # Drow/Duergar have sensitivity to sunlight
-        elif trait == "sensitivity":
-            if subrace is not None and subrace in ("Drow", "Duergar"):
-                block += f'<entry name="Sunlight Sensitivity" type="{race_label}" />'
-        elif trait == "stealthy":
-            block += f'<entry name="Naturally Stealthy" type="{race_label}" />'
-        elif trait == "toughness":
-            block += f'<entry name="Toughness" type="{race_label}" />'
-        elif trait == "trance":
-            block += f'<entry name="Trance" type="{race_label}" />'
+    for trait in traits:
+        if len(trait) > 1:
+            (name, value) = trait
+            if isinstance(value, list):
+                if (
+                    name == "Drow Magic"
+                    or name.startswith("Legacy of")
+                ):
+                    value = [v[1] for v in value]
+                value = ", ".join(value)
+            block += f'<entry label="{race} Trait" name="{name}" value="{value}" />'
+        else:
+            block += f'<entry label="{race} Trait" name="{trait[0]}" />'
     return block
