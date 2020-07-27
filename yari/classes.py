@@ -228,8 +228,11 @@ class _Classes:
         class_proficiency = [cp for cp in class_proficiency if cp[0] == category][0][1]
         if "proficiency" in path_proficiency:
             path_proficiency = path_proficiency.get("proficiency")
-            path_proficiency = [pp for pp in path_proficiency if pp[0] == category][0][1]
-            class_proficiency = class_proficiency + path_proficiency
+            try:
+                path_proficiency = [pp for pp in path_proficiency if pp[0] == category][0][1]
+                class_proficiency = class_proficiency + path_proficiency
+            except IndexError:
+                pass
 
         # Sort it all and put it together for assignment.
         class_proficiency.sort()
