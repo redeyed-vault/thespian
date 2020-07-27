@@ -19,4 +19,8 @@ class ProficiencyGenerator:
                 f"Invalid 'prof_type' argument '{prof_type}' specified."
             )
 
-        self.proficiency = class_proficiency + race_proficiency
+        race_proficiency = [x for x in race_proficiency if x not in class_proficiency]
+        if len(race_proficiency) is not 0:
+            self.proficiency = class_proficiency + race_proficiency
+        else:
+            self.proficiency = class_proficiency
