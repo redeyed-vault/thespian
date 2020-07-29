@@ -66,9 +66,8 @@ class _Classes:
         self._add_class_features()
         self._add_class_hit_die()
         self._add_class_path_magic()
-        self._add_class_proficiency("Armor")
-        self._add_class_proficiency("Tools")
-        self._add_class_proficiency("Weapons")
+        self._add_class_proficiencies()
+        self._add_class_skills()
         self._add_class_spell_slots()
 
         self.primary_ability = self.all.get("abilities")
@@ -84,6 +83,8 @@ class _Classes:
         self.skills = self.all.get("proficiency")[4][1]
         self.magic = self.all["magic"]
         self.spell_slots = self.all.get("spell_slots")
+
+        print(self.all)
 
     def __repr__(self):
         return '<{} path="{}" level="{}">'.format(self.klass, self.path, self.level)
@@ -179,8 +180,34 @@ class _Classes:
         else:
             self.all["magic"] = dict()
 
-    def _add_class_proficiency(self, category: str):
-        """Generates character's proficiencies by category."""
+    def _add_class_proficiencies(self):
+        """Merge class proficiencies with any provided by archetypes (if applicable)."""
+        for category in ("Armor", "Tools", "Weapons"):
+            for index, proficiency in enumerate(self.all.get("proficiency")):
+                if category in proficiency:
+                    if (
+                        category in ("Armor", "Weapons",)
+                        and self.path == "College of Valor"
+                        and self.level < 3
+                    ):
+                        return
+                    try:
+                        proficiencies = proficiency[1] + get_path_proficiency(
+                            self.path, category
+                        )
+                        self.all["proficiency"][index] = [category, proficiencies]
+                    except IndexError:
+                        pass
+
+        # Monk bonus tool or musical instrument proficiency.
+        if self.klass == "Monk":
+            tool_selection = [random.choice(self.all["proficiency"][1][1])]
+            self.all["proficiency"][1][1] = tool_selection
+
+        self.all["proficiency"] = [tuple(p) for p in self.all.get("proficiency")]
+
+    def _add_class_skills(self):
+        """Generates character's skills."""
         path_proficiency = _read(self.path, file="paths")
 
         # Skill handling and allotment.
@@ -217,34 +244,6 @@ class _Classes:
 
         # Proficiency handling and allotment (if applicable).
         self.all["proficiency_bonus"] = get_proficiency_bonus(self.level)
-
-        # Monk bonus tool or musical instrument proficiency.
-        proficiencies = self.all.get("proficiency")
-        if proficiencies[1][0] == "Tools" and self.klass == "Monk":
-            self.all["proficiency"][1][1] = ["Tools", [random.choice(proficiencies[1][1])]]
-
-        # Merge class proficiencies with any provided by archetypes.
-        class_proficiency = self.all.get("proficiency")
-        class_proficiency = [cp for cp in class_proficiency if cp[0] == category][0][1]
-        if "proficiency" in path_proficiency:
-            path_proficiency = path_proficiency.get("proficiency")
-            try:
-                path_proficiency = [pp for pp in path_proficiency if pp[0] == category][0][1]
-                class_proficiency = class_proficiency + path_proficiency
-            except IndexError:
-                pass
-
-        # Sort it all and put it together for assignment.
-        class_proficiency.sort()
-        for index, proficient in enumerate(proficiencies):
-            if proficient[0] == category:
-                try:
-                    class_proficiency.sort()
-                    self.all["proficiency"][index] = [category, class_proficiency]
-                except IndexError:
-                    pass
-
-        self.all["proficiency"] = [tuple(x) for x in self.all.get("proficiency")]
 
     def _add_class_spell_slots(self):
         """Generates character's spell slots."""
@@ -332,6 +331,15 @@ def get_is_class(klass: str) -> bool:
 def get_is_path(path: str, klass: str) -> bool:
     """Returns whether path is a valid path of klass."""
     return path in _read(klass, "paths", file="classes")
+
+
+def get_path_proficiency(path: str, category: str):
+    proficiency = _read(path, file="paths")
+    if proficiency is not None and "proficiency" in proficiency:
+        for proficiency in proficiency.get("proficiency"):
+            if category in proficiency:
+                return proficiency[1]
+    return list()
 
 
 def get_paths_by_class(klass) -> tuple:
