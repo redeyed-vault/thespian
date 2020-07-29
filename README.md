@@ -89,7 +89,6 @@ Options:
                     Transmutation).
 
   -level INTEGER    Character's class level. Must be at or inbetween 1 and 20.
-  -variant TEXT     Use variant rules (Humans only).
   --version         Show the version and exit.
   --help            Show this message and exit.
 ```
