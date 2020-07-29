@@ -34,7 +34,8 @@ from yari.writer import Writer
     "chosen race: Aasimar (Fallen, Protector, Scourge), Dwarf (Duergar, Hill, "
     "Mountain), Elf (Drow, Eladrin, High, Sea, Shadar-kai, Wood), "
     "Gith (Githyanki, Githzerai), Gnome (Deep, Forest, Rock), Halfling "
-    "(Lightfoot, Stout).",
+    "(Lightfoot, Stout), Tiefling (Asmodeus, Baalzebub, Dispater, Fierna, "
+    "Glasya, Levistus, Mammon, Memphistopheles, Zariel).",
     type=str,
 )
 @click.option("-sex", default="", help="Character's chosen gender.", type=str)
