@@ -84,8 +84,6 @@ class _Classes:
         self.magic = self.all["magic"]
         self.spell_slots = self.all.get("spell_slots")
 
-        print(self.all)
-
     def __repr__(self):
         return '<{} path="{}" level="{}">'.format(self.klass, self.path, self.level)
 
