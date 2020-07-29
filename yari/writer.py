@@ -283,10 +283,7 @@ def format_traits(traits: list, race: str) -> str:
         if len(trait) > 1:
             (name, value) = trait
             if isinstance(value, list):
-                if (
-                    name == "Drow Magic"
-                    or name.startswith("Legacy of")
-                ):
+                if name == "Drow Magic" or name.startswith("Legacy of"):
                     value = [v[1] for v in value]
                 value = ", ".join(value)
             block += f'<entry label="{race} Trait" name="{name}" value="{value}" />'
