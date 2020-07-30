@@ -67,13 +67,13 @@ class _Races:
             subrace_traits = _read(self.subrace, file="subraces")
             self._merge_traits(subrace_traits)
 
-        self._add_ability_traits()
-        self._add_ancestry_traits()
-        self._add_cantrip_traits()
-        self._add_language_traits()
-        self._add_other_traits()
-        self._add_ratio_traits()
-        self._add_skill_traits()
+        self._add_race_ability_bonus()
+        self._add_race_ancestry()
+        self._add_race_cantrip_bonus()
+        self._add_race_language_bonus()
+        self._add_race_traits()
+        self._add_race_mass()
+        self._add_race_skill_bonus()
 
         self.all["other"] = [tuple(x) for x in self.all["other"]]
         self.bonus = self.all.get("bonus")
@@ -90,8 +90,8 @@ class _Races:
         else:
             return '<{} sex="{}" level="{}">'.format(self.race, self.sex, self.level)
 
-    def _add_ability_traits(self):
-        """Add HalfElf, Human "racial" ability traits."""
+    def _add_race_ability_bonus(self):
+        """Add HalfElf racial ability bonuses."""
         if self.race == "HalfElf":
             valid_abilities = [
                 "Strength",
@@ -104,7 +104,7 @@ class _Races:
             for ability in valid_abilities:
                 self.all["bonus"][ability] = 1
 
-    def _add_ancestry_traits(self):
+    def _add_race_ancestry(self):
         """Add Dragonborn character ancestry traits."""
         if self.race != "Dragonborn":
             return
@@ -132,7 +132,7 @@ class _Races:
                             ["Damage Resistance", [damage_resistance]]
                         )
 
-    def _add_cantrip_traits(self):
+    def _add_race_cantrip_bonus(self):
         """Add HighElf, or Forest Gnome bonus cantrips."""
         for trait, value in self.all.items():
             if trait == "other":
@@ -146,7 +146,7 @@ class _Races:
                                 random.choice(feature[1]),
                             )
 
-    def _add_language_traits(self):
+    def _add_race_language_bonus(self):
         """Add Githyanki, Half-Elf, Human or High Elf character language traits."""
         if self.race not in ("HalfElf", "Human") and self.subrace not in (
             "Githyanki",
@@ -171,7 +171,12 @@ class _Races:
             ]
             self.all["languages"].append(random.choice(standard_languages))
 
-    def _add_other_traits(self):
+    def _add_race_mass(self):
+        (height, weight) = RatioGenerator(self.race, self.subrace, self.sex).calculate()
+        self.all["size"] = (self.all.get("size"), height, weight)
+        del self.all["ratio"]
+
+    def _add_race_traits(self):
         """Add Elf, Dwarf and Githyanki bonus proficiencies."""
         self.armors = self.tools = self.weapons = self.magic = list()
 
@@ -218,12 +223,7 @@ class _Races:
                         self.all[trait][index] = (feature[0], spells)
                         self.magic = spells
 
-    def _add_ratio_traits(self):
-        (height, weight) = RatioGenerator(self.race, self.subrace, self.sex).calculate()
-        self.all["size"] = (self.all.get("size"), height, weight)
-        del self.all["ratio"]
-
-    def _add_skill_traits(self):
+    def _add_race_skill_bonus(self):
         """Add Elf Keen Senses, HalfOrc Menacing and HalfElf Skill Affinity skill bonuses."""
         self.skills = []
 
