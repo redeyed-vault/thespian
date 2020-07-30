@@ -57,7 +57,7 @@ Options:
                     Githzerai), Gnome (Deep, Forest, Rock), Halfling
                     (Lightfoot, Stout), Tiefling (Asmodeus, Baalzebub,
                     Dispater, Fierna, Glasya, Levistus, Mammon,
-                    Memphistopheles, Zariel).
+                    Mephistopheles, Zariel).
 
   -sex TEXT         Character's chosen gender.
   -background TEXT  Character's chosen background. Available backgrounds are:
