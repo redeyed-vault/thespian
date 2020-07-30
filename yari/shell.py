@@ -35,7 +35,7 @@ from yari.writer import Writer
     "Mountain), Elf (Drow, Eladrin, High, Sea, Shadar-kai, Wood), "
     "Gith (Githyanki, Githzerai), Gnome (Deep, Forest, Rock), Halfling "
     "(Lightfoot, Stout), Tiefling (Asmodeus, Baalzebub, Dispater, Fierna, "
-    "Glasya, Levistus, Mammon, Memphistopheles, Zariel).",
+    "Glasya, Levistus, Mammon, Mephistopheles, Zariel).",
     type=str,
 )
 @click.option("-sex", default="", help="Character's chosen gender.", type=str)
