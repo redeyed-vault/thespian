@@ -180,7 +180,7 @@ subraces:
     other:
       - [Legacy of Minauros, [[1, Mage Hand], [3, Tensor's Floating Disk], [5, Arcane Lock]]]
     parent: Tiefling
-  Memphistopheles:
+  Mephistopheles:
     bonus:
       Intelligence: 1
     other:
