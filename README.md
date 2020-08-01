@@ -107,6 +107,6 @@ To run Yari with minimal arguments, type the following in your terminal:
 
     yari -file=some_character_file
 
-If run with just the bare minimum arguments as shown above, Yari will randomly generate the character's race, subrace, sex, class and path. Level will be defaulted to 1 and the background defaults to the default for the chosen class.
+If run with just the bare minimum arguments as shown above, Yari will randomly generate the character's race, subrace, sex, class and path. Level will be defaulted to 1, the ratio will be defaulted to 50 and the background defaults to the default for the chosen class.
 
 Generated characters will always be saved in XML format to the directory *$HOME/Yari*.
