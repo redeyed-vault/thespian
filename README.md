@@ -90,7 +90,15 @@ Options:
                     School of Illusion, School of Necromancy, School of
                     Transmutation).
 
-  -level INTEGER    Character's class level. Must be at or inbetween 1 and 20.
+  -level INTEGER    Character's class level. Must be between 1-20.
+  -ratio INTEGER    Character's 'ability to feat' upgrade ratio. Must be
+                    between 1-100. This value will determine the percentage of
+                    level upgrades allocated to the character's ability
+                    scores. The difference between this value from 100 will
+                    then be allocated to the percentage of chosen feats. (i.e:
+                    So if this value is 20, 80 percent will automatically be
+                    allocated to feats.)
+
   --version         Show the version and exit.
   --help            Show this message and exit.
 ```
