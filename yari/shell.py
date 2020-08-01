@@ -79,7 +79,17 @@ from yari.writer import Writer
 @click.option(
     "-level",
     default=1,
-    help="Character's class level. Must be at or inbetween 1 and 20.",
+    help="Character's class level. Must be between 1-20.",
+    type=int,
+)
+@click.option(
+    "-ratio",
+    default=50,
+    help="Character's 'ability to feat' upgrade ratio. Must be between 1-100. "
+    "This value will determine the percentage of level upgrades allocated to "
+    "the character's ability scores. The difference between this value from "
+    "100 will then be allocated to the percentage of chosen feats. (i.e: So if "
+    "this value is 20, 80 percent will automatically be allocated to feats.)",
     type=int,
 )
 @click.version_option(prog_name="Yari", version=__version__)
@@ -92,6 +102,7 @@ def main(
     klass: str,
     path: str,
     level: int,
+    ratio: int,
 ) -> None:
     def out(message: str, **kw):
         if "is_error" in kw and kw["is_error"]:
@@ -158,6 +169,9 @@ def main(
     if level not in range(1, 21):
         out(f"level must be between 1-20 ({level})", is_error=True)
 
+    if ratio not in range(1, 101):
+        out(f"ratio must be between 1-20 ({ratio})", is_error=True)
+
     # Generate class features and racial traits.
     def callback(method, **kw):
         def init():
@@ -202,6 +216,7 @@ def main(
             tool_proficiency=tools,
             weapon_proficiency=weapons,
             skills=cg.skills,
+            upgrade_ratio=ratio,
         )
 
         # Create proficiency data packet.

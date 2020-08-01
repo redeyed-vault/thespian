@@ -1,4 +1,5 @@
 from collections import OrderedDict
+import math
 import random
 
 from yari.loader import _read
@@ -23,6 +24,7 @@ class ImprovementGenerator:
         tool_proficiency: list,
         weapon_proficiency: list,
         skills: list,
+        upgrade_ratio: int,
     ) -> None:
         """
         Args:
@@ -39,6 +41,7 @@ class ImprovementGenerator:
             tool_proficiency (list): Character's tool proficiencies.
             weapon_proficiency (list): Character's weapon proficiencies.
             skills (list): Character's skills.
+            upgrade_ratio (int): Percentage for ability to feat ratio upgrades.
 
         """
         self.race = race
@@ -62,64 +65,44 @@ class ImprovementGenerator:
         if klass == "Rogue":
             self.languages.append("Thieves' cant")
 
-        # Determine number of applicable upgrades
-        upgrades = 0
-        for _ in range(1, level + 1):
-            if (_ % 4) == 0 and _ is not 20:
-                upgrades += 1
-
-        if klass == "Fighter" and level >= 6:
-            upgrades += 1
-
-        if klass == "Rogue" and level >= 8:
-            upgrades += 1
-
-        if klass == "Fighter" and level >= 14:
-            upgrades += 1
-
-        if level >= 19:
-            upgrades += 1
-
-        # Cycle through the available upgrades (if applicable)
-        if upgrades is 0:
+        # Determine and assign upgrades by ability/feat upgrade ratio.
+        upgrade_ratio = self._get_upgrade_ratio(upgrade_ratio)
+        if sum(upgrade_ratio) is 0:
             return
-
-        primary_ability = list(primary_ability.values())
-        for _ in range(1, upgrades):
-            if len(primary_ability) is 0:
-                upgrade_option = "Feat"
-            else:
-                percentage = random.randint(1, 100)
-                if percentage % 3:
-                    upgrade_option = "Feat"
-                elif percentage % 2:
-                    upgrade_option = "Ability"
-                else:
-                    upgrade_option = "Feat"
-
-            if upgrade_option == "Ability":
-                try:
-                    if len(primary_ability) is 2:
-                        if self._is_adjustable(primary_ability):
-                            for ability in primary_ability:
-                                self._set_score_array(ability, 1)
-                                if not self._is_adjustable(ability):
-                                    primary_ability.remove(ability)
-                        elif len(primary_ability) is 1:
-                            ability = primary_ability[0]
-                            if self._is_adjustable(ability):
-                                self._set_score_array(ability, 2)
-                                if not self._is_adjustable(ability):
-                                    primary_ability.remove(ability)
+        else:
+            ability_upgrades = upgrade_ratio[0]
+            feat_upgrades = upgrade_ratio[1]
+            if ability_upgrades > 0:
+                primary_ability = list(primary_ability.values())
+                for _ in range(0, ability_upgrades):
+                    try:
+                        if not self._is_adjustable(primary_ability):
+                            raise ValueError("No upgradeable primary abilities.")
                         else:
-                            raise ValueError
-                    else:
-                        raise ValueError
-                except ValueError:
-                    upgrade_option = "Feat"
+                            bonus_applied = random.choice([1, 2])
+                            if bonus_applied is 1 and self._is_adjustable(
+                                primary_ability
+                            ):
+                                self._set_score(primary_ability[0], bonus_applied)
+                                self._set_score(primary_ability[1], bonus_applied)
+                            elif bonus_applied is 2 and self._is_adjustable(
+                                primary_ability[0]
+                            ):
+                                self._set_score(primary_ability[0], bonus_applied)
+                            elif bonus_applied is 2 and self._is_adjustable(
+                                primary_ability[1]
+                            ):
+                                self._set_score(primary_ability[1], bonus_applied)
+                            else:
+                                raise ValueError(
+                                    "No upgradeable primary ability by bonus."
+                                )
+                    except ValueError:
+                        self.feats.append(self._add_feat())
 
-            if upgrade_option == "Feat":
-                self.feats.append(self._add_feat())
+            if feat_upgrades > 0:
+                for _ in range(0, feat_upgrades):
+                    self.feats.append(self._add_feat())
 
     def _add_feat(self) -> str:
         """Randomly selects and adds a valid feats."""
@@ -143,7 +126,7 @@ class ImprovementGenerator:
         """
         # Actor
         if feat == "Actor":
-            self._set_score_array("Charisma", 1)
+            self._set_score("Charisma", 1)
 
         # Athlete/Lightly Armored/Moderately Armored/Weapon Master
         if feat in (
@@ -153,7 +136,7 @@ class ImprovementGenerator:
             "Weapon Master",
         ):
             ability_choice = random.choice(["Strength", "Dexterity"])
-            self._set_score_array(ability_choice, 1)
+            self._set_score(ability_choice, 1)
             if feat == "Lightly Armored":
                 self.armor_proficiency.append("Light")
             elif feat == "Moderately Armored":
@@ -161,17 +144,17 @@ class ImprovementGenerator:
                 self.armor_proficiency.append("Shield")
         # Durable
         if feat == "Durable":
-            self._set_score_array("Constitution", 1)
+            self._set_score("Constitution", 1)
 
         # Heavily Armored/Heavy Armor Master
         if feat in ("Heavily Armored", "Heavy Armor Master"):
-            self._set_score_array("Strength", 1)
+            self._set_score("Strength", 1)
             if feat == "Heavily Armored":
                 self.armor_proficiency.append("Heavy")
 
         # Keen Mind/Linguist
         if feat in ("Keen Mind", "Linguist"):
-            self._set_score_array("Intelligence", 1)
+            self._set_score("Intelligence", 1)
             if feat == "Linguist":
                 # Remove already known languages.
                 linguist_languages = [
@@ -203,9 +186,9 @@ class ImprovementGenerator:
         # Observant
         if feat == "Observant":
             if self.klass in ("Cleric", "Druid"):
-                self._set_score_array("Wisdom", 1)
+                self._set_score("Wisdom", 1)
             elif self.klass in ("Wizard",):
-                self._set_score_array("Intelligence", 1)
+                self._set_score("Intelligence", 1)
 
         # Resilient
         if feat == "Resilient":
@@ -223,7 +206,7 @@ class ImprovementGenerator:
             ]
             # Choose one non-proficient saving throw.
             ability_choice = random.choice(resilient_saves)
-            self._set_score_array(ability_choice, 1)
+            self._set_score(ability_choice, 1)
             self.saves.append(ability_choice)
 
         # Skilled
@@ -246,7 +229,7 @@ class ImprovementGenerator:
 
         # Tavern Brawler
         if feat == "Tavern Brawler":
-            self._set_score_array(random.choice(["Strength", "Constitution"]), 1)
+            self._set_score(random.choice(["Strength", "Constitution"]), 1)
             self.weapon_proficiency.append("Improvised weapons")
             self.weapon_proficiency.append("Unarmed strikes")
 
@@ -284,6 +267,33 @@ class ImprovementGenerator:
                 selections, 4
             )
             selections.clear()
+
+    def _get_upgrade_ratio(self, percentage: int) -> tuple:
+        """Returns an ability to feat upgrade ration by percentage."""
+        if percentage not in range(1, 101):
+            raise ValueError("Percentage must be between 1 and 100.")
+        else:
+            num_of_upgrades = 0
+            for _ in range(1, self.level + 1):
+                if (_ % 4) == 0 and _ is not 20:
+                    num_of_upgrades += 1
+
+            if self.klass == "Fighter" and self.level >= 6:
+                num_of_upgrades += 1
+
+            if self.klass == "Rogue" and self.level >= 8:
+                num_of_upgrades += 1
+
+            if self.klass == "Fighter" and self.level >= 14:
+                num_of_upgrades += 1
+
+            if self.level >= 19:
+                num_of_upgrades += 1
+
+            percentage = float(percentage)
+            ability_upgrades = math.floor(num_of_upgrades * percentage / 100.0)
+            feat_upgrades = num_of_upgrades - ability_upgrades
+            return ability_upgrades, feat_upgrades
 
     @staticmethod
     def _get_tool_chest():
@@ -380,27 +390,27 @@ class ImprovementGenerator:
                         return False
         return True
 
-    def _is_adjustable(self, abilities: (list, str)) -> (bool, int):
+    def _is_adjustable(self, abilities: (list, set, tuple, str)) -> bool:
         """Determines if an ability can be adjusted i.e: not over 20.
 
         Args:
-            abilities (list, str): skills to be checked.
+            abilities (list, set, tuple, str): skills to be checked.
         """
-        if isinstance(abilities, list):
-            for ability in abilities:
-                value = self.score_array.get(ability)
-                if (value + 1) > 20:
-                    return False
-        elif isinstance(abilities, str):
-            for bonus in (2, 1):
-                value = self.score_array.get(abilities)
-                if (value + bonus) <= 20:
-                    return bonus
+        try:
+            if isinstance(abilities, (list, set, tuple)):
+                for ability in abilities:
+                    if (self.score_array[ability] + 1) > 20:
+                        raise ValueError
+            elif isinstance(abilities, str):
+                if (self.score_array[abilities] + 2) > 20:
+                    raise ValueError
+        except (KeyError, ValueError):
             return False
-        return True
+        else:
+            return True
 
-    def _set_score_array(self, ability: str, bonus: int) -> None:
-        """Adjust a specified ability with bonus.
+    def _set_score(self, ability: str, bonus: int) -> None:
+        """Adjust a specified ability score with bonus.
 
         Args:
             ability (str): Ability score to set.
