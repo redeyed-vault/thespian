@@ -269,9 +269,11 @@ class ImprovementGenerator:
             selections.clear()
 
     def _get_upgrade_ratio(self, percentage: int) -> tuple:
-        """Returns an ability to feat upgrade ration by percentage."""
+        """Returns an 'ability to feat' upgrade ration by percentage."""
         if percentage not in range(0, 101):
-            raise ValueError("Percentage must be between 0 and 100.")
+            raise ValueError("Argument 'percentage' value must be between 0-100.")
+        elif (percentage % 10) != 0:
+            raise ValueError("Argument 'percentage' value must be a multiple of 10.")
         else:
             num_of_upgrades = 0
             for _ in range(1, self.level + 1):
