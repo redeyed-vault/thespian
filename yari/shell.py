@@ -85,7 +85,7 @@ from yari.writer import Writer
 @click.option(
     "-ratio",
     default=50,
-    help="Character's 'ability to feat' upgrade ratio. Must be between 1-100. "
+    help="Character's 'ability to feat' upgrade ratio. Must be between 0-100. "
     "This value will determine the percentage of level upgrades allocated to "
     "the character's ability scores. The difference between this value from "
     "100 will then be allocated to the percentage of chosen feats. (i.e: So if "
@@ -169,8 +169,8 @@ def main(
     if level not in range(1, 21):
         out(f"level must be between 1-20 ({level})", is_error=True)
 
-    if ratio not in range(1, 101):
-        out(f"ratio must be between 1-20 ({ratio})", is_error=True)
+    if ratio not in range(0, 101):
+        out(f"ratio must be between 0-100 ({ratio})", is_error=True)
 
     # Generate class features and racial traits.
     def callback(method, **kw):
