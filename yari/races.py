@@ -28,21 +28,19 @@ class _Races:
         """
             Args:
                 subrace (str): Character's chosen subrace (if applicable).
-                sex (str): Characters's chosen gender.
+                sex (str): Character's chosen gender.
                 level (int): Character's chosen level.
 
         """
         self.race = self.__class__.__name__
+        valid_subraces = [r for r in get_subraces_by_race(self.race)]
+
         if self.race == "_Races":
             raise InheritanceError("This class must be inherited")
 
-        if subrace != "" and subrace not in get_subraces_by_race(self.race):
+        if subrace != "" and subrace not in valid_subraces:
             raise InvalidValueError(f"Argument 'subrace' value '{subrace}' is invalid.")
-        elif (
-            len([get_subraces_by_race(self.race)]) is not 0
-            and subrace is None
-            or subrace == ""
-        ):
+        elif len(valid_subraces) is not 0 and subrace is subrace == "":
             raise InvalidValueError(
                 f"Argument 'subrace' is required for '{self.race}'."
             )
@@ -173,7 +171,11 @@ class _Races:
 
     def _add_race_mass(self):
         (height, weight) = RatioGenerator(self.race, self.subrace, self.sex).calculate()
-        self.all["size"] = (self.all.get("size"), height, weight)
+        height = "{}' {}\"".format(height[0], height[1])
+        weight = f"{weight} lbs."
+        self.all["size"] = "{} size ({}, {})".format(
+            self.all.get("size"), height, weight
+        )
         del self.all["ratio"]
 
     def _add_race_traits(self):
