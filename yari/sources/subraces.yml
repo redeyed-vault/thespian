@@ -80,7 +80,7 @@ subraces:
     bonus:
       Strength: 1
     other:
-      - [Necrotic Shroud, 3]
+      - [Necrotic Shroud, [[3, Necrotic Shroud]]]
     parent: Aasimar
   Fierna:
     bonus:
@@ -203,7 +203,7 @@ subraces:
     bonus:
       Wisdom: 1
     other:
-      - [Radiant Soul, 3]
+      - [Radiant Soul, [[3, Radiant Soul]]]
     parent: Aasimar
   Rock:
     bonus:
@@ -216,7 +216,7 @@ subraces:
     bonus:
       Constitution: 1
     other:
-      - ['Radiant Consumption', 3]
+      - [Radiant Consumption, [[3, Radiant Consumption]]]
     parent: Aasimar
   Sea:
       bonus:
