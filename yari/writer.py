@@ -207,7 +207,7 @@ def format_features(klass: str, features: dict) -> str:
     block = ""
     for level, _features in features.items():
         for feature in _features:
-            block += f'<entry label="{klass} Class Feature" level="{level}" name="{feature}" />'
+            block += f'<entry label="{klass} Feature" level="{level}" name="{feature}" />'
     return block
 
 
@@ -283,7 +283,16 @@ def format_traits(traits: list, race: str) -> str:
         if len(trait) > 1:
             (name, value) = trait
             if isinstance(value, list):
-                if name == "Drow Magic" or name.startswith("Legacy of"):
+                if (
+                    name == "Celestial Legacy"
+                    or name == "Drow Magic"
+                    or name == "Duergar Magic"
+                    or name == "Githyanki Psionics"
+                    or name == "Githzerai Psionics"
+                    or name.startswith("Legacy of")
+                    or name.startswith("Necrotic")
+                    or name.startswith("Radiant")
+                ):
                     value = [v[1] for v in value]
                 value = ", ".join(value)
             block += f'<entry label="{race} Trait" name="{name}" value="{value}" />'
