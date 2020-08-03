@@ -63,7 +63,19 @@ class _Races:
         self.all = _read(self.race, file="races")
         if self.subrace != "":
             subrace_traits = _read(self.subrace, file="subraces")
-            self._merge_traits(subrace_traits)
+            for trait, value in subrace_traits.items():
+                if trait not in self.all:
+                    self.all[trait] = subrace_traits[trait]
+                elif trait == "bonus":
+                    for ability, bonus in value.items():
+                        self.all[trait][ability] = bonus
+                elif trait == "languages":
+                    for language in subrace_traits.get(trait):
+                        self.all.get(trait).append(language)
+                    self.all[trait].sort()
+                elif trait == "other":
+                    for other in subrace_traits.get(trait):
+                        self.all.get(trait).append(other)
 
         self._add_race_ability_bonus()
         self._add_race_ancestry()
@@ -238,27 +250,6 @@ class _Races:
                         skills = random.sample(feature[1], 2)
                         self.all[trait][index] = (feature[0], skills)
                         self.skills = skills
-
-    def _merge_traits(self, sub_traits: dict):
-        """Combines racial and subracial traits (if applicable).
-
-        Args:
-            sub_traits (dict): Dictionary of sub-racial traits (if applicable).
-
-        """
-        for trait, value in sub_traits.items():
-            if trait not in self.all:
-                self.all[trait] = sub_traits[trait]
-            elif trait == "bonus":
-                for ability, bonus in value.items():
-                    self.all[trait][ability] = bonus
-            elif trait == "languages":
-                for language in sub_traits.get(trait):
-                    self.all.get(trait).append(language)
-                self.all[trait].sort()
-            elif trait == "other":
-                for other in sub_traits.get(trait):
-                    self.all.get(trait).append(other)
 
 
 class Aasimar(_Races):
