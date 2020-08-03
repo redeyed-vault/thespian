@@ -42,8 +42,7 @@ class RatioGenerator:
         """
         weight_base = self._get_base("weight")
         weight_modifier = sum(list(roll(self._get_modifier("weight"))))
-        weight_modifier = height_modifier * weight_modifier
-        return weight_base + weight_modifier
+        return (height_modifier * weight_modifier) + weight_base
 
     def _get_base(self, ratio: str) -> int:
         """Returns character's base values by ratio (height/weight).
