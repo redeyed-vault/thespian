@@ -75,7 +75,7 @@ class _Races:
                     self.all[trait].sort()
                 elif trait == "other":
                     for other in subrace_traits.get(trait):
-                        self.all.get(trait).append(other)
+                        self.all[trait].append(other)
 
         self._add_race_ability_bonus()
         self._add_race_ancestry()
@@ -227,6 +227,9 @@ class _Races:
                         or "Legacy of Minauros" in feature
                         or "Legacy of Phlegethos" in feature
                         or "Legacy of Stygia" in feature
+                        or "Necrotic Shroud" in feature
+                        or "Radiant Consumption" in feature
+                        or "Radiant Soul" in feature
                     ):
                         spells = [
                             row
