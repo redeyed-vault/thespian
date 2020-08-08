@@ -207,7 +207,9 @@ def format_features(klass: str, features: dict) -> str:
     block = ""
     for level, _features in features.items():
         for feature in _features:
-            block += f'<entry label="{klass} Feature" level="{level}" name="{feature}" />'
+            block += (
+                f'<entry label="{klass} Feature" level="{level}" name="{feature}" />'
+            )
     return block
 
 
