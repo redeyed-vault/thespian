@@ -30,9 +30,9 @@ by Wizards of the Coast LLC. This software is a fan made tool.
 
 #### INSTALLATION
 
-To install Yari from source, clone the repository and run the setup script:
+To install Yari directly from Github (usually the latest version):
 
-```python setup.py install``` or ```python3 setup.py install```
+```pip install git+git://github.com/taylormarcus/Yari``` or ```pip3 install git+git://github.com/taylormarcus/Yari```
 
 To install Yari from PYPI, run the following command:
 
