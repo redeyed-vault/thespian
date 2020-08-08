@@ -1,6 +1,7 @@
 from collections import OrderedDict
-from datetime import datetime
 import os
+
+import maya
 
 from bs4 import BeautifulSoup
 
@@ -76,8 +77,7 @@ class Writer:
         if os.path.exists(self.save_path):
             raise FileExistsError(f"character save '{self.save_path}' already exists.")
 
-        now = datetime.now()
-        timestamp = datetime.fromtimestamp(datetime.timestamp(now))
+        timestamp = maya.now()
 
         if self.data.get("subrace") != "":
             race = f'{self.data.get("race")}, {self.data.get("subrace")}'
