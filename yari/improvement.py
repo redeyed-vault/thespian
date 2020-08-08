@@ -98,13 +98,13 @@ class ImprovementGenerator:
                                     "No upgradeable primary ability by bonus."
                                 )
                     except ValueError:
-                        self.feats.append(self._add_feat())
+                        self._add_feat()
 
             if feat_upgrades > 0:
                 for _ in range(0, feat_upgrades):
-                    self.feats.append(self._add_feat())
+                    self._add_feat()
 
-    def _add_feat(self) -> str:
+    def _add_feat(self) -> None:
         """Randomly selects and adds a valid feats."""
         feats = [feat for feat in list(_read(file="feats")) if feat not in self.feats]
 
@@ -116,7 +116,7 @@ class ImprovementGenerator:
                 random.shuffle(feats)
                 feat_choice = feats.pop()
         self._add_features(feat_choice)
-        return feat_choice
+        self.feats.append(feat_choice)
 
     def _add_features(self, feat: str) -> None:
         """Assign associated features by specified feat.
