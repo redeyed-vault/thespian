@@ -164,22 +164,34 @@ class _Races:
         ):
             return
         else:
-            standard_languages = [
-                "Common",
-                "Dwarvish",
-                "Elvish",
-                "Giant",
-                "Gnomish",
-                "Goblin",
-                "Halfling",
-                "Orc",
-            ]
-            standard_languages = [
-                language
-                for language in standard_languages
-                if language not in self.all.get("languages")
-            ]
-            self.all["languages"].append(random.choice(standard_languages))
+            if self.subrace == "Githyanki":
+                for trait, value in self.all.items():
+                    if trait == "other":
+                        for index, feature in enumerate(value):
+                            if "Decadent Mastery" in feature:
+                                decadent_language = random.choice(feature[1])
+                                self.all[trait][index] = (
+                                    feature[0],
+                                    decadent_language,
+                                )
+                                self.all["languages"].append(decadent_language)
+            else:
+                standard_languages = [
+                    "Common",
+                    "Dwarvish",
+                    "Elvish",
+                    "Giant",
+                    "Gnomish",
+                    "Goblin",
+                    "Halfling",
+                    "Orc",
+                ]
+                standard_languages = [
+                    language
+                    for language in standard_languages
+                    if language not in self.all.get("languages")
+                ]
+                self.all["languages"].append(random.choice(standard_languages))
 
     def _add_race_mass(self):
         (height, weight) = RatioGenerator(self.race, self.subrace, self.sex).calculate()
