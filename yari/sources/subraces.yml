@@ -99,7 +99,7 @@ subraces:
     bonus:
       Strength: 2
     other:
-      - [Decadent Mastery]
+      - [Decadent Mastery, [Abyssal, Celestial, Common, Deep Speech, Draconic, Dwarvish, Elvish, Giant, Gnomish, Goblin, Halfling, Infernal, Orc, Primordial, Sylvan, Undercommon]]
       - [Githyanki Psionics, [[1, Mage Hand], [3, Jump], [5, Misty Step]]]
       - [Martial Prodigy (Armor), [Light, Medium]]
       - [Martial Prodigy (Weapon), [Greatsword, Longsword, Shortsword]]
