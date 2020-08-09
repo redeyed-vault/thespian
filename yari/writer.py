@@ -1,8 +1,6 @@
 from collections import OrderedDict
 import os
 
-import maya
-
 from bs4 import BeautifulSoup
 
 from yari.attributes import (
@@ -77,8 +75,6 @@ class Writer:
         if os.path.exists(self.save_path):
             raise FileExistsError(f"character save '{self.save_path}' already exists.")
 
-        timestamp = maya.now()
-
         if self.data.get("subrace") != "":
             race = f'{self.data.get("race")}, {self.data.get("subrace")}'
         else:
@@ -97,8 +93,7 @@ class Writer:
         charisma = Charisma(score_array.get("Charisma"), self.data.get("skills"))
 
         x = '<?xml version="1.0"?><yari>'
-        x += f"<meta><created>{timestamp}</created>"
-        x += f"<version>{__version__}</version></meta>"
+        x += f"<meta><version>{__version__}</version></meta>"
         x += f"<character><race>{race}</race>"
         x += f'<sex>{self.data.get("sex")}</sex>'
         x += f'<size>{self.data.get("size")}</size>'
