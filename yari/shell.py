@@ -1,4 +1,5 @@
 from collections import OrderedDict
+import traceback
 
 import click
 
@@ -104,22 +105,27 @@ def main(
     level: int,
     ratio: int,
 ) -> None:
-    def out(message: str, **kw):
-        if "is_error" in kw and kw["is_error"]:
-            click.secho(f"error: {message}", bold=True, fg="red")
-            exit()
-        elif "is_warning" in kw and kw["is_warning"]:
-            click.secho(f"warning: {message}", bold=True, fg="yellow")
+    def out(message: str, output_code: int = 0):
+        if output_code not in range(-1, 3):
+            raise ValueError("Argument 'output_code' is invalid.")
         else:
-            click.secho(f"success: {message}", bold=True, fg="bright_green")
+            if output_code in (1, 2):
+                click.secho(f"error: {message}", bold=True, fg="red")
+                if output_code is 2:
+                    traceback.print_exc()
+                exit()
+            elif output_code is -1:
+                click.secho(f"warning: {message}", bold=True, fg="yellow")
+            else:
+                click.secho(f"success: {message}", fg="bright_green")
 
     # Handle application argument processing.
     if file == "":
-        out("character must have a file name", is_error=True)
+        out("character must have a file name", 1)
 
     if race != "":
         if race not in _read(file="races"):
-            out(f"invalid character race '{race}'", is_error=True)
+            out(f"invalid character race '{race}'", 1)
     else:
         race = random.choice(_read(file="races"))
 
@@ -135,7 +141,7 @@ def main(
             if subrace not in valid_subraces:
                 raise ValueError(f"invalid subrace race '{subrace}'")
         except ValueError as e:
-            out(str(e), is_error=True)
+            out(str(e), 1)
 
     the_sexes = ("Female", "Male")
     if sex in the_sexes:
@@ -150,27 +156,27 @@ def main(
             if klass not in _read(file="classes"):
                 raise ValueError
         except ValueError:
-            out(f"invalid character class '{klass}'", is_error=True)
+            out(f"invalid character class '{klass}'", 1)
 
     if background == "":
         background = _read(klass, "background", file="classes")
     else:
         valid_backgrounds = _read(file="backgrounds")
         if background not in valid_backgrounds:
-            out(f"invalid character background '{background}'", is_error=True)
+            out(f"invalid character background '{background}'", 1)
 
     valid_class_paths = get_paths_by_class(klass)
     if path == "":
         path = random.choice(valid_class_paths)
     else:
         if path not in valid_class_paths:
-            out(f"class '{klass}' has no path '{path}'", is_error=True)
+            out(f"class '{klass}' has no path '{path}'", 1)
 
     if level not in range(1, 21):
-        out(f"level must be between 1-20 ({level})", is_error=True)
+        out(f"level must be between 1-20 ({level})", 1)
 
     if ratio not in range(0, 101):
-        out(f"ratio must be between 0-100 ({ratio})", is_error=True)
+        out(f"ratio must be between 0-100 ({ratio})", 1)
 
     # Generate class features and racial traits.
     def callback(method, **kw):
@@ -251,7 +257,7 @@ def main(
             with Writer(cs) as writer:
                 writer.write(file)
         except (FileExistsError, IOError, OSError, TypeError, ValueError) as e:
-            out(e, is_error=True)
+            out(e, 2)
         else:
             out(f"character saved to '{writer.save_path}'")
     except (
@@ -261,7 +267,7 @@ def main(
         InvalidValueError,
         ProficiencyTypeValueError,
     ) as e:
-        out(e, is_error=True)
+        out(e, 2)
 
 
 if __name__ == "__main__":
