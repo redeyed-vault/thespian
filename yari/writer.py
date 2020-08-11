@@ -15,14 +15,14 @@ from yari.version import __version__
 
 
 class Writer:
-    """Handles the authoring of the character sheet."""
+    """
+    Handles the authoring of the character sheet.
+
+    :param OrderedDict data: Character's information packet.
+
+    """
 
     def __init__(self, data: OrderedDict) -> None:
-        """
-        Args:
-            data (OrderedDict): Character's information packet.
-
-        """
         save_path = os.path.expanduser("~/Yari")
         if not os.path.exists(save_path):
             os.mkdir(save_path)
