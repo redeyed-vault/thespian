@@ -6,32 +6,30 @@ from yari.ratio import RatioGenerator
 
 
 class _Races:
-    """DO NOT call class directly. Used to generate racial traits.
+    """
+    DO NOT call class directly. Used to generate racial traits.
 
-        Inherited by the following classes:
+    Inherited by the following classes:
 
-            - Aasimar
-            - Dragonborn
-            - Dwarf
-            - Elf
-            - Gith
-            - Gnome
-            - HalfElf
-            - HalfOrc
-            - Halfling
-            - Human
-            - Tiefling
+        - Aasimar
+        - Dragonborn
+        - Dwarf
+        - Elf
+        - Gith
+        - Gnome
+        - HalfElf
+        - HalfOrc
+        - Halfling
+        - Human
+        - Tiefling
+
+    :param str subrace: Character's chosen subrace (if applicable).
+    :param str sex: Character's chosen gender.
+    :param int level: Character's chosen level.
 
     """
 
     def __init__(self, subrace: str, sex: str, level: int) -> None:
-        """
-            Args:
-                subrace (str): Character's chosen subrace (if applicable).
-                sex (str): Character's chosen gender.
-                level (int): Character's chosen level.
-
-        """
         self.race = self.__class__.__name__
         valid_subraces = [r for r in get_subraces_by_race(self.race)]
 

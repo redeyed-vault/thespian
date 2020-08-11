@@ -7,33 +7,31 @@ from yari.skills import get_all_skills
 
 
 class _Classes:
-    """DO NOT call class directly. Used to generate class features.
+    """
+    DO NOT call class directly. Used to generate class features.
 
-        Inherited by the following classes:
+    Inherited by the following classes:
 
-            - Barbarian
-            - Bard
-            - Cleric
-            - Druid
-            - Fighter
-            - Monk
-            - Paladin
-            - Ranger
-            - Rogue
-            - Sorcerer
-            - Warlock
-            - Wizard
+        - Barbarian
+        - Bard
+        - Cleric
+        - Druid
+        - Fighter
+        - Monk
+        - Paladin
+        - Ranger
+        - Rogue
+        - Sorcerer
+        - Warlock
+        - Wizard
+
+    :param str path: Character's chosen path.
+    :param int level: Character's chosen level.
+    :param list race_skills: Character's racial skills.
 
     """
 
     def __init__(self, path: str, level: int, race_skills: list) -> None:
-        """
-        Args:
-            path (str): Character's chosen path.
-            level (int): Character's chosen level.
-            race_skills (list): Character's racial skills.
-
-        """
         self.klass = self.__class__.__name__
         if self.klass == "_Classes":
             raise InheritanceError("This class must be inherited")
@@ -41,7 +39,7 @@ class _Classes:
         if not get_is_class(self.klass):
             raise InvalidValueError(f"Character class '{self.klass}' is invalid.")
 
-        if path is not None and not get_is_path(path, self.klass):
+        if path != "" and not get_is_path(path, self.klass):
             raise InvalidValueError(f"Character archetype '{path}' is invalid.")
         else:
             self.path = path
