@@ -1,13 +1,32 @@
 from collections import OrderedDict
 import math
 import random
+import traceback
 
 from yari.loader import _read
+from yari.proficiency import get_tool_chest, get_weapon_chest
 
 
 class ImprovementGenerator:
-    """Handles leveled character's ability upgrades or additional feats.
-        Chooses between a class ability or feat (where applicable)."""
+    """
+    Applies ability/feat upgrades to the character (where applicable).
+
+    :param str race: Character's chosen race.
+    :param str klass: Character's chosen class.
+    :param str path: Character's chosen path.
+    :param int level: Character's chosen level.
+    :param dict primary_ability: Primary abilities for the chosen klass.
+    :param list saves: Character's proficient saving throws.
+    :param str spell_slots: Character's spell slots.
+    :param OrderedDict score_array: Character's ability scores.
+    :param list languages: Character's languages.
+    :param list armor_proficiency: Character's armor proficiencies.
+    :param list tool_proficiency: Character's tool proficiencies.
+    :param list weapon_proficiency: Character's weapon proficiencies.
+    :param list skills: Character's skills.
+    :param int upgrade_ratio: Percentage for ability to feat ratio upgrades.
+
+    """
 
     def __init__(
         self,
@@ -26,24 +45,6 @@ class ImprovementGenerator:
         skills: list,
         upgrade_ratio: int,
     ) -> None:
-        """
-        Args:
-            race (str): Character's chosen race.
-            klass (str): Character's chosen class.
-            path (str): Character's chosen path.
-            level (int): Character's chosen level.
-            primary_ability (dict): Primary abilities for the chosen klass.
-            saves (list): Character's proficient saving throws.
-            spell_slots (str): Character's spell slots.
-            score_array (OrderedDict): Character's ability scores.
-            languages (list): Character's languages.
-            armor_proficiency (list): Character's armor proficiencies.
-            tool_proficiency (list): Character's tool proficiencies.
-            weapon_proficiency (list): Character's weapon proficiencies.
-            skills (list): Character's skills.
-            upgrade_ratio (int): Percentage for ability to feat ratio upgrades.
-
-        """
         self.race = race
         self.klass = klass
         self.path = path
@@ -78,25 +79,21 @@ class ImprovementGenerator:
                     try:
                         if not self._is_adjustable(primary_ability):
                             raise ValueError("No upgradeable primary abilities.")
+
+                        bonus_applied = random.choice([1, 2])
+                        if bonus_applied is 1 and self._is_adjustable(primary_ability):
+                            self._set_score(primary_ability[0], bonus_applied)
+                            self._set_score(primary_ability[1], bonus_applied)
+                        elif bonus_applied is 2 and self._is_adjustable(
+                            primary_ability[0]
+                        ):
+                            self._set_score(primary_ability[0], bonus_applied)
+                        elif bonus_applied is 2 and self._is_adjustable(
+                            primary_ability[1]
+                        ):
+                            self._set_score(primary_ability[1], bonus_applied)
                         else:
-                            bonus_applied = random.choice([1, 2])
-                            if bonus_applied is 1 and self._is_adjustable(
-                                primary_ability
-                            ):
-                                self._set_score(primary_ability[0], bonus_applied)
-                                self._set_score(primary_ability[1], bonus_applied)
-                            elif bonus_applied is 2 and self._is_adjustable(
-                                primary_ability[0]
-                            ):
-                                self._set_score(primary_ability[0], bonus_applied)
-                            elif bonus_applied is 2 and self._is_adjustable(
-                                primary_ability[1]
-                            ):
-                                self._set_score(primary_ability[1], bonus_applied)
-                            else:
-                                raise ValueError(
-                                    "No upgradeable primary ability by bonus."
-                                )
+                            raise ValueError("No upgradeable primary ability by bonus.")
                     except ValueError:
                         self._add_feat()
 
@@ -221,7 +218,7 @@ class ImprovementGenerator:
                     ]
                     self.skills.append(random.choice(skills))
                 elif skilled_choice == "Tool":
-                    tool_list = [t for t in self._get_tool_chest()]
+                    tool_list = [t for t in get_tool_chest()]
                     tool_list = [
                         tool for tool in tool_list if tool not in self.tool_proficiency
                     ]
@@ -235,7 +232,7 @@ class ImprovementGenerator:
 
         # Weapon Master
         if feat == "Weapon Master":
-            weapons = [t for t in self._get_weapon_chest()]
+            weapons = [t for t in get_weapon_chest()]
             selections = weapons[0]
             # Has Simple weapon proficiency.
             if "Simple" in self.weapon_proficiency:
@@ -296,24 +293,6 @@ class ImprovementGenerator:
             ability_upgrades = math.floor(num_of_upgrades * percentage / 100.0)
             feat_upgrades = num_of_upgrades - ability_upgrades
             return ability_upgrades, feat_upgrades
-
-    @staticmethod
-    def _get_tool_chest():
-        """Returns a full collection of tools."""
-        for main_tool in _read(file="tools"):
-            if main_tool in ("Artisan's tools", "Gaming set", "Musical instrument"):
-                for sub_tool in _read(main_tool, file="tools"):
-                    yield f"{main_tool} - {sub_tool}"
-            else:
-                yield main_tool
-
-    @staticmethod
-    def _get_weapon_chest():
-        """Returns a full collection of weapons."""
-        weapon_chest = dict()
-        for weapon_category in ("Simple", "Martial"):
-            weapon_chest[weapon_category] = _read(weapon_category, file="weapons")
-        yield weapon_chest
 
     def _has_prerequisites(self, feat: str) -> bool:
         """Determines if character has the prerequisites for a feat.
@@ -392,36 +371,49 @@ class ImprovementGenerator:
                         return False
         return True
 
-    def _is_adjustable(self, abilities: (list, set, tuple, str)) -> bool:
-        """Determines if an ability can be adjusted i.e: not over 20.
+    def _is_adjustable(self, abilities: (list, tuple, str)) -> bool:
+        """
+        Determines if an ability can be adjusted i.e: not over 20.
 
-        Args:
-            abilities (list, set, tuple, str): skills to be checked.
+        :param list, tuple, str abilities: Ability score(s) to be checked.
+
         """
         try:
-            if isinstance(abilities, (list, set, tuple)):
+            if isinstance(abilities, (list, tuple)):
                 for ability in abilities:
                     if (self.score_array[ability] + 1) > 20:
                         raise ValueError
             elif isinstance(abilities, str):
                 if (self.score_array[abilities] + 2) > 20:
                     raise ValueError
+            else:
+                raise TypeError("Argument 'abilities' must be of type list, tuple or str.")
         except (KeyError, ValueError):
             return False
+        except TypeError:
+            traceback.print_exc()
         else:
             return True
 
     def _set_score(self, ability: str, bonus: int) -> None:
-        """Adjust a specified ability score with bonus.
-
-        Args:
-            ability (str): Ability score to set.
-            bonus (int): Value to apply to the ability score.
         """
-        if not isinstance(self.score_array, OrderedDict):
-            raise TypeError("argument 'score_array' must be 'OrderedDict' object")
-        elif ability not in self.score_array:
-            raise KeyError(f"not an available ability '{ability}'")
-        else:
-            value = self.score_array.get(ability) + bonus
-            self.score_array[ability] = value
+        Adjust a specified ability score with bonus.
+
+        :param str ability: Ability score to set.
+        :param int bonus: Value to apply to the ability score.
+
+        """
+        try:
+            if not isinstance(self.score_array, OrderedDict):
+                raise TypeError("Argument 'score_array' must be 'OrderedDict' object.")
+            elif ability not in self.score_array:
+                raise KeyError(f"Argument 'ability' is invalid: '{ability}'.")
+            elif not self._is_adjustable(ability):
+                raise ValueError(f"Ability score '{ability}' is not upgradeable.")
+            else:
+                value = self.score_array.get(ability) + bonus
+                self.score_array[ability] = value
+        except (KeyError,  TypeError):
+            traceback.print_exc()
+        except ValueError:
+            pass
