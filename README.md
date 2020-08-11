@@ -25,7 +25,6 @@ by Wizards of the Coast LLC. This software is a fan made tool.
   * beautifulsoup4
   * click
   * lxml
-  * maya
   * PyYAML
 
 
