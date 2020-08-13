@@ -387,7 +387,9 @@ class ImprovementGenerator:
                 if (self.score_array[abilities] + 2) > 20:
                     raise ValueError
             else:
-                raise TypeError("Argument 'abilities' must be of type list, tuple or str.")
+                raise TypeError(
+                    "Argument 'abilities' must be of type list, tuple or str."
+                )
         except (KeyError, ValueError):
             return False
         except TypeError:
@@ -413,7 +415,7 @@ class ImprovementGenerator:
             else:
                 value = self.score_array.get(ability) + bonus
                 self.score_array[ability] = value
-        except (KeyError,  TypeError):
+        except (KeyError, TypeError):
             traceback.print_exc()
         except ValueError:
             pass
