@@ -80,7 +80,9 @@ class RatioGenerator:
                 raise RatioValueError(f"No base value found for '{ratio}' found!")
             else:
                 base_value = (
-                    self._get_ratio_base("subraces", self.subrace).get(ratio).get("base")
+                    self._get_ratio_base("subraces", self.subrace)
+                    .get(ratio)
+                    .get("base")
                 )
         if (
             self.sex == "Female"
