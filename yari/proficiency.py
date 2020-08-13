@@ -1,25 +1,22 @@
 from yari.loader import _read
 
 
-class ProficiencyTypeValueError(ValueError):
-    """Raised if invalid proficiency type specified."""
-
-
 class ProficiencyGenerator:
-    """Merges class with racial proficiencies (if applicable)."""
+    """
+    Merges class with racial proficiencies (if applicable).
+
+    :param str proficiency_type: Proficiency type (armors|tools|weapons).
+    :param list class_proficiency: Class based proficiency by proficiency_type.
+    :param list race_proficiency: Race based proficiency by proficiency_type (if applicable).
+
+    """
 
     def __init__(
-        self, prof_type: str, class_proficiency: list, race_proficiency: list
+        self, proficiency_type: str, class_proficiency: list, race_proficiency: list
     ) -> None:
-        """
-        Args:
-            prof_type (str): Proficiency type (armors|tools|weapons).
-            class_proficiency (list): Class based proficiency by prof_type.
-            race_proficiency (list): Race based proficiency by prof_type (if applicable).
-        """
-        if prof_type not in ("armors", "tools", "weapons"):
-            raise ProficiencyTypeValueError(
-                f"Invalid 'prof_type' argument '{prof_type}' specified."
+        if proficiency_type not in ("armors", "tools", "weapons"):
+            raise ValueError(
+                f"Invalid 'proficiency_type' argument '{proficiency_type}' specified."
             )
 
         race_proficiency = [p for p in race_proficiency if p not in class_proficiency]
@@ -31,7 +28,10 @@ class ProficiencyGenerator:
 
 def get_armor_chest():
     """Returns a full collection of armors."""
-    pass
+    armor_chest = dict()
+    for armor_category in ("Heavy", "Light", "Medium"):
+        armor_chest[armor_category] = _read(armor_category, file="armors")
+    yield armor_chest
 
 
 def get_tool_chest():
