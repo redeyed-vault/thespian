@@ -7,7 +7,7 @@ from yari.classes import *
 from yari.attributes import AttributeGenerator
 from yari.improvement import ImprovementGenerator
 from yari.loader import _read
-from yari.proficiency import ProficiencyGenerator, ProficiencyTypeValueError
+from yari.proficiency import ProficiencyGenerator
 from yari.races import *
 from yari.version import __version__
 from yari.writer import Writer
@@ -265,7 +265,7 @@ def main(
         RuntimeError,
         InheritanceError,
         InvalidValueError,
-        ProficiencyTypeValueError,
+        ValueError,
     ) as e:
         out(e, 2)
 
