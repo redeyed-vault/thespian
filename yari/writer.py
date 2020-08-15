@@ -93,7 +93,9 @@ class Writer:
                 if index == "carry_capacity":
                     block += f'<entry label="Carry Capacity" values="{value}"/>'
                 if index == "push_pull_carry":
-                    block += f'<entry label="Push Pull Carry Capacity" values="{value}"/>'
+                    block += (
+                        f'<entry label="Push Pull Carry Capacity" values="{value}"/>'
+                    )
                 if index == "maximum_lift":
                     block += f'<entry label="Maximum Lift Capacity" values="{value}"/>'
             block += "</{}>".format(attributes.get("name"))
@@ -164,7 +166,9 @@ class Writer:
         self.body = "<proficiencies>"
         self.body = f'<proficiency>{self.data.get("bonus")}</proficiency>'
         self.body = format_proficiencies(self.data.get("proficiency"))
-        self.body = f'<languages>{format_languages(self.data.get("languages"))}</languages>'
+        self.body = (
+            f'<languages>{format_languages(self.data.get("languages"))}</languages>'
+        )
 
         saves = self.data.get("saves")
         saves.sort()
@@ -199,7 +203,9 @@ class Writer:
                     ):
                         value = [v[1] for v in value]
                     value = ", ".join(value)
-                self.body = f'<entry label="{race} Trait" name="{name}" value="{value}" />'
+                self.body = (
+                    f'<entry label="{race} Trait" name="{name}" value="{value}" />'
+                )
             else:
                 self.body = f'<entry label="{race} Trait" name="{trait[0]}" />'
         self.body = "</traits>"
