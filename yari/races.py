@@ -274,6 +274,11 @@ class Aasimar(_Races):
         super(Aasimar, self).__init__(subrace, sex, level)
 
 
+class Bugbear(_Races):
+    def __init__(self, subrace, sex, level) -> None:
+        super(Bugbear, self).__init__(subrace, sex, level)
+
+
 class Dragonborn(_Races):
     def __init__(self, subrace, sex, level) -> None:
         super(Dragonborn, self).__init__(subrace, sex, level)
@@ -289,6 +294,11 @@ class Elf(_Races):
         super(Elf, self).__init__(subrace, sex, level)
 
 
+class Firbolg(_Races):
+    def __init__(self, subrace, sex, level) -> None:
+        super(Firbolg, self).__init__(subrace, sex, level)
+
+
 class Gith(_Races):
     def __init__(self, subrace, sex, level) -> None:
         super(Gith, self).__init__(subrace, sex, level)
@@ -297,6 +307,11 @@ class Gith(_Races):
 class Gnome(_Races):
     def __init__(self, subrace, sex, level) -> None:
         super(Gnome, self).__init__(subrace, sex, level)
+
+
+class Goblin(_Races):
+    def __init__(self, subrace, sex, level) -> None:
+        super(Goblin, self).__init__(subrace, sex, level)
 
 
 class HalfElf(_Races):
