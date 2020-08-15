@@ -18,6 +18,26 @@ races:
         modifier: 2d4
     size: Medium
     speed: 30
+  Bugbear:
+    bonus:
+      Dexterity: 1
+      Strength: 2
+    languages: ['Common', 'Goblin']
+    other:
+      - [Darkvision, 60]
+      - [Long-Limbed]
+      - [Powerful Build]
+      - [Sneaky, [Stealth]]
+      - [Surprise Attack]
+    ratio:
+      height:
+        base: 72
+        modifier: 2d12
+      weight:
+        base: 200
+        modifier: 2d6
+    size: Medium
+    speed: 30
   Dragonborn:
     bonus:
       Strength: 2
@@ -58,6 +78,25 @@ races:
       - [Trance]
     size: Medium
     speed: 30
+  Firbolg:
+    bonus:
+      Strength: 1
+      Wisdom: 2
+    languages: ['Common', 'Elvish', 'Giant']
+    other:
+      - [Firbolg Magic, [Detect Magic, Disguise]]
+      - [Hidden Step]
+      - [Powerful Build]
+      - [Speech of Beast and Leaf]
+    ratio:
+      height:
+        base: 74
+        modifier: 2d12
+      weight:
+        base: 175
+        modifier: 2d6
+    size: Medium
+    speed: 30
   Gith:
     bonus:
       Intelligence: 1
@@ -80,6 +119,24 @@ races:
         modifier: 1
     size: Small
     speed: 25
+  Goblin:
+    bonus:
+      Dexterity: 2
+      Constitution: 1
+    languages: ['Common', 'Goblin']
+    other:
+      - [Darkvision, 60]
+      - [Fury of the Small]
+      - [Nimble Escape]
+    ratio:
+      height:
+        base: 41
+        modifier: 2d4
+      weight:
+        base: 35
+        modifier: 1
+    size: Small
+    speed: 30
   HalfElf:
     bonus:
       Charisma: 2

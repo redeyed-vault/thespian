@@ -251,13 +251,17 @@ class _Races:
                         self.magic = spells
 
     def _add_race_skill_bonus(self):
-        """Add Elf Keen Senses, HalfOrc Menacing and HalfElf Skill Affinity skill bonuses."""
+        """Add Bugbear Stealthy, Elf Keen Senses, HalfOrc Menacing or HalfElf Skill Affinity skill bonuses."""
         self.skills = []
 
         for trait, value in self.all.items():
             if trait == "other":
                 for index, feature in enumerate(value):
-                    if "Keen Senses" in feature or "Menacing" in feature:
+                    if (
+                        "Keen Senses" in feature
+                        or "Menacing" in feature
+                        or "Sneaky" in feature
+                    ):
                         self.skills = feature[1]
                     elif "Skill Versatility" in feature:
                         skills = random.sample(feature[1], 2)
