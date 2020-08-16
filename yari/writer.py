@@ -1,5 +1,6 @@
 from collections import OrderedDict
 import os
+import webbrowser
 
 from bs4 import BeautifulSoup
 
@@ -246,4 +247,5 @@ class Writer:
 
         with open(self.save_path, "w+", encoding="utf-8") as cs:
             cs.write(BeautifulSoup(self.body, "xml").prettify())
+            webbrowser.open(f"file://{self.save_path}")
         cs.close()
