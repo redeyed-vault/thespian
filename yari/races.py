@@ -12,15 +12,21 @@ class _Races:
     Inherited by the following classes:
 
         - Aasimar
+        - Bugbear
         - Dragonborn
         - Dwarf
         - Elf
+        - Firbolg
         - Gith
         - Gnome
+        - Goblin
+        - Goliath
         - HalfElf
         - HalfOrc
         - Halfling
+        - Hobgoblin
         - Human
+        - Kenku
         - Tiefling
 
     :param str subrace: Character's chosen subrace (if applicable).
