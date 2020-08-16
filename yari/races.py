@@ -29,18 +29,25 @@ class _Races:
         - Kenku
         - Tiefling
 
-    :param str subrace: Character's chosen subrace (if applicable).
     :param str sex: Character's chosen gender.
+    :param str subrace: Character's chosen subrace (if applicable).
     :param int level: Character's chosen level.
 
     """
 
-    def __init__(self, subrace: str, sex: str, level: int) -> None:
+    def __init__(self, sex: str, subrace: str = "", level: int = 1) -> None:
         self.race = self.__class__.__name__
         valid_subraces = [r for r in get_subraces_by_race(self.race)]
 
         if self.race == "_Races":
             raise InheritanceError("This class must be inherited")
+
+        if sex not in ("Female", "Male",):
+            raise InvalidValueError(
+                f"Argument 'sex' value must be either 'Female|Male'."
+            )
+        else:
+            self.sex = sex
 
         if subrace != "" and subrace not in valid_subraces:
             raise InvalidValueError(f"Argument 'subrace' value '{subrace}' is invalid.")
@@ -50,13 +57,6 @@ class _Races:
             )
         else:
             self.subrace = subrace
-
-        if sex not in ("Female", "Male",):
-            raise InvalidValueError(
-                f"Argument 'sex' value must be either 'Female|Male'."
-            )
-        else:
-            self.sex = sex
 
         if not isinstance(level, int):
             raise InvalidValueError("Argument 'level' value must be of type 'int'.")
@@ -88,8 +88,8 @@ class _Races:
         self._add_race_traits()
         self._add_race_mass()
         self._add_race_skill_bonus()
-
         self.all["other"] = [tuple(x) for x in self.all["other"]]
+
         self.bonus = self.all.get("bonus")
         self.languages = self.all.get("languages")
         self.other = self.all.get("other")
@@ -301,88 +301,88 @@ class _Races:
 
 
 class Aasimar(_Races):
-    def __init__(self, subrace, sex, level) -> None:
-        super(Aasimar, self).__init__(subrace, sex, level)
+    def __init__(self, sex, subrace, level) -> None:
+        super(Aasimar, self).__init__(sex, subrace, level)
 
 
 class Bugbear(_Races):
-    def __init__(self, subrace, sex, level) -> None:
-        super(Bugbear, self).__init__(subrace, sex, level)
+    def __init__(self, sex, subrace, level) -> None:
+        super(Bugbear, self).__init__(sex, subrace, level)
 
 
 class Dragonborn(_Races):
-    def __init__(self, subrace, sex, level) -> None:
-        super(Dragonborn, self).__init__(subrace, sex, level)
+    def __init__(self, sex, subrace, level) -> None:
+        super(Dragonborn, self).__init__(sex, subrace, level)
 
 
 class Dwarf(_Races):
-    def __init__(self, subrace, sex, level) -> None:
-        super(Dwarf, self).__init__(subrace, sex, level)
+    def __init__(self, sex, subrace, level) -> None:
+        super(Dwarf, self).__init__(sex, subrace, level)
 
 
 class Elf(_Races):
-    def __init__(self, subrace, sex, level) -> None:
-        super(Elf, self).__init__(subrace, sex, level)
+    def __init__(self, sex, subrace, level) -> None:
+        super(Elf, self).__init__(sex, subrace, level)
 
 
 class Firbolg(_Races):
-    def __init__(self, subrace, sex, level) -> None:
-        super(Firbolg, self).__init__(subrace, sex, level)
+    def __init__(self, sex, subrace, level) -> None:
+        super(Firbolg, self).__init__(sex, subrace, level)
 
 
 class Gith(_Races):
-    def __init__(self, subrace, sex, level) -> None:
-        super(Gith, self).__init__(subrace, sex, level)
+    def __init__(self, sex, subrace, level) -> None:
+        super(Gith, self).__init__(sex, subrace, level)
 
 
 class Gnome(_Races):
-    def __init__(self, subrace, sex, level) -> None:
-        super(Gnome, self).__init__(subrace, sex, level)
+    def __init__(self, sex, subrace, level) -> None:
+        super(Gnome, self).__init__(sex, subrace, level)
 
 
 class Goblin(_Races):
-    def __init__(self, subrace, sex, level) -> None:
-        super(Goblin, self).__init__(subrace, sex, level)
+    def __init__(self, sex, subrace, level) -> None:
+        super(Goblin, self).__init__(sex, subrace, level)
 
 
 class Goliath(_Races):
-    def __init__(self, subrace, sex, level) -> None:
-        super(Goliath, self).__init__(subrace, sex, level)
+    def __init__(self, sex, subrace, level) -> None:
+        super(Goliath, self).__init__(sex, subrace, level)
 
 
 class HalfElf(_Races):
-    def __init__(self, subrace, sex, level) -> None:
-        super(HalfElf, self).__init__(subrace, sex, level)
+    def __init__(self, sex, subrace, level) -> None:
+        super(HalfElf, self).__init__(sex, subrace, level)
 
 
 class HalfOrc(_Races):
-    def __init__(self, subrace, sex, level) -> None:
-        super(HalfOrc, self).__init__(subrace, sex, level)
+    def __init__(self, sex, subrace, level) -> None:
+        super(HalfOrc, self).__init__(sex, subrace, level)
 
 
 class Halfling(_Races):
-    def __init__(self, subrace, sex, level) -> None:
-        super(Halfling, self).__init__(subrace, sex, level)
+    def __init__(self, sex, subrace, level) -> None:
+        super(Halfling, self).__init__(sex, subrace, level)
 
 
 class Hobgoblin(_Races):
-    def __init__(self, subrace, sex, level) -> None:
-        super(Hobgoblin, self).__init__(subrace, sex, level)
+    def __init__(self, sex, subrace, level) -> None:
+        super(Hobgoblin, self).__init__(sex, subrace, level)
 
 
 class Human(_Races):
-    def __init__(self, subrace, sex, level) -> None:
-        super(Human, self).__init__(subrace, sex, level)
+    def __init__(self, sex, subrace, level) -> None:
+        super(Human, self).__init__(sex, subrace, level)
 
 
 class Kenku(_Races):
-    def __init__(self, subrace, sex, level) -> None:
-        super(Kenku, self).__init__(subrace, sex, level)
+    def __init__(self, sex, subrace, level) -> None:
+        super(Kenku, self).__init__(sex, subrace, level)
 
 
 class Tiefling(_Races):
-    def __init__(self, subrace, sex, level) -> None:
-        super(Tiefling, self).__init__(subrace, sex, level)
+    def __init__(self, sex, subrace, level) -> None:
+        super(Tiefling, self).__init__(sex, subrace, level)
 
 
 def get_subraces_by_race(race: str):

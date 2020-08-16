@@ -185,8 +185,8 @@ def main(
             call_class = eval(method)
             if all(k in kw for k in ("path", "level", "race_skills")):
                 return call_class(kw["path"], kw["level"], kw["race_skills"])
-            elif all(k in kw for k in ("subrace", "sex", "level",)):
-                return call_class(kw["subrace"], kw["sex"], kw["level"])
+            elif all(k in kw for k in ("sex", "subrace", "level",)):
+                return call_class(kw["sex"], kw["subrace"], kw["level"])
             else:
                 raise RuntimeError(f"Invalid callback '{method}' specified.")
 
@@ -194,7 +194,7 @@ def main(
 
     try:
         # Racial traits
-        rg = callback(race, subrace=subrace, sex=sex, level=level,)
+        rg = callback(race, sex=sex, level=level, subrace=subrace)
 
         # Class features
         cg = callback(klass, path=path, level=level, race_skills=rg.skills)
