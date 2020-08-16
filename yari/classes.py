@@ -27,7 +27,7 @@ class _Classes:
 
     :param str path: Character's chosen path.
     :param int level: Character's chosen level.
-    :param list race_skills: Character's racial skills.
+    :param list race_skills: Character's bonus racial skills (if applicable).
 
     """
 
