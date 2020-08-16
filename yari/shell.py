@@ -25,7 +25,7 @@ from yari.writer import Writer
     "-race",
     default="",
     help="Character's chosen race. Available races are: Aasimar, Bugbear, "
-    "Dragonborn, Dwarf, Elf, Firbolg, Gith, Gnome, Goblin, Goliath, HalfElf, " 
+    "Dragonborn, Dwarf, Elf, Firbolg, Gith, Gnome, Goblin, Goliath, HalfElf, "
     "HalfOrc, Halfling, Hobgoblin, Human, Kenku and Tiefling.",
     type=str,
 )
