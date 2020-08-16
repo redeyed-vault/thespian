@@ -201,15 +201,26 @@ class _Races:
         del self.all["ratio"]
 
     def _add_race_traits(self):
-        """Add Elf, Dwarf and Githyanki bonus proficiencies."""
+        """
+        Add all bonus armor, tool, and/or weapon proficiencies, and traits.
+
+        Aasimar
+        Dwarf
+        Elf
+        Githyanki
+        Hobgoblin
+        Tiefling
+
+        """
         self.armors = self.tools = self.weapons = self.magic = list()
 
         for trait, value in self.all.items():
             if trait == "other":
                 for index, feature in enumerate(value):
                     if (
-                        "Martial Prodigy (Armor)" in feature
-                        or "Dwarven Armor Training" in feature
+                        "Dwarven Armor Training" in feature
+                        or "Martial Prodigy (Armor)" in feature
+                        or "Martial Training (Armor)" in feature
                     ):
                         self.armors = feature[1]
                     elif "Tool Proficiency" in feature:
@@ -249,9 +260,22 @@ class _Races:
                         spells = [tuple(sp) for sp in spells]
                         self.all[trait][index] = (feature[0], spells)
                         self.magic = spells
+                    elif "Martial Training (Weapon)" in feature:
+                        self.weapons = random.sample(feature[1], 2)
+                        self.all[trait][index] = (feature[0], self.weapons)
 
     def _add_race_skill_bonus(self):
-        """Add Bugbear Stealthy, Elf Keen Senses, HalfOrc Menacing or HalfElf Skill Affinity skill bonuses."""
+        """
+        Applies all special bonus racial skills.
+
+        Bugbear = Stealthy
+        Elf = Keen Senses
+        Goliath = Athlete
+        HalfOrc = Menacing
+        HalfElf = Skill Affinity bonus skills
+        Kenku = Kenku Training bonus skills
+
+        """
         self.skills = []
 
         for trait, value in self.all.items():
@@ -260,10 +284,11 @@ class _Races:
                     if (
                         "Keen Senses" in feature
                         or "Menacing" in feature
+                        or "Natural Athlete" in feature
                         or "Sneaky" in feature
                     ):
                         self.skills = feature[1]
-                    elif "Skill Versatility" in feature:
+                    elif "Kenku Training" in feature or "Skill Versatility" in feature:
                         skills = random.sample(feature[1], 2)
                         self.all[trait][index] = (feature[0], skills)
                         self.skills = skills
@@ -314,6 +339,11 @@ class Goblin(_Races):
         super(Goblin, self).__init__(subrace, sex, level)
 
 
+class Goliath(_Races):
+    def __init__(self, subrace, sex, level) -> None:
+        super(Goliath, self).__init__(subrace, sex, level)
+
+
 class HalfElf(_Races):
     def __init__(self, subrace, sex, level) -> None:
         super(HalfElf, self).__init__(subrace, sex, level)
@@ -329,9 +359,19 @@ class Halfling(_Races):
         super(Halfling, self).__init__(subrace, sex, level)
 
 
+class Hobgoblin(_Races):
+    def __init__(self, subrace, sex, level) -> None:
+        super(Hobgoblin, self).__init__(subrace, sex, level)
+
+
 class Human(_Races):
     def __init__(self, subrace, sex, level) -> None:
         super(Human, self).__init__(subrace, sex, level)
+
+
+class Kenku(_Races):
+    def __init__(self, subrace, sex, level) -> None:
+        super(Kenku, self).__init__(subrace, sex, level)
 
 
 class Tiefling(_Races):

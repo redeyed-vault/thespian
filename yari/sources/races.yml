@@ -137,6 +137,25 @@ races:
         modifier: 1
     size: Small
     speed: 30
+  Goliath:
+    bonus:
+      Constitution: 1
+      Strength: 2
+    languages: ['Common', 'Giant']
+    other:
+      - [Natural Athlete, [Athletics]]
+      - [Stone's Endurance]
+      - [Powerful Build]
+      - [Mountain Born]
+    ratio:
+      height:
+        base: 74
+        modifier: 2d10
+      weight:
+        base: 200
+        modifier: 2d6
+    size: Medium
+    speed: 30
   HalfElf:
     bonus:
       Charisma: 2
@@ -190,6 +209,25 @@ races:
         modifier: 1
     size: Small
     speed: 25
+  Hobgoblin:
+    bonus:
+      Constitution: 2
+      Intelligence: 1
+    languages: ['Common', 'Goblin']
+    other:
+      - [Darkvision, 60]
+      - [Martial Training (Weapon), [Battleaxe, Blowgun, Flail, Greataxe, Greatsword, Halberd, Hand Crossbow, Heavy Crossbow, Lance, Longbow, Longsword, Maul, Morningstar, Net, Pike, Rapier, Scimitar, Shortsword, Trident, War pick, Warhammer, Whip]]
+      - [Martial Training (Armor), [Light]]
+      - [Saving Face]
+    ratio:
+      height:
+        base: 56
+        modifier: 2d10
+      weight:
+        base: 110
+        modifier: 2d4
+    size: Medium
+    speed: 30
   Human:
     bonus:
       Strength: 1
@@ -207,6 +245,24 @@ races:
       weight:
         base: 110
         modifier: 2d4
+    size: Medium
+    speed: 30
+  Kenku:
+    bonus:
+      Dexterity: 2
+      Wisdom: 1
+    languages: ['Common', 'Auran']
+    other:
+      - [Expert Forgery]
+      - [Kenku Training, [Acrobatics, Deception, Stealth, Sleight of Hand]]
+      - [Mimicry]
+    ratio:
+      height:
+        base: 52
+        modifier: 2d8
+      weight:
+        base: 50
+        modifier: 1d6
     size: Medium
     speed: 30
   Tiefling:

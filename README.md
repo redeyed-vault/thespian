@@ -48,7 +48,8 @@ Options:
   -file TEXT        File name to write character to.  [required]
   -race TEXT        Character's chosen race. Available races are: Aasimar,
                     Bugbear, Dragonborn, Dwarf, Elf, Firbolg, Gith, Gnome, 
-                    Goblin, HalfElf, HalfOrc, Halfling, Human and Tiefling.
+                    Goblin, Goliath, HalfElf, HalfOrc, Halfling, Hobgoblin, 
+                    Human, Kenku and Tiefling.
 
   -subrace TEXT     Character's chosen subrace. Available subraces are based
                     upon the chosen race: Aasimar (Fallen, Protector,
