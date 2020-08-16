@@ -3,6 +3,9 @@ from setuptools import find_packages, setup
 from yari.version import __version__
 
 
+with open("README.md", encoding="utf8") as description:
+    readme = description.read()
+
 setup(
     name="Yari",
     version=__version__,
@@ -12,8 +15,7 @@ setup(
     license="MIT",
     author="Marcus T Taylor",
     description="Generate 5th edition Dungeons & Dragons characters.",
-    long_description=open("README.md", "r", encoding="utf8", errors="ignore").read(),
-    long_description_content_type="text/markdown",
+    long_description=readme,
     install_requires=[
         "beautifulsoup4>=4.9.1",
         "click>=7.1.2",
@@ -24,6 +26,8 @@ setup(
     entry_points={"console_scripts": ["yari=yari.shell:main"]},
     classifiers=[
         "Development Status :: 4 - Beta",
+        "Environment :: Console",
         "Programming Language :: Python :: 3",
+        "Topic :: Games/Entertainment :: Role-Playing"
     ],
 )
