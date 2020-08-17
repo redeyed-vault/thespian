@@ -1,6 +1,5 @@
 import random
 
-from yari.exceptions import InheritanceError, InvalidValueError
 from yari.loader import _read
 from yari.ratio import RatioGenerator
 
@@ -43,26 +42,27 @@ class _Races:
         valid_subraces = [r for r in get_subraces_by_race(self.race)]
 
         if self.race == "_Races":
-            raise InheritanceError("This class must be inherited")
+            raise Exception(
+                "This class must be inherited by the Aasimar, Bugbear, "
+                "Dragonborn, Dwarf, Elf, Firbolg, Gith, Gnome, Goblin, Goliath"
+                "HalfElf, HalfOrc, Halfling, Hobgoblin, Human, Kenku, Kobold, "
+                "Lizardfolk, Orc or Tiefling classes"
+            )
 
         if sex not in ("Female", "Male",):
-            raise InvalidValueError(
-                f"Argument 'sex' value must be either 'Female|Male'."
-            )
+            raise ValueError(f"Argument 'sex' value must be either 'Female|Male'.")
         else:
             self.sex = sex
 
         if subrace != "" and subrace not in valid_subraces:
-            raise InvalidValueError(f"Argument 'subrace' value '{subrace}' is invalid.")
+            raise ValueError(f"Argument 'subrace' value '{subrace}' is invalid.")
         elif len(valid_subraces) is not 0 and subrace is subrace == "":
-            raise InvalidValueError(
-                f"Argument 'subrace' is required for '{self.race}'."
-            )
+            raise ValueError(f"Argument 'subrace' is required for '{self.race}'.")
         else:
             self.subrace = subrace
 
         if not isinstance(level, int):
-            raise InvalidValueError("Argument 'level' value must be of type 'int'.")
+            raise ValueError("Argument 'level' value must be of type 'int'.")
         else:
             self.level = level
 
@@ -299,9 +299,9 @@ class _Races:
                     ):
                         self.skills = feature[1]
                     elif (
-                            "Hunter's Lore" in feature
-                            or "Kenku Training" in feature
-                            or "Skill Versatility" in feature
+                        "Hunter's Lore" in feature
+                        or "Kenku Training" in feature
+                        or "Skill Versatility" in feature
                     ):
                         skills = random.sample(feature[1], 2)
                         self.all[trait][index] = (feature[0], skills)

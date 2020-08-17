@@ -262,13 +262,7 @@ def main(
             out(e, 2)
         else:
             out(f"character saved to '{writer.save_path}'")
-    except (
-        NameError,
-        RuntimeError,
-        InheritanceError,
-        InvalidValueError,
-        ValueError,
-    ) as e:
+    except (Exception, NameError, RuntimeError, ValueError,) as e:
         out(e, 2)
 
 

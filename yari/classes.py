@@ -1,7 +1,6 @@
 import math
 import random
 
-from yari.exceptions import InheritanceError, InvalidValueError
 from yari.loader import _read
 from yari.skills import get_all_skills
 
@@ -34,25 +33,29 @@ class _Classes:
     def __init__(self, path: str, level: int, race_skills: list) -> None:
         self.klass = self.__class__.__name__
         if self.klass == "_Classes":
-            raise InheritanceError("This class must be inherited")
+            raise Exception(
+                "This class must be inherited by the Barbarian, Bard, Cleric "
+                "Druid, Fighter, Monk, Paladin, Ranger, Rogue, Sorcerer, "
+                "Warlock or Wizard classes"
+            )
 
         if not get_is_class(self.klass):
-            raise InvalidValueError(f"Character class '{self.klass}' is invalid.")
+            raise ValueError(f"Character class '{self.klass}' is invalid.")
 
         if path != "" and not get_is_path(path, self.klass):
-            raise InvalidValueError(f"Character archetype '{path}' is invalid.")
+            raise ValueError(f"Character archetype '{path}' is invalid.")
         else:
             self.path = path
 
         if not isinstance(level, int):
-            raise InvalidValueError("Argument 'level' value must be of type 'int'.")
+            raise ValueError("Argument 'level' value must be of type 'int'.")
         elif level not in range(1, 21):
-            raise InvalidValueError("Argument 'level' value must be between 1-20.")
+            raise ValueError("Argument 'level' value must be between 1-20.")
         else:
             self.level = level
 
         if not isinstance(race_skills, list):
-            raise InvalidValueError("Argument 'race_skills' value must be a 'list'.")
+            raise ValueError("Argument 'race_skills' value must be a 'list'.")
         else:
             self.race_skills = race_skills
 

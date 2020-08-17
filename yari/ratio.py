@@ -1,7 +1,6 @@
 import math
 
 from yari.dice import roll
-from yari.exceptions import RatioValueError
 from yari.loader import _read
 
 
@@ -57,7 +56,7 @@ class RatioGenerator:
             )
         except AttributeError:
             if self.subrace == "":
-                raise RatioValueError(f"No modifier value found for '{ratio}' found!")
+                raise ValueError(f"No modifier value found for '{ratio}' found!")
             else:
                 modifier_value = (
                     self._get_ratio_base("subraces", self.subrace)
@@ -77,7 +76,7 @@ class RatioGenerator:
             base_value = self._get_ratio_base("races", self.race).get(ratio).get("base")
         except AttributeError:
             if self.subrace == "":
-                raise RatioValueError(f"No base value found for '{ratio}' found!")
+                raise ValueError(f"No base value found for '{ratio}' found!")
             else:
                 base_value = (
                     self._get_ratio_base("subraces", self.subrace)
