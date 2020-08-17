@@ -272,7 +272,7 @@ races:
     languages: ['Common', 'Draconic']
     other:
       - [Darkvision, 60]
-      - [Grovel, Cower, and Beg]
+      - ["Grovel, Cower, and Beg"]
       - [Pack Tactics]
       - [Sunlight Sensitivity]
     ratio:
