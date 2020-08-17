@@ -27,6 +27,9 @@ class _Races:
         - Hobgoblin
         - Human
         - Kenku
+        - Kobold
+        - Lizardfolk
+        - Orc
         - Tiefling
 
     :param str sex: Character's chosen gender.
@@ -277,9 +280,10 @@ class _Races:
         Bugbear = Stealthy
         Elf = Keen Senses
         Goliath = Athlete
-        HalfOrc = Menacing
+        HalfOrc/Orc = Menacing
         HalfElf = Skill Affinity bonus skills
         Kenku = Kenku Training bonus skills
+        Lizardfolk - Hunter's Lore bonus skills
 
         """
         self.skills = []
@@ -294,7 +298,11 @@ class _Races:
                         or "Sneaky" in feature
                     ):
                         self.skills = feature[1]
-                    elif "Kenku Training" in feature or "Skill Versatility" in feature:
+                    elif (
+                            "Hunter's Lore" in feature
+                            or "Kenku Training" in feature
+                            or "Skill Versatility" in feature
+                    ):
                         skills = random.sample(feature[1], 2)
                         self.all[trait][index] = (feature[0], skills)
                         self.skills = skills
@@ -378,6 +386,21 @@ class Human(_Races):
 class Kenku(_Races):
     def __init__(self, sex, subrace, level) -> None:
         super(Kenku, self).__init__(sex, subrace, level)
+
+
+class Kobold(_Races):
+    def __init__(self, sex, subrace, level) -> None:
+        super(Kobold, self).__init__(sex, subrace, level)
+
+
+class Lizardfolk(_Races):
+    def __init__(self, sex, subrace, level) -> None:
+        super(Lizardfolk, self).__init__(sex, subrace, level)
+
+
+class Orc(_Races):
+    def __init__(self, sex, subrace, level) -> None:
+        super(Orc, self).__init__(sex, subrace, level)
 
 
 class Tiefling(_Races):

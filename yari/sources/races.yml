@@ -265,6 +265,65 @@ races:
         modifier: 1d6
     size: Medium
     speed: 30
+  Kobold:
+    bonus:
+      Dexterity: 2
+      Strength: -2
+    languages: ['Common', 'Draconic']
+    other:
+      - [Darkvision, 60]
+      - [Grovel, Cower, and Beg]
+      - [Pack Tactics]
+      - [Sunlight Sensitivity]
+    ratio:
+      height:
+        base: 25
+        modifier: 2d4
+      weight:
+        base: 25
+        modifier: 1
+    size: Small
+    speed: 30
+  Lizardfolk:
+    bonus:
+      Constitution: 2
+      Wisdom: 1
+    languages: ['Common', 'Draconic']
+    other:
+      - [Bite, 1d6]
+      - [Cunning Artisan]
+      - [Hold Breath]
+      - [Hunter's Lore, [Animal Handling, Nature, Perception, Stealth, Survival]]
+      - [Natural Armor, 13]
+      - [Hungry Jaws]
+    ratio:
+      height:
+        base: 57
+        modifier: 2d10
+      weight:
+        base: 120
+        modifier: 2d6
+    size: Medium
+    speed: 30
+  Orc:
+    bonus:
+      Constitution: 1
+      Strength: 2
+    languages: ['Common', 'Orc']
+    other:
+      - [Darkvision, 60]
+      - [Aggressive]
+      - [Menacing, [Intimidation]]
+      - [Powerful Build]
+    ratio:
+      height:
+        base: 64
+        modifier: 2d8
+      weight:
+        base: 175
+        modifier: 2d6
+    size: Medium
+    speed: 30
   Tiefling:
     bonus:
       Charisma: 2
