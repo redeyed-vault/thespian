@@ -6,7 +6,7 @@ from yari.loader import _read
 
 class RatioGenerator:
     """
-    Handles character ratio calculations for height & weight.
+    Handles height & weight calculations for characters.
 
     :param str race: Character's chosen race.
     :param str subrace: Character's chosen subrace (if any).
