@@ -50,7 +50,7 @@ class _Races:
             )
 
         if sex not in ("Female", "Male",):
-            raise ValueError(f"Argument 'sex' value must be either 'Female|Male'.")
+            raise ValueError(f"Argument 'sex' value must be 'Male' or 'Female'.")
         else:
             self.sex = sex
 
@@ -66,7 +66,7 @@ class _Races:
         else:
             self.level = level
 
-        # Retrieve racial/subracial traits (if applicable).
+        # Get racial traits and merge with subracial traits (if ANY).
         self.all = _read(self.race, file="races")
         if self.subrace != "":
             subrace_traits = _read(self.subrace, file="subraces")
@@ -275,19 +275,17 @@ class _Races:
 
     def _add_race_skill_bonus(self):
         """
-        Applies all special bonus racial skills.
+        Applies racial bonus skills (if ANY).
 
-        Bugbear = Stealthy
-        Elf = Keen Senses
-        Goliath = Athlete
-        HalfOrc/Orc = Menacing
-        HalfElf = Skill Affinity bonus skills
-        Kenku = Kenku Training bonus skills
-        Lizardfolk - Hunter's Lore bonus skills
+            - Bugbear = Sneaky - Stealthy
+            - Elf = Keen Senses - Perception
+            - Goliath = Natural Athlete - Athlete
+            - HalfOrc/Orc = Menacing - Intimidation
+            - HalfElf = Skill Affinity bonus skills
+            - Kenku = Kenku Training bonus skills
+            - Lizardfolk = Hunter's Lore bonus skills
 
         """
-        self.skills = []
-
         for trait, value in self.all.items():
             if trait == "other":
                 for index, feature in enumerate(value):
