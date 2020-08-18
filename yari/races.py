@@ -151,17 +151,18 @@ class _Races:
 
     def _add_race_cantrip_bonus(self):
         """Add HighElf, or Forest Gnome bonus cantrips."""
-        for trait, value in self.all.items():
-            if trait == "other":
-                if self.subrace == "Forest":
-                    pass
-                elif self.subrace == "High":
-                    for index, feature in enumerate(value):
-                        if "Cantrip" in feature:
-                            self.all[trait][index] = (
-                                feature[0],
-                                random.choice(feature[1]),
-                            )
+        if self.subrace in ("Forest", "High"):
+            for trait, value in self.all.items():
+                if trait == "other":
+                    if self.subrace == "Forest":
+                        pass
+                    elif self.subrace == "High":
+                        for index, feature in enumerate(value):
+                            if "Cantrip" in feature:
+                                self.all[trait][index] = (
+                                    feature[0],
+                                    random.choice(feature[1]),
+                                )
 
     def _add_race_language_bonus(self):
         """Add Githyanki, Half-Elf, Human or High Elf character language traits."""
@@ -170,35 +171,35 @@ class _Races:
             "High",
         ):
             return
+
+        if self.subrace == "Githyanki":
+            for trait, value in self.all.items():
+                if trait == "other":
+                    for index, feature in enumerate(value):
+                        if "Decadent Mastery" in feature:
+                            decadent_language = random.choice(feature[1])
+                            self.all[trait][index] = (
+                                feature[0],
+                                decadent_language,
+                            )
+                            self.all["languages"].append(decadent_language)
         else:
-            if self.subrace == "Githyanki":
-                for trait, value in self.all.items():
-                    if trait == "other":
-                        for index, feature in enumerate(value):
-                            if "Decadent Mastery" in feature:
-                                decadent_language = random.choice(feature[1])
-                                self.all[trait][index] = (
-                                    feature[0],
-                                    decadent_language,
-                                )
-                                self.all["languages"].append(decadent_language)
-            else:
-                standard_languages = [
-                    "Common",
-                    "Dwarvish",
-                    "Elvish",
-                    "Giant",
-                    "Gnomish",
-                    "Goblin",
-                    "Halfling",
-                    "Orc",
-                ]
-                standard_languages = [
-                    language
-                    for language in standard_languages
-                    if language not in self.all.get("languages")
-                ]
-                self.all["languages"].append(random.choice(standard_languages))
+            standard_languages = [
+                "Common",
+                "Dwarvish",
+                "Elvish",
+                "Giant",
+                "Gnomish",
+                "Goblin",
+                "Halfling",
+                "Orc",
+            ]
+            standard_languages = [
+                language
+                for language in standard_languages
+                if language not in self.all.get("languages")
+            ]
+            self.all["languages"].append(random.choice(standard_languages))
 
     def _add_race_mass(self):
         (height, weight) = RatioGenerator(self.race, self.subrace, self.sex).calculate()
@@ -211,18 +212,20 @@ class _Races:
 
     def _add_race_traits(self):
         """
-        Add all bonus armor, tool, and/or weapon proficiencies, and traits.
+        Add all bonus armor, tool, and/or weapon proficiencies, and other traits.
 
-        Aasimar
-        Dwarf
-        Elf
-        Githyanki
-        Hobgoblin
-        Tiefling
+            - Aasimar = Necrotic Shield, Radiant Consumption/Soul
+            - Drow = Drow Magic, Drow Weapon Training
+            - Duergar = Duergar Magic
+            - Dwarf = Dwarven Armor Training, Dwarven Combat Training, Tool Proficiency
+            - Elf = Elven Combat Training
+            - Githyanki = Githyanki Psionics, Martial Training
+            - Githzerai = Githzerai Psionics
+            - Hobgoblin = Martial Prodigy
+            - Tiefling = Infernal Legacy, Legacy powers
 
         """
         self.armors = self.tools = self.weapons = self.magic = list()
-
         for trait, value in self.all.items():
             if trait == "other":
                 for index, feature in enumerate(value):
@@ -409,8 +412,7 @@ class Tiefling(_Races):
 def get_subraces_by_race(race: str):
     """Yields a list of valid subraces by race.
 
-    Args:
-        race (str): Race to retrieve subraces for.
+    :param str race: Race to retrieve subraces for.
 
     """
     for subrace in _read(file="subraces"):
