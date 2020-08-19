@@ -27,7 +27,7 @@ from yari.writer import Writer
     help="Character's chosen race. Available races are: Aasimar, Bugbear, "
     "Dragonborn, Dwarf, Elf, Firbolg, Gith, Gnome, Goblin, Goliath, HalfElf, "
     "HalfOrc, Halfling, Hobgoblin, Human, Kenku, Kobold, Lizardfolk, Orc, "
-    "and Tiefling.",
+    "Tabaxi, Tiefling, Triton and Yuanti.",
     type=str,
 )
 @click.option(
