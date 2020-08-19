@@ -49,7 +49,7 @@ Options:
   -race TEXT        Character's chosen race. Available races are: Aasimar,
                     Bugbear, Dragonborn, Dwarf, Elf, Firbolg, Gith, Gnome, 
                     Goblin, Goliath, HalfElf, HalfOrc, Halfling, Hobgoblin, 
-                    Human, Kenku and Tiefling.
+                    Human, Kenku, Tabaxi, Tiefling, Triton and Yuanti.
 
   -subrace TEXT     Character's chosen subrace. Available subraces are based
                     upon the chosen race: Aasimar (Fallen, Protector,

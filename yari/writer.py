@@ -198,6 +198,7 @@ class Writer:
                         or name == "Duergar Magic"
                         or name == "Githyanki Psionics"
                         or name == "Githzerai Psionics"
+                        or name == "Innate Spellcasting"
                         or name.startswith("Legacy of")
                         or name.startswith("Necrotic")
                         or name.startswith("Radiant")

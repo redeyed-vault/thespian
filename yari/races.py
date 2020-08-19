@@ -29,7 +29,10 @@ class _Races:
         - Kobold
         - Lizardfolk
         - Orc
+        - Tabaxi
         - Tiefling
+        - Triton
+        - Yuan-ti
 
     :param str sex: Character's chosen gender.
     :param str subrace: Character's chosen subrace (if applicable).
@@ -46,7 +49,7 @@ class _Races:
                 "This class must be inherited by the Aasimar, Bugbear, "
                 "Dragonborn, Dwarf, Elf, Firbolg, Gith, Gnome, Goblin, Goliath"
                 "HalfElf, HalfOrc, Halfling, Hobgoblin, Human, Kenku, Kobold, "
-                "Lizardfolk, Orc or Tiefling classes"
+                "Lizardfolk, Orc, Tabaxi, Tiefling, Triton, or Yuanti classes."
             )
 
         if sex not in ("Female", "Male",):
@@ -150,8 +153,8 @@ class _Races:
                         )
 
     def _add_race_cantrip_bonus(self):
-        """Add HighElf, or Forest Gnome bonus cantrips."""
-        if self.subrace in ("Forest", "High"):
+        """Add High Elf, or Forest Gnome bonus cantrips."""
+        if self.race == "Yuanti" or self.subrace in ("Forest", "High"):
             for trait, value in self.all.items():
                 if trait == "other":
                     if self.subrace == "Forest":
@@ -165,8 +168,17 @@ class _Races:
                                 )
 
     def _add_race_language_bonus(self):
-        """Add Githyanki, Half-Elf, Human or High Elf character language traits."""
-        if self.race not in ("HalfElf", "Human") and self.subrace not in (
+        """
+        Add any racial bonus languages.
+
+            Githyanki
+            Half-Elf
+            High Elf
+            Human
+            Tabaxi
+
+        """
+        if self.race not in ("HalfElf", "Human", "Tabaxi") and self.subrace not in (
             "Githyanki",
             "High",
         ):
@@ -202,6 +214,7 @@ class _Races:
             self.all["languages"].append(random.choice(standard_languages))
 
     def _add_race_mass(self):
+        """Generates a character's height & weight."""
         (height, weight) = RatioGenerator(self.race, self.subrace, self.sex).calculate()
         height = "{}' {}\"".format(height[0], height[1])
         weight = f"{weight} lbs."
@@ -223,6 +236,7 @@ class _Races:
             - Githzerai = Githzerai Psionics
             - Hobgoblin = Martial Prodigy
             - Tiefling = Infernal Legacy, Legacy powers
+            - Yuanti = Innate Spellcasting
 
         """
         self.armors = self.tools = self.weapons = self.magic = list()
@@ -252,6 +266,7 @@ class _Races:
                         or "Githyanki Psionics" in feature
                         or "Githzerai Psionics" in feature
                         or "Infernal Legacy" in feature
+                        or "Innate Spellcasting" in feature
                         or "Legacy of Avernus" in feature
                         or "Legacy of Cania" in feature
                         or "Legacy of Dis" in feature
@@ -287,13 +302,16 @@ class _Races:
             - HalfElf = Skill Affinity bonus skills
             - Kenku = Kenku Training bonus skills
             - Lizardfolk = Hunter's Lore bonus skills
+            - Tabaxi = Cat's Talent - Perception
 
         """
+        self.skills = list()
         for trait, value in self.all.items():
             if trait == "other":
                 for index, feature in enumerate(value):
                     if (
-                        "Keen Senses" in feature
+                        "Cat's Talent" in feature
+                        or "Keen Senses" in feature
                         or "Menacing" in feature
                         or "Natural Athlete" in feature
                         or "Sneaky" in feature
@@ -404,9 +422,24 @@ class Orc(_Races):
         super(Orc, self).__init__(sex, subrace, level)
 
 
+class Tabaxi(_Races):
+    def __init__(self, sex, subrace, level) -> None:
+        super(Tabaxi, self).__init__(sex, subrace, level)
+
+
 class Tiefling(_Races):
     def __init__(self, sex, subrace, level) -> None:
         super(Tiefling, self).__init__(sex, subrace, level)
+
+
+class Triton(_Races):
+    def __init__(self, sex, subrace, level) -> None:
+        super(Triton, self).__init__(sex, subrace, level)
+
+
+class Yuanti(_Races):
+    def __init__(self, sex, subrace, level) -> None:
+        super(Yuanti, self).__init__(sex, subrace, level)
 
 
 def get_subraces_by_race(race: str):

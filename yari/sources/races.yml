@@ -324,6 +324,25 @@ races:
         modifier: 2d6
     size: Medium
     speed: 30
+  Tabaxi:
+    bonus:
+      Dexterity: 2
+      Charisma: 1
+    languages: ['Common']
+    other:
+      - [Darkvision, 60]
+      - [Feline Agility]
+      - [Cat's Claws, 1d4]
+      - [Cat's Talent, [Perception]]
+    ratio:
+      height:
+        base: 58
+        modifier: 2d10
+      weight:
+        base: 90
+        modifier: 2d4
+    size: Medium
+    speed: 30
   Tiefling:
     bonus:
       Charisma: 2
@@ -338,5 +357,44 @@ races:
       weight:
         base: 110
         modifier: 2d4
+    size: Medium
+    speed: 30
+  Triton:
+    bonus:
+      Charisma: 1
+      Constitution: 1
+      Strength: 1
+    languages: ['Common', 'Primordial']
+    other:
+      - [Amphibious]
+      - [Control Air and Water]
+      - [Emissary of the Sea]
+      - [Guardians of the Depths]
+    ratio:
+      height:
+        base: 54
+        modifier: 2d10
+      weight:
+        base: 90
+        modifier: 2d4
+    size: Medium
+    speed: 30
+  Yuanti:
+    bonus:
+      Charisma: 2
+      Intelligence: 1
+    languages: ['Abyssal', 'Common', 'Draconic']
+    other:
+      - [Darkvision, 60]
+      - [Innate Spellcasting, [[0, Poison Spray], [1, Animal Friendship (Snakes only)], [3, Suggestion]]]
+      - [Magic Resistance]
+      - [Poison Immunity]
+    ratio:
+      height:
+        base: 56
+        modifier: 2d10
+      weight:
+        base: 110
+        modififer: 2d4
     size: Medium
     speed: 30
