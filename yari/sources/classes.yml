@@ -20,9 +20,6 @@ classes:
       18: ['Indomitable Might']
       20: ['Primal Champion']
     hit_die: 12
-    paths:
-      - Path of the Berserker
-      - Path of the Totem Warrior
     proficiency:
       - ['Armor', ['Light', 'Medium', 'Shield']]
       - ['Tools',  []]
@@ -30,6 +27,9 @@ classes:
       - ['Saves', ['Constitution', 'Strength']]
       - ['Skills', ['Animal Handling', 'Athletics', 'Intimidation', 'Nature', 'Perception', 'Survival']]
     spell_slots: {}
+    subclasses:
+      - Path of the Berserker
+      - Path of the Totem Warrior
   Bard:
     abilities:
       1: Charisma
@@ -50,9 +50,6 @@ classes:
       18: ['Magical Secrets']
       20: ['Superior Inspiration']
     hit_die: 8
-    paths:
-      - College of Lore
-      - College of Valor
     proficiency:
       - ['Armor', ['Light']]
       - ['Tools',  []]
@@ -80,6 +77,9 @@ classes:
       18: 4,3,3,3,3,1,1,1,1
       19: 4,3,3,3,3,2,1,1,1
       20: 4,3,3,3,3,2,2,1,1
+    subclasses:
+      - College of Lore
+      - College of Valor
   Cleric:
     abilities:
       1: Wisdom
@@ -96,7 +96,7 @@ classes:
       17: ['Destroy Undead']
       20: ['Divine Intervention']
     hit_die: 8
-    paths:
+    subclasses:
       - Knowledge Domain
       - Life Domain
       - Light Domain
@@ -145,17 +145,6 @@ classes:
       18: ['Beast Spells', 'Timeless Body']
       20: ['Archdruid']
     hit_die: 8
-    paths:
-      - Circle of the Arctic
-      - Circle of the Coast
-      - Circle of the Desert
-      - Circle of the Forest
-      - Circle of the Grassland
-      - Circle of the Moon
-      - Circle of the Mountain
-      - Circle of the Swamp
-      - Circle of the Underdark
-      - Circle of the Moon
     proficiency:
       - ['Armor', ['Light', 'Medium', 'Shield']]
       - ['Tools',  ['Herbalism Kit']]
@@ -183,6 +172,17 @@ classes:
       18: 4,3,3,3,3,1,1,1,1
       19: 4,3,3,3,3,2,1,1,1
       20: 4,3,3,3,3,2,2,1,1
+    subclasses:
+      - Circle of the Arctic
+      - Circle of the Coast
+      - Circle of the Desert
+      - Circle of the Forest
+      - Circle of the Grassland
+      - Circle of the Moon
+      - Circle of the Mountain
+      - Circle of the Swamp
+      - Circle of the Underdark
+      - Circle of the Moon
   Fighter:
     abilities:
       1: ['Dexterity', 'Strength']
@@ -199,10 +199,6 @@ classes:
       17: ['Action Surge', 'Indomitable']
       20: ['Extra Attack']
     hit_die: 10
-    paths:
-      - Champion
-      - Battle Master
-      - Eldritch Knight
     proficiency:
       - ['Armor', ['Light', 'Medium', 'Heavy', 'Shield']]
       - ['Tools',  []]
@@ -228,6 +224,10 @@ classes:
       18: 4,3,3
       19: 4,3,3,1
       20: 4,3,3,1
+    subclasses:
+      - Champion
+      - Battle Master
+      - Eldritch Knight
   Monk:
     abilities:
       1: Dexterity
@@ -249,10 +249,6 @@ classes:
       18: ['Empty Body']
       20: ['Perfect Self']
     hit_die: 8
-    paths:
-      - Way of the Four Elements
-      - Way of the Open Hand
-      - Way of Shadow
     proficiency:
       - ['Armor', []]
       - ['Tools',  ["Artisan's tools - Alchemists supplies", "Artisan's tools - Brewer's supplies", "Artisan's tools - Calligrapher's supplies", "Artisan's tools - Carpenter's tools", "Artisan's tools - Cartographer's tools", "Artisan's tools - Cobbler's tools", "Artisan's tools - Cook's utensils", "Artisan's tools - Glassblower's tools", "Artisan's tools - Jeweler's tools", "Artisan's tools - Leatherworker's tools", "Artisan's tools - Mason's tools", "Artisan's tools - Painter's supplies", "Artisan's tools - Potter's tools", "Artisan's tools - Smith's tools", "Artisan's tools - Tinker's tools", "Artisan's tools - Weaver's tools", "Artisan's tools - Woodcarver's tools", "Musical instrument - Bagpipes", "Musical instrument - Drum", "Musical instrument - Dulcimer", "Musical instrument - Flute", "Musical instrument - Lute", "Musical instrument - Lyre", "Musical instrument - Horn", "Musical instrument - Pan flute", "Musical instrument - Shawm", "Musical instrument - Viol"]]
@@ -260,6 +256,10 @@ classes:
       - ['Saves', ['Dexterity', 'Strength']]
       - ['Skills', ['Acrobatics', 'Athletics', 'History', 'Insight', 'Religion', 'Stealth']]
     spell_slots: {}
+    subclasses:
+      - Way of the Four Elements
+      - Way of the Open Hand
+      - Way of Shadow
   Paladin:
     abilities:
       1: Strength
@@ -276,10 +276,6 @@ classes:
       14: ['Cleansing Touch']
       18: ['Aura of Courage', 'Aura of Protection']
     hit_die: 10
-    paths:
-      - Oath of Devotion
-      - Oath of Vengeance
-      - Oath of the Ancients
     proficiency:
       - ['Armor', ['Light', 'Medium', 'Heavy', 'Shield']]
       - ['Tools',  []]
@@ -306,6 +302,10 @@ classes:
       18: 4,3,3,3,1
       19: 4,3,3,3,2
       20: 4,3,3,3,2
+    subclasses:
+      - Oath of Devotion
+      - Oath of Vengeance
+      - Oath of the Ancients
   Ranger:
     abilities:
       1: ['Dexterity', 'Strength']
@@ -323,9 +323,6 @@ classes:
       18: ['Feral Senses']
       20: ['Foe Slayer']
     hit_die: 10
-    paths:
-      - Beast Master
-      - Hunter
     proficiency:
       - ['Armor', ['Light', 'Medium', 'Shield']]
       - ['Tools',  []]
@@ -352,6 +349,9 @@ classes:
       18: 4,3,3,3,1
       19: 4,3,3,3,2
       20: 4,3,3,3,2
+    subclasses:
+      - Beast Master
+      - Hunter
   Rogue:
     abilities:
       1: Dexterity
@@ -370,10 +370,6 @@ classes:
       18: ['Elusive']
       20: ['Stroke of Luck']
     hit_die: 8
-    paths:
-      - Arcane Trickster
-      - Assassin
-      - Thief
     proficiency:
       - ['Armor', ['Light']]
       - ['Tools',  ["Thieves' tools"]]
@@ -399,6 +395,10 @@ classes:
       18: 4,3,3
       19: 4,3,3,1
       20: 4,3,3,1
+    subclasses:
+      - Arcane Trickster
+      - Assassin
+      - Thief
   Sorcerer:
     abilities:
       1: Charisma
@@ -412,9 +412,6 @@ classes:
       17: ['Metamagic']
       20: ['Sorcerous Restoration']
     hit_die: 6
-    paths:
-      - Draconic Bloodline
-      - Wild Magic
     proficiency:
       - ['Armor', []]
       - ['Tools',  []]
@@ -442,6 +439,9 @@ classes:
       18: 4,3,3,3,3,1,1,1,1
       19: 4,3,3,3,3,2,1,1,1
       20: 4,3,3,3,3,2,2,1,1
+    subclasses:
+      - Draconic Bloodline
+      - Wild Magic
   Warlock:
     abilities:
       1: Charisma
@@ -457,10 +457,6 @@ classes:
       17: ['Mystic Arcanum']
       20: ['Eldritch Master']
     hit_die: 8
-    paths:
-      - The Archfey
-      - The Fiend
-      - The Great Old One
     proficiency:
       - ['Armor', ['Light']]
       - ['Tools',  []]
@@ -488,6 +484,10 @@ classes:
       18: 4
       19: 4
       20: 4
+    subclasses:
+      - The Archfey
+      - The Fiend
+      - The Great Old One
   Wizard:
     abilities:
       1: Intelligence
@@ -499,15 +499,6 @@ classes:
       18: ['Spell Mastery']
       20: ['Signature Spell']
     hit_die: 6
-    paths:
-      - School of Abjuration
-      - School of Conjuration
-      - School of Divination
-      - School of Enchantment
-      - School of Evocation
-      - School of Illusion
-      - School of Necromancy
-      - School of Transmutation
     proficiency:
       - ['Armor', []]
       - ['Tools',  []]
@@ -535,3 +526,12 @@ classes:
       18: 4,3,3,3,3,1,1,1,1
       19: 4,3,3,3,3,2,1,1,1
       20: 4,3,3,3,3,2,2,1,1
+    subclasses:
+      - School of Abjuration
+      - School of Conjuration
+      - School of Divination
+      - School of Enchantment
+      - School of Evocation
+      - School of Illusion
+      - School of Necromancy
+      - School of Transmutation
