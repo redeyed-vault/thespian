@@ -59,10 +59,10 @@ from yari.writer import Writer
     type=str,
 )
 @click.option(
-    "-path",
+    "-subclass",
     default="",
-    help="Character's chosen path (archetype, domain, path, etc). Available "
-    "paths are based upon the chosen class: Barbarian (Path of the Berserker, "
+    help="Character's chosen subclass (archetype, domain, path, etc). Available "
+    "subclasses are based upon the chosen class: Barbarian (Path of the Berserker, "
     "Path of the Totem Warrior), Bard (College of Lore, College of Valor), "
     "Cleric (Knowledge Domain, Life Domain, Light Domain, Nature Domain, "
     "Tempest Domain, Trickery Domain, War Domain), Druid (Circle of the Arctic, "
@@ -103,7 +103,7 @@ def main(
     sex: str,
     background: str,
     klass: str,
-    path: str,
+    subclass: str,
     level: int,
     ratio: int,
 ) -> None:
@@ -167,12 +167,12 @@ def main(
         if background not in valid_backgrounds:
             out(f"invalid character background '{background}'", 1)
 
-    valid_class_paths = get_paths_by_class(klass)
-    if path == "":
-        path = random.choice(valid_class_paths)
+    valid_class_subclasses = get_subclasses_by_class(klass)
+    if subclass == "":
+        subclass = random.choice(valid_class_subclasses)
     else:
-        if path not in valid_class_paths:
-            out(f"class '{klass}' has no path '{path}'", 1)
+        if subclass not in valid_class_subclasses:
+            out(f"class '{klass}' has no subclass '{subclass}'", 1)
 
     if level not in range(1, 21):
         out(f"level must be between 1-20 ({level})", 1)
@@ -184,8 +184,8 @@ def main(
     def callback(method, **kw):
         def init():
             call_class = eval(method)
-            if all(k in kw for k in ("path", "level", "race_skills")):
-                return call_class(kw["path"], kw["level"], kw["race_skills"])
+            if all(k in kw for k in ("subclass", "level", "race_skills")):
+                return call_class(kw["subclass"], kw["level"], kw["race_skills"])
             elif all(k in kw for k in ("sex", "subrace", "level",)):
                 return call_class(kw["sex"], kw["subrace"], kw["level"])
             else:
@@ -198,7 +198,7 @@ def main(
         rg = callback(race, sex=sex, level=level, subrace=subrace)
 
         # Class features
-        cg = callback(klass, path=path, level=level, race_skills=rg.skills)
+        cg = callback(klass, subclass=subclass, level=level, race_skills=rg.skills)
 
         # Generate ability scores.
         ag = AttributeGenerator(cg.primary_ability, rg.bonus)
@@ -212,7 +212,7 @@ def main(
         # Assign ability/feat improvements.
         u = ImprovementGenerator(
             race=race,
-            path=path,
+            subclass=subclass,
             klass=klass,
             level=level,
             primary_ability=cg.primary_ability,
@@ -242,7 +242,7 @@ def main(
         cs["size"] = rg.size
         cs["class"] = klass
         cs["level"] = level
-        cs["path"] = u.path
+        cs["subclass"] = u.subclass
         cs["bonus"] = get_proficiency_bonus(level)
         cs["score_array"] = u.score_array
         cs["saves"] = u.saves
