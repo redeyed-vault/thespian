@@ -46,10 +46,11 @@ class _Races:
 
         if self.race == "_Races":
             raise Exception(
-                "This class must be inherited by the Aasimar, Bugbear, "
-                "Dragonborn, Dwarf, Elf, Firbolg, Gith, Gnome, Goblin, Goliath"
-                "HalfElf, HalfOrc, Halfling, Hobgoblin, Human, Kenku, Kobold, "
-                "Lizardfolk, Orc, Tabaxi, Tiefling, Triton, or Yuanti classes."
+                "This class must be inherited to use. It is currently used by "
+                "the Aasimar, Bugbear, Dragonborn, Dwarf, Elf, Firbolg, Gith, "
+                "Gnome, Goblin, Goliath, HalfElf, HalfOrc, Halfling, Hobgoblin, "
+                "Human, Kenku, Kobold, Lizardfolk, Orc, Tabaxi, Tiefling, "
+                "Triton, and Yuanti 'race' classes."
             )
 
         if sex not in ("Female", "Male",):

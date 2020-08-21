@@ -34,9 +34,9 @@ class _Classes:
         self.klass = self.__class__.__name__
         if self.klass == "_Classes":
             raise Exception(
-                "This class must be inherited by the Barbarian, Bard, Cleric "
-                "Druid, Fighter, Monk, Paladin, Ranger, Rogue, Sorcerer, "
-                "Warlock or Wizard classes"
+                "This class must be inherited to use. It is currently used by "
+                "the Barbarian, Bard, Cleric, Druid, Fighter, Monk, Paladin, "
+                "Ranger, Rogue, Sorcerer, Warlock and Wizard 'job' classes."
             )
 
         if not get_is_class(self.klass):

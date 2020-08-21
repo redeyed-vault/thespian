@@ -99,8 +99,9 @@ class _Attributes:
         self.attribute = self.__class__.__name__
         if self.attribute == "_Attributes":
             raise Exception(
-                "This class must be inherited by the Charisma, Constitution, "
-                "Dexterity, Intelligence, Strength, or Wisdom classes"
+                "This class must be inherited to use. It is currently used by "
+                "the Charisma, Constitution, Dexterity, Intelligence, Strength, "
+                "and Wisdom attribute classes."
             )
 
         self.attr = dict()
