@@ -40,8 +40,8 @@ class Writer:
             "background",
             "size",
             "class",
+            "subclass"
             "level",
-            "path",
             "bonus",
             "score_array",
             "saves",
@@ -241,8 +241,8 @@ class Writer:
         self.body = f'<size>{self.data.get("size")}</size>'
         self.body = f'<background>{self.data.get("background")}</background>'
         self.body = f'<class>{self.data.get("class")}</class>'
+        self.body = f'<subclass>{self.data.get("subclass")}</subclass>'
         self.body = f'<level>{self.data.get("level")}</level>'
-        self.body = f'<path>{self.data.get("path")}</path>'
         self.append_abilities()
         self.body = f'<spell_slots>{self.data.get("spell_slots")}</spell_slots>'
         self.append_proficiency()
