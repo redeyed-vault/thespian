@@ -71,7 +71,7 @@ Options:
                     Ranger, Rogue, Sorcerer, Warlock, and Wizard.
 
   -subclass TEXT    Character's chosen subclass (archetype, domain, path, etc).
-                    Available paths are based upon the chosen class: Barbarian
+                    Available subclasses are based upon the chosen class: Barbarian
                     (Path of the Berserker, Path of the Totem Warrior), Bard
                     (College of Lore, College of Valor), Cleric (Knowledge
                     Domain, Life Domain, Light Domain, Nature Domain, Tempest
