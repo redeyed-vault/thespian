@@ -18,6 +18,26 @@ races:
         modifier: 2d4
     size: Medium
     speed: 30
+  Bugbear:
+    bonus:
+      Dexterity: 1
+      Strength: 2
+    languages: ['Common', 'Goblin']
+    other:
+      - [Darkvision, 60]
+      - [Long-Limbed]
+      - [Powerful Build]
+      - [Sneaky, [Stealth]]
+      - [Surprise Attack]
+    ratio:
+      height:
+        base: 72
+        modifier: 2d12
+      weight:
+        base: 200
+        modifier: 2d6
+    size: Medium
+    speed: 30
   Dragonborn:
     bonus:
       Strength: 2
@@ -58,6 +78,25 @@ races:
       - [Trance]
     size: Medium
     speed: 30
+  Firbolg:
+    bonus:
+      Strength: 1
+      Wisdom: 2
+    languages: ['Common', 'Elvish', 'Giant']
+    other:
+      - [Firbolg Magic, [Detect Magic, Disguise]]
+      - [Hidden Step]
+      - [Powerful Build]
+      - [Speech of Beast and Leaf]
+    ratio:
+      height:
+        base: 74
+        modifier: 2d12
+      weight:
+        base: 175
+        modifier: 2d6
+    size: Medium
+    speed: 30
   Gith:
     bonus:
       Intelligence: 1
@@ -80,6 +119,43 @@ races:
         modifier: 1
     size: Small
     speed: 25
+  Goblin:
+    bonus:
+      Dexterity: 2
+      Constitution: 1
+    languages: ['Common', 'Goblin']
+    other:
+      - [Darkvision, 60]
+      - [Fury of the Small]
+      - [Nimble Escape]
+    ratio:
+      height:
+        base: 41
+        modifier: 2d4
+      weight:
+        base: 35
+        modifier: 1
+    size: Small
+    speed: 30
+  Goliath:
+    bonus:
+      Constitution: 1
+      Strength: 2
+    languages: ['Common', 'Giant']
+    other:
+      - [Natural Athlete, [Athletics]]
+      - [Stone's Endurance]
+      - [Powerful Build]
+      - [Mountain Born]
+    ratio:
+      height:
+        base: 74
+        modifier: 2d10
+      weight:
+        base: 200
+        modifier: 2d6
+    size: Medium
+    speed: 30
   HalfElf:
     bonus:
       Charisma: 2
@@ -133,6 +209,25 @@ races:
         modifier: 1
     size: Small
     speed: 25
+  Hobgoblin:
+    bonus:
+      Constitution: 2
+      Intelligence: 1
+    languages: ['Common', 'Goblin']
+    other:
+      - [Darkvision, 60]
+      - [Martial Training (Weapon), [Battleaxe, Blowgun, Flail, Greataxe, Greatsword, Halberd, Hand Crossbow, Heavy Crossbow, Lance, Longbow, Longsword, Maul, Morningstar, Net, Pike, Rapier, Scimitar, Shortsword, Trident, War pick, Warhammer, Whip]]
+      - [Martial Training (Armor), [Light]]
+      - [Saving Face]
+    ratio:
+      height:
+        base: 56
+        modifier: 2d10
+      weight:
+        base: 110
+        modifier: 2d4
+    size: Medium
+    speed: 30
   Human:
     bonus:
       Strength: 1
@@ -152,6 +247,102 @@ races:
         modifier: 2d4
     size: Medium
     speed: 30
+  Kenku:
+    bonus:
+      Dexterity: 2
+      Wisdom: 1
+    languages: ['Common', 'Auran']
+    other:
+      - [Expert Forgery]
+      - [Kenku Training, [Acrobatics, Deception, Stealth, Sleight of Hand]]
+      - [Mimicry]
+    ratio:
+      height:
+        base: 52
+        modifier: 2d8
+      weight:
+        base: 50
+        modifier: 1d6
+    size: Medium
+    speed: 30
+  Kobold:
+    bonus:
+      Dexterity: 2
+      Strength: -2
+    languages: ['Common', 'Draconic']
+    other:
+      - [Darkvision, 60]
+      - ["Grovel, Cower, and Beg"]
+      - [Pack Tactics]
+      - [Sunlight Sensitivity]
+    ratio:
+      height:
+        base: 25
+        modifier: 2d4
+      weight:
+        base: 25
+        modifier: 1
+    size: Small
+    speed: 30
+  Lizardfolk:
+    bonus:
+      Constitution: 2
+      Wisdom: 1
+    languages: ['Common', 'Draconic']
+    other:
+      - [Bite, 1d6]
+      - [Cunning Artisan]
+      - [Hold Breath]
+      - [Hunter's Lore, [Animal Handling, Nature, Perception, Stealth, Survival]]
+      - [Natural Armor, 13]
+      - [Hungry Jaws]
+    ratio:
+      height:
+        base: 57
+        modifier: 2d10
+      weight:
+        base: 120
+        modifier: 2d6
+    size: Medium
+    speed: 30
+  Orc:
+    bonus:
+      Constitution: 1
+      Strength: 2
+    languages: ['Common', 'Orc']
+    other:
+      - [Darkvision, 60]
+      - [Aggressive]
+      - [Menacing, [Intimidation]]
+      - [Powerful Build]
+    ratio:
+      height:
+        base: 64
+        modifier: 2d8
+      weight:
+        base: 175
+        modifier: 2d6
+    size: Medium
+    speed: 30
+  Tabaxi:
+    bonus:
+      Dexterity: 2
+      Charisma: 1
+    languages: ['Common']
+    other:
+      - [Darkvision, 60]
+      - [Feline Agility]
+      - [Cat's Claws, 1d4]
+      - [Cat's Talent, [Perception]]
+    ratio:
+      height:
+        base: 58
+        modifier: 2d10
+      weight:
+        base: 90
+        modifier: 2d4
+    size: Medium
+    speed: 30
   Tiefling:
     bonus:
       Charisma: 2
@@ -166,5 +357,44 @@ races:
       weight:
         base: 110
         modifier: 2d4
+    size: Medium
+    speed: 30
+  Triton:
+    bonus:
+      Charisma: 1
+      Constitution: 1
+      Strength: 1
+    languages: ['Common', 'Primordial']
+    other:
+      - [Amphibious]
+      - [Control Air and Water]
+      - [Emissary of the Sea]
+      - [Guardians of the Depths]
+    ratio:
+      height:
+        base: 54
+        modifier: 2d10
+      weight:
+        base: 90
+        modifier: 2d4
+    size: Medium
+    speed: 30
+  Yuanti:
+    bonus:
+      Charisma: 2
+      Intelligence: 1
+    languages: ['Abyssal', 'Common', 'Draconic']
+    other:
+      - [Darkvision, 60]
+      - [Innate Spellcasting, [[0, Poison Spray], [1, Animal Friendship (Snakes only)], [3, Suggestion]]]
+      - [Magic Resistance]
+      - [Poison Immunity]
+    ratio:
+      height:
+        base: 56
+        modifier: 2d10
+      weight:
+        base: 110
+        modififer: 2d4
     size: Medium
     speed: 30

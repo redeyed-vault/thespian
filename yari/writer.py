@@ -1,5 +1,6 @@
 from collections import OrderedDict
 import os
+import webbrowser
 
 from bs4 import BeautifulSoup
 
@@ -39,8 +40,8 @@ class Writer:
             "background",
             "size",
             "class",
+            "subclass"
             "level",
-            "path",
             "bonus",
             "score_array",
             "saves",
@@ -197,6 +198,7 @@ class Writer:
                         or name == "Duergar Magic"
                         or name == "Githyanki Psionics"
                         or name == "Githzerai Psionics"
+                        or name == "Innate Spellcasting"
                         or name.startswith("Legacy of")
                         or name.startswith("Necrotic")
                         or name.startswith("Radiant")
@@ -223,6 +225,12 @@ class Writer:
 
         if self.data.get("subrace") != "":
             race = f'{self.data.get("race")}, {self.data.get("subrace")}'
+        elif self.data.get("race") == "HalfElf":
+            race = "Half-Elf"
+        elif self.data.get("race") == "HalfOrc":
+            race = "Half-Orc"
+        elif self.data.get("race") == "Yuanti":
+            race = "Yuan-ti"
         else:
             race = self.data.get("race")
 
@@ -233,8 +241,8 @@ class Writer:
         self.body = f'<size>{self.data.get("size")}</size>'
         self.body = f'<background>{self.data.get("background")}</background>'
         self.body = f'<class>{self.data.get("class")}</class>'
+        self.body = f'<subclass>{self.data.get("subclass")}</subclass>'
         self.body = f'<level>{self.data.get("level")}</level>'
-        self.body = f'<path>{self.data.get("path")}</path>'
         self.append_abilities()
         self.body = f'<spell_slots>{self.data.get("spell_slots")}</spell_slots>'
         self.append_proficiency()
@@ -246,4 +254,5 @@ class Writer:
 
         with open(self.save_path, "w+", encoding="utf-8") as cs:
             cs.write(BeautifulSoup(self.body, "xml").prettify())
+            webbrowser.open(f"file://{self.save_path}")
         cs.close()

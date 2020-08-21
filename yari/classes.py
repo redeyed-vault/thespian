@@ -1,7 +1,6 @@
 import math
 import random
 
-from yari.exceptions import InheritanceError, InvalidValueError
 from yari.loader import _read
 from yari.skills import get_all_skills
 
@@ -25,45 +24,49 @@ class _Classes:
         - Warlock
         - Wizard
 
-    :param str path: Character's chosen path.
+    :param str subclass: Character's chosen subclass.
     :param int level: Character's chosen level.
-    :param list race_skills: Character's racial skills.
+    :param list race_skills: Character's bonus racial skills (if applicable).
 
     """
 
-    def __init__(self, path: str, level: int, race_skills: list) -> None:
+    def __init__(self, subclass: str, level: int, race_skills: list) -> None:
         self.klass = self.__class__.__name__
         if self.klass == "_Classes":
-            raise InheritanceError("This class must be inherited")
+            raise Exception(
+                "This class must be inherited to use. It is currently used by "
+                "the Barbarian, Bard, Cleric, Druid, Fighter, Monk, Paladin, "
+                "Ranger, Rogue, Sorcerer, Warlock and Wizard 'job' classes."
+            )
 
         if not get_is_class(self.klass):
-            raise InvalidValueError(f"Character class '{self.klass}' is invalid.")
+            raise ValueError(f"Character class '{self.klass}' is invalid.")
 
-        if path != "" and not get_is_path(path, self.klass):
-            raise InvalidValueError(f"Character archetype '{path}' is invalid.")
+        if subclass != "" and not get_is_subclass(subclass, self.klass):
+            raise ValueError(f"Character subclass '{subclass}' is invalid.")
         else:
-            self.path = path
+            self.subclass = subclass
 
         if not isinstance(level, int):
-            raise InvalidValueError("Argument 'level' value must be of type 'int'.")
+            raise ValueError("Argument 'level' value must be of type 'int'.")
         elif level not in range(1, 21):
-            raise InvalidValueError("Argument 'level' value must be between 1-20.")
+            raise ValueError("Argument 'level' value must be between 1-20.")
         else:
             self.level = level
 
         if not isinstance(race_skills, list):
-            raise InvalidValueError("Argument 'race_skills' value must be a 'list'.")
+            raise ValueError("Argument 'race_skills' value must be a 'list'.")
         else:
             self.race_skills = race_skills
 
         self.all = _read(self.klass, file="classes")
 
-        del self.all["paths"]
+        del self.all["subclasses"]
 
         self._add_class_abilities()
         self._add_class_features()
         self._add_class_hit_die()
-        self._add_class_path_magic()
+        self._add_class_subclass_magic()
         self._add_class_proficiencies()
         self._add_class_skills()
         self._add_class_spell_slots()
@@ -83,7 +86,7 @@ class _Classes:
         self.spell_slots = self.all.get("spell_slots")
 
     def __repr__(self):
-        return '<{} path="{}" level="{}">'.format(self.klass, self.path, self.level)
+        return '<{} subclass="{}" level="{}">'.format(self.klass, self.subclass, self.level)
 
     def _add_class_abilities(self):
         """Generates primary abilities by character class.
@@ -103,14 +106,14 @@ class _Classes:
         elif self.klass in ("Fighter", "Ranger"):
             ability_choices = class_abilities.get(1)
             class_abilities[1] = random.choice(ability_choices)
-            if self.klass == "Fighter" and self.path != "Eldritch Knight":
+            if self.klass == "Fighter" and self.subclass != "Eldritch Knight":
                 class_abilities[2] = "Constitution"
-            elif self.klass == "Fighter" and self.path == "Eldritch Knight":
+            elif self.klass == "Fighter" and self.subclass == "Eldritch Knight":
                 class_abilities[2] = "Intelligence"
             else:
                 class_abilities[2] = class_abilities.get(2)
         elif self.klass == "Rogue":
-            if self.path != "Arcane Trickster":
+            if self.subclass != "Arcane Trickster":
                 class_abilities[2] = "Charisma"
             else:
                 class_abilities[2] = "Intelligence"
@@ -121,18 +124,18 @@ class _Classes:
         self.all["abilities"] = class_abilities
 
     def _add_class_features(self):
-        """Generates a dictionary of features by class, path & level."""
+        """Generates a dictionary of features by class, subclass & level."""
         try:
             class_features = _read(self.klass, "features", file="classes")
-            path_features = _read(self.path, "features", file="paths")
+            subclass_features = _read(self.subclass, "features", file="subclasses")
 
             final_feature_list = dict()
             for level in range(1, self.level + 1):
                 level_features = list()
                 if level in class_features:
                     level_features = level_features + class_features[level]
-                if level in path_features:
-                    level_features = level_features + path_features[level]
+                if level in subclass_features:
+                    level_features = level_features + subclass_features[level]
                 if len(level_features) is not 0:
                     level_features.sort()
                     final_feature_list[level] = tuple(level_features)
@@ -140,7 +143,7 @@ class _Classes:
             self.all["features"] = final_feature_list
         except AttributeError:
             print(
-                f"Character class '{self.klass}' or the archetype '{self.path}' is invalid."
+                f"Character class '{self.klass}' or the subclass '{self.subclass}' is invalid."
             )
 
     def _add_class_hit_die(self):
@@ -156,15 +159,15 @@ class _Classes:
                 die_rolls.append(hp_result)
             self.all["hit_points"] += sum(die_rolls)
 
-    def _add_class_path_magic(self):
+    def _add_class_subclass_magic(self):
         """Builds a dictionary list of specialized magic spells."""
         self.all["magic"] = dict()
 
-        if not has_class_spells(self.path):
+        if not has_class_spells(self.subclass):
             return
 
         magic = dict()
-        class_magic = _read(self.path, "magic", file="paths")
+        class_magic = _read(self.subclass, "magic", file="subclasses")
 
         if len(class_magic) is not 0:
             for level, spells in class_magic.items():
@@ -183,13 +186,13 @@ class _Classes:
                 if category in proficiency:
                     if (
                         category in ("Armor", "Weapons",)
-                        and self.path == "College of Valor"
+                        and self.subclass == "College of Valor"
                         and self.level < 3
                     ):
                         return
                     try:
-                        proficiencies = proficiency[1] + get_path_proficiency(
-                            self.path, category
+                        proficiencies = proficiency[1] + get_subclass_proficiency(
+                            self.subclass, category
                         )
                         self.all["proficiency"][index] = [category, proficiencies]
                     except IndexError:
@@ -204,7 +207,7 @@ class _Classes:
 
     def _add_class_skills(self):
         """Generates character's skills."""
-        path_proficiency = _read(self.path, file="paths")
+        subclass_proficiency = _read(self.subclass, file="subclasses")
 
         # Skill handling and allotment.
         skill_pool = self.all["proficiency"][4][1]
@@ -223,15 +226,15 @@ class _Classes:
             skill_pool = [x for x in skill_pool if x not in self.race_skills]
             skills = skills + self.race_skills
 
-        if self.path == "Assassin":
-            assassin_skills = path_proficiency.get("proficiency")[0][1]
+        if self.subclass == "Assassin":
+            assassin_skills = subclass_proficiency.get("proficiency")[0][1]
             skill_pool = [x for x in skill_pool if x not in assassin_skills]
             if self.level >= 3:
                 skills = skills + assassin_skills
 
         skills = skills + random.sample(skill_pool, allotment)
 
-        if self.path == "College of Lore" and self.level >= 3:
+        if self.subclass == "College of Lore" and self.level >= 3:
             lore_skills = [x for x in get_all_skills() if x not in skills]
             skills = skills + random.sample(lore_skills, 3)
 
@@ -245,9 +248,9 @@ class _Classes:
         """Generates character's spell slots."""
         if (
             self.klass == "Fighter"
-            and self.path != "Eldritch Knight"
+            and self.subclass != "Eldritch Knight"
             or self.klass == "Rogue"
-            and self.path != "Arcane Trickster"
+            and self.subclass != "Arcane Trickster"
         ):
             self.all["spell_slots"] = "0"
         else:
@@ -260,63 +263,63 @@ class _Classes:
 
 
 class Barbarian(_Classes):
-    def __init__(self, path, level, race_skills) -> None:
-        super(Barbarian, self).__init__(path, level, race_skills)
+    def __init__(self, subclass, level, race_skills) -> None:
+        super(Barbarian, self).__init__(subclass, level, race_skills)
 
 
 class Bard(_Classes):
-    def __init__(self, path, level, race_skills) -> None:
-        super(Bard, self).__init__(path, level, race_skills)
+    def __init__(self, subclass, level, race_skills) -> None:
+        super(Bard, self).__init__(subclass, level, race_skills)
 
 
 class Cleric(_Classes):
-    def __init__(self, path, level, race_skills) -> None:
-        super(Cleric, self).__init__(path, level, race_skills)
+    def __init__(self, subclass, level, race_skills) -> None:
+        super(Cleric, self).__init__(subclass, level, race_skills)
 
 
 class Druid(_Classes):
-    def __init__(self, path, level, race_skills) -> None:
-        super(Druid, self).__init__(path, level, race_skills)
+    def __init__(self, subclass, level, race_skills) -> None:
+        super(Druid, self).__init__(subclass, level, race_skills)
 
 
 class Fighter(_Classes):
-    def __init__(self, path, level, race_skills) -> None:
-        super(Fighter, self).__init__(path, level, race_skills)
+    def __init__(self, subclass, level, race_skills) -> None:
+        super(Fighter, self).__init__(subclass, level, race_skills)
 
 
 class Monk(_Classes):
-    def __init__(self, path, level, race_skills) -> None:
-        super(Monk, self).__init__(path, level, race_skills)
+    def __init__(self, subclass, level, race_skills) -> None:
+        super(Monk, self).__init__(subclass, level, race_skills)
 
 
 class Paladin(_Classes):
-    def __init__(self, path, level, race_skills) -> None:
-        super(Paladin, self).__init__(path, level, race_skills)
+    def __init__(self, subclass, level, race_skills) -> None:
+        super(Paladin, self).__init__(subclass, level, race_skills)
 
 
 class Ranger(_Classes):
-    def __init__(self, path, level, race_skills) -> None:
-        super(Ranger, self).__init__(path, level, race_skills)
+    def __init__(self, subclass, level, race_skills) -> None:
+        super(Ranger, self).__init__(subclass, level, race_skills)
 
 
 class Rogue(_Classes):
-    def __init__(self, path, level, race_skills) -> None:
-        super(Rogue, self).__init__(path, level, race_skills)
+    def __init__(self, subclass, level, race_skills) -> None:
+        super(Rogue, self).__init__(subclass, level, race_skills)
 
 
 class Sorcerer(_Classes):
-    def __init__(self, path, level, race_skills) -> None:
-        super(Sorcerer, self).__init__(path, level, race_skills)
+    def __init__(self, subclass, level, race_skills) -> None:
+        super(Sorcerer, self).__init__(subclass, level, race_skills)
 
 
 class Warlock(_Classes):
-    def __init__(self, path, level, race_skills) -> None:
-        super(Warlock, self).__init__(path, level, race_skills)
+    def __init__(self, subclass, level, race_skills) -> None:
+        super(Warlock, self).__init__(subclass, level, race_skills)
 
 
 class Wizard(_Classes):
-    def __init__(self, path, level, race_skills) -> None:
-        super(Wizard, self).__init__(path, level, race_skills)
+    def __init__(self, subclass, level, race_skills) -> None:
+        super(Wizard, self).__init__(subclass, level, race_skills)
 
 
 def get_is_class(klass: str) -> bool:
@@ -324,13 +327,13 @@ def get_is_class(klass: str) -> bool:
     return klass in _read(file="classes")
 
 
-def get_is_path(path: str, klass: str) -> bool:
-    """Returns whether path is a valid path of klass."""
-    return path in _read(klass, "paths", file="classes")
+def get_is_subclass(subclass: str, klass: str) -> bool:
+    """Returns whether subclass is a valid subclass of klass."""
+    return subclass in _read(klass, "subclasses", file="classes")
 
 
-def get_path_proficiency(path: str, category: str):
-    proficiency = _read(path, file="paths")
+def get_subclass_proficiency(subclass: str, category: str):
+    proficiency = _read(subclass, file="subclasses")
     if proficiency is not None and "proficiency" in proficiency:
         for proficiency in proficiency.get("proficiency"):
             if category in proficiency:
@@ -338,9 +341,9 @@ def get_path_proficiency(path: str, category: str):
     return list()
 
 
-def get_paths_by_class(klass) -> tuple:
-    """Returns a tuple of valid paths for klass."""
-    return _read(klass, "paths", file="classes")
+def get_subclasses_by_class(klass) -> tuple:
+    """Returns a tuple of valid subclasses for klass."""
+    return _read(klass, "subclasses", file="classes")
 
 
 def get_proficiency_bonus(level: int) -> int:
@@ -348,10 +351,10 @@ def get_proficiency_bonus(level: int) -> int:
     return math.ceil((level / 4) + 1)
 
 
-def has_class_spells(path: str) -> bool:
-    """Returns whether class path has spells."""
+def has_class_spells(subclass: str) -> bool:
+    """Returns whether class subclass has spells."""
     try:
-        class_spells = _read(path, "magic", file="paths")
+        class_spells = _read(subclass, "magic", file="subclasses")
         return len(class_spells) is not 0
     except TypeError:
         return False

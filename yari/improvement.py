@@ -13,7 +13,7 @@ class ImprovementGenerator:
 
     :param str race: Character's chosen race.
     :param str klass: Character's chosen class.
-    :param str path: Character's chosen path.
+    :param str subclass: Character's chosen subclass.
     :param int level: Character's chosen level.
     :param dict primary_ability: Primary abilities for the chosen klass.
     :param list saves: Character's proficient saving throws.
@@ -32,7 +32,7 @@ class ImprovementGenerator:
         self,
         race: str,
         klass: str,
-        path: str,
+        subclass: str,
         level: int,
         primary_ability: dict,
         saves: list,
@@ -47,7 +47,7 @@ class ImprovementGenerator:
     ) -> None:
         self.race = race
         self.klass = klass
-        self.path = path
+        self.subclass = subclass
         self.level = level
         self.saves = saves
         self.spell_slots = spell_slots
