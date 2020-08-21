@@ -101,7 +101,7 @@ class _Attributes:
             raise Exception(
                 "This class must be inherited to use. It is currently used by "
                 "the Charisma, Constitution, Dexterity, Intelligence, Strength, "
-                "and Wisdom attribute classes."
+                "and Wisdom 'attribute' classes."
             )
 
         self.attr = dict()
