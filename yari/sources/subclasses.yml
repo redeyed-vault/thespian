@@ -1,6 +1,6 @@
 ---
 # PATHS
-paths:
+subclasses:
   # Barbarian Paths
   Path of the Berserker:
     features:
