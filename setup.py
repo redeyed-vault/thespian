@@ -16,6 +16,7 @@ setup(
     author="Marcus T Taylor",
     description="Generate 5th edition Dungeons & Dragons characters.",
     long_description=readme,
+    long_description_content_type="text/markdown",
     install_requires=[
         "beautifulsoup4>=4.9.1",
         "click>=7.1.2",
