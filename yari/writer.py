@@ -225,6 +225,12 @@ class Writer:
 
         if self.data.get("subrace") != "":
             race = f'{self.data.get("race")}, {self.data.get("subrace")}'
+        elif self.data.get("race") == "HalfElf":
+            race = "Half-Elf"
+        elif self.data.get("race") == "HalfOrc":
+            race = "Half-Orc"
+        elif self.data.get("race") == "Yuanti":
+            race = "Yuan-ti"
         else:
             race = self.data.get("race")
 
