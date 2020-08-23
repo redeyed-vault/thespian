@@ -97,15 +97,16 @@ class _Classes:
         )
 
     def _add_class_abilities(self):
-        """Generates primary abilities by character class.
+        """
+        Generates primary abilities by character class.
 
-            Classes with multiple primary ability choices will select one.
+        Classes with multiple primary ability choices will select one.
 
-                - Fighter: Strength|Dexterity
-                - Fighter: Constitution|Intelligence
-                - Ranger: Dexterity|Strength
-                - Rogue: Charisma|Intelligence
-                - Wizard: Constitution|Dexterity
+            - Fighter: Strength|Dexterity
+            - Fighter: Constitution|Intelligence
+            - Ranger: Dexterity|Strength
+            - Rogue: Charisma|Intelligence
+            - Wizard: Constitution|Dexterity
 
         """
         class_abilities = _read(self.klass, "abilities", file="classes")
