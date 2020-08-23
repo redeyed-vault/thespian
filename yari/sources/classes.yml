@@ -6,6 +6,10 @@ classes:
       1: Strength
       2: Constitution
     background: Outlander
+    equipment:
+      - (a) Greataxe or (b) Martial
+      - (a) 2 Handaxes or (b) Simple
+      - Explorer's Pack and 4 Javelins
     features:
       1: ['Rage', 'Unarmored Defense']
       2: ['Danger Sense', 'Reckless Attack']
@@ -35,6 +39,11 @@ classes:
       1: Charisma
       2: Dexterity
     background: Entertainer
+    equipment:
+      - (a) Rapier or (b) Longsword or (c) Simple weapon
+      - (a) Diplomat Pack or (b) Entertainer's Pack
+      - (a) Lute or (b) Musical instrument
+      - Leather Armor and Dagger
     features:
       1: ['Bardic Inspiration', 'Spellcasting']
       2: ['Jack of All Trades', 'Song of Rest']
@@ -85,6 +94,12 @@ classes:
       1: Wisdom
       2: ['Constitution', 'Strength']
     background: Acolyte
+    equipment:
+      - (a) Mace or (b) Warhammer (if proficient)
+      - (a) Scale mail or (b) Leather armor or (c) Chain mail (if proficient)
+      - (a) Light crossbow and 20 bolts or (b) Simple weapon
+      - (a) Priest's pack or (b) Explorer's pack
+      - Shield and Holy Symbol
     features:
       1: ['Divine Domain', 'Spellcasting']
       2: ['Channel Divinity - Turn Undead']
@@ -137,6 +152,10 @@ classes:
       1: Wisdom
       2: Constitution
     background: Hermit
+    equipment:
+      - (a) Wooden Shield or (b) Simple weapon
+      - (a) Scimitar or (b) Simple melee weapon
+      - Leather armor, Explorer's pack, Druidic focus
     features:
       1: ['Spellcasting']
       2: ['Druidic Circle', 'Wild Shape']
@@ -188,6 +207,11 @@ classes:
       1: ['Dexterity', 'Strength']
       2: ['Constitution', 'Intelligence']
     background: Soldier
+    equipment:
+      - (a) Chain mail or (b) Leather armor, Longbow, 20 arrows
+      - (a) Martial weapon and a shield or (b) 2 Martial weapons
+      - (a) Light crossbow and 20 bolts or (b) 2 handaxes
+      - (a) Dungeoneer's pack or (b) Explorer's pack
     features:
       1: ['Fighting Style', 'Second Wind']
       2: ['Action Surge']
@@ -233,6 +257,10 @@ classes:
       1: Dexterity
       2: Wisdom
     background: Hermit
+    equipment:
+      - (a) Shortsword or (b) Simple weapon
+      - (a) Dungeoneer's pack or (b) Explorer's pack
+      - 10 Darts
     features:
       1: ['Martial Arts', 'Unarmored Defense']
       2: ['Ki', 'Unarmored Movement']
@@ -265,6 +293,11 @@ classes:
       1: Strength
       2: Charisma
     background: Noble
+    equipment:
+      - (a) Martial weapon and shield or (b) 2 Martial weapons
+      - (a) Five javelins or (b) Simple melee weapon
+      - (a) Priest's pack or (b) Explorer's pack
+      - Chain mail and a Holy Symbol
     features:
       1: ['Divine Sense', 'Lay on Hands']
       2: ['Divine Smite', 'Fighting Style', 'Spellcasting']
@@ -311,6 +344,11 @@ classes:
       1: ['Dexterity', 'Strength']
       2: Wisdom
     background: Outlander
+    equipment:
+      - (a) Scale mail or (b) Leather armor
+      - (a) Two shortswords or (b) 2 Simple melee weapons
+      - (a) Dungeoneer's pack or (b) Explorer's pack
+      - A Longbow and a quiver of 20 arrows
     features:
       1: ['Favored Enemy', 'Natural Explorer']
       2: ['Fighting Style', 'Spellcasting']
@@ -357,6 +395,11 @@ classes:
       1: Dexterity
       2: ['Charisma', 'Intelligence']
     background: Charlatan
+    equipment:
+      - (a) Rapier or (b) Shortsword
+      - (a) Shortbow and quiver of 20 arrows or (b) Shortsword
+      - (a) Burglar's pack or (b) Dungeoneer's pack or (c) Explorer's pack
+      - Leather armor, 2 Daggers and Thieves' tools
     features:
       1: ['Expertise', 'Sneak Attack']
       2: ['Cunning Action']
@@ -404,6 +447,11 @@ classes:
       1: Charisma
       2: Constitution
     background: Hermit
+    equipement:
+      - (a) Light Crossbow and 20 bolts or (b) Simple weapon
+      - (a) Component pouch or (b) Arcane focus
+      - (a) Dungeoneer's pack or (b) Explorer's pack
+      - 2 Daggers
     features:
       1: ['Sorcerous Origins', 'Spellcasting']
       2: ['Font of Magic']
@@ -447,6 +495,11 @@ classes:
       1: Charisma
       2: Constitution
     background: Charlatan
+    equipment:
+      - (a) Light Crossbow and 20 bolts or (b) Simple weapon
+      - (a) Component pouch or (b) Arcane focus
+      - (a) Scholar's pack or (b) Dungeoneer's pack
+      - Leather armor, Simple weapon, and 2 Daggers
     features:
       1: ['Otherworldly Patron', 'Pact Magic']
       2: ['Eldritch Invocations']
@@ -493,6 +546,11 @@ classes:
       1: Intelligence
       2: ['Constitution', 'Dexterity']
     background: Sage
+    equipment:
+      - (a) Quarterstaff or (b) Dagger
+      - (a) Component pouch or (b) Arcane focus
+      - (a) Scholar's pack or (b) Explorer's pack
+      - Spellbook
     features:
       1: ['Arcane Recovery', 'Spellcasting']
       2: ['Arcane Tradition']
