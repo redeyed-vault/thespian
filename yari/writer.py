@@ -40,7 +40,7 @@ class Writer:
             "background",
             "size",
             "class",
-            "subclass"
+            "subclass",
             "level",
             "bonus",
             "score_array",
