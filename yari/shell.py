@@ -184,8 +184,10 @@ def main(
     def callback(method, **kw):
         def init():
             call_class = eval(method)
-            if all(k in kw for k in ("subclass", "level", "race_skills")):
-                return call_class(kw["subclass"], kw["level"], kw["race_skills"])
+            if all(k in kw for k in ("subclass", "background", "level", "race_skills")):
+                return call_class(
+                    kw["subclass"], kw["background"], kw["level"], kw["race_skills"]
+                )
             elif all(k in kw for k in ("sex", "subrace", "level",)):
                 return call_class(kw["sex"], kw["subrace"], kw["level"])
             else:
@@ -198,7 +200,13 @@ def main(
         rg = callback(race, sex=sex, level=level, subrace=subrace)
 
         # Class features
-        cg = callback(klass, subclass=subclass, level=level, race_skills=rg.skills)
+        cg = callback(
+            klass,
+            background=background,
+            subclass=subclass,
+            level=level,
+            race_skills=rg.skills,
+        )
 
         # Generate ability scores.
         ag = AttributeGenerator(cg.primary_ability, rg.bonus)
@@ -251,7 +259,7 @@ def main(
         cs["languages"] = u.languages
         cs["skills"] = u.skills
         cs["feats"] = u.feats
-        cs["equipment"] = _read(background, "equipment", file="backgrounds")
+        cs["equipment"] = cg.equipment
         cs["features"] = cg.features
         cs["traits"] = rg.other
 

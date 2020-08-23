@@ -25,12 +25,15 @@ class _Classes:
         - Wizard
 
     :param str subclass: Character's chosen subclass.
+    :param str background: Character's chosen background.
     :param int level: Character's chosen level.
     :param list race_skills: Character's bonus racial skills (if applicable).
 
     """
 
-    def __init__(self, subclass: str, level: int, race_skills: list) -> None:
+    def __init__(
+        self, subclass: str, background: str, level: int, race_skills: list
+    ) -> None:
         self.klass = self.__class__.__name__
         if self.klass == "_Classes":
             raise Exception(
@@ -46,6 +49,8 @@ class _Classes:
             raise ValueError(f"Character subclass '{subclass}' is invalid.")
         else:
             self.subclass = subclass
+
+        self.background = background
 
         if not isinstance(level, int):
             raise ValueError("Argument 'level' value must be of type 'int'.")
@@ -64,6 +69,7 @@ class _Classes:
         del self.all["subclasses"]
 
         self._add_class_abilities()
+        self._add_class_equipment()
         self._add_class_features()
         self._add_class_hit_die()
         self._add_class_subclass_magic()
@@ -86,7 +92,9 @@ class _Classes:
         self.spell_slots = self.all.get("spell_slots")
 
     def __repr__(self):
-        return '<{} subclass="{}" level="{}">'.format(self.klass, self.subclass, self.level)
+        return '<{} subclass="{}" level="{}">'.format(
+            self.klass, self.subclass, self.level
+        )
 
     def _add_class_abilities(self):
         """Generates primary abilities by character class.
@@ -122,6 +130,14 @@ class _Classes:
             class_abilities[2] = random.choice(ability_choices)
 
         self.all["abilities"] = class_abilities
+
+    def _add_class_equipment(self):
+        """Generates a list of starting equipment by class & background."""
+        class_equipment = _read(self.klass, "equipment", file="classes")
+        background_equipment = _read(self.background, "equipment", file="backgrounds")
+        equipment = class_equipment + background_equipment
+        equipment.sort()
+        self.all["equipment"] = self.equipment = equipment
 
     def _add_class_features(self):
         """Generates a dictionary of features by class, subclass & level."""
@@ -180,7 +196,7 @@ class _Classes:
             self.all["magic"] = dict()
 
     def _add_class_proficiencies(self):
-        """Merge class proficiencies with any provided by archetypes (if applicable)."""
+        """Merge class proficiencies with any provided by their subclass (if applicable)."""
         for category in ("Armor", "Tools", "Weapons"):
             for index, proficiency in enumerate(self.all.get("proficiency")):
                 if category in proficiency:
@@ -206,7 +222,7 @@ class _Classes:
         self.all["proficiency"] = [tuple(p) for p in self.all.get("proficiency")]
 
     def _add_class_skills(self):
-        """Generates character's skills."""
+        """Generates character's skill set."""
         subclass_proficiency = _read(self.subclass, file="subclasses")
 
         # Skill handling and allotment.
@@ -245,7 +261,7 @@ class _Classes:
         self.all["proficiency_bonus"] = get_proficiency_bonus(self.level)
 
     def _add_class_spell_slots(self):
-        """Generates character's spell slots."""
+        """Generates character's spell slots (if ANY)."""
         if (
             self.klass == "Fighter"
             and self.subclass != "Eldritch Knight"
@@ -263,63 +279,63 @@ class _Classes:
 
 
 class Barbarian(_Classes):
-    def __init__(self, subclass, level, race_skills) -> None:
-        super(Barbarian, self).__init__(subclass, level, race_skills)
+    def __init__(self, subclass, background, level, race_skills) -> None:
+        super(Barbarian, self).__init__(subclass, background, level, race_skills)
 
 
 class Bard(_Classes):
-    def __init__(self, subclass, level, race_skills) -> None:
-        super(Bard, self).__init__(subclass, level, race_skills)
+    def __init__(self, subclass, background, level, race_skills) -> None:
+        super(Bard, self).__init__(subclass, background, level, race_skills)
 
 
 class Cleric(_Classes):
-    def __init__(self, subclass, level, race_skills) -> None:
-        super(Cleric, self).__init__(subclass, level, race_skills)
+    def __init__(self, subclass, background, level, race_skills) -> None:
+        super(Cleric, self).__init__(subclass, background, level, race_skills)
 
 
 class Druid(_Classes):
-    def __init__(self, subclass, level, race_skills) -> None:
-        super(Druid, self).__init__(subclass, level, race_skills)
+    def __init__(self, subclass, background, level, race_skills) -> None:
+        super(Druid, self).__init__(subclass, background, level, race_skills)
 
 
 class Fighter(_Classes):
-    def __init__(self, subclass, level, race_skills) -> None:
-        super(Fighter, self).__init__(subclass, level, race_skills)
+    def __init__(self, subclass, background, level, race_skills) -> None:
+        super(Fighter, self).__init__(subclass, background, level, race_skills)
 
 
 class Monk(_Classes):
-    def __init__(self, subclass, level, race_skills) -> None:
-        super(Monk, self).__init__(subclass, level, race_skills)
+    def __init__(self, subclass, background, level, race_skills) -> None:
+        super(Monk, self).__init__(subclass, background, level, race_skills)
 
 
 class Paladin(_Classes):
-    def __init__(self, subclass, level, race_skills) -> None:
-        super(Paladin, self).__init__(subclass, level, race_skills)
+    def __init__(self, subclass, background, level, race_skills) -> None:
+        super(Paladin, self).__init__(subclass, background, level, race_skills)
 
 
 class Ranger(_Classes):
-    def __init__(self, subclass, level, race_skills) -> None:
-        super(Ranger, self).__init__(subclass, level, race_skills)
+    def __init__(self, subclass, background, level, race_skills) -> None:
+        super(Ranger, self).__init__(subclass, background, level, race_skills)
 
 
 class Rogue(_Classes):
-    def __init__(self, subclass, level, race_skills) -> None:
-        super(Rogue, self).__init__(subclass, level, race_skills)
+    def __init__(self, subclass, background, level, race_skills) -> None:
+        super(Rogue, self).__init__(subclass, background, level, race_skills)
 
 
 class Sorcerer(_Classes):
-    def __init__(self, subclass, level, race_skills) -> None:
-        super(Sorcerer, self).__init__(subclass, level, race_skills)
+    def __init__(self, subclass, background, level, race_skills) -> None:
+        super(Sorcerer, self).__init__(subclass, background, level, race_skills)
 
 
 class Warlock(_Classes):
-    def __init__(self, subclass, level, race_skills) -> None:
-        super(Warlock, self).__init__(subclass, level, race_skills)
+    def __init__(self, subclass, background, level, race_skills) -> None:
+        super(Warlock, self).__init__(subclass, background, level, race_skills)
 
 
 class Wizard(_Classes):
-    def __init__(self, subclass, level, race_skills) -> None:
-        super(Wizard, self).__init__(subclass, level, race_skills)
+    def __init__(self, subclass, background, level, race_skills) -> None:
+        super(Wizard, self).__init__(subclass, background, level, race_skills)
 
 
 def get_is_class(klass: str) -> bool:
@@ -333,6 +349,7 @@ def get_is_subclass(subclass: str, klass: str) -> bool:
 
 
 def get_subclass_proficiency(subclass: str, category: str):
+    """Returns subclass bonus proficiencies (if ANY)."""
     proficiency = _read(subclass, file="subclasses")
     if proficiency is not None and "proficiency" in proficiency:
         for proficiency in proficiency.get("proficiency"):
