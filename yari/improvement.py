@@ -117,7 +117,7 @@ class ImprovementGenerator:
 
     def _add_features(self, feat: str) -> None:
         """Assign associated features by specified feat.
-        
+
         Args:
             feat (str): Feat to add features for.
         """
@@ -305,7 +305,12 @@ class ImprovementGenerator:
 
         # If Heavily, Lightly, or Moderately Armored feat and a Monk.
         if (
-            feat in ("Heavily Armored", "Lightly Armored", "Moderately Armored",)
+            feat
+            in (
+                "Heavily Armored",
+                "Lightly Armored",
+                "Moderately Armored",
+            )
             and self.klass == "Monk"
         ):
             return False
