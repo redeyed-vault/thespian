@@ -27,11 +27,10 @@ class Writer:
         save_path = os.path.expanduser("~/Yari")
         if not os.path.exists(save_path):
             os.mkdir(save_path)
-
         self.save_path = save_path
 
         if not isinstance(data, OrderedDict):
-            raise TypeError("data argument must be of type 'OrderedDict'")
+            raise TypeError("Argument 'data' must be of type 'OrderedDict'.")
 
         data_keys = (
             "race",
@@ -55,7 +54,13 @@ class Writer:
             "traits",
         )
         if not all(k in data for k in data_keys):
-            raise ValueError("data: all keys must have a value!")
+            raise ValueError(
+                "All data keys 'race', 'subrace', 'sex', "
+                "'background', 'size', 'class', 'subclass', 'level', 'bonus', "
+                "'score_array', 'saves', 'proficiency', 'languages', "
+                "'spell_slots', 'skills', 'feats', 'equipment', 'features', "
+                "'traits' must have a value."
+            )
         else:
             self.data = data
         self.text = ""
