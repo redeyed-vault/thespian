@@ -80,7 +80,8 @@ class Writer:
     def append_abilities(self):
         def format_ability(attributes: dict):
             block = '<ability label="{}" value="{}">'.format(
-                attributes.get("name"), attributes.get("value"),
+                attributes.get("name"),
+                attributes.get("value"),
             )
             for index, value in attributes.items():
                 if index == "ability_checks":
