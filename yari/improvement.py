@@ -116,10 +116,11 @@ class ImprovementGenerator:
         self.feats.append(feat_choice)
 
     def _add_features(self, feat: str) -> None:
-        """Assign associated features by specified feat.
+        """
+        Assign associated features by specified feat.
 
-        Args:
-            feat (str): Feat to add features for.
+        :param str feat: Feat to add features for.
+
         """
         # Actor
         if feat == "Actor":
@@ -295,10 +296,11 @@ class ImprovementGenerator:
             return ability_upgrades, feat_upgrades
 
     def _has_prerequisites(self, feat: str) -> bool:
-        """Determines if character has the prerequisites for a feat.
+        """
+        Determines if character has the prerequisites for a feat.
 
-        Args:
-            feat (str): Feat to check prerequisites for.
+        :param str feat: Feat to check prerequisites for.
+
         """
         if feat in self.feats:
             return False
