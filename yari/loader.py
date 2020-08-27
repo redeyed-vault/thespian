@@ -1,4 +1,6 @@
 import os
+import traceback
+
 import yaml
 
 
@@ -15,58 +17,54 @@ class HeaderInvalid(StructuralError):
 
 
 class Query:
-    """Handles successful query result."""
+    """
+    Handles successful query result.
 
-    def __init__(self, content: dict) -> None:
-        """
-
-        Args:
-            content (dict): The loaded YAML file contents.
-
-        """
-        if not isinstance(content, dict):
-            raise TypeError("stream argument must be of type 'dict'")
-        else:
-            self.stream = content
-            self.ids = tuple(self.stream.keys())
-
-    def fetch(self, *fields):
-        """
-
-        Args:
-            fields:
-
-        """
-        if len(fields) is 0:
-            return self.ids
-        else:
-            stream = self.stream
-            for field in fields:
-                if field in stream:
-                    stream = stream[field]
-                else:
-                    raise QueryNotFound(f"Invalid index '{field}' specified.")
-            return stream
-
-
-def _read(*fields, file: str) -> (dict, list):
-    """Loads and reads from the requested file using query chain links.
-
-    Args:
-        fields: Index(es) to query.
-        file (str): YAML file to read from (file extension is not needed).
+    :param dict resource: The loaded YAML file contents.
 
     """
 
-    def yaml_open(yaml_file: str) -> Query:
+    def __init__(self, resource: dict) -> None:
+        if not isinstance(resource, dict):
+            raise TypeError("Argument 'resource' must be of type 'dict'.")
+        self.resource = resource
+
+    def find(self, *fields):
+        """
+        Searches the resource using the specified field(s).
+
+        :param fields: Field index(es) to search for.
+
+        """
+        if len(fields) is 0:
+            yield tuple(self.resource.keys())
+        else:
+            resource = self.resource
+            for field in fields:
+                if field in resource:
+                    resource = resource[field]
+                else:
+                    raise QueryNotFound(f"Cannot find index '{field}' within resource.")
+            yield resource
+
+
+def _read(*fields, file: str) -> (dict, list):
+    """
+    Loads and reads from the requested file using query chain links.
+
+    :param fields: Index(es) to query.
+    :param str file: YAML file to read from (file extension is not needed).
+
+    """
+
+    def yopen(yaml_file: str) -> Query:
         data = os.path.join(os.path.dirname(__file__), f"sources/{yaml_file}.yml")
         if not os.path.exists(data):
             raise FileNotFoundError(f"Cannot find the resource '{yaml_file}.yml'")
-        else:
-            resource = yaml.full_load(open(data))
 
         try:
-            return Query(resource[yaml_file])
+            resource = yaml.full_load(open(data))[yaml_file]
+            return Query(resource)
         except KeyError:
             raise HeaderInvalid(
                 f"The opening key in '{yaml_file}.yml' is invalid. The first line "
@@ -75,9 +73,13 @@ def _read(*fields, file: str) -> (dict, list):
             )
 
     try:
-        y = yaml_open(file)
-        return y.fetch(*fields)
-    except (FileNotFoundError, HeaderInvalid, TypeError) as e:
-        exit(e)
+        y = yopen(file)
+        return y.find(*fields)
+    except (FileNotFoundError, TypeError) as error:
+        print(error)
+        traceback.print_exc()
+        exit()
+    except HeaderInvalid as error:
+        exit(error)
     except QueryNotFound:
         pass
