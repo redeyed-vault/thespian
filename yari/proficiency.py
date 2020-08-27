@@ -30,7 +30,7 @@ def get_armor_chest():
     """Returns a full collection of armors."""
     armor_chest = dict()
     for armor_category in ("Heavy", "Light", "Medium"):
-        armor_chest[armor_category] = [p for p in _read(armor_category, file="armors")][0]
+        armor_chest[armor_category] = [a for a in _read(armor_category, file="armors")][0]
     yield armor_chest
 
 
