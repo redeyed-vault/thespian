@@ -24,7 +24,7 @@ setup(
         "PyYAML>=5.3.1",
     ],
     python_requires=">=3.0",
-    entry_points={"console_scripts": ["yari=yari.shell:main"]},
+    entry_points={"console_scripts": ["yari=yari:main"]},
     classifiers=[
         "Development Status :: 4 - Beta",
         "Environment :: Console",
