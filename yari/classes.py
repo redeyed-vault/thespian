@@ -1,7 +1,7 @@
 import math
 import random
 
-from yari.loader import _read
+from yari.loader import _read, QueryNotFound
 from yari.skills import get_all_skills
 
 
@@ -194,7 +194,7 @@ class _Classes:
             return
 
         magic = dict()
-        class_magic = _read(self.subclass, "magic", file="subclasses")
+        class_magic = [m for m in _read(self.subclass, "magic", file="subclasses")][0]
 
         if len(class_magic) is not 0:
             for level, spells in class_magic.items():
@@ -390,7 +390,7 @@ def get_proficiency_bonus(level: int) -> int:
 def has_class_spells(subclass: str) -> bool:
     """Returns whether class subclass has spells."""
     try:
-        class_spells = [s for s in _read(subclass, "magic", file="subclasses")][0]
+        class_spells = [m for m in _read(subclass, "magic", file="subclasses")][0]
         return len(class_spells) is not 0
-    except TypeError:
+    except (TypeError, QueryNotFound):
         return False
