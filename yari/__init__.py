@@ -188,13 +188,13 @@ def main(
         out(race_error, 2)
 
     # PC Class
-    cg = None
     if klass == "":
         klass = random.choice(ALLOWED_PC_CLASSES)
     else:
         if klass not in ALLOWED_PC_CLASSES:
             out(f"invalid character class '{klass}'", 1)
 
+    cg = None
     try:
         if background == "":
             background = get_default_background(klass)
@@ -286,12 +286,8 @@ def main(
             out(e, 2)
         else:
             out(f"character saved to '{w.save_path}'")
-    except (
-        Exception,
-        NameError,
-        ValueError,
-    ) as e:
-        out(e, 2)
+    except ValueError as error:
+        out(str(error), 2)
 
 
 if __name__ == "__main__":
