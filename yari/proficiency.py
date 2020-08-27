@@ -30,7 +30,9 @@ def get_armor_chest():
     """Returns a full collection of armors."""
     armor_chest = dict()
     for armor_category in ("Heavy", "Light", "Medium"):
-        armor_chest[armor_category] = [a for a in _read(armor_category, file="armors")][0]
+        armor_chest[armor_category] = [a for a in _read(armor_category, file="armors")][
+            0
+        ]
     yield armor_chest
 
 
@@ -48,5 +50,7 @@ def get_weapon_chest():
     """Returns a full collection of weapons."""
     weapon_chest = dict()
     for weapon_category in ("Simple", "Martial"):
-        weapon_chest[weapon_category] = [w for w in _read(weapon_category, file="weapons")][0]
+        weapon_chest[weapon_category] = [
+            w for w in _read(weapon_category, file="weapons")
+        ][0]
     yield weapon_chest
