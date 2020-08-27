@@ -1,7 +1,13 @@
+import math
 import random
 
+from yari.dice import roll
 from yari.loader import _read
-from yari.ratio import RatioGenerator
+
+
+ALLOWED_PC_GENDERS = ("Female", "Male")
+ALLOWED_PC_RACES = [r for r in _read(file="races")][0]
+ALLOWED_PC_SUBRACES = [s for s in _read(file="subraces")][0]
 
 
 class _Races:
@@ -42,7 +48,9 @@ class _Races:
 
     def __init__(self, sex: str, subrace: str = "", level: int = 1) -> None:
         self.race = self.__class__.__name__
-        valid_subraces = [r for r in get_subraces_by_race(self.race)]
+        valid_subraces = [
+            sr for sr in get_subraces_by_race(ALLOWED_PC_SUBRACES, self.race)
+        ]
 
         if self.race == "_Races":
             raise Exception(
@@ -53,7 +61,10 @@ class _Races:
                 "Triton, and Yuanti 'race' classes."
             )
 
-        if sex not in ("Female", "Male",):
+        if sex not in (
+            "Female",
+            "Male",
+        ):
             raise ValueError(f"Argument 'sex' value must be 'Male' or 'Female'.")
         else:
             self.sex = sex
@@ -71,9 +82,9 @@ class _Races:
             self.level = level
 
         # Get racial traits and merge with subracial traits (if ANY).
-        self.all = _read(self.race, file="races")
+        self.all = [a for a in _read(self.race, file="races")][0]
         if self.subrace != "":
-            subrace_traits = _read(self.subrace, file="subraces")
+            subrace_traits = [s for s in _read(self.subrace, file="subraces")][0]
             for trait, value in subrace_traits.items():
                 if trait not in self.all:
                     self.all[trait] = subrace_traits[trait]
@@ -87,6 +98,8 @@ class _Races:
                 elif trait == "other":
                     for other in subrace_traits.get(trait):
                         self.all[trait].append(other)
+                elif trait == "ratio":
+                    self.all[trait] = subrace_traits.get(trait)
 
         self._add_race_ability_bonus()
         self._add_race_ancestry()
@@ -138,11 +151,21 @@ class _Races:
                         self.all[trait][index] = [feature[0], draconic_ancestor]
 
                         damage_resistance = None
-                        if draconic_ancestor in ("Black", "Copper",):
+                        if draconic_ancestor in (
+                            "Black",
+                            "Copper",
+                        ):
                             damage_resistance = "Acid"
-                        elif draconic_ancestor in ("Blue", "Bronze",):
+                        elif draconic_ancestor in (
+                            "Blue",
+                            "Bronze",
+                        ):
                             damage_resistance = "Lightning"
-                        elif draconic_ancestor in ("Brass", "Gold", "Red",):
+                        elif draconic_ancestor in (
+                            "Brass",
+                            "Gold",
+                            "Red",
+                        ):
                             damage_resistance = "Fire"
                         elif draconic_ancestor == "Green":
                             damage_resistance = "Poison"
@@ -216,12 +239,24 @@ class _Races:
 
     def _add_race_mass(self):
         """Generates a character's height & weight."""
-        (height, weight) = RatioGenerator(self.race, self.subrace, self.sex).calculate()
-        height = "{}' {}\"".format(height[0], height[1])
+        height_base = self.all.get("ratio").get("height").get("base")
+        height_modifier = self.all.get("ratio").get("height").get("modifier")
+        height_modifier = sum(list(roll(height_modifier)))
+        inches = height_base + height_modifier
+        feet = math.floor(inches / 12)
+        inches = inches % 12
+        height = "{}' {}\"".format(feet, inches)
+
+        weight_base = self.all.get("ratio").get("weight").get("base")
+        weight_modifier = self.all.get("ratio").get("weight").get("modifier")
+        weight_modifier = sum(list(roll(weight_modifier)))
+        weight = (height_modifier * weight_modifier) + weight_base
         weight = f"{weight} lbs."
+
         self.all["size"] = "{} size ({}, {})".format(
             self.all.get("size"), height, weight
         )
+
         del self.all["ratio"]
 
     def _add_race_traits(self):
@@ -443,12 +478,13 @@ class Yuanti(_Races):
         super(Yuanti, self).__init__(sex, subrace, level)
 
 
-def get_subraces_by_race(race: str):
+def get_subraces_by_race(allowed_subraces: list, race: str):
     """Yields a list of valid subraces by race.
 
+    :param list allowed_subraces: List of allowed subraces.
     :param str race: Race to retrieve subraces for.
 
     """
-    for subrace in _read(file="subraces"):
-        if _read(subrace, "parent", file="subraces") == race:
+    for subrace in allowed_subraces:
+        if [s for s in _read(subrace, "parent", file="subraces")][0] == race:
             yield subrace
