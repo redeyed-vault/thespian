@@ -6,7 +6,6 @@ import click
 from yari.classes import *
 from yari.attributes import AttributeGenerator
 from yari.improvement import ImprovementGenerator
-from yari.loader import _read
 from yari.proficiency import ProficiencyGenerator
 from yari.races import *
 from yari.version import __version__
@@ -107,6 +106,27 @@ def main(
     level: int,
     ratio: int,
 ) -> None:
+    def callback(method, **kw):
+        def init():
+            call_class = eval(method)
+            if all(k in kw for k in ("subclass", "background", "level", "race_skills")):
+                return call_class(
+                    kw["subclass"], kw["background"], kw["level"], kw["race_skills"]
+                )
+            elif all(
+                k in kw
+                for k in (
+                    "sex",
+                    "subrace",
+                    "level",
+                )
+            ):
+                return call_class(kw["sex"], kw["subrace"], kw["level"])
+            else:
+                raise RuntimeError(f"Invalid callback '{method}' specified.")
+
+        return init()
+
     def out(message: str, output_code: int = 0):
         if output_code not in range(-1, 3):
             raise ValueError("Argument 'output_code' is invalid.")
@@ -125,81 +145,70 @@ def main(
     if file == "":
         out("character must have a file name", 1)
 
-    if race != "":
-        if race not in _read(file="races"):
-            out(f"invalid character race '{race}'", 1)
-    else:
-        race = random.choice(_read(file="races"))
-
-    valid_subraces = [sr for sr in get_subraces_by_race(race)]
-    if subrace == "":
-        if len(valid_subraces) is not 0:
-            subrace = random.choice(valid_subraces)
-    else:
-        try:
-            if len(valid_subraces) is 0:
-                raise ValueError(f"race '{race}' has no available subraces")
-
-            if subrace not in valid_subraces:
-                raise ValueError(f"invalid subrace race '{subrace}'")
-        except ValueError as e:
-            out(str(e), 1)
-
-    the_sexes = ("Female", "Male")
-    if sex in the_sexes:
-        sex = sex
-    else:
-        sex = random.choice(the_sexes)
-
-    if klass == "":
-        klass = random.choice(_read(file="classes"))
-    else:
-        try:
-            if klass not in _read(file="classes"):
-                raise ValueError
-        except ValueError:
-            out(f"invalid character class '{klass}'", 1)
-
-    if background == "":
-        background = _read(klass, "background", file="classes")
-    else:
-        valid_backgrounds = _read(file="backgrounds")
-        if background not in valid_backgrounds:
-            out(f"invalid character background '{background}'", 1)
-
-    valid_class_subclasses = get_subclasses_by_class(klass)
-    if subclass == "":
-        subclass = random.choice(valid_class_subclasses)
-    else:
-        if subclass not in valid_class_subclasses:
-            out(f"class '{klass}' has no subclass '{subclass}'", 1)
-
     if level not in range(1, 21):
         out(f"level must be between 1-20 ({level})", 1)
 
     if ratio not in range(0, 101):
         out(f"ratio must be between 0-100 ({ratio})", 1)
 
-    # Generate class features and racial traits.
-    def callback(method, **kw):
-        def init():
-            call_class = eval(method)
-            if all(k in kw for k in ("subclass", "background", "level", "race_skills")):
-                return call_class(
-                    kw["subclass"], kw["background"], kw["level"], kw["race_skills"]
-                )
-            elif all(k in kw for k in ("sex", "subrace", "level",)):
-                return call_class(kw["sex"], kw["subrace"], kw["level"])
-            else:
-                raise RuntimeError(f"Invalid callback '{method}' specified.")
+    # PC Race
+    if race != "":
+        if race not in ALLOWED_PC_RACES:
+            out(f"invalid character race '{race}'", 1)
+    else:
+        race = random.choice(ALLOWED_PC_RACES)
 
-        return init()
+    rg = None
+    try:
+        if sex in ALLOWED_PC_GENDERS:
+            sex = sex
+        else:
+            sex = random.choice(ALLOWED_PC_GENDERS)
+
+        subraces_by_race = [s for s in get_subraces_by_race(ALLOWED_PC_SUBRACES, race)]
+        if subrace == "":
+            if len(subraces_by_race) is not 0:
+                subrace = random.choice(subraces_by_race)
+        else:
+            try:
+                if len(subraces_by_race) is 0:
+                    raise ValueError(f"race '{race}' has no available subraces")
+
+                if subrace not in subraces_by_race:
+                    raise ValueError(f"invalid subrace race '{subrace}'")
+            except ValueError as e:
+                out(str(e), 1)
+
+        rg = callback(race, sex=sex, level=level, subrace=subrace)
+    except (
+        Exception,
+        NameError,
+        ValueError,
+    ) as race_error:
+        out(race_error, 2)
+
+    # PC Class
+    cg = None
+    if klass == "":
+        klass = random.choice(ALLOWED_PC_CLASSES)
+    else:
+        if klass not in ALLOWED_PC_CLASSES:
+            out(f"invalid character class '{klass}'", 1)
 
     try:
-        # Racial traits
-        rg = callback(race, sex=sex, level=level, subrace=subrace)
+        if background == "":
+            background = get_default_background(klass)
+        else:
+            if background not in ALLOWED_PC_BACKGROUNDS:
+                out(f"invalid character background '{background}'", 1)
 
-        # Class features
+        valid_class_subclasses = get_subclasses_by_class(klass)
+        if subclass == "":
+            subclass = random.choice(valid_class_subclasses)
+        else:
+            if subclass not in valid_class_subclasses:
+                out(f"class '{klass}' has no subclass '{subclass}'", 1)
+
         cg = callback(
             klass,
             background=background,
@@ -207,7 +216,14 @@ def main(
             level=level,
             race_skills=rg.skills,
         )
+    except (
+        Exception,
+        NameError,
+        ValueError,
+    ) as class_error:
+        out(class_error, 2)
 
+    try:
         # Generate ability scores.
         ag = AttributeGenerator(cg.primary_ability, rg.bonus)
         score_array = ag.score_array
@@ -270,7 +286,11 @@ def main(
             out(e, 2)
         else:
             out(f"character saved to '{writer.save_path}'")
-    except (Exception, NameError, RuntimeError, ValueError,) as e:
+    except (
+        Exception,
+        NameError,
+        ValueError,
+    ) as e:
         out(e, 2)
 
 
