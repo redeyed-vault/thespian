@@ -58,10 +58,10 @@ def load(*fields, file: str) -> (dict, list):
     """
     try:
         sources_path = os.path.join(os.path.dirname(__file__), "sources/")
-        data = os.path.join(sources_path, f"{file}.yml")
-        if not os.path.exists(data):
+        file = os.path.join(sources_path, f"{file}.yml")
+        if not os.path.exists(file):
             raise FileNotFoundError(f"Cannot find the resource '{file}.yml'")
-        data = open(data)
+        data = open(file)
         resource = yaml.full_load(data)
         if file not in resource:
             raise HeaderInvalid(
