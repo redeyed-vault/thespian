@@ -2,7 +2,7 @@ from collections import OrderedDict
 import random
 
 from yari.dice import roll
-from yari.loader import _read
+from yari.loader import load
 
 
 class AttributeGenerator:
@@ -119,8 +119,8 @@ class _Attributes:
 
     def _get_skills_by_attribute(self):
         """Returns a skill list by attribute."""
-        for skill in [s for s in _read(file="skills")][0]:
-            attribute = _read(skill, "ability", file="skills")
+        for skill in [s for s in load(file="skills")][0]:
+            attribute = load(skill, "ability", file="skills")
             if attribute == self.attribute:
                 yield skill
 

@@ -48,32 +48,28 @@ class Query:
             yield resource
 
 
-def _read(*fields, file: str) -> (dict, list):
+def load(*fields, file: str) -> (dict, list):
     """
-    Loads and reads from the requested file using query chain links.
+    Loads the requested YAML file and pulls requested fields.
 
     :param fields: Index(es) to query.
     :param str file: YAML file to read from (file extension is not needed).
 
     """
-
-    def yopen(yaml_file: str) -> Query:
-        data = os.path.join(os.path.dirname(__file__), f"sources/{yaml_file}.yml")
+    try:
+        sources_path = os.path.join(os.path.dirname(__file__), "sources/")
+        data = os.path.join(sources_path, f"{file}.yml")
         if not os.path.exists(data):
-            raise FileNotFoundError(f"Cannot find the resource '{yaml_file}.yml'")
-
-        try:
-            resource = yaml.full_load(open(data))[yaml_file]
-            return Query(resource)
-        except KeyError:
+            raise FileNotFoundError(f"Cannot find the resource '{file}.yml'")
+        data = open(data)
+        resource = yaml.full_load(data)
+        if file not in resource:
             raise HeaderInvalid(
-                f"The opening key in '{yaml_file}.yml' is invalid. The first line "
+                f"The opening key in '{file}.yml' is invalid. The first line "
                 "in Yari specific YAML documents must begin with a key that "
                 "matches the file name without the extension."
             )
-
-    try:
-        y = yopen(file)
+        y = Query(resource[file])
         return y.find(*fields)
     except (FileNotFoundError, TypeError) as error:
         print(error)

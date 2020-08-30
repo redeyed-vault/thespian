@@ -3,7 +3,7 @@ import math
 import random
 import traceback
 
-from yari.loader import _read
+from yari.loader import load
 from yari.proficiency import get_tool_chest, get_weapon_chest
 
 
@@ -103,7 +103,7 @@ class ImprovementGenerator:
 
     def _add_feat(self) -> None:
         """Randomly selects and adds a valid feats."""
-        feats = [feat for feat in list(_read(file="feats")) if feat not in self.feats]
+        feats = [feat for feat in list(load(file="feats")) if feat not in self.feats]
 
         # Keep choosing a feat until prerequisites are met.
         random.shuffle(feats)
@@ -214,7 +214,7 @@ class ImprovementGenerator:
                 if skilled_choice == "Skill":
                     skills = [
                         skill
-                        for skill in list(_read(file="skills"))
+                        for skill in list(load(file="skills"))
                         if skill not in self.skills
                     ]
                     self.skills.append(random.choice(skills))
@@ -337,7 +337,7 @@ class ImprovementGenerator:
                 return False
 
         # Go through ALL additional prerequisites.
-        prerequisite = _read(feat, file="feats")
+        prerequisite = load(feat, file="feats")
         for requirement, _ in prerequisite.items():
             if requirement == "abilities":
                 for ability, required_score in prerequisite.get("abilities").items():

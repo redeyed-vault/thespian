@@ -2,12 +2,12 @@ import math
 import random
 
 from yari.dice import roll
-from yari.loader import _read
+from yari.loader import load
 
 
 ALLOWED_PC_GENDERS = ("Female", "Male")
-ALLOWED_PC_RACES = [r for r in _read(file="races")][0]
-ALLOWED_PC_SUBRACES = [s for s in _read(file="subraces")][0]
+ALLOWED_PC_RACES = [r for r in load(file="races")][0]
+ALLOWED_PC_SUBRACES = [s for s in load(file="subraces")][0]
 
 
 class _Races:
@@ -82,9 +82,9 @@ class _Races:
             self.level = level
 
         # Get racial traits and merge with subracial traits (if ANY).
-        self.all = [a for a in _read(self.race, file="races")][0]
+        self.all = [a for a in load(self.race, file="races")][0]
         if self.subrace != "":
-            subrace_traits = [s for s in _read(self.subrace, file="subraces")][0]
+            subrace_traits = [s for s in load(self.subrace, file="subraces")][0]
             for trait, value in subrace_traits.items():
                 if trait not in self.all:
                     self.all[trait] = subrace_traits[trait]
@@ -486,5 +486,5 @@ def get_subraces_by_race(allowed_subraces: list, race: str):
 
     """
     for subrace in allowed_subraces:
-        if [s for s in _read(subrace, "parent", file="subraces")][0] == race:
+        if [s for s in load(subrace, "parent", file="subraces")][0] == race:
             yield subrace

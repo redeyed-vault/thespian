@@ -1,9 +1,9 @@
-from yari.loader import _read
+from yari.loader import load
 
 
 def get_all_skills() -> list:
     """Returns a list of ALL skills."""
-    return [s for s in _read(file="skills")][0]
+    return [s for s in load(file="skills")][0]
 
 
 def get_background_skills(background: str):
@@ -13,4 +13,4 @@ def get_background_skills(background: str):
         background (str): Background to return background skills for.
 
     """
-    return [s for s in _read(background, "skills", file="backgrounds")][0]
+    return [s for s in load(background, "skills", file="backgrounds")][0]

@@ -1,13 +1,13 @@
 import math
 import random
 
-from yari.loader import _read, QueryNotFound
+from yari.loader import load, QueryNotFound
 from yari.skills import get_all_skills
 
 
-ALLOWED_PC_BACKGROUNDS = [b for b in _read(file="classes")][0]
-ALLOWED_PC_CLASSES = [c for c in _read(file="classes")][0]
-ALLOWED_PC_SUBCLASSES = [s for s in _read(file="subclasses")][0]
+ALLOWED_PC_BACKGROUNDS = [b for b in load(file="classes")][0]
+ALLOWED_PC_CLASSES = [c for c in load(file="classes")][0]
+ALLOWED_PC_SUBCLASSES = [s for s in load(file="subclasses")][0]
 
 
 class _Classes:
@@ -69,7 +69,7 @@ class _Classes:
         else:
             self.race_skills = race_skills
 
-        self.all = [a for a in _read(self.klass, file="classes")][0]
+        self.all = [a for a in load(self.klass, file="classes")][0]
 
         self._add_class_abilities()
         self._add_class_equipment()
@@ -113,7 +113,7 @@ class _Classes:
             - Wizard: Constitution|Dexterity
 
         """
-        class_abilities = [a for a in _read(self.klass, "abilities", file="classes")][0]
+        class_abilities = [a for a in load(self.klass, "abilities", file="classes")][0]
         if self.klass == "Cleric":
             class_abilities[2] = random.choice(class_abilities[2])
         elif self.klass in ("Fighter", "Ranger"):
@@ -138,9 +138,9 @@ class _Classes:
 
     def _add_class_equipment(self):
         """Generates a list of starting equipment by class & background."""
-        class_equipment = [c for c in _read(self.klass, "equipment", file="classes")][0]
+        class_equipment = [c for c in load(self.klass, "equipment", file="classes")][0]
         background_equipment = [
-            b for b in _read(self.background, "equipment", file="backgrounds")
+            b for b in load(self.background, "equipment", file="backgrounds")
         ][0]
         equipment = class_equipment + background_equipment
         equipment.sort()
@@ -149,11 +149,11 @@ class _Classes:
     def _add_class_features(self):
         """Generates a dictionary of features by class, subclass & level."""
         try:
-            class_features = [c for c in _read(self.klass, "features", file="classes")][
+            class_features = [c for c in load(self.klass, "features", file="classes")][
                 0
             ]
             subclass_features = [
-                s for s in _read(self.subclass, "features", file="subclasses")
+                s for s in load(self.subclass, "features", file="subclasses")
             ][0]
 
             final_feature_list = dict()
@@ -194,7 +194,7 @@ class _Classes:
             return
 
         magic = dict()
-        class_magic = [m for m in _read(self.subclass, "magic", file="subclasses")][0]
+        class_magic = [m for m in load(self.subclass, "magic", file="subclasses")][0]
 
         if len(class_magic) is not 0:
             for level, spells in class_magic.items():
@@ -238,7 +238,7 @@ class _Classes:
 
     def _add_class_skills(self):
         """Generates character's skill set."""
-        subclass_proficiency = [p for p in _read(self.subclass, file="subclasses")][0]
+        subclass_proficiency = [p for p in load(self.subclass, file="subclasses")][0]
 
         # Skill handling and allotment.
         skill_pool = self.all["proficiency"][4][1]
@@ -354,22 +354,22 @@ class Wizard(_Classes):
 
 
 def get_default_background(klass: str):
-    return [b for b in _read(klass, "background", file="classes")][0]
+    return [b for b in load(klass, "background", file="classes")][0]
 
 
 def get_is_class(klass: str) -> bool:
     """Returns whether klass is valid."""
-    return klass in [c for c in _read(file="classes")][0]
+    return klass in [c for c in load(file="classes")][0]
 
 
 def get_is_subclass(subclass: str, klass: str) -> bool:
     """Returns whether subclass is a valid subclass of klass."""
-    return subclass in [s for s in _read(klass, "subclasses", file="classes")][0]
+    return subclass in [s for s in load(klass, "subclasses", file="classes")][0]
 
 
 def get_subclass_proficiency(subclass: str, category: str):
     """Returns subclass bonus proficiencies (if ANY)."""
-    proficiency = _read(subclass, file="subclasses")
+    proficiency = load(subclass, file="subclasses")
     if proficiency is not None and "proficiency" in proficiency:
         for proficiency in proficiency.get("proficiency"):
             if category in proficiency:
@@ -379,7 +379,7 @@ def get_subclass_proficiency(subclass: str, category: str):
 
 def get_subclasses_by_class(klass: str) -> tuple:
     """Returns a tuple of valid subclasses for klass."""
-    return [s for s in _read(klass, "subclasses", file="classes")][0]
+    return [s for s in load(klass, "subclasses", file="classes")][0]
 
 
 def get_proficiency_bonus(level: int) -> int:
@@ -390,7 +390,7 @@ def get_proficiency_bonus(level: int) -> int:
 def has_class_spells(subclass: str) -> bool:
     """Returns whether class subclass has spells."""
     try:
-        class_spells = [m for m in _read(subclass, "magic", file="subclasses")][0]
+        class_spells = [m for m in load(subclass, "magic", file="subclasses")][0]
         return len(class_spells) is not 0
     except (TypeError, QueryNotFound):
         return False
