@@ -63,13 +63,14 @@ def load(*fields, file: str) -> (dict, list):
             raise FileNotFoundError(f"Cannot find the resource '{file}.yml'")
         data = open(file)
         resource = yaml.full_load(data)
-        if file not in resource:
+        file_name = os.path.basename(file).replace(".yml", "")
+        if file_name not in resource:
             raise HeaderInvalid(
-                f"The opening key in '{file}.yml' is invalid. The first line "
+                f"The opening key in '{file}' is invalid. The first line "
                 "in Yari specific YAML documents must begin with a key that "
                 "matches the file name without the extension."
             )
-        y = Query(resource[file])
+        y = Query(resource[file_name])
         return y.find(*fields)
     except (FileNotFoundError, TypeError) as error:
         print(error)
