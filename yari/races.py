@@ -61,20 +61,25 @@ class _Races:
                 "Triton, and Yuanti 'race' classes."
             )
 
-        if sex not in (
+        if sex in (
             "Female",
             "Male",
         ):
-            raise ValueError(f"Argument 'sex' value must be 'Male' or 'Female'.")
-        else:
             self.sex = sex
-
-        if subrace != "" and subrace not in valid_subraces:
-            raise ValueError(f"Argument 'subrace' value '{subrace}' is invalid.")
-        elif len(valid_subraces) is not 0 and subrace is subrace == "":
-            raise ValueError(f"Argument 'subrace' is required for '{self.race}'.")
         else:
-            self.subrace = subrace
+            raise ValueError(f"Argument 'sex' value must be 'Male' or 'Female'.")
+
+        if not has_subraces(self.race):
+            self.subrace = ""
+        else:
+            if subrace not in valid_subraces:
+                raise ValueError(
+                    f"Argument 'subrace' value '{subrace}' is invalid for '{self.race}'."
+                )
+            elif len(valid_subraces) is not 0 and subrace == "":
+                raise ValueError(f"Argument 'subrace' is required for '{self.race}'.")
+            else:
+                self.subrace = subrace
 
         if not isinstance(level, int):
             raise ValueError("Argument 'level' value must be of type 'int'.")
@@ -488,3 +493,18 @@ def get_subraces_by_race(allowed_subraces: list, race: str):
     for subrace in allowed_subraces:
         if [s for s in load(subrace, "parent", file="subraces")][0] == race:
             yield subrace
+
+
+def has_subraces(race: str) -> bool:
+    """
+    Determines if race has subraces.
+
+    :param str race: Race to determine if it has subraces.
+
+    """
+    try:
+        subraces = [s for s in get_subraces_by_race(ALLOWED_PC_SUBRACES, race)][0]
+    except IndexError:
+        return False
+    else:
+        return subraces
