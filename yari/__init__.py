@@ -123,7 +123,9 @@ def main(
             ):
                 return call_class(kw["sex"], kw["subrace"], kw["level"])
             else:
-                raise RuntimeError(f"Invalid callback '{method}' specified.")
+                raise RuntimeError(
+                    f"Not all parameters specified for callback '{method}'."
+                )
 
         return init()
 
