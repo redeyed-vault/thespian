@@ -106,7 +106,7 @@ def main(
     level: int,
     ratio: int,
 ) -> None:
-    def callback(method, **kw):
+    def callback(method: str, **kw):
         def init():
             call_class = eval(method)
             if all(k in kw for k in ("subclass", "background", "level", "race_skills")):
