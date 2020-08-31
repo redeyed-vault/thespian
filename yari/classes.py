@@ -50,10 +50,12 @@ class _Classes:
         if not get_is_class(self.klass):
             raise ValueError(f"Character class '{self.klass}' is invalid.")
 
-        if subclass != "" and not get_is_subclass(subclass, self.klass):
-            raise ValueError(f"Character subclass '{subclass}' is invalid.")
-        else:
+        if get_is_subclass(subclass, self.klass):
             self.subclass = subclass
+        else:
+            raise ValueError(
+                f"Character class '{self.klass}' has no subclass '{subclass}'."
+            )
 
         self.background = background
 
@@ -369,7 +371,7 @@ def get_is_subclass(subclass: str, klass: str) -> bool:
 
 def get_subclass_proficiency(subclass: str, category: str):
     """Returns subclass bonus proficiencies (if ANY)."""
-    proficiency = load(subclass, file="subclasses")
+    proficiency = [p for p in load(subclass, file="subclasses")][0]
     if proficiency is not None and "proficiency" in proficiency:
         for proficiency in proficiency.get("proficiency"):
             if category in proficiency:
