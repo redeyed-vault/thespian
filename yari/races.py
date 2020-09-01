@@ -76,7 +76,7 @@ class _Races:
                 raise ValueError(
                     f"Argument 'subrace' value '{subrace}' is invalid for '{self.race}'."
                 )
-            elif len(valid_subraces) is not 0 and subrace == "":
+            elif len(valid_subraces) != 0 and subrace == "":
                 raise ValueError(f"Argument 'subrace' is required for '{self.race}'.")
             else:
                 self.subrace = subrace

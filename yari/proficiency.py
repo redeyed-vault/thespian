@@ -20,7 +20,7 @@ class ProficiencyGenerator:
             )
 
         race_proficiency = [p for p in race_proficiency if p not in class_proficiency]
-        if len(race_proficiency) is not 0:
+        if len(race_proficiency) != 0:
             self.proficiency = class_proficiency + race_proficiency
         else:
             self.proficiency = class_proficiency

@@ -165,4 +165,4 @@ def get_ability_modifier(score: int) -> int:
     :param int score: Score to calculate modifier for.
 
     """
-    return score is not 0 and int((score - 10) / 2) or 0
+    return score != 0 and int((score - 10) / 2) or 0

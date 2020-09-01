@@ -68,7 +68,7 @@ class ImprovementGenerator:
 
         # Determine and assign upgrades by ability/feat upgrade ratio.
         upgrade_ratio = self._get_upgrade_ratio(upgrade_ratio)
-        if sum(upgrade_ratio) is 0:
+        if sum(upgrade_ratio) == 0:
             return
         else:
             ability_upgrades = upgrade_ratio[0]
@@ -81,14 +81,14 @@ class ImprovementGenerator:
                             raise ValueError("No upgradeable primary abilities.")
 
                         bonus_applied = random.choice([1, 2])
-                        if bonus_applied is 1 and self._is_adjustable(primary_ability):
+                        if bonus_applied == 1 and self._is_adjustable(primary_ability):
                             self._set_score(primary_ability[0], bonus_applied)
                             self._set_score(primary_ability[1], bonus_applied)
-                        elif bonus_applied is 2 and self._is_adjustable(
+                        elif bonus_applied == 2 and self._is_adjustable(
                             primary_ability[0]
                         ):
                             self._set_score(primary_ability[0], bonus_applied)
-                        elif bonus_applied is 2 and self._is_adjustable(
+                        elif bonus_applied == 2 and self._is_adjustable(
                             primary_ability[1]
                         ):
                             self._set_score(primary_ability[1], bonus_applied)
@@ -275,7 +275,7 @@ class ImprovementGenerator:
         else:
             num_of_upgrades = 0
             for _ in range(1, self.level + 1):
-                if (_ % 4) == 0 and _ is not 20:
+                if (_ % 4) == 0 and _ != 20:
                     num_of_upgrades += 1
 
             if self.klass == "Fighter" and self.level >= 6:

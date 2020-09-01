@@ -135,10 +135,10 @@ def main(
         else:
             if output_code in (1, 2):
                 click.secho(f"error: {message}", bold=True, fg="red")
-                if output_code is 2:
+                if output_code == 2:
                     traceback.print_exc()
                 exit()
-            elif output_code is -1:
+            elif output_code == -1:
                 click.secho(f"warning: {message}", bold=True, fg="yellow")
             else:
                 click.secho(f"success: {message}", fg="bright_green")
@@ -169,11 +169,11 @@ def main(
 
         subraces_by_race = [s for s in get_subraces_by_race(ALLOWED_PC_SUBRACES, race)]
         if subrace == "":
-            if len(subraces_by_race) is not 0:
+            if len(subraces_by_race) != 0:
                 subrace = random.choice(subraces_by_race)
         else:
             try:
-                if len(subraces_by_race) is 0:
+                if len(subraces_by_race) == 0:
                     raise ValueError(f"race '{race}' has no available subraces")
 
                 if subrace not in subraces_by_race:

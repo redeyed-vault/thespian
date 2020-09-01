@@ -94,7 +94,7 @@ class Writer:
                 if index == "saving_throws":
                     block += f'<entry label="Saving Throw Checks" value="{value}"/>'
                 if index == "skills":
-                    if len(value) is not 0:
+                    if len(value) != 0:
                         for skill, modifier in value.items():
                             block += f'<entry label="{skill} Skill Checks" value="{modifier}"/>'
                 if index == "carry_capacity":

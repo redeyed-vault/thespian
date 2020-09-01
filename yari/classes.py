@@ -165,7 +165,7 @@ class _Classes:
                     level_features = level_features + class_features[level]
                 if level in subclass_features:
                     level_features = level_features + subclass_features[level]
-                if len(level_features) is not 0:
+                if len(level_features) != 0:
                     level_features.sort()
                     final_feature_list[level] = tuple(level_features)
 
@@ -198,7 +198,7 @@ class _Classes:
         magic = dict()
         class_magic = [m for m in load(self.subclass, "magic", file="subclasses")][0]
 
-        if len(class_magic) is not 0:
+        if len(class_magic) != 0:
             for level, spells in class_magic.items():
                 if level <= self.level:
                     magic[level] = tuple(spells)
@@ -224,9 +224,8 @@ class _Classes:
                     ):
                         return
                     try:
-                        proficiencies = proficiency[1] + get_subclass_proficiency(
-                            self.subclass, category
-                        )
+                        subclass_proficiency = [x for x in get_subclass_proficiency(self.subclass, category)]
+                        proficiencies = proficiency[1] + subclass_proficiency
                         self.all["proficiency"][index] = [category, proficiencies]
                     except IndexError:
                         pass
@@ -236,11 +235,11 @@ class _Classes:
             tool_selection = [random.choice(self.all["proficiency"][1][1])]
             self.all["proficiency"][1][1] = tool_selection
 
-        self.all["proficiency"] = [tuple(p) for p in self.all.get("proficiency")]
+        self.all["proficiency"] = [tuple(x) for x in self.all.get("proficiency")]
 
     def _add_class_skills(self):
         """Generates character's skill set."""
-        subclass_proficiency = [p for p in load(self.subclass, file="subclasses")][0]
+        subclass_proficiency = [sp for sp in load(self.subclass, file="subclasses")][0]
 
         # Skill handling and allotment.
         skill_pool = self.all["proficiency"][4][1]
@@ -255,7 +254,7 @@ class _Classes:
             allotment = 2
 
         # Remove any bonus racial skill from pool.
-        if len(self.race_skills) is not 0:
+        if len(self.race_skills) != 0:
             skill_pool = [x for x in skill_pool if x not in self.race_skills]
             skills = skills + self.race_skills
 
@@ -366,17 +365,26 @@ def get_is_class(klass: str) -> bool:
 
 def get_is_subclass(subclass: str, klass: str) -> bool:
     """Returns whether subclass is a valid subclass of klass."""
-    return subclass in [s for s in load(klass, "subclasses", file="classes")][0]
+    return subclass in [x for x in load(klass, "subclasses", file="classes")][0]
 
 
 def get_subclass_proficiency(subclass: str, category: str):
-    """Returns subclass bonus proficiencies (if ANY)."""
-    proficiency = [p for p in load(subclass, file="subclasses")][0]
-    if proficiency is not None and "proficiency" in proficiency:
-        for proficiency in proficiency.get("proficiency"):
-            if category in proficiency:
-                return proficiency[1]
-    return list()
+    """
+    Returns subclass bonus proficiencies (if ANY).
+
+    :param str subclass: Character subclass to get proficiencies for.
+    :param str category: Proficiency category to get proficiencies for.
+
+    """
+    if category not in ("Armors", "Tools", "Weapons"):
+        raise ValueError("Argument 'category' must be 'Armors', 'Tools' or 'Weapons'.")
+    else:
+        feature_list = [x for x in load(subclass, file="subclasses")][0]
+        if "proficiency" in feature_list:
+            proficiencies = feature_list.get("proficiency")
+            for proficiency in proficiencies:
+                if proficiency[0] == category:
+                    yield proficiency[1]
 
 
 def get_subclasses_by_class(klass: str) -> tuple:
@@ -393,6 +401,6 @@ def has_class_spells(subclass: str) -> bool:
     """Returns whether class subclass has spells."""
     try:
         class_spells = [m for m in load(subclass, "magic", file="subclasses")][0]
-        return len(class_spells) is not 0
+        return len(class_spells) != 0
     except (TypeError, QueryNotFound):
         return False
