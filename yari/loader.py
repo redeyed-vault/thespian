@@ -36,7 +36,7 @@ class Query:
         :param fields: Field index(es) to search for.
 
         """
-        if len(fields) != 0:
+        if len(fields) == 0:
             yield tuple(self.resource.keys())
         else:
             resource = self.resource
