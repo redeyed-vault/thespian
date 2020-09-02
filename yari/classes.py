@@ -376,8 +376,8 @@ def get_subclass_proficiency(subclass: str, category: str):
     :param str category: Proficiency category to get proficiencies for.
 
     """
-    if category not in ("Armors", "Tools", "Weapons"):
-        raise ValueError("Argument 'category' must be 'Armors', 'Tools' or 'Weapons'.")
+    if category not in ("Armor", "Tools", "Weapons"):
+        raise ValueError("Argument 'category' must be 'Armor', 'Tools' or 'Weapons'.")
     else:
         feature_list = [x for x in load(subclass, file="subclasses")][0]
         if "proficiency" in feature_list:
