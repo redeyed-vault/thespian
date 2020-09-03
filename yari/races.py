@@ -6,8 +6,8 @@ from yari.loader import load
 
 
 ALLOWED_PC_GENDERS = ("Female", "Male")
-ALLOWED_PC_RACES = [r for r in load(file="races")][0]
-ALLOWED_PC_SUBRACES = [s for s in load(file="subraces")][0]
+ALLOWED_PC_RACES = load(file="races")
+ALLOWED_PC_SUBRACES = load(file="subraces")
 
 
 class _Races:
@@ -87,9 +87,9 @@ class _Races:
             self.level = level
 
         # Get racial traits and merge with subracial traits (if ANY).
-        self.all = [a for a in load(self.race, file="races")][0]
+        self.all = load(self.race, file="races")
         if self.subrace != "":
-            subrace_traits = [s for s in load(self.subrace, file="subraces")][0]
+            subrace_traits = load(self.subrace, file="subraces")
             for trait, value in subrace_traits.items():
                 if trait not in self.all:
                     self.all[trait] = subrace_traits[trait]
@@ -491,7 +491,7 @@ def get_subraces_by_race(allowed_subraces: list, race: str):
 
     """
     for subrace in allowed_subraces:
-        if [s for s in load(subrace, "parent", file="subraces")][0] == race:
+        if load(subrace, "parent", file="subraces") == race:
             yield subrace
 
 

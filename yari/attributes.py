@@ -119,7 +119,7 @@ class _Attributes:
 
     def _get_skills_by_attribute(self):
         """Returns a skill list by attribute."""
-        for skill in [s for s in load(file="skills")][0]:
+        for skill in load(file="skills"):
             attribute = load(skill, "ability", file="skills")
             if attribute == self.attribute:
                 yield skill

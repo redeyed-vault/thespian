@@ -164,7 +164,8 @@ class Writer:
             block = ""
             for type, proficiency_list in proficiencies.items():
                 block += f"<{type}>"
-                proficiency_list.sort()
+                if isinstance(proficiency_list, list):
+                    proficiency_list.sort()
                 for proficiency in proficiency_list:
                     block += f'<entry label="proficiency" value="{proficiency}" />'
                 block += f"</{type}>"
@@ -206,8 +207,8 @@ class Writer:
                         or name == "Githzerai Psionics"
                         or name == "Innate Spellcasting"
                         or name.startswith("Legacy of")
-                        or name.startswith("Necrotic")
-                        or name.startswith("Radiant")
+                        # or name.startswith("Necrotic")
+                        # or name.startswith("Radiant")
                     ):
                         value = [v[1] for v in value]
                     value = ", ".join(value)

@@ -48,7 +48,7 @@ class Query:
             yield resource
 
 
-def load(*fields, file: str) -> (dict, list):
+def load(*fields, file: str):
     """
     Loads the requested YAML file and pulls requested fields.
 
@@ -56,27 +56,31 @@ def load(*fields, file: str) -> (dict, list):
     :param str file: YAML file to read from (file extension is not needed).
 
     """
+    def _load(file_name):
+        try:
+            sources_path = os.path.join(os.path.dirname(__file__), "sources/")
+            file_name = os.path.join(sources_path, f"{file_name}.yml")
+            if not os.path.exists(file_name):
+                raise FileNotFoundError(f"Cannot find the resource '{file_name}'.")
+            data = open(file_name)
+            resource = yaml.full_load(data)
+            file_name = os.path.basename(file_name).replace(".yml", "")
+            if file_name not in resource:
+                raise HeaderInvalid(
+                    f"The opening key in '{file_name}' is invalid. The first line "
+                    "in Yari specific YAML documents must begin with a key that "
+                    "matches the file name without the extension."
+                )
+            y = Query(resource[file_name])
+            return y.find(*fields)
+        except (FileNotFoundError, TypeError) as error:
+            print(error)
+            traceback.print_exc()
+            exit()
+        except HeaderInvalid as error:
+            exit(error)
+
     try:
-        sources_path = os.path.join(os.path.dirname(__file__), "sources/")
-        file = os.path.join(sources_path, f"{file}.yml")
-        if not os.path.exists(file):
-            raise FileNotFoundError(f"Cannot find the resource '{file}.yml'")
-        data = open(file)
-        resource = yaml.full_load(data)
-        file_name = os.path.basename(file).replace(".yml", "")
-        if file_name not in resource:
-            raise HeaderInvalid(
-                f"The opening key in '{file}' is invalid. The first line "
-                "in Yari specific YAML documents must begin with a key that "
-                "matches the file name without the extension."
-            )
-        y = Query(resource[file_name])
-        return y.find(*fields)
-    except (FileNotFoundError, TypeError) as error:
-        print(error)
-        traceback.print_exc()
-        exit()
-    except HeaderInvalid as error:
-        exit(error)
+        return [q for q in _load(file)][0]
     except QueryNotFound:
         pass
