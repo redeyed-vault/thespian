@@ -17,7 +17,7 @@ from yari.version import __version__
 
 class Writer:
     """
-    Handles the authoring of the character sheet.
+    Authors the XML character sheet.
 
     :param OrderedDict data: Character's information packet.
 
@@ -193,30 +193,76 @@ class Writer:
         self.body = "</skills>"
         self.body = "</proficiencies>"
 
-    def append_traits(self, race: str):
+    def append_traits(self, race: str, level: int):
         self.body = "<traits>"
         for trait in self.data.get("traits"):
-            if len(trait) > 1:
+            if len(trait) == 1:
+                self.body = f'<entry label="{race} Trait" name="{trait[0]}" />'
+            else:
                 (name, value) = trait
                 if isinstance(value, list):
                     if (
-                        name == "Celestial Legacy"
-                        or name == "Drow Magic"
-                        or name == "Duergar Magic"
-                        or name == "Githyanki Psionics"
-                        or name == "Githzerai Psionics"
-                        or name == "Innate Spellcasting"
+                        name
+                        in (
+                            "Celestial Legacy",
+                            "Drow Magic",
+                            "Duergar Magic",
+                            "Githyanki Psionics",
+                            "Githzerai Psionics",
+                            "Innate Spellcasting",
+                        )
                         or name.startswith("Legacy of")
-                        # or name.startswith("Necrotic")
-                        # or name.startswith("Radiant")
                     ):
-                        value = [v[1] for v in value]
-                    value = ", ".join(value)
-                self.body = (
-                    f'<entry label="{race} Trait" name="{name}" value="{value}" />'
-                )
-            else:
-                self.body = f'<entry label="{race} Trait" name="{trait[0]}" />'
+                        value = [val[1] for val in value]
+                        value = ", ".join(value)
+                    elif name in (
+                        "Bite",
+                        "Breath Weapon",
+                        "Cantrip",
+                        "Cat's Claws",
+                        "Cat's Talent",
+                        "Celestial Resistance",
+                        "Damage Resistance",
+                        "Drow Weapon Training",
+                        "Duergar Resilience",
+                        "Dwarven Armor Training",
+                        "Dwarven Combat Training",
+                        "Dwarven Resilience",
+                        "Elf Weapon Training",
+                        "Extra Language",
+                        "Feline Agility",
+                        "Fey Ancestry",
+                        "Hellish Resistance",
+                        "Hunter's Lore",
+                        "Keen Senses",
+                        "Kenku Training",
+                        "Martial Prodigy (Armor)",
+                        "Martial Prodigy (Weapon)",
+                        "Martial Training (Armor)",
+                        "Martial Training (Weapon)",
+                        "Menacing",
+                        "Mental Discipline",
+                        "Natural Armor",
+                        "Natural Athlete",
+                        "Natural Illusionist",
+                        "Necrotic Resistance",
+                        "Sea Elf Training",
+                        "Skill Versatility",
+                        "Sneaky",
+                        "Stout Resilience",
+                        "Tinker",
+                        "Tool Proficiency",
+                    ):
+                        value = ", ".join(value)
+                    self.body = (
+                        f'<entry label="{race} Trait" name="{name}" value="{value}" />'
+                    )
+                else:
+                    if name.startswith("Necrotic") or name.startswith("Radiant"):
+                        if level >= value:
+                            self.body = f'<entry label="{race} Trait" name="{name}" />'
+                    else:
+                        self.body = f'<entry label="{race} Trait" name="{name}" value="{value}" />'
         self.body = "</traits>"
 
     def write(self, fp: str) -> None:
@@ -255,7 +301,7 @@ class Writer:
         self.append_proficiency()
         self.append_feats()
         self.append_equipment()
-        self.append_traits(race)
+        self.append_traits(race, self.data.get("level"))
         self.append_features()
         self.body = "</character></yari>"
 
