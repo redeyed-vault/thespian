@@ -316,9 +316,6 @@ class _Races:
                         or "Legacy of Minauros" in feature
                         or "Legacy of Phlegethos" in feature
                         or "Legacy of Stygia" in feature
-                        or "Necrotic Shroud" in feature
-                        or "Radiant Consumption" in feature
-                        or "Radiant Soul" in feature
                     ):
                         spells = [
                             row
