@@ -56,6 +56,7 @@ def load(*fields, file: str):
     :param str file: YAML file to read from (file extension is not needed).
 
     """
+
     def _load(file_name):
         try:
             sources_path = os.path.join(os.path.dirname(__file__), "sources/")
