@@ -6,26 +6,17 @@
 
 #### DESCRIPTION
 
-Yari is my tool for making quick and easy 5th edition Dungeons & Dragons characters.
+Yari creates quick and easy 5th edition Dungeons & Dragons characters.
 
-Originally this project was known as *personaednd* and later *dndpersona*.
-
-- Yari's *git* repository can be found [here](https://github.com/taylormarcus/Yari)
-- Yari's *PyPI* page can be found [here](https://pypi.org/project/Yari)
-
-
-#### DISCLAIMER
-
-This software is not affiliated with, endorsed, sponsored, or specifically approved
-by Wizards of the Coast LLC. This software is a fan made tool.
+This project was originally known as *personaednd* and later *dndpersona*.
 
 
 #### REQUIREMENTS
-
-  * beautifulsoup4
-  * click
-  * lxml
-  * PyYAML
+  
+  * beautifulsoup4 >= 4.9.1
+  * click >= 7.1.2
+  * lxml >= 4.5.2
+  * PyYAML >= 5.3.1
 
 
 #### INSTALLATION
@@ -111,3 +102,9 @@ To run Yari with minimal arguments, type the following in your terminal:
 If run with just the bare minimum arguments as shown above, Yari will randomly generate the character's race, subrace, sex, class and path. Level will be defaulted to 1, the ratio will be defaulted to 50 and the background defaults to the default for the chosen class.
 
 Generated characters will always be saved in XML format to the directory *$HOME/Yari*.
+
+
+#### DISCLAIMER
+
+This software is not affiliated with, endorsed, sponsored, or specifically approved
+by Wizards of the Coast LLC. This software is a fan made tool.
