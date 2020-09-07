@@ -340,7 +340,7 @@ class ImprovementGenerator:
         prerequisite = load(feat, file="feats")
         for requirement, _ in prerequisite.items():
             if requirement == "abilities":
-                for ability, required_score in prerequisite.get("abilities").items():
+                for ability, required_score in prerequisite.get(requirement).items():
                     my_score = self.score_array[ability]
                     if my_score < required_score:
                         return False
@@ -376,6 +376,13 @@ class ImprovementGenerator:
 
                     if my_score < required_score:
                         return False
+
+            if requirement == "proficiency":
+                if feat in ("Heavily Armored", "Lightly Armored", "Moderately Armored"):
+                    armors = prerequisite.get(requirement).get("armors")
+                    for armor in armors:
+                        if armor not in self.armor_proficiency:
+                            return False
         return True
 
     def _is_adjustable(self, abilities: (list, tuple, str)) -> bool:
