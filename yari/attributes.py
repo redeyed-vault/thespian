@@ -104,6 +104,7 @@ class _Attributes:
                 "and Wisdom 'attribute' classes."
             )
 
+        self.score = score
         self.attr = dict()
         self.attr["value"] = score
         self.attr["modifier"] = get_ability_modifier(self.attr.get("value"))
@@ -116,6 +117,9 @@ class _Attributes:
         for skill in skills:
             if skill in attribute_skills:
                 self.attr["skills"].update({skill: get_ability_modifier(score)})
+
+    def __repr__(self):
+        return '<{} score="{}">'.format(self.attribute, self.score)
 
     def _get_skills_by_attribute(self):
         """Returns a skill list by attribute."""
