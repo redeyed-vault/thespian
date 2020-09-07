@@ -447,7 +447,7 @@ classes:
       1: Charisma
       2: Constitution
     background: Hermit
-    equipement:
+    equipment:
       - (a) Light Crossbow and 20 bolts or (b) Simple weapon
       - (a) Component pouch or (b) Arcane focus
       - (a) Dungeoneer's pack or (b) Explorer's pack
