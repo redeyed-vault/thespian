@@ -112,7 +112,7 @@ class _Attributes:
         self.attr["saving_throws"] = self.attr.get("modifier")
         self.attr["skills"] = dict()
 
-        attribute_skills = list(x for x in self._get_skills_by_attribute())
+        attribute_skills = [x for x in self._get_skills_by_attribute()]
         for skill in skills:
             if skill in attribute_skills:
                 self.attr["skills"].update({skill: get_ability_modifier(score)})
