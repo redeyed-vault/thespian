@@ -13,10 +13,11 @@ This project was originally known as *personaednd* and later *dndpersona*.
 
 #### REQUIREMENTS
   
-  * beautifulsoup4 >= 4.9.1
-  * click >= 7.1.2
-  * lxml >= 4.5.2
-  * PyYAML >= 5.3.1
+  * aiohttp ~= 3.6.2
+  * beautifulsoup4 ~= 4.9.1
+  * click ~= 7.1.2
+  * lxml ~= 4.5.2
+  * PyYAML ~= 5.3.1
 
 
 #### INSTALLATION
@@ -36,7 +37,6 @@ To install Yari from PYPI, run the following command:
 Usage: yari [OPTIONS]
 
 Options:
-  -file TEXT        File name to write character to.  [required]
   -race TEXT        Character's chosen race. Available races are: Aasimar,
                     Bugbear, Dragonborn, Dwarf, Elf, Firbolg, Gith, Gnome, 
                     Goblin, Goliath, HalfElf, HalfOrc, Halfling, Hobgoblin, 
@@ -97,11 +97,9 @@ Options:
 
 To run Yari with minimal arguments, type the following in your terminal:
 
-    yari -file=some_character_file
+    yari
 
 If run with just the bare minimum arguments as shown above, Yari will randomly generate the character's race, subrace, sex, class and path. Level will be defaulted to 1, the ratio will be defaulted to 50 and the background defaults to the default for the chosen class.
-
-Generated characters will always be saved in XML format to the directory *$HOME/Yari*.
 
 
 #### DISCLAIMER
