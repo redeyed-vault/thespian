@@ -8,18 +8,11 @@ from yari.attributes import AttributeGenerator
 from yari.improvement import ImprovementGenerator
 from yari.proficiency import ProficiencyGenerator
 from yari.races import *
+from yari.server import CharacterServer
 from yari.version import __version__
-from yari.writer import Writer
 
 
 @click.command()
-@click.option(
-    "-file",
-    default="",
-    help="File name to write character to.",
-    required=True,
-    type=str,
-)
 @click.option(
     "-race",
     default="",
@@ -96,7 +89,6 @@ from yari.writer import Writer
 )
 @click.version_option(prog_name="Yari", version=__version__)
 def main(
-    file: str,
     race: str,
     subrace: str,
     sex: str,
@@ -144,9 +136,6 @@ def main(
                 click.secho(f"success: {message}", fg="bright_green")
 
     # Handle application argument processing.
-    if file == "":
-        out("character must have a file name", 1)
-
     if level not in range(1, 21):
         out(f"level must be between 1-20 ({level})", 1)
 
@@ -282,12 +271,10 @@ def main(
         cs["traits"] = rg.other
 
         try:
-            with Writer(cs) as w:
-                w.write(file)
-        except (FileExistsError, IOError, OSError, TypeError, ValueError) as e:
+            with CharacterServer(cs) as w:
+                w.serve()
+        except (OSError, TypeError, ValueError) as e:
             out(e, 2)
-        else:
-            out(f"character saved to '{w.save_path}'")
     except ValueError as error:
         out(str(error), 2)
 
