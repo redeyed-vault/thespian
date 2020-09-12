@@ -1,6 +1,5 @@
+from aiohttp import web
 from collections import OrderedDict
-import os
-import webbrowser
 
 from bs4 import BeautifulSoup
 
@@ -15,20 +14,15 @@ from yari.attributes import (
 from yari.version import __version__
 
 
-class Writer:
+class CharacterServer:
     """
-    Authors the XML character sheet.
+    Creates a web server for the created character.
 
     :param OrderedDict data: Character's information packet.
 
     """
 
     def __init__(self, data: OrderedDict) -> None:
-        save_path = os.path.expanduser("~/Yari")
-        if not os.path.exists(save_path):
-            os.mkdir(save_path)
-        self.save_path = save_path
-
         if not isinstance(data, OrderedDict):
             raise TypeError("Argument 'data' must be of type 'OrderedDict'.")
 
@@ -265,17 +259,11 @@ class Writer:
                         self.body = f'<entry label="{race} Trait" name="{name}" value="{value}" />'
         self.body = "</traits>"
 
-    def write(self, fp: str) -> None:
+    def serve(self) -> None:
         """
-        Writes data to character sheet in XML format.
-
-        :param str fp: File to write character data to.
+        Writes the character sheet and starts the server.
 
         """
-        self.save_path = os.path.join(self.save_path, f"{fp}.xml")
-        if os.path.exists(self.save_path):
-            raise FileExistsError(f"character save '{self.save_path}' already exists.")
-
         if self.data.get("subrace") != "":
             race = f'{self.data.get("race")}, {self.data.get("subrace")}'
         elif self.data.get("race") == "HalfElf":
@@ -305,7 +293,11 @@ class Writer:
         self.append_features()
         self.body = "</character></yari>"
 
-        with open(self.save_path, "w+", encoding="utf-8") as cs:
-            cs.write(BeautifulSoup(self.body, "xml").prettify())
-            webbrowser.open(f"file://{self.save_path}")
-        cs.close()
+        async def index(request):
+            return web.Response(
+                content_type="text/xml", text=BeautifulSoup(self.body, "xml").prettify()
+            )
+
+        app = web.Application()
+        app.router.add_get("/", index)
+        web.run_app(app)
