@@ -299,6 +299,7 @@ class _Races:
                         or "Dwarven Combat Training" in feature
                         or "Elf Weapon Training" in feature
                         or "Martial Prodigy (Weapon)" in feature
+                        or "Sea Elf Training" in feature
                     ):
                         self.weapons = feature[1]
                     elif (
