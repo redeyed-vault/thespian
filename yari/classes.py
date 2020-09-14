@@ -203,7 +203,7 @@ class _Classes:
             self.all["magic"] = dict()
 
     def _add_class_proficiencies(self):
-        """Merge class proficiencies with any provided by their subclass (if applicable)."""
+        """Merge class proficiencies with subclass proficiencies (if applicable)."""
         for category in ("Armor", "Tools", "Weapons"):
             for index, proficiency in enumerate(self.all.get("proficiency")):
                 if category in proficiency:
@@ -217,11 +217,18 @@ class _Classes:
                         and self.level < 3
                     ):
                         return
+                    elif (
+                        category == "Tools"
+                        and self.subclass == "Assassin"
+                        and self.level < 3
+                    ):
+                        return
+
                     try:
                         subclass_proficiency = [
                             x for x in get_subclass_proficiency(self.subclass, category)
                         ]
-                        proficiencies = proficiency[1] + subclass_proficiency
+                        proficiencies = proficiency[1] + subclass_proficiency[0]
                         self.all["proficiency"][index] = [category, proficiencies]
                     except IndexError:
                         pass
