@@ -154,6 +154,7 @@ class _Classes:
 
     def _add_class_features(self):
         """Generates a dictionary of features by class, subclass & level."""
+
         def merge(cls_features: dict, sc_features: dict) -> dict:
             for lv, ft in sc_features.items():
                 if lv in cls_features:
