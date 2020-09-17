@@ -173,7 +173,7 @@ class _Classes:
             else:
                 features = class_features
             # Create feature dictionary based on level.
-            features = {lv: features[lv] for lv in features if lv < self.level}
+            features = {lv: features[lv] for lv in features if lv <= self.level}
         except (TypeError, KeyError) as e:
             # exit("Cannot find class/subclass '{}'")
             exit(e)
