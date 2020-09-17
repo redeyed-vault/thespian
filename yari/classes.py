@@ -425,7 +425,3 @@ def has_class_spells(subclass: str) -> bool:
         return len(class_spells) != 0
     except (TypeError, QueryNotFound):
         return False
-
-
-f = Fighter("Champion", "Soldier", 6, [])
-print(f.all)
