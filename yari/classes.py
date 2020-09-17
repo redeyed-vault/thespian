@@ -50,21 +50,24 @@ class _Classes:
         if not get_is_class(self.klass):
             raise ValueError(f"Character class '{self.klass}' is invalid.")
 
-        if get_is_subclass(subclass, self.klass):
-            self.subclass = subclass
-        else:
-            raise ValueError(
-                f"Character class '{self.klass}' has no subclass '{subclass}'."
-            )
-
-        self.background = background
-
         if not isinstance(level, int):
             raise ValueError("Argument 'level' value must be of type 'int'.")
         elif level not in range(1, 21):
             raise ValueError("Argument 'level' value must be between 1-20.")
         else:
             self.level = level
+
+        if self.level >= 3:
+            if get_is_subclass(subclass, self.klass):
+                self.subclass = subclass
+            else:
+                raise ValueError(
+                    f"Character class '{self.klass}' has no subclass '{subclass}'."
+                )
+        else:
+            self.subclass = ""
+
+        self.background = background
 
         if not isinstance(race_skills, list):
             raise ValueError("Argument 'race_skills' value must be a 'list'.")
@@ -98,9 +101,12 @@ class _Classes:
         self.spell_slots = self.all.get("spell_slots")
 
     def __repr__(self):
-        return '<{} subclass="{}" level="{}">'.format(
-            self.klass, self.subclass, self.level
-        )
+        if self.subclass != "":
+            return '<{} subclass="{}" level="{}">'.format(
+                self.klass, self.subclass, self.level
+            )
+        else:
+            return '<{} level="{}">'.format(self.klass, self.level)
 
     def _add_class_abilities(self):
         """
@@ -148,26 +154,32 @@ class _Classes:
 
     def _add_class_features(self):
         """Generates a dictionary of features by class, subclass & level."""
+        def merge(cls_features: dict, sc_features: dict) -> dict:
+            for lv, ft in sc_features.items():
+                if lv in cls_features:
+                    feature_list = cls_features[lv] + sc_features[lv]
+                    feature_list.sort()
+                    cls_features[lv] = feature_list
+                else:
+                    cls_features[lv] = sc_features[lv]
+            return cls_features
+
         try:
             class_features = load(self.klass, "features", file="classes")
-            subclass_features = load(self.subclass, "features", file="subclasses")
-
-            final_feature_list = dict()
-            for level in range(1, self.level + 1):
-                level_features = list()
-                if level in class_features:
-                    level_features = level_features + class_features[level]
-                if level in subclass_features:
-                    level_features = level_features + subclass_features[level]
-                if len(level_features) != 0:
-                    level_features.sort()
-                    final_feature_list[level] = tuple(level_features)
-
-            self.all["features"] = final_feature_list
-        except AttributeError:
-            print(
-                f"Character class '{self.klass}' or the subclass '{self.subclass}' is invalid."
-            )
+            if self.subclass != "":
+                subclass_features = load(self.subclass, "features", file="subclasses")
+                features = merge(class_features, subclass_features)
+            else:
+                features = class_features
+            # Create feature dictionary based on level.
+            features = {lv: features[lv] for lv in features if lv < self.level}
+        except (TypeError, KeyError) as e:
+            # exit("Cannot find class/subclass '{}'")
+            exit(e)
+        else:
+            for lv, fts in features.items():
+                features[lv] = tuple(fts)
+            self.all["features"] = features
 
     def _add_class_hit_die(self):
         """Generates hit die and point totals."""
@@ -185,6 +197,9 @@ class _Classes:
     def _add_class_subclass_magic(self):
         """Builds a dictionary list of specialized magic spells."""
         self.all["magic"] = dict()
+
+        if self.subclass == "":
+            return
 
         if not has_class_spells(self.subclass):
             return
@@ -204,6 +219,9 @@ class _Classes:
 
     def _add_class_proficiencies(self):
         """Merge class proficiencies with subclass proficiencies (if applicable)."""
+        if self.subclass == "":
+            return
+
         for category in ("Armor", "Tools", "Weapons"):
             for index, proficiency in enumerate(self.all.get("proficiency")):
                 if category in proficiency:
@@ -407,3 +425,7 @@ def has_class_spells(subclass: str) -> bool:
         return len(class_spells) != 0
     except (TypeError, QueryNotFound):
         return False
+
+
+f = Fighter("Champion", "Soldier", 6, [])
+print(f.all)
