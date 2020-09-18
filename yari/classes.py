@@ -67,7 +67,10 @@ class _Classes:
         else:
             self.subclass = ""
 
-        self.background = background
+        if get_is_background(background):
+            self.background = background
+        else:
+            raise ValueError(f"Character background '{background}' is invalid.")
 
         if not isinstance(race_skills, list):
             raise ValueError("Argument 'race_skills' value must be a 'list'.")
@@ -380,8 +383,13 @@ def get_default_background(klass: str):
     return load(klass, "background", file="classes")
 
 
+def get_is_background(background: str) -> bool:
+    """Returns whether the background is valid."""
+    return background in load(file="backgrounds")
+
+
 def get_is_class(klass: str) -> bool:
-    """Returns whether klass is valid."""
+    """Returns whether the klass is valid."""
     return klass in load(file="classes")
 
 
