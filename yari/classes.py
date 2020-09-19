@@ -264,8 +264,6 @@ class _Classes:
 
     def _add_class_skills(self):
         """Generates character's skill set."""
-        subclass_proficiency = load(self.subclass, file="subclasses")
-
         # Skill handling and allotment.
         skill_pool = self.all["proficiency"][4][1]
         skills = list()
@@ -282,12 +280,6 @@ class _Classes:
         if len(self.race_skills) != 0:
             skill_pool = [x for x in skill_pool if x not in self.race_skills]
             skills = skills + self.race_skills
-
-        if self.subclass == "Assassin":
-            assassin_skills = subclass_proficiency.get("proficiency")[0][1]
-            skill_pool = [x for x in skill_pool if x not in assassin_skills]
-            if self.level >= 3:
-                skills = skills + assassin_skills
 
         skills = skills + random.sample(skill_pool, allotment)
 
