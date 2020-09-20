@@ -1,6 +1,6 @@
-from aiohttp import web
 from collections import OrderedDict
 
+from aiohttp import web
 from bs4 import BeautifulSoup
 
 from yari.attributes import (
