@@ -201,6 +201,7 @@ class CharacterServer:
                             "Celestial Legacy",
                             "Drow Magic",
                             "Duergar Magic",
+                            "Firbolg Magic",
                             "Githyanki Psionics",
                             "Githzerai Psionics",
                             "Innate Spellcasting",
