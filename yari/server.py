@@ -114,14 +114,14 @@ class CharacterServer:
         wisdom = Wisdom(score_array.get("Wisdom"), self.data.get("skills"))
         charisma = Charisma(score_array.get("Charisma"), self.data.get("skills"))
 
-        self.body = "<ability_scores>"
+        self.body = "<abilities>"
         self.body = format_ability(strength.attr)
         self.body = format_ability(dexterity.attr)
         self.body = format_ability(constitution.attr)
         self.body = format_ability(intelligence.attr)
         self.body = format_ability(wisdom.attr)
         self.body = format_ability(charisma.attr)
-        self.body = "</ability_scores>"
+        self.body = "</abilities>"
 
     def append_equipment(self):
         equipment = self.data.get("equipment")
