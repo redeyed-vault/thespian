@@ -378,7 +378,12 @@ class ImprovementGenerator:
                         return False
 
             if requirement == "proficiency":
-                if feat in ("Heavily Armored", "Lightly Armored", "Moderately Armored"):
+                if feat in (
+                    "Heavy Armor Master",
+                    "Heavily Armored",
+                    "Medium Armor Master",
+                    "Moderately Armored",
+                ):
                     armors = prerequisite.get(requirement).get("armors")
                     for armor in armors:
                         if armor not in self.armor_proficiency:
