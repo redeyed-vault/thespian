@@ -293,11 +293,11 @@ class CharacterServer:
         self.append_features()
         self.body = "</character></yari>"
 
-        async def index(request):
+        async def character_sheet(request):
             return web.Response(
                 content_type="text/xml", text=BeautifulSoup(self.body, "xml").prettify()
             )
 
         app = web.Application()
-        app.router.add_get("/", index)
+        app.router.add_get("/", character_sheet)
         web.run_app(app)
