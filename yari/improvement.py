@@ -62,8 +62,7 @@ class ImprovementGenerator:
         # Add special class languages (if applicable).
         if klass == "Druid":
             self.languages.append("Druidic")
-
-        if klass == "Rogue":
+        elif klass == "Rogue":
             self.languages.append("Thieves' cant")
 
         # Determine and assign upgrades by ability/feat upgrade ratio.
