@@ -53,7 +53,9 @@ Options:
                     Mephistopheles, Zariel).
 
   -sex TEXT         Character's chosen gender.
-  -alignment TEXT   Character's chosen alignment.
+  -alignment TEXT   Character's chosen alignment. Available alignments are:
+                    CE, CG, CN, LE, LG, LN, NE, NG, N
+
   -background TEXT  Character's chosen background. Available backgrounds are:
                     Acolyte, Charlatan, Criminal, Entertainer, Folk Hero,
                     Guild Artisan, Hermit, Noble, Outlander, Sage, Sailor,
