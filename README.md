@@ -38,9 +38,10 @@ Usage: yari [OPTIONS]
 
 Options:
   -race TEXT        Character's chosen race. Available races are: Aasimar,
-                    Bugbear, Dragonborn, Dwarf, Elf, Firbolg, Gith, Gnome, 
-                    Goblin, Goliath, HalfElf, HalfOrc, Halfling, Hobgoblin, 
-                    Human, Kenku, Tabaxi, Tiefling, Triton and Yuanti.
+                    Bugbear, Dragonborn, Dwarf, Elf, Firbolg, Gith, Gnome,
+                    Goblin, Goliath, HalfElf, HalfOrc, Halfling, Hobgoblin,
+                    Human, Kenku, Kobold, Lizardfolk, Orc, Tabaxi, Tiefling,
+                    Triton and Yuanti.
 
   -subrace TEXT     Character's chosen subrace. Available subraces are based
                     upon the chosen race: Aasimar (Fallen, Protector,
@@ -52,6 +53,7 @@ Options:
                     Mephistopheles, Zariel).
 
   -sex TEXT         Character's chosen gender.
+  -alignment TEXT   Character's chosen alignment.
   -background TEXT  Character's chosen background. Available backgrounds are:
                     Acolyte, Charlatan, Criminal, Entertainer, Folk Hero,
                     Guild Artisan, Hermit, Noble, Outlander, Sage, Sailor,
@@ -61,30 +63,30 @@ Options:
                     Barbarian, Bard, Cleric, Druid, Fighter, Monk, Paladin,
                     Ranger, Rogue, Sorcerer, Warlock, and Wizard.
 
-  -subclass TEXT    Character's chosen subclass (archetype, domain, path, etc).
-                    Available subclasses are based upon the chosen class: Barbarian
-                    (Path of the Berserker, Path of the Totem Warrior), Bard
-                    (College of Lore, College of Valor), Cleric (Knowledge
-                    Domain, Life Domain, Light Domain, Nature Domain, Tempest
-                    Domain, Trickery Domain, War Domain), Druid (Circle of the
-                    Arctic, Circle of the Coast, Circle of the Desert, Circle
-                    of the Forest, Circle of the Grassland, Circle of the
-                    Moon, Circle of the Mountain, Circle of the Swamp, Circle
-                    of the Underdark), Fighter (Battle Master, Champion,
-                    Eldritch Knight), Monk (Way of Shadow, Way of the Four
-                    Elements, Way of the Open Hand), Paladin (Oath of the
-                    Ancients, Oath of Devotion, Oath of Vengeance), Ranger
-                    (Beast Master, Hunter), Rogue (Arcane Trickster, Assassin,
-                    Thief), Sorcerer (Draconic Bloodline, Wild Magic), Warlock
-                    (The Archfey, The Fiend, The Great Old One), and Wizard
-                    (School of Abjuration, School of Conjuration, School of
-                    Divination, School of Enchantment, School of Evocation,
-                    School of Illusion, School of Necromancy, School of
-                    Transmutation).
+  -subclass TEXT    Character's chosen subclass (archetype, domain, path,
+                    etc). Available subclasses are based upon the chosen
+                    class: Barbarian (Path of the Berserker, Path of the Totem
+                    Warrior), Bard (College of Lore, College of Valor), Cleric
+                    (Knowledge Domain, Life Domain, Light Domain, Nature
+                    Domain, Tempest Domain, Trickery Domain, War Domain),
+                    Druid (Circle of the Arctic, Circle of the Coast, Circle
+                    of the Desert, Circle of the Forest, Circle of the
+                    Grassland, Circle of the Moon, Circle of the Mountain,
+                    Circle of the Swamp, Circle of the Underdark), Fighter
+                    (Battle Master, Champion, Eldritch Knight), Monk (Way of
+                    Shadow, Way of the Four Elements, Way of the Open Hand),
+                    Paladin (Oath of the Ancients, Oath of Devotion, Oath of
+                    Vengeance), Ranger (Beast Master, Hunter), Rogue (Arcane
+                    Trickster, Assassin, Thief), Sorcerer (Draconic Bloodline,
+                    Wild Magic), Warlock (The Archfey, The Fiend, The Great
+                    Old One), and Wizard (School of Abjuration, School of
+                    Conjuration, School of Divination, School of Enchantment,
+                    School of Evocation, School of Illusion, School of
+                    Necromancy, School of Transmutation).
 
   -level INTEGER    Character's class level. Must be between 1-20.
   -ratio INTEGER    Character's 'ability to feat' upgrade ratio. Must be
-                    between 1-100. This value will determine the percentage of
+                    between 0-100. This value will determine the percentage of
                     level upgrades allocated to the character's ability
                     scores. The difference between this value from 100 will
                     then be allocated to the percentage of chosen feats. (i.e:
