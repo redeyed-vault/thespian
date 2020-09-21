@@ -34,7 +34,12 @@ from yari.version import __version__
     type=str,
 )
 @click.option("-sex", default="", help="Character's chosen gender.", type=str)
-@click.option("-alignment", default="N", help="Character's chosen alignment.", type=str)
+@click.option(
+    "-alignment",
+    default="N",
+    help="Character's chosen alignment. Available alignments are: CE, CG, CN, LE, LG, LN, NE, NG, N",
+    type=str,
+)
 @click.option(
     "-background",
     default="",
