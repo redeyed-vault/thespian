@@ -34,6 +34,7 @@ from yari.version import __version__
     type=str,
 )
 @click.option("-sex", default="", help="Character's chosen gender.", type=str)
+@click.option("-alignment", default="N", help="Character's chosen alignment.", type=str)
 @click.option(
     "-background",
     default="",
@@ -92,6 +93,7 @@ def main(
     race: str,
     subrace: str,
     sex: str,
+    alignment: str,
     background: str,
     klass: str,
     subclass: str,
@@ -142,10 +144,26 @@ def main(
     if ratio not in range(0, 101):
         out(f"ratio must be between 0-100 ({ratio})", 1)
 
+    alignments = {
+        "CE": "Chaotic Evil",
+        "CG": "Chaotic Good",
+        "CN": "Chaotic Neutral",
+        "LE": "Lawful Evil",
+        "LG": "Lawful Good",
+        "LN": "Lawful Neutral",
+        "NE": "Neutral Evil",
+        "NG": "Neutral Good",
+        "N": "True Neutral",
+    }
+    if alignment not in alignments:
+        out(f"invalid character alignment '{alignment}'.", 1)
+    else:
+        alignment = alignments.get(alignment)
+
     # PC Race
     if race != "":
         if race not in ALLOWED_PC_RACES:
-            out(f"invalid character race '{race}'", 1)
+            out(f"invalid character race '{race}'.", 1)
     else:
         race = random.choice(ALLOWED_PC_RACES)
 
@@ -253,6 +271,7 @@ def main(
         cs["race"] = u.race
         cs["subrace"] = subrace
         cs["sex"] = sex
+        cs["alignment"] = alignment
         cs["background"] = background
         cs["size"] = rg.size
         cs["class"] = klass
