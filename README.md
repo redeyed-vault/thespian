@@ -54,12 +54,12 @@ Options:
 
   -sex TEXT         Character's chosen gender.
   -alignment TEXT   Character's chosen alignment. Available alignments are:
-                    CE, CG, CN, LE, LG, LN, NE, NG, N
+                    CE, CG, CN, LE, LG, LN, NE, NG, N.
 
   -background TEXT  Character's chosen background. Available backgrounds are:
                     Acolyte, Charlatan, Criminal, Entertainer, Folk Hero,
                     Guild Artisan, Hermit, Noble, Outlander, Sage, Sailor,
-                    Soldier, Urchin
+                    Soldier, Urchin.
 
   -klass TEXT       Character's chosen class. Available classes are:
                     Barbarian, Bard, Cleric, Druid, Fighter, Monk, Paladin,
