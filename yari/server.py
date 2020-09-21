@@ -30,6 +30,7 @@ class CharacterServer:
             "race",
             "subrace",
             "sex",
+            "alignment",
             "background",
             "size",
             "class",
@@ -50,10 +51,10 @@ class CharacterServer:
         if not all(k in data for k in data_keys):
             raise ValueError(
                 "All data keys 'race', 'subrace', 'sex', "
-                "'background', 'size', 'class', 'subclass', 'level', 'bonus', "
-                "'score_array', 'saves', 'proficiency', 'languages', "
-                "'spell_slots', 'skills', 'feats', 'equipment', 'features', "
-                "'traits' must have a value."
+                "'alignment', 'background', 'size', 'class', 'subclass', "
+                "'level', 'bonus', 'score_array', 'saves', 'proficiency', "
+                "'languages', 'spell_slots', 'skills', 'feats', "
+                "'equipment', 'features', 'traits' must have a value."
             )
         else:
             self.data = data
@@ -281,6 +282,7 @@ class CharacterServer:
         self.body = f"<character><race>{race}</race>"
         self.body = f'<sex>{self.data.get("sex")}</sex>'
         self.body = f'<size>{self.data.get("size")}</size>'
+        self.body = f'<alignment>{self.data.get("alignment")}</alignment>'
         self.body = f'<background>{self.data.get("background")}</background>'
         self.body = f'<class>{self.data.get("class")}</class>'
         self.body = f'<subclass>{self.data.get("subclass")}</subclass>'
