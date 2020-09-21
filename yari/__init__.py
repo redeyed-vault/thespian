@@ -37,7 +37,7 @@ from yari.version import __version__
 @click.option(
     "-alignment",
     default="N",
-    help="Character's chosen alignment. Available alignments are: CE, CG, CN, LE, LG, LN, NE, NG, N",
+    help="Character's chosen alignment. Available alignments are: CE, CG, CN, LE, LG, LN, NE, NG, N.",
     type=str,
 )
 @click.option(
@@ -45,7 +45,7 @@ from yari.version import __version__
     default="",
     help="Character's chosen background. Available backgrounds are: Acolyte, "
     "Charlatan, Criminal, Entertainer, Folk Hero, Guild Artisan, Hermit, Noble, "
-    "Outlander, Sage, Sailor, Soldier, Urchin",
+    "Outlander, Sage, Sailor, Soldier, Urchin.",
     type=str,
 )
 @click.option(
