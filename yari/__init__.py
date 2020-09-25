@@ -15,11 +15,11 @@ from yari.version import __version__
 @click.command()
 @click.option(
     "-race",
-    default="",
+    default="Human",
     help="Character's chosen race. Available races are: Aasimar, Bugbear, "
     "Dragonborn, Dwarf, Elf, Firbolg, Gith, Gnome, Goblin, Goliath, HalfElf, "
     "HalfOrc, Halfling, Hobgoblin, Human, Kenku, Kobold, Lizardfolk, Orc, "
-    "Tabaxi, Tiefling, Triton and Yuanti.",
+    "Tabaxi, Tiefling, Triton and Yuanti. Default value is 'Human'.",
     type=str,
 )
 @click.option(
@@ -37,7 +37,8 @@ from yari.version import __version__
 @click.option(
     "-alignment",
     default="N",
-    help="Character's chosen alignment. Available alignments are: CE, CG, CN, LE, LG, LN, NE, NG, N.",
+    help="Character's chosen alignment. Available alignments are: CE, CG, CN, "
+    "LE, LG, LN, NE, NG, N. Default value is 'N'.",
     type=str,
 )
 @click.option(
@@ -50,10 +51,10 @@ from yari.version import __version__
 )
 @click.option(
     "-klass",
-    default="",
+    default="Fighter",
     help="Character's chosen class. Available classes are: Barbarian, Bard, "
     "Cleric, Druid, Fighter, Monk, Paladin, Ranger, Rogue, Sorcerer, "
-    "Warlock, and Wizard.",
+    "Warlock, and Wizard. Default value is 'Fighter'.",
     type=str,
 )
 @click.option(
@@ -80,7 +81,7 @@ from yari.version import __version__
 @click.option(
     "-level",
     default=1,
-    help="Character's class level. Must be between 1-20.",
+    help="Character's class level. Must be between 1-20. Default value is 1.",
     type=int,
 )
 @click.option(
@@ -89,8 +90,9 @@ from yari.version import __version__
     help="Character's 'ability to feat' upgrade ratio. Must be between 0-100. "
     "This value will determine the percentage of level upgrades allocated to "
     "the character's ability scores. The difference between this value from "
-    "100 will then be allocated to the percentage of chosen feats. (i.e: So if "
-    "this value is 20, 80 percent will automatically be allocated to feats.)",
+    "100 will then be allocated to the percentage of chosen feats (i.e: So if "
+    "this value is 20, 80 percent will automatically be allocated to feats). "
+    "Default value is 50.",
     type=int,
 )
 @click.version_option(prog_name="Yari", version=__version__)
@@ -143,6 +145,12 @@ def main(
                 click.secho(f"success: {message}", fg="bright_green")
 
     # Handle application argument processing.
+    if race not in ALLOWED_PC_RACES:
+        out(f"invalid character race '{race}'.", 1)
+
+    if klass not in ALLOWED_PC_CLASSES:
+        out(f"invalid character class '{klass}'", 1)
+
     if level not in range(1, 21):
         out(f"level must be between 1-20 ({level})", 1)
 
@@ -164,13 +172,6 @@ def main(
         out(f"invalid character alignment '{alignment}'.", 1)
     else:
         alignment = alignments.get(alignment)
-
-    # PC Race
-    if race != "":
-        if race not in ALLOWED_PC_RACES:
-            out(f"invalid character race '{race}'.", 1)
-    else:
-        race = random.choice(ALLOWED_PC_RACES)
 
     rg = None
     try:
@@ -200,13 +201,6 @@ def main(
         ValueError,
     ) as race_error:
         out(race_error, 2)
-
-    # PC Class
-    if klass == "":
-        klass = random.choice(ALLOWED_PC_CLASSES)
-    else:
-        if klass not in ALLOWED_PC_CLASSES:
-            out(f"invalid character class '{klass}'", 1)
 
     cg = None
     try:
