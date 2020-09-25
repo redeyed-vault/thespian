@@ -41,7 +41,7 @@ Options:
                     Bugbear, Dragonborn, Dwarf, Elf, Firbolg, Gith, Gnome,
                     Goblin, Goliath, HalfElf, HalfOrc, Halfling, Hobgoblin,
                     Human, Kenku, Kobold, Lizardfolk, Orc, Tabaxi, Tiefling,
-                    Triton and Yuanti.
+                    Triton and Yuanti. Default value is 'Human'.
 
   -subrace TEXT     Character's chosen subrace. Available subraces are based
                     upon the chosen race: Aasimar (Fallen, Protector,
@@ -54,7 +54,7 @@ Options:
 
   -sex TEXT         Character's chosen gender.
   -alignment TEXT   Character's chosen alignment. Available alignments are:
-                    CE, CG, CN, LE, LG, LN, NE, NG, N.
+                    CE, CG, CN, LE, LG, LN, NE, NG, N. Default value is 'N'.
 
   -background TEXT  Character's chosen background. Available backgrounds are:
                     Acolyte, Charlatan, Criminal, Entertainer, Folk Hero,
@@ -63,7 +63,8 @@ Options:
 
   -klass TEXT       Character's chosen class. Available classes are:
                     Barbarian, Bard, Cleric, Druid, Fighter, Monk, Paladin,
-                    Ranger, Rogue, Sorcerer, Warlock, and Wizard.
+                    Ranger, Rogue, Sorcerer, Warlock, and Wizard. Default
+                    value is 'Fighter'.
 
   -subclass TEXT    Character's chosen subclass (archetype, domain, path,
                     etc). Available subclasses are based upon the chosen
@@ -86,14 +87,16 @@ Options:
                     School of Evocation, School of Illusion, School of
                     Necromancy, School of Transmutation).
 
-  -level INTEGER    Character's class level. Must be between 1-20.
+  -level INTEGER    Character's class level. Must be between 1-20. Default
+                    value is 1.
+
   -ratio INTEGER    Character's 'ability to feat' upgrade ratio. Must be
                     between 0-100. This value will determine the percentage of
                     level upgrades allocated to the character's ability
                     scores. The difference between this value from 100 will
-                    then be allocated to the percentage of chosen feats. (i.e:
+                    then be allocated to the percentage of chosen feats (i.e:
                     So if this value is 20, 80 percent will automatically be
-                    allocated to feats.)
+                    allocated to feats). Default value is 50.
 
   --version         Show the version and exit.
   --help            Show this message and exit.
@@ -103,7 +106,7 @@ To run Yari with minimal arguments, type the following in your terminal:
 
     yari
 
-If run with just the bare minimum arguments as shown above, Yari will randomly generate the character's race, subrace, sex, class and path. Level will be defaulted to 1, the ratio will be defaulted to 50 and the background defaults to the default for the chosen class.
+If Yari is run with just the bare minimum arguments as shown above, a character will be generated using the previously mentioned default values where applicable and randomly generate those values that have no defined default values.
 
 
 #### DISCLAIMER
