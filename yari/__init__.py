@@ -87,12 +87,12 @@ from yari.version import __version__
 @click.option(
     "-ratio",
     default=5,
-    help="Character's 'ability to feat' upgrade ratio. Must be between 0-9. "
+    help="Character's 'ability to feat' upgrade ratio. Must be between 0-10. "
     "This value will determine the percentage of level upgrades allocated to "
     "the character's ability scores. The difference between this value from "
     "100 will then be allocated to the percentage of chosen feats (i.e: So if "
     "this value is 2 or 20%, 80 percent will automatically be allocated to feats). "
-    "The value 0 is 100%. Default value is 5.",
+    "Default value is 5.",
     type=int,
 )
 @click.version_option(prog_name="Yari", version=__version__)
@@ -154,7 +154,7 @@ def main(
     if level not in range(1, 21):
         out(f"level must be between 1-20 ({level})", 1)
 
-    if ratio not in range(0, 10):
+    if ratio not in range(0, 11):
         out(f"ratio must be between 0-9 ({ratio})", 1)
     else:
         ratios = {
