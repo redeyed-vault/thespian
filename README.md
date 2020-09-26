@@ -91,12 +91,13 @@ Options:
                     value is 1.
 
   -ratio INTEGER    Character's 'ability to feat' upgrade ratio. Must be
-                    between 0-100. This value will determine the percentage of
+                    between 0-9. This value will determine the percentage of
                     level upgrades allocated to the character's ability
                     scores. The difference between this value from 100 will
                     then be allocated to the percentage of chosen feats (i.e:
-                    So if this value is 20, 80 percent will automatically be
-                    allocated to feats). Default value is 50.
+                    So if this value is 2 or 20%, 80 percent will
+                    automatically be allocated to feats). The value 0 is 100%.
+                    Default value is 5.
 
   --version         Show the version and exit.
   --help            Show this message and exit.
