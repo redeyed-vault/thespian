@@ -155,7 +155,7 @@ def main(
         out(f"level must be between 1-20 ({level})", 1)
 
     if ratio not in range(0, 11):
-        out(f"ratio must be between 0-9 ({ratio})", 1)
+        out(f"ratio must be between 0-10 ({ratio})", 1)
     else:
         ratios = {
             0: 100,
