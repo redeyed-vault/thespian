@@ -158,7 +158,7 @@ def main(
         out(f"ratio must be between 0-10 ({ratio})", 1)
     else:
         ratios = {
-            0: 100,
+            0: 0,
             1: 10,
             2: 20,
             3: 30,
@@ -167,7 +167,8 @@ def main(
             6: 60,
             7: 70,
             8: 80,
-            9: 90
+            9: 90,
+            10: 100
         }
         ratio = ratios.get(ratio)
 
