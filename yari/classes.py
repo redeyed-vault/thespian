@@ -2,7 +2,6 @@ import math
 import random
 
 from yari.loader import load, QueryNotFound
-from yari.skills import get_all_skills
 
 
 ALLOWED_PC_BACKGROUNDS = load(file="classes")
@@ -409,18 +408,48 @@ def get_subclass_proficiency(subclass: str, category: str):
                     yield proficiency[1]
 
 
+def get_all_skills() -> list:
+    """Returns a list of ALL skills."""
+    return load(file="skills")
+
+
+def get_background_skills(background: str):
+    """
+    Returns bonus skills by background (if applicable).
+
+    :param str background: Background to return background skills for.
+
+    """
+    return load(background, "skills", file="backgrounds")
+
+
 def get_subclasses_by_class(klass: str) -> tuple:
-    """Returns a tuple of valid subclasses for klass."""
+    """
+    Returns a tuple of valid subclasses for klass.
+
+    :param str klass: Character's class.
+
+    """
     return load(klass, "subclasses", file="classes")
 
 
 def get_proficiency_bonus(level: int) -> int:
-    """Returns a proficiency bonus value by level."""
+    """
+    Returns a proficiency bonus value by level.
+
+    :param int level: Level of character.
+
+    """
     return math.ceil((level / 4) + 1)
 
 
 def has_class_spells(subclass: str) -> bool:
-    """Returns whether class subclass has spells."""
+    """
+    Returns whether class subclass has spells.
+
+    :param str subclass: Character's subclass.
+
+    """
     try:
         class_spells = load(subclass, "magic", file="subclasses")
         return len(class_spells) != 0
