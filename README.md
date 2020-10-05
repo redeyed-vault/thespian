@@ -1,4 +1,4 @@
-# YARI: "Yet Another RPG Implement"
+# Y.A.R.I - "Yet Another RPG Implement"
 
 
 > "Yari is the term for a traditionally-made Japanese blade in the form of a spear, or more specifically, the straight-headed spear. - From [Wikipedia](http://www.wikipedia.org), the free encyclopedia
