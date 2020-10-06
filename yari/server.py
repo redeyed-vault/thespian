@@ -16,7 +16,7 @@ from yari.version import __version__
 
 class CharacterServer:
     """
-    Creates a web server for the created character.
+    Creates the CharacterServer object.
 
     :param OrderedDict data: Character's information packet.
 
@@ -71,13 +71,13 @@ class CharacterServer:
         return self.text
 
     @body.setter
-    def body(self, text):
+    def body(self, text: str):
         if self.text != "":
             self.text += text
         else:
             self.text = text
 
-    def append_abilities(self):
+    def _append_abilities(self):
         def format_ability(attributes: dict):
             block = '<ability label="{}" value="{}">'.format(
                 attributes.get("name"),
@@ -124,7 +124,7 @@ class CharacterServer:
         self.body = format_ability(charisma.attr)
         self.body = "</abilities>"
 
-    def append_equipment(self):
+    def _append_equipment(self):
         equipment = self.data.get("equipment")
         equipment.sort()
         self.body = "<equipment>"
@@ -132,7 +132,7 @@ class CharacterServer:
             self.body = f'<entry label="equipment" value="{item}" />'
         self.body = "</equipment>"
 
-    def append_feats(self):
+    def _append_feats(self):
         feats = self.data.get("feats")
         feats.sort()
         self.body = "<feats>"
@@ -140,14 +140,14 @@ class CharacterServer:
             self.body = f'<entry label="feat" value="{feat}" />'
         self.body = "</feats>"
 
-    def append_features(self):
+    def _append_features(self):
         self.body = "<features>"
         for level, _ in self.data.get("features").items():
             for feature in _:
                 self.body = f'<entry label="{self.data.get("class")} Feature" level="{level}" name="{feature}" />'
         self.body = "</features>"
 
-    def append_proficiency(self):
+    def _append_proficiency(self):
         def format_languages(languages: list) -> str:
             languages.sort()
             block = ""
@@ -188,7 +188,7 @@ class CharacterServer:
         self.body = "</skills>"
         self.body = "</proficiencies>"
 
-    def append_traits(self, race: str, level: int):
+    def _append_traits(self, race: str, level: int):
         self.body = "<traits>"
         for trait in self.data.get("traits"):
             if len(trait) == 1:
@@ -261,11 +261,10 @@ class CharacterServer:
                         self.body = f'<entry label="{race} Trait" name="{name}" value="{value}" />'
         self.body = "</traits>"
 
-    def run(self, host: str = '127.0.0.1', port: int = 8080) -> None:
+    def run(self, port: int = 8080) -> None:
         """
         Writes the character sheet and starts the server.
 
-        :param str host: Character server IP address. Default IP is '127.0.0.1'.
         :param int port: Character server port number. Default port is 8080.
 
         """
@@ -290,13 +289,13 @@ class CharacterServer:
         self.body = f'<class>{self.data.get("class")}</class>'
         self.body = f'<subclass>{self.data.get("subclass")}</subclass>'
         self.body = f'<level>{self.data.get("level")}</level>'
-        self.append_abilities()
+        self._append_abilities()
         self.body = f'<spell_slots>{self.data.get("spell_slots")}</spell_slots>'
-        self.append_proficiency()
-        self.append_feats()
-        self.append_equipment()
-        self.append_traits(race, self.data.get("level"))
-        self.append_features()
+        self._append_proficiency()
+        self._append_feats()
+        self._append_equipment()
+        self._append_traits(race, self.data.get("level"))
+        self._append_features()
         self.body = "</character></yari>"
 
         async def character_sheet(request):
@@ -306,4 +305,4 @@ class CharacterServer:
 
         app = web.Application()
         app.router.add_get("/", character_sheet)
-        web.run_app(app, host=host, port=port)
+        web.run_app(app, host='127.0.0.1', port=port)
