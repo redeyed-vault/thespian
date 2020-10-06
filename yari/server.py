@@ -261,9 +261,12 @@ class CharacterServer:
                         self.body = f'<entry label="{race} Trait" name="{name}" value="{value}" />'
         self.body = "</traits>"
 
-    def serve(self) -> None:
+    def run(self, host: str = '127.0.0.1', port: int = 8080) -> None:
         """
         Writes the character sheet and starts the server.
+
+        :param str host: Character server IP address. Default IP is '127.0.0.1'.
+        :param int port: Character server port number. Default port is 8080.
 
         """
         if self.data.get("subrace") != "":
@@ -303,4 +306,4 @@ class CharacterServer:
 
         app = web.Application()
         app.router.add_get("/", character_sheet)
-        web.run_app(app, host='127.0.0.1', port=8080)
+        web.run_app(app, host=host, port=port)
