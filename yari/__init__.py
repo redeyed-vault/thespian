@@ -98,13 +98,13 @@ from yari.version import __version__
 @click.option(
     "-host",
     default="127.0.0.1",
-    help="Character server's chosen IP address.",
+    help="Character server's chosen IP address. Default value is '127.0.0.1'.",
     type=str,
 )
 @click.option(
     "-port",
     default=8080,
-    help="Character server's chosen port.",
+    help="Character server's chosen port. Default value is 8080.",
     type=int,
 )
 @click.version_option(prog_name="Yari", version=__version__)
