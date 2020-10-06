@@ -95,6 +95,18 @@ from yari.version import __version__
     "Default value is 5.",
     type=int,
 )
+@click.option(
+    "-host",
+    default="127.0.0.1",
+    help="Character server's chosen IP address.",
+    type=str,
+)
+@click.option(
+    "-port",
+    default=8080,
+    help="Character server's chosen port.",
+    type=int,
+)
 @click.version_option(prog_name="Yari", version=__version__)
 def main(
     race: str,
@@ -106,6 +118,8 @@ def main(
     subclass: str,
     level: int,
     ratio: int,
+    host: str,
+    port: int,
 ) -> None:
     def callback(method: str, **kw):
         def init():
@@ -305,7 +319,7 @@ def main(
 
         try:
             with CharacterServer(cs) as w:
-                w.serve()
+                w.run(host, port)
         except (OSError, TypeError, ValueError) as e:
             out(e, 2)
     except ValueError as error:
