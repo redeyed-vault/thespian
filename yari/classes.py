@@ -371,21 +371,43 @@ class Wizard(_Classes):
 
 
 def get_default_background(klass: str):
+    """
+    Returns the default background by klass.
+
+    :param str klass: Characters chosen class.
+
+    """
     return load(klass, "background", file="classes")
 
 
 def get_is_background(background: str) -> bool:
-    """Returns whether the background is valid."""
+    """
+    Returns whether the background is valid.
+
+    :param str background: Chosen background to check.
+
+    """
     return background in load(file="backgrounds")
 
 
 def get_is_class(klass: str) -> bool:
-    """Returns whether the klass is valid."""
+    """
+    Returns whether the klass is valid.
+
+    :param str klass: Character's chosen class.
+
+    """
     return klass in load(file="classes")
 
 
 def get_is_subclass(subclass: str, klass: str) -> bool:
-    """Returns whether subclass is a valid subclass of klass."""
+    """
+    Returns whether subclass is a valid subclass of klass.
+
+    :param str subclass: Character's chosen subclass.
+    :param str klass: Character's chosen class.
+
+    """
     return subclass in load(klass, "subclasses", file="classes")
 
 
