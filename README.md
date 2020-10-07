@@ -98,6 +98,7 @@ Options:
                     So if this value is 2 or 20%, 80 percent will
                     automatically be allocated to feats). Default value is 5.
 
+  -port INTEGER     Character server's chosen port. Default value is 8080.
   --version         Show the version and exit.
   --help            Show this message and exit.
 ```
