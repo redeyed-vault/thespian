@@ -2,12 +2,26 @@
 # SUBCLASSES
 subclasses:
   # Barbarian Paths
+  Path of the Ancestral Guardian:
+    features:
+      3: ['Ancestral Protectors']
+      6: ['Spirit Shield (2d6)']
+      10: ['Consult the Spirits', 'Spirit Shield (3d6)']
+      14: ['Vengeful Ancestors', 'Spirit Shield (4d6)']
+    parent: Barbarian
   Path of the Berserker:
     features:
       3: ['Frenzy']
       6: ['Mindless Rage']
       10: ['Intimidating Presence']
       14: ['Retaliation']
+    parent: Barbarian
+  Path of the Storm Herald:
+    features:
+      3: ['Storm Aura']
+      6: ['Storm Soul']
+      10: ['Shielding Storm']
+      14: ['Raging Storm']
     parent: Barbarian
   Path of the Totem Warrior:
     features:
@@ -18,6 +32,13 @@ subclasses:
       6: ['Aspect of the Beast']
       10: ['Spirit Walker']
       14: ['Totemic Attunement']
+    parent: Barbarian
+  Path of the Zealot:
+    features:
+      3: ['Divine Fury', 'Warrior of the Gods']
+      6: ['Fanatical Focus']
+      10: ['Zealous Presence']
+      14: ['Rage beyond Death']
     parent: Barbarian
   # Bard Colleges
   College of Lore:
