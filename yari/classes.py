@@ -235,6 +235,7 @@ class _Classes:
                             "Weapons",
                         )
                         and self.subclass == "College of Valor"
+                        or self.subclass == "College of Swords"
                         and self.level < 3
                     ):
                         return

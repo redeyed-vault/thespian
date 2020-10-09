@@ -41,12 +41,27 @@ subclasses:
       14: ['Rage beyond Death']
     parent: Barbarian
   # Bard Colleges
+  College of Glamour:
+    features:
+      3: ['Enthralling Performance', 'Mantle of Inspiration']
+      6: ['Mantle of Majesty']
+      14: ['Unbreakable Majesty']
+    parent: Bard
   College of Lore:
     features:
       3: ['Cutting Words']
       6: ['Additional Magical Secrets']
       14: ['Peerless Skill']
     parent: Bard
+  College of Swords:
+    features:
+      3: ['Blade Flourish', 'Bonus Proficiencies', 'Fighting Style']
+      6: ['Extra Attack' ]
+      14: ["Master's Flourish"]
+    parent: Bard
+    proficiency:
+      - ['Armor', ['Medium',]]
+      - ['Weapons', ['Scimitar']]
   College of Valor:
     features:
       3: ['Combat Inspiration']
@@ -56,6 +71,12 @@ subclasses:
     proficiency:
       - ['Armor', ['Medium', 'Shield']]
       - ['Weapons', ['Martial']]
+  College of Whispers:
+    features:
+      3: ['Psychic Blades', 'Words of Terror']
+      6: ['Mantle of Whispers']
+      14: ['Shadow Lore']
+    parent: Bard
   # Cleric Domains
   Knowledge Domain:
     features:
