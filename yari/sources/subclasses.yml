@@ -25,10 +25,7 @@ subclasses:
     parent: Barbarian
   Path of the Totem Warrior:
     features:
-      3:
-        - Beast Sense
-        - Speak with Animals
-        - Totem Spirit
+      3: ['Beast Sense', 'Speak with Animals', 'Totem Spirit']
       6: ['Aspect of the Beast']
       10: ['Spirit Walker']
       14: ['Totemic Attunement']
