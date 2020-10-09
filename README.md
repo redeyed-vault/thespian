@@ -6,7 +6,7 @@
 
 #### DESCRIPTION
 
-Yari creates quick and easy 5th edition Dungeons & Dragons characters.
+Yari generates quick and easy 5th edition Dungeons & Dragons characters. Currently the software supports character classes and races from the following rulebooks: *Player's Handbook*, *Volo's Guide to Monsters* and *Xanatar's Guide to Everything* (partially).
 
 This project was originally known as *personaednd* and later *dndpersona*.
 
