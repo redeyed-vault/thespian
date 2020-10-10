@@ -4,14 +4,22 @@ feats:
   Actor: {}
   Alert: {}
   Athlete: {}
+  Bountiful Luck:
+    race: ['Halfling']
   Charger: {}
   Crossbow Expert: {}
   Defensive Duelist:
     abilities:
       Dexterity: 13
+  Dragon Fear:
+    race: ['Dragonborn']
+  Dragon Hide:
+    race: ['Dragonborn']
   Dual Wielder: {}
   Dungeon Delver: {}
   Durable: {}
+  Dwarven Fortitude:
+    race: ['Dwarf']
   Elemental Adept:
     caster: true
   Grappler:
@@ -46,6 +54,8 @@ feats:
   Mounted Combatant: {}
   Observant: {}
   Polearm Master: {}
+  Prodigy:
+    race: ['HalfElf', 'HalfOrc', 'Human']
   Resilient: {}
   Ritual Caster:
     abilities:
