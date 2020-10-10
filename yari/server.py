@@ -305,4 +305,4 @@ class CharacterServer:
 
         app = web.Application()
         app.router.add_get("/", character_sheet)
-        web.run_app(app, host='127.0.0.1', port=port)
+        web.run_app(app, host="127.0.0.1", port=port)
