@@ -175,7 +175,7 @@ def main(
             7: 70,
             8: 80,
             9: 90,
-            10: 100
+            10: 100,
         }
         ratio = ratios.get(ratio)
 
@@ -266,6 +266,7 @@ def main(
         # Assign ability/feat improvements.
         u = ImprovementGenerator(
             race=race,
+            subrace=subrace,
             subclass=subclass,
             klass=klass,
             level=level,
@@ -278,8 +279,10 @@ def main(
             tool_proficiency=tools,
             weapon_proficiency=weapons,
             skills=cg.skills,
+            feats=[],
             upgrade_ratio=ratio,
         )
+        u.upgrade()
 
         # Create proficiency data packet.
         proficiency_info = OrderedDict()
