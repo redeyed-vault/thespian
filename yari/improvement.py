@@ -1,4 +1,5 @@
 from collections import OrderedDict
+from dataclasses import dataclass
 import math
 import random
 import traceback
@@ -7,110 +8,42 @@ from yari.loader import load
 from yari.proficiency import get_tool_chest, get_weapon_chest
 
 
+@dataclass
 class ImprovementGenerator:
-    """
-    Applies ability/feat upgrades to the character (where applicable).
-
-    :param str race: Character's chosen race.
-    :param str klass: Character's chosen class.
-    :param str subclass: Character's chosen subclass.
-    :param int level: Character's chosen level.
-    :param dict primary_ability: Primary abilities for the chosen klass.
-    :param list saves: Character's proficient saving throws.
-    :param str spell_slots: Character's spell slots.
-    :param OrderedDict score_array: Character's ability scores.
-    :param list languages: Character's languages.
-    :param list armor_proficiency: Character's armor proficiencies.
-    :param list tool_proficiency: Character's tool proficiencies.
-    :param list weapon_proficiency: Character's weapon proficiencies.
-    :param list skills: Character's skills.
-    :param int upgrade_ratio: Percentage for ability to feat ratio upgrades.
-
-    """
-
-    def __init__(
-        self,
-        race: str,
-        klass: str,
-        subclass: str,
-        level: int,
-        primary_ability: dict,
-        saves: list,
-        spell_slots: str,
-        score_array: OrderedDict,
-        languages: list,
-        armor_proficiency: list,
-        tool_proficiency: list,
-        weapon_proficiency: list,
-        skills: list,
-        upgrade_ratio: int,
-    ) -> None:
-        self.race = race
-        self.klass = klass
-        self.subclass = subclass
-        self.level = level
-        self.saves = saves
-        self.spell_slots = spell_slots
-        self.score_array = score_array
-        self.languages = languages
-        self.armor_proficiency = armor_proficiency
-        self.tool_proficiency = tool_proficiency
-        self.weapon_proficiency = weapon_proficiency
-        self.skills = skills
-        self.feats = list()
-
-        # Add special class languages (if applicable).
-        if klass == "Druid":
-            self.languages.append("Druidic")
-        elif klass == "Rogue":
-            self.languages.append("Thieves' cant")
-
-        # Determine and assign upgrades by ability/feat upgrade ratio.
-        upgrade_ratio = self._get_upgrade_ratio(upgrade_ratio)
-        if sum(upgrade_ratio) == 0:
-            return
-        else:
-            ability_upgrades = upgrade_ratio[0]
-            feat_upgrades = upgrade_ratio[1]
-            if ability_upgrades > 0:
-                primary_ability = list(primary_ability.values())
-                for _ in range(0, ability_upgrades):
-                    try:
-                        if not self._is_adjustable(primary_ability):
-                            raise ValueError("No upgradeable primary abilities.")
-
-                        bonus_applied = random.choice([1, 2])
-                        if bonus_applied == 1 and self._is_adjustable(primary_ability):
-                            self._set_score(primary_ability[0], bonus_applied)
-                            self._set_score(primary_ability[1], bonus_applied)
-                        elif bonus_applied == 2 and self._is_adjustable(
-                            primary_ability[0]
-                        ):
-                            self._set_score(primary_ability[0], bonus_applied)
-                        elif bonus_applied == 2 and self._is_adjustable(
-                            primary_ability[1]
-                        ):
-                            self._set_score(primary_ability[1], bonus_applied)
-                        else:
-                            raise ValueError("No upgradeable primary ability by bonus.")
-                    except ValueError:
-                        self._add_feat()
-
-            if feat_upgrades > 0:
-                for _ in range(0, feat_upgrades):
-                    self._add_feat()
+    race: str
+    subrace: str
+    klass: str
+    subclass: str
+    level: int
+    primary_ability: dict
+    saves: list
+    spell_slots: str
+    score_array: OrderedDict
+    languages: list
+    armor_proficiency: list
+    tool_proficiency: list
+    weapon_proficiency: list
+    skills: list
+    feats: list
+    upgrade_ratio: int
 
     def _add_feat(self) -> None:
         """Randomly selects and adds a valid feats."""
         feats = [feat for feat in list(load(file="feats")) if feat not in self.feats]
-
-        # Keep choosing a feat until prerequisites are met.
         random.shuffle(feats)
         feat_choice = feats.pop()
+        print(f"Checking prerequisites for '{feat_choice}'...")
+        # Keep choosing a feat until prerequisites met.
         if not self._has_prerequisites(feat_choice):
+            print(f"Prerequisites not met for '{feat_choice}'.")
             while not self._has_prerequisites(feat_choice):
                 random.shuffle(feats)
                 feat_choice = feats.pop()
+                print(f"Checking prerequisites for '{feat_choice}'...")
+                if not self._has_prerequisites(feat_choice):
+                    print(f"Prerequisites not met for '{feat_choice}'.")
+        # Prerequisites met, inform, add to list and apply features.
+        print(f"Prerequisites met for '{feat_choice}'.")
         self._add_features(feat_choice)
         self.feats.append(feat_choice)
 
@@ -139,8 +72,17 @@ class ImprovementGenerator:
             elif feat == "Moderately Armored":
                 self.armor_proficiency.append("Medium")
                 self.armor_proficiency.append("Shield")
-        # Durable
-        if feat == "Durable":
+
+        # Dragon Fear/Dragon Hide
+        if feat in ("Dragon Fear", "Dragon Hide"):
+            for ability in ("Strength", "Constitution", "Charisma"):
+                if self._is_adjustable([ability]):
+                    self._set_score(ability, 1)
+                    print(f"Feat '{feat}' upgraded your '{ability}' by 1.")
+                    break
+
+        # Durable/Dwarven Fortitude
+        if feat in ("Durable", "Dwarven Fortitude"):
             self._set_score("Constitution", 1)
 
         # Heavily Armored/Heavy Armor Master
@@ -149,10 +91,11 @@ class ImprovementGenerator:
             if feat == "Heavily Armored":
                 self.armor_proficiency.append("Heavy")
 
-        # Keen Mind/Linguist
-        if feat in ("Keen Mind", "Linguist"):
-            self._set_score("Intelligence", 1)
-            if feat == "Linguist":
+        # Keen Mind/Linguist/Prodigy
+        if feat in ("Keen Mind", "Linguist", "Prodigy"):
+            if feat != "Prodigy":
+                self._set_score("Intelligence", 1)
+            if feat in ("Linguist", "Prodigy"):
                 # Remove already known languages.
                 linguist_languages = [
                     "Abyssal",
@@ -177,8 +120,11 @@ class ImprovementGenerator:
                     for language in linguist_languages
                     if language not in self.languages
                 ]
-                # Choose 3 bonus languages.
-                self.languages = self.languages + random.sample(linguist_languages, 3)
+
+                if feat == "Linguist":
+                    self.languages = self.languages + random.sample(linguist_languages, 3)
+                else:
+                    self.languages = self.languages + random.sample(linguist_languages, 1)
 
         # Observant
         if feat == "Observant":
@@ -186,6 +132,41 @@ class ImprovementGenerator:
                 self._set_score("Wisdom", 1)
             elif self.klass in ("Wizard",):
                 self._set_score("Intelligence", 1)
+
+        # Prodigy/Skilled
+        if feat in ("Prodigy", "Skilled"):
+            if feat == "Prodigy":
+                skills = [
+                    skill
+                    for skill in list(load(file="skills"))
+                    if skill not in self.skills
+                ]
+                tool_list = [t for t in get_tool_chest()]
+                tool_list = [
+                    tool for tool in tool_list if tool not in self.tool_proficiency
+                ]
+                self.skills.append(random.choice(skills))
+                self.tool_proficiency.append(random.choice(tool_list))
+            else:
+                for _ in range(3):
+                    skills = [
+                        skill
+                        for skill in list(load(file="skills"))
+                        if skill not in self.skills
+                    ]
+                    tool_list = [t for t in get_tool_chest()]
+                    tool_list = [
+                        tool for tool in tool_list if tool not in self.tool_proficiency
+                    ]
+                    skilled_choice = random.choice(["Skill", "Tool"])
+                    if skilled_choice == "Skill":
+                        skill_choice = random.choice(skills)
+                        self.skills.append(skill_choice)
+                        print(f"Feat '{feat}' added skill '{skill_choice}'.")
+                    elif skilled_choice == "Tool":
+                        tool_choice = random.choice(tool_list)
+                        self.tool_proficiency.append(tool_choice)
+                        print(f"Feat '{feat}' added tool proficiency '{tool_choice}'.")
 
         # Resilient
         if feat == "Resilient":
@@ -205,24 +186,6 @@ class ImprovementGenerator:
             ability_choice = random.choice(resilient_saves)
             self._set_score(ability_choice, 1)
             self.saves.append(ability_choice)
-
-        # Skilled
-        if feat == "Skilled":
-            for _ in range(3):
-                skilled_choice = random.choice(["Skill", "Tool"])
-                if skilled_choice == "Skill":
-                    skills = [
-                        skill
-                        for skill in list(load(file="skills"))
-                        if skill not in self.skills
-                    ]
-                    self.skills.append(random.choice(skills))
-                elif skilled_choice == "Tool":
-                    tool_list = [t for t in get_tool_chest()]
-                    tool_list = [
-                        tool for tool in tool_list if tool not in self.tool_proficiency
-                    ]
-                    self.tool_proficiency.append(random.choice(tool_list))
 
         # Tavern Brawler
         if feat == "Tavern Brawler":
@@ -387,6 +350,14 @@ class ImprovementGenerator:
                     for armor in armors:
                         if armor not in self.armor_proficiency:
                             return False
+
+            if requirement == "race":
+                if self.race not in prerequisite.get(requirement):
+                    return False
+
+            if requirement == "subrace":
+                if self.subrace not in prerequisite.get(requirement):
+                    return False
         return True
 
     def _is_adjustable(self, abilities: (list, tuple, str)) -> bool:
@@ -437,3 +408,46 @@ class ImprovementGenerator:
             traceback.print_exc()
         except ValueError:
             pass
+
+    def upgrade(self):
+        """Runs character upgrades (if applicable)."""
+        # Add special class languages (if applicable).
+        if self.klass == "Druid":
+            self.languages.append("Druidic")
+        elif self.klass == "Rogue":
+            self.languages.append("Thieves' cant")
+
+        # Determine and assign upgrades by ability/feat upgrade ratio.
+        upgrade_ratio = self._get_upgrade_ratio(self.upgrade_ratio)
+        if sum(upgrade_ratio) == 0:
+            return
+        else:
+            ability_upgrades = upgrade_ratio[0]
+            feat_upgrades = upgrade_ratio[1]
+            if ability_upgrades > 0:
+                primary_ability = list(self.primary_ability.values())
+                for _ in range(0, ability_upgrades):
+                    try:
+                        if not self._is_adjustable(primary_ability):
+                            raise ValueError("No upgradeable primary abilities.")
+
+                        bonus_applied = random.choice([1, 2])
+                        if bonus_applied == 1 and self._is_adjustable(primary_ability):
+                            self._set_score(primary_ability[0], bonus_applied)
+                            self._set_score(primary_ability[1], bonus_applied)
+                        elif bonus_applied == 2 and self._is_adjustable(
+                            primary_ability[0]
+                        ):
+                            self._set_score(primary_ability[0], bonus_applied)
+                        elif bonus_applied == 2 and self._is_adjustable(
+                            primary_ability[1]
+                        ):
+                            self._set_score(primary_ability[1], bonus_applied)
+                        else:
+                            raise ValueError("No upgradeable primary ability by bonus.")
+                    except ValueError:
+                        self._add_feat()
+
+            if feat_upgrades > 0:
+                for _ in range(0, feat_upgrades):
+                    self._add_feat()
