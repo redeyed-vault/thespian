@@ -122,9 +122,13 @@ class ImprovementGenerator:
                 ]
 
                 if feat == "Linguist":
-                    self.languages = self.languages + random.sample(linguist_languages, 3)
+                    self.languages = self.languages + random.sample(
+                        linguist_languages, 3
+                    )
                 else:
-                    self.languages = self.languages + random.sample(linguist_languages, 1)
+                    self.languages = self.languages + random.sample(
+                        linguist_languages, 1
+                    )
 
         # Observant
         if feat == "Observant":
@@ -186,6 +190,20 @@ class ImprovementGenerator:
             ability_choice = random.choice(resilient_saves)
             self._set_score(ability_choice, 1)
             self.saves.append(ability_choice)
+
+        # Squat Nimbleness
+        if feat == "Squat Nimbleness":
+            self._set_score(("Dexterity", "Strength"), 1)
+            if "Acrobatics" and "Athletics" in self.skills:
+                pass
+            else:
+                skill_choice = random.choice(("Acrobatics", "Athletics"))
+                if "Acrobatics" in self.skills:
+                    skill_choice = "Athletics"
+                elif "Athletics" in self.skills:
+                    skill_choice = "Acrobatics"
+                self.skills.append(skill_choice)
+                print(f"Feat '{feat}' added skill '{skill_choice}'.")
 
         # Tavern Brawler
         if feat == "Tavern Brawler":
@@ -401,18 +419,26 @@ class ImprovementGenerator:
                 if isinstance(ability_array, tuple):
                     for ability in ability_array:
                         if ability not in self.score_array:
-                            raise KeyError(f"Argument 'ability_array' is invalid. ({ability})")
+                            raise KeyError(
+                                f"Argument 'ability_array' is invalid. ({ability})"
+                            )
                         elif not self._is_adjustable(ability):
-                            raise ValueError(f"Argument 'ability_array' is not upgradeable ({ability}).")
+                            raise ValueError(
+                                f"Argument 'ability_array' is not upgradeable ({ability})."
+                            )
                         else:
                             value = self.score_array.get(ability) + bonus
                             self.score_array[ability] = value
                             break
                 else:
                     if ability_array not in self.score_array:
-                        raise KeyError(f"Argument 'ability_score' is invalid. ({ability_array})")
+                        raise KeyError(
+                            f"Argument 'ability_score' is invalid. ({ability_array})"
+                        )
                     elif not self._is_adjustable(ability_array):
-                        raise ValueError(f"Argument 'ability_array' is not upgradeable ({ability_array}).")
+                        raise ValueError(
+                            f"Argument 'ability_array' is not upgradeable ({ability_array})."
+                        )
                     else:
                         value = self.score_array.get(ability_array) + bonus
                         self.score_array[ability_array] = value
