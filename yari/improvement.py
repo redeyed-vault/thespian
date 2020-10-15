@@ -75,15 +75,15 @@ class ImprovementGenerator:
 
         # Dragon Fear/Dragon Hide
         if feat in ("Dragon Fear", "Dragon Hide"):
-            for ability in ("Strength", "Constitution", "Charisma"):
-                if self._is_adjustable([ability]):
-                    self._set_score(ability, 1)
-                    print(f"Feat '{feat}' upgraded your '{ability}' by 1.")
-                    break
+            self._set_score(("Strength", "Constitution", "Charisma"), 1)
 
         # Durable/Dwarven Fortitude
-        if feat in ("Durable", "Dwarven Fortitude"):
+        if feat in ("Durable", "Dwarven Fortitude", "Infernal Constitution"):
             self._set_score("Constitution", 1)
+
+        # Flames of Phlegethos
+        if feat == "Flames of Phlegethos":
+            self._set_score(("Intelligence", "Charisma"), 1)
 
         # Heavily Armored/Heavy Armor Master
         if feat in ("Heavily Armored", "Heavy Armor Master"):
@@ -122,9 +122,13 @@ class ImprovementGenerator:
                 ]
 
                 if feat == "Linguist":
-                    self.languages = self.languages + random.sample(linguist_languages, 3)
+                    self.languages = self.languages + random.sample(
+                        linguist_languages, 3
+                    )
                 else:
-                    self.languages = self.languages + random.sample(linguist_languages, 1)
+                    self.languages = self.languages + random.sample(
+                        linguist_languages, 1
+                    )
 
         # Observant
         if feat == "Observant":
@@ -186,6 +190,20 @@ class ImprovementGenerator:
             ability_choice = random.choice(resilient_saves)
             self._set_score(ability_choice, 1)
             self.saves.append(ability_choice)
+
+        # Squat Nimbleness
+        if feat == "Squat Nimbleness":
+            self._set_score(("Dexterity", "Strength"), 1)
+            if "Acrobatics" and "Athletics" in self.skills:
+                pass
+            else:
+                skill_choice = random.choice(("Acrobatics", "Athletics"))
+                if "Acrobatics" in self.skills:
+                    skill_choice = "Athletics"
+                elif "Athletics" in self.skills:
+                    skill_choice = "Acrobatics"
+                self.skills.append(skill_choice)
+                print(f"Feat '{feat}' added skill '{skill_choice}'.")
 
         # Tavern Brawler
         if feat == "Tavern Brawler":
@@ -386,24 +404,44 @@ class ImprovementGenerator:
         else:
             return True
 
-    def _set_score(self, ability: str, bonus: int) -> None:
+    def _set_score(self, ability_array: (str, tuple), bonus: int) -> None:
         """
-        Adjust a specified ability score with bonus.
+        Adjust a specified ability_array score with bonus.
 
-        :param str ability: Ability score to set.
-        :param int bonus: Value to apply to the ability score.
+        :param ability_array: ability_array score to set.
+        :param int bonus: Value to apply to the ability_array score.
 
         """
         try:
             if not isinstance(self.score_array, OrderedDict):
                 raise TypeError("Argument 'score_array' must be 'OrderedDict' object.")
-            elif ability not in self.score_array:
-                raise KeyError(f"Argument 'ability' is invalid: '{ability}'.")
-            elif not self._is_adjustable(ability):
-                raise ValueError(f"Ability score '{ability}' is not upgradeable.")
             else:
-                value = self.score_array.get(ability) + bonus
-                self.score_array[ability] = value
+                if isinstance(ability_array, tuple):
+                    for ability in ability_array:
+                        if ability not in self.score_array:
+                            raise KeyError(
+                                f"Argument 'ability_array' is invalid. ({ability})"
+                            )
+                        elif not self._is_adjustable(ability):
+                            raise ValueError(
+                                f"Argument 'ability_array' is not upgradeable ({ability})."
+                            )
+                        else:
+                            value = self.score_array.get(ability) + bonus
+                            self.score_array[ability] = value
+                            break
+                else:
+                    if ability_array not in self.score_array:
+                        raise KeyError(
+                            f"Argument 'ability_score' is invalid. ({ability_array})"
+                        )
+                    elif not self._is_adjustable(ability_array):
+                        raise ValueError(
+                            f"Argument 'ability_array' is not upgradeable ({ability_array})."
+                        )
+                    else:
+                        value = self.score_array.get(ability_array) + bonus
+                        self.score_array[ability_array] = value
         except (KeyError, TypeError):
             traceback.print_exc()
         except ValueError:

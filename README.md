@@ -68,15 +68,19 @@ Options:
 
   -subclass TEXT    Character's chosen subclass (archetype, domain, path,
                     etc). Available subclasses are based upon the chosen
-                    class: Barbarian (Path of the Berserker, Path of the Totem
-                    Warrior), Bard (College of Lore, College of Valor), Cleric
-                    (Knowledge Domain, Life Domain, Light Domain, Nature
+                    class: Barbarian (Path of the Ancestral Guardian, Path of
+                    the Berserker, Path of the Storm Herald, Path of the Totem
+                    Warrior, Path of the Zealot), Bard (College of Glamour,
+                    College of Lore, College of Swords, College of Valor,
+                    College of Whispers), Cleric (Forge Domain, Grave Domain,
+                    Knowledge Domain, Life Domain, Light Domain, Nature
                     Domain, Tempest Domain, Trickery Domain, War Domain),
                     Druid (Circle of the Arctic, Circle of the Coast, Circle
-                    of the Desert, Circle of the Forest, Circle of the
-                    Grassland, Circle of the Moon, Circle of the Mountain,
-                    Circle of the Swamp, Circle of the Underdark), Fighter
-                    (Battle Master, Champion, Eldritch Knight), Monk (Way of
+                    of the Desert, Circle of Dreams, Circle of the Forest,
+                    Circle of the Grassland, Circle of the Moon, Circle of the
+                    Mountain, Circle of the Shepherd, Circle of the Swamp,
+                    Circle of the Underdark), Fighter (Arcane Archer, Battle
+                    Master, Cavalier, Champion, Eldritch Knight), Monk (Way of
                     Shadow, Way of the Four Elements, Way of the Open Hand),
                     Paladin (Oath of the Ancients, Oath of Devotion, Oath of
                     Vengeance), Ranger (Beast Master, Hunter), Rogue (Arcane
