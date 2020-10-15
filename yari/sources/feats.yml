@@ -76,6 +76,8 @@ feats:
       Dexterity: 13
   Spell Sniper:
     caster: true
+  Squat Nimbleness:
+    race: ['Dwarf', 'Gnome', 'Halfling']
   Tavern Brawler: {}
   Tough: {}
   War Caster:
