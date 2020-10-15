@@ -291,7 +291,7 @@ class _Classes:
                     "Performance",
                     "Persuasion",
                 ]
-                cavalier_skills = [s for s in cavalier_skills if s not in self.skills]
+                cavalier_skills = [s for s in cavalier_skills if s not in skills]
                 skills = skills + random.sample(cavalier_skills, 1)
             elif self.subclass == "College of Lore":
                 lore_skills = [x for x in get_all_skills() if x not in skills]

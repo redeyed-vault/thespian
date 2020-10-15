@@ -32,8 +32,11 @@ classes:
       - ['Skills', ['Animal Handling', 'Athletics', 'Intimidation', 'Nature', 'Perception', 'Survival']]
     spell_slots: {}
     subclasses:
+      - Path of the Ancestral Guardian
       - Path of the Berserker
+      - Path of the Storm Herald
       - Path of the Totem Warrior
+      - Path of the Zealot
   Bard:
     abilities:
       1: Charisma
@@ -87,8 +90,11 @@ classes:
       19: 4,3,3,3,3,2,1,1,1
       20: 4,3,3,3,3,2,2,1,1
     subclasses:
+      - College of Glamour
       - College of Lore
+      - College of Swords
       - College of Valor
+      - College of Whispers
   Cleric:
     abilities:
       1: Wisdom
@@ -112,6 +118,8 @@ classes:
       20: ['Divine Intervention']
     hit_die: 8
     subclasses:
+      - Forge Domain
+      - Grave Domain
       - Knowledge Domain
       - Life Domain
       - Light Domain
@@ -195,10 +203,12 @@ classes:
       - Circle of the Arctic
       - Circle of the Coast
       - Circle of the Desert
+      - Circle of Dreams
       - Circle of the Forest
       - Circle of the Grassland
       - Circle of the Moon
       - Circle of the Mountain
+      - Circle of the Shepherd
       - Circle of the Swamp
       - Circle of the Underdark
       - Circle of the Moon
@@ -249,6 +259,8 @@ classes:
       19: 4,3,3,1
       20: 4,3,3,1
     subclasses:
+      - Arcane Archer
+      - Cavalier
       - Champion
       - Battle Master
       - Eldritch Knight

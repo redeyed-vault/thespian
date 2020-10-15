@@ -53,7 +53,7 @@ subclasses:
   College of Swords:
     features:
       3: ['Blade Flourish', 'Bonus Proficiencies', 'Fighting Style']
-      6: ['Extra Attack' ]
+      6: ['Extra Attack']
       14: ["Master's Flourish"]
     parent: Bard
     proficiency:
