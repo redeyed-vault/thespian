@@ -264,6 +264,7 @@ classes:
       - Champion
       - Battle Master
       - Eldritch Knight
+      - Samurai
   Monk:
     abilities:
       1: Dexterity
