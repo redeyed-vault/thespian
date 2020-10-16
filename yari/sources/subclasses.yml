@@ -373,6 +373,14 @@ subclasses:
       15: ['Arcane Charge']
       18: ['Improved War Magic']
     parent: Fighter
+  Samurai:
+    features:
+      3: ['Bonus Proficiency', 'Fighting Spirit (5 temp. hp)']
+      7: ['Elegant Courtier']
+      10: ['Tireless Spirit, Fighting Spirit (10 temp. hp)']
+      15: ['Rapid Strike', 'Fighting Spirit (15 temp. hp)']
+      18: ['Strength before Death']
+    parent: Fighter
   # Monk Traditions
   Way of Shadow:
     features:
