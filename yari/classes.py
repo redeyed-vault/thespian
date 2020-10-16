@@ -281,22 +281,6 @@ class _Classes:
             skills = skills + self.race_skills
 
         skills = skills + random.sample(skill_pool, allotment)
-
-        if self.level >= 3:
-            if self.subclass == "Cavalier":
-                cavalier_skills = [
-                    "Animal Handling",
-                    "History",
-                    "Insight",
-                    "Performance",
-                    "Persuasion",
-                ]
-                cavalier_skills = [s for s in cavalier_skills if s not in skills]
-                skills = skills + random.sample(cavalier_skills, 1)
-            elif self.subclass == "College of Lore":
-                lore_skills = [x for x in get_all_skills() if x not in skills]
-                skills = skills + random.sample(lore_skills, 3)
-
         skills.sort()
         self.all["proficiency"][4] = ["Skills", skills]
 

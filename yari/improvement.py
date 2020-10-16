@@ -27,6 +27,47 @@ class ImprovementGenerator:
     feats: list
     upgrade_ratio: int
 
+    def _add_bonus_proficiency(self):
+        """Adds special bonus class proficiencies (if applicable)."""
+        if self.klass == "Druid":
+            self.languages.append("Druidic")
+        elif self.klass == "Rogue":
+            self.languages.append("Thieves' cant")
+
+        if self.level >= 3:
+            if self.subclass == "Cavalier":
+                cavalier_skills = [
+                    "Animal Handling",
+                    "History",
+                    "Insight",
+                    "Performance",
+                    "Persuasion",
+                ]
+                cavalier_skills = [s for s in cavalier_skills if s not in self.skills]
+                self.skills = self.skills + random.sample(cavalier_skills, 1)
+            elif self.subclass == "College of Lore":
+                lore_skills = [x for x in get_all_skills() if x not in self.skills]
+                self.skills = self.skills + random.sample(lore_skills, 3)
+            elif self.subclass == "Samurai":
+                proficiency_choice = random.choice(("Language", "Skill"))
+                if proficiency_choice == "Language":
+                    samurai_language = list(load("languages", "All", file="languages"))
+                    samurai_language = [
+                        language
+                        for language in samurai_language
+                        if language not in self.languages
+                    ]
+                    self.languages = self.languages + random.choice(samurai_language)
+                elif proficiency_choice == "Skill":
+                    samurai_skills = [
+                        "History",
+                        "Insight",
+                        "Performance",
+                        "Persuasion",
+                    ]
+                    samurai_skills = [s for s in samurai_skills if s not in self.skills]
+                    self.skills = self.skills + random.sample(samurai_skills, 1)
+
     def _add_feat(self) -> None:
         """Randomly selects and adds a valid feats."""
         feats = [feat for feat in list(load(file="feats")) if feat not in self.feats]
@@ -97,24 +138,7 @@ class ImprovementGenerator:
                 self._set_score("Intelligence", 1)
             if feat in ("Linguist", "Prodigy"):
                 # Remove already known languages.
-                linguist_languages = [
-                    "Abyssal",
-                    "Celestial",
-                    "Common",
-                    "Deep Speech",
-                    "Draconic",
-                    "Dwarvish",
-                    "Elvish",
-                    "Giant",
-                    "Gnomish",
-                    "Goblin",
-                    "Halfling",
-                    "Infernal",
-                    "Orc",
-                    "Primordial",
-                    "Sylvan",
-                    "Undercommon",
-                ]
+                linguist_languages = list(load("languages", "All", file="languages"))
                 linguist_languages = [
                     language
                     for language in linguist_languages
@@ -449,11 +473,7 @@ class ImprovementGenerator:
 
     def upgrade(self):
         """Runs character upgrades (if applicable)."""
-        # Add special class languages (if applicable).
-        if self.klass == "Druid":
-            self.languages.append("Druidic")
-        elif self.klass == "Rogue":
-            self.languages.append("Thieves' cant")
+        self._add_bonus_proficiency()
 
         # Determine and assign upgrades by ability/feat upgrade ratio.
         upgrade_ratio = self._get_upgrade_ratio(self.upgrade_ratio)
