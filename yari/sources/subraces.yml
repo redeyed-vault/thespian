@@ -1,33 +1,26 @@
 ---
 # SUBRACES
 subraces:
-  Asmodeus:
+  # Aasimar Subraces
+  Fallen:
     bonus:
-      Intelligence: 1
+      Strength: 1
     other:
-      - [Infernal Legacy, [[1, Thaumaturgy], [3, Hellish Rebuke], [5, Darkness]]]
-    parent: Tiefling
-  Baalzebul:
+      - [Necrotic Shroud, 3]
+    parent: Aasimar
+  Protector:
     bonus:
-      Intelligence: 1
+      Wisdom: 1
     other:
-      - [Legacy of Maladomini, [[1, Thaumaturgy], [3, Ray of Sickness], [5, Crown of Madness]]]
-    parent: Tiefling
-  Deep:
+      - [Radiant Soul, 3]
+    parent: Aasimar
+  Scourge:
     bonus:
-      Dexterity: 1
-    languages: ['Undercommon']
+      Constitution: 1
     other:
-      - [Extra Language, [Undercommon]]
-      - [Superior Darkvision, 120]
-      - [Stone Camouflage]
-    parent: Gnome
-  Dispater:
-    bonus:
-      Dexterity: 1
-    other:
-      - [Legacy of Dis, [[1, Thaumaturgy], [3, Disguise], [5, Detect Thoughts]]]
-    parent: Tiefling
+      - [Radiant Consumption, 3]
+    parent: Aasimar
+  # Elf Subraces
   Drow:
     bonus:
       Charisma: 1
@@ -44,6 +37,80 @@ subraces:
       weight:
         base: 75
         modifier: 1d6
+  Eladrin:
+    bonus:
+      Intelligence: 1
+    other:
+      - [Elf Weapon Training, [Longsword, Shortsword, Shortbow, Longbow]]
+      - [Fey Step]
+    parent: Elf
+    ratio:
+      height:
+        base: 54
+        modifier: 2d12
+      weight:
+        base: 90
+        modifier: 1d4
+  High:
+    bonus:
+      Intelligence: 1
+    other:
+      - [Cantrip, [Acid Splash, Blade Ward, Chill Touch, Dancing Lights, Fire Bolt, Friends, Light, Mage Hand, Mending, Message, Minor Illusion, Poison Spray, Prestidigitation, Ray of Frost, Shocking Grasp, True Strike]]
+      - [Elf Weapon Training, [Longsword, Shortsword, Shortbow, Longbow]]
+    parent: Elf
+    ratio:
+      height:
+        base: 54
+        modifier: 2d10
+      weight:
+        base: 90
+        modifier: 1d4
+  Sea:
+      bonus:
+        Constitution: 1
+      languages: ['Aquan']
+      other:
+        - [Child of the Sea]
+        - [Friend of the Sea]
+        - [Sea Elf Training, [Light Crossbow, Net, Spear, Trident]]
+      parent: Elf
+      ratio:
+        height:
+          base: 54
+          modifier: 2d8
+        weight:
+          base: 90
+          modifier: 1d4
+  Shadar-kai:
+    bonus:
+      Constitution: 1
+    other:
+      - [Blessing of the Raven Queen]
+      - [Necrotic Resistance, ['Necrotic']]
+    parent: Elf
+    ratio:
+      height:
+        base: 56
+        modifier: 2d8
+      weight:
+        base: 90
+        modifier: 1d4
+  Wood:
+    bonus:
+      Wisdom: 1
+    other:
+      - [Elf Weapon Training, [Longsword, Shortsword, Shortbow, Longbow]]
+      - [Fleet of Foot]
+      - [Mask of the Wild]
+    parent: Elf
+    ratio:
+      height:
+        base: 54
+        modifier: 2d10
+      weight:
+        base: 100
+        modifier: 1d4
+  # Dwarf Subraces
   Duergar:
     bonus:
       Strength: 1
@@ -62,39 +129,33 @@ subraces:
       weight:
         base: 115
         modifier: 2d6
-  Eladrin:
-    bonus:
-      Intelligence: 1
-    other:
-      - [Elf Weapon Training, [Longsword, Shortsword, Shortbow, Longbow]]
-      - [Fey Step]
-    parent: Elf
-    ratio:
-      height:
-        base: 54
-        modifier: 2d12
-      weight:
-        base: 90
-        modifier: 1d4
-  Fallen:
-    bonus:
-      Strength: 1
-    other:
-      - [Necrotic Shroud, 3]
-    parent: Aasimar
-  Fierna:
+  Hill:
     bonus:
       Wisdom: 1
     other:
-      - [Legacy of Phlegethos, [[1, Friends], [3, Charm Person], [5, Suggestion]]]
-    parent: Tiefling
-  Forest:
+      - [Dwarven Toughness]
+    parent: Dwarf
+    ratio:
+      height:
+        base: 44
+        modifier: 2d4
+      weight:
+        base: 115
+        modifier: 2d6
+  Mountain:
     bonus:
-      Dexterity: 1
+      Strength: 2
     other:
-      - [Natural Illusionist, ['Minor Illusion']]
-      - [Speak with Small Beasts]
-    parent: Gnome
+      - [Dwarven Armor Training, ['Light', 'Medium']]
+    parent: Dwarf
+    ratio:
+      height:
+        base: 48
+        modifier: 2d4
+      weight:
+        base: 130
+        modifier: 2d6
+  # Gith Subraces
   Githyanki:
     bonus:
       Strength: 2
@@ -129,51 +190,80 @@ subraces:
         modifier: 1d4
     size: Medium
     speed: 30
-  Glasya:
+  # Gnome Subraces
+  Deep:
+    bonus:
+      Dexterity: 1
+    languages: ['Undercommon']
+    other:
+      - [Extra Language, [Undercommon]]
+      - [Superior Darkvision, 120]
+      - [Stone Camouflage]
+    parent: Gnome
+  Forest:
     bonus:
       Dexterity: 1
     other:
-      - [Legacy of Malbolge, [[1, Minor Illusion], [3, Disguise Self], [5, Invisibility]]]
-    parent: Tiefling
-  High:
-    bonus:
-      Intelligence: 1
-    other:
-      - [Cantrip, [Acid Splash, Blade Ward, Chill Touch, Dancing Lights, Fire Bolt, Friends, Light, Mage Hand, Mending, Message, Minor Illusion, Poison Spray, Prestidigitation, Ray of Frost, Shocking Grasp, True Strike]]
-      - [Elf Weapon Training, [Longsword, Shortsword, Shortbow, Longbow]]
-    parent: Elf
-    ratio:
-      height:
-        base: 54
-        modifier: 2d10
-      weight:
-        base: 90
-        modifier: 1d4
-  Hill:
-    bonus:
-      Wisdom: 1
-    other:
-      - [Dwarven Toughness]
-    parent: Dwarf
-    ratio:
-      height:
-        base: 44
-        modifier: 2d4
-      weight:
-        base: 115
-        modifier: 2d6
-  Levistus:
+      - [Natural Illusionist, ['Minor Illusion']]
+      - [Speak with Small Beasts]
+    parent: Gnome
+  Rock:
     bonus:
       Constitution: 1
     other:
-      - [Legacy of Stygia, [[1, Ray of Frost], [3, Armor of Agathys], [5, Darkness]]]
-    parent: Tiefling
+      - [Artificer's Lore]
+      - [Tinker, "Artisan's tools - Tinker's tools"]
+    parent: Gnome
+  # Halfling Subraces
   Lightfoot:
     bonus:
       Charisma: 1
     other:
       - [Naturally Stealthy]
     parent: Halfling
+  Stout:
+    bonus:
+      Constitution: 1
+    other:
+      - [Stout Resilience, ['Poison']]
+    parent: Halfling
+  # Tiefling Subraces
+  Asmodeus:
+    bonus:
+      Intelligence: 1
+    other:
+      - [Infernal Legacy, [[1, Thaumaturgy], [3, Hellish Rebuke], [5, Darkness]]]
+    parent: Tiefling
+  Baalzebul:
+    bonus:
+      Intelligence: 1
+    other:
+      - [Legacy of Maladomini, [[1, Thaumaturgy], [3, Ray of Sickness], [5, Crown of Madness]]]
+    parent: Tiefling
+  Dispater:
+    bonus:
+      Dexterity: 1
+    other:
+      - [Legacy of Dis, [[1, Thaumaturgy], [3, Disguise], [5, Detect Thoughts]]]
+    parent: Tiefling
+  Fierna:
+    bonus:
+      Wisdom: 1
+    other:
+      - [Legacy of Phlegethos, [[1, Friends], [3, Charm Person], [5, Suggestion]]]
+    parent: Tiefling
+  Glasya:
+    bonus:
+      Dexterity: 1
+    other:
+      - [Legacy of Malbolge, [[1, Minor Illusion], [3, Disguise Self], [5, Invisibility]]]
+    parent: Tiefling
+  Levistus:
+    bonus:
+      Constitution: 1
+    other:
+      - [Legacy of Stygia, [[1, Ray of Frost], [3, Armor of Agathys], [5, Darkness]]]
+    parent: Tiefling
   Mammon:
     bonus:
       Intelligence: 1
@@ -186,89 +276,6 @@ subraces:
     other:
       - [Legacy of Cania, [[1, Mage Hand], [3, Burning Hands], [5, Flame Blade]]]
     parent: Tiefling
-  Mountain:
-    bonus:
-      Strength: 2
-    other:
-      - [Dwarven Armor Training, ['Light', 'Medium']]
-    parent: Dwarf
-    ratio:
-      height:
-        base: 48
-        modifier: 2d4
-      weight:
-        base: 130
-        modifier: 2d6
-  Protector:
-    bonus:
-      Wisdom: 1
-    other:
-      - [Radiant Soul, 3]
-    parent: Aasimar
-  Rock:
-    bonus:
-      Constitution: 1
-    other:
-      - [Artificer's Lore]
-      - [Tinker, "Artisan's tools - Tinker's tools"]
-    parent: Gnome
-  Scourge:
-    bonus:
-      Constitution: 1
-    other:
-      - [Radiant Consumption, 3]
-    parent: Aasimar
-  Sea:
-      bonus:
-        Constitution: 1
-      languages: ['Aquan']
-      other:
-        - [Child of the Sea]
-        - [Friend of the Sea]
-        - [Sea Elf Training, [Light Crossbow, Net, Spear, Trident]]
-      parent: Elf
-      ratio:
-        height:
-          base: 54
-          modifier: 2d8
-        weight:
-          base: 90
-          modifier: 1d4
-  Shadar-kai:
-    bonus:
-      Constitution: 1
-    other:
-      - [Blessing of the Raven Queen]
-      - [Necrotic Resistance, ['Necrotic']]
-    parent: Elf
-    ratio:
-      height:
-        base: 56
-        modifier: 2d8
-      weight:
-        base: 90
-        modifier: 1d4
-  Stout:
-    bonus:
-      Constitution: 1
-    other:
-      - [Stout Resilience, ['Poison']]
-    parent: Halfling
-  Wood:
-    bonus:
-      Wisdom: 1
-    other:
-      - [Elf Weapon Training, [Longsword, Shortsword, Shortbow, Longbow]]
-      - [Fleet of Foot]
-      - [Mask of the Wild]
-    parent: Elf
-    ratio:
-      height:
-        base: 54
-        modifier: 2d10
-      weight:
-        base: 100
-        modifier: 1d4
   Zariel:
     bonus:
       Strength: 1
