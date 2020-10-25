@@ -13,11 +13,11 @@ This project was originally known as *personaednd* and later *dndpersona*.
 
 #### REQUIREMENTS
   
-  * aiohttp ~= 3.6.2
-  * beautifulsoup4 ~= 4.9.1
-  * click ~= 7.1.2
-  * lxml ~= 4.5.2
-  * PyYAML ~= 5.3.1
+  * aiohttp
+  * beautifulsoup4
+  * click
+  * lxml
+  * PyYAML
 
 
 #### INSTALLATION
