@@ -4,6 +4,7 @@ import math
 import random
 import traceback
 
+from yari.classes import get_all_skills
 from yari.loader import load
 from yari.proficiency import get_tool_chest, get_weapon_chest
 
@@ -67,6 +68,8 @@ class ImprovementGenerator:
                     ]
                     samurai_skills = [s for s in samurai_skills if s not in self.skills]
                     self.skills = self.skills + random.sample(samurai_skills, 1)
+            elif self.subclass == "Way of the Drunken Master":
+                self.skills.append("Performance")
 
     def _add_feat(self) -> None:
         """Randomly selects and adds a valid feats."""
