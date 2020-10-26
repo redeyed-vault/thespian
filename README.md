@@ -81,16 +81,18 @@ Options:
                     Mountain, Circle of the Shepherd, Circle of the Swamp,
                     Circle of the Underdark), Fighter (Arcane Archer, Battle
                     Master, Cavalier, Champion, Eldritch Knight, Samurai),
-                    Monk (Way of Shadow, Way of the Four Elements, Way of the
-                    Open Hand), Paladin (Oath of the Ancients, Oath of
-                    Devotion, Oath of Vengeance), Ranger (Beast Master,
-                    Hunter), Rogue (Arcane Trickster, Assassin, Thief),
-                    Sorcerer (Draconic Bloodline, Wild Magic), Warlock (The
-                    Archfey, The Fiend, The Great Old One), and Wizard (School
-                    of Abjuration, School of Conjuration, School of
-                    Divination, School of Enchantment, School of Evocation,
-                    School of Illusion, School of Necromancy, School of
-                    Transmutation).
+                    Monk (Way of Shadow, Way of the Drunken Master, Way of the
+                    Four Elements, Way of the Kensei, Way of the Open Hand,
+                    Way of the Sun Soul), Paladin (Oath of the Ancients, Oath
+                    of Conquests, Oath of Devotion, Oath of Redemption, Oath
+                    of Vengeance), Ranger (Beast Master, Gloom Stalker,
+                    Horizon Walker, Hunter, Monster Slayer), Rogue (Arcane
+                    Trickster, Assassin, Thief), Sorcerer (Draconic Bloodline,
+                    Wild Magic), Warlock (The Archfey, The Fiend, The Great
+                    Old One), and Wizard (School of Abjuration, School of
+                    Conjuration, School of Divination, School of Enchantment,
+                    School of Evocation, School of Illusion, School of
+                    Necromancy, School of Transmutation).
 
   -level INTEGER    Character's class level. Must be between 1-20. Default
                     value is 1.
