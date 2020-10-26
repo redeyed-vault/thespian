@@ -298,8 +298,11 @@ classes:
       - ['Skills', ['Acrobatics', 'Athletics', 'History', 'Insight', 'Religion', 'Stealth']]
     spell_slots: {}
     subclasses:
+      - Way of the Drunken Master
       - Way of the Four Elements
+      - Way of the Kensei
       - Way of the Open Hand
+      - Way of the Sun Soul
       - Way of Shadow
   Paladin:
     abilities:
@@ -349,7 +352,9 @@ classes:
       19: 4,3,3,3,2
       20: 4,3,3,3,2
     subclasses:
+      - Oath of Conquest
       - Oath of Devotion
+      - Oath of Redemption
       - Oath of Vengeance
       - Oath of the Ancients
   Ranger:

@@ -389,6 +389,13 @@ subclasses:
       11: ['Cloak of Shadows']
       17: ['Opportunist']
     parent: Monk
+  Way of the Drunken Master:
+    features:
+      3: ['Bonus Proficiencies', 'Drunken Technique']
+      6: ['Tipsy Sway']
+      11: ["Drunkard's Luck"]
+      17: ['Intoxicated Frenzy']
+    parent: Monk
   Way of the Four Elements:
     features:
       3:
@@ -406,6 +413,13 @@ subclasses:
       17: ['Breath of Winter', 'River of Hungry Flame', 'Wave of Rolling Earth']
     magic: {}
     parent: Monk
+  Way of the Kensei:
+    features:
+      3: ['Path of the Kensei (2 weapons)']
+      6: ['One with the Blade', 'Path of the Kensei (3 weapons)']
+      11: ['Sharpen the Blade', 'Path of the Kensei (4 weapons)']
+      17: ['Unerring Accuracy', 'Path of the Kensei (5 weapons)']
+    parent: Monk
   Way of the Open Hand:
     features:
       3: ['Open Hand Technique']
@@ -413,7 +427,41 @@ subclasses:
       11: ['Tranquility']
       17: ['Quivering Palm']
     parent: Monk
+  Way of the Sun Soul:
+    features:
+      3: ['Radiant Sun Bolt']
+      6: ['Searing Arc Strike']
+      11: ['Searing Sunburst']
+      17: ['Sun Shield']
+    parent: Monk
   # Paladin Oaths
+  Oath of the Ancients:
+    features:
+      3: ["Channel Divinity - Nature's Wrath", 'Turn the Faithless']
+      7: ['Aura of Warding']
+      15: ['Undying Sentinel']
+      20: ['Elder Champion']
+    magic:
+      3: ['Ensnaring Strike', 'Speak With Animals']
+      5: ['Moonbeam', 'Misty Step']
+      9: ['Plant Growth', 'Protection From Energy']
+      13: ['Ice Storm', 'Stoneskin']
+      17: ['Commune With Nature', 'Tree Stride']
+    parent: Paladin
+  Oath of Conquest:
+    features:
+      3: ['Channel Divinity - Conquering Presence', 'Channel Divinity - Guided Strike', 'Oath Spells']
+      7: ['Aura of Conquest']
+      15: ['Scornful Rebuke']
+      18: ['Aura of Conquest']
+      20: ['Invincible Conqueror']
+    magic:
+      3: ['Armor of Agathys', 'Command']
+      5: ['Hold Person', 'Spiritual Weapon']
+      9: ['Bestow Curse', 'Fear']
+      13: ['Dominate Beast', 'Stoneskin']
+      17: ['Cloudkill', 'Dominate Person']
+    parent: Paladin
   Oath of Devotion:
     features:
       3: ['Channel Divinity - Sacred Weapon', 'Channel Divinity - Turn the Unholy']
@@ -427,6 +475,20 @@ subclasses:
       13: ['Freedom of Movement', 'Guardian of Faith']
       17: ['Commune', 'Flame Strike']
     parent: Paladin
+  Oath of Redemption:
+    features:
+      3: ['Channel Divinity - Emissary of Peace', 'Channel Divinity - Rebuke the Violent', 'Oath Spells']
+      7: ['Aura of the Guardian (10 ft.)']
+      15: ['Protective Spirit']
+      18: ['Aura of the Guardian (30 ft.)']
+      20: ['Emissary of Redemption']
+    magic:
+      3: ['Sanctuary', 'Sleep']
+      5: ['Calm Emotions', 'Hold Person']
+      9: ['Counterspell', 'Hypnotic Pattern']
+      13: ["Otiluke's Resilience Sphere", 'Stoneskin']
+      17: ['Hold Monster', 'Wall of Force']
+    parent: Paladin
   Oath of Vengeance:
     features:
       3: ['Channel Divinity - Abjure Enemy', 'Channel Divinity - Vow of Enmity']
@@ -439,19 +501,6 @@ subclasses:
       9: ['Haste', 'Protection From Energy']
       13: ['Banishment', 'Dimension Door']
       17: ['Hold Monster', 'Scrying']
-    parent: Paladin
-  Oath of the Ancients:
-    features:
-      3: ["Channel Divinity - Nature's Wrath", 'Turn the Faithless']
-      7: ['Aura of Warding']
-      15: ['Undying Sentinel']
-      20: ['Elder Champion']
-    magic:
-      3: ['Ensnaring Strike', 'Speak With Animals']
-      5: ['Moonbeam', 'Misty Step']
-      9: ['Plant Growth', 'Protection From Energy']
-      13: ['Ice Storm', 'Stoneskin']
-      17: ['Commune With Nature', 'Tree Stride']
     parent: Paladin
   # Ranger Archetypes
   Beast Master:
