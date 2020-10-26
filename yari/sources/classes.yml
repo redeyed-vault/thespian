@@ -407,7 +407,10 @@ classes:
       20: 4,3,3,3,2
     subclasses:
       - Beast Master
+      - Gloom Stalker
+      - Horizon Walker
       - Hunter
+      - Monster Slayer
   Rogue:
     abilities:
       1: Dexterity
@@ -459,6 +462,10 @@ classes:
     subclasses:
       - Arcane Trickster
       - Assassin
+      - Inquisitive
+      - Mastermind
+      - Scout
+      - Swashbuckler
       - Thief
   Sorcerer:
     abilities:

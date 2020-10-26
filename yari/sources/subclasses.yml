@@ -8,54 +8,46 @@ subclasses:
       6: ['Spirit Shield (2d6)']
       10: ['Consult the Spirits', 'Spirit Shield (3d6)']
       14: ['Vengeful Ancestors', 'Spirit Shield (4d6)']
-    parent: Barbarian
   Path of the Berserker:
     features:
       3: ['Frenzy']
       6: ['Mindless Rage']
       10: ['Intimidating Presence']
       14: ['Retaliation']
-    parent: Barbarian
   Path of the Storm Herald:
     features:
       3: ['Storm Aura']
       6: ['Storm Soul']
       10: ['Shielding Storm']
       14: ['Raging Storm']
-    parent: Barbarian
   Path of the Totem Warrior:
     features:
       3: ['Beast Sense', 'Speak with Animals', 'Totem Spirit']
       6: ['Aspect of the Beast']
       10: ['Spirit Walker']
       14: ['Totemic Attunement']
-    parent: Barbarian
   Path of the Zealot:
     features:
       3: ['Divine Fury', 'Warrior of the Gods']
       6: ['Fanatical Focus']
       10: ['Zealous Presence']
       14: ['Rage beyond Death']
-    parent: Barbarian
   # Bard Colleges
   College of Glamour:
     features:
       3: ['Enthralling Performance', 'Mantle of Inspiration']
       6: ['Mantle of Majesty']
       14: ['Unbreakable Majesty']
-    parent: Bard
   College of Lore:
     features:
       3: ['Cutting Words']
       6: ['Additional Magical Secrets']
       14: ['Peerless Skill']
-    parent: Bard
   College of Swords:
     features:
       3: ['Blade Flourish', 'Bonus Proficiencies', 'Fighting Style']
       6: ['Extra Attack']
       14: ["Master's Flourish"]
-    parent: Bard
     proficiency:
       - ['Armor', ['Medium',]]
       - ['Weapons', ['Scimitar']]
@@ -64,7 +56,6 @@ subclasses:
       3: ['Combat Inspiration']
       6: ['Extra Attack']
       14: ['Battle Magic']
-    parent: Bard
     proficiency:
       - ['Armor', ['Medium', 'Shield']]
       - ['Weapons', ['Martial']]
@@ -73,7 +64,6 @@ subclasses:
       3: ['Psychic Blades', 'Words of Terror']
       6: ['Mantle of Whispers']
       14: ['Shadow Lore']
-    parent: Bard
   # Cleric Domains
   Forge Domain:
     features:
@@ -89,7 +79,6 @@ subclasses:
       5: ['Elemental Weapon', 'Protection From Energy']
       7: ['Fabricate', 'Wall of Fire']
       9: ['Animate Objects', 'Creation']
-    parent: Cleric
     proficiency:
       - ['Armor', ['Heavy']]
       - ['Tools', ["Artisan's tools - Smith's tools"]]
@@ -106,7 +95,6 @@ subclasses:
       5: ['Revivify', 'Vampiric Touch']
       7: ['Blight', 'Death Ward']
       9: ['Antilife Shell', 'Raise Dead']
-    parent: Cleric
   Knowledge Domain:
     features:
       1: ['Blessings of Knowledge']
@@ -120,7 +108,6 @@ subclasses:
       5: ['Nondetection', 'Speak with Dead']
       7: ['Arcane Eye', 'Confusion']
       9: ['Legend Lore', 'Scrying']
-    parent: Cleric
   Life Domain:
     features:
       1: ['Disciple of Life']
@@ -134,7 +121,6 @@ subclasses:
       5: ['Beacon of Hope', 'Revivify']
       7: ['Death Ward', 'Guardian of Faith']
       9: ['Mass Cure Wounds', 'Raise Dead']
-    parent: Cleric
     proficiency:
       - ['Armor', ['Heavy']]
   Light Domain:
@@ -150,7 +136,6 @@ subclasses:
       5: ['Daylight', 'Fireball']
       7: ['Guardian of Faith', 'Wall of Fire']
       9: ['Flame Strike', 'Raise Dead']
-    parent: Cleric
   Nature Domain:
     features:
       1: ['Acolyte of Nature']
@@ -164,7 +149,6 @@ subclasses:
       5: ['Plant Growth', 'Wind Wall']
       7: ['Dominate Beast', 'Grasping Vine']
       9: ['Insect Plague', 'Tree Stride']
-    parent: Cleric
     proficiency:
       - ['Armor', ['Heavy']]
   Tempest Domain:
@@ -180,7 +164,6 @@ subclasses:
       5: ['Call Lightning', 'Sleet Storm']
       7: ['Control Water', 'Ice Storm']
       9: ['Destructive Wave', 'Insect Plague']
-    parent: Cleric
     proficiency:
       - ['Armor', ['Heavy']]
       - ['Weapons', ['Martial']]
@@ -197,7 +180,6 @@ subclasses:
       5: ['Blink', 'Dispel Magic']
       7: ['Dimension Door', 'Polymorph']
       9: ['Dominate Person', 'Modify Memory']
-    parent: Cleric
   War Domain:
     features:
       1: ['War Priest']
@@ -211,7 +193,6 @@ subclasses:
       5: ["Crusader's Mantle", 'Spirit Guardians']
       7: ['Freedom of Movement', 'Stoneskin']
       9: ['Flame Strike', 'Hold Monster']
-    parent: Cleric
     proficiency:
       - ['Armor', ['Heavy']]
       - ['Weapons', ['Martial']]
@@ -227,7 +208,6 @@ subclasses:
       5: ['Sleet Storm', 'Slow']
       7: ['Freedom of Movement', 'Ice Storm']
       9: ['Commune With Nature', 'Cone of Cold']
-    parent: Druid
   Circle of the Coast:
     features:
       2: ['Bonus Cantrip', 'Natural Recovery']
@@ -239,7 +219,6 @@ subclasses:
       5: ['Water Breathing', 'Water Walk']
       7: ['Control Water', 'Freedom of Movement']
       9: ['Conjure Elemental', 'Scrying']
-    parent: Druid
   Circle of the Desert:
     features:
       2: ['Bonus Cantrip', 'Natural Recovery']
@@ -251,14 +230,12 @@ subclasses:
       5: ['Create Food and Water', 'Protection From Energy']
       7: ['Blight', 'Hallucinatory Terrain']
       9: ['Insect Plague', 'Wall of Stone']
-    parent: Druid
   Circle of the Dreams:
     features:
       2: ['Balm of the Summer Court']
       6: ['Hearth of Moonlight and Shadow']
       10: ['Hidden Paths']
       14: ['Walker in Dreams']
-    parent: Druid
   Circle of the Forest:
     features:
       2: ['Bonus Cantrip', 'Natural Recovery']
@@ -270,7 +247,6 @@ subclasses:
       5: ['Call Lightning', 'Plant Growth']
       7: ['Divination', 'Freedom of Movement']
       9: ['Commune With Nature', 'Tree Stride']
-    parent: Druid
   Circle of the Grassland:
     features:
       2: ['Bonus Cantrip', 'Natural Recovery']
@@ -282,14 +258,12 @@ subclasses:
       5: ['Daylight', 'Haste']
       7: ['Divination', 'Freedom of Movement']
       9: ['Dream', 'Insect Plague']
-    parent: Druid
   Circle of the Moon:
     features:
       2: ['Circle Forms', 'Combat Wild Shape']
       6: ['Primal Strike']
       10: ['Elemental Wild Shape']
       14: ['Thousand Forms']
-    parent: Druid
   Circle of the Mountain:
     features:
       2: ['Bonus Cantrip', 'Natural Recovery']
@@ -301,14 +275,12 @@ subclasses:
       5: ['Lightning Bolt', 'Meld Into Stone']
       7: ['Stone Shape', 'Stoneskin']
       9: ['Passwall', 'Wall of Stone']
-    parent: Druid
   Circle of the Shepherd:
     features:
       2: ['Speech of the Woods', 'Spirit Totem']
       6: ['Mighty Summoner']
       10: ['Guardian Spirit']
       14: ['Faithful Summons']
-    parent: Druid
   Circle of the Swamp:
     features:
       2: ['Bonus Cantrip', 'Natural Recovery']
@@ -320,7 +292,6 @@ subclasses:
       5: ['Water Walk', 'Stinking Cloud']
       7: ['Freedom of Movement', 'Locate Creature']
       9: ['Insect Plague', 'Scrying']
-    parent: Druid
   Circle of the Underdark:
     features:
       2: ['Bonus Cantrip', 'Natural Recovery']
@@ -332,7 +303,6 @@ subclasses:
       5: ['Gaseous Form', 'Stinking Cloud']
       7: ['Greater Invisibility', 'Stone Shape']
       9: ['Cloudkill', 'Insect Plague']
-    parent: Druid
   # Fighter Archetypes
   Arcane Archer:
     features:
@@ -341,14 +311,12 @@ subclasses:
       10: ['Arcane Shot (4 options)']
       15: ['Ever-Ready Shot', 'Arcane Shot (5 options)']
       18: ['Arcane Shot (6 options, improved shots)']
-    parent: Fighter
   Battle Master:
     features:
       3: ['Combat Superiority', 'Student of War']
       7: ['Know Your Enemy']
       10: ['Improved Combat Superiority']
       15: ['Relentless']
-    parent: Fighter
   Cavalier:
     features:
       3: ['Bonus Proficiency', 'Born to the Saddle', 'Unwavering Mark']
@@ -356,7 +324,6 @@ subclasses:
       10: ['Hold the Line']
       15: ['Ferocious Charger']
       18: ['Vigilant Defender']
-    parent: Fighter
   Champion:
     features:
       3: ['Improved Critical']
@@ -364,7 +331,6 @@ subclasses:
       10: ['Additional Fighting Style']
       15: ['Superior Critical']
       18: ['Survivor']
-    parent: Fighter
   Eldritch Knight:
     features:
       3: ['Spellcasting', 'Weapon Bond']
@@ -372,7 +338,6 @@ subclasses:
       10: ['Eldritch Strike']
       15: ['Arcane Charge']
       18: ['Improved War Magic']
-    parent: Fighter
   Samurai:
     features:
       3: ['Bonus Proficiency', 'Fighting Spirit (5 temp. hp)']
@@ -380,7 +345,6 @@ subclasses:
       10: ['Tireless Spirit, Fighting Spirit (10 temp. hp)']
       15: ['Rapid Strike', 'Fighting Spirit (15 temp. hp)']
       18: ['Strength before Death']
-    parent: Fighter
   # Monk Traditions
   Way of Shadow:
     features:
@@ -388,14 +352,12 @@ subclasses:
       6: ['Shadow Step']
       11: ['Cloak of Shadows']
       17: ['Opportunist']
-    parent: Monk
   Way of the Drunken Master:
     features:
       3: ['Bonus Proficiencies', 'Drunken Technique']
       6: ['Tipsy Sway']
       11: ["Drunkard's Luck"]
       17: ['Intoxicated Frenzy']
-    parent: Monk
   Way of the Four Elements:
     features:
       3:
@@ -411,29 +373,24 @@ subclasses:
       6: ['Clench of the North Wind', 'Gong of the Summit']
       11: ['Eternal Mountain Defense', 'Flames of the Phoenix', 'Mist Stance', 'Ride the Wind']
       17: ['Breath of Winter', 'River of Hungry Flame', 'Wave of Rolling Earth']
-    magic: {}
-    parent: Monk
   Way of the Kensei:
     features:
       3: ['Path of the Kensei (2 weapons)']
       6: ['One with the Blade', 'Path of the Kensei (3 weapons)']
       11: ['Sharpen the Blade', 'Path of the Kensei (4 weapons)']
       17: ['Unerring Accuracy', 'Path of the Kensei (5 weapons)']
-    parent: Monk
   Way of the Open Hand:
     features:
       3: ['Open Hand Technique']
       6: ['Wholeness of Body']
       11: ['Tranquility']
       17: ['Quivering Palm']
-    parent: Monk
   Way of the Sun Soul:
     features:
       3: ['Radiant Sun Bolt']
       6: ['Searing Arc Strike']
       11: ['Searing Sunburst']
       17: ['Sun Shield']
-    parent: Monk
   # Paladin Oaths
   Oath of the Ancients:
     features:
@@ -447,7 +404,6 @@ subclasses:
       9: ['Plant Growth', 'Protection From Energy']
       13: ['Ice Storm', 'Stoneskin']
       17: ['Commune With Nature', 'Tree Stride']
-    parent: Paladin
   Oath of Conquest:
     features:
       3: ['Channel Divinity - Conquering Presence', 'Channel Divinity - Guided Strike', 'Oath Spells']
@@ -461,7 +417,6 @@ subclasses:
       9: ['Bestow Curse', 'Fear']
       13: ['Dominate Beast', 'Stoneskin']
       17: ['Cloudkill', 'Dominate Person']
-    parent: Paladin
   Oath of Devotion:
     features:
       3: ['Channel Divinity - Sacred Weapon', 'Channel Divinity - Turn the Unholy']
@@ -474,7 +429,6 @@ subclasses:
       9: ['Beacon of Hope', 'Dispel Magic']
       13: ['Freedom of Movement', 'Guardian of Faith']
       17: ['Commune', 'Flame Strike']
-    parent: Paladin
   Oath of Redemption:
     features:
       3: ['Channel Divinity - Emissary of Peace', 'Channel Divinity - Rebuke the Violent', 'Oath Spells']
@@ -488,7 +442,6 @@ subclasses:
       9: ['Counterspell', 'Hypnotic Pattern']
       13: ["Otiluke's Resilience Sphere", 'Stoneskin']
       17: ['Hold Monster', 'Wall of Force']
-    parent: Paladin
   Oath of Vengeance:
     features:
       3: ['Channel Divinity - Abjure Enemy', 'Channel Divinity - Vow of Enmity']
@@ -501,7 +454,6 @@ subclasses:
       9: ['Haste', 'Protection From Energy']
       13: ['Banishment', 'Dimension Door']
       17: ['Hold Monster', 'Scrying']
-    parent: Paladin
   # Ranger Archetypes
   Beast Master:
     features:
@@ -509,14 +461,48 @@ subclasses:
       7: ['Exceptional Training']
       11: ['Beastial Fury']
       15: ['Share Spells']
-    parent: Ranger
+  Gloom Stalker:
+    features:
+      3: ['Dread Ambusher', 'Gloom Stalker Magic', 'Umbral Sight']
+      7: ['Iron Mind']
+      11: ["Stalker's Flurry"]
+      15: ['Shadowy Dodge']
+    magic:
+      3: ['Disguise Self']
+      5: ['Rope Trick']
+      9: ['Fear']
+      13: ['Greater Invisibility']
+      17: ['Seeming']
+  Horizon Walker:
+    features:
+      3: ['Detect Portal', 'Horizon Walker Magic', 'Planar Warrior (1d8)']
+      7: ['Etheral Step']
+      11: ['Distant Strike', 'Planar Warrior (2d8)']
+      15: ['Spectral Defense']
+    magic:
+      3: ['Protected From Evil and Good']
+      5: ['Misty Step']
+      9: ['Haste']
+      13: ['Banishment']
+      17: ['Teleportation Circle']
   Hunter:
     features:
       3: ["Hunter's Prey"]
       7: ['Defensive Tactics']
       11: ['Multiattack']
       15: ["Superior Hunter's Defense"]
-    parent: Ranger
+  Monster Slayer:
+    features:
+      3: ["Hunter's Sense", 'Monster Slayer Magic', "Slayer's Prey"]
+      7: ['Supernatural Defense']
+      11: ["Magic User's Nemesis"]
+      15: ["Slayer's Counter"]
+    magic:
+      3: ['Protected From Evil and Good']
+      5: ['Zone of Truth']
+      9: ['Magic Circle']
+      13: ['Banishment']
+      17: ['Hold Monster']
   # Rogue Archetypes
   Arcane Trickster:
     features:
@@ -524,23 +510,44 @@ subclasses:
       9: ['Magical Ambush']
       13: ['Versatile Trickster']
       17: ['Spell Thief']
-    parent: Rogue
   Assassin:
     features:
       3: ['Assassinate']
       9: ['Infiltration Expertise']
       13: ['Impostor']
       17: ['Death Strike']
-    parent: Rogue
     proficiency:
       - ['Tools',  ['Disguise kit', "Poisoner's kit"]]
+  Inquisitive:
+    features:
+      3: ['Ear for Deceit', 'Eye for Detail', 'Insightful Fighting']
+      9: ['Steady Eye']
+      13: ['Unerring Eye']
+      17: ['Eye for Weakness']
+  Mastermind:
+    features:
+      3: ['Master of Intrigue', 'Master of Tactics']
+      9: ['Insightful Manipulator']
+      13: ['Misdirection']
+      17: ['Soul of Deceit']
+  Scout:
+    features:
+      3: ['Skirmisher', 'Survivalist']
+      9: ['Superior Mobility']
+      13: ['Ambush Master']
+      17: ['Sudden Strike']
+  Swashbuckler:
+    features:
+      3: ['Fancy Footwork', 'Rakish Audacity']
+      9: ['Panache']
+      13: ['Elegant Maneuver']
+      17: ['Master Duelist']
   Thief:
     features:
       3: ['Fast Hands', 'Second-Story Work']
       9: ['Supreme Sneak']
       13: ['Use Magic Device']
       17: ["Thief's Reflexes"]
-    parent: Rogue
   # Sorcerer Origins
   Draconic Bloodline:
     features:
