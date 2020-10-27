@@ -549,20 +549,43 @@ subclasses:
       13: ['Use Magic Device']
       17: ["Thief's Reflexes"]
   # Sorcerer Origins
+  Divine Soul:
+    features:
+      3: ['Divine Magic', 'Favored by the Gods']
+      6: ['Empowered Healing']
+      14: ['Otherworldly Wings']
+      18: ['Unearthly Recovery']
+    magic:
+      'Good': ['Cure Wounds']
+      'Evil': ['Inflict Wounds']
+      'Law': ['Bless']
+      'Chaos': ['Bane']
+      'Neutrality': ['Protection From Evil and Good']
   Draconic Bloodline:
     features:
       1: ['Draconic Resilience', 'Dragon Ancestor']
       6: ['Elemental Affinity']
       14: ['Dragon Wings']
       18: ['Draconic Presence']
-    parent: Sorcerer
+  Shadow Magic:
+    features:
+      1: ['Eyes of the Dark', 'Strength of the Grave']
+      3: ['Eyes of the Dark (darkness)']
+      6: ['Hound of Ill Omen']
+      14: ['Shadow Walk']
+      18: ['Umbral Form']
+  Storm Sorcery:
+    features:
+      1: ['Wind Speaker', 'Tempestuous Magic']
+      6: ['Heart of the Storm', 'Storm Guide']
+      14: ["Storm's Fury"]
+      18: ['Wind Soul']
   Wild Magic:
     features:
       1: ['Tides of Chaos', 'Wild Magic Surge']
       6: ['Bend Luck']
       14: ['Controlled Chaos']
       18: ['Spell Bombardment']
-    parent: Sorcerer
   # Warlock Pacts
   The Archfey:
     features:
@@ -576,7 +599,6 @@ subclasses:
       3: ['Blink', 'Plant Growth']
       4: ['Dominate Beast', 'Greater Invisibility']
       5: ['Dominate Person', 'Seeming']
-    parent: Warlock
   The Fiend:
     features:
       1: ["Dark One's Blessing"]
@@ -589,7 +611,6 @@ subclasses:
       3: ['Fireball', 'Stinking Cloud']
       4: ['Fire Shield', 'Wall of Fire']
       5: ['Flame Strike', 'Hallow']
-    parent: Warlock
   The Great Old One:
     features:
       1: ['Awakened Mind']
@@ -602,7 +623,6 @@ subclasses:
       3: ['Clairvoyance', 'Sending']
       4: ['Dominate Beast', "Evard's Black Tentacles"]
       5: ['Dominate Person', 'Telekinesis']
-    parent: Warlock
   # Wizard Schools
   School of Abjuration:
     features:
@@ -610,53 +630,45 @@ subclasses:
       6: ['Projected Ward']
       10: ['Improved Abjuration']
       14: ['Spell Resistance']
-    parent: Wizard
   School of Conjuration:
     features:
       2: ['Conjuration Savant', 'Minor Conjuration']
       6: ['Benign Transposition']
       10: ['Focused Conjuration']
       14: ['Durable Summons']
-    parent: Wizard
   School of Divination:
     features:
       2: ['Divination Savant', 'Portent']
       6: ['Expert Divination']
       10: ['The Third Eye']
       14: ['Greater Portent']
-    parent: Wizard
   School of Enchantment:
     features:
       2: ['Enchantment Savant', 'Hypnotic Gaze']
       6: ['Instinctive Charm']
       10: ['Split Enchantment']
       14: ['Alter Memories']
-    parent: Wizard
   School of Evocation:
     features:
       2: ['Evocation Savant', 'Sculpt Spells']
       6: ['Potent Cantrip']
       10: ['Empowered Evocation']
       14: ['Overchannel']
-    parent: Wizard
   School of Illusion:
     features:
       2: ['Illusion Savant', 'Improved Minor Illusion']
       6: ['Malleable Illusions']
       10: ['Illusory Self']
       14: ['Illusory Reality']
-    parent: Wizard
   School of Necromancy:
     features:
       2: ['Necromancy Savant', 'Grim Harvest']
       6: ['Undead Thralls']
       10: ['Inured to Undeath']
       14: ['Command Undead']
-    parent: Wizard
   School of Transmutation:
     features:
       2: ['Transmutation Savant', 'Minor Alchemy']
       6: ["Transmuters Stone"]
       10: ['Shapechanger']
       14: ['Master Transmuter']
-    parent: Wizard

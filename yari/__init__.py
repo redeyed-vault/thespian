@@ -77,8 +77,8 @@ from yari.version import __version__
     "of Devotion, Oath of Redemption, Oath of Vengeance), Ranger (Beast Master, "
     "Gloom Stalker, Horizon Walker, Hunter, Monster Slayer), Rogue (Arcane "
     "Trickster, Assassin, Inquisitive, Mastermind, Scout, Swashbuckler, Thief), "
-    "Sorcerer (Draconic Bloodline, Wild Magic), Warlock "
-    "(The Archfey, The Fiend, The Great Old One), and Wizard (School of "
+    "Sorcerer (Divine Soul, Draconic Bloodline, Shadow Magic, Storm Sorcery, Wild "
+    "Magic), Warlock (The Archfey, The Fiend, The Great Old One), and Wizard (School of "
     "Abjuration, School of Conjuration, School of Divination, School of "
     "Enchantment, School of Evocation, School of Illusion, School of "
     "Necromancy, School of Transmutation).",
