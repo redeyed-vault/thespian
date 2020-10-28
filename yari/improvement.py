@@ -141,7 +141,7 @@ class ImprovementGenerator:
                 self._set_score("Intelligence", 1)
             if feat in ("Linguist", "Prodigy"):
                 # Remove already known languages.
-                linguist_languages = list(load("languages", "All", file="languages"))
+                linguist_languages = list(load("All", file="languages"))
                 linguist_languages = [
                     language
                     for language in linguist_languages
