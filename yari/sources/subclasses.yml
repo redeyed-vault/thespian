@@ -599,6 +599,18 @@ subclasses:
       3: ['Blink', 'Plant Growth']
       4: ['Dominate Beast', 'Greater Invisibility']
       5: ['Dominate Person', 'Seeming']
+  The Celestial:
+    features:
+      1: ['Expanded Spell List', 'Bonus Cantrips', 'Healing Light']
+      6: ['Radiant Soul']
+      10: ['Celestial Resilience']
+      14: ['Searing Vengeance']
+    magic:
+      1: ['Cure Wounds', 'Guiding Bolt']
+      2: ['Flaming Sphere', 'Lesser Restoration']
+      3: ['Daylight', 'Revivify']
+      4: ['Guardian of Faith', 'Wall of Fire']
+      5: ['Flame Strike', 'Greater Restoration']
   The Fiend:
     features:
       1: ["Dark One's Blessing"]
@@ -623,6 +635,18 @@ subclasses:
       3: ['Clairvoyance', 'Sending']
       4: ['Dominate Beast', "Evard's Black Tentacles"]
       5: ['Dominate Person', 'Telekinesis']
+  The Hexblade:
+    features:
+      1: ['Expanded Spell List', "Hexblade's Curse", 'Hex Warrior']
+      6: ['Accursed Specter']
+      10: ['Armor of Hexes']
+      14: ['Master of Hexes']
+    magic:
+      1: ['Shield', 'Wrathful Smite']
+      2: ['Blur', 'Branding Smite']
+      3: ['Blink', 'Elemental Weapon']
+      4: ['Phantasmal Killer', 'Staggering Smite']
+      5: ['Banishing Smite', 'Cone of Cold']
   # Wizard Schools
   School of Abjuration:
     features:
@@ -669,6 +693,12 @@ subclasses:
   School of Transmutation:
     features:
       2: ['Transmutation Savant', 'Minor Alchemy']
-      6: ["Transmuters Stone"]
+      6: ["Transmuter's Stone"]
       10: ['Shapechanger']
       14: ['Master Transmuter']
+  War Magic:
+    features:
+      2: ['Arcane Deflection', 'Tactical Wit']
+      6: ['Power Surge']
+      10: ['Durable Magic']
+      14: ['Deflecting Shroud']

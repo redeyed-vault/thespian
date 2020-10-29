@@ -90,11 +90,11 @@ Options:
                     Trickster, Assassin, Inquisitive, Mastermind, Scout,
                     Swashbuckler, Thief), Sorcerer (Divine Soul, Draconic
                     Bloodline, Shadow Magic, Storm Sorcery, Wild Magic),
-                    Warlock (The Archfey, The Fiend, The Great Old One), and
-                    Wizard (School of Abjuration, School of Conjuration,
-                    School of Divination, School of Enchantment, School of
-                    Evocation, School of Illusion, School of Necromancy,
-                    School of Transmutation).
+                    Warlock (The Archfey, The Celestial, The Fiend, The Great
+                    Old One, The Hexblade), and Wizard (School of Abjuration,
+                    School of Conjuration, School of Divination, School of
+                    Enchantment, School of Evocation, School of Illusion,
+                    School of Necromancy, School of Transmutation, War Magic).
 
   -level INTEGER    Character's class level. Must be between 1-20. Default
                     value is 1.

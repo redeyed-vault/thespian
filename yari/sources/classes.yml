@@ -567,8 +567,10 @@ classes:
       20: 4
     subclasses:
       - The Archfey
+      - The Celestial
       - The Fiend
       - The Great Old One
+      - The Hexblade
   Wizard:
     abilities:
       1: Intelligence
@@ -621,3 +623,4 @@ classes:
       - School of Illusion
       - School of Necromancy
       - School of Transmutation
+      - War Magic
