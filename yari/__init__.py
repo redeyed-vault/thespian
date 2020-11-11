@@ -1,100 +1,16 @@
 from collections import OrderedDict
 from dataclasses import dataclass
 import math
-import os
 import random
 import traceback
 
 from aiohttp import web
 from bs4 import BeautifulSoup
 import click
-import yaml
 
 from yari.dice import roll
+from yari.loader import load, QueryNotFound
 from yari.version import __version__
-
-
-class QueryNotFound(Exception):
-    """Raised when a query cannot be found."""
-
-
-class StructuralError(Exception):
-    """Raised if the YAML layout structure is invalid."""
-
-
-class HeaderInvalid(StructuralError):
-    """Raised if header doesn't match file name or is otherwise invalid."""
-
-
-class Query:
-    """
-    Handles successful query result.
-
-    :param dict resource: The loaded YAML file contents.
-
-    """
-
-    def __init__(self, resource: dict) -> None:
-        if not isinstance(resource, dict):
-            raise TypeError("Argument 'resource' must be of type 'dict'.")
-        self.resource = resource
-
-    def find(self, *fields):
-        """
-        Searches the resource using the specified field(s).
-
-        :param fields: Field index(es) to search for.
-
-        """
-        if len(fields) == 0:
-            yield tuple(self.resource.keys())
-        else:
-            resource = self.resource
-            for field in fields:
-                if field in resource:
-                    resource = resource[field]
-                else:
-                    raise QueryNotFound(f"Cannot find index '{field}' within resource.")
-            yield resource
-
-
-def load(*fields, file: str):
-    """
-    Loads the requested YAML file and pulls requested fields.
-
-    :param fields: Index(es) to query.
-    :param str file: YAML file to read from (file extension is not needed).
-
-    """
-
-    def _load(file_name):
-        try:
-            sources_path = os.path.join(os.path.dirname(__file__), "sources/")
-            file_name = os.path.join(sources_path, f"{file_name}.yml")
-            if not os.path.exists(file_name):
-                raise FileNotFoundError(f"Cannot find the resource '{file_name}'.")
-            data = open(file_name)
-            resource = yaml.full_load(data)
-            file_name = os.path.basename(file_name).replace(".yml", "")
-            if file_name not in resource:
-                raise HeaderInvalid(
-                    f"The opening key in '{file_name}' is invalid. The first line "
-                    "in Yari specific YAML documents must begin with a key that "
-                    "matches the file name without the extension."
-                )
-            y = Query(resource[file_name])
-            return y.find(*fields)
-        except (FileNotFoundError, TypeError) as error:
-            print(error)
-            traceback.print_exc()
-            exit()
-        except HeaderInvalid as error:
-            exit(error)
-
-    try:
-        return [q for q in _load(file)][0]
-    except QueryNotFound:
-        pass
 
 
 ALLOWED_PC_BACKGROUNDS = load(file="classes")
@@ -317,6 +233,7 @@ def main(
                 out(str(e), 1)
 
         rg = callback(race, sex=sex, level=level, subrace=subrace)
+        rg.create()
     except (
         Exception,
         NameError,
@@ -372,6 +289,7 @@ def main(
             level=level,
             primary_ability=cg.primary_ability,
             saves=cg.saving_throws,
+            magic_innate=rg.magic_innate,
             spell_slots=cg.spell_slots,
             score_array=score_array,
             languages=rg.languages,
@@ -398,6 +316,8 @@ def main(
         cs["alignment"] = alignment
         cs["background"] = background
         cs["size"] = rg.size
+        cs["height"] = rg.height
+        cs["weight"] = rg.weight
         cs["class"] = klass
         cs["level"] = level
         cs["subclass"] = u.subclass
@@ -1056,6 +976,11 @@ def has_class_spells(subclass: str) -> bool:
 
 @dataclass
 class ImprovementGenerator:
+    """
+    Applies level based upgrades to a character.
+
+    """
+
     race: str
     subrace: str
     klass: str
@@ -1063,6 +988,7 @@ class ImprovementGenerator:
     level: int
     primary_ability: dict
     saves: list
+    magic_innate: list
     spell_slots: str
     score_array: OrderedDict
     languages: list
@@ -1165,6 +1091,12 @@ class ImprovementGenerator:
         # Dragon Fear/Dragon Hide
         if feat in ("Dragon Fear", "Dragon Hide"):
             self._set_score(("Strength", "Constitution", "Charisma"), 1)
+
+        # Drow High Magic
+        if feat == "Drow High Magc":
+            self.magic_innate.append("Detect Magic")
+            self.magic_innate.append("Dispel Magic")
+            self.magic_innate.append("Levitate")
 
         # Durable/Dwarven Fortitude
         if feat in ("Durable", "Dwarven Fortitude", "Infernal Constitution"):
@@ -1686,7 +1618,161 @@ class _Races:
         else:
             self.level = level
 
-        # Get racial traits and merge with subracial traits (if ANY).
+    def __repr__(self):
+        if self.subrace != "":
+            return '<{} subrace="{}" sex="{}" level="{}">'.format(
+                self.race, self.subrace, self.sex, self.level
+            )
+        else:
+            return '<{} sex="{}" level="{}">'.format(self.race, self.sex, self.level)
+
+    def _add_ability_bonus(self):
+        """Adds Half-Elves chosen bonus racial ability bonus (if applicable)."""
+        if self.race == "HalfElf":
+            valid_abilities = [
+                "Strength",
+                "Dexterity",
+                "Constitution",
+                "Intelligence",
+                "Wisdom",
+            ]
+            valid_abilities = random.sample(valid_abilities, 2)
+            for ability in valid_abilities:
+                self.all["bonus"][ability] = 1
+
+    def _add_mass(self):
+        """Generates and sets character's height & weight."""
+        height_base = self.all.get("ratio").get("height").get("base")
+        height_modifier = self.all.get("ratio").get("height").get("modifier")
+        height_modifier = sum(list(roll(height_modifier)))
+        self.height = height_base + height_modifier
+
+        weight_base = self.all.get("ratio").get("weight").get("base")
+        weight_modifier = self.all.get("ratio").get("weight").get("modifier")
+        weight_modifier = sum(list(roll(weight_modifier)))
+        self.weight = (height_modifier * weight_modifier) + weight_base
+
+    def _add_traits(self):
+        """
+        Add all bonus armor, tool, and/or weapon proficiencies, and other traits.
+
+        """
+        self.ancestor = None
+        self.breath = None
+        self.darkvision = 0
+        self.magic_innate = list()
+        self.other = list()
+        self.resistances = list()
+
+        self.skills = list()
+        self.armors = list()
+        self.tools = list()
+        self.weapons = list()
+
+        for trait in self.all.get("other"):
+            if len(trait) == 1:
+                self.other.append(trait[0])
+            else:
+                (name, value) = trait
+                self.other.append(name)
+                if name == "Draconic Ancestry":
+                    self.ancestor = random.choice(value)
+                    if self.ancestor in (
+                        "Black",
+                        "Copper",
+                    ):
+                        self.resistances.append("Acid")
+                    elif self.ancestor in (
+                        "Blue",
+                        "Bronze",
+                    ):
+                        self.resistances.append("Lightning")
+                    elif self.ancestor in (
+                        "Brass",
+                        "Gold",
+                        "Red",
+                    ):
+                        self.resistances.append("Fire")
+                    elif self.ancestor == "Green":
+                        self.resistances.append("Poison")
+                    elif self.ancestor in ("Silver", "White"):
+                        self.resistances.append("Cold")
+                    self.breath = self.resistances[-1]
+                elif name == "Darkvision":
+                    if self.darkvision == 0:
+                        self.darkvision = value
+                elif name == "Superior Darkvision":
+                    if value > self.darkvision:
+                        self.darkvision = value
+                elif name == "Cantrip":
+                    self.magic_innate = random.sample(value, 1)
+                elif name == "Natural Illusionist":
+                    self.magic_innate = [value]
+                elif name in (
+                    "Drow Magic",
+                    "Duergar Magic",
+                    "Githyanki Psionics",
+                    "Githzerai Psionics",
+                    "Infernal Legacy",
+                    "Innate Spellcasting",
+                    "Legacy of Avernus",
+                    "Legacy of Cania",
+                    "Legacy of Dis",
+                    "Legacy of Maladomini",
+                    "Legacy of Malbolge",
+                    "Legacy of Minauros",
+                    "Legacy of Phlegethos",
+                    "Legacy of Stygia",
+                ):
+                    self.magic_innate = [spell[1] for spell in value]
+                elif (
+                    name in ("Necrotic Shroud", "Radiant Consumption", "Radiant Soul")
+                    and self.level >= 3
+                ):
+                    self.other.append(name)
+                elif name in (
+                    "Celestial Resistance",
+                    "Duergar Resilience",
+                    "Dwarven Resilience",
+                    "Fey Ancestry",
+                    "Stout Resilience",
+                ):
+                    self.resistances = self.resistances + value
+                elif name in (
+                    "Cat's Talent",
+                    "Keen Senses",
+                    "Menacing",
+                    "Natural Athlete",
+                    "Sneaky",
+                ):
+                    self.skills.append(value[0])
+                elif name in ("Decadent Mastery", "Extra Language", "Languages"):
+                    self.languages.append(random.choice(value))
+                elif name in ("Hunter's Lore", "Kenku Training", "Skill Versatility"):
+                    self.skills = self.skills + random.choice(value, 2)
+                elif name in (
+                    "Dwarven Armor Training",
+                    "Martial Prodigy (Armor)",
+                    "Martial Training (Armor)",
+                ):
+                    self.armors = value
+                elif name == "Tinker":
+                    self.tools.append(value)
+                elif name == "Tool Proficiency":
+                    self.tools.append(random.choice(value))
+                elif name in (
+                    "Drow Weapon Training",
+                    "Dwarven Combat Training",
+                    "Elf Weapon Training",
+                    "Martial Prodigy (Weapon)",
+                    "Sea Elf Training",
+                ):
+                    self.weapons = value
+                elif name in ("Martial Training (Weapon)"):
+                    self.weapons = random.sample(value, 2)
+
+    def _join_traits(self):
+        """ Get racial traits and merge with subracial traits (if ANY). """
         self.all = load(self.race, file="races")
         if self.subrace != "":
             subrace_traits = load(self.subrace, file="subraces")
@@ -1705,265 +1791,18 @@ class _Races:
                         self.all[trait].append(other)
                 elif trait == "ratio":
                     self.all[trait] = subrace_traits.get(trait)
-
-        self._add_race_ability_bonus()
-        self._add_race_ancestry()
-        self._add_race_cantrip_bonus()
-        self._add_race_language_bonus()
-        self._add_race_traits()
-        self._add_race_mass()
-        self._add_race_skill_bonus()
-        self.all["other"] = [tuple(x) for x in self.all["other"]]
-
         self.bonus = self.all.get("bonus")
-        self.languages = self.all.get("languages")
-        self.other = self.all.get("other")
         self.size = self.all.get("size")
         self.speed = self.all.get("speed")
+        self.languages = self.all.get("languages")
 
-    def __repr__(self):
-        if self.subrace != "":
-            return '<{} subrace="{}" sex="{}" level="{}">'.format(
-                self.race, self.subrace, self.sex, self.level
-            )
-        else:
-            return '<{} sex="{}" level="{}">'.format(self.race, self.sex, self.level)
-
-    def _add_race_ability_bonus(self):
-        """Add HalfElf racial ability bonuses."""
-        if self.race == "HalfElf":
-            valid_abilities = [
-                "Strength",
-                "Dexterity",
-                "Constitution",
-                "Intelligence",
-                "Wisdom",
-            ]
-            valid_abilities = random.sample(valid_abilities, 2)
-            for ability in valid_abilities:
-                self.all["bonus"][ability] = 1
-
-    def _add_race_ancestry(self):
-        """Add Dragonborn character ancestry traits."""
-        if self.race != "Dragonborn":
-            return
-
-        for trait, value in self.all.items():
-            if trait == "other":
-                for index, feature in enumerate(value):
-                    if "Draconic Ancestry" in feature:
-                        draconic_ancestor = random.choice(feature[1])
-                        self.all[trait][index] = [feature[0], draconic_ancestor]
-
-                        damage_resistance = None
-                        if draconic_ancestor in (
-                            "Black",
-                            "Copper",
-                        ):
-                            damage_resistance = "Acid"
-                        elif draconic_ancestor in (
-                            "Blue",
-                            "Bronze",
-                        ):
-                            damage_resistance = "Lightning"
-                        elif draconic_ancestor in (
-                            "Brass",
-                            "Gold",
-                            "Red",
-                        ):
-                            damage_resistance = "Fire"
-                        elif draconic_ancestor == "Green":
-                            damage_resistance = "Poison"
-                        elif draconic_ancestor in ("Silver", "White"):
-                            damage_resistance = "Cold"
-                        self.all[trait].append(["Breath Weapon", [damage_resistance]])
-                        self.all[trait].append(
-                            ["Damage Resistance", [damage_resistance]]
-                        )
-
-    def _add_race_cantrip_bonus(self):
-        """Add High Elf, or Forest Gnome bonus cantrips."""
-        if self.race == "Yuanti" or self.subrace in ("Forest", "High"):
-            for trait, value in self.all.items():
-                if trait == "other":
-                    if self.subrace == "Forest":
-                        pass
-                    elif self.subrace == "High":
-                        for index, feature in enumerate(value):
-                            if "Cantrip" in feature:
-                                self.all[trait][index] = (
-                                    feature[0],
-                                    random.choice(feature[1]),
-                                )
-
-    def _add_race_language_bonus(self):
-        """
-        Add any racial bonus languages.
-
-            Githyanki
-            Half-Elf
-            High Elf
-            Human
-            Tabaxi
-
-        """
-        if self.race not in ("HalfElf", "Human", "Tabaxi") and self.subrace not in (
-            "Githyanki",
-            "High",
-        ):
-            return
-
-        if self.subrace == "Githyanki":
-            for trait, value in self.all.items():
-                if trait == "other":
-                    for index, feature in enumerate(value):
-                        if "Decadent Mastery" in feature:
-                            decadent_language = random.choice(feature[1])
-                            self.all[trait][index] = (
-                                feature[0],
-                                decadent_language,
-                            )
-                            self.all["languages"].append(decadent_language)
-        else:
-            standard_languages = [
-                "Common",
-                "Dwarvish",
-                "Elvish",
-                "Giant",
-                "Gnomish",
-                "Goblin",
-                "Halfling",
-                "Orc",
-            ]
-            standard_languages = [
-                language
-                for language in standard_languages
-                if language not in self.all.get("languages")
-            ]
-            self.all["languages"].append(random.choice(standard_languages))
-
-    def _add_race_mass(self):
-        """Generates a character's height & weight."""
-        height_base = self.all.get("ratio").get("height").get("base")
-        height_modifier = self.all.get("ratio").get("height").get("modifier")
-        height_modifier = sum(list(roll(height_modifier)))
-        inches = height_base + height_modifier
-        feet = math.floor(inches / 12)
-        inches = inches % 12
-        height = "{}' {}\"".format(feet, inches)
-
-        weight_base = self.all.get("ratio").get("weight").get("base")
-        weight_modifier = self.all.get("ratio").get("weight").get("modifier")
-        weight_modifier = sum(list(roll(weight_modifier)))
-        weight = (height_modifier * weight_modifier) + weight_base
-        weight = f"{weight} lbs."
-
-        self.all["size"] = "{} size ({}, {})".format(
-            self.all.get("size"), height, weight
-        )
-
-        del self.all["ratio"]
-
-    def _add_race_traits(self):
-        """
-        Add all bonus armor, tool, and/or weapon proficiencies, and other traits.
-
-            - Aasimar = Necrotic Shield, Radiant Consumption/Soul
-            - Drow = Drow Magic, Drow Weapon Training
-            - Duergar = Duergar Magic
-            - Dwarf = Dwarven Armor Training, Dwarven Combat Training, Tool Proficiency
-            - Elf = Elven Combat Training
-            - Githyanki = Githyanki Psionics, Martial Training
-            - Githzerai = Githzerai Psionics
-            - Hobgoblin = Martial Prodigy
-            - Tiefling = Infernal Legacy, Legacy powers
-            - Yuanti = Innate Spellcasting
-
-        """
-        self.armors = self.tools = self.weapons = self.magic = list()
-        for trait, value in self.all.items():
-            if trait == "other":
-                for index, feature in enumerate(value):
-                    if (
-                        "Dwarven Armor Training" in feature
-                        or "Martial Prodigy (Armor)" in feature
-                        or "Martial Training (Armor)" in feature
-                    ):
-                        self.armors = feature[1]
-                    elif "Tool Proficiency" in feature:
-                        tool_choice = [random.choice(feature[1])]
-                        self.all[trait][index] = [feature[0], tool_choice]
-                        self.tools = tool_choice
-                    elif (
-                        "Drow Weapon Training" in feature
-                        or "Dwarven Combat Training" in feature
-                        or "Elf Weapon Training" in feature
-                        or "Martial Prodigy (Weapon)" in feature
-                        or "Sea Elf Training" in feature
-                    ):
-                        self.weapons = feature[1]
-                    elif (
-                        "Drow Magic" in feature
-                        or "Duergar Magic" in feature
-                        or "Githyanki Psionics" in feature
-                        or "Githzerai Psionics" in feature
-                        or "Infernal Legacy" in feature
-                        or "Innate Spellcasting" in feature
-                        or "Legacy of Avernus" in feature
-                        or "Legacy of Cania" in feature
-                        or "Legacy of Dis" in feature
-                        or "Legacy of Maladomini" in feature
-                        or "Legacy of Malbolge" in feature
-                        or "Legacy of Minauros" in feature
-                        or "Legacy of Phlegethos" in feature
-                        or "Legacy of Stygia" in feature
-                    ):
-                        spells = [
-                            row
-                            for key, row in enumerate(feature[1])
-                            if self.level >= row[0]
-                        ]
-                        spells = [tuple(sp) for sp in spells]
-                        self.all[trait][index] = (feature[0], spells)
-                        self.magic = spells
-                    elif "Martial Training (Weapon)" in feature:
-                        self.weapons = random.sample(feature[1], 2)
-                        self.all[trait][index] = (feature[0], self.weapons)
-
-    def _add_race_skill_bonus(self):
-        """
-        Applies racial bonus skills (if ANY).
-
-            - Bugbear = Sneaky - Stealthy
-            - Elf = Keen Senses - Perception
-            - Goliath = Natural Athlete - Athlete
-            - HalfOrc/Orc = Menacing - Intimidation
-            - HalfElf = Skill Affinity bonus skills
-            - Kenku = Kenku Training bonus skills
-            - Lizardfolk = Hunter's Lore bonus skills
-            - Tabaxi = Cat's Talent - Perception
-
-        """
-        self.skills = list()
-        for trait, value in self.all.items():
-            if trait == "other":
-                for index, feature in enumerate(value):
-                    if (
-                        "Cat's Talent" in feature
-                        or "Keen Senses" in feature
-                        or "Menacing" in feature
-                        or "Natural Athlete" in feature
-                        or "Sneaky" in feature
-                    ):
-                        self.skills = feature[1]
-                    elif (
-                        "Hunter's Lore" in feature
-                        or "Kenku Training" in feature
-                        or "Skill Versatility" in feature
-                    ):
-                        skills = random.sample(feature[1], 2)
-                        self.all[trait][index] = (feature[0], skills)
-                        self.skills = skills
+    def create(self):
+        """Generates the character's basic racial attributes."""
+        self._join_traits()
+        self._add_ability_bonus()
+        self._add_mass()
+        self._add_traits()
+        del self.all
 
 
 class Aasimar(_Races):
@@ -2304,6 +2143,9 @@ class CharacterServer:
                         or name.startswith("Legacy of")
                     ):
                         value = [val[1] for val in value]
+                        print(self.data.get("traits"))
+                        if len(self.magic) > 0:
+                            value = value + [val[1] for val in self.magic]
                         value = ", ".join(value)
                     elif name in (
                         "Bite",
