@@ -1,5 +1,3 @@
----
-# SUBRACES
 subraces:
   # Aasimar Subraces
   Fallen:
@@ -57,6 +55,7 @@ subraces:
     other:
       - [Cantrip, [Acid Splash, Blade Ward, Chill Touch, Dancing Lights, Fire Bolt, Friends, Light, Mage Hand, Mending, Message, Minor Illusion, Poison Spray, Prestidigitation, Ray of Frost, Shocking Grasp, True Strike]]
       - [Elf Weapon Training, [Longsword, Shortsword, Shortbow, Longbow]]
+      - [Extra Language, [Abyssal, Celestial, Deep Speech, Draconic, Dwarvish, Giant, Gith, Gnomish, Goblin, Halfling, Infernal, Orc, Primordial, Sylvan, Undercommon]]
     parent: Elf
     ratio:
       height:
@@ -160,7 +159,7 @@ subraces:
     bonus:
       Strength: 2
     other:
-      - [Decadent Mastery, [Abyssal, Celestial, Common, Deep Speech, Draconic, Dwarvish, Elvish, Giant, Gnomish, Goblin, Halfling, Infernal, Orc, Primordial, Sylvan, Undercommon]]
+      - [Decadent Mastery, [Abyssal, Celestial, Deep Speech, Draconic, Dwarvish, Elvish, Giant, Gnomish, Goblin, Halfling, Infernal, Orc, Primordial, Sylvan, Undercommon]]
       - [Githyanki Psionics, [[1, Mage Hand], [3, Jump], [5, Misty Step]]]
       - [Martial Prodigy (Armor), [Light, Medium]]
       - [Martial Prodigy (Weapon), [Greatsword, Longsword, Shortsword]]

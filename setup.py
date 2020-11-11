@@ -10,7 +10,7 @@ setup(
     name="Yari",
     version=__version__,
     packages=find_packages(),
-    package_data={"yari": ["sources/*.yml"]},
+    package_data={"yari": ["sources/*.yaml"]},
     url="https://taylormarcus.github.io/Yari/",
     license="MIT",
     author="Marcus T Taylor",

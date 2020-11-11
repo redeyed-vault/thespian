@@ -1,5 +1,3 @@
----
-# FEATS
 feats:
   Actor: {}
   Alert: {}
@@ -15,6 +13,8 @@ feats:
     race: ['Dragonborn']
   Dragon Hide:
     race: ['Dragonborn']
+  Drow High Magic:
+    subrace: ['Drow']
   Dual Wielder: {}
   Dungeon Delver: {}
   Durable: {}
