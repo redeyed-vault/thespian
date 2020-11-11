@@ -22,7 +22,7 @@ def roll(string: str):
         if num_of_rolls < 1:
             raise ValueError("Argument 'string' has an invalid 'num_of_rolls' value.")
 
-        if die_type not in (4, 6, 8, 10, 12, 20, 100):
+        if die_type not in (1, 4, 6, 8, 10, 12, 20, 100):
             raise ValueError("Argument 'string' has an invalid 'die_type' value.")
 
         for _ in range(0, num_of_rolls):
