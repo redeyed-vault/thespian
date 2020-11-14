@@ -1952,7 +1952,7 @@ class CharacterServer:
     Creates the CharacterServer object.
 
     :param OrderedDict data: Character's information packet.
-107757
+
     """
 
     def __init__(self, data: OrderedDict) -> None:
