@@ -1952,7 +1952,7 @@ class CharacterServer:
     Creates the CharacterServer object.
 
     :param OrderedDict data: Character's information packet.
-
+107757
     """
 
     def __init__(self, data: OrderedDict) -> None:
@@ -1966,6 +1966,8 @@ class CharacterServer:
             "alignment",
             "background",
             "size",
+            "height",
+            "weight",
             "class",
             "subclass",
             "level",
@@ -1981,10 +1983,10 @@ class CharacterServer:
             "features",
             "traits",
         )
-        if not all(k in data for k in data_keys):
+        if not all(dk in data for dk in data_keys):
             raise ValueError(
-                "All data keys 'race', 'subrace', 'sex', "
-                "'alignment', 'background', 'size', 'class', 'subclass', "
+                "All data keys 'race', 'subrace', 'sex', 'alignment', "
+                "'background', 'size', 'height', 'weight', 'class', 'subclass', "
                 "'level', 'bonus', 'score_array', 'saves', 'proficiency', "
                 "'languages', 'spell_slots', 'skills', 'feats', "
                 "'equipment', 'features', 'traits' must have a value."
@@ -2012,28 +2014,30 @@ class CharacterServer:
 
     def _append_abilities(self):
         def format_ability(attributes: dict):
-            block = '<ability label="{}" value="{}">'.format(
+            block = '<p><strong>{}</strong> ({})'.format(
                 attributes.get("name"),
                 attributes.get("value"),
             )
+            block += "<p>"
             for index, value in attributes.items():
                 if index == "ability_checks":
-                    block += f'<entry label="Ability Checks" value="{value}"/>'
+                    block += f'Ability Checks {value}<br/>'
                 if index == "saving_throws":
-                    block += f'<entry label="Saving Throw Checks" value="{value}"/>'
+                    block += f'Saving Throw Checks {value}<br/>'
                 if index == "skills":
                     if len(value) != 0:
                         for skill, modifier in value.items():
-                            block += f'<entry label="{skill} Skill Checks" value="{modifier}"/>'
+                            block += f'{skill} Skill Checks {modifier}<br/>'
                 if index == "carry_capacity":
-                    block += f'<entry label="Carry Capacity" values="{value}"/>'
+                    block += f'Carry Capacity {value}<br/>'
                 if index == "push_pull_carry":
                     block += (
-                        f'<entry label="Push Pull Carry Capacity" values="{value}"/>'
+                        f'Push Pull Carry Capacity {value}<br/>'
                     )
                 if index == "maximum_lift":
-                    block += f'<entry label="Maximum Lift Capacity" values="{value}"/>'
+                    block += f'Maximum Lift Capacity {value}<br/>'
             block += "</{}>".format(attributes.get("name"))
+            block += "</p>"
             return block
 
         score_array = self.data.get("score_array")
@@ -2048,30 +2052,22 @@ class CharacterServer:
         wisdom = Wisdom(score_array.get("Wisdom"), self.data.get("skills"))
         charisma = Charisma(score_array.get("Charisma"), self.data.get("skills"))
 
-        self.body = "<abilities>"
-        self.body = format_ability(strength.attr)
-        self.body = format_ability(dexterity.attr)
-        self.body = format_ability(constitution.attr)
-        self.body = format_ability(intelligence.attr)
-        self.body = format_ability(wisdom.attr)
-        self.body = format_ability(charisma.attr)
-        self.body = "</abilities>"
+        block = format_ability(strength.attr)
+        block += format_ability(dexterity.attr)
+        block += format_ability(constitution.attr)
+        block += format_ability(intelligence.attr)
+        block += format_ability(wisdom.attr)
+        block += format_ability(charisma.attr)
+        return block
 
-    def _append_equipment(self):
-        equipment = self.data.get("equipment")
-        equipment.sort()
-        self.body = "<equipment>"
-        for item in equipment:
-            self.body = f'<entry label="equipment" value="{item}" />'
-        self.body = "</equipment>"
-
-    def _append_feats(self):
-        feats = self.data.get("feats")
-        feats.sort()
-        self.body = "<feats>"
-        for feat in feats:
-            self.body = f'<entry label="feat" value="{feat}" />'
-        self.body = "</feats>"
+    def _append_list(self, header: str, items: list):
+        items.sort()
+        block = f"<p><strong>{header}</strong></p>"
+        block += "<p>"
+        for item in items:
+            block += f'{item}<br/>'
+        block += "</p>"
+        return block
 
     def _append_features(self):
         self.body = "<features>"
@@ -2121,82 +2117,6 @@ class CharacterServer:
         self.body = "</skills>"
         self.body = "</proficiencies>"
 
-    def _append_traits(self, race: str, level: int):
-        self.body = "<traits>"
-        for trait in self.data.get("traits"):
-            if len(trait) == 1:
-                self.body = f'<entry label="{race} Trait" name="{trait[0]}" />'
-            else:
-                (name, value) = trait
-                if isinstance(value, list):
-                    if (
-                        name
-                        in (
-                            "Celestial Legacy",
-                            "Drow Magic",
-                            "Duergar Magic",
-                            "Firbolg Magic",
-                            "Githyanki Psionics",
-                            "Githzerai Psionics",
-                            "Innate Spellcasting",
-                        )
-                        or name.startswith("Legacy of")
-                    ):
-                        value = [val[1] for val in value]
-                        print(self.data.get("traits"))
-                        if len(self.magic) > 0:
-                            value = value + [val[1] for val in self.magic]
-                        value = ", ".join(value)
-                    elif name in (
-                        "Bite",
-                        "Breath Weapon",
-                        "Cantrip",
-                        "Cat's Claws",
-                        "Cat's Talent",
-                        "Celestial Resistance",
-                        "Damage Resistance",
-                        "Drow Weapon Training",
-                        "Duergar Resilience",
-                        "Dwarven Armor Training",
-                        "Dwarven Combat Training",
-                        "Dwarven Resilience",
-                        "Elf Weapon Training",
-                        "Extra Language",
-                        "Feline Agility",
-                        "Fey Ancestry",
-                        "Hellish Resistance",
-                        "Hunter's Lore",
-                        "Keen Senses",
-                        "Kenku Training",
-                        "Martial Prodigy (Armor)",
-                        "Martial Prodigy (Weapon)",
-                        "Martial Training (Armor)",
-                        "Martial Training (Weapon)",
-                        "Menacing",
-                        "Mental Discipline",
-                        "Natural Armor",
-                        "Natural Athlete",
-                        "Natural Illusionist",
-                        "Necrotic Resistance",
-                        "Sea Elf Training",
-                        "Skill Versatility",
-                        "Sneaky",
-                        "Stout Resilience",
-                        "Tinker",
-                        "Tool Proficiency",
-                    ):
-                        value = ", ".join(value)
-                    self.body = (
-                        f'<entry label="{race} Trait" name="{name}" value="{value}" />'
-                    )
-                else:
-                    if name.startswith("Necrotic") or name.startswith("Radiant"):
-                        if level >= value:
-                            self.body = f'<entry label="{race} Trait" name="{name}" />'
-                    else:
-                        self.body = f'<entry label="{race} Trait" name="{name}" value="{value}" />'
-        self.body = "</traits>"
-
     def run(self, port: int = 8080) -> None:
         """
         Writes the character sheet and starts the server.
@@ -2204,39 +2124,62 @@ class CharacterServer:
         :param int port: Character server port number. Default port is 8080.
 
         """
-        if self.data.get("subrace") != "":
-            race = f'{self.data.get("race")}, {self.data.get("subrace")}'
-        elif self.data.get("race") == "HalfElf":
-            race = "Half-Elf"
-        elif self.data.get("race") == "HalfOrc":
-            race = "Half-Orc"
-        elif self.data.get("race") == "Yuanti":
-            race = "Yuan-ti"
-        else:
-            race = self.data.get("race")
 
-        self.body = '<?xml version="1.0"?><yari>'
-        self.body = f"<meta><version>{__version__}</version></meta>"
-        self.body = f"<character><race>{race}</race>"
-        self.body = f'<sex>{self.data.get("sex")}</sex>'
-        self.body = f'<size>{self.data.get("size")}</size>'
-        self.body = f'<alignment>{self.data.get("alignment")}</alignment>'
-        self.body = f'<background>{self.data.get("background")}</background>'
-        self.body = f'<class>{self.data.get("class")}</class>'
-        self.body = f'<subclass>{self.data.get("subclass")}</subclass>'
-        self.body = f'<level>{self.data.get("level")}</level>'
-        self._append_abilities()
+        def format_race():
+            if self.data.get("subrace") != "":
+                race = f'{self.data.get("race")}, {self.data.get("subrace")}'
+            elif self.data.get("race") == "HalfElf":
+                race = "Half-Elf"
+            elif self.data.get("race") == "HalfOrc":
+                race = "Half-Orc"
+            elif self.data.get("race") == "Yuanti":
+                race = "Yuan-ti"
+            else:
+                race = self.data.get("race")
+            return race
+
+        def format_size():
+            size_class=self.data.get("size")
+            height=self.data.get("height")
+            weight=self.data.get("weight")
+            feet = math.floor(height / 12)
+            inches = height % 12
+            height = "{}' {}\"".format(feet, inches)
+            weight = f"{weight} lbs."
+            return (size_class, height, weight)
+
+        (size_class, height, weight) = format_size()
+        self.body = '<!DOCTYPE html>'
+        self.body = f"<head><title>Yari {__version__}</title></head><body>"
+
+        self.body = "<p>"
+        self.body = f"<strong>Race:</strong> {format_race()}<br/>"
+        self.body = f'<strong>Sex: </strong>{self.data.get("sex")}<br/>'
+        self.body = f'<strong>Alignment: </strong>{self.data.get("alignment")}<br/>'
+        self.body = f'<strong>Background: </strong> {self.data.get("background")}<br/>'
+        self.body = f"<strong>Height: </strong>{height}<br/>"
+        self.body = f"<strong>Weight: </strong>{weight}<br/>"
+        self.body = f"<strong>Size: </strong>{size_class}<br/>"
+        self.body = "</p>"
+
+        self.body = "<p>"
+        self.body = f'<strong>Class: </strong>{self.data.get("class")}<br/>'
+        self.body = f'<strong>Subclass: </strong>{self.data.get("subclass")}<br/>'
+        self.body = f'<strong>Level: </strong>{self.data.get("level")}<br/>'
+        self.body = "</p>"
+
+        self.body = self._append_abilities()
         self.body = f'<spell_slots>{self.data.get("spell_slots")}</spell_slots>'
         self._append_proficiency()
-        self._append_feats()
-        self._append_equipment()
-        self._append_traits(race, self.data.get("level"))
+        self.body = self._append_list("Feats", self.data.get("feats"))
+        self.body = self._append_list("Equipment", self.data.get("equipment"))
+        self.body = self._append_list("Traits", self.data.get("traits"))
         self._append_features()
-        self.body = "</character></yari>"
+        self.body = "</body></html>"
 
         async def character_sheet(request):
             return web.Response(
-                content_type="text/xml", text=BeautifulSoup(self.body, "xml").prettify()
+                content_type="text/html", text=BeautifulSoup(self.body, "html.parser").prettify()
             )
 
         app = web.Application()
