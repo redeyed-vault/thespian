@@ -2014,7 +2014,7 @@ class CharacterServer:
 
     def _append_abilities(self):
         def format_ability(attributes: dict):
-            block = '<p><strong>{}</strong> ({})'.format(
+            block = '<p><strong>{}</strong> ({})</p>'.format(
                 attributes.get("name"),
                 attributes.get("value"),
             )
@@ -2036,7 +2036,6 @@ class CharacterServer:
                     )
                 if index == "maximum_lift":
                     block += f'Maximum Lift Capacity {value}<br/>'
-            block += "</{}>".format(attributes.get("name"))
             block += "</p>"
             return block
 
@@ -2070,52 +2069,32 @@ class CharacterServer:
         return block
 
     def _append_features(self):
-        self.body = "<features>"
+        block = "<p><strong>Class Features</strong></p>"
+        block += "<p>"
         for level, _ in self.data.get("features").items():
             for feature in _:
-                self.body = f'<entry label="{self.data.get("class")} Feature" level="{level}" name="{feature}" />'
-        self.body = "</features>"
+                block += f'{feature}<br/>'
+        block += "</p>"
+        return block
 
     def _append_proficiency(self):
-        def format_languages(languages: list) -> str:
-            languages.sort()
-            block = ""
-            for language in languages:
-                block += f'<entry label="language" value="{language}" />'
-            return block
-
         def format_proficiencies(proficiencies: OrderedDict) -> str:
             block = ""
             for type, proficiency_list in proficiencies.items():
-                block += f"<{type}>"
+                block += f"<p><strong>{type.capitalize()}</strong></p>"
+                block += "<p>"
                 if isinstance(proficiency_list, list):
                     proficiency_list.sort()
                 for proficiency in proficiency_list:
-                    block += f'<entry label="proficiency" value="{proficiency}" />'
-                block += f"</{type}>"
+                    block += f'{proficiency}<br/>'
+                block += "</p>"
             return block
 
-        self.body = "<proficiencies>"
-        self.body = f'<proficiency>{self.data.get("bonus")}</proficiency>'
-        self.body = format_proficiencies(self.data.get("proficiency"))
-        self.body = (
-            f'<languages>{format_languages(self.data.get("languages"))}</languages>'
-        )
-
-        saves = self.data.get("saves")
-        saves.sort()
-        self.body = "<saving_throws>"
-        for save in saves:
-            self.body = f'<entry label="save" value="{save}" />'
-        self.body = "</saving_throws>"
-
-        skills = self.data.get("skills")
-        skills.sort()
-        self.body = "<skills>"
-        for skill in skills:
-            self.body = f'<entry label="skill" value="{skill}" />'
-        self.body = "</skills>"
-        self.body = "</proficiencies>"
+        block = format_proficiencies(self.data.get("proficiency"))
+        block += self._append_list("Languages", self.data.get("languages"))
+        block += self._append_list("Saving Throws", self.data.get("saves"))
+        block += self._append_list("Skills", self.data.get("skills"))
+        return block
 
     def run(self, port: int = 8080) -> None:
         """
@@ -2149,9 +2128,7 @@ class CharacterServer:
             return (size_class, height, weight)
 
         (size_class, height, weight) = format_size()
-        self.body = '<!DOCTYPE html>'
-        self.body = f"<head><title>Yari {__version__}</title></head><body>"
-
+        self.body = f"<html><head><title>Yari {__version__}</title></head><body>"
         self.body = "<p>"
         self.body = f"<strong>Race:</strong> {format_race()}<br/>"
         self.body = f'<strong>Sex: </strong>{self.data.get("sex")}<br/>'
@@ -2169,12 +2146,12 @@ class CharacterServer:
         self.body = "</p>"
 
         self.body = self._append_abilities()
-        self.body = f'<spell_slots>{self.data.get("spell_slots")}</spell_slots>'
-        self._append_proficiency()
+        self.body = f'<p><strong>Spell Slots: </strong>{self.data.get("spell_slots")}</p>'
+        self.body = self._append_proficiency()
         self.body = self._append_list("Feats", self.data.get("feats"))
         self.body = self._append_list("Equipment", self.data.get("equipment"))
-        self.body = self._append_list("Traits", self.data.get("traits"))
-        self._append_features()
+        self.body = self._append_list("Racial Traits", self.data.get("traits"))
+        self.body = self._append_features()
         self.body = "</body></html>"
 
         async def character_sheet(request):
