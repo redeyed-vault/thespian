@@ -22,6 +22,12 @@ feats:
     race: ['Dwarf']
   Elemental Adept:
     caster: true
+  Elven Accuracy:
+    race: ['Elf', 'HalfElf']
+  Fade Away:
+    race: ['Gnome']
+  Fey Teleportation:
+    subrace: ['High']
   Flames of Phlegethos:
     race: ['Tiefling']
   Grappler:
@@ -57,6 +63,8 @@ feats:
       armors: ['Light']
   Mounted Combatant: {}
   Observant: {}
+  Orcish Fury:
+    race: ['HalfOrc']
   Polearm Master: {}
   Prodigy:
     race: ['HalfElf', 'HalfOrc', 'Human']
@@ -67,6 +75,8 @@ feats:
       Wisdom: 13
     caster: true
   Savage Attacker: {}
+  Second Chance:
+    race: ['Halfling']
   Sentinel: {}
   Sharpshooter: {}
   Shield Master: {}
@@ -83,3 +93,5 @@ feats:
   War Caster:
     caster: true
   Weapon Master: {}
+  Wood Elf Magic:
+    subrace: ['Wood']

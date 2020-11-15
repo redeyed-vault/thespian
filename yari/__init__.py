@@ -324,6 +324,7 @@ def main(
         cs["bonus"] = get_proficiency_bonus(level)
         cs["score_array"] = u.score_array
         cs["saves"] = u.saves
+        cs["magic_innate"] = u.magic_innate
         cs["spell_slots"] = u.spell_slots
         cs["proficiency"] = proficiency_info
         cs["languages"] = u.languages
@@ -1092,15 +1093,41 @@ class ImprovementGenerator:
         if feat in ("Dragon Fear", "Dragon Hide"):
             self._set_score(("Strength", "Constitution", "Charisma"), 1)
 
-        # Drow High Magic
-        if feat == "Drow High Magc":
-            self.magic_innate.append("Detect Magic")
-            self.magic_innate.append("Dispel Magic")
-            self.magic_innate.append("Levitate")
+        # Drow High Magic, Wood Elf Magic
+        if feat in ("Drow High Magic", "Wood Elf Magic"):
+            if feat == "Drow High Magic":
+                self.magic_innate.append("Detect Magic")
+                self.magic_innate.append("Dispel Magic")
+                self.magic_innate.append("Levitate")
+            elif feat == "Wood Elf Magic":
+                self.magic_innate.append("Longstrider")
+                self.magic_innate.append("Pass Without Trace")
 
         # Durable/Dwarven Fortitude
         if feat in ("Durable", "Dwarven Fortitude", "Infernal Constitution"):
             self._set_score("Constitution", 1)
+
+        # Elven Accuracy
+        # TODO: Add smarter bonus decisions based on class.
+        if feat == "Elven Accuracy":
+            accuracy_bonus = [
+                "Dexterity",
+                "Intelligence",
+                "Wisdom",
+                "Charisma",
+            ]
+            ability_choice = random.choice(accuracy_bonus)
+            self._set_score(ability_choice, 1)
+
+        # Fey Teleportation
+        # TODO: Add smarter bonus decisions based on class.
+        if feat == "Fey Teleportation":
+            teleport_bonus = [
+                "Intelligence",
+                "Charisma",
+            ]
+            ability_choice = random.choice(teleport_bonus)
+            self._set_score(ability_choice, 1)
 
         # Flames of Phlegethos
         if feat == "Flames of Phlegethos":
@@ -1113,8 +1140,8 @@ class ImprovementGenerator:
                 self.armor_proficiency.append("Heavy")
 
         # Keen Mind/Linguist/Prodigy
-        if feat in ("Keen Mind", "Linguist", "Prodigy"):
-            if feat != "Prodigy":
+        if feat in ("Fade Away", "Keen Mind", "Linguist", "Prodigy"):
+            if feat in ("Fade Away", "Prodigy"):
                 self._set_score("Intelligence", 1)
             if feat in ("Linguist", "Prodigy"):
                 # Remove already known languages.
@@ -1140,6 +1167,16 @@ class ImprovementGenerator:
                 self._set_score("Wisdom", 1)
             elif self.klass in ("Wizard",):
                 self._set_score("Intelligence", 1)
+
+        # Orcish Fury
+        # TODO: Add smarter bonus decisions based on class.
+        if feat == "Orcish Fury":
+            accuracy_bonus = [
+                "Strength",
+                "Constitution",
+            ]
+            ability_choice = random.choice(accuracy_bonus)
+            self._set_score(ability_choice, 1)
 
         # Prodigy/Skilled
         if feat in ("Prodigy", "Skilled"):
@@ -1194,6 +1231,17 @@ class ImprovementGenerator:
             ability_choice = random.choice(resilient_saves)
             self._set_score(ability_choice, 1)
             self.saves.append(ability_choice)
+
+        # Second Chance
+        # TODO: Add smarter bonus decisions based on class.
+        if feat == "Second Chance":
+            accuracy_bonus = [
+                "Dexterity",
+                "Constitution",
+                "Charisma",
+            ]
+            ability_choice = random.choice(accuracy_bonus)
+            self._set_score(ability_choice, 1)
 
         # Squat Nimbleness
         if feat == "Squat Nimbleness":
@@ -1976,6 +2024,7 @@ class CharacterServer:
             "saves",
             "proficiency",
             "languages",
+            "magic_innate",
             "spell_slots",
             "skills",
             "feats",
@@ -1988,7 +2037,7 @@ class CharacterServer:
                 "All data keys 'race', 'subrace', 'sex', 'alignment', "
                 "'background', 'size', 'height', 'weight', 'class', 'subclass', "
                 "'level', 'bonus', 'score_array', 'saves', 'proficiency', "
-                "'languages', 'spell_slots', 'skills', 'feats', "
+                "'languages', 'magic_innate', 'spell_slots', 'skills', 'feats', "
                 "'equipment', 'features', 'traits' must have a value."
             )
         else:
@@ -2143,6 +2192,7 @@ class CharacterServer:
         self.body = f'<strong>Class: </strong>{self.data.get("class")}<br/>'
         self.body = f'<strong>Subclass: </strong>{self.data.get("subclass")}<br/>'
         self.body = f'<strong>Level: </strong>{self.data.get("level")}<br/>'
+        self.body = self._append_features()
         self.body = "</p>"
 
         self.body = self._append_abilities()
@@ -2151,7 +2201,7 @@ class CharacterServer:
         self.body = self._append_list("Feats", self.data.get("feats"))
         self.body = self._append_list("Equipment", self.data.get("equipment"))
         self.body = self._append_list("Racial Traits", self.data.get("traits"))
-        self.body = self._append_features()
+        self.body = self._append_list("Innate Spellcasting", self.data.get("magic_innate"))
         self.body = "</body></html>"
 
         async def character_sheet(request):
