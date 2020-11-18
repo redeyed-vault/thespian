@@ -335,8 +335,8 @@ def main(
         cs["traits"] = rg.other
 
         try:
-            with CharacterServer(cs) as w:
-                w.run(port)
+            with HTTPServer(cs) as http:
+                http.run(port)
         except (OSError, TypeError, ValueError) as e:
             out(e, 2)
     except ValueError as error:
@@ -415,7 +415,7 @@ class AttributeGenerator:
         return results
 
 
-class _Attributes:
+class _AttributeBuilder:
     """
     DO NOT call class directly. Used to generate ability attributes.
 
@@ -467,27 +467,27 @@ class _Attributes:
                 yield skill
 
 
-class Charisma(_Attributes):
+class Charisma(_AttributeBuilder):
     def __init__(self, score: int, skills: list) -> None:
         super(Charisma, self).__init__(score, skills)
 
 
-class Constitution(_Attributes):
+class Constitution(_AttributeBuilder):
     def __init__(self, score: int, skills: list) -> None:
         super(Constitution, self).__init__(score, skills)
 
 
-class Dexterity(_Attributes):
+class Dexterity(_AttributeBuilder):
     def __init__(self, score: int, skills: list) -> None:
         super(Dexterity, self).__init__(score, skills)
 
 
-class Intelligence(_Attributes):
+class Intelligence(_AttributeBuilder):
     def __init__(self, score: int, skills: list) -> None:
         super(Intelligence, self).__init__(score, skills)
 
 
-class Strength(_Attributes):
+class Strength(_AttributeBuilder):
     def __init__(self, score: int, skills: list) -> None:
         super(Strength, self).__init__(score, skills)
         self.attr["carry_capacity"] = score * 15
@@ -495,7 +495,7 @@ class Strength(_Attributes):
         self.attr["maximum_lift"] = self.attr.get("push_pull_carry")
 
 
-class Wisdom(_Attributes):
+class Wisdom(_AttributeBuilder):
     def __init__(self, score: int, skills: list) -> None:
         super(Wisdom, self).__init__(score, skills)
 
@@ -510,7 +510,7 @@ def get_ability_modifier(score: int) -> int:
     return score != 0 and int((score - 10) / 2) or 0
 
 
-class _Classes:
+class _ClassBuilder:
     """
     DO NOT call class directly. Used to generate class features.
 
@@ -806,62 +806,62 @@ class _Classes:
             self.all["spell_slots"] = spell_slots
 
 
-class Barbarian(_Classes):
+class Barbarian(_ClassBuilder):
     def __init__(self, subclass, background, level, race_skills) -> None:
         super(Barbarian, self).__init__(subclass, background, level, race_skills)
 
 
-class Bard(_Classes):
+class Bard(_ClassBuilder):
     def __init__(self, subclass, background, level, race_skills) -> None:
         super(Bard, self).__init__(subclass, background, level, race_skills)
 
 
-class Cleric(_Classes):
+class Cleric(_ClassBuilder):
     def __init__(self, subclass, background, level, race_skills) -> None:
         super(Cleric, self).__init__(subclass, background, level, race_skills)
 
 
-class Druid(_Classes):
+class Druid(_ClassBuilder):
     def __init__(self, subclass, background, level, race_skills) -> None:
         super(Druid, self).__init__(subclass, background, level, race_skills)
 
 
-class Fighter(_Classes):
+class Fighter(_ClassBuilder):
     def __init__(self, subclass, background, level, race_skills) -> None:
         super(Fighter, self).__init__(subclass, background, level, race_skills)
 
 
-class Monk(_Classes):
+class Monk(_ClassBuilder):
     def __init__(self, subclass, background, level, race_skills) -> None:
         super(Monk, self).__init__(subclass, background, level, race_skills)
 
 
-class Paladin(_Classes):
+class Paladin(_ClassBuilder):
     def __init__(self, subclass, background, level, race_skills) -> None:
         super(Paladin, self).__init__(subclass, background, level, race_skills)
 
 
-class Ranger(_Classes):
+class Ranger(_ClassBuilder):
     def __init__(self, subclass, background, level, race_skills) -> None:
         super(Ranger, self).__init__(subclass, background, level, race_skills)
 
 
-class Rogue(_Classes):
+class Rogue(_ClassBuilder):
     def __init__(self, subclass, background, level, race_skills) -> None:
         super(Rogue, self).__init__(subclass, background, level, race_skills)
 
 
-class Sorcerer(_Classes):
+class Sorcerer(_ClassBuilder):
     def __init__(self, subclass, background, level, race_skills) -> None:
         super(Sorcerer, self).__init__(subclass, background, level, race_skills)
 
 
-class Warlock(_Classes):
+class Warlock(_ClassBuilder):
     def __init__(self, subclass, background, level, race_skills) -> None:
         super(Warlock, self).__init__(subclass, background, level, race_skills)
 
 
-class Wizard(_Classes):
+class Wizard(_ClassBuilder):
     def __init__(self, subclass, background, level, race_skills) -> None:
         super(Wizard, self).__init__(subclass, background, level, race_skills)
 
@@ -1093,13 +1093,24 @@ class ImprovementGenerator:
         if feat in ("Dragon Fear", "Dragon Hide"):
             self._set_score(("Strength", "Constitution", "Charisma"), 1)
 
-        # Drow High Magic, Wood Elf Magic
+        # Drow High Magic/Wood Elf Magic
         if feat in ("Drow High Magic", "Wood Elf Magic"):
             if feat == "Drow High Magic":
                 self.magic_innate.append("Detect Magic")
                 self.magic_innate.append("Dispel Magic")
                 self.magic_innate.append("Levitate")
             elif feat == "Wood Elf Magic":
+                druid_cantrips = (
+                    "Druidcraft",
+                    "Guidance",
+                    "Mending",
+                    "Poison Spray",
+                    "Produce Flame",
+                    "Resistance",
+                    "Shillelagh",
+                    "Thorn Whip",
+                )
+                self.magic_innate.append(random.choice(druid_cantrips))
                 self.magic_innate.append("Longstrider")
                 self.magic_innate.append("Pass Without Trace")
 
@@ -1590,7 +1601,7 @@ def get_weapon_chest():
     yield weapon_chest
 
 
-class _Races:
+class _RaceBuilder:
     """
     DO NOT call class directly. Used to generate racial traits.
 
@@ -1853,117 +1864,117 @@ class _Races:
         del self.all
 
 
-class Aasimar(_Races):
+class Aasimar(_RaceBuilder):
     def __init__(self, sex, subrace, level) -> None:
         super(Aasimar, self).__init__(sex, subrace, level)
 
 
-class Bugbear(_Races):
+class Bugbear(_RaceBuilder):
     def __init__(self, sex, subrace, level) -> None:
         super(Bugbear, self).__init__(sex, subrace, level)
 
 
-class Dragonborn(_Races):
+class Dragonborn(_RaceBuilder):
     def __init__(self, sex, subrace, level) -> None:
         super(Dragonborn, self).__init__(sex, subrace, level)
 
 
-class Dwarf(_Races):
+class Dwarf(_RaceBuilder):
     def __init__(self, sex, subrace, level) -> None:
         super(Dwarf, self).__init__(sex, subrace, level)
 
 
-class Elf(_Races):
+class Elf(_RaceBuilder):
     def __init__(self, sex, subrace, level) -> None:
         super(Elf, self).__init__(sex, subrace, level)
 
 
-class Firbolg(_Races):
+class Firbolg(_RaceBuilder):
     def __init__(self, sex, subrace, level) -> None:
         super(Firbolg, self).__init__(sex, subrace, level)
 
 
-class Gith(_Races):
+class Gith(_RaceBuilder):
     def __init__(self, sex, subrace, level) -> None:
         super(Gith, self).__init__(sex, subrace, level)
 
 
-class Gnome(_Races):
+class Gnome(_RaceBuilder):
     def __init__(self, sex, subrace, level) -> None:
         super(Gnome, self).__init__(sex, subrace, level)
 
 
-class Goblin(_Races):
+class Goblin(_RaceBuilder):
     def __init__(self, sex, subrace, level) -> None:
         super(Goblin, self).__init__(sex, subrace, level)
 
 
-class Goliath(_Races):
+class Goliath(_RaceBuilder):
     def __init__(self, sex, subrace, level) -> None:
         super(Goliath, self).__init__(sex, subrace, level)
 
 
-class HalfElf(_Races):
+class HalfElf(_RaceBuilder):
     def __init__(self, sex, subrace, level) -> None:
         super(HalfElf, self).__init__(sex, subrace, level)
 
 
-class HalfOrc(_Races):
+class HalfOrc(_RaceBuilder):
     def __init__(self, sex, subrace, level) -> None:
         super(HalfOrc, self).__init__(sex, subrace, level)
 
 
-class Halfling(_Races):
+class Halfling(_RaceBuilder):
     def __init__(self, sex, subrace, level) -> None:
         super(Halfling, self).__init__(sex, subrace, level)
 
 
-class Hobgoblin(_Races):
+class Hobgoblin(_RaceBuilder):
     def __init__(self, sex, subrace, level) -> None:
         super(Hobgoblin, self).__init__(sex, subrace, level)
 
 
-class Human(_Races):
+class Human(_RaceBuilder):
     def __init__(self, sex, subrace, level) -> None:
         super(Human, self).__init__(sex, subrace, level)
 
 
-class Kenku(_Races):
+class Kenku(_RaceBuilder):
     def __init__(self, sex, subrace, level) -> None:
         super(Kenku, self).__init__(sex, subrace, level)
 
 
-class Kobold(_Races):
+class Kobold(_RaceBuilder):
     def __init__(self, sex, subrace, level) -> None:
         super(Kobold, self).__init__(sex, subrace, level)
 
 
-class Lizardfolk(_Races):
+class Lizardfolk(_RaceBuilder):
     def __init__(self, sex, subrace, level) -> None:
         super(Lizardfolk, self).__init__(sex, subrace, level)
 
 
-class Orc(_Races):
+class Orc(_RaceBuilder):
     def __init__(self, sex, subrace, level) -> None:
         super(Orc, self).__init__(sex, subrace, level)
 
 
-class Tabaxi(_Races):
+class Tabaxi(_RaceBuilder):
     def __init__(self, sex, subrace, level) -> None:
         super(Tabaxi, self).__init__(sex, subrace, level)
 
 
-class Tiefling(_Races):
+class Tiefling(_RaceBuilder):
     def __init__(self, sex, subrace, level) -> None:
         super(Tiefling, self).__init__(sex, subrace, level)
 
 
-class Triton(_Races):
+class Triton(_RaceBuilder):
     def __init__(self, sex, subrace, level) -> None:
         super(Triton, self).__init__(sex, subrace, level)
 
 
-class Yuanti(_Races):
+class Yuanti(_RaceBuilder):
     def __init__(self, sex, subrace, level) -> None:
         super(Yuanti, self).__init__(sex, subrace, level)
 
@@ -1995,7 +2006,7 @@ def has_subraces(race: str) -> bool:
         return subraces
 
 
-class CharacterServer:
+class HTTPServer:
     """
     Creates the CharacterServer object.
 
@@ -2063,28 +2074,26 @@ class CharacterServer:
 
     def _append_abilities(self):
         def format_ability(attributes: dict):
-            block = '<p><strong>{}</strong> ({})</p>'.format(
+            block = "<p><strong>{}</strong> ({})</p>".format(
                 attributes.get("name"),
                 attributes.get("value"),
             )
             block += "<p>"
             for index, value in attributes.items():
                 if index == "ability_checks":
-                    block += f'Ability Checks {value}<br/>'
+                    block += f"Ability Checks {value}<br/>"
                 if index == "saving_throws":
-                    block += f'Saving Throw Checks {value}<br/>'
+                    block += f"Saving Throw Checks {value}<br/>"
                 if index == "skills":
                     if len(value) != 0:
                         for skill, modifier in value.items():
-                            block += f'{skill} Skill Checks {modifier}<br/>'
+                            block += f"{skill} Skill Checks {modifier}<br/>"
                 if index == "carry_capacity":
-                    block += f'Carry Capacity {value}<br/>'
+                    block += f"Carry Capacity {value}<br/>"
                 if index == "push_pull_carry":
-                    block += (
-                        f'Push Pull Carry Capacity {value}<br/>'
-                    )
+                    block += f"Push Pull Carry Capacity {value}<br/>"
                 if index == "maximum_lift":
-                    block += f'Maximum Lift Capacity {value}<br/>'
+                    block += f"Maximum Lift Capacity {value}<br/>"
             block += "</p>"
             return block
 
@@ -2113,7 +2122,7 @@ class CharacterServer:
         block = f"<p><strong>{header}</strong></p>"
         block += "<p>"
         for item in items:
-            block += f'{item}<br/>'
+            block += f"{item}<br/>"
         block += "</p>"
         return block
 
@@ -2122,7 +2131,7 @@ class CharacterServer:
         block += "<p>"
         for level, _ in self.data.get("features").items():
             for feature in _:
-                block += f'{feature}<br/>'
+                block += f"{feature}<br/>"
         block += "</p>"
         return block
 
@@ -2135,7 +2144,7 @@ class CharacterServer:
                 if isinstance(proficiency_list, list):
                     proficiency_list.sort()
                 for proficiency in proficiency_list:
-                    block += f'{proficiency}<br/>'
+                    block += f"{proficiency}<br/>"
                 block += "</p>"
             return block
 
@@ -2167,9 +2176,9 @@ class CharacterServer:
             return race
 
         def format_size():
-            size_class=self.data.get("size")
-            height=self.data.get("height")
-            weight=self.data.get("weight")
+            size_class = self.data.get("size")
+            height = self.data.get("height")
+            weight = self.data.get("weight")
             feet = math.floor(height / 12)
             inches = height % 12
             height = "{}' {}\"".format(feet, inches)
@@ -2196,17 +2205,22 @@ class CharacterServer:
         self.body = "</p>"
 
         self.body = self._append_abilities()
-        self.body = f'<p><strong>Spell Slots: </strong>{self.data.get("spell_slots")}</p>'
+        self.body = (
+            f'<p><strong>Spell Slots: </strong>{self.data.get("spell_slots")}</p>'
+        )
         self.body = self._append_proficiency()
         self.body = self._append_list("Feats", self.data.get("feats"))
         self.body = self._append_list("Equipment", self.data.get("equipment"))
         self.body = self._append_list("Racial Traits", self.data.get("traits"))
-        self.body = self._append_list("Innate Spellcasting", self.data.get("magic_innate"))
+        self.body = self._append_list(
+            "Innate Spellcasting", self.data.get("magic_innate")
+        )
         self.body = "</body></html>"
 
         async def character_sheet(request):
             return web.Response(
-                content_type="text/html", text=BeautifulSoup(self.body, "html.parser").prettify()
+                content_type="text/html",
+                text=BeautifulSoup(self.body, "html.parser").prettify(),
             )
 
         app = web.Application()
