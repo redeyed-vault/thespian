@@ -926,6 +926,10 @@ def get_subclass_proficiency(subclass: str, category: str):
                     yield proficiency[1]
 
 
+def get_all_languages() -> list:
+    return load(file="languages")
+
+
 def get_all_skills() -> list:
     """Returns a list of ALL skills."""
     return load(file="skills")
@@ -1024,13 +1028,10 @@ class ImprovementGenerator:
             elif self.subclass == "Samurai":
                 proficiency_choice = random.choice(("Language", "Skill"))
                 if proficiency_choice == "Language":
-                    samurai_language = list(load("languages", "All", file="languages"))
                     samurai_language = [
-                        language
-                        for language in samurai_language
-                        if language not in self.languages
+                        l for l in get_all_languages() if l not in self.languages
                     ]
-                    self.languages = self.languages + random.choice(samurai_language)
+                    self.languages = self.languages + random.sample(samurai_language, 1)
                 elif proficiency_choice == "Skill":
                     samurai_skills = [
                         "History",
@@ -2226,7 +2227,3 @@ class HTTPServer:
         app = web.Application()
         app.router.add_get("/", character_sheet)
         web.run_app(app, host="127.0.0.1", port=port)
-
-
-if __name__ == "__main__":
-    main()
