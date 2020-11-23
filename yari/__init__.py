@@ -284,7 +284,7 @@ def main(
         u = ImprovementGenerator(
             race=race,
             subrace=subrace,
-            subclass=subclass,
+            subclass=cg.subclass,
             klass=klass,
             level=level,
             primary_ability=cg.primary_ability,
@@ -699,7 +699,7 @@ class _ClassBuilder:
             self.all["hit_points"] += sum(die_rolls)
 
     def _add_class_subclass_magic(self):
-        """Builds a dictionary list of specialized magic spells."""
+        """Builds a dictionary of class specific spells."""
         self.all["magic"] = dict()
 
         if self.subclass == "":
@@ -2009,7 +2009,7 @@ def has_subraces(race: str) -> bool:
 
 class HTTPServer:
     """
-    Creates the CharacterServer object.
+    Creates the HTTPServer object.
 
     :param OrderedDict data: Character's information packet.
 
@@ -2110,7 +2110,8 @@ class HTTPServer:
         wisdom = Wisdom(score_array.get("Wisdom"), self.data.get("skills"))
         charisma = Charisma(score_array.get("Charisma"), self.data.get("skills"))
 
-        block = format_ability(strength.attr)
+        block = "<p><strong>ABILITY SCORES</strong></p>"
+        block += format_ability(strength.attr)
         block += format_ability(dexterity.attr)
         block += format_ability(constitution.attr)
         block += format_ability(intelligence.attr)
@@ -2128,7 +2129,7 @@ class HTTPServer:
         return block
 
     def _append_features(self):
-        block = "<p><strong>Class Features</strong></p>"
+        block = "<p><strong>CLASS FEATURES</strong></p>"
         block += "<p>"
         for level, _ in self.data.get("features").items():
             for feature in _:
@@ -2149,7 +2150,8 @@ class HTTPServer:
                 block += "</p>"
             return block
 
-        block = format_proficiencies(self.data.get("proficiency"))
+        block = "<p><strong>PROFICIENCIES</strong></p>"
+        block += format_proficiencies(self.data.get("proficiency"))
         block += self._append_list("Languages", self.data.get("languages"))
         block += self._append_list("Saving Throws", self.data.get("saves"))
         block += self._append_list("Skills", self.data.get("skills"))
@@ -2187,6 +2189,7 @@ class HTTPServer:
             return (size_class, height, weight)
 
         (size_class, height, weight) = format_size()
+        self.body = "<!DOCTYPE html>"
         self.body = f"<html><head><title>Yari {__version__}</title></head><body>"
         self.body = "<p>"
         self.body = f"<strong>Race:</strong> {format_race()}<br/>"
@@ -2202,7 +2205,6 @@ class HTTPServer:
         self.body = f'<strong>Class: </strong>{self.data.get("class")}<br/>'
         self.body = f'<strong>Subclass: </strong>{self.data.get("subclass")}<br/>'
         self.body = f'<strong>Level: </strong>{self.data.get("level")}<br/>'
-        self.body = self._append_features()
         self.body = "</p>"
 
         self.body = self._append_abilities()
@@ -2211,11 +2213,12 @@ class HTTPServer:
         )
         self.body = self._append_proficiency()
         self.body = self._append_list("Feats", self.data.get("feats"))
-        self.body = self._append_list("Equipment", self.data.get("equipment"))
-        self.body = self._append_list("Racial Traits", self.data.get("traits"))
+        self.body = self._append_list("RACIAL TRAITS", self.data.get("traits"))
         self.body = self._append_list(
             "Innate Spellcasting", self.data.get("magic_innate")
         )
+        self.body = self._append_features()
+        self.body = self._append_list("EQUIPMENT", self.data.get("equipment"))
         self.body = "</body></html>"
 
         async def character_sheet(request):
