@@ -88,6 +88,8 @@ feats:
     caster: true
   Squat Nimbleness:
     race: ['Dwarf', 'Gnome', 'Halfling']
+  Svirfneblin Magic:
+    subrace: ['Deep']
   Tavern Brawler: {}
   Tough: {}
   War Caster:

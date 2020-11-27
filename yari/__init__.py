@@ -9,8 +9,8 @@ from bs4 import BeautifulSoup
 import click
 
 from yari.dice import roll
-from yari.loader import load, QueryNotFound
 from yari.version import __version__
+from yari.yaml import load, QueryNotFound
 
 
 ALLOWED_PC_BACKGROUNDS = load(file="classes")
@@ -699,18 +699,14 @@ class _ClassBuilder:
             self.all["hit_points"] += sum(die_rolls)
 
     def _add_class_subclass_magic(self):
-        """Builds a dictionary of class specific spells."""
+        """Builds a dictionary of class specific spells (Domain, Warlock, etc)."""
         self.all["magic"] = dict()
 
-        if self.subclass == "":
-            return
-
-        if not has_class_spells(self.subclass):
+        if self.subclass == "" or not has_class_spells(self.subclass):
             return
 
         magic = dict()
         class_magic = load(self.subclass, "magic", file="subclasses")
-
         if len(class_magic) != 0:
             for level, spells in class_magic.items():
                 if level <= self.level:
@@ -1094,12 +1090,17 @@ class ImprovementGenerator:
         if feat in ("Dragon Fear", "Dragon Hide"):
             self._set_score(("Strength", "Constitution", "Charisma"), 1)
 
-        # Drow High Magic/Wood Elf Magic
-        if feat in ("Drow High Magic", "Wood Elf Magic"):
+        # Drow High Magic/Svirfneblin Magic/Wood Elf Magic
+        if feat in ("Drow High Magic", "Svirfneblin Magic", "Wood Elf Magic"):
             if feat == "Drow High Magic":
                 self.magic_innate.append("Detect Magic")
                 self.magic_innate.append("Dispel Magic")
                 self.magic_innate.append("Levitate")
+            elif feat == "Svirfneblin Magic":
+                self.magic_innate.append("Blindness/Deafness")
+                self.magic_innate.append("Blur")
+                self.magic_innate.append("Disguise")
+                self.magic_innate.append("Nondetection")
             elif feat == "Wood Elf Magic":
                 druid_cantrips = (
                     "Druidcraft",
