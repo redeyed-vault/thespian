@@ -16,7 +16,6 @@ This project was originally known as *personaednd* and later *dndpersona*.
   * aiohttp
   * beautifulsoup4
   * click
-  * lxml
   * PyYAML
 
 
