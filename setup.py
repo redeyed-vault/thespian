@@ -1,6 +1,6 @@
 from setuptools import find_packages, setup
 
-from yari.version import __version__
+from yari import __version__
 
 
 with open("README.md", "r", encoding="utf8") as description:
@@ -21,11 +21,10 @@ setup(
         "aiohttp",
         "beautifulsoup4",
         "click",
-        "lxml",
         "PyYAML",
     ],
     python_requires=">=3.0",
-    entry_points={"console_scripts": ["yari=yari:main"]},
+    entry_points={"console_scripts": ["yari=yari.__main__:main"]},
     classifiers=[
         "Development Status :: 4 - Beta",
         "Environment :: Console",
