@@ -455,7 +455,9 @@ class _AttributeBuilder:
         self.attr["saving_throws"] = self.attr.get("modifier")
         self.attr["skills"] = dict()
 
+        # Get skills associated with this attribute
         attribute_skills = [x for x in self._get_skills_by_attribute()]
+        # Get the ability modifier for the associated attribute
         for skill in skills:
             if skill in attribute_skills:
                 self.attr["skills"].update({skill: get_ability_modifier(score)})
@@ -1003,7 +1005,7 @@ def has_class_spells(subclass: str) -> bool:
 @dataclass
 class ImprovementGenerator:
     """
-    Applies level based upgrades to a character.
+    Applies level based upgrades.
 
     race str: Character's race
     subrace str: Character's subrace (if applicable)
@@ -1021,7 +1023,7 @@ class ImprovementGenerator:
     weapon_proficiency list: Character's weapon proficiencies
     skills list: Character's skills
     feats list: Character's feats
-    upgrade_ratio int: Character's upgrade ratio
+    upgrade_ratio int: Character's ability/feat upgrade ratio
 
     """
 
@@ -1385,7 +1387,7 @@ class ImprovementGenerator:
 
     def _has_prerequisites(self, feat: str) -> bool:
         """
-        Determines if character has the prerequisites for a feat.
+        Determines if character has the prerequisites for feat.
 
         :param str feat: Feat to check prerequisites for.
 
@@ -1494,13 +1496,16 @@ class ImprovementGenerator:
 
         """
         try:
+            # Assigning +1 to two ability scores
             if isinstance(abilities, (list, tuple)):
                 for ability in abilities:
                     if (self.score_array[ability] + 1) > 20:
                         raise ValueError
+            # Assigning +2 to one ability score
             elif isinstance(abilities, str):
                 if (self.score_array[abilities] + 2) > 20:
                     raise ValueError
+            # Invalid argument
             else:
                 raise TypeError(
                     "Argument 'abilities' must be of type list, tuple or str."
@@ -1521,8 +1526,9 @@ class ImprovementGenerator:
 
         """
         try:
+            # Ensure score_array object is type OrderedDict
             if not isinstance(self.score_array, OrderedDict):
-                raise TypeError("Argument 'score_array' must be 'OrderedDict' object.")
+                raise TypeError("Object 'score_array' is not type 'OrderedDict'.")
             else:
                 if isinstance(ability_array, tuple):
                     for ability in ability_array:
