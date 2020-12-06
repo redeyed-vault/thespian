@@ -153,20 +153,6 @@ def main(
 
         return init()
 
-    def out(message: str, output_code: int = 0):
-        if output_code not in range(-1, 3):
-            raise ValueError("Argument 'output_code' is invalid.")
-        else:
-            if output_code in (1, 2):
-                click.secho(f"error: {message}", bold=True, fg="red")
-                if output_code == 2:
-                    traceback.print_exc()
-                exit()
-            elif output_code == -1:
-                click.secho(f"warning: {message}", bold=True, fg="yellow")
-            else:
-                click.secho(f"success: {message}", fg="bright_green")
-
     # Handle application argument processing.
     if race not in ALLOWED_PC_RACES:
         out(f"invalid character race '{race}'.", 1)
@@ -1090,18 +1076,18 @@ class ImprovementGenerator:
         feats = [feat for feat in list(load(file="feats")) if feat not in self.feats]
         random.shuffle(feats)
         feat_choice = feats.pop()
-        print(f"Checking prerequisites for '{feat_choice}'...")
+        out(f"Checking prerequisites for '{feat_choice}'...", -2)
         # Keep choosing a feat until prerequisites met.
         if not self._has_prerequisites(feat_choice):
-            print(f"Prerequisites not met for '{feat_choice}'.")
+            out(f"Prerequisites not met for '{feat_choice}'.", -1)
             while not self._has_prerequisites(feat_choice):
                 random.shuffle(feats)
                 feat_choice = feats.pop()
-                print(f"Checking prerequisites for '{feat_choice}'...")
+                out(f"Checking prerequisites for '{feat_choice}'...", -2)
                 if not self._has_prerequisites(feat_choice):
-                    print(f"Prerequisites not met for '{feat_choice}'.")
+                    out(f"Prerequisites not met for '{feat_choice}'.", -1)
         # Prerequisites met, inform, add to list and apply features.
-        print(f"Prerequisites met for '{feat_choice}'.")
+        out(f"Prerequisites met for '{feat_choice}'.")
         self._add_features(feat_choice)
         self.feats.append(feat_choice)
 
@@ -2295,6 +2281,38 @@ class HTTPServer:
         app = web.Application()
         app.router.add_get("/", index)
         web.run_app(app, host="127.0.0.1", port=port)
+
+
+def out(message: str, output_code: int = 0):
+    """
+    Used to output status messages to the terminal.
+
+    :param message str: Message for output
+    :param output_code int: Error code number (-2 - 2)
+        -2: Debug
+        -1: Warning
+         0: Success (Default)
+         1: Error
+    """
+    if output_code not in range(-2, 3):
+        raise ValueError("Argument 'output_code' is invalid.")
+    else:
+        # Error
+        if output_code in (1, 2):
+            click.secho(f"ERROR: {message}", bold=True, fg="red")
+            # Adds traceback to error message
+            if output_code == 2:
+                traceback.print_exc()
+            exit()
+        # Warning
+        elif output_code == -1:
+            click.secho(f"WARN: {message}", bold=True, fg="yellow")
+        # Debug
+        elif output_code == -2:
+            click.secho(f"STATUS: {message}", bold=False, fg="white")
+        # Success
+        else:
+            click.secho(f"OK: {message}", bold=False, fg="bright_green")
 
 
 if __name__ == "__main__":
