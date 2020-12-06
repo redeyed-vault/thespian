@@ -8,9 +8,9 @@ from aiohttp import web
 from bs4 import BeautifulSoup
 import click
 
-from yari import __version__
-from yari.dice import roll
-from yari.yaml import load, QueryNotFound
+from . import __version__
+from .dice import roll
+from .yaml import load, QueryNotFound
 
 
 ALLOWED_PC_BACKGROUNDS = load(file="classes")
@@ -117,7 +117,7 @@ ALLOWED_PC_SUBRACES = load(file="subraces")
     help="Character server's chosen port. Default value is 8080.",
     type=int,
 )
-@click.version_option(prog_name="Yari", version=__version__)
+@click.version_option(prog_name="yari", version=__version__)
 def main(
     race: str,
     subrace: str,
@@ -273,8 +273,8 @@ def main(
 
     try:
         # Generate ability scores.
-        ag = AttributeGenerator(cg.primary_ability, rg.bonus)
-        score_array = ag.score_array
+        ag = AttributeGenerator(cg.primary_ability, rg.bonus, 65)
+        score_array = ag.roll()
 
         # Generate character armor, tool and weapon proficiencies.
         armors = ProficiencyGenerator("armors", cg.armors, rg.armors).proficiency
@@ -345,23 +345,37 @@ def main(
         out(str(error), 2)
 
 
+@dataclass
 class AttributeGenerator:
     """
     Assigns abilities by class, and adds racial bonuses in value/modifier pairs.
 
-    :param dict primary_ability: Character class' primary abilities.
-    :param dict racial_bonus: Character racial bonuses.
-    :param int threshold: Ability score array minimal threshold total.
+    primary_ability dict: Primary class abilities
+    racial_bonus dict: Racial ability scores bonus
+    threshold int: Required minimum ability score total
 
     """
 
-    def __init__(
-        self, primary_ability: dict, racial_bonus: dict, threshold: int = 65
-    ) -> None:
-        self.primary_ability = primary_ability
-        self.racial_bonus = racial_bonus
-        self.threshold = threshold
+    primary_ability: dict
+    racial_bonus: dict
+    threshold: int
 
+    def _determine_ability_scores(self) -> list:
+        """Generates six ability scores for assignment."""
+
+        def _roll() -> int:
+            rolls = list(roll("4d6"))
+            rolls.remove(min(rolls))
+            return sum(rolls)
+
+        results = list()
+        while sum(results) < self.threshold or min(results) < 8 or max(results) < 15:
+            results = [_roll() for _ in range(6)]
+
+        return results
+
+    def roll(self) -> OrderedDict:
+        """Generates character's ability scores."""
         score_array = OrderedDict()
         score_array["Strength"] = None
         score_array["Dexterity"] = None
@@ -395,26 +409,14 @@ class AttributeGenerator:
             ability_choices.remove(ability)
             generated_scores.remove(value)
 
-        self.score_array = score_array
+        score_array = score_array
 
         # Apply racial bonuses.
         for ability, bonus in self.racial_bonus.items():
-            value = self.score_array.get(ability) + bonus
-            self.score_array[ability] = value
+            value = score_array.get(ability) + bonus
+            score_array[ability] = value
 
-    def _determine_ability_scores(self) -> list:
-        """Generates six ability scores for assignment."""
-
-        def _roll() -> int:
-            rolls = list(roll("4d6"))
-            rolls.remove(min(rolls))
-            return sum(rolls)
-
-        results = list()
-        while sum(results) < self.threshold or min(results) < 8 or max(results) < 15:
-            results = [_roll() for _ in range(6)]
-
-        return results
+        return score_array
 
 
 class _AttributeBuilder:
@@ -579,6 +581,23 @@ class _ClassBuilder:
         else:
             self.race_skills = race_skills
 
+        # Assign base variables
+        self.all = None
+        self.primary_ability = None
+        self.subclasses = None
+        self.default_background = None
+        self.features = None
+        self.hit_die = None
+        self.hit_points = None
+        self.proficiency_bonus = None
+        self.armors = None
+        self.tools = None
+        self.weapons = None
+        self.saving_throws = None
+        self.skills = None
+        self.magic_class = None
+        self.spell_slots = None
+
     def __repr__(self):
         if self.subclass != "":
             return '<{} subclass="{}" level="{}">'.format(
@@ -676,7 +695,7 @@ class _ClassBuilder:
 
     def _add_subclass_magic(self):
         """Builds a dictionary of class specific spells (Domain, Warlock, etc)."""
-        self.all["magic"] = dict()
+        self.all["magic_class"] = dict()
 
         if self.subclass == "" or not has_class_spells(self.subclass):
             return
@@ -778,7 +797,9 @@ class _ClassBuilder:
             self.all["spell_slots"] = spell_slots
 
     def create(self):
+        # Load class template
         self.all = load(self.klass, file="classes")
+        # Generate class fine-tuning modifications
         self._add_abilities()
         self._add_equipment()
         self._add_features()
@@ -787,6 +808,7 @@ class _ClassBuilder:
         self._add_proficiencies()
         self._add_skills()
         self._add_spell_slots()
+        # Apply class fine-tuning modifications
         self.primary_ability = self.all.get("abilities")
         self.subclasses = self.all.get("subclasses")
         self.default_background = self.all.get("background")
@@ -799,8 +821,9 @@ class _ClassBuilder:
         self.weapons = self.all.get("proficiency")[2][1]
         self.saving_throws = self.all.get("proficiency")[3][1]
         self.skills = self.all.get("proficiency")[4][1]
-        self.magic_class = self.all["magic"]
+        self.magic_class = self.all["magic_class"]
         self.spell_slots = self.all.get("spell_slots")
+        # Delete class template
         del self.all
 
 
@@ -982,6 +1005,24 @@ class ImprovementGenerator:
     """
     Applies level based upgrades to a character.
 
+    race str: Character's race
+    subrace str: Character's subrace (if applicable)
+    klass str: Character's class
+    subclass str: Character's subclass
+    level int: Character's level
+    primary_ability dict: Character's primary class abilities
+    saves list: Character's saving throws
+    magic_innate list: Character's innate magic (if applicable)
+    spell_slots str: Character's spell slots
+    score_array OrderedDict: Character's ability scores
+    languages list: Character's languages
+    armor_proficiency list: Character's armor proficiencies
+    tool_proficiency list: Character's tool proficiencies
+    weapon_proficiency list: Character's weapon proficiencies
+    skills list: Character's skills
+    feats list: Character's feats
+    upgrade_ratio int: Character's upgrade ratio
+
     """
 
     race: str
@@ -1027,7 +1068,7 @@ class ImprovementGenerator:
                 proficiency_choice = random.choice(("Language", "Skill"))
                 if proficiency_choice == "Language":
                     samurai_language = [
-                        l for l in get_all_languages() if l not in self.languages
+                        x for x in get_all_languages() if x not in self.languages
                     ]
                     self.languages = self.languages + random.sample(samurai_language, 1)
                 elif proficiency_choice == "Skill":
@@ -1812,7 +1853,7 @@ class _RaceBuilder:
                 elif name in ("Decadent Mastery", "Extra Language", "Languages"):
                     self.languages.append(random.choice(value))
                 elif name in ("Hunter's Lore", "Kenku Training", "Skill Versatility"):
-                    self.skills = self.skills + random.choice(value, 2)
+                    self.skills = self.skills + random.sample(value, 2)
                 elif name in (
                     "Dwarven Armor Training",
                     "Martial Prodigy (Armor)",
@@ -1831,7 +1872,7 @@ class _RaceBuilder:
                     "Sea Elf Training",
                 ):
                     self.weapons = value
-                elif name in ("Martial Training (Weapon)"):
+                elif name in "Martial Training (Weapon)":
                     self.weapons = random.sample(value, 2)
 
     def _join_traits(self):
@@ -2058,7 +2099,7 @@ class HTTPServer:
     def __enter__(self):
         return self
 
-    def __exit__(self, exec_type, value, traceback) -> None:
+    def __exit__(self, exec_type, value, tb) -> None:
         pass
 
     @property
@@ -2074,28 +2115,28 @@ class HTTPServer:
 
     def _append_abilities(self):
         def format_ability(attributes: dict):
-            block = "<p><strong>{}</strong> ({})</p>".format(
+            ab = "<p><strong>{}</strong> ({})</p>".format(
                 attributes.get("name"),
                 attributes.get("value"),
             )
-            block += "<p>"
+            ab += "<p>"
             for index, value in attributes.items():
                 if index == "ability_checks":
-                    block += f"Ability Checks {value}<br/>"
+                    ab += f"Ability Checks {value}<br/>"
                 if index == "saving_throws":
-                    block += f"Saving Throw Checks {value}<br/>"
+                    ab += f"Saving Throw Checks {value}<br/>"
                 if index == "skills":
                     if len(value) != 0:
                         for skill, modifier in value.items():
-                            block += f"{skill} Skill Checks {modifier}<br/>"
+                            ab += f"{skill} Skill Checks {modifier}<br/>"
                 if index == "carry_capacity":
-                    block += f"Carry Capacity {value}<br/>"
+                    ab += f"Carry Capacity {value}<br/>"
                 if index == "push_pull_carry":
-                    block += f"Push Pull Carry Capacity {value}<br/>"
+                    ab += f"Push Pull Carry Capacity {value}<br/>"
                 if index == "maximum_lift":
-                    block += f"Maximum Lift Capacity {value}<br/>"
-            block += "</p>"
-            return block
+                    ab += f"Maximum Lift Capacity {value}<br/>"
+            ab += "</p>"
+            return ab
 
         score_array = self.data.get("score_array")
         strength = Strength(score_array.get("Strength"), self.data.get("skills"))
@@ -2127,7 +2168,8 @@ class HTTPServer:
         block += "</p>"
         return block
 
-    def _append_list(self, header: str, items: list):
+    @staticmethod
+    def _append_list(header: str, items: list):
         items.sort()
         block = f"<p><strong>{header}</strong></p>"
         block += "<p>"
@@ -2154,16 +2196,16 @@ class HTTPServer:
 
     def _append_proficiency(self):
         def format_proficiencies(proficiencies: OrderedDict) -> str:
-            block = ""
+            prof = ""
             for type, proficiency_list in proficiencies.items():
-                block += f"<p><strong>{type.capitalize()}</strong></p>"
-                block += "<p>"
+                prof += f"<p><strong>{type.capitalize()}</strong></p>"
+                prof += "<p>"
                 if isinstance(proficiency_list, list):
                     proficiency_list.sort()
                 for proficiency in proficiency_list:
-                    block += f"{proficiency}<br/>"
-                block += "</p>"
-            return block
+                    prof += f"{proficiency}<br/>"
+                prof += "</p>"
+            return prof
 
         block = "<p><strong>PROFICIENCIES</strong></p>"
         block += format_proficiencies(self.data.get("proficiency"))
@@ -2194,14 +2236,14 @@ class HTTPServer:
             return race
 
         def format_size():
-            size_class = self.data.get("size")
-            height = self.data.get("height")
-            weight = self.data.get("weight")
-            feet = math.floor(height / 12)
-            inches = height % 12
-            height = "{}' {}\"".format(feet, inches)
-            weight = f"{weight} lbs."
-            return (size_class, height, weight)
+            size = self.data.get("size")
+            hgt = self.data.get("height")
+            wgt = self.data.get("weight")
+            feet = math.floor(hgt / 12)
+            inches = hgt % 12
+            hgt = "{}' {}\"".format(feet, inches)
+            wgt = f"{wgt} lbs."
+            return size, hgt, wgt
 
         (size_class, height, weight) = format_size()
         self.body = "<!DOCTYPE html>"
@@ -2237,12 +2279,17 @@ class HTTPServer:
         self.body = self._append_list("EQUIPMENT", self.data.get("equipment"))
         self.body = "</body></html>"
 
-        async def character_sheet(request):
+        async def index(request):
+            print(request)
             return web.Response(
                 content_type="text/html",
                 text=BeautifulSoup(self.body, "html.parser").prettify(),
             )
 
         app = web.Application()
-        app.router.add_get("/", character_sheet)
+        app.router.add_get("/", index)
         web.run_app(app, host="127.0.0.1", port=port)
+
+
+if __name__ == "__main__":
+    main()
