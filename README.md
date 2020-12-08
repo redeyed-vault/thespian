@@ -6,9 +6,7 @@
 
 #### DESCRIPTION
 
-Yari generates quick and easy 5th edition Dungeons & Dragons characters. Currently the software supports content from the following rulebooks: *Player's Handbook*, *Volo's Guide to Monsters* and *Xanatar's Guide to Everything*. Planning to later incorporate content from *Tasha's Cauldron of Everything* once purchased.
-
-This project was originally known as *personaednd* and later *dndpersona*.
+Yari generates quick and easy 5th edition Dungeons & Dragons characters. Currently the software supports content from the following rulebooks: *Player's Handbook*, *Mordenkainen's Tome of Foes*, *Volo's Guide to Monsters* and *Xanatar's Guide to Everything*. Planning to eventually incorporate content from *Tasha's Cauldron of Everything*.
 
 
 #### REQUIREMENTS
