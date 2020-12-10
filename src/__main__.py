@@ -2287,12 +2287,14 @@ def out(message: str, output_code: int = 0):
     """
     Used to output status messages to the terminal.
 
-    :param message str: Message for output
-    :param output_code int: Error code number (-2 - 2)
-        -2: Debug
+    :param str message: Message for output
+    :param int output_code: Error code number (-2 - 2)
+        -2: Info
         -1: Warning
          0: Success (Default)
          1: Error
+         2: Error w/ traceback
+
     """
     if output_code not in range(-2, 3):
         raise ValueError("Argument 'output_code' is invalid.")
@@ -2307,9 +2309,9 @@ def out(message: str, output_code: int = 0):
         # Warning
         elif output_code == -1:
             click.secho(f"WARN: {message}", bold=True, fg="yellow")
-        # Debug
+        # Info
         elif output_code == -2:
-            click.secho(f"STATUS: {message}", bold=False, fg="white")
+            click.secho(f"INFO: {message}", bold=False, fg="white")
         # Success
         else:
             click.secho(f"OK: {message}", bold=False, fg="bright_green")
