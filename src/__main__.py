@@ -1100,7 +1100,7 @@ class ImprovementGenerator:
         """
         # Actor
         if feat == "Actor":
-            self._set_score("Charisma", 1)
+            self._set_ability_score(["Charisma"])
 
         # Athlete/Lightly Armored/Moderately Armored/Weapon Master
         if feat in (
@@ -1109,8 +1109,8 @@ class ImprovementGenerator:
             "Moderately Armored",
             "Weapon Master",
         ):
-            ability_choice = random.choice(["Strength", "Dexterity"])
-            self._set_score(ability_choice, 1)
+            ability_choice = random.sample(["Strength", "Dexterity"], 1)
+            self._set_ability_score(ability_choice)
             if feat == "Lightly Armored":
                 self.armor_proficiency.append("Light")
             elif feat == "Moderately Armored":
@@ -1119,7 +1119,8 @@ class ImprovementGenerator:
 
         # Dragon Fear/Dragon Hide
         if feat in ("Dragon Fear", "Dragon Hide"):
-            self._set_score(("Strength", "Constitution", "Charisma"), 1)
+            ability_choice = random.sample(("Strength", "Constitution", "Charisma"), 1)
+            self._set_ability_score(ability_choice)
 
         # Drow High Magic/Svirfneblin Magic/Wood Elf Magic
         if feat in ("Drow High Magic", "Svirfneblin Magic", "Wood Elf Magic"):
@@ -1149,10 +1150,13 @@ class ImprovementGenerator:
 
         # Durable/Dwarven Fortitude
         if feat in ("Durable", "Dwarven Fortitude", "Infernal Constitution"):
-            self._set_score("Constitution", 1)
+            self._set_ability_score(
+                [
+                    "Constitution",
+                ]
+            )
 
         # Elven Accuracy
-        # TODO: Add smarter bonus decisions based on class.
         if feat == "Elven Accuracy":
             accuracy_bonus = [
                 "Dexterity",
@@ -1160,33 +1164,39 @@ class ImprovementGenerator:
                 "Wisdom",
                 "Charisma",
             ]
-            ability_choice = random.choice(accuracy_bonus)
-            self._set_score(ability_choice, 1)
+            self._set_feat_ability(accuracy_bonus)
 
         # Fey Teleportation
-        # TODO: Add smarter bonus decisions based on class.
         if feat == "Fey Teleportation":
             teleport_bonus = [
                 "Intelligence",
                 "Charisma",
             ]
-            ability_choice = random.choice(teleport_bonus)
-            self._set_score(ability_choice, 1)
+            self._set_feat_ability(teleport_bonus)
 
         # Flames of Phlegethos
         if feat == "Flames of Phlegethos":
-            self._set_score(("Intelligence", "Charisma"), 1)
+            ability_choice = random.sample(("Intelligence", "Charisma"), 1)
+            self._set_ability_score(ability_choice)
 
         # Heavily Armored/Heavy Armor Master
         if feat in ("Heavily Armored", "Heavy Armor Master"):
-            self._set_score("Strength", 1)
+            self._set_ability_score(
+                [
+                    "Strength",
+                ]
+            )
             if feat == "Heavily Armored":
                 self.armor_proficiency.append("Heavy")
 
         # Keen Mind/Linguist/Prodigy
         if feat in ("Fade Away", "Keen Mind", "Linguist", "Prodigy"):
             if feat in ("Fade Away", "Prodigy"):
-                self._set_score("Intelligence", 1)
+                self._set_ability_score(
+                    [
+                        "Intelligence",
+                    ]
+                )
             if feat in ("Linguist", "Prodigy"):
                 # Remove already known languages.
                 linguist_languages = list(load(file="languages"))
@@ -1208,19 +1218,25 @@ class ImprovementGenerator:
         # Observant
         if feat == "Observant":
             if self.klass in ("Cleric", "Druid"):
-                self._set_score("Wisdom", 1)
+                self._set_ability_score(
+                    [
+                        "Wisdom",
+                    ]
+                )
             elif self.klass in ("Wizard",):
-                self._set_score("Intelligence", 1)
+                self._set_ability_score(
+                    [
+                        "Intelligence",
+                    ]
+                )
 
         # Orcish Fury
-        # TODO: Add smarter bonus decisions based on class.
         if feat == "Orcish Fury":
-            accuracy_bonus = [
+            fury_bonus = [
                 "Strength",
                 "Constitution",
             ]
-            ability_choice = random.choice(accuracy_bonus)
-            self._set_score(ability_choice, 1)
+            self._set_feat_ability(fury_bonus)
 
         # Prodigy/Skilled
         if feat in ("Prodigy", "Skilled"):
@@ -1248,14 +1264,18 @@ class ImprovementGenerator:
                         tool for tool in tool_list if tool not in self.tool_proficiency
                     ]
                     skilled_choice = random.choice(["Skill", "Tool"])
+                    # Bonus skill added
                     if skilled_choice == "Skill":
                         skill_choice = random.choice(skills)
                         self.skills.append(skill_choice)
-                        print(f"Feat '{feat}' added skill '{skill_choice}'.")
+                        out(f"Feat '{feat}' added skill '{skill_choice}'.", -2)
+                    # Bonus tool proficiency added
                     elif skilled_choice == "Tool":
                         tool_choice = random.choice(tool_list)
                         self.tool_proficiency.append(tool_choice)
-                        print(f"Feat '{feat}' added tool proficiency '{tool_choice}'.")
+                        out(
+                            f"Feat '{feat}' added tool proficiency '{tool_choice}'.", -2
+                        )
 
         # Resilient
         if feat == "Resilient":
@@ -1272,24 +1292,23 @@ class ImprovementGenerator:
                 save for save in resilient_saves if save not in self.saves
             ]
             # Choose one non-proficient saving throw.
-            ability_choice = random.choice(resilient_saves)
-            self._set_score(ability_choice, 1)
+            ability_choice = random.sample(resilient_saves, 1)
+            self._set_ability_score(ability_choice)
             self.saves.append(ability_choice)
 
         # Second Chance
-        # TODO: Add smarter bonus decisions based on class.
         if feat == "Second Chance":
-            accuracy_bonus = [
+            chance_bonus = [
                 "Dexterity",
                 "Constitution",
                 "Charisma",
             ]
-            ability_choice = random.choice(accuracy_bonus)
-            self._set_score(ability_choice, 1)
+            self._set_feat_ability(chance_bonus)
 
         # Squat Nimbleness
         if feat == "Squat Nimbleness":
-            self._set_score(("Dexterity", "Strength"), 1)
+            ability_choice = random.sample(("Dexterity", "Strength"), 1)
+            self._set_ability_score(ability_choice)
             if "Acrobatics" and "Athletics" in self.skills:
                 pass
             else:
@@ -1303,7 +1322,7 @@ class ImprovementGenerator:
 
         # Tavern Brawler
         if feat == "Tavern Brawler":
-            self._set_score(random.choice(["Strength", "Constitution"]), 1)
+            self._set_ability_score(random.sample(("Strength", "Constitution"), 1))
             self.weapon_proficiency.append("Improvised weapons")
             self.weapon_proficiency.append("Unarmed strikes")
 
@@ -1474,78 +1493,102 @@ class ImprovementGenerator:
                     return False
         return True
 
-    def _is_adjustable(self, abilities: (list, tuple, str)) -> bool:
+    def _is_adjustable(self, abilities: (list, str), bonus: int = 1) -> bool:
         """
         Determines if an ability can be adjusted i.e: not over 20.
 
-        :param list, tuple, str abilities: Ability score(s) to be checked.
+        :param list abilities: Ability score(s) to be checked.
 
         """
         try:
-            # Assigning +1 to two ability scores
-            if isinstance(abilities, (list, tuple)):
+            if isinstance(abilities, list):
                 for ability in abilities:
-                    if (self.score_array[ability] + 1) > 20:
+                    if (self.score_array[ability] + bonus) > 20:
                         raise ValueError
-            # Assigning +2 to one ability score
             elif isinstance(abilities, str):
-                if (self.score_array[abilities] + 2) > 20:
+                if (self.score_array[abilities] + bonus) > 20:
                     raise ValueError
-            # Invalid argument
             else:
-                raise TypeError(
-                    "Argument 'abilities' must be of type list, tuple or str."
-                )
-        except (KeyError, ValueError):
-            return False
-        except TypeError:
+                raise RuntimeError
+        except RuntimeError:
             traceback.print_exc()
+        except ValueError:
+            return False
         else:
             return True
 
-    def _set_score(self, ability_array: (str, tuple), bonus: int) -> None:
+    def _set_ability_score(self, ability_array: list) -> None:
         """
         Adjust a specified ability_array score with bonus.
 
-        :param ability_array: ability_array score to set.
-        :param int bonus: Value to apply to the ability_array score.
+        :param list ability_array: ability_array score to set.
 
         """
         try:
             # Ensure score_array object is type OrderedDict
             if not isinstance(self.score_array, OrderedDict):
                 raise TypeError("Object 'score_array' is not type 'OrderedDict'.")
+
+            if len(ability_array) == 1:
+                bonus = 2
+            elif len(ability_array) == 2:
+                bonus = 1
             else:
-                if isinstance(ability_array, tuple):
-                    for ability in ability_array:
-                        if ability not in self.score_array:
-                            raise KeyError(
-                                f"Argument 'ability_array' is invalid. ({ability})"
-                            )
-                        elif not self._is_adjustable(ability):
-                            raise ValueError(
-                                f"Argument 'ability_array' is not upgradeable ({ability})."
-                            )
-                        else:
-                            value = self.score_array.get(ability) + bonus
-                            self.score_array[ability] = value
-                            break
+                raise RuntimeError("Argument 'ability_array' require 1 or 2 values.")
+
+            for ability in ability_array:
+                if ability not in self.score_array:
+                    raise KeyError(f"Argument 'ability_array' is invalid. ({ability}).")
+                elif not self._is_adjustable(ability, bonus):
+                    raise ValueError(
+                        f"Argument 'ability_array' is not upgradeable ({ability})."
+                    )
                 else:
-                    if ability_array not in self.score_array:
-                        raise KeyError(
-                            f"Argument 'ability_score' is invalid. ({ability_array})"
-                        )
-                    elif not self._is_adjustable(ability_array):
-                        raise ValueError(
-                            f"Argument 'ability_array' is not upgradeable ({ability_array})."
-                        )
-                    else:
-                        value = self.score_array.get(ability_array) + bonus
-                        self.score_array[ability_array] = value
+                    value = self.score_array.get(ability) + bonus
+                    self.score_array[ability] = value
         except (KeyError, TypeError):
             traceback.print_exc()
+        except RuntimeError as err:
+            exit(err)
         except ValueError:
             pass
+
+    def _set_feat_ability(self, ability_options: list) -> None:
+        """
+        Adjust a specified ability_array score with bonus.
+
+        :param list ability_options: ability_array score to set.
+
+        """
+
+        def set_ability(score_array: OrderedDict, ability_choice):
+            value = score_array.get(ability_choice) + 1
+            score_array[ability] = value
+
+        try:
+            # Ensure score_array object is type OrderedDict
+            if not isinstance(self.score_array, OrderedDict):
+                raise TypeError("Object 'score_array' is not type 'OrderedDict'.")
+
+            is_upgraded = False
+            primary_ability = list(self.primary_ability.values())
+
+            # Choose primary ability over other ability options (if applicable)
+            for ability in primary_ability:
+                if ability in ability_options:
+                    if self._is_adjustable(ability):
+                        set_ability(self.score_array, ability)
+                        is_upgraded = True
+                        break
+                    else:
+                        ability_options.remove(ability)
+
+            # Choose any one ability option to upgrade
+            if not is_upgraded:
+                ability = random.choice(ability_options)
+                set_ability(self.score_array, ability)
+        except (KeyError, TypeError):
+            traceback.print_exc()
 
     def upgrade(self):
         """Runs character upgrades (if applicable)."""
@@ -1555,33 +1598,35 @@ class ImprovementGenerator:
         upgrade_ratio = self._get_upgrade_ratio(self.upgrade_ratio)
         if sum(upgrade_ratio) == 0:
             return
-        else:
-            ability_upgrades = upgrade_ratio[0]
-            feat_upgrades = upgrade_ratio[1]
-            if ability_upgrades > 0:
-                primary_ability = list(self.primary_ability.values())
-                for _ in range(0, ability_upgrades):
-                    try:
-                        if not self._is_adjustable(primary_ability):
-                            raise ValueError("No upgradeable primary abilities.")
 
-                        bonus_applied = random.choice([1, 2])
-                        if bonus_applied == 1 and self._is_adjustable(primary_ability):
-                            self._set_score(primary_ability[0], bonus_applied)
-                            self._set_score(primary_ability[1], bonus_applied)
-                        elif bonus_applied == 2 and self._is_adjustable(
-                            primary_ability[0]
-                        ):
-                            self._set_score(primary_ability[0], bonus_applied)
-                        elif bonus_applied == 2 and self._is_adjustable(
-                            primary_ability[1]
-                        ):
-                            self._set_score(primary_ability[1], bonus_applied)
-                        else:
-                            raise ValueError("No upgradeable primary ability by bonus.")
-                    except ValueError:
-                        self._add_feat()
+        ability_upgrades = upgrade_ratio[0]
+        feat_upgrades = upgrade_ratio[1]
 
+        # Handle ability score upgrades
+        if ability_upgrades > 0:
+            primary_ability = list(self.primary_ability.values())
+            for _ in range(0, ability_upgrades):
+                try:
+                    if not self._is_adjustable(primary_ability):
+                        raise ValueError("No upgradeable primary abilities.")
+
+                    bonus_type = random.choice([1, 2])
+                    # +1 bonus two abilities
+                    if bonus_type == 1 and self._is_adjustable(primary_ability):
+                        self._set_ability_score(primary_ability)
+                    # +2 bonus one ability - 1st ability upgradeable
+                    elif bonus_type == 2 and self._is_adjustable(primary_ability[0]):
+                        self._set_ability_score([primary_ability[0]])
+                    # +2 bonus one ability - 1st ability not upgradeable, choose 2nd
+                    elif bonus_type == 2 and self._is_adjustable(primary_ability[1]):
+                        self._set_ability_score([primary_ability[1]])
+                    # Neither ability upgradable
+                    else:
+                        raise ValueError("No upgradeable primary ability by bonus.")
+                except ValueError:
+                    self._add_feat()
+
+            # Handle feat upgrades
             if feat_upgrades > 0:
                 for _ in range(0, feat_upgrades):
                     self._add_feat()
@@ -2272,7 +2317,7 @@ class HTTPServer:
         self.body = "</body></html>"
 
         async def index(request):
-            print(request)
+            print(request.headers)
             return web.Response(
                 content_type="text/html",
                 text=BeautifulSoup(self.body, "html.parser").prettify(),
