@@ -1100,7 +1100,7 @@ class ImprovementGenerator:
         """
         # Actor
         if feat == "Actor":
-            self._set_ability_score(["Charisma"])
+            self._set_feat_ability(["Charisma"])
 
         # Athlete/Lightly Armored/Moderately Armored/Weapon Master
         if feat in (
@@ -1109,8 +1109,7 @@ class ImprovementGenerator:
             "Moderately Armored",
             "Weapon Master",
         ):
-            ability_choice = random.sample(["Strength", "Dexterity"], 1)
-            self._set_ability_score(ability_choice)
+            self._set_feat_ability(["Strength", "Dexterity"])
             if feat == "Lightly Armored":
                 self.armor_proficiency.append("Light")
             elif feat == "Moderately Armored":
@@ -1119,8 +1118,7 @@ class ImprovementGenerator:
 
         # Dragon Fear/Dragon Hide
         if feat in ("Dragon Fear", "Dragon Hide"):
-            ability_choice = random.sample(("Strength", "Constitution", "Charisma"), 1)
-            self._set_ability_score(ability_choice)
+            self._set_feat_ability(["Strength", "Constitution", "Charisma"])
 
         # Drow High Magic/Svirfneblin Magic/Wood Elf Magic
         if feat in ("Drow High Magic", "Svirfneblin Magic", "Wood Elf Magic"):
@@ -1150,7 +1148,7 @@ class ImprovementGenerator:
 
         # Durable/Dwarven Fortitude
         if feat in ("Durable", "Dwarven Fortitude", "Infernal Constitution"):
-            self._set_ability_score(
+            self._set_feat_ability(
                 [
                     "Constitution",
                 ]
@@ -1158,30 +1156,31 @@ class ImprovementGenerator:
 
         # Elven Accuracy
         if feat == "Elven Accuracy":
-            accuracy_bonus = [
-                "Dexterity",
-                "Intelligence",
-                "Wisdom",
-                "Charisma",
-            ]
-            self._set_feat_ability(accuracy_bonus)
+            self._set_feat_ability(
+                [
+                    "Dexterity",
+                    "Intelligence",
+                    "Wisdom",
+                    "Charisma",
+                ]
+            )
 
         # Fey Teleportation
         if feat == "Fey Teleportation":
-            teleport_bonus = [
-                "Intelligence",
-                "Charisma",
-            ]
-            self._set_feat_ability(teleport_bonus)
+            self._set_feat_ability(
+                [
+                    "Intelligence",
+                    "Charisma",
+                ]
+            )
 
         # Flames of Phlegethos
         if feat == "Flames of Phlegethos":
-            ability_choice = random.sample(("Intelligence", "Charisma"), 1)
-            self._set_ability_score(ability_choice)
+            self._set_feat_ability(["Intelligence", "Charisma"])
 
         # Heavily Armored/Heavy Armor Master
         if feat in ("Heavily Armored", "Heavy Armor Master"):
-            self._set_ability_score(
+            self._set_feat_ability(
                 [
                     "Strength",
                 ]
@@ -1192,7 +1191,7 @@ class ImprovementGenerator:
         # Keen Mind/Linguist/Prodigy
         if feat in ("Fade Away", "Keen Mind", "Linguist", "Prodigy"):
             if feat in ("Fade Away", "Prodigy"):
-                self._set_ability_score(
+                self._set_feat_ability(
                     [
                         "Intelligence",
                     ]
@@ -1218,13 +1217,13 @@ class ImprovementGenerator:
         # Observant
         if feat == "Observant":
             if self.klass in ("Cleric", "Druid"):
-                self._set_ability_score(
+                self._set_feat_ability(
                     [
                         "Wisdom",
                     ]
                 )
             elif self.klass in ("Wizard",):
-                self._set_ability_score(
+                self._set_feat_ability(
                     [
                         "Intelligence",
                     ]
@@ -1232,11 +1231,12 @@ class ImprovementGenerator:
 
         # Orcish Fury
         if feat == "Orcish Fury":
-            fury_bonus = [
-                "Strength",
-                "Constitution",
-            ]
-            self._set_feat_ability(fury_bonus)
+            self._set_feat_ability(
+                [
+                    "Strength",
+                    "Constitution",
+                ]
+            )
 
         # Prodigy/Skilled
         if feat in ("Prodigy", "Skilled"):
@@ -1293,22 +1293,22 @@ class ImprovementGenerator:
             ]
             # Choose one non-proficient saving throw.
             ability_choice = random.sample(resilient_saves, 1)
-            self._set_ability_score(ability_choice)
+            self._set_feat_ability(ability_choice)
             self.saves.append(ability_choice)
 
         # Second Chance
         if feat == "Second Chance":
-            chance_bonus = [
-                "Dexterity",
-                "Constitution",
-                "Charisma",
-            ]
-            self._set_feat_ability(chance_bonus)
+            self._set_feat_ability(
+                [
+                    "Dexterity",
+                    "Constitution",
+                    "Charisma",
+                ]
+            )
 
         # Squat Nimbleness
         if feat == "Squat Nimbleness":
-            ability_choice = random.sample(("Dexterity", "Strength"), 1)
-            self._set_ability_score(ability_choice)
+            self._set_feat_ability(["Dexterity", "Strength"])
             if "Acrobatics" and "Athletics" in self.skills:
                 pass
             else:
@@ -1318,11 +1318,11 @@ class ImprovementGenerator:
                 elif "Athletics" in self.skills:
                     skill_choice = "Acrobatics"
                 self.skills.append(skill_choice)
-                print(f"Feat '{feat}' added skill '{skill_choice}'.")
+                out(f"Feat '{feat}' added skill '{skill_choice}'.", -2)
 
         # Tavern Brawler
         if feat == "Tavern Brawler":
-            self._set_ability_score(random.sample(("Strength", "Constitution"), 1))
+            self._set_feat_ability(["Strength", "Constitution"])
             self.weapon_proficiency.append("Improvised weapons")
             self.weapon_proficiency.append("Unarmed strikes")
 
@@ -1563,17 +1563,22 @@ class ImprovementGenerator:
 
         def set_ability(score_array: OrderedDict, ability_choice):
             value = score_array.get(ability_choice) + 1
-            score_array[ability] = value
+            score_array[ability_choice] = value
 
         try:
             # Ensure score_array object is type OrderedDict
             if not isinstance(self.score_array, OrderedDict):
                 raise TypeError("Object 'score_array' is not type 'OrderedDict'.")
 
+            # If only one ability option available
+            if len(ability_options) == 1:
+                set_ability(self.score_array, ability_options[0])
+                return
+
             is_upgraded = False
             primary_ability = list(self.primary_ability.values())
 
-            # Choose primary ability over other ability options (if applicable)
+            # Choose primary ability over other options (if applicable)
             for ability in primary_ability:
                 if ability in ability_options:
                     if self._is_adjustable(ability):
@@ -1583,7 +1588,7 @@ class ImprovementGenerator:
                     else:
                         ability_options.remove(ability)
 
-            # Choose any one ability option to upgrade
+            # Choose any one ability option if not upgraded above
             if not is_upgraded:
                 ability = random.choice(ability_options)
                 set_ability(self.score_array, ability)
