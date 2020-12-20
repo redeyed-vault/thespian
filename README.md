@@ -57,13 +57,20 @@ Options:
                     Mephistopheles, Zariel).
 
   -sex TEXT         Character's chosen gender.
-  -alignment TEXT   Character's chosen alignment. Available alignments are:
-                    CE, CG, CN, LE, LG, LN, NE, NG, N. Default value is 'N'.
+  -alignment TEXT   Character's chosen alignment. Available alignments are: CE
+                    (Chaotic Evil), CG (Chaotic Good), CN (Chaotic Neutral),
+                    LE (Lawful Evil), LG (Lawful Good), LN (Lawful Neutral),
+                    NE (Neutral Evil), NG (Neutral Good), N (True Neutral).
+                    Default value is 'N'.
 
   -background TEXT  Character's chosen background. Available backgrounds are:
                     Acolyte, Charlatan, Criminal, Entertainer, Folk Hero,
                     Guild Artisan, Hermit, Noble, Outlander, Sage, Sailor,
-                    Soldier, Urchin.
+                    Soldier, Urchin. Default value depends on class: Barbarian 
+                    (Outlander), Bard (Entertainer), Cleric (Acolyte), Druid 
+                    (Hermit), Fighter (Soldier), Monk (Hermit), Paladin (Noble),
+                    Ranger (Outlander), Rogue (Charlatan), Sorcerer (Hermit), 
+                    Warlock (Charlatan), and Wizard (Sage).
 
   -klass TEXT       Character's chosen class. Available classes are:
                     Barbarian, Bard, Cleric, Druid, Fighter, Monk, Paladin,

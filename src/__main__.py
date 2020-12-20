@@ -47,8 +47,10 @@ ALLOWED_PC_SUBRACES = load(file="subraces")
 @click.option(
     "-alignment",
     default="N",
-    help="Character's chosen alignment. Available alignments are: CE, CG, CN, "
-    "LE, LG, LN, NE, NG, N. Default value is 'N'.",
+    help="Character's chosen alignment. Available alignments are: CE (Chaotic Evil), "
+    "CG (Chaotic Good), CN (Chaotic Neutral), LE (Lawful Evil), LG (Lawful Good), LN "
+    "(Lawful Neutral), NE (Neutral Evil), NG (Neutral Good), N (True Neutral). "
+    "Default value is 'N'.",
     type=str,
 )
 @click.option(
@@ -56,7 +58,10 @@ ALLOWED_PC_SUBRACES = load(file="subraces")
     default="",
     help="Character's chosen background. Available backgrounds are: Acolyte, "
     "Charlatan, Criminal, Entertainer, Folk Hero, Guild Artisan, Hermit, Noble, "
-    "Outlander, Sage, Sailor, Soldier, Urchin.",
+    "Outlander, Sage, Sailor, Soldier, Urchin. Default value depends on class: "
+    "Barbarian (Outlander), Bard (Entertainer), Cleric (Acolyte), Druid (Hermit), "
+    "Fighter (Soldier), Monk (Hermit), Paladin (Noble), Ranger (Outlander), Rogue "
+    "(Charlatan), Sorcerer (Hermit), Warlock (Charlatan), and Wizard (Sage).",
     type=str,
 )
 @click.option(
