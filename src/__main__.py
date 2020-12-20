@@ -773,27 +773,22 @@ class _ClassBuilder:
     def _add_spell_slots(self):
         """Generates character's spell slots."""
         spell_slots = self.all.get("spell_slots")
-        # Non Eldritch Knight or Arcane Trickster Fighter
-        if (
-            spell_slots is None 
-            and self.klass == "Fighter"
-            and self.subclass != "Eldritch Knight"
-            or self.klass == "Rogue"
-            and self.subclass != "Arcane Trickster"
-        ):
+        # Class has no spellcasting ability
+        if spell_slots is None:
             self.all["spell_slots"] = "0"
-        # Classes that have spellcasting abilities
-        elif spell_slots is not None:
-            if self.level not in spell_slots:
+        # Class has spellcasting ability
+        else:
+            # Non spellcasting Fighter/Rogue
+            if self.klass in ("Fighter", "Rogue") and self.subclass not in (
+                "Arcane Trickster",
+                "Eldritch Knight",
+            ):
                 spell_slots = "0"
             else:
                 spell_slots = spell_slots.get(self.level)
             self.all["spell_slots"] = spell_slots
-        # Every other non spellcasting class
-        else:
-            self.all["spell_slots"] = "0"
 
-    def create(self):
+    def create(self) -> None:
         # Load class template
         self.all = load(self.klass, file="classes")
         # Generate class fine-tuning modifications
