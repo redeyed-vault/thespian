@@ -6,7 +6,14 @@
 
 #### DESCRIPTION
 
-Yari generates quick and easy 5th edition Dungeons & Dragons characters. Currently the software supports content from the following rulebooks: *Player's Handbook*, *Mordenkainen's Tome of Foes*, *Volo's Guide to Monsters* and *Xanatar's Guide to Everything*. Planning to eventually incorporate content from *Tasha's Cauldron of Everything*.
+Yari generates 5th edition Dungeons & Dragons characters. Currently, Yari supports content from the following rulebooks: 
+
+*Player's Handbook*
+*Mordenkainen's Tome of Foes*
+*Volo's Guide to Monsters*
+*Xanatar's Guide to Everything*. 
+
+Planning to eventually incorporate content from *Tasha's Cauldron of Everything*.
 
 
 #### REQUIREMENTS
@@ -113,7 +120,13 @@ To run Yari with minimal arguments, type the following in your terminal:
 
     yari
 
-If Yari is run with just the bare minimum arguments as shown above, a character will be generated using the previously mentioned default values where applicable and randomly generate those values that have no defined default values.
+If Yari is run with just the bare minimum arguments as shown above, a character will be generated using the previously mentioned default values where applicable and randomly generate those values that have no defined defaults.
+
+Here's a more complex example:
+
+    yari -race=Dragonborn -sex=Female -alignment=LG -klass=Paladin -level=10
+
+If you haven't already noticed, this would generate a 10th level female Dragonborn Paladin with a Lawful Good alignment.
 
 
 #### DISCLAIMER
