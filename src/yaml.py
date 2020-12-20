@@ -8,12 +8,8 @@ class QueryNotFound(Exception):
     """Raised when a query cannot be found."""
 
 
-class StructuralError(Exception):
-    """Raised if the YAML layout structure is invalid."""
-
-
-class HeaderInvalid(StructuralError):
-    """Raised if header doesn't match file name or is otherwise invalid."""
+class MalformedError(Exception):
+    """Raised if the YAML data structure is invalid."""
 
 
 class Query:
@@ -48,6 +44,43 @@ class Query:
             yield resource
 
 
+def integrity_check(check_file: str, resource_data: dict) -> bool:
+    """
+    Checks YAML source file integrity.
+
+    :param str check_file:
+    :param dict resource_data:
+
+    """
+    required_key_table = {
+        "classes": [
+            "abilities",
+            "background",
+            "equipment",
+            "features",
+            "hit_die",
+            "proficiency",
+            "spell_slots",
+            "subclasses",
+        ],
+        "races": ["bonus", "languages", "ratio", "size", "speed", "traits"],
+        "subclasses": ["features", "magic", "proficiency"],
+        "subraces": ["bonus", "languages", "parent", "ratio", "traits"],
+    }
+
+    # Requested file isn't in the key table
+    if check_file not in required_key_table:
+        return True
+
+    required_keys = required_key_table[check_file]
+    entry_keys = list(resource_data.get(check_file).keys())
+    for key in entry_keys:
+        x = resource_data.get(check_file).get(key)
+        if not all(k in x for k in required_keys):
+            return False
+    return True
+
+
 def load(*fields, file: str):
     """
     Loads the requested YAML file and pulls requested fields.
@@ -60,25 +93,35 @@ def load(*fields, file: str):
     def _load(file_name):
         try:
             sources_path = os.path.join(os.path.dirname(__file__), "sources/")
-            file_name = os.path.join(sources_path, f"{file_name}.yaml")
-            if not os.path.exists(file_name):
-                raise FileNotFoundError(f"Cannot find the resource '{file_name}'.")
-            data = open(file_name)
-            resource = yaml.full_load(data)
-            file_name = os.path.basename(file_name).replace(".yaml", "")
-            if file_name not in resource:
-                raise HeaderInvalid(
-                    f"The opening key in '{file_name}' is invalid. The first line "
-                    "in Yari specific YAML documents must begin with a key that "
-                    "matches the file name without the extension."
-                )
-            y = Query(resource[file_name])
+            yaml_file = os.path.join(sources_path, f"{file_name}.yaml")
+
+            # File doesn't exist
+            if not os.path.exists(yaml_file):
+                raise FileNotFoundError(f"Cannot find the resource '{yaml_file}'.")
+
+            with open(yaml_file) as data:
+                resource = yaml.full_load(data)
+                yaml_file = os.path.basename(yaml_file).replace(".yaml", "")
+                if yaml_file not in resource:
+                    raise MalformedError(
+                        f"The opening key in '{yaml_file}' is invalid. The first line "
+                        "in Yari specific YAML documents must begin with a key that "
+                        "matches the file name without the extension."
+                    )
+                data.close()
+
+            if not integrity_check(yaml_file, resource):
+                raise MalformedError("Hmm" + yaml_file)
+
+            y = Query(resource[yaml_file])
             return y.find(*fields)
-        except (FileNotFoundError, TypeError) as error:
+        except TypeError as error:
             print(error)
             traceback.print_exc()
             exit()
-        except HeaderInvalid as error:
+        except FileNotFoundError as error:
+            exit(error)
+        except MalformedError as error:
             exit(error)
 
     try:

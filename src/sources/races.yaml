@@ -3,10 +3,6 @@ races:
     bonus:
       Charisma: 2
     languages: ['Common', 'Celestial']
-    other:
-      - [Celestial Legacy, [[1, Light]]]
-      - [Celestial Resistance, ['Necrotic', 'Radiant']]
-      - [Darkvision, 60]
     ratio:
       height:
         base: 56
@@ -16,17 +12,15 @@ races:
         modifier: 2d4
     size: Medium
     speed: 30
+    traits:
+      - [Celestial Legacy, [[1, Light]]]
+      - [Celestial Resistance, ['Necrotic', 'Radiant']]
+      - [Darkvision, 60]
   Bugbear:
     bonus:
       Dexterity: 1
       Strength: 2
     languages: ['Common', 'Goblin']
-    other:
-      - [Darkvision, 60]
-      - [Long-Limbed]
-      - [Powerful Build]
-      - [Sneaky, [Stealth]]
-      - [Surprise Attack]
     ratio:
       height:
         base: 72
@@ -36,15 +30,17 @@ races:
         modifier: 2d6
     size: Medium
     speed: 30
+    traits:
+      - [Darkvision, 60]
+      - [Long-Limbed]
+      - [Powerful Build]
+      - [Sneaky, [Stealth]]
+      - [Surprise Attack]
   Dragonborn:
     bonus:
       Strength: 2
       Charisma: 1
     languages: ['Common', 'Draconic']
-    other:
-      - [Breath Weapon]
-      - [Damage Resistance]
-      - [Draconic Ancestry, [Black, Blue, Brass, Bronze, Copper, Gold, Green, Red, Silver, White]]
     ratio:
       height:
         base: 66
@@ -54,40 +50,41 @@ races:
         modifier: 2d6
     size: Medium
     speed: 30
+    traits:
+      - [Breath Weapon]
+      - [Damage Resistance]
+      - [Draconic Ancestry, [Black, Blue, Brass, Bronze, Copper, Gold, Green, Red, Silver, White]]
   Dwarf:
     bonus:
       Constitution: 2
     languages: ['Common', 'Dwarvish']
-    other:
+    ratio: ~
+    size: Medium
+    speed: 30
+    traits:
       - [Darkvision, 60]
       - [Dwarven Combat Training, [Battleaxe, Handaxe, Throwing hammer, Warhammer]]
       - [Dwarven Resilience, [Poison]]
       - [Dwarven Toughness]
       - [Stonecunning]
       - [Tool Proficiency, ["Artisan's tools - Brewer's supplies", "Artisan's tools - Mason's tools", "Artisan's tools - Smith's tools"]]
-    size: Medium
-    speed: 30
   Elf:
     bonus:
       Dexterity: 2
     languages: ['Common', 'Elvish']
-    other:
+    ratio: ~
+    size: Medium
+    speed: 30
+    traits:
       - [Darkvision, 60]
       - [Fey Ancestry, [Charm, Sleep]]
       - [Keen Senses, [Perception]]
       - [Trance]
-    size: Medium
-    speed: 30
   Firbolg:
     bonus:
       Strength: 1
       Wisdom: 2
     languages: ['Common', 'Elvish', 'Giant']
-    other:
-      - [Firbolg Magic, [[1, Detect Magic], [1, Disguise]]]
-      - [Hidden Step]
-      - [Powerful Build]
-      - [Speech of Beast and Leaf]
     ratio:
       height:
         base: 74
@@ -97,19 +94,23 @@ races:
         modifier: 2d6
     size: Medium
     speed: 30
+    traits:
+      - [Firbolg Magic, [[1, Detect Magic], [1, Disguise]]]
+      - [Hidden Step]
+      - [Powerful Build]
+      - [Speech of Beast and Leaf]
   Gith:
     bonus:
       Intelligence: 1
     languages: ['Common', 'Gith']
+    ratio: ~
     size: Medium
     speed: 30
+    traits: ~
   Gnome:
     bonus:
       Intelligence: 2
     languages: ['Common', 'Gnomish']
-    other:
-      - [Gnome Cunning]
-      - [Darkvision, 60]
     ratio:
       height:
         base: 35
@@ -119,15 +120,14 @@ races:
         modifier: 1d1
     size: Small
     speed: 25
+    traits:
+      - [Gnome Cunning]
+      - [Darkvision, 60]
   Goblin:
     bonus:
       Dexterity: 2
       Constitution: 1
     languages: ['Common', 'Goblin']
-    other:
-      - [Darkvision, 60]
-      - [Fury of the Small]
-      - [Nimble Escape]
     ratio:
       height:
         base: 41
@@ -137,16 +137,15 @@ races:
         modifier: 1d1
     size: Small
     speed: 30
+    traits:
+      - [Darkvision, 60]
+      - [Fury of the Small]
+      - [Nimble Escape]
   Goliath:
     bonus:
       Constitution: 1
       Strength: 2
     languages: ['Common', 'Giant']
-    other:
-      - [Natural Athlete, [Athletics]]
-      - [Stone's Endurance]
-      - [Powerful Build]
-      - [Mountain Born]
     ratio:
       height:
         base: 74
@@ -156,15 +155,15 @@ races:
         modifier: 2d6
     size: Medium
     speed: 30
+    traits:
+      - [Natural Athlete, [Athletics]]
+      - [Stone's Endurance]
+      - [Powerful Build]
+      - [Mountain Born]
   HalfElf:
     bonus:
       Charisma: 2
     languages: ['Common', 'Elvish']
-    other:
-      - [Darkvision, 60]
-      - [Fey Ancestry, [Charm, Sleep]]
-      - [Languages, [Abyssal, Celestial, Deep Speech, Draconic, Dwarvish, Giant, Gith, Gnomish, Goblin, Halfling, Infernal, Orc, Primordial, Sylvan, Undercommon]]
-      - [Skill Versatility, [Acrobatics, Animal Handling, Arcana, Athletics, Deception, History, Insight, Intimidation, Investigation, Medicine, Nature, Perception, Performance, Persuasion, Religion, Sleight of Hand, Stealth, Survival]]
     ratio:
       height:
         base: 57
@@ -174,16 +173,16 @@ races:
         modifier: 2d4
     size: Medium
     speed: 30
+    traits:
+      - [Darkvision, 60]
+      - [Fey Ancestry, [Charm, Sleep]]
+      - [Languages, [Abyssal, Celestial, Deep Speech, Draconic, Dwarvish, Giant, Gith, Gnomish, Goblin, Halfling, Infernal, Orc, Primordial, Sylvan, Undercommon]]
+      - [Skill Versatility, [Acrobatics, Animal Handling, Arcana, Athletics, Deception, History, Insight, Intimidation, Investigation, Medicine, Nature, Perception, Performance, Persuasion, Religion, Sleight of Hand, Stealth, Survival]]
   HalfOrc:
     bonus:
       Strength: 2
       Constitution: 1
     languages: ['Common', 'Orc']
-    other:
-      - [Darkvision, 60]
-      - [Menacing, [Intimidation]]
-      - [Relentless Endurance]
-      - [Savage Attacks]
     ratio:
       height:
         base: 58
@@ -193,14 +192,15 @@ races:
         modifier: 2d6
     size: Medium
     speed: 30
+    traits:
+      - [Darkvision, 60]
+      - [Menacing, [Intimidation]]
+      - [Relentless Endurance]
+      - [Savage Attacks]
   Halfling:
     bonus:
       Dexterity: 2
     languages: ['Common', 'Halfling']
-    other:
-      - [Brave]
-      - [Halfling Nimbleness]
-      - [Lucky]
     ratio:
       height:
         base: 31
@@ -210,16 +210,15 @@ races:
         modifier: 1d1
     size: Small
     speed: 25
+    traits:
+      - [Brave]
+      - [Halfling Nimbleness]
+      - [Lucky]
   Hobgoblin:
     bonus:
       Constitution: 2
       Intelligence: 1
     languages: ['Common', 'Goblin']
-    other:
-      - [Darkvision, 60]
-      - [Martial Training (Weapon), [Battleaxe, Blowgun, Flail, Greataxe, Greatsword, Halberd, Hand Crossbow, Heavy Crossbow, Lance, Longbow, Longsword, Maul, Morningstar, Net, Pike, Rapier, Scimitar, Shortsword, Trident, War pick, Warhammer, Whip]]
-      - [Martial Training (Armor), [Light]]
-      - [Saving Face]
     ratio:
       height:
         base: 56
@@ -229,6 +228,11 @@ races:
         modifier: 2d4
     size: Medium
     speed: 30
+    traits:
+      - [Darkvision, 60]
+      - [Martial Training (Weapon), [Battleaxe, Blowgun, Flail, Greataxe, Greatsword, Halberd, Hand Crossbow, Heavy Crossbow, Lance, Longbow, Longsword, Maul, Morningstar, Net, Pike, Rapier, Scimitar, Shortsword, Trident, War pick, Warhammer, Whip]]
+      - [Martial Training (Armor), [Light]]
+      - [Saving Face]
   Human:
     bonus:
       Strength: 1
@@ -238,8 +242,6 @@ races:
       Wisdom: 1
       Charisma: 1
     languages: ['Common']
-    other:
-      - [Languages, [Abyssal, Celestial, Deep Speech, Draconic, Dwarvish, Elvish, Giant, Gith, Gnomish, Goblin, Halfling, Infernal, Orc, Primordial, Sylvan, Undercommon]]
     ratio:
       height:
         base: 56
@@ -249,15 +251,13 @@ races:
         modifier: 2d4
     size: Medium
     speed: 30
+    traits:
+      - [Languages, [Abyssal, Celestial, Deep Speech, Draconic, Dwarvish, Elvish, Giant, Gith, Gnomish, Goblin, Halfling, Infernal, Orc, Primordial, Sylvan, Undercommon]]
   Kenku:
     bonus:
       Dexterity: 2
       Wisdom: 1
     languages: ['Common', 'Auran']
-    other:
-      - [Expert Forgery]
-      - [Kenku Training, [Acrobatics, Deception, Stealth, Sleight of Hand]]
-      - [Mimicry]
     ratio:
       height:
         base: 52
@@ -267,16 +267,15 @@ races:
         modifier: 1d6
     size: Medium
     speed: 30
+    traits:
+      - [Expert Forgery]
+      - [Kenku Training, [Acrobatics, Deception, Stealth, Sleight of Hand]]
+      - [Mimicry]
   Kobold:
     bonus:
       Dexterity: 2
       Strength: -2
     languages: ['Common', 'Draconic']
-    other:
-      - [Darkvision, 60]
-      - ["Grovel, Cower, and Beg"]
-      - [Pack Tactics]
-      - [Sunlight Sensitivity]
     ratio:
       height:
         base: 25
@@ -286,18 +285,16 @@ races:
         modifier: 1d1
     size: Small
     speed: 30
+    traits:
+      - [Darkvision, 60]
+      - ["Grovel, Cower, and Beg"]
+      - [Pack Tactics]
+      - [Sunlight Sensitivity]
   Lizardfolk:
     bonus:
       Constitution: 2
       Wisdom: 1
     languages: ['Common', 'Draconic']
-    other:
-      - [Bite, 1d6]
-      - [Cunning Artisan]
-      - [Hold Breath]
-      - [Hunter's Lore, [Animal Handling, Nature, Perception, Stealth, Survival]]
-      - [Natural Armor, 13]
-      - [Hungry Jaws]
     ratio:
       height:
         base: 57
@@ -307,16 +304,18 @@ races:
         modifier: 2d6
     size: Medium
     speed: 30
+    traits:
+      - [Bite, 1d6]
+      - [Cunning Artisan]
+      - [Hold Breath]
+      - [Hunter's Lore, [Animal Handling, Nature, Perception, Stealth, Survival]]
+      - [Natural Armor, 13]
+      - [Hungry Jaws]
   Orc:
     bonus:
       Constitution: 1
       Strength: 2
     languages: ['Common', 'Orc']
-    other:
-      - [Darkvision, 60]
-      - [Aggressive]
-      - [Menacing, [Intimidation]]
-      - [Powerful Build]
     ratio:
       height:
         base: 64
@@ -326,17 +325,16 @@ races:
         modifier: 2d6
     size: Medium
     speed: 30
+    traits:
+      - [Darkvision, 60]
+      - [Aggressive]
+      - [Menacing, [Intimidation]]
+      - [Powerful Build]
   Tabaxi:
     bonus:
       Dexterity: 2
       Charisma: 1
     languages: ['Common']
-    other:
-      - [Darkvision, 60]
-      - [Feline Agility]
-      - [Cat's Claws, 1d4]
-      - [Cat's Talent, [Perception]]
-      - [Languages, [Abyssal, Celestial, Deep Speech, Draconic, Dwarvish, Elvish, Giant, Gith, Gnomish, Goblin, Halfling, Infernal, Orc, Primordial, Sylvan, Undercommon]]
     ratio:
       height:
         base: 58
@@ -346,13 +344,16 @@ races:
         modifier: 2d4
     size: Medium
     speed: 30
+    traits:
+      - [Darkvision, 60]
+      - [Feline Agility]
+      - [Cat's Claws, 1d4]
+      - [Cat's Talent, [Perception]]
+      - [Languages, [Abyssal, Celestial, Deep Speech, Draconic, Dwarvish, Elvish, Giant, Gith, Gnomish, Goblin, Halfling, Infernal, Orc, Primordial, Sylvan, Undercommon]]
   Tiefling:
     bonus:
       Charisma: 2
     languages: ['Common', 'Infernal']
-    other:
-      - [Darkvision, 60]
-      - [Hellish Resistance, [Fire]]
     ratio:
       height:
         base: 57
@@ -362,17 +363,15 @@ races:
         modifier: 2d4
     size: Medium
     speed: 30
+    traits:
+      - [Darkvision, 60]
+      - [Hellish Resistance, [Fire]]
   Triton:
     bonus:
       Charisma: 1
       Constitution: 1
       Strength: 1
     languages: ['Common', 'Primordial']
-    other:
-      - [Amphibious]
-      - [Control Air and Water]
-      - [Emissary of the Sea]
-      - [Guardians of the Depths]
     ratio:
       height:
         base: 54
@@ -382,16 +381,16 @@ races:
         modifier: 2d4
     size: Medium
     speed: 30
+    traits:
+      - [Amphibious]
+      - [Control Air and Water]
+      - [Emissary of the Sea]
+      - [Guardians of the Depths]
   Yuanti:
     bonus:
       Charisma: 2
       Intelligence: 1
     languages: ['Abyssal', 'Common', 'Draconic']
-    other:
-      - [Darkvision, 60]
-      - [Innate Spellcasting, [[0, Poison Spray], [1, Animal Friendship (Snakes only)], [3, Suggestion]]]
-      - [Magic Resistance]
-      - [Poison Immunity]
     ratio:
       height:
         base: 56
@@ -401,3 +400,8 @@ races:
         modififer: 2d4
     size: Medium
     speed: 30
+    traits:
+      - [Darkvision, 60]
+      - [Innate Spellcasting, [[0, Poison Spray], [1, Animal Friendship (Snakes only)], [3, Suggestion]]]
+      - [Magic Resistance]
+      - [Poison Immunity]

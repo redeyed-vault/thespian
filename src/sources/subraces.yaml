@@ -3,30 +3,32 @@ subraces:
   Fallen:
     bonus:
       Strength: 1
-    other:
-      - [Necrotic Shroud, 3]
+    languages: ~
     parent: Aasimar
+    ratio: ~
+    traits:
+      - [Necrotic Shroud, 3]
   Protector:
     bonus:
       Wisdom: 1
-    other:
-      - [Radiant Soul, 3]
+    languages: ~
     parent: Aasimar
+    ratio: ~
+    traits:
+      - [Radiant Soul, 3]
   Scourge:
     bonus:
       Constitution: 1
-    other:
-      - [Radiant Consumption, 3]
+    languages: ~
     parent: Aasimar
+    ratio: ~
+    traits:
+      - [Radiant Consumption, 3]
   # Elf Subraces
   Drow:
     bonus:
       Charisma: 1
-    other:
-      - [Drow Magic, [[1, Dancing Lights], [3, Faerie Fire], [5, Darkness]]]
-      - [Drow Weapon Training, [Hand Crossbow, Rapier, Shortsword]]
-      - [Sunlight Sensitivity]
-      - [Superior Darkvision, 120]
+    languages: ~
     parent: Elf
     ratio:
       height:
@@ -35,12 +37,15 @@ subraces:
       weight:
         base: 75
         modifier: 1d6
+    traits:
+      - [Drow Magic, [[1, Dancing Lights], [3, Faerie Fire], [5, Darkness]]]
+      - [Drow Weapon Training, [Hand Crossbow, Rapier, Shortsword]]
+      - [Sunlight Sensitivity]
+      - [Superior Darkvision, 120]
   Eladrin:
     bonus:
       Intelligence: 1
-    other:
-      - [Elf Weapon Training, [Longsword, Shortsword, Shortbow, Longbow]]
-      - [Fey Step]
+    languages: ~
     parent: Elf
     ratio:
       height:
@@ -49,13 +54,13 @@ subraces:
       weight:
         base: 90
         modifier: 1d4
+    traits:
+      - [Elf Weapon Training, [Longsword, Shortsword, Shortbow, Longbow]]
+      - [Fey Step]
   High:
     bonus:
       Intelligence: 1
-    other:
-      - [Cantrip, [Acid Splash, Blade Ward, Chill Touch, Dancing Lights, Fire Bolt, Friends, Light, Mage Hand, Mending, Message, Minor Illusion, Poison Spray, Prestidigitation, Ray of Frost, Shocking Grasp, True Strike]]
-      - [Elf Weapon Training, [Longsword, Shortsword, Shortbow, Longbow]]
-      - [Extra Language, [Abyssal, Celestial, Deep Speech, Draconic, Dwarvish, Giant, Gith, Gnomish, Goblin, Halfling, Infernal, Orc, Primordial, Sylvan, Undercommon]]
+    languages: ~
     parent: Elf
     ratio:
       height:
@@ -64,14 +69,14 @@ subraces:
       weight:
         base: 90
         modifier: 1d4
+    traits:
+      - [Cantrip, [Acid Splash, Blade Ward, Chill Touch, Dancing Lights, Fire Bolt, Friends, Light, Mage Hand, Mending, Message, Minor Illusion, Poison Spray, Prestidigitation, Ray of Frost, Shocking Grasp, True Strike]]
+      - [Elf Weapon Training, [Longsword, Shortsword, Shortbow, Longbow]]
+      - [Extra Language, [Abyssal, Celestial, Deep Speech, Draconic, Dwarvish, Giant, Gith, Gnomish, Goblin, Halfling, Infernal, Orc, Primordial, Sylvan, Undercommon]]
   Sea:
       bonus:
         Constitution: 1
       languages: ['Aquan']
-      other:
-        - [Child of the Sea]
-        - [Friend of the Sea]
-        - [Sea Elf Training, [Light Crossbow, Net, Spear, Trident]]
       parent: Elf
       ratio:
         height:
@@ -80,12 +85,14 @@ subraces:
         weight:
           base: 90
           modifier: 1d4
+      traits:
+        - [Child of the Sea]
+        - [Friend of the Sea]
+        - [Sea Elf Training, [Light Crossbow, Net, Spear, Trident]]
   Shadar-kai:
     bonus:
       Constitution: 1
-    other:
-      - [Blessing of the Raven Queen]
-      - [Necrotic Resistance, ['Necrotic']]
+    languages: ~
     parent: Elf
     ratio:
       height:
@@ -94,13 +101,13 @@ subraces:
       weight:
         base: 90
         modifier: 1d4
+    traits:
+      - [Blessing of the Raven Queen]
+      - [Necrotic Resistance, ['Necrotic']]
   Wood:
     bonus:
       Wisdom: 1
-    other:
-      - [Elf Weapon Training, [Longsword, Shortsword, Shortbow, Longbow]]
-      - [Fleet of Foot]
-      - [Mask of the Wild]
+    languages: ~
     parent: Elf
     ratio:
       height:
@@ -109,30 +116,33 @@ subraces:
       weight:
         base: 100
         modifier: 1d4
+    traits:
+      - [Elf Weapon Training, [Longsword, Shortsword, Shortbow, Longbow]]
+      - [Fleet of Foot]
+      - [Mask of the Wild]
   # Dwarf Subraces
   Duergar:
     bonus:
       Strength: 1
     languages: ['Undercommon']
-    other:
+    parent: Dwarf
+    ratio:
+      height:
+        base: 44
+        modifier: 2d4
+      weight:
+        base: 115
+        modifier: 2d6
+    traits:
       - [Duergar Magic, [[3, Enlarge/Reduce], [5, Invisibility]]]
       - [Duergar Resilience, [Charm, Illusion, Paralysis]]
       - [Extra Language, [Undercommon]]
       - [Sunlight Sensitivity]
       - [Superior Darkvision, 120]
-    parent: Dwarf
-    ratio:
-      height:
-        base: 44
-        modifier: 2d4
-      weight:
-        base: 115
-        modifier: 2d6
   Hill:
     bonus:
       Wisdom: 1
-    other:
-      - [Dwarven Toughness]
+    languages: ~
     parent: Dwarf
     ratio:
       height:
@@ -141,11 +151,12 @@ subraces:
       weight:
         base: 115
         modifier: 2d6
+    traits:
+      - [Dwarven Toughness]
   Mountain:
     bonus:
       Strength: 2
-    other:
-      - [Dwarven Armor Training, ['Light', 'Medium']]
+    languages: ~
     parent: Dwarf
     ratio:
       height:
@@ -154,15 +165,13 @@ subraces:
       weight:
         base: 130
         modifier: 2d6
+    traits:
+      - [Dwarven Armor Training, ['Light', 'Medium']]
   # Gith Subraces
   Githyanki:
     bonus:
       Strength: 2
-    other:
-      - [Decadent Mastery, [Abyssal, Celestial, Deep Speech, Draconic, Dwarvish, Elvish, Giant, Gnomish, Goblin, Halfling, Infernal, Orc, Primordial, Sylvan, Undercommon]]
-      - [Githyanki Psionics, [[1, Mage Hand], [3, Jump], [5, Misty Step]]]
-      - [Martial Prodigy (Armor), [Light, Medium]]
-      - [Martial Prodigy (Weapon), [Greatsword, Longsword, Shortsword]]
+    languages: ~
     parent: Gith
     ratio:
       height:
@@ -171,14 +180,15 @@ subraces:
       weight:
         base: 100
         modifier: 2d4
-    size: Medium
-    speed: 30
+    traits:
+      - [Decadent Mastery, [Abyssal, Celestial, Deep Speech, Draconic, Dwarvish, Elvish, Giant, Gnomish, Goblin, Halfling, Infernal, Orc, Primordial, Sylvan, Undercommon]]
+      - [Githyanki Psionics, [[1, Mage Hand], [3, Jump], [5, Misty Step]]]
+      - [Martial Prodigy (Armor), [Light, Medium]]
+      - [Martial Prodigy (Weapon), [Greatsword, Longsword, Shortsword]]
   Githzerai:
     bonus:
       Wisdom: 2
-    other:
-      - [Githzerai Psionics, [[1, Mage Hand], [3, Shield], [5, Detect Thoughts]]]
-      - [Mental Discipline, [Charm, Fright]]
+    languages: ~
     parent: Gith
     ratio:
       height:
@@ -187,97 +197,125 @@ subraces:
       weight:
         base: 90
         modifier: 1d4
-    size: Medium
-    speed: 30
+    traits:
+      - [Githzerai Psionics, [[1, Mage Hand], [3, Shield], [5, Detect Thoughts]]]
+      - [Mental Discipline, [Charm, Fright]]
   # Gnome Subraces
   Deep:
     bonus:
       Dexterity: 1
     languages: ['Undercommon']
-    other:
+    parent: Gnome
+    ratio: ~
+    traits:
       - [Extra Language, [Undercommon]]
       - [Superior Darkvision, 120]
       - [Stone Camouflage]
-    parent: Gnome
   Forest:
     bonus:
       Dexterity: 1
-    other:
+    languages: ~
+    parent: Gnome
+    ratio: ~
+    traits:
       - [Natural Illusionist, ['Minor Illusion']]
       - [Speak with Small Beasts]
-    parent: Gnome
   Rock:
     bonus:
       Constitution: 1
-    other:
+    languages: ~
+    parent: Gnome
+    ratio: ~
+    traits:
       - [Artificer's Lore]
       - [Tinker, "Artisan's tools - Tinker's tools"]
-    parent: Gnome
   # Halfling Subraces
   Lightfoot:
     bonus:
       Charisma: 1
-    other:
-      - [Naturally Stealthy]
+    languages: ~
     parent: Halfling
+    ratio: ~
+    traits:
+      - [Naturally Stealthy]
   Stout:
     bonus:
       Constitution: 1
-    other:
-      - [Stout Resilience, ['Poison']]
+    languages: ~
     parent: Halfling
+    ratio: ~
+    traits:
+      - [Stout Resilience, ['Poison']]
   # Tiefling Subraces
   Asmodeus:
     bonus:
       Intelligence: 1
-    other:
-      - [Infernal Legacy, [[1, Thaumaturgy], [3, Hellish Rebuke], [5, Darkness]]]
+    languages: ~
     parent: Tiefling
+    ratio: ~
+    traits:
+      - [Infernal Legacy, [[1, Thaumaturgy], [3, Hellish Rebuke], [5, Darkness]]]
   Baalzebul:
     bonus:
       Intelligence: 1
-    other:
-      - [Legacy of Maladomini, [[1, Thaumaturgy], [3, Ray of Sickness], [5, Crown of Madness]]]
+    languages: ~
     parent: Tiefling
+    ratio: ~
+    traits:
+      - [Legacy of Maladomini, [[1, Thaumaturgy], [3, Ray of Sickness], [5, Crown of Madness]]]
   Dispater:
     bonus:
       Dexterity: 1
-    other:
-      - [Legacy of Dis, [[1, Thaumaturgy], [3, Disguise], [5, Detect Thoughts]]]
+    languages: ~
     parent: Tiefling
+    ratio: ~
+    traits:
+      - [Legacy of Dis, [[1, Thaumaturgy], [3, Disguise], [5, Detect Thoughts]]]
   Fierna:
     bonus:
       Wisdom: 1
-    other:
-      - [Legacy of Phlegethos, [[1, Friends], [3, Charm Person], [5, Suggestion]]]
+    languages: ~
     parent: Tiefling
+    ratio: ~
+    traits:
+      - [Legacy of Phlegethos, [[1, Friends], [3, Charm Person], [5, Suggestion]]]
   Glasya:
     bonus:
       Dexterity: 1
-    other:
-      - [Legacy of Malbolge, [[1, Minor Illusion], [3, Disguise Self], [5, Invisibility]]]
+    languages: ~
     parent: Tiefling
+    ratio: ~
+    traits:
+      - [Legacy of Malbolge, [[1, Minor Illusion], [3, Disguise Self], [5, Invisibility]]]
   Levistus:
     bonus:
       Constitution: 1
-    other:
-      - [Legacy of Stygia, [[1, Ray of Frost], [3, Armor of Agathys], [5, Darkness]]]
+    languages: ~
     parent: Tiefling
+    ratio: ~
+    traits:
+      - [Legacy of Stygia, [[1, Ray of Frost], [3, Armor of Agathys], [5, Darkness]]]
   Mammon:
     bonus:
       Intelligence: 1
-    other:
-      - [Legacy of Minauros, [[1, Mage Hand], [3, Tensor's Floating Disk], [5, Arcane Lock]]]
+    languages: ~
     parent: Tiefling
+    ratio: ~
+    traits:
+      - [Legacy of Minauros, [[1, Mage Hand], [3, Tensor's Floating Disk], [5, Arcane Lock]]]
   Mephistopheles:
     bonus:
       Intelligence: 1
-    other:
-      - [Legacy of Cania, [[1, Mage Hand], [3, Burning Hands], [5, Flame Blade]]]
+    languages: ~
     parent: Tiefling
+    ratio: ~
+    traits:
+      - [Legacy of Cania, [[1, Mage Hand], [3, Burning Hands], [5, Flame Blade]]]
   Zariel:
     bonus:
       Strength: 1
-    other:
-      - [Legacy of Avernus, [[1, Thaumaturgy], [3, Searing], [5, Branding Smite]]]
+    languages: ~
     parent: Tiefling
+    ratio: ~
+    traits:
+      - [Legacy of Avernus, [[1, Thaumaturgy], [3, Searing], [5, Branding Smite]]]

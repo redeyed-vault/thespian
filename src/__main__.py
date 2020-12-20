@@ -320,7 +320,7 @@ def main(
         cs["feats"] = u.feats
         cs["equipment"] = cg.equipment
         cs["features"] = cg.features
-        cs["traits"] = rg.other
+        cs["traits"] = rg.traits
 
         try:
             with HTTPServer(cs) as http:
@@ -594,7 +594,7 @@ class _ClassBuilder:
         else:
             return '<{} level="{}">'.format(self.klass, self.level)
 
-    def _add_abilities(self):
+    def _add_abilities(self) -> None:
         """
         Generates primary abilities by character class.
 
@@ -630,7 +630,7 @@ class _ClassBuilder:
 
         self.all["abilities"] = class_abilities
 
-    def _add_equipment(self):
+    def _add_equipment(self) -> None:
         """Generates a list of starting equipment by class & background."""
         class_equipment = load(self.klass, "equipment", file="classes")
         background_equipment = load(self.background, "equipment", file="backgrounds")
@@ -638,7 +638,7 @@ class _ClassBuilder:
         equipment.sort()
         self.all["equipment"] = self.equipment = equipment
 
-    def _add_features(self):
+    def _add_features(self) -> None:
         """Generates a dictionary of features by class, subclass & level."""
 
         def merge(cls_features: dict, sc_features: dict) -> dict:
@@ -668,7 +668,7 @@ class _ClassBuilder:
                 features[lv] = tuple(fts)
             self.all["features"] = features
 
-    def _add_hit_die(self):
+    def _add_hit_die(self) -> None:
         """Generates hit die and point totals."""
         hit_die = self.all.get("hit_die")
         self.all["hit_die"] = f"{self.level}d{hit_die}"
@@ -681,32 +681,35 @@ class _ClassBuilder:
                 die_rolls.append(hp_result)
             self.all["hit_points"] += sum(die_rolls)
 
-    def _add_subclass_magic(self):
-        """Builds a dictionary of class specific spells (Domain, Warlock, etc)."""
+    def _add_extended_magic(self) -> None:
+        """Adds extended magic spells (Domain, Warlock, etc)."""
         self.all["magic_class"] = dict()
 
-        if self.subclass == "" or not has_class_spells(self.subclass):
+        # If no extended magic available
+        if self.subclass == "" or not has_extended_magic(self.subclass):
             return
 
-        magic = dict()
-        class_magic = load(self.subclass, "magic", file="subclasses")
-        if len(class_magic) != 0:
-            for level, spells in class_magic.items():
-                if level <= self.level:
-                    magic[level] = tuple(spells)
+        extended_magic_list = dict()
+        # Only apply spells available at that level
+        for level, spells in load(self.subclass, "magic", file="subclasses").items():
+            if level <= self.level:
+                extended_magic_list[level] = tuple(spells)
 
-            del class_magic
-            self.all["magic"] = magic
-        else:
-            self.all["magic"] = dict()
+        self.all["magic_class"] = extended_magic_list
 
-    def _add_proficiencies(self):
+    def _add_proficiencies(self) -> None:
         """Merge class proficiencies with subclass proficiencies (if applicable)."""
+        # If no subclass is specified
         if self.subclass == "":
             return
 
+        # If no bonus proficiency available
+        bonus_proficiency = self.all.get("proficiency")
+        if bonus_proficiency is None:
+            return
+
         for category in ("Armor", "Tools", "Weapons"):
-            for index, proficiency in enumerate(self.all.get("proficiency")):
+            for index, proficiency in enumerate(bonus_proficiency):
                 if category in proficiency:
                     if (
                         category
@@ -768,21 +771,27 @@ class _ClassBuilder:
         self.all["proficiency_bonus"] = get_proficiency_bonus(self.level)
 
     def _add_spell_slots(self):
-        """Generates character's spell slots (if ANY)."""
+        """Generates character's spell slots."""
+        spell_slots = self.all.get("spell_slots")
+        # Non Eldritch Knight or Arcane Trickster Fighter
         if (
-            self.klass == "Fighter"
+            spell_slots is None 
+            and self.klass == "Fighter"
             and self.subclass != "Eldritch Knight"
             or self.klass == "Rogue"
             and self.subclass != "Arcane Trickster"
         ):
             self.all["spell_slots"] = "0"
-        else:
-            spell_slots = self.all.get("spell_slots")
+        # Classes that have spellcasting abilities
+        elif spell_slots is not None:
             if self.level not in spell_slots:
                 spell_slots = "0"
             else:
                 spell_slots = spell_slots.get(self.level)
             self.all["spell_slots"] = spell_slots
+        # Every other non spellcasting class
+        else:
+            self.all["spell_slots"] = "0"
 
     def create(self):
         # Load class template
@@ -792,7 +801,7 @@ class _ClassBuilder:
         self._add_equipment()
         self._add_features()
         self._add_hit_die()
-        self._add_subclass_magic()
+        self._add_extended_magic()
         self._add_proficiencies()
         self._add_skills()
         self._add_spell_slots()
@@ -926,13 +935,13 @@ def get_subclass_proficiency(subclass: str, category: str):
     """
     if category not in ("Armor", "Tools", "Weapons"):
         raise ValueError("Argument 'category' must be 'Armor', 'Tools' or 'Weapons'.")
-    else:
-        feature_list = load(subclass, file="subclasses")
-        if "proficiency" in feature_list:
-            proficiencies = feature_list.get("proficiency")
-            for proficiency in proficiencies:
-                if proficiency[0] == category:
-                    yield proficiency[1]
+
+    trait_list = load(subclass, file="subclasses")
+    if trait_list.get("proficiency") is not None:
+        proficiencies = trait_list.get("proficiency")
+        for proficiency in proficiencies:
+            if proficiency[0] == category:
+                yield proficiency[1]
 
 
 def get_all_languages() -> list:
@@ -974,18 +983,17 @@ def get_proficiency_bonus(level: int) -> int:
     return math.ceil((level / 4) + 1)
 
 
-def has_class_spells(subclass: str) -> bool:
+def has_extended_magic(subclass: str) -> bool:
     """
     Returns whether class subclass has spells.
 
     :param str subclass: Character's subclass.
 
     """
-    try:
-        class_spells = load(subclass, "magic", file="subclasses")
-        return len(class_spells) != 0
-    except (TypeError, QueryNotFound):
-        return False
+    extra_magic = load(subclass, "magic", file="subclasses")
+    if extra_magic is not None:
+        return True
+    return False
 
 
 @dataclass
@@ -1786,7 +1794,7 @@ class _RaceBuilder:
             for ability in valid_abilities:
                 self.all["bonus"][ability] = 1
 
-    def _add_mass(self):
+    def _add_mass(self) -> None:
         """Generates and sets character's height & weight."""
         height_base = self.all.get("ratio").get("height").get("base")
         height_modifier = self.all.get("ratio").get("height").get("modifier")
@@ -1803,11 +1811,17 @@ class _RaceBuilder:
         Add all bonus armor, tool, and/or weapon proficiencies, and other traits.
 
         """
+        # Set default attribute values
+        self.all = load(self.race, file="races")
         self.ancestor = None
+        self.bonus = self.all.get("bonus")
         self.breath = None
         self.darkvision = 0
+        self.languages = self.all.get("languages")
         self.magic_innate = list()
-        self.other = list()
+        self.ratio = self.all.get("ratio")
+        self.size = self.all.get("size")
+        self.traits = list()
         self.resistances = list()
 
         self.skills = list()
@@ -1815,12 +1829,12 @@ class _RaceBuilder:
         self.tools = list()
         self.weapons = list()
 
-        for trait in self.all.get("other"):
+        for trait in self.all.get("traits"):
             if len(trait) == 1:
-                self.other.append(trait[0])
+                self.traits.append(trait[0])
             else:
                 (name, value) = trait
-                self.other.append(name)
+                self.traits.append(name)
                 if name == "Draconic Ancestry":
                     self.ancestor = random.choice(value)
                     if self.ancestor in (
@@ -1875,7 +1889,7 @@ class _RaceBuilder:
                     name in ("Necrotic Shroud", "Radiant Consumption", "Radiant Soul")
                     and self.level >= 3
                 ):
-                    self.other.append(name)
+                    self.traits.append(name)
                 elif name in (
                     "Celestial Resistance",
                     "Duergar Resilience",
@@ -1917,33 +1931,38 @@ class _RaceBuilder:
                 elif name in "Martial Training (Weapon)":
                     self.weapons = random.sample(value, 2)
 
-    def _join_traits(self):
-        """ Get racial traits and merge with subracial traits (if ANY). """
-        self.all = load(self.race, file="races")
-        if self.subrace != "":
-            subrace_traits = load(self.subrace, file="subraces")
-            for trait, value in subrace_traits.items():
-                if trait not in self.all:
-                    self.all[trait] = subrace_traits[trait]
-                elif trait == "bonus":
-                    for ability, bonus in value.items():
-                        self.all[trait][ability] = bonus
-                elif trait == "other":
-                    for other in subrace_traits.get(trait):
-                        self.all[trait].append(other)
-                elif trait == "ratio":
-                    self.all[trait] = subrace_traits.get(trait)
+    def _add_subrace_traits(self) -> None:
+        """ Merges subrace traits with race traits. """
+        # Ignore if no subrace specified
+        if self.subrace == "":
+            return
+
+        # Load subrace traits
+        subrace_traits = load(self.subrace, file="subraces")
+        # Attempt to merge traits
+        for trait, value in subrace_traits.items():
+            if trait not in self.all:
+                self.all[trait] = subrace_traits[trait]
+            elif trait == "bonus":
+                for ability, bonus in value.items():
+                    self.all[trait][ability] = bonus
+            elif trait == "ratio":
+                ratio = subrace_traits.get(trait)
+                if ratio is not None:
+                    self.all[trait] = ratio
+            elif trait == "traits":
+                for other in subrace_traits.get(trait):
+                    self.all[trait].append(other)
+        # Updates attributes w/ merged trait values
         self.bonus = self.all.get("bonus")
-        self.size = self.all.get("size")
-        self.speed = self.all.get("speed")
         self.languages = self.all.get("languages")
 
-    def create(self):
+    def create(self) -> None:
         """Generates the character's basic racial attributes."""
-        self._join_traits()
+        self._add_traits()
+        self._add_subrace_traits()
         self._add_ability_bonus()
         self._add_mass()
-        self._add_traits()
         del self.all
 
 

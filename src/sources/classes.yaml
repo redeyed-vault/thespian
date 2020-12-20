@@ -28,7 +28,7 @@ classes:
       - ['Weapons', ['Simple', 'Martial']]
       - ['Saves', ['Constitution', 'Strength']]
       - ['Skills', ['Animal Handling', 'Athletics', 'Intimidation', 'Nature', 'Perception', 'Survival']]
-    spell_slots: {}
+    spell_slots: ~
     subclasses:
       - Path of the Ancestral Guardian
       - Path of the Berserker
@@ -115,16 +115,6 @@ classes:
       17: ['Destroy Undead']
       20: ['Divine Intervention']
     hit_die: 8
-    subclasses:
-      - Forge Domain
-      - Grave Domain
-      - Knowledge Domain
-      - Life Domain
-      - Light Domain
-      - Nature Domain
-      - Tempest Domain
-      - Trickery Domain
-      - War Domain
     proficiency:
       - ['Armor', ['Light', 'Medium', 'Shield']]
       - ['Tools',  []]
@@ -153,6 +143,16 @@ classes:
       18: 4,3,3,3,3,1,1,1,1
       19: 4,3,3,3,3,2,1,1,1
       20: 4,3,3,3,3,2,2,1,1
+    subclasses:
+      - Forge Domain
+      - Grave Domain
+      - Knowledge Domain
+      - Life Domain
+      - Light Domain
+      - Nature Domain
+      - Tempest Domain
+      - Trickery Domain
+      - War Domain
   Druid:
     abilities:
       1: Wisdom
@@ -294,7 +294,7 @@ classes:
       - ['Weapons', ['Simple', 'Shortsword']]
       - ['Saves', ['Dexterity', 'Strength']]
       - ['Skills', ['Acrobatics', 'Athletics', 'History', 'Insight', 'Religion', 'Stealth']]
-    spell_slots: {}
+    spell_slots: ~
     subclasses:
       - Way of the Drunken Master
       - Way of the Four Elements
