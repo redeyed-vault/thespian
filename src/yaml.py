@@ -1,3 +1,4 @@
+from dataclasses import dataclass
 import os
 import traceback
 
@@ -10,6 +11,45 @@ class QueryNotFound(Exception):
 
 class MalformedError(Exception):
     """Raised if the YAML data structure is invalid."""
+
+
+# TODO: Expand this class for formatting consistency checking
+# Not implemented
+@dataclass
+class IntegrityChecker:
+
+    check_file: str
+    resource_data: dict
+    # missing_keys: list = list()
+
+    def check(self):
+        self.key_table = {
+            "classes": [
+                "abilities",
+                "background",
+                "equipment",
+                "features",
+                "hit_die",
+                "proficiency",
+                "spell_slots",
+                "subclasses",
+            ],
+            "races": ["bonus", "languages", "ratio", "size", "speed", "traits"],
+            "subclasses": ["features", "magic", "proficiency"],
+            "subraces": ["bonus", "languages", "parent", "ratio", "traits"],
+        }
+
+        # Requested file isn't in the key table
+        if check_file not in self.key_table:
+            return True
+
+        self.required_keys = self.key_table[self.check_file]
+        entry_keys = list(self.resource_data.get(self.check_file).keys())
+        for key in entry_keys:
+            x = self.resource_data.get(self.check_file).get(key)
+            if not all(k in x for k in self.required_keys):
+                return False
+        return True
 
 
 class Query:
@@ -110,8 +150,11 @@ def load(*fields, file: str):
                     )
                 data.close()
 
+            # TODO: Expand this formatting consistency checker
             if not integrity_check(yaml_file, resource):
-                raise MalformedError("Hmm" + yaml_file)
+                raise MalformedError(
+                    f"Inconsistency formatting found in '{yaml_file}.yaml'. Please check the file and correct."
+                )
 
             y = Query(resource[yaml_file])
             return y.find(*fields)
