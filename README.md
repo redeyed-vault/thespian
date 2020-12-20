@@ -8,10 +8,10 @@
 
 Yari generates 5th edition Dungeons & Dragons characters. Currently, Yari supports content from the following rulebooks: 
 
-*Player's Handbook*
-*Mordenkainen's Tome of Foes*
-*Volo's Guide to Monsters*
-*Xanatar's Guide to Everything*. 
+  * *Player's Handbook*
+  * *Mordenkainen's Tome of Foes*
+  * *Volo's Guide to Monsters*
+  * *Xanatar's Guide to Everything*. 
 
 Planning to eventually incorporate content from *Tasha's Cauldron of Everything*.
 
