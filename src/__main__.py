@@ -2,6 +2,7 @@ from collections import OrderedDict
 from dataclasses import dataclass
 import math
 import random
+import socket
 import traceback
 
 from aiohttp import web
@@ -157,6 +158,16 @@ def main(
                 )
 
         return init()
+
+    conn = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    location = ("127.0.0.1", port)
+    host, port = location
+    if conn.connect_ex(location) == 0:
+        conn.close()
+        out(
+            f"Address {host}:{port} is already in use. Please use another port with the '-port=<DIFFERENT_PORT>' argument or close the process currently associated with this address.",
+            1,
+        )
 
     # Handle application argument processing.
     if race not in ALLOWED_PC_RACES:
