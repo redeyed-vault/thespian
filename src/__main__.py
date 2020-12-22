@@ -11,7 +11,7 @@ import click
 
 from . import __version__
 from .dice import roll
-from .yaml import load, QueryNotFound
+from .yaml import load
 
 
 ALLOWED_PC_BACKGROUNDS = load(file="classes")
@@ -136,22 +136,22 @@ def main(
     ratio: int,
     port: int,
 ) -> None:
-    def callback(method: str, **kw):
+    def callback(method: str, **args):
         def init():
             call_class = eval(method)
-            if all(k in kw for k in ("subclass", "background", "level", "race_skills")):
+            if all(k in args for k in ("subclass", "background", "level", "race_skills")):
                 return call_class(
-                    kw["subclass"], kw["background"], kw["level"], kw["race_skills"]
+                    args["subclass"], args["background"], args["level"], args["race_skills"]
                 )
             elif all(
-                k in kw
+                k in args
                 for k in (
                     "sex",
                     "subrace",
                     "level",
                 )
             ):
-                return call_class(kw["sex"], kw["subrace"], kw["level"])
+                return call_class(args["sex"], args["subrace"], args["level"])
             else:
                 raise RuntimeError(
                     f"Not all parameters specified for callback '{method}'."
@@ -163,11 +163,11 @@ def main(
     location = ("127.0.0.1", port)
     host, port = location
     if conn.connect_ex(location) == 0:
-        conn.close()
         out(
             f"Address {host}:{port} is already in use. Please use another port with the '-port=<DIFFERENT_PORT>' argument or close the process currently associated with this address.",
             1,
         )
+    conn.close()
 
     # Handle application argument processing.
     if race not in ALLOWED_PC_RACES:
@@ -213,7 +213,7 @@ def main(
     else:
         alignment = alignments.get(alignment)
 
-    rg = None
+    _race = None
     try:
         if sex in ALLOWED_PC_GENDERS:
             sex = sex
@@ -234,8 +234,8 @@ def main(
             except ValueError as e:
                 out(str(e), 1)
 
-        rg = callback(race, sex=sex, level=level, subrace=subrace)
-        rg.create()
+        _race = callback(race, sex=sex, level=level, subrace=subrace)
+        _race.create()
     except (
         Exception,
         NameError,
@@ -243,7 +243,7 @@ def main(
     ) as race_error:
         out(race_error, 2)
 
-    cg = None
+    _class = None
     try:
         if background == "":
             background = get_default_background(klass)
@@ -258,14 +258,14 @@ def main(
             if subclass not in valid_class_subclasses:
                 out(f"class '{klass}' has no subclass '{subclass}'", 1)
 
-        cg = callback(
+        _class = callback(
             klass,
             background=background,
             subclass=subclass,
             level=level,
-            race_skills=rg.skills,
+            race_skills=_race.skills,
         )
-        cg.create()
+        _class.create()
     except (
         Exception,
         NameError,
@@ -275,68 +275,68 @@ def main(
 
     try:
         # Generate ability scores.
-        ag = AttributeGenerator(cg.primary_ability, rg.bonus, 65)
-        score_array = ag.roll()
+        _attributes = AttributeGenerator(_class.primary_ability, _race.bonus, 65)
+        score_array = _attributes.roll()
 
         # Generate character armor, tool and weapon proficiencies.
-        armors = ProficiencyGenerator("armors", cg.armors, rg.armors).proficiency
-        tools = ProficiencyGenerator("tools", cg.tools, rg.tools).proficiency
-        weapons = ProficiencyGenerator("weapons", cg.weapons, rg.weapons).proficiency
+        armors = ProficiencyGenerator("armors", _class.armors, _race.armors).proficiency
+        tools = ProficiencyGenerator("tools", _class.tools, _race.tools).proficiency
+        weapons = ProficiencyGenerator("weapons", _class.weapons, _race.weapons).proficiency
 
         # Assign ability/feat improvements.
-        u = ImprovementGenerator(
+        _upgrade = ImprovementGenerator(
             race=race,
             subrace=subrace,
-            subclass=cg.subclass,
+            subclass=_class.subclass,
             klass=klass,
             level=level,
-            primary_ability=cg.primary_ability,
-            saves=cg.saving_throws,
-            magic_innate=rg.magic_innate,
-            spell_slots=cg.spell_slots,
+            primary_ability=_class.primary_ability,
+            saves=_class.saving_throws,
+            magic_innate=_race.magic_innate,
+            spell_slots=_class.spell_slots,
             score_array=score_array,
-            languages=rg.languages,
+            languages=_race.languages,
             armor_proficiency=armors,
             tool_proficiency=tools,
             weapon_proficiency=weapons,
-            skills=cg.skills,
+            skills=_class.skills,
             feats=[],
             upgrade_ratio=ratio,
         )
-        u.upgrade()
+        _upgrade.upgrade()
 
         # Create proficiency data packet.
         proficiency_info = OrderedDict()
-        proficiency_info["armors"] = u.armor_proficiency
-        proficiency_info["tools"] = u.tool_proficiency
-        proficiency_info["weapons"] = u.weapon_proficiency
+        proficiency_info["armors"] = _upgrade.armor_proficiency
+        proficiency_info["tools"] = _upgrade.tool_proficiency
+        proficiency_info["weapons"] = _upgrade.weapon_proficiency
 
         # Gather data for character sheet.
         cs = OrderedDict()
-        cs["race"] = u.race
+        cs["race"] = _upgrade.race
         cs["subrace"] = subrace
         cs["sex"] = sex
         cs["alignment"] = alignment
         cs["background"] = background
-        cs["size"] = rg.size
-        cs["height"] = rg.height
-        cs["weight"] = rg.weight
+        cs["size"] = _race.size
+        cs["height"] = _race.height
+        cs["weight"] = _race.weight
         cs["class"] = klass
         cs["level"] = level
-        cs["subclass"] = u.subclass
+        cs["subclass"] = _upgrade.subclass
         cs["bonus"] = get_proficiency_bonus(level)
-        cs["score_array"] = u.score_array
-        cs["saves"] = u.saves
-        cs["magic_class"] = cg.magic_class
-        cs["magic_innate"] = u.magic_innate
-        cs["spell_slots"] = u.spell_slots
+        cs["score_array"] = _upgrade.score_array
+        cs["saves"] = _upgrade.saves
+        cs["magic_class"] = _class.magic_class
+        cs["magic_innate"] = _upgrade.magic_innate
+        cs["spell_slots"] = _upgrade.spell_slots
         cs["proficiency"] = proficiency_info
-        cs["languages"] = u.languages
-        cs["skills"] = u.skills
-        cs["feats"] = u.feats
-        cs["equipment"] = cg.equipment
-        cs["features"] = cg.features
-        cs["traits"] = rg.traits
+        cs["languages"] = _upgrade.languages
+        cs["skills"] = _upgrade.skills
+        cs["feats"] = _upgrade.feats
+        cs["equipment"] = _class.equipment
+        cs["features"] = _class.features
+        cs["traits"] = _race.traits
 
         try:
             with HTTPServer(cs) as http:
