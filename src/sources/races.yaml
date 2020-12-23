@@ -53,7 +53,7 @@ races:
     traits:
       - [Breath Weapon]
       - [Damage Resistance]
-      - [Draconic Ancestry, [Black, Blue, Brass, Bronze, Copper, Gold, Green, Red, Silver, White]]
+      - [Draconic Ancestry]
   Dwarf:
     bonus:
       Constitution: 2

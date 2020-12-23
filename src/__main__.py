@@ -3,6 +3,7 @@ from dataclasses import dataclass
 import math
 import random
 import socket
+import sys
 import traceback
 
 from aiohttp import web
@@ -137,27 +138,22 @@ def main(
     port: int,
 ) -> None:
     def callback(method: str, **args):
-        def init():
-            call_class = eval(method)
-            if all(k in args for k in ("subclass", "background", "level", "race_skills")):
-                return call_class(
-                    args["subclass"], args["background"], args["level"], args["race_skills"]
-                )
-            elif all(
-                k in args
-                for k in (
-                    "sex",
-                    "subrace",
-                    "level",
-                )
-            ):
-                return call_class(args["sex"], args["subrace"], args["level"])
-            else:
-                raise RuntimeError(
-                    f"Not all parameters specified for callback '{method}'."
-                )
-
-        return init()
+        init = eval(method)
+        if all(k in args for k in ("subclass", "background", "level", "race_skills")):
+            return init(
+                args["subclass"], args["background"], args["level"], args["race_skills"]
+            )
+        elif all(
+            k in args
+            for k in (
+                "sex",
+                "subrace",
+                "level",
+            )
+        ):
+            return init(args["sex"], args["subrace"], args["level"])
+        else:
+            raise RuntimeError(f"Not all parameters specified for callback '{method}'.")
 
     conn = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     location = ("127.0.0.1", port)
@@ -227,10 +223,10 @@ def main(
         else:
             try:
                 if len(subraces_by_race) == 0:
-                    raise ValueError(f"race '{race}' has no available subraces")
+                    raise ValueError(f"'{race}' has no available subraces.")
 
                 if subrace not in subraces_by_race:
-                    raise ValueError(f"invalid subrace race '{subrace}'")
+                    raise ValueError(f"invalid subrace race '{subrace}'.")
             except ValueError as e:
                 out(str(e), 1)
 
@@ -249,14 +245,14 @@ def main(
             background = get_default_background(klass)
         else:
             if background not in ALLOWED_PC_BACKGROUNDS:
-                out(f"invalid character background '{background}'", 1)
+                out(f"invalid character background '{background}'.", 1)
 
         valid_class_subclasses = get_subclasses_by_class(klass)
         if subclass == "":
             subclass = random.choice(valid_class_subclasses)
         else:
             if subclass not in valid_class_subclasses:
-                out(f"class '{klass}' has no subclass '{subclass}'", 1)
+                out(f"class '{klass}' has no subclass '{subclass}'.", 1)
 
         _class = callback(
             klass,
@@ -281,7 +277,9 @@ def main(
         # Generate character armor, tool and weapon proficiencies.
         armors = ProficiencyGenerator("armors", _class.armors, _race.armors).proficiency
         tools = ProficiencyGenerator("tools", _class.tools, _race.tools).proficiency
-        weapons = ProficiencyGenerator("weapons", _class.weapons, _race.weapons).proficiency
+        weapons = ProficiencyGenerator(
+            "weapons", _class.weapons, _race.weapons
+        ).proficiency
 
         # Assign ability/feat improvements.
         _upgrade = ImprovementGenerator(
@@ -1313,7 +1311,7 @@ class ImprovementGenerator:
             # Choose one non-proficient saving throw.
             ability_choice = random.sample(resilient_saves, 1)
             self._set_feat_ability(ability_choice)
-            self.saves.append(ability_choice)
+            self.saves = self.saves + ability_choice
 
         # Second Chance
         if feat == "Second Chance":
@@ -1824,9 +1822,25 @@ class _RaceBuilder:
         """
         # Set default attribute values
         self.all = load(self.race, file="races")
-        self.ancestor = None
+        self.ancestor = (
+            self.race == "Dragonborn"
+            and random.choice(
+                (
+                    "Black",
+                    "Blue",
+                    "Brass",
+                    "Bronze",
+                    "Copper",
+                    "Gold",
+                    "Green",
+                    "Red",
+                    "Silver",
+                    "White",
+                )
+            )
+            or None
+        )
         self.bonus = self.all.get("bonus")
-        self.breath = None
         self.darkvision = 0
         self.languages = self.all.get("languages")
         self.magic_innate = list()
@@ -1842,34 +1856,37 @@ class _RaceBuilder:
 
         for trait in self.all.get("traits"):
             if len(trait) == 1:
-                self.traits.append(trait[0])
+                if trait[0] not in ("Breath Weapon", "Damage Resistance", "Draconic Ancestry"):
+                    self.traits.append(trait[0])
+                else:
+                    if trait[0] in ("Breath Weapon", "Damage Resistance"):
+                        if self.ancestor in (
+                            "Black",
+                            "Copper",
+                        ):
+                            self.resistances.append("Acid")
+                        elif self.ancestor in (
+                            "Blue",
+                            "Bronze",
+                        ):
+                            self.resistances.append("Lightning")
+                        elif self.ancestor in (
+                            "Brass",
+                            "Gold",
+                            "Red",
+                        ):
+                            self.resistances.append("Fire")
+                        elif self.ancestor == "Green":
+                            self.resistances.append("Poison")
+                        elif self.ancestor in ("Silver", "White"):
+                            self.resistances.append("Cold")
+                        self.traits.append(f"{trait[0]} ({self.resistances[-1]})")
+                    else:
+                        self.traits.append(f"{trait[0]} ({self.ancestor})")
             else:
                 (name, value) = trait
                 self.traits.append(name)
-                if name == "Draconic Ancestry":
-                    self.ancestor = random.choice(value)
-                    if self.ancestor in (
-                        "Black",
-                        "Copper",
-                    ):
-                        self.resistances.append("Acid")
-                    elif self.ancestor in (
-                        "Blue",
-                        "Bronze",
-                    ):
-                        self.resistances.append("Lightning")
-                    elif self.ancestor in (
-                        "Brass",
-                        "Gold",
-                        "Red",
-                    ):
-                        self.resistances.append("Fire")
-                    elif self.ancestor == "Green":
-                        self.resistances.append("Poison")
-                    elif self.ancestor in ("Silver", "White"):
-                        self.resistances.append("Cold")
-                    self.breath = self.resistances[-1]
-                elif name == "Darkvision":
+                if name == "Darkvision":
                     if self.darkvision == 0:
                         self.darkvision = value
                 elif name == "Superior Darkvision":
