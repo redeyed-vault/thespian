@@ -2306,7 +2306,7 @@ class HTTPServer:
 
     def run(self, port: int = 8080) -> None:
         """
-        Writes the character sheet and starts the server.
+        Starts the HTTP character server.
 
         :param int port: Character server port number. Default port is 8080.
 
