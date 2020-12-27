@@ -15,13 +15,13 @@ from .dice import roll
 from .yaml import load
 
 
-ALLOWED_PC_BACKGROUNDS = load(file="classes")
-ALLOWED_PC_CLASSES = load(file="classes")
-ALLOWED_PC_SUBCLASSES = load(file="subclasses")
-
-ALLOWED_PC_GENDERS = ("Female", "Male")
-ALLOWED_PC_RACES = load(file="races")
-ALLOWED_PC_SUBRACES = load(file="subraces")
+ALL_PC_BACKGROUNDS = load(file="backgrounds")
+ALL_PC_CLASSES = load(file="classes")
+ALL_PC_GENDERS = ("Female", "Male")
+ALL_PC_RACES = load(file="races")
+ALL_PC_SUBCLASSES = load(file="subclasses")
+ALL_PC_SKILLS = load(file="skills")
+ALL_PC_SUBRACES = load(file="subraces")
 
 
 @click.command()
@@ -155,6 +155,7 @@ def main(
         else:
             raise RuntimeError(f"Not all parameters specified for callback '{method}'.")
 
+    # Checks to see if address is already being used
     conn = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     location = ("127.0.0.1", port)
     host, port = location
@@ -166,10 +167,10 @@ def main(
     conn.close()
 
     # Handle application argument processing.
-    if race not in ALLOWED_PC_RACES:
+    if race not in ALL_PC_RACES:
         out(f"invalid character race '{race}'.", 1)
 
-    if klass not in ALLOWED_PC_CLASSES:
+    if klass not in ALL_PC_CLASSES:
         out(f"invalid character class '{klass}'", 1)
 
     if level not in range(1, 21):
@@ -211,12 +212,12 @@ def main(
 
     _race = None
     try:
-        if sex in ALLOWED_PC_GENDERS:
+        if sex in ALL_PC_GENDERS:
             sex = sex
         else:
-            sex = random.choice(ALLOWED_PC_GENDERS)
+            sex = random.choice(ALL_PC_GENDERS)
 
-        subraces_by_race = [s for s in get_subraces_by_race(ALLOWED_PC_SUBRACES, race)]
+        subraces_by_race = [s for s in get_subraces_by_race(ALL_PC_SUBRACES, race)]
         if subrace == "":
             if len(subraces_by_race) != 0:
                 subrace = random.choice(subraces_by_race)
@@ -244,7 +245,7 @@ def main(
         if background == "":
             background = get_default_background(klass)
         else:
-            if background not in ALLOWED_PC_BACKGROUNDS:
+            if background not in ALL_PC_BACKGROUNDS:
                 out(f"invalid character background '{background}'.", 1)
 
         valid_class_subclasses = get_subclasses_by_class(klass)
@@ -467,7 +468,7 @@ class _AttributeBuilder:
 
     def _get_skills_by_attribute(self):
         """Returns a skill list by attribute."""
-        for skill in load(file="skills"):
+        for skill in ALL_PC_SKILLS:
             attribute = load(skill, "ability", file="skills")
             if attribute == self.attribute:
                 yield skill
@@ -910,7 +911,7 @@ def get_is_background(background: str) -> bool:
     :param str background: Chosen background to check.
 
     """
-    return background in load(file="backgrounds")
+    return background in ALL_PC_BACKGROUNDS
 
 
 def get_is_class(klass: str) -> bool:
@@ -920,7 +921,7 @@ def get_is_class(klass: str) -> bool:
     :param str klass: Character's chosen class.
 
     """
-    return klass in load(file="classes")
+    return klass in ALL_PC_CLASSES
 
 
 def get_is_subclass(subclass: str, klass: str) -> bool:
@@ -959,7 +960,7 @@ def get_all_languages() -> list:
 
 def get_all_skills() -> list:
     """Returns a list of ALL skills."""
-    return load(file="skills")
+    return ALL_PC_SKILLS
 
 
 def get_background_skills(background: str):
@@ -1260,7 +1261,7 @@ class ImprovementGenerator:
             if feat == "Prodigy":
                 skills = [
                     skill
-                    for skill in list(load(file="skills"))
+                    for skill in list(ALL_PC_SKILLS)
                     if skill not in self.skills
                 ]
                 tool_list = [t for t in get_tool_chest()]
@@ -1273,7 +1274,7 @@ class ImprovementGenerator:
                 for _ in range(3):
                     skills = [
                         skill
-                        for skill in list(load(file="skills"))
+                        for skill in list(ALL_PC_SKILLS)
                         if skill not in self.skills
                     ]
                     tool_list = [t for t in get_tool_chest()]
@@ -1744,7 +1745,7 @@ class _RaceBuilder:
     def __init__(self, sex: str, subrace: str = "", level: int = 1) -> None:
         self.race = self.__class__.__name__
         valid_subraces = [
-            sr for sr in get_subraces_by_race(ALLOWED_PC_SUBRACES, self.race)
+            sr for sr in get_subraces_by_race(ALL_PC_SUBRACES, self.race)
         ]
 
         if self.race == "_Races":
@@ -2129,7 +2130,7 @@ def has_subraces(race: str) -> bool:
 
     """
     try:
-        subraces = [s for s in get_subraces_by_race(ALLOWED_PC_SUBRACES, race)][0]
+        subraces = [s for s in get_subraces_by_race(ALL_PC_SUBRACES, race)][0]
     except IndexError:
         return False
     else:
