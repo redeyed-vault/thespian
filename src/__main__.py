@@ -15,13 +15,13 @@ from .dice import roll
 from .yaml import load
 
 
-ALL_PC_BACKGROUNDS = load(file="backgrounds")
-ALL_PC_CLASSES = load(file="classes")
-ALL_PC_GENDERS = ("Female", "Male")
-ALL_PC_RACES = load(file="races")
-ALL_PC_SUBCLASSES = load(file="subclasses")
-ALL_PC_SKILLS = load(file="skills")
-ALL_PC_SUBRACES = load(file="subraces")
+PC_BACKGROUNDS = load(file="backgrounds")
+PC_CLASSES = load(file="classes")
+PC_GENDERS = ("Female", "Male")
+PC_RACES = load(file="races")
+PC_SKILLS = load(file="skills")
+PC_SUBCLASSES = load(file="subclasses")
+PC_SUBRACES = load(file="subraces")
 
 
 @click.command()
@@ -167,10 +167,10 @@ def main(
     conn.close()
 
     # Handle application argument processing.
-    if race not in ALL_PC_RACES:
+    if race not in PC_RACES:
         out(f"invalid character race '{race}'.", 1)
 
-    if klass not in ALL_PC_CLASSES:
+    if klass not in PC_CLASSES:
         out(f"invalid character class '{klass}'", 1)
 
     if level not in range(1, 21):
@@ -212,12 +212,12 @@ def main(
 
     _race = None
     try:
-        if sex in ALL_PC_GENDERS:
+        if sex in PC_GENDERS:
             sex = sex
         else:
-            sex = random.choice(ALL_PC_GENDERS)
+            sex = random.choice(PC_GENDERS)
 
-        subraces_by_race = [s for s in get_subraces_by_race(ALL_PC_SUBRACES, race)]
+        subraces_by_race = [s for s in get_subraces_by_race(PC_SUBRACES, race)]
         if subrace == "":
             if len(subraces_by_race) != 0:
                 subrace = random.choice(subraces_by_race)
@@ -245,7 +245,7 @@ def main(
         if background == "":
             background = get_default_background(klass)
         else:
-            if background not in ALL_PC_BACKGROUNDS:
+            if background not in PC_BACKGROUNDS:
                 out(f"invalid character background '{background}'.", 1)
 
         valid_class_subclasses = get_subclasses_by_class(klass)
@@ -468,7 +468,7 @@ class _AttributeBuilder:
 
     def _get_skills_by_attribute(self):
         """Returns a skill list by attribute."""
-        for skill in ALL_PC_SKILLS:
+        for skill in PC_SKILLS:
             attribute = load(skill, "ability", file="skills")
             if attribute == self.attribute:
                 yield skill
@@ -911,7 +911,7 @@ def get_is_background(background: str) -> bool:
     :param str background: Chosen background to check.
 
     """
-    return background in ALL_PC_BACKGROUNDS
+    return background in PC_BACKGROUNDS
 
 
 def get_is_class(klass: str) -> bool:
@@ -921,7 +921,7 @@ def get_is_class(klass: str) -> bool:
     :param str klass: Character's chosen class.
 
     """
-    return klass in ALL_PC_CLASSES
+    return klass in PC_CLASSES
 
 
 def get_is_subclass(subclass: str, klass: str) -> bool:
@@ -960,7 +960,7 @@ def get_all_languages() -> list:
 
 def get_all_skills() -> list:
     """Returns a list of ALL skills."""
-    return ALL_PC_SKILLS
+    return PC_SKILLS
 
 
 def get_background_skills(background: str):
@@ -1261,7 +1261,7 @@ class ImprovementGenerator:
             if feat == "Prodigy":
                 skills = [
                     skill
-                    for skill in list(ALL_PC_SKILLS)
+                    for skill in list(PC_SKILLS)
                     if skill not in self.skills
                 ]
                 tool_list = [t for t in get_tool_chest()]
@@ -1274,7 +1274,7 @@ class ImprovementGenerator:
                 for _ in range(3):
                     skills = [
                         skill
-                        for skill in list(ALL_PC_SKILLS)
+                        for skill in list(PC_SKILLS)
                         if skill not in self.skills
                     ]
                     tool_list = [t for t in get_tool_chest()]
@@ -1745,7 +1745,7 @@ class _RaceBuilder:
     def __init__(self, sex: str, subrace: str = "", level: int = 1) -> None:
         self.race = self.__class__.__name__
         valid_subraces = [
-            sr for sr in get_subraces_by_race(ALL_PC_SUBRACES, self.race)
+            sr for sr in get_subraces_by_race(PC_SUBRACES, self.race)
         ]
 
         if self.race == "_Races":
@@ -2130,7 +2130,7 @@ def has_subraces(race: str) -> bool:
 
     """
     try:
-        subraces = [s for s in get_subraces_by_race(ALL_PC_SUBRACES, race)][0]
+        subraces = [s for s in get_subraces_by_race(PC_SUBRACES, race)][0]
     except IndexError:
         return False
     else:
