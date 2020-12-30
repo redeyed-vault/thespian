@@ -18,6 +18,7 @@ from .yaml import load
 PC_BACKGROUNDS = load(file="backgrounds")
 PC_CLASSES = load(file="classes")
 PC_GENDERS = ("Female", "Male")
+PC_LANGUAGES = load(file="languages")
 PC_RACES = load(file="races")
 PC_SKILLS = load(file="skills")
 PC_SUBCLASSES = load(file="subclasses")
@@ -217,17 +218,19 @@ def main(
         else:
             sex = random.choice(PC_GENDERS)
 
-        subraces_by_race = [s for s in get_subraces_by_race(PC_SUBRACES, race)]
+        subraces_by_race = [s for s in get_subraces_by_race(race)]
         if subrace == "":
             if len(subraces_by_race) != 0:
                 subrace = random.choice(subraces_by_race)
         else:
             try:
+                # Race has no subraces
                 if len(subraces_by_race) == 0:
                     raise ValueError(f"'{race}' has no available subraces.")
 
+                # Race has subraces but invalid one chosen
                 if subrace not in subraces_by_race:
-                    raise ValueError(f"invalid subrace race '{subrace}'.")
+                    raise ValueError(f"'{subrace}' is not a subrace of '{race}'.")
             except ValueError as e:
                 out(str(e), 1)
 
@@ -338,7 +341,7 @@ def main(
         cs["traits"] = _race.traits
 
         try:
-            with HTTPServer(cs) as http:
+            with HTTPServer(cs, "") as http:
                 http.run(port)
         except (OSError, TypeError, ValueError) as e:
             out(e, 2)
@@ -677,7 +680,7 @@ class _ClassBuilder:
             features = {lv: features[lv] for lv in features if lv <= self.level}
         except (TypeError, KeyError) as e:
             # exit("Cannot find class/subclass '{}'")
-            exit(e)
+            sys.exit(e)
         else:
             for lv, fts in features.items():
                 features[lv] = tuple(fts)
@@ -955,7 +958,7 @@ def get_subclass_proficiency(subclass: str, category: str):
 
 
 def get_all_languages() -> list:
-    return load(file="languages")
+    return PC_LANGUAGES
 
 
 def get_all_skills() -> list:
@@ -1216,7 +1219,7 @@ class ImprovementGenerator:
                 )
             if feat in ("Linguist", "Prodigy"):
                 # Remove already known languages.
-                linguist_languages = list(load(file="languages"))
+                linguist_languages = list(PC_LANGUAGES)
                 linguist_languages = [
                     language
                     for language in linguist_languages
@@ -1260,9 +1263,7 @@ class ImprovementGenerator:
         if feat in ("Prodigy", "Skilled"):
             if feat == "Prodigy":
                 skills = [
-                    skill
-                    for skill in list(PC_SKILLS)
-                    if skill not in self.skills
+                    skill for skill in list(PC_SKILLS) if skill not in self.skills
                 ]
                 tool_list = [t for t in get_tool_chest()]
                 tool_list = [
@@ -1273,9 +1274,7 @@ class ImprovementGenerator:
             else:
                 for _ in range(3):
                     skills = [
-                        skill
-                        for skill in list(PC_SKILLS)
-                        if skill not in self.skills
+                        skill for skill in list(PC_SKILLS) if skill not in self.skills
                     ]
                     tool_list = [t for t in get_tool_chest()]
                     tool_list = [
@@ -1567,7 +1566,7 @@ class ImprovementGenerator:
         except (KeyError, TypeError):
             traceback.print_exc()
         except RuntimeError as err:
-            exit(err)
+            sys.exit(err)
         except ValueError:
             pass
 
@@ -1744,9 +1743,7 @@ class _RaceBuilder:
 
     def __init__(self, sex: str, subrace: str = "", level: int = 1) -> None:
         self.race = self.__class__.__name__
-        valid_subraces = [
-            sr for sr in get_subraces_by_race(PC_SUBRACES, self.race)
-        ]
+        valid_subraces = [sr for sr in get_subraces_by_race(self.race)]
 
         if self.race == "_Races":
             raise Exception(
@@ -1857,7 +1854,11 @@ class _RaceBuilder:
 
         for trait in self.all.get("traits"):
             if len(trait) == 1:
-                if trait[0] not in ("Breath Weapon", "Damage Resistance", "Draconic Ancestry"):
+                if trait[0] not in (
+                    "Breath Weapon",
+                    "Damage Resistance",
+                    "Draconic Ancestry",
+                ):
                     self.traits.append(trait[0])
                 else:
                     if trait[0] in ("Breath Weapon", "Damage Resistance"):
@@ -2110,14 +2111,13 @@ class Yuanti(_RaceBuilder):
         super(Yuanti, self).__init__(sex, subrace, level)
 
 
-def get_subraces_by_race(allowed_subraces: list, race: str):
+def get_subraces_by_race(race: str):
     """Yields a list of valid subraces by race.
 
-    :param list allowed_subraces: List of allowed subraces.
     :param str race: Race to retrieve subraces for.
 
     """
-    for subrace in allowed_subraces:
+    for subrace in PC_SUBRACES:
         if load(subrace, "parent", file="subraces") == race:
             yield subrace
 
@@ -2130,61 +2130,16 @@ def has_subraces(race: str) -> bool:
 
     """
     try:
-        subraces = [s for s in get_subraces_by_race(PC_SUBRACES, race)][0]
+        return [s for s in get_subraces_by_race(race)][0]
     except IndexError:
         return False
-    else:
-        return subraces
 
 
+@dataclass
 class HTTPServer:
-    """
-    Creates the HTTPServer object.
 
-    :param OrderedDict data: Character's information packet.
-
-    """
-
-    def __init__(self, data: OrderedDict) -> None:
-        if not isinstance(data, OrderedDict):
-            raise TypeError("Argument 'data' must be of type 'OrderedDict'.")
-
-        data_keys = (
-            "race",
-            "subrace",
-            "sex",
-            "alignment",
-            "background",
-            "size",
-            "height",
-            "weight",
-            "class",
-            "subclass",
-            "level",
-            "bonus",
-            "score_array",
-            "saves",
-            "proficiency",
-            "languages",
-            "magic_innate",
-            "spell_slots",
-            "skills",
-            "feats",
-            "equipment",
-            "features",
-            "traits",
-        )
-        if not all(dk in data for dk in data_keys):
-            raise ValueError(
-                "All data keys 'race', 'subrace', 'sex', 'alignment', "
-                "'background', 'size', 'height', 'weight', 'class', 'subclass', "
-                "'level', 'bonus', 'score_array', 'saves', 'proficiency', "
-                "'languages', 'magic_innate', 'spell_slots', 'skills', 'feats', "
-                "'equipment', 'features', 'traits' must have a value."
-            )
-        else:
-            self.data = data
-        self.text = ""
+    data: OrderedDict
+    text: str
 
     def __enter__(self):
         return self
@@ -2335,6 +2290,43 @@ class HTTPServer:
             wgt = f"{wgt} lbs."
             return size, hgt, wgt
 
+        if not isinstance(self.data, OrderedDict):
+            raise TypeError("Argument 'data' must be of type 'OrderedDict'.")
+
+        data_keys = (
+            "race",
+            "subrace",
+            "sex",
+            "alignment",
+            "background",
+            "size",
+            "height",
+            "weight",
+            "class",
+            "subclass",
+            "level",
+            "bonus",
+            "score_array",
+            "saves",
+            "proficiency",
+            "languages",
+            "magic_innate",
+            "spell_slots",
+            "skills",
+            "feats",
+            "equipment",
+            "features",
+            "traits",
+        )
+        if not all(dk in self.data for dk in data_keys):
+            raise ValueError(
+                "All data keys 'race', 'subrace', 'sex', 'alignment', "
+                "'background', 'size', 'height', 'weight', 'class', 'subclass', "
+                "'level', 'bonus', 'score_array', 'saves', 'proficiency', "
+                "'languages', 'magic_innate', 'spell_slots', 'skills', 'feats', "
+                "'equipment', 'features', 'traits' must have a value."
+            )
+
         (size_class, height, weight) = format_size()
         self.body = "<!DOCTYPE html>"
         self.body = f"<html><head><title>Yari {__version__}</title></head><body>"
@@ -2403,7 +2395,7 @@ def out(message: str, output_code: int = 0):
             # Adds traceback to error message
             if output_code == 2:
                 traceback.print_exc()
-            exit()
+            sys.exit()
         # Warning
         elif output_code == -1:
             click.secho(f"WARN: {message}", bold=True, fg="yellow")

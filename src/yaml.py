@@ -1,5 +1,6 @@
 from dataclasses import dataclass
 import os
+import sys
 import traceback
 
 import yaml
@@ -13,57 +14,10 @@ class MalformedError(Exception):
     """Raised if the YAML data structure is invalid."""
 
 
-# TODO: Expand this class for formatting consistency checking
-# Not implemented
 @dataclass
-class IntegrityChecker:
-
-    check_file: str
-    resource_data: dict
-    # missing_keys: list = list()
-
-    def check(self):
-        self.key_table = {
-            "classes": [
-                "abilities",
-                "background",
-                "equipment",
-                "features",
-                "hit_die",
-                "proficiency",
-                "spell_slots",
-                "subclasses",
-            ],
-            "races": ["bonus", "languages", "ratio", "size", "speed", "traits"],
-            "subclasses": ["features", "magic", "proficiency"],
-            "subraces": ["bonus", "languages", "parent", "ratio", "traits"],
-        }
-
-        # Requested file isn't in the key table
-        if check_file not in self.key_table:
-            return True
-
-        self.required_keys = self.key_table[self.check_file]
-        entry_keys = list(self.resource_data.get(self.check_file).keys())
-        for key in entry_keys:
-            x = self.resource_data.get(self.check_file).get(key)
-            if not all(k in x for k in self.required_keys):
-                return False
-        return True
-
-
 class Query:
-    """
-    Handles successful query result.
 
-    :param dict resource: The loaded YAML file contents.
-
-    """
-
-    def __init__(self, resource: dict) -> None:
-        if not isinstance(resource, dict):
-            raise TypeError("Argument 'resource' must be of type 'dict'.")
-        self.resource = resource
+    resource: dict
 
     def find(self, *fields):
         """
@@ -72,6 +26,9 @@ class Query:
         :param fields: Field index(es) to search for.
 
         """
+        if not isinstance(self.resource, dict):
+            raise TypeError("Argument 'resource' must be of type 'dict'.")
+
         if len(fields) == 0:
             yield tuple(self.resource.keys())
         else:
@@ -82,43 +39,6 @@ class Query:
                 else:
                     raise QueryNotFound(f"Cannot find index '{field}' within resource.")
             yield resource
-
-
-def integrity_check(check_file: str, resource_data: dict) -> bool:
-    """
-    Checks YAML source file integrity.
-
-    :param str check_file:
-    :param dict resource_data:
-
-    """
-    required_key_table = {
-        "classes": [
-            "abilities",
-            "background",
-            "equipment",
-            "features",
-            "hit_die",
-            "proficiency",
-            "spell_slots",
-            "subclasses",
-        ],
-        "races": ["bonus", "languages", "ratio", "size", "speed", "traits"],
-        "subclasses": ["features", "magic", "proficiency"],
-        "subraces": ["bonus", "languages", "parent", "ratio", "traits"],
-    }
-
-    # Requested file isn't in the key table
-    if check_file not in required_key_table:
-        return True
-
-    required_keys = required_key_table[check_file]
-    entry_keys = list(resource_data.get(check_file).keys())
-    for key in entry_keys:
-        x = resource_data.get(check_file).get(key)
-        if not all(k in x for k in required_keys):
-            return False
-    return True
 
 
 def load(*fields, file: str):
@@ -132,40 +52,38 @@ def load(*fields, file: str):
 
     def _load(file_name):
         try:
-            sources_path = os.path.join(os.path.dirname(__file__), "sources/")
-            yaml_file = os.path.join(sources_path, f"{file_name}.yaml")
+            source_path_dir = os.path.join(os.path.dirname(__file__), "sources/")
+            yaml_file_path = os.path.join(source_path_dir, f"{file_name}.yaml")
 
             # File doesn't exist
-            if not os.path.exists(yaml_file):
-                raise FileNotFoundError(f"Cannot find the resource '{yaml_file}'.")
+            if not os.path.exists(yaml_file_path):
+                raise FileNotFoundError(f"Missing source file '{yaml_file_path}'.")
 
-            with open(yaml_file) as data:
+            # Extract the file, sans YAML extension
+            base_file_name = os.path.basename(yaml_file_path).replace(".yaml", "")
+
+            # Attempt to extract the requested data
+            with open(yaml_file_path) as data:
                 resource = yaml.full_load(data)
-                yaml_file = os.path.basename(yaml_file).replace(".yaml", "")
-                if yaml_file not in resource:
+                if base_file_name not in resource:
                     raise MalformedError(
-                        f"The opening key in '{yaml_file}' is invalid. The first line "
+                        f"The opening key in '{base_file_name}' is invalid. The first line "
                         "in Yari specific YAML documents must begin with a key that "
                         "matches the file name without the extension."
                     )
                 data.close()
 
-            # TODO: Expand this formatting consistency checker
-            if not integrity_check(yaml_file, resource):
-                raise MalformedError(
-                    f"Inconsistency formatting found in '{yaml_file}.yaml'. Please check the file and correct."
-                )
-
-            y = Query(resource[yaml_file])
+            # Create then query the Query object
+            y = Query(resource[base_file_name])
             return y.find(*fields)
         except TypeError as error:
             print(error)
             traceback.print_exc()
-            exit()
+            sys.exit()
         except FileNotFoundError as error:
-            exit(error)
+            sys.exit(error)
         except MalformedError as error:
-            exit(error)
+            sys.exit(error)
 
     try:
         return [q for q in _load(file)][0]
