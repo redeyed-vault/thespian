@@ -15,6 +15,23 @@ class MalformedError(Exception):
 
 
 @dataclass
+class Load:
+
+    source_file: str
+    _data: list = None
+
+    def get_row_column(self, *cols):
+        """Returns row columns."""
+        self._data = load(*cols, file=self.source_file)
+        return self._data
+
+    def get_row_ids(self):
+        """Returns row ids."""
+        self._data = load(file=self.source_file)
+        return self._data
+
+
+@dataclass
 class Query:
 
     resource: dict

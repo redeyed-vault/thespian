@@ -12,17 +12,19 @@ import click
 
 from . import __version__
 from .dice import roll
-from .yaml import load
+from .yaml import Load
 
 
-PC_BACKGROUNDS = load(file="backgrounds")
-PC_CLASSES = load(file="classes")
+PC_BACKGROUNDS = Load("backgrounds").get_row_ids()
+PC_CLASSES = Load("classes").get_row_ids()
+PC_FEATS = Load("feats").get_row_ids()
 PC_GENDERS = ("Female", "Male")
-PC_LANGUAGES = load(file="languages")
-PC_RACES = load(file="races")
-PC_SKILLS = load(file="skills")
-PC_SUBCLASSES = load(file="subclasses")
-PC_SUBRACES = load(file="subraces")
+PC_LANGUAGES = Load("languages").get_row_ids()
+PC_RACES = Load("races").get_row_ids()
+PC_SKILLS = Load("skills").get_row_ids()
+PC_SUBCLASSES = Load("subclasses").get_row_ids()
+PC_SUBRACES = Load("subraces").get_row_ids()
+PC_TOOLS = Load("tools").get_row_ids()
 
 
 @click.command()
@@ -275,7 +277,7 @@ def main(
 
     try:
         # Generate ability scores.
-        _attributes = AttributeGenerator(_class.primary_ability, _race.bonus, 65)
+        _attributes = AttributeGenerator(_class.primary_ability, _race.bonus)
         score_array = _attributes.roll()
 
         # Generate character armor, tool and weapon proficiencies.
@@ -341,7 +343,7 @@ def main(
         cs["traits"] = _race.traits
 
         try:
-            with HTTPServer(cs, "") as http:
+            with HTTPServer(cs) as http:
                 http.run(port)
         except (OSError, TypeError, ValueError) as e:
             out(e, 2)
@@ -362,7 +364,7 @@ class AttributeGenerator:
 
     primary_ability: dict
     racial_bonus: dict
-    threshold: int
+    threshold: int = 65
 
     def _determine_ability_scores(self) -> list:
         """Generates six ability scores for assignment."""
@@ -472,7 +474,7 @@ class _AttributeBuilder:
     def _get_skills_by_attribute(self):
         """Returns a skill list by attribute."""
         for skill in PC_SKILLS:
-            attribute = load(skill, "ability", file="skills")
+            attribute = Load("skills").get_row_column(skill, "ability")
             if attribute == self.attribute:
                 yield skill
 
@@ -625,7 +627,7 @@ class _ClassBuilder:
             - Wizard: Constitution|Dexterity
 
         """
-        class_abilities = load(self.klass, "abilities", file="classes")
+        class_abilities = Load("classes").get_row_column(self.klass, "abilities")
         if self.klass == "Cleric":
             class_abilities[2] = random.choice(class_abilities[2])
         elif self.klass in ("Fighter", "Ranger"):
@@ -650,16 +652,17 @@ class _ClassBuilder:
 
     def _add_equipment(self) -> None:
         """Generates a list of starting equipment by class & background."""
-        class_equipment = load(self.klass, "equipment", file="classes")
-        background_equipment = load(self.background, "equipment", file="backgrounds")
+        class_equipment = Load("classes").get_row_column(self.klass, "equipment")
+        background_equipment = Load("backgrounds").get_row_column(self.background, "equipment")
         equipment = class_equipment + background_equipment
         equipment.sort()
         self.all["equipment"] = self.equipment = equipment
 
     def _add_features(self) -> None:
-        """Generates a dictionary of features by class, subclass & level."""
+        """Generates a collection of class and subclass features by level."""
 
-        def merge(cls_features: dict, sc_features: dict) -> dict:
+        def feature_splice(cls_features: dict, sc_features: dict) -> dict:
+            """Splices class/subclass features."""
             for lv, ft in sc_features.items():
                 if lv in cls_features:
                     feature_list = cls_features[lv] + sc_features[lv]
@@ -670,10 +673,10 @@ class _ClassBuilder:
             return cls_features
 
         try:
-            class_features = load(self.klass, "features", file="classes")
+            class_features = Load("classes").get_row_column(self.klass, "features")
             if self.subclass != "":
-                subclass_features = load(self.subclass, "features", file="subclasses")
-                features = merge(class_features, subclass_features)
+                subclass_features = Load("subclasses").get_row_column(self.subclass, "features")
+                features = feature_splice(class_features, subclass_features)
             else:
                 features = class_features
             # Create feature dictionary based on level.
@@ -709,7 +712,7 @@ class _ClassBuilder:
 
         extended_magic_list = dict()
         # Only apply spells available at that level
-        for level, spells in load(self.subclass, "magic", file="subclasses").items():
+        for level, spells in Load("subclasses").get_row_column(self.subclass, "magic").items():
             if level <= self.level:
                 extended_magic_list[level] = tuple(spells)
 
@@ -808,7 +811,7 @@ class _ClassBuilder:
 
     def create(self) -> None:
         # Load class template
-        self.all = load(self.klass, file="classes")
+        self.all = Load("classes").get_row_column(self.klass)
         # Generate class fine-tuning modifications
         self._add_abilities()
         self._add_equipment()
@@ -904,7 +907,7 @@ def get_default_background(klass: str):
     :param str klass: Characters chosen class.
 
     """
-    return load(klass, "background", file="classes")
+    return Load("classes").get_row_column(klass, "background")
 
 
 def get_is_background(background: str) -> bool:
@@ -935,7 +938,7 @@ def get_is_subclass(subclass: str, klass: str) -> bool:
     :param str klass: Character's chosen class.
 
     """
-    return subclass in load(klass, "subclasses", file="classes")
+    return subclass in Load("classes").get_row_column(klass, "subclasses")
 
 
 def get_subclass_proficiency(subclass: str, category: str):
@@ -949,7 +952,7 @@ def get_subclass_proficiency(subclass: str, category: str):
     if category not in ("Armor", "Tools", "Weapons"):
         raise ValueError("Argument 'category' must be 'Armor', 'Tools' or 'Weapons'.")
 
-    trait_list = load(subclass, file="subclasses")
+    trait_list = Load("subclasses").get_row_column(subclass)
     if trait_list.get("proficiency") is not None:
         proficiencies = trait_list.get("proficiency")
         for proficiency in proficiencies:
@@ -973,7 +976,7 @@ def get_background_skills(background: str):
     :param str background: Background to return background skills for.
 
     """
-    return load(background, "skills", file="backgrounds")
+    return Load("backgrounds").get_row_column(background, "skills")
 
 
 def get_subclasses_by_class(klass: str) -> tuple:
@@ -983,7 +986,7 @@ def get_subclasses_by_class(klass: str) -> tuple:
     :param str klass: Character's class.
 
     """
-    return load(klass, "subclasses", file="classes")
+    return Load("classes").get_row_column(klass, "subclasses")
 
 
 def get_proficiency_bonus(level: int) -> int:
@@ -1003,8 +1006,7 @@ def has_extended_magic(subclass: str) -> bool:
     :param str subclass: Character's subclass.
 
     """
-    extra_magic = load(subclass, "magic", file="subclasses")
-    if extra_magic is not None:
+    if Load("subclasses").get_row_column(subclass, "magic") is not None:
         return True
     return False
 
@@ -1094,7 +1096,7 @@ class ImprovementGenerator:
 
     def _add_feat(self) -> None:
         """Randomly selects and adds a valid feats."""
-        feats = [feat for feat in list(load(file="feats")) if feat not in self.feats]
+        feats = [feat for feat in list(PC_FEATS) if feat not in self.feats]
         random.shuffle(feats)
         feat_choice = feats.pop()
         out(f"Checking prerequisites for '{feat_choice}'...", -2)
@@ -1449,7 +1451,7 @@ class ImprovementGenerator:
                 return False
 
         # Go through ALL additional prerequisites.
-        prerequisite = load(feat, file="feats")
+        prerequisite = Load("feats").get_row_column(feat)
         for requirement, _ in prerequisite.items():
             if requirement == "abilities":
                 for ability, required_score in prerequisite.get(requirement).items():
@@ -1683,15 +1685,15 @@ def get_armor_chest():
     """Returns a full collection of armors."""
     armor_chest = dict()
     for armor_category in ("Heavy", "Light", "Medium"):
-        armor_chest[armor_category] = load(armor_category, file="armors")
+        armor_chest[armor_category] = Load("armors").get_row_column(armor_category)
     yield armor_chest
 
 
 def get_tool_chest():
     """Returns a full collection of tools."""
-    for main_tool in load(file="tools"):
+    for main_tool in PC_TOOLS:
         if main_tool in ("Artisan's tools", "Gaming set", "Musical instrument"):
-            for sub_tool in load(main_tool, file="tools"):
+            for sub_tool in Load("tools").get_row_column(main_tool):
                 yield f"{main_tool} - {sub_tool}"
         else:
             yield main_tool
@@ -1701,7 +1703,7 @@ def get_weapon_chest():
     """Returns a full collection of weapons."""
     weapon_chest = dict()
     for weapon_category in ("Simple", "Martial"):
-        weapon_chest[weapon_category] = load(weapon_category, file="weapons")
+        weapon_chest[weapon_category] = Load("weapons").get_row_column(weapon_category)
     yield weapon_chest
 
 
@@ -1819,7 +1821,7 @@ class _RaceBuilder:
 
         """
         # Set default attribute values
-        self.all = load(self.race, file="races")
+        self.all = Load("races").get_row_column(self.race)
         self.ancestor = (
             self.race == "Dragonborn"
             and random.choice(
@@ -1968,7 +1970,7 @@ class _RaceBuilder:
             return
 
         # Load subrace traits
-        subrace_traits = load(self.subrace, file="subraces")
+        subrace_traits = Load("subraces").get_row_column(self.subrace)
         # Attempt to merge traits
         for trait, value in subrace_traits.items():
             if trait not in self.all:
@@ -2118,7 +2120,7 @@ def get_subraces_by_race(race: str):
 
     """
     for subrace in PC_SUBRACES:
-        if load(subrace, "parent", file="subraces") == race:
+        if Load("subraces").get_row_column(subrace, "parent") == race:
             yield subrace
 
 
@@ -2139,7 +2141,7 @@ def has_subraces(race: str) -> bool:
 class HTTPServer:
 
     data: OrderedDict
-    text: str
+    text: str = ""
 
     def __enter__(self):
         return self
