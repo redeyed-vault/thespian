@@ -2137,28 +2137,17 @@ def has_subraces(race: str) -> bool:
         return False
 
 
-@dataclass
 class HTTPServer:
 
-    data: OrderedDict
-    text: str = ""
+    def __init__(self, data: OrderedDict):
+        self.data = data
+        self.text: str = ""
 
     def __enter__(self):
         return self
 
     def __exit__(self, exec_type, value, tb) -> None:
         pass
-
-    @property
-    def body(self):
-        return self.text
-
-    @body.setter
-    def body(self, text: str):
-        if self.text != "":
-            self.text += text
-        else:
-            self.text = text
 
     def _append_abilities(self):
         def format_ability(attributes: dict):
@@ -2261,6 +2250,17 @@ class HTTPServer:
         block += self._append_list("Skills", self.data.get("skills"))
         return block
 
+    @property
+    def _write(self):
+        return self.text
+
+    @_write.setter
+    def _write(self, text: str):
+        if self.text != "":
+            self.text += text
+        else:
+            self.text = text
+
     def run(self, port: int = 8080) -> None:
         """
         Starts the HTTP character server.
@@ -2268,6 +2268,8 @@ class HTTPServer:
         :param int port: Character server port number. Default port is 8080.
 
         """
+        if not isinstance(self.data, OrderedDict):
+            raise TypeError("Argument 'data' must be of type 'OrderedDict'.")
 
         def format_race():
             if self.data.get("subrace") != "":
@@ -2291,9 +2293,6 @@ class HTTPServer:
             hgt = "{}' {}\"".format(feet, inches)
             wgt = f"{wgt} lbs."
             return size, hgt, wgt
-
-        if not isinstance(self.data, OrderedDict):
-            raise TypeError("Argument 'data' must be of type 'OrderedDict'.")
 
         data_keys = (
             "race",
@@ -2330,44 +2329,44 @@ class HTTPServer:
             )
 
         (size_class, height, weight) = format_size()
-        self.body = "<!DOCTYPE html>"
-        self.body = f"<html><head><title>Yari {__version__}</title></head><body>"
-        self.body = "<p>"
-        self.body = f"<strong>Race:</strong> {format_race()}<br/>"
-        self.body = f'<strong>Sex: </strong>{self.data.get("sex")}<br/>'
-        self.body = f'<strong>Alignment: </strong>{self.data.get("alignment")}<br/>'
-        self.body = f'<strong>Background: </strong> {self.data.get("background")}<br/>'
-        self.body = f"<strong>Height: </strong>{height}<br/>"
-        self.body = f"<strong>Weight: </strong>{weight}<br/>"
-        self.body = f"<strong>Size: </strong>{size_class}<br/>"
-        self.body = "</p>"
+        self._write = "<!DOCTYPE html>"
+        self._write = f"<html><head><title>Yari {__version__}</title></head><body>"
+        self._write = "<p>"
+        self._write = f"<strong>Race:</strong> {format_race()}<br/>"
+        self._write = f'<strong>Sex: </strong>{self.data.get("sex")}<br/>'
+        self._write = f'<strong>Alignment: </strong>{self.data.get("alignment")}<br/>'
+        self._write = f'<strong>Background: </strong> {self.data.get("background")}<br/>'
+        self._write = f"<strong>Height: </strong>{height}<br/>"
+        self._write = f"<strong>Weight: </strong>{weight}<br/>"
+        self._write = f"<strong>Size: </strong>{size_class}<br/>"
+        self._write = "</p>"
 
-        self.body = "<p>"
-        self.body = f'<strong>Class: </strong>{self.data.get("class")}<br/>'
-        self.body = f'<strong>Subclass: </strong>{self.data.get("subclass")}<br/>'
-        self.body = f'<strong>Level: </strong>{self.data.get("level")}<br/>'
-        self.body = "</p>"
+        self._write = "<p>"
+        self._write = f'<strong>Class: </strong>{self.data.get("class")}<br/>'
+        self._write = f'<strong>Subclass: </strong>{self.data.get("subclass")}<br/>'
+        self._write = f'<strong>Level: </strong>{self.data.get("level")}<br/>'
+        self._write = "</p>"
 
-        self.body = self._append_abilities()
-        self.body = (
+        self._write = self._append_abilities()
+        self._write = (
             f'<p><strong>Spell Slots: </strong>{self.data.get("spell_slots")}</p>'
         )
-        self.body = self._append_proficiency()
-        self.body = self._append_list("Feats", self.data.get("feats"))
-        self.body = self._append_list("RACIAL TRAITS", self.data.get("traits"))
-        self.body = self._append_list(
+        self._write = self._append_proficiency()
+        self._write = self._append_list("Feats", self.data.get("feats"))
+        self._write = self._append_list("RACIAL TRAITS", self.data.get("traits"))
+        self._write = self._append_list(
             "Innate Spellcasting", self.data.get("magic_innate")
         )
-        self.body = self._append_features()
-        self.body = self._append_magic()
-        self.body = self._append_list("EQUIPMENT", self.data.get("equipment"))
-        self.body = "</body></html>"
+        self._write = self._append_features()
+        self._write = self._append_magic()
+        self._write = self._append_list("EQUIPMENT", self.data.get("equipment"))
+        self._write = "</body></html>"
 
         async def index(request):
             print(request.headers)
             return web.Response(
                 content_type="text/html",
-                text=BeautifulSoup(self.body, "html.parser").prettify(),
+                text=BeautifulSoup(self._write, "html.parser").prettify(),
             )
 
         app = web.Application()
