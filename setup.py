@@ -1,6 +1,6 @@
 from setuptools import find_packages, setup
 
-from src import __version__
+from yari import __version__
 
 
 with open("README.md", "r", encoding="utf8") as description:
@@ -10,7 +10,7 @@ setup(
     name="yari",
     version=__version__,
     packages=find_packages(),
-    package_data={"src": ["sources/*.yaml"]},
+    package_data={"yari": ["sources/*.yaml"]},
     url="https://taylormarcus.github.io/Yari/",
     license="MIT",
     author="Marcus T Taylor",
@@ -24,7 +24,7 @@ setup(
         "PyYAML",
     ],
     python_requires=">=3.0",
-    entry_points={"console_scripts": ["yari=src.__main__:main"]},
+    entry_points={"console_scripts": ["yari=yari.__main__:main"]},
     classifiers=[
         "Development Status :: 4 - Beta",
         "Environment :: Console",
