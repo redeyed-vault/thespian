@@ -135,6 +135,34 @@ Here's a more complex example:
 
 If you haven't already noticed, this would generate a 10th level female Dragonborn Paladin with a Lawful Good alignment.
 
+Here's an example of some general Yari output.
+
+    ▶ yari -race=Dragonborn -level=10
+    INFO: Result of 16 assigned to ability 'Dexterity'.
+    INFO: Result of 12 assigned to ability 'Constitution'.
+    INFO: Result of 11 assigned to ability 'Wisdom'.
+    INFO: Result of 10 assigned to ability 'Intelligence'.
+    INFO: Result of 8 assigned to ability 'Charisma'.
+    INFO: Result of 11 assigned to ability 'Strength'.
+    INFO: Bonus of 2 applied to 'Strength'. Score is now 13.
+    INFO: Bonus of 1 applied to 'Charisma'. Score is now 9.
+    INFO: Checking prerequisites for 'Second Chance'...
+    WARN: Prerequisites not met for 'Second Chance'.
+    INFO: Checking prerequisites for 'Spell Sniper'...
+    WARN: Prerequisites not met for 'Spell Sniper'.
+    INFO: Checking prerequisites for 'Squat Nimbleness'...
+    WARN: Prerequisites not met for 'Squat Nimbleness'.
+    INFO: Checking prerequisites for 'Weapon Master'...
+    WARN: Prerequisites not met for 'Weapon Master'.
+    INFO: Checking prerequisites for 'Fey Teleportation'...
+    WARN: Prerequisites not met for 'Fey Teleportation'.
+    INFO: Checking prerequisites for 'Dragon Hide'...
+    OK: Prerequisites met for 'Dragon Hide'.
+    INFO: Checking prerequisites for 'Observant'...
+    OK: Prerequisites met for 'Observant'.
+    ======== Running on http://127.0.0.1:8080 ========
+    (Press CTRL+C to quit)
+
 
 #### DISCLAIMER
 

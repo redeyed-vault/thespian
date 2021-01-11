@@ -406,6 +406,7 @@ class AttributeGenerator:
             score_array[ability] = value
             ability_choices.remove(ability)
             generated_scores.remove(value)
+            out(f"Result of {value} assigned to ability '{ability}'.", -2)
 
         # Assign remaining abilities/scores.
         for _ in range(0, 4):
@@ -414,6 +415,7 @@ class AttributeGenerator:
             score_array[ability] = value
             ability_choices.remove(ability)
             generated_scores.remove(value)
+            out(f"Result of {value} assigned to ability '{ability}'.", -2)
 
         score_array = score_array
 
@@ -421,6 +423,7 @@ class AttributeGenerator:
         for ability, bonus in self.racial_bonus.items():
             value = score_array.get(ability) + bonus
             score_array[ability] = value
+            out(f"Bonus of {bonus} applied to '{ability}'. Score is now {value}.", -2)
 
         return score_array
 
