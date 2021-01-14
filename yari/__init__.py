@@ -62,8 +62,6 @@ from .constants import (
 from .dice import roll
 from .sourcereader import Load
 
-__version__ = "21.1b2"
-
 __all__ = [
     Aasimar,
     Bugbear,
@@ -125,3 +123,5 @@ __all__ = [
     get_subraces_by_race,
     roll,
 ]
+
+__version__ = "21.1b2"
