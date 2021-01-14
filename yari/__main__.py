@@ -1,8 +1,9 @@
 from collections import OrderedDict
 from dataclasses import dataclass
-import random
+from math import floor
+from random import choice, sample, shuffle
 import socket
-import sys
+from sys import exit
 import traceback
 
 from aiohttp import web
@@ -10,7 +11,47 @@ from bs4 import BeautifulSoup
 import click
 
 from . import (
-    __version__,
+    Aasimar,
+    Bugbear,
+    Dragonborn,
+    Dwarf,
+    Elf,
+    Firbolg,
+    Gith,
+    Gnome,
+    Goblin,
+    Goliath,
+    Halfling,
+    HalfElf,
+    HalfOrc,
+    Hobgoblin,
+    Human,
+    Kenku,
+    Kobold,
+    Lizardfolk,
+    Orc,
+    Tabaxi,
+    Tiefling,
+    Triton,
+    Yuanti,
+    Barbarian,
+    Bard,
+    Cleric,
+    Druid,
+    Fighter,
+    Monk,
+    Paladin,
+    Ranger,
+    Rogue,
+    Sorcerer,
+    Warlock,
+    Wizard,
+    Strength,
+    Dexterity,
+    Constitution,
+    Intelligence,
+    Wisdom,
+    Charisma,
     PC_BACKGROUNDS,
     PC_CLASSES,
     PC_FEATS,
@@ -18,13 +59,19 @@ from . import (
     PC_LANGUAGES,
     PC_RACES,
     PC_SKILLS,
-    # PC_SUBCLASSES,
-    # PC_SUBRACES,
+    PC_SUBCLASSES,
+    PC_SUBRACES,
     PC_TOOLS,
     Load,
+    __version__,
+    get_all_languages,
+    get_all_skills,
+    get_default_background,
+    get_proficiency_bonus,
+    get_subclasses_by_class,
+    get_subraces_by_race,
     roll,
 )
-from .builders import *
 
 
 @click.command()
@@ -218,12 +265,12 @@ def main(
         if sex in PC_GENDERS:
             sex = sex
         else:
-            sex = random.choice(PC_GENDERS)
+            sex = choice(PC_GENDERS)
 
         subraces_by_race = [s for s in get_subraces_by_race(race)]
         if subrace == "":
             if len(subraces_by_race) != 0:
-                subrace = random.choice(subraces_by_race)
+                subrace = choice(subraces_by_race)
         else:
             try:
                 # Race has no subraces
@@ -255,7 +302,7 @@ def main(
 
         valid_class_subclasses = get_subclasses_by_class(klass)
         if subclass == "":
-            subclass = random.choice(valid_class_subclasses)
+            subclass = choice(valid_class_subclasses)
         else:
             if subclass not in valid_class_subclasses:
                 out(f"class '{klass}' has no subclass '{subclass}'.", 1)
@@ -410,8 +457,8 @@ class AttributeGenerator:
 
         # Assign remaining abilities/scores.
         for _ in range(0, 4):
-            ability = random.choice(ability_choices)
-            value = random.choice(generated_scores)
+            ability = choice(ability_choices)
+            value = choice(generated_scores)
             score_array[ability] = value
             ability_choices.remove(ability)
             generated_scores.remove(value)
@@ -488,17 +535,17 @@ class ImprovementGenerator:
                     "Persuasion",
                 ]
                 cavalier_skills = [s for s in cavalier_skills if s not in self.skills]
-                self.skills = self.skills + random.sample(cavalier_skills, 1)
+                self.skills = self.skills + sample(cavalier_skills, 1)
             elif self.subclass == "College of Lore":
                 lore_skills = [x for x in get_all_skills() if x not in self.skills]
-                self.skills = self.skills + random.sample(lore_skills, 3)
+                self.skills = self.skills + sample(lore_skills, 3)
             elif self.subclass == "Samurai":
-                proficiency_choice = random.choice(("Language", "Skill"))
+                proficiency_choice = choice(("Language", "Skill"))
                 if proficiency_choice == "Language":
                     samurai_language = [
                         x for x in get_all_languages() if x not in self.languages
                     ]
-                    self.languages = self.languages + random.sample(samurai_language, 1)
+                    self.languages = self.languages + sample(samurai_language, 1)
                 elif proficiency_choice == "Skill":
                     samurai_skills = [
                         "History",
@@ -507,21 +554,21 @@ class ImprovementGenerator:
                         "Persuasion",
                     ]
                     samurai_skills = [s for s in samurai_skills if s not in self.skills]
-                    self.skills = self.skills + random.sample(samurai_skills, 1)
+                    self.skills = self.skills + sample(samurai_skills, 1)
             elif self.subclass == "Way of the Drunken Master":
                 self.skills.append("Performance")
 
     def _add_feat(self) -> None:
         """Randomly selects and adds a valid feats."""
         feats = [feat for feat in list(PC_FEATS) if feat not in self.feats]
-        random.shuffle(feats)
+        shuffle(feats)
         feat_choice = feats.pop()
         out(f"Checking prerequisites for '{feat_choice}'...", -2)
         # Keep choosing a feat until prerequisites met.
         if not self._has_prerequisites(feat_choice):
             out(f"Prerequisites not met for '{feat_choice}'.", -1)
             while not self._has_prerequisites(feat_choice):
-                random.shuffle(feats)
+                shuffle(feats)
                 feat_choice = feats.pop()
                 out(f"Checking prerequisites for '{feat_choice}'...", -2)
                 if not self._has_prerequisites(feat_choice):
@@ -582,7 +629,7 @@ class ImprovementGenerator:
                     "Shillelagh",
                     "Thorn Whip",
                 )
-                self.magic_innate.append(random.choice(druid_cantrips))
+                self.magic_innate.append(choice(druid_cantrips))
                 self.magic_innate.append("Longstrider")
                 self.magic_innate.append("Pass Without Trace")
 
@@ -604,6 +651,50 @@ class ImprovementGenerator:
                     "Charisma",
                 ]
             )
+
+        # Fade Away/Fey Teleportation
+        if feat in ("Fade Away", "Fey Teleportation"):
+            feat_abilities = ()
+            try:
+                # Get feat bonus abilities
+                if feat == "Fade Away":
+                    feat_abilities = (
+                        "Dexterity",
+                        "Intelligence",
+                    )
+                elif feat == "Fey Teleportation":
+                    feat_abilities = (
+                        "Intelligence",
+                        "Charisma",
+                    )
+
+                # Gets class' primary abilities
+                primary_abilities = tuple(self.primary_ability.keys())
+                # If first ability primary ability
+                if feat_abilities[0] == primary_abilities[0]:
+                    # Increase Dexterity (if adjustable)
+                    if self._is_adjustable([feat_abilities[0]]):
+                        self._set_ability_score([primary_abilities[0]])
+                    # Increase Intelligence (if adjustable)
+                    elif self._is_adjustable([feat_abilities[1]]):
+                        self._set_ability_score([primary_abilities[1]])
+                    else:
+                        raise ValueError
+                # If secondary ability primary ability
+                elif feat_abilities[1] == primary_abilities[0]:
+                    # Increase Intelligence (if adjustable)
+                    if self._is_adjustable([feat_abilities[1]]):
+                        self._set_ability_score([primary_abilities[0]])
+                    # Increase Dexterity (if adjustable)
+                    elif self._is_adjustable([feat_abilities[0]]):
+                        self._set_ability_score([primary_abilities[1]])
+                    else:
+                        raise ValueError
+                else:
+                    raise ValueError
+            except ValueError:
+                # Choose one or the other randomly
+                self._set_ability_score(sample(feat_abilities, 1))
 
         # Fey Teleportation
         if feat == "Fey Teleportation":
@@ -629,15 +720,17 @@ class ImprovementGenerator:
                 self.armor_proficiency.append("Heavy")
 
         # Keen Mind/Linguist/Prodigy
-        if feat in ("Fade Away", "Keen Mind", "Linguist", "Prodigy"):
-            if feat in ("Fade Away", "Prodigy"):
+        if feat in ("Keen Mind", "Linguist", "Prodigy"):
+            # Feat ability increases
+            if feat in ("Keen Mind",):
                 self._set_feat_ability(
                     [
                         "Intelligence",
                     ]
                 )
+
             if feat in ("Linguist", "Prodigy"):
-                # Remove already known languages.
+                # Remove already known languages from pool
                 linguist_languages = list(PC_LANGUAGES)
                 linguist_languages = [
                     language
@@ -645,14 +738,11 @@ class ImprovementGenerator:
                     if language not in self.languages
                 ]
 
+                # Add bonus languages based on feat
                 if feat == "Linguist":
-                    self.languages = self.languages + random.sample(
-                        linguist_languages, 3
-                    )
+                    self.languages = self.languages + sample(linguist_languages, 3)
                 else:
-                    self.languages = self.languages + random.sample(
-                        linguist_languages, 1
-                    )
+                    self.languages = self.languages + sample(linguist_languages, 1)
 
         # Observant
         if feat == "Observant":
@@ -681,6 +771,7 @@ class ImprovementGenerator:
         # Prodigy/Skilled
         if feat in ("Prodigy", "Skilled"):
             if feat == "Prodigy":
+                # Get all skills not already known
                 skills = [
                     skill for skill in list(PC_SKILLS) if skill not in self.skills
                 ]
@@ -688,8 +779,8 @@ class ImprovementGenerator:
                 tool_list = [
                     tool for tool in tool_list if tool not in self.tool_proficiency
                 ]
-                self.skills.append(random.choice(skills))
-                self.tool_proficiency.append(random.choice(tool_list))
+                self.skills.append(choice(skills))
+                self.tool_proficiency.append(choice(tool_list))
             else:
                 for _ in range(3):
                     skills = [
@@ -699,15 +790,15 @@ class ImprovementGenerator:
                     tool_list = [
                         tool for tool in tool_list if tool not in self.tool_proficiency
                     ]
-                    skilled_choice = random.choice(["Skill", "Tool"])
+                    skilled_choice = choice(["Skill", "Tool"])
                     # Bonus skill added
                     if skilled_choice == "Skill":
-                        skill_choice = random.choice(skills)
+                        skill_choice = choice(skills)
                         self.skills.append(skill_choice)
                         out(f"Feat '{feat}' added skill '{skill_choice}'.", -2)
                     # Bonus tool proficiency added
                     elif skilled_choice == "Tool":
-                        tool_choice = random.choice(tool_list)
+                        tool_choice = choice(tool_list)
                         self.tool_proficiency.append(tool_choice)
                         out(
                             f"Feat '{feat}' added tool proficiency '{tool_choice}'.", -2
@@ -728,7 +819,7 @@ class ImprovementGenerator:
                 save for save in resilient_saves if save not in self.saves
             ]
             # Choose one non-proficient saving throw.
-            ability_choice = random.sample(resilient_saves, 1)
+            ability_choice = sample(resilient_saves, 1)
             self._set_feat_ability(ability_choice)
             self.saves = self.saves + ability_choice
 
@@ -748,7 +839,7 @@ class ImprovementGenerator:
             if "Acrobatics" and "Athletics" in self.skills:
                 pass
             else:
-                skill_choice = random.choice(("Acrobatics", "Athletics"))
+                skill_choice = choice(("Acrobatics", "Athletics"))
                 if "Acrobatics" in self.skills:
                     skill_choice = "Athletics"
                 elif "Athletics" in self.skills:
@@ -792,9 +883,7 @@ class ImprovementGenerator:
                     if selection not in self.weapon_proficiency
                 ]
 
-            self.weapon_proficiency = self.weapon_proficiency + random.sample(
-                selections, 4
-            )
+            self.weapon_proficiency = self.weapon_proficiency + sample(selections, 4)
             selections.clear()
 
     def _get_upgrade_ratio(self, percentage: int) -> tuple:
@@ -822,7 +911,7 @@ class ImprovementGenerator:
                 num_of_upgrades += 1
 
             percentage = float(percentage)
-            ability_upgrades = math.floor(num_of_upgrades * percentage / 100.0)
+            ability_upgrades = floor(num_of_upgrades * percentage / 100.0)
             feat_upgrades = num_of_upgrades - ability_upgrades
             return ability_upgrades, feat_upgrades
 
@@ -985,7 +1074,7 @@ class ImprovementGenerator:
         except (KeyError, TypeError):
             traceback.print_exc()
         except RuntimeError as err:
-            sys.exit(err)
+            exit(err)
         except ValueError:
             pass
 
@@ -1026,7 +1115,7 @@ class ImprovementGenerator:
 
             # Choose any one ability option if not upgraded above
             if not is_upgraded:
-                ability = random.choice(ability_options)
+                ability = choice(ability_options)
                 set_ability(self.score_array, ability)
         except (KeyError, TypeError):
             traceback.print_exc()
@@ -1051,7 +1140,7 @@ class ImprovementGenerator:
                     if not self._is_adjustable(primary_ability):
                         raise ValueError("No upgradeable primary abilities.")
 
-                    bonus_type = random.choice([1, 2])
+                    bonus_type = choice([1, 2])
                     # +1 bonus two abilities
                     if bonus_type == 1 and self._is_adjustable(primary_ability):
                         self._set_ability_score(primary_ability)
@@ -1278,7 +1367,7 @@ class HTTPServer:
             size = self.data.get("size")
             hgt = self.data.get("height")
             wgt = self.data.get("weight")
-            feet = math.floor(hgt / 12)
+            feet = floor(hgt / 12)
             inches = hgt % 12
             hgt = "{}' {}\"".format(feet, inches)
             wgt = f"{wgt} lbs."
@@ -1388,7 +1477,7 @@ def out(message: str, output_code: int = 0):
             # Adds traceback to error message
             if output_code == 2:
                 traceback.print_exc()
-            sys.exit()
+            exit()
         # Warning
         elif output_code == -1:
             click.secho(f"WARN: {message}", bold=True, fg="yellow")
