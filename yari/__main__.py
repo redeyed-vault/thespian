@@ -11,6 +11,17 @@ from bs4 import BeautifulSoup
 import click
 
 from . import (
+    PC_BACKGROUNDS,
+    PC_CLASSES,
+    PC_FEATS,
+    PC_GENDERS,
+    PC_LANGUAGES,
+    PC_RACES,
+    PC_SKILLS,
+    PC_SUBCLASSES,
+    PC_SUBRACES,
+    PC_TOOLS,
+    __version__,
     Aasimar,
     Bugbear,
     Dragonborn,
@@ -52,18 +63,7 @@ from . import (
     Intelligence,
     Wisdom,
     Charisma,
-    PC_BACKGROUNDS,
-    PC_CLASSES,
-    PC_FEATS,
-    PC_GENDERS,
-    PC_LANGUAGES,
-    PC_RACES,
-    PC_SKILLS,
-    PC_SUBCLASSES,
-    PC_SUBRACES,
-    PC_TOOLS,
     Load,
-    __version__,
     get_all_languages,
     get_all_skills,
     get_default_background,
@@ -447,15 +447,15 @@ class AttributeGenerator:
         ]
 
         generated_scores = self._determine_ability_scores()
-        # Assign highest values to class specific abilities first.
-        for ability in list(self.primary_ability.values()):
+        # First, assign highest values to class specific abilities
+        for ability in tuple(self.primary_ability.values()):
             value = max(generated_scores)
             score_array[ability] = value
             ability_choices.remove(ability)
             generated_scores.remove(value)
             out(f"Result of {value} assigned to ability '{ability}'.", -2)
 
-        # Assign remaining abilities/scores.
+        # Assign remaining abilities
         for _ in range(0, 4):
             ability = choice(ability_choices)
             value = choice(generated_scores)
@@ -464,9 +464,7 @@ class AttributeGenerator:
             generated_scores.remove(value)
             out(f"Result of {value} assigned to ability '{ability}'.", -2)
 
-        score_array = score_array
-
-        # Apply racial bonuses.
+        # Finally, apply any applicable racial bonuses
         for ability, bonus in self.racial_bonus.items():
             value = score_array.get(ability) + bonus
             score_array[ability] = value
@@ -564,7 +562,7 @@ class ImprovementGenerator:
         shuffle(feats)
         feat_choice = feats.pop()
         out(f"Checking prerequisites for '{feat_choice}'...", -2)
-        # Keep choosing a feat until prerequisites met.
+        # Keep choosing a feat until prerequisites met
         if not self._has_prerequisites(feat_choice):
             out(f"Prerequisites not met for '{feat_choice}'.", -1)
             while not self._has_prerequisites(feat_choice):
@@ -573,16 +571,16 @@ class ImprovementGenerator:
                 out(f"Checking prerequisites for '{feat_choice}'...", -2)
                 if not self._has_prerequisites(feat_choice):
                     out(f"Prerequisites not met for '{feat_choice}'.", -1)
-        # Prerequisites met, inform, add to list and apply features.
+        # Prerequisites met, inform, add to list and apply features
         out(f"Prerequisites met for '{feat_choice}'.")
         self._add_features(feat_choice)
         self.feats.append(feat_choice)
 
     def _add_features(self, feat: str) -> None:
         """
-        Assign associated features by specified feat.
+        Assign associated features by specified feat
 
-        :param str feat: Feat to add features for.
+        :param str feat: Feat to add features for
 
         """
         # Actor
@@ -642,6 +640,7 @@ class ImprovementGenerator:
             )
 
         # Elven Accuracy
+        # TODO: Smarter ability selection
         if feat == "Elven Accuracy":
             self._set_feat_ability(
                 [
@@ -656,7 +655,7 @@ class ImprovementGenerator:
         if feat in ("Fade Away", "Fey Teleportation"):
             feat_abilities = ()
             try:
-                # Get feat bonus abilities
+                # Get feat's bonus abilities
                 if feat == "Fade Away":
                     feat_abilities = (
                         "Dexterity",
@@ -672,20 +671,20 @@ class ImprovementGenerator:
                 primary_abilities = tuple(self.primary_ability.keys())
                 # If first ability primary ability
                 if feat_abilities[0] == primary_abilities[0]:
-                    # Increase Dexterity (if adjustable)
+                    # Increase primary ability (if adjustable)
                     if self._is_adjustable([feat_abilities[0]]):
                         self._set_ability_score([primary_abilities[0]])
-                    # Increase Intelligence (if adjustable)
+                    # Increase secondary ability (if adjustable)
                     elif self._is_adjustable([feat_abilities[1]]):
                         self._set_ability_score([primary_abilities[1]])
                     else:
                         raise ValueError
                 # If secondary ability primary ability
                 elif feat_abilities[1] == primary_abilities[0]:
-                    # Increase Intelligence (if adjustable)
+                    # Increase primary ability (if adjustable)
                     if self._is_adjustable([feat_abilities[1]]):
                         self._set_ability_score([primary_abilities[0]])
-                    # Increase Dexterity (if adjustable)
+                    # Increase secondary ability (if adjustable)
                     elif self._is_adjustable([feat_abilities[0]]):
                         self._set_ability_score([primary_abilities[1]])
                     else:
@@ -693,17 +692,8 @@ class ImprovementGenerator:
                 else:
                     raise ValueError
             except ValueError:
-                # Choose one or the other randomly
+                # Choose one of the abilities randomly
                 self._set_ability_score(sample(feat_abilities, 1))
-
-        # Fey Teleportation
-        if feat == "Fey Teleportation":
-            self._set_feat_ability(
-                [
-                    "Intelligence",
-                    "Charisma",
-                ]
-            )
 
         # Flames of Phlegethos
         if feat == "Flames of Phlegethos":
