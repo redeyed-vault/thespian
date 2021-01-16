@@ -45,7 +45,7 @@ from .builders import (
     get_default_background,
     get_proficiency_bonus,
     get_subclasses_by_class,
-    get_subraces_by_race
+    get_subraces_by_race,
 )
 from .constants import (
     PC_BACKGROUNDS,
