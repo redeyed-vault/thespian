@@ -21,7 +21,6 @@ from . import (
     PC_SUBCLASSES,
     PC_SUBRACES,
     PC_TOOLS,
-    __version__,
     Aasimar,
     Bugbear,
     Dragonborn,
@@ -71,6 +70,7 @@ from . import (
     get_subclasses_by_class,
     get_subraces_by_race,
     roll,
+    __version__,
 )
 
 
@@ -468,7 +468,7 @@ class AttributeGenerator:
         for ability, bonus in self.racial_bonus.items():
             value = score_array.get(ability) + bonus
             score_array[ability] = value
-            out(f"Bonus of {bonus} applied to '{ability}'. Score is now {value}.", -2)
+            out(f"Racial bonus of {bonus} applied to '{ability}'. Score is now {value}.", -2)
 
         return score_array
 
@@ -640,16 +640,36 @@ class ImprovementGenerator:
             )
 
         # Elven Accuracy
-        # TODO: Smarter ability selection
         if feat == "Elven Accuracy":
-            self._set_feat_ability(
-                [
-                    "Dexterity",
-                    "Intelligence",
-                    "Wisdom",
-                    "Charisma",
-                ]
+            primary, secondary = tuple(self.primary_ability.values())
+            accuracy_abilities = (
+                "Dexterity",
+                "Intelligence",
+                "Wisdom",
+                "Charisma",
             )
+            # If primary ability in accuracy bonus list
+            if primary in accuracy_abilities:
+                self._set_feat_ability([primary])
+                out(
+                    f"Feat '{feat}' added a +1 bonus to '{primary}'. Score is now {self.score_array.get(primary)}.",
+                    -2,
+                )
+            # If secondary ability in accuracy bonus list
+            elif secondary in accuracy_abilities:
+                self._set_feat_ability([secondary])
+                out(
+                    f"Feat '{feat}' added a +1 bonus to '{secondary}'. Score is now {self.score_array.get(secondary)}.",
+                    -2,
+                )
+            # Otherwise, just choose one from accuracy list
+            else:
+                other = choice(accuracy_abilities)
+                self._set_feat_ability([primary])
+                out(
+                    f"Feat '{feat}' added a +1 bonus to '{other}'. Score is now {self.score_array.get(other)}.",
+                    -2,
+                )
 
         # Fade Away/Fey Teleportation
         if feat in ("Fade Away", "Fey Teleportation"):
@@ -668,7 +688,7 @@ class ImprovementGenerator:
                     )
 
                 # Gets class' primary abilities
-                primary_abilities = tuple(self.primary_ability.keys())
+                primary_abilities = tuple(self.primary_ability.values())
                 # If first ability primary ability
                 if feat_abilities[0] == primary_abilities[0]:
                     # Increase primary ability (if adjustable)
@@ -1044,10 +1064,13 @@ class ImprovementGenerator:
             if not isinstance(self.score_array, OrderedDict):
                 raise TypeError("Object 'score_array' is not type 'OrderedDict'.")
 
+            # If one ability specified, apply a +2 bonus
             if len(ability_array) == 1:
                 bonus = 2
+            # If two abilities specified, apply a +1 bonus 
             elif len(ability_array) == 2:
                 bonus = 1
+            # Otherwise raise error
             else:
                 raise RuntimeError("Argument 'ability_array' require 1 or 2 values.")
 
@@ -1061,6 +1084,7 @@ class ImprovementGenerator:
                 else:
                     value = self.score_array.get(ability) + bonus
                     self.score_array[ability] = value
+                    out(f"Ability score for '{ability}' is set to {value}.", -2)
         except (KeyError, TypeError):
             traceback.print_exc()
         except RuntimeError as err:
@@ -1076,18 +1100,20 @@ class ImprovementGenerator:
 
         """
 
-        def set_ability(score_array: OrderedDict, ability_choice):
-            value = score_array.get(ability_choice) + 1
-            score_array[ability_choice] = value
+        def set_ability_score(scores: OrderedDict, ability_name: str):
+            # Adjusts the ability score by 1 point
+            value = scores.get(ability_name) + 1
+            scores[ability_name] = value
+            out(f"Ability score for '{ability_name}' is set to {value}.", -2)
 
         try:
             # Ensure score_array object is type OrderedDict
             if not isinstance(self.score_array, OrderedDict):
-                raise TypeError("Object 'score_array' is not type 'OrderedDict'.")
+                raise TypeError("Object 'scores' is not type 'OrderedDict'.")
 
             # If only one ability option available
             if len(ability_options) == 1:
-                set_ability(self.score_array, ability_options[0])
+                set_ability_score(self.score_array, ability_options[0])
                 return
 
             is_upgraded = False
@@ -1097,7 +1123,7 @@ class ImprovementGenerator:
             for ability in primary_ability:
                 if ability in ability_options:
                     if self._is_adjustable(ability):
-                        set_ability(self.score_array, ability)
+                        set_ability_score(self.score_array, ability)
                         is_upgraded = True
                         break
                     else:
@@ -1105,8 +1131,7 @@ class ImprovementGenerator:
 
             # Choose any one ability option if not upgraded above
             if not is_upgraded:
-                ability = choice(ability_options)
-                set_ability(self.score_array, ability)
+                set_ability_score(self.score_array, choice(ability_options))
         except (KeyError, TypeError):
             traceback.print_exc()
 
