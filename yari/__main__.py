@@ -563,47 +563,129 @@ class ImprovementGenerator:
         feat_choice = feats.pop()
         out(f"Checking prerequisites for '{feat_choice}'...", -2)
         # Keep choosing a feat until prerequisites met
-        if not self._has_prerequisites(feat_choice):
+        if not self._has_required(feat_choice):
             out(f"Prerequisites not met for '{feat_choice}'.", -1)
-            while not self._has_prerequisites(feat_choice):
+            while not self._has_required(feat_choice):
                 shuffle(feats)
                 feat_choice = feats.pop()
                 out(f"Checking prerequisites for '{feat_choice}'...", -2)
-                if not self._has_prerequisites(feat_choice):
+                if not self._has_required(feat_choice):
                     out(f"Prerequisites not met for '{feat_choice}'.", -1)
         # Prerequisites met, inform, add to list and apply features
         out(f"Prerequisites met for '{feat_choice}'.")
-        self._add_features(feat_choice)
+        self._add_feat_perks(feat_choice)
         self.feats.append(feat_choice)
 
-    def _add_features(self, feat: str) -> None:
+    def _add_feat_perks(self, feat: str) -> None:
         """
         Assign associated features by specified feat
 
         :param str feat: Feat to add features for
 
         """
-        # Actor
-        if feat == "Actor":
-            self._set_feat_ability(["Charisma"])
 
-        # Athlete/Lightly Armored/Moderately Armored/Weapon Master
-        if feat in (
-            "Athlete",
-            "Lightly Armored",
-            "Moderately Armored",
-            "Weapon Master",
-        ):
-            self._set_feat_ability(["Strength", "Dexterity"])
-            if feat == "Lightly Armored":
-                self.armor_proficiency.append("Light")
-            elif feat == "Moderately Armored":
-                self.armor_proficiency.append("Medium")
-                self.armor_proficiency.append("Shield")
+        def get_feat_perks(feat_name: str) -> (dict, None):
+            """Get perks for a feat by feat_name."""
+            return Load.get_columns(feat_name, "perk", source_file="feats")
 
-        # Dragon Fear/Dragon Hide
-        if feat in ("Dragon Fear", "Dragon Hide"):
-            self._set_feat_ability(["Strength", "Constitution", "Charisma"])
+        def has_one(keys: tuple, iterable: tuple) -> bool:
+            """Returns True if at least one key is found in iterable."""
+            for x in keys:
+                if x in iterable:
+                    return True
+            return False
+
+        # Retrieve all perks for the chosen feat
+        perks = get_feat_perks(feat)
+
+        # Cycle through and apply perks as necessary
+        for perk, _ in perks.items():
+            # If perk tree is equal to None
+            # Ignore, move on
+            if perks.get(perk) is None:
+                continue
+
+            # Feat "ability" perk
+            if perk == "ability":
+                # Retrieve bonus abilities by feat
+                feat_ability_options = tuple(perks.get(perk).keys())
+
+                # If Resilient feat selected, treat a lil differently
+                # Feat offers only one ability option
+                # Otherwise feat offers multiple ability options
+                if feat == "Resilient":
+                    # Remove all proficient saving throws.
+                    resilient_saves = [
+                        "Strength",
+                        "Dexterity",
+                        "Constitution",
+                        "Intelligence",
+                        "Wisdom",
+                        "Charisma",
+                    ]
+                    resilient_saves = [
+                        save for save in resilient_saves if save not in self.saves
+                    ]
+                    # Choose one non-proficient saving throw.
+                    ability = sample(resilient_saves, 1)
+                    self._set_feat_ability(ability)
+                    self.saves = self.saves + ability
+                elif len(feat_ability_options) == 1:
+                    chosen_ability = feat_ability_options[0]
+                    self._set_feat_ability([chosen_ability])
+                else:
+                    # Retrieve primary, secondary class abilities
+                    class_abilities = tuple(self.primary_ability.values())
+                    # If at least one class ability in feat ability options
+                    # Otherwise just randomly choose one ability
+                    if has_one(class_abilities, feat_ability_options):
+                        for ability in class_abilities:
+                            # Ability is one of the feat ability perk options
+                            # If ability is adjustable, adjust score
+                            # Otherwise, keep it movin'
+                            if ability in feat_ability_options:
+                                if self._is_adjustable(ability):
+                                    self._set_feat_ability([ability])
+                                    break
+                                else:
+                                    continue
+                    else:
+                        ability = sample(feat_ability_options, 1)
+                        self._set_feat_ability(ability)
+
+            # Feat "language" perk
+            if perk == "language":
+                # Add bonus languages based on feat
+                # Add 3 if Linguist feat
+                # Add 1 otherwise
+                bonus_languages = perks.get(perk)
+                bonus_languages = [x for x in bonus_languages if x not in self.languages]
+                if feat == "Linguist":
+                    self.languages = self.languages + sample(bonus_languages, 3)
+                else:
+                    self.languages = self.languages + sample(bonus_languages, 1)
+
+            # Feat "proficiency" perk
+            if perk == "proficiency":
+                proficiency_categories = perks.get(perk)
+                # Armor category, append bonus proficiencies
+                # Tool category, append bonus proficiencies
+                if "armors" in proficiency_categories:
+                    self.armor_proficiency = self.armor_proficiency + proficiency_categories.get("armors")
+                elif "tools" in proficiency_categories:
+                    tool_choice = [x for x in proficiency_categories.get("tools") if x not in self.tool_proficiency]
+                    self.tool_proficiency.append(choice(tool_choice))
+                elif "weapons" in proficiency_categories:
+                    pass
+
+            # Feat "resistance" perk
+            if perk == "resistance":
+                pass
+
+            # Feat "skills" perk
+            if perk == "skills":
+                pass
+
 
         # Drow High Magic/Svirfneblin Magic/Wood Elf Magic
         if feat in ("Drow High Magic", "Svirfneblin Magic", "Wood Elf Magic"):
@@ -631,217 +713,6 @@ class ImprovementGenerator:
                 self.magic_innate.append("Longstrider")
                 self.magic_innate.append("Pass Without Trace")
 
-        # Durable/Dwarven Fortitude
-        if feat in ("Durable", "Dwarven Fortitude", "Infernal Constitution"):
-            self._set_feat_ability(
-                [
-                    "Constitution",
-                ]
-            )
-
-        # Elven Accuracy
-        if feat == "Elven Accuracy":
-            primary, secondary = tuple(self.primary_ability.values())
-            accuracy_abilities = (
-                "Dexterity",
-                "Intelligence",
-                "Wisdom",
-                "Charisma",
-            )
-            # If primary ability in accuracy bonus list
-            if primary in accuracy_abilities:
-                self._set_feat_ability([primary])
-                out(
-                    f"Feat '{feat}' added a +1 bonus to '{primary}'. Score is now {self.score_array.get(primary)}.",
-                    -2,
-                )
-            # If secondary ability in accuracy bonus list
-            elif secondary in accuracy_abilities:
-                self._set_feat_ability([secondary])
-                out(
-                    f"Feat '{feat}' added a +1 bonus to '{secondary}'. Score is now {self.score_array.get(secondary)}.",
-                    -2,
-                )
-            # Otherwise, just choose one from accuracy list
-            else:
-                other = choice(accuracy_abilities)
-                self._set_feat_ability([primary])
-                out(
-                    f"Feat '{feat}' added a +1 bonus to '{other}'. Score is now {self.score_array.get(other)}.",
-                    -2,
-                )
-
-        # Fade Away/Fey Teleportation
-        if feat in ("Fade Away", "Fey Teleportation"):
-            feat_abilities = ()
-            try:
-                # Get feat's bonus abilities
-                if feat == "Fade Away":
-                    feat_abilities = (
-                        "Dexterity",
-                        "Intelligence",
-                    )
-                elif feat == "Fey Teleportation":
-                    feat_abilities = (
-                        "Intelligence",
-                        "Charisma",
-                    )
-
-                # Gets class' primary abilities
-                primary_abilities = tuple(self.primary_ability.values())
-                # If first ability primary ability
-                if feat_abilities[0] == primary_abilities[0]:
-                    # Increase primary ability (if adjustable)
-                    if self._is_adjustable([feat_abilities[0]]):
-                        self._set_ability_score([primary_abilities[0]])
-                    # Increase secondary ability (if adjustable)
-                    elif self._is_adjustable([feat_abilities[1]]):
-                        self._set_ability_score([primary_abilities[1]])
-                    else:
-                        raise ValueError
-                # If secondary ability primary ability
-                elif feat_abilities[1] == primary_abilities[0]:
-                    # Increase primary ability (if adjustable)
-                    if self._is_adjustable([feat_abilities[1]]):
-                        self._set_ability_score([primary_abilities[0]])
-                    # Increase secondary ability (if adjustable)
-                    elif self._is_adjustable([feat_abilities[0]]):
-                        self._set_ability_score([primary_abilities[1]])
-                    else:
-                        raise ValueError
-                else:
-                    raise ValueError
-            except ValueError:
-                # Choose one of the abilities randomly
-                self._set_ability_score(sample(feat_abilities, 1))
-
-        # Flames of Phlegethos
-        if feat == "Flames of Phlegethos":
-            self._set_feat_ability(["Intelligence", "Charisma"])
-
-        # Heavily Armored/Heavy Armor Master
-        if feat in ("Heavily Armored", "Heavy Armor Master"):
-            self._set_feat_ability(
-                [
-                    "Strength",
-                ]
-            )
-            if feat == "Heavily Armored":
-                self.armor_proficiency.append("Heavy")
-
-        # Keen Mind/Linguist/Prodigy
-        if feat in ("Keen Mind", "Linguist", "Prodigy"):
-            # Feat ability increases
-            if feat in ("Keen Mind",):
-                self._set_feat_ability(
-                    [
-                        "Intelligence",
-                    ]
-                )
-
-            if feat in ("Linguist", "Prodigy"):
-                # Remove already known languages from pool
-                linguist_languages = list(PC_LANGUAGES)
-                linguist_languages = [
-                    language
-                    for language in linguist_languages
-                    if language not in self.languages
-                ]
-
-                # Add bonus languages based on feat
-                if feat == "Linguist":
-                    self.languages = self.languages + sample(linguist_languages, 3)
-                else:
-                    self.languages = self.languages + sample(linguist_languages, 1)
-
-        # Observant
-        if feat == "Observant":
-            if self.klass in ("Cleric", "Druid"):
-                self._set_feat_ability(
-                    [
-                        "Wisdom",
-                    ]
-                )
-            elif self.klass in ("Wizard",):
-                self._set_feat_ability(
-                    [
-                        "Intelligence",
-                    ]
-                )
-
-        # Orcish Fury
-        if feat == "Orcish Fury":
-            self._set_feat_ability(
-                [
-                    "Strength",
-                    "Constitution",
-                ]
-            )
-
-        # Prodigy/Skilled
-        if feat in ("Prodigy", "Skilled"):
-            if feat == "Prodigy":
-                # Get all skills not already known
-                skills = [
-                    skill for skill in list(PC_SKILLS) if skill not in self.skills
-                ]
-                tool_list = [t for t in get_tool_chest()]
-                tool_list = [
-                    tool for tool in tool_list if tool not in self.tool_proficiency
-                ]
-                self.skills.append(choice(skills))
-                self.tool_proficiency.append(choice(tool_list))
-            else:
-                for _ in range(3):
-                    skills = [
-                        skill for skill in list(PC_SKILLS) if skill not in self.skills
-                    ]
-                    tool_list = [t for t in get_tool_chest()]
-                    tool_list = [
-                        tool for tool in tool_list if tool not in self.tool_proficiency
-                    ]
-                    skilled_choice = choice(["Skill", "Tool"])
-                    # Bonus skill added
-                    if skilled_choice == "Skill":
-                        skill_choice = choice(skills)
-                        self.skills.append(skill_choice)
-                        out(f"Feat '{feat}' added skill '{skill_choice}'.", -2)
-                    # Bonus tool proficiency added
-                    elif skilled_choice == "Tool":
-                        tool_choice = choice(tool_list)
-                        self.tool_proficiency.append(tool_choice)
-                        out(
-                            f"Feat '{feat}' added tool proficiency '{tool_choice}'.", -2
-                        )
-
-        # Resilient
-        if feat == "Resilient":
-            # Remove all proficient saving throws.
-            resilient_saves = [
-                "Strength",
-                "Dexterity",
-                "Constitution",
-                "Intelligence",
-                "Wisdom",
-                "Charisma",
-            ]
-            resilient_saves = [
-                save for save in resilient_saves if save not in self.saves
-            ]
-            # Choose one non-proficient saving throw.
-            ability_choice = sample(resilient_saves, 1)
-            self._set_feat_ability(ability_choice)
-            self.saves = self.saves + ability_choice
-
-        # Second Chance
-        if feat == "Second Chance":
-            self._set_feat_ability(
-                [
-                    "Dexterity",
-                    "Constitution",
-                    "Charisma",
-                ]
-            )
 
         # Squat Nimbleness
         if feat == "Squat Nimbleness":
@@ -856,12 +727,6 @@ class ImprovementGenerator:
                     skill_choice = "Acrobatics"
                 self.skills.append(skill_choice)
                 out(f"Feat '{feat}' added skill '{skill_choice}'.", -2)
-
-        # Tavern Brawler
-        if feat == "Tavern Brawler":
-            self._set_feat_ability(["Strength", "Constitution"])
-            self.weapon_proficiency.append("Improvised weapons")
-            self.weapon_proficiency.append("Unarmed strikes")
 
         # Weapon Master
         if feat == "Weapon Master":
@@ -925,13 +790,14 @@ class ImprovementGenerator:
             feat_upgrades = num_of_upgrades - ability_upgrades
             return ability_upgrades, feat_upgrades
 
-    def _has_prerequisites(self, feat: str) -> bool:
+    def _has_required(self, feat: str) -> bool:
         """
         Determines if character has the prerequisites for feat.
 
         :param str feat: Feat to check prerequisites for.
 
         """
+        # Character already has feat
         if feat in self.feats:
             return False
 
@@ -946,7 +812,7 @@ class ImprovementGenerator:
             and self.klass == "Monk"
         ):
             return False
-        # Chosen feat is "Armored" or Weapon Master but already proficient w/ assoc. armor type.
+        # Chosen feat is "Armor Related" or Weapon Master but already proficient w/ assoc. armor type.
         elif feat in (
             "Heavily Armored",
             "Lightly Armored",
@@ -966,47 +832,60 @@ class ImprovementGenerator:
             elif feat == "Weapon Master" and "Martial" in self.weapon_proficiency:
                 return False
 
-        # Go through ALL additional prerequisites.
-        prerequisite = Load.get_columns(feat, source_file="feats")
+        def get_feat_requirements(feat_name: str, use_local: bool = True) -> (dict, None):
+            """Returns all requirements for feat_name."""
+            return Load.get_columns(feat_name, "required", source_file="feats", use_local=use_local)
+
+        # Go through ALL prerequisites.
+        prerequisite = get_feat_requirements(feat)
         for requirement, _ in prerequisite.items():
-            if requirement == "abilities":
+            # Ignore requirements that are None
+            if prerequisite.get(requirement) is None:
+                continue
+
+            # Check ability requirements
+            if requirement == "ability":
                 for ability, required_score in prerequisite.get(requirement).items():
                     my_score = self.score_array[ability]
                     if my_score < required_score:
                         return False
 
+            # Check caster requirements
             if requirement == "caster":
-                # Basic spell caster check, does the character have spells?
-                if self.spell_slots == "0":
-                    return False
-
-                # Magic Initiative
-                if feat == "Magic Initiative" and self.klass not in (
-                    "Bard",
-                    "Cleric",
-                    "Druid",
-                    "Sorcerer",
-                    "Warlock",
-                    "Wizard",
-                ):
-                    return False
-
-                # Ritual Caster
-                if feat == "Ritual Caster":
-                    my_score = 0
-                    required_score = 0
-                    if self.klass in ("Cleric", "Druid"):
-                        my_score = self.score_array.get("Wisdom")
-                        required_score = prerequisite.get("abilities").get("Wisdom")
-                    elif self.klass == "Wizard":
-                        my_score = self.score_array.get("Intelligence")
-                        required_score = prerequisite.get("abilities").get(
-                            "Intelligence"
-                        )
-
-                    if my_score < required_score:
+                # If caster prerequisite True
+                if prerequisite.get(requirement):
+                    # Check if character has spellcasting ability
+                    if self.spell_slots == "0":
                         return False
 
+                    # Magic Initiative class check
+                    if feat == "Magic Initiative" and self.klass not in (
+                        "Bard",
+                        "Cleric",
+                        "Druid",
+                        "Sorcerer",
+                        "Warlock",
+                        "Wizard",
+                    ):
+                        return False
+
+                    # Ritual Caster class check
+                    if feat == "Ritual Caster":
+                        my_score = 0
+                        required_score = 0
+                        if self.klass in ("Cleric", "Druid"):
+                            my_score = self.score_array.get("Wisdom")
+                            required_score = prerequisite.get("abilities").get("Wisdom")
+                        elif self.klass == "Wizard":
+                            my_score = self.score_array.get("Intelligence")
+                            required_score = prerequisite.get("abilities").get(
+                                "Intelligence"
+                            )
+
+                        if my_score < required_score:
+                            return False
+
+            # Check proficiency requirements
             if requirement == "proficiency":
                 if feat in (
                     "Heavy Armor Master",
@@ -1019,10 +898,12 @@ class ImprovementGenerator:
                         if armor not in self.armor_proficiency:
                             return False
 
+            # Check race requirements
             if requirement == "race":
                 if self.race not in prerequisite.get(requirement):
                     return False
 
+            # Check subrace requirements
             if requirement == "subrace":
                 if self.subrace not in prerequisite.get(requirement):
                     return False
