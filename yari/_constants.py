@@ -1,4 +1,4 @@
-from .sourcereader import Load
+from ._yaml import Load
 
 
 PC_BACKGROUNDS = Load.get_row_ids("backgrounds")

@@ -2,15 +2,15 @@ import math
 import random
 import sys
 
-from .constants import (
+from ._constants import (
     PC_BACKGROUNDS,
     PC_CLASSES,
     PC_LANGUAGES,
     PC_SKILLS,
     PC_SUBRACES,
 )
-from .dice import roll
-from .sourcereader import Load
+from ._dice import roll
+from ._yaml import Load
 
 
 class _AttributeBuilder:
