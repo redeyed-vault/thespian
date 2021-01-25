@@ -1,99 +1,1137 @@
 feats:
-  Actor: {}
-  Alert: {}
-  Athlete: {}
+  # Actor (PHB pg.165)
+  Actor:
+    perk:
+      ability:
+        Charisma: 1
+      language: ~
+      proficiency: ~
+      resistance: ~
+      skills: ~
+      speed: ~
+      spells: ~
+    required:
+      ability: ~
+      caster: false
+      proficiency: ~
+      race: ~
+      subrace: ~
+  # Alert (PHB pg.165)
+  Alert:
+    perk:
+      ability: ~
+      language: ~
+      proficiency: ~
+      resistance: ~
+      skills: ~
+      speed: ~
+      spells: ~
+    required:
+      ability: ~
+      caster: false
+      proficiency: ~
+      race: ~
+      subrace: ~
+  # Athlete (PHB pg.165)
+  Athlete:
+    perk:
+      ability:
+        Strength: 1
+        Dexterity: 1
+      language: ~
+      proficiency: ~
+      resistance: ~
+      skills: ~
+      speed: ~
+      spells: ~
+    required:
+      ability: ~
+      caster: false
+      proficiency: ~
+      race: ~
+      subrace: ~
+  # Bountiful Luck (XGtE pg.73)
   Bountiful Luck:
-    race: ['Halfling']
-  Charger: {}
-  Crossbow Expert: {}
+    perk:
+      ability: ~
+      language: ~
+      proficiency: ~
+      resistance: ~
+      skills: ~
+      speed: ~
+      spells: ~
+    required:
+      ability: ~
+      caster: false
+      proficiency: ~
+      race: ['Halfling']
+      subrace: ~
+  # Charger (PHB pg.165)
+  Charger:
+    perk:
+      ability: ~
+      language: ~
+      proficiency: ~
+      resistance: ~
+      skills: ~
+      speed: ~
+      spells: ~
+    required:
+      ability: ~
+      caster: false
+      proficiency: ~
+      race: ~
+      subrace: ~
+  # Crossbow Expert (PHB pg.165)
+  Crossbow Expert:
+    perk:
+      ability: ~
+      language: ~
+      proficiency: ~
+      resistance: ~
+      skills: ~
+      speed: ~
+      spells: ~
+    required:
+      ability: ~
+      caster: false
+      proficiency: ~
+      race: ~
+      subrace: ~
+  # Defensive Duelist (PHB pg.165)
   Defensive Duelist:
-    abilities:
-      Dexterity: 13
+    perk:
+      ability: ~
+      language: ~
+      proficiency: ~
+      resistance: ~
+      skills: ~
+      speed: ~
+      spells: ~
+    required:
+      ability:
+        Dexterity: 13
+      caster: false
+      proficiency: ~
+      race: ~
+      subrace: ~
+  # Dragon Fear (XGtE pg.74)
   Dragon Fear:
-    race: ['Dragonborn']
+    perk:
+      ability: ~
+      language: ~
+      proficiency: ~
+      resistance: ~
+      skills: ~
+      speed: ~
+      spells: ~
+    required:
+      ability: ~
+      caster: false
+      proficiency: ~
+      race: ['Dragonborn']
+      subrace: ~
+  # Dragon Hide (XGtE pg.74)
   Dragon Hide:
-    race: ['Dragonborn']
+    perk:
+      ability: ~
+      language: ~
+      proficiency: ~
+      resistance: ~
+      skills: ~
+      speed: ~
+      spells: ~
+    required:
+      ability: ~
+      caster: false
+      proficiency: ~
+      race: ['Dragonborn']
+      subrace: ~
+  # Drow High Magic (XGtE pg.74)
   Drow High Magic:
-    subrace: ['Drow']
-  Dual Wielder: {}
-  Dungeon Delver: {}
-  Durable: {}
+    perk:
+      ability: ~
+      language: ~
+      proficiency: ~
+      resistance: ~
+      skills: ~
+      speed: ~
+      spells: ['Detect Magic', 'Dispel Magic', 'Levitate']
+    required:
+      ability: ~
+      caster: false
+      proficiency: ~
+      race: ['Elf']
+      subrace: ['Drow']
+  # Dual Wielder (PHB pg.165)
+  Dual Wielder:
+    perk:
+      ability: ~
+      language: ~
+      proficiency: ~
+      resistance: ~
+      skills: ~
+      speed: ~
+      spells: ~
+    required:
+      ability: ~
+      caster: false
+      proficiency: ~
+      race: ~
+      subrace: ~
+  # Dungeon Delver (PHB pg.166)
+  Dungeon Delver:
+    perk:
+      ability: ~
+      language: ~
+      proficiency: ~
+      resistance: ['Traps']
+      skills: ~
+      speed: ~
+      spells: ~
+    required:
+      ability: ~
+      caster: false
+      proficiency: ~
+      race: ~
+      subrace: ~
+  # Durable (PHB pg.166)
+  Durable:
+    perk:
+      ability:
+        Constitution: 1
+      language: ~
+      proficiency: ~
+      skills: ~
+      resistance: ~
+      speed: ~
+      spells: ~
+    required:
+      ability: ~
+      caster: false
+      proficiency: ~
+      race: ~
+      subrace: ~
+  # Dwarven Fortitude (XGtE pg.74)
   Dwarven Fortitude:
-    race: ['Dwarf']
+    perk:
+      ability:
+        Constitution: 1
+      language: ~
+      proficiency: ~
+      resistance: ~
+      skills: ~
+      speed: ~
+      spells: ~
+    required:
+      ability: ~
+      caster: false
+      proficiency: ~
+      race: ['Dwarf']
+      subrace: ~
+  # Elemental Adept (PHB pg.166)
   Elemental Adept:
-    caster: true
+    perk:
+      ability: ~
+      language: ~
+      proficiency: ~
+      resistance: ~
+      skills: ~
+      speed: ~
+      spells: ~
+    required:
+      ability: ~
+      caster: true
+      proficiency: ~
+      race: ~
+      subrace: ~
+  # Elven Accuracy (XGtE pg.74)
   Elven Accuracy:
-    race: ['Elf', 'HalfElf']
+    perk:
+      ability:
+        Dexterity: 1
+        Intelligence: 1
+        Wisdom: 1
+        Charisma: 1
+      language: ~
+      proficiency: ~
+      resistance: ~
+      skills: ~
+      speed: ~
+      spells: ~
+    required:
+      ability: ~
+      caster: false
+      proficiency: ~
+      race: ['Elf', 'HalfElf']
+      subrace: ~
+  # Fade Away (XGtE pg.74)
   Fade Away:
-    race: ['Gnome']
+    perk:
+      ability:
+        Dexterity: 1
+        Intelligence: 1
+      language: ~
+      proficiency: ~
+      resistance: ~
+      skills: ~
+      speed: ~
+      spells: ~
+    required:
+      ability: ~
+      caster: false
+      proficiency: ~
+      race: ['Gnome']
+      subrace: ~
+  # Fey Teleportation (XGtE pg.74)
   Fey Teleportation:
-    subrace: ['High']
+    perk:
+      ability:
+        Intelligence: 1
+        Charisma: 1
+      language: ['Sylvan']
+      proficiency: ~
+      resistance: ~
+      skills: ~
+      speed: ~
+      spells: ['Misty Step']
+    required:
+      ability: ~
+      caster: false
+      proficiency: ~
+      race: ['Elf']
+      subrace: ['High']
+  # Flames of Phlegethos (XGtE pg.74)
   Flames of Phlegethos:
-    race: ['Tiefling']
+    perk:
+      ability: ~
+      language: ~
+      proficiency: ~
+      resistance: ~
+      skills: ~
+      speed: ~
+      spells: ~
+    required:
+      ability: ~
+      caster: false
+      proficiency: ~
+      race: ['Tiefling']
+      subrace: ~
+  # Grapper (PHB pg.167)
   Grappler:
-    abilities:
-      Strength: 13
-  Great Weapon Master: {}
-  Healer: {}
+    perk:
+      ability:
+        Strength: 13
+      language: ~
+      proficiency: ~
+      resistance: ~
+      skills: ~
+      speed: ~
+      spells: ~
+    required:
+      ability: ~
+      caster: false
+      proficiency: ~
+      race: ~
+      subrace: ~
+  # Great Weapon Master (PHB pg.167)
+  Great Weapon Master:
+    perk:
+      ability: ~
+      language: ~
+      proficiency: ~
+      resistance: ~
+      skills: ~
+      speed: ~
+      spells: ~
+    required:
+      ability: ~
+      caster: false
+      proficiency: ~
+      race: ~
+      subrace: ~
+  # Healer (PHB pg.167)
+  Healer:
+    perk:
+      ability: ~
+      language: ~
+      proficiency: ~
+      resistance: ~
+      skills: ~
+      speed: ~
+      spells: ~
+    required:
+      ability: ~
+      caster: false
+      proficiency: ~
+      race: ~
+      subrace: ~
+  # Heavily Armored (PHB pg.167)
   Heavily Armored:
-    proficiency:
-      armors: ['Medium']
+    perk:
+      ability:
+        Strength: 1
+      language: ~
+      proficiency:
+        armors: ['Heavy']
+      resistance: ~
+      skills: ~
+      speed: ~
+      spells: ~
+    required:
+      ability: ~
+      caster: false
+      proficiency:
+        armors: ['Medium']
+      race: ~
+      subrace: ~
+  # Heavy Armor Master (PHB pg.167)
   Heavy Armor Master:
-    proficiency:
-      armors: ['Heavy']
+    perk:
+      ability:
+        Strength: 1
+      language: ~
+      proficiency: ~
+      resistance: ~
+      skills: ~
+      speed: ~
+      spells: ~
+    required:
+      ability: ~
+      caster: false
+      proficiency:
+        armors: ['Heavy']
+      race: ~
+      subrace: ~
+  # Infernal Constitution (XGtE pg.75)
   Infernal Constitution:
-    race: ['Tiefling']
+    perk:
+      ability:
+        Constitution: 1
+      language: ~
+      proficiency: ~
+      resistance: ['Cold', 'Poison']
+      skills: ~
+      speed: ~
+      spells: ~
+    required:
+      ability: ~
+      caster: false
+      proficiency: ~
+      race: ['Tiefling']
+      subrace: ~
+  # Inspiring Leader (PHB pg.167)
   Inspiring Leader:
-    abilities:
-      Charisma: 13
-  Keen Mind: {}
-  Lightly Armored: {}
-  Linguist: {}
-  Lucky: {}
-  Mage Slayer: {}
+    perk:
+      ability: ~
+      language: ~
+      proficiency: ~
+      resistance: ~
+      skills: ~
+      speed: ~
+      spells: ~
+    required:
+      ability:
+        Charisma: 13
+      caster: false
+      proficiency: ~
+      race: ~
+      subrace: ~
+  # Keen Mind (PHB pg.167)
+  Keen Mind:
+    perk:
+      ability:
+        Intelligence: 1
+      language: ~
+      proficiency: ~
+      resistance: ~
+      skills: ~
+      speed: ~
+      spells: ~
+    required:
+      ability: ~
+      caster: false
+      proficiency: ~
+      race: ~
+      subrace: ~
+  # Lightly Armored (PHB pg.167)
+  Lightly Armored:
+    perk:
+      ability:
+        Strength: 1
+        Dexterity: 1
+      language: ~
+      proficiency:
+        armors: ['Light']
+      resistance: ~
+      skills: ~
+      speed: ~
+      spells: ~
+    required:
+      ability: ~
+      caster: false
+      proficiency: ~
+      race: ~
+      subrace: ~
+  # Linguist (PHB pg. 167)
+  Linguist:
+    perk:
+      ability:
+        Intelligence: 1
+      language:
+        - Abyssal
+        - Celestial
+        - Common
+        - Deep Speech
+        - Draconic
+        - Dwarvish
+        - Elvish
+        - Giant
+        - Gnomish
+        - Goblin
+        - Halfling
+        - Infernal
+        - Orc
+        - Primordial
+        - Sylvan
+        - Undercommon
+      proficiency: ~
+      resistance: ~
+      skills: ~
+      speed: ~
+      spells: ~
+    required:
+      ability: ~
+      caster: false
+      proficiency: ~
+      race: ~
+      subrace: ~
+  # Lucky (PHB pg.167)
+  Lucky:
+    perk:
+      ability: ~
+      language: ~
+      proficiency: ~
+      resistance: ~
+      skills: ~
+      speed: ~
+      spells: ~
+    required:
+      ability: ~
+      caster: false
+      proficiency: ~
+      race: ~
+      subrace: ~
+  # Mage Slayer (PHB pg.168)
+  Mage Slayer:
+    perk:
+      ability: ~
+      language: ~
+      proficiency: ~
+      resistance: ~
+      skills: ~
+      speed: ~
+      spells: ~
+    required:
+      ability: ~
+      caster: false
+      proficiency: ~
+      race: ~
+      subrace: ~
+  # Magic Initiative (PHB pg.168)
   Magic Initiative:
-    caster: true
-  Martial Adept: {}
+    perk:
+      ability: ~
+      language: ~
+      proficiency: ~
+      resistance: ~
+      skills: ~
+      speed: ~
+      spells: ~
+    required:
+      ability: ~
+      caster: true
+      proficiency: ~
+      race: ~
+      subrace: ~
+  # Martial Adept (PHB pg.168)
+  Martial Adept:
+    perk:
+      ability: ~
+      language: ~
+      proficiency: ~
+      resistance: ~
+      skills: ~
+      speed: ~
+      spells: ~
+    required:
+      ability: ~
+      caster: false
+      proficiency: ~
+      race: ~
+      subrace: ~
+  # Medium Armor Master (PHB pg.168)
   Medium Armor Master:
-    proficiency:
-      armors: ['Medium']
-  Mobile: {}
+    perk:
+      ability: ~
+      language: ~
+      proficiency: ~
+      resistance: ~
+      skills: ~
+      speed: ~
+      spells: ~
+    required:
+      ability: ~
+      caster: false
+      proficiency:
+        armors: ['Medium']
+      race: ~
+      subrace: ~
+  # Mobile (PHB pg.168)
+  Mobile:
+    perk:
+      ability: ~
+      language: ~
+      proficiency: ~
+      resistance: ~
+      skills: ~
+      speed: 10
+      spells: ~
+    required:
+      ability: ~
+      caster: false
+      proficiency: ~
+      race: ~
+      subrace: ~
+  # Moderately Armored (PHB pg.168)
   Moderately Armored:
-    proficiency:
-      armors: ['Light']
-  Mounted Combatant: {}
-  Observant: {}
+    perk:
+      ability:
+        Strength: 1
+        Dexterity: 1
+      language: ~
+      proficiency:
+        armors: ['Medium', 'Shields']
+      resistance: ~
+      skills: ~
+      speed: ~
+      spells: ~
+    required:
+      ability: ~
+      caster: false
+      proficiency:
+        armors: ['Light']
+      race: ~
+      subrace: ~
+  # Mounted Combatant (PHB pg.168)
+  Mounted Combatant:
+    perk:
+      ability: ~
+      language: ~
+      proficiency: ~
+      resistance: ~
+      skills: ~
+      speed: ~
+      spells: ~
+    required:
+      ability: ~
+      caster: false
+      proficiency: ~
+      race: ~
+      subrace: ~
+  # Observant (PHB pg.168)
+  Observant:
+    perk:
+      ability:
+        Intelligence: 1
+        Wisdom: 1
+      language: ~
+      proficiency: ~
+      resistance: ~
+      skills: ~
+      speed: ~
+      spells: ~
+    required:
+      ability: ~
+      caster: false
+      proficiency: ~
+      race: ~
+      subrace: ~
+  # Orcish Fury (XGtE pg.75)
   Orcish Fury:
-    race: ['HalfOrc']
-  Polearm Master: {}
+    perk:
+      ability:
+        Strength: 1
+        Constitution: 1
+      language: ~
+      proficiency: ~
+      resistance: ~
+      skills: ~
+      speed: ~
+      spells: ~
+    required:
+      ability: ~
+      caster: false
+      proficiency: ~
+      race: ['HalfOrc']
+      subrace: ~
+  # Polearm Master (PHB pg.168)
+  Polearm Master:
+    perk:
+      ability: ~
+      language: ~
+      proficiency: ~
+      resistance: ~
+      skills: ~
+      speed: ~
+      spells: ~
+    required:
+      ability: ~
+      caster: false
+      proficiency: ~
+      race: ~
+      subrace: ~
+  # Prodigy (XGtE pg.75)
   Prodigy:
-    race: ['HalfElf', 'HalfOrc', 'Human']
-  Resilient: {}
+    perk:
+      ability: ~
+      language:
+        - Abyssal
+        - Celestial
+        - Common
+        - Deep Speech
+        - Draconic
+        - Dwarvish
+        - Elvish
+        - Giant
+        - Gnomish
+        - Goblin
+        - Halfling
+        - Infernal
+        - Orc
+        - Primordial
+        - Sylvan
+        - Undercommon
+      proficiency:
+        tools:
+          - Artisan's tools - Alchemists supplies
+          - Artisan's tools - Brewer's supplies
+          - Artisan's tools - Calligrapher's supplies
+          - Artisan's tools - Carpenter's tools
+          - Artisan's tools - Cartographer's tools
+          - Artisan's tools - Cobbler's tools
+          - Artisan's tools - Cook's utensils
+          - Artisan's tools - Glassblower's tools
+          - Artisan's tools - Jeweler's tools
+          - Artisan's tools - Leatherworker's tools
+          - Artisan's tools - Mason's tools
+          - Artisan's tools - Painter's supplies
+          - Artisan's tools - Potter's tools
+          - Artisan's tools - Smith's tools
+          - Artisan's tools - Tinker's tools
+          - Artisan's tools - Weaver's tools
+          - Artisan's tools - Woodcarver's tools
+          - Disguise kit
+          - Forgery kit
+          - Gaming set - Dice set
+          - Gaming set - Dragonchess set
+          - Gaming set - Playing card set
+          - Gaming set - Three-Dragon Ante set
+          - Herbalism kit
+          - Musical instrument - Bagpipes
+          - Musical instrument - Drum
+          - Musical instrument - Dulcimer
+          - Musical instrument - Flute
+          - Musical instrument - Lute
+          - Musical instrument - Lyre
+          - Musical instrument - Horn
+          - Musical instrument - Pan flute
+          - Musical instrument - Shawm
+          - Musical instrument - Viol
+          - Navigator's tools
+          - Poisoner's kit
+          - Thieves' tools
+          - Vehicles
+      resistance: ~
+      skills:
+        - Acrobatics
+        - Animal Handling
+        - Arcana
+        - Athletics
+        - Deception
+        - History
+        - Insight
+        - Intimidation
+        - Investigation
+        - Medicine
+        - Nature
+        - Perception
+        - Performance
+        - Persuasion
+        - Religion
+        - Sleight of Hand
+        - Stealth
+        - Survival
+      speed: ~
+      spells: ~
+    required:
+      ability: ~
+      caster: false
+      proficiency: ~
+      race: ['HalfElf', 'HalfOrc', 'Human']
+      subrace: ~
+  # Resilient (PHB pg.168)
+  Resilient:
+    perk:
+      ability:
+        Strength: 1
+        Dexterity: 1
+        Constitution: 1
+        Intelligence: 1
+        Wisdom: 1
+        Charisma: 1
+      language: ~
+      proficiency: ~
+      resistance: ~
+      skills: ~
+      speed: ~
+      spells: ~
+    required:
+      ability: ~
+      caster: false
+      proficiency: ~
+      race: ~
+      subrace: ~
+  # Ritual Caster (PHB pg.169)
   Ritual Caster:
-    abilities:
-      Intelligence: 13
-      Wisdom: 13
-    caster: true
-  Savage Attacker: {}
+    perk:
+      ability: ~
+      language: ~
+      proficiency: ~
+      resistance: ~
+      skills: ~
+      speed: ~
+      spells: ~
+    required:
+      ability:
+        Intelligence: 13
+        Wisdom: 13
+      caster: true
+      proficiency: ~
+      race: ~
+      subrace: ~
+  # Savage Attacker (PHB pg.169)
+  Savage Attacker:
+    perk:
+      ability: ~
+      language: ~
+      proficiency: ~
+      resistance: ~
+      skills: ~
+      speed: ~
+      spells: ~
+    required:
+      ability: ~
+      caster: false
+      proficiency: ~
+      race: ~
+      subrace: ~
+  # Second Chance
   Second Chance:
-    race: ['Halfling']
-  Sentinel: {}
-  Sharpshooter: {}
-  Shield Master: {}
-  Skilled: {}
+    perk:
+      ability:
+        Dexterity: 1
+        Constitution: 1
+        Charisma: 1
+      language: ~
+      proficiency: ~
+      resistance: ~
+      skills: ~
+      speed: ~
+      spells: ~
+    required:
+      ability: ~
+      caster: false
+      proficiency: ~
+      race: ['Halfling']
+      subrace: ~
+  # Sentinel (PHB pg.169)
+  Sentinel:
+    perk:
+      ability: ~
+      language: ~
+      proficiency: ~
+      resistance: ~
+      skills: ~
+      speed: ~
+      spells: ~
+    required:
+      ability: ~
+      caster: false
+      proficiency: ~
+      race: ~
+      subrace: ~
+  # Sharpshooter (PHB pg.170)
+  Sharpshooter:
+    perk:
+      ability: ~
+      language: ~
+      proficiency: ~
+      resistance: ~
+      skills: ~
+      speed: ~
+      spells: ~
+    required:
+      ability: ~
+      caster: false
+      proficiency: ~
+      race: ~
+      subrace: ~
+  # Shield Master (PHB pg.170)
+  Shield Master:
+    perk:
+      ability: ~
+      language: ~
+      proficiency: ~
+      resistance: ~
+      skills: ~
+      speed: ~
+      spells: ~
+    required:
+      ability: ~
+      caster: false
+      proficiency: ~
+      race: ~
+      subrace: ~
+  # Skilled (PHB pg.170)
+  Skilled:
+    perk:
+      ability: ~
+      language: ~
+      proficiency:
+        tools:
+          - Artisan's tools - Alchemists supplies
+          - Artisan's tools - Brewer's supplies
+          - Artisan's tools - Calligrapher's supplies
+          - Artisan's tools - Carpenter's tools
+          - Artisan's tools - Cartographer's tools
+          - Artisan's tools - Cobbler's tools
+          - Artisan's tools - Cook's utensils
+          - Artisan's tools - Glassblower's tools
+          - Artisan's tools - Jeweler's tools
+          - Artisan's tools - Leatherworker's tools
+          - Artisan's tools - Mason's tools
+          - Artisan's tools - Painter's supplies
+          - Artisan's tools - Potter's tools
+          - Artisan's tools - Smith's tools
+          - Artisan's tools - Tinker's tools
+          - Artisan's tools - Weaver's tools
+          - Artisan's tools - Woodcarver's tools
+          - Disguise kit
+          - Forgery kit
+          - Gaming set - Dice set
+          - Gaming set - Dragonchess set
+          - Gaming set - Playing card set
+          - Gaming set - Three-Dragon Ante set
+          - Herbalism kit
+          - Musical instrument - Bagpipes
+          - Musical instrument - Drum
+          - Musical instrument - Dulcimer
+          - Musical instrument - Flute
+          - Musical instrument - Lute
+          - Musical instrument - Lyre
+          - Musical instrument - Horn
+          - Musical instrument - Pan flute
+          - Musical instrument - Shawm
+          - Musical instrument - Viol
+          - Navigator's tools
+          - Poisoner's kit
+          - Thieves' tools
+          - Vehicles
+      resistance: ~
+      skills:
+        - Acrobatics
+        - Animal Handling
+        - Arcana
+        - Athletics
+        - Deception
+        - History
+        - Insight
+        - Intimidation
+        - Investigation
+        - Medicine
+        - Nature
+        - Perception
+        - Performance
+        - Persuasion
+        - Religion
+        - Sleight of Hand
+        - Stealth
+        - Survival
+      speed: ~
+      spells: ~
+    required:
+      ability: ~
+      caster: false
+      proficiency: ~
+      race: ~
+      subrace: ~
+  # Skulker (PHB pg.170)
   Skulker:
-    abilities:
-      Dexterity: 13
+    perk:
+      ability: ~
+      language: ~
+      proficiency: ~
+      resistance: ~
+      skills: ~
+      speed: ~
+      spells: ~
+    required:
+      ability:
+        Dexterity: 13
+      caster: false
+      proficiency: ~
+      race: ~
+      subrace: ~
+  # Spell Sniper (PHB pg.170)
   Spell Sniper:
-    caster: true
+    perk:
+      ability: ~
+      language: ~
+      proficiency: ~
+      resistance: ~
+      skills: ~
+      speed: ~
+      spells: ~
+    required:
+      ability: ~
+      caster: true
+      proficiency: ~
+      race: ~
+      subrace: ~
+  # Squat Nimbleness (XGtE pg.75)
   Squat Nimbleness:
-    race: ['Dwarf', 'Gnome', 'Halfling']
+    perk:
+      ability:
+        Strength: 1
+        Dexterity: 1
+      language: ~
+      proficiency: ~
+      resistance: ~
+      skills:
+        - Acrobatics
+        - Athletics
+      speed: 5
+      spells: ~
+    required:
+      ability: ~
+      caster: false
+      proficiency: ~
+      race: ['Dwarf', 'Gnome', 'Halfling']
+      subrace: ~
+  # Svirfneblin Magic (MToF pg.114)
   Svirfneblin Magic:
-    subrace: ['Deep']
-  Tavern Brawler: {}
-  Tough: {}
+    perk:
+      ability: ~
+      language: ~
+      proficiency: ~
+      resistance: ~
+      skills: ~
+      speed: ~
+      spells: ['Blindness/Deafness', 'Blur', 'Disguise', 'Nondetection']
+    required:
+      ability: ~
+      caster: false
+      proficiency: ~
+      race: ['Gnome']
+      subrace: ['Deep']
+  # Tavern Brawler (PHB pg.170)
+  Tavern Brawler:
+    perk:
+      ability:
+        Strength: 1
+        Constitution: 1
+      language: ~
+      proficiency:
+        weapons:
+          - Improvised weapons
+          - Unarmed strikes
+      resistance: ~
+      skills: ~
+      speed: ~
+      spells: ~
+    required:
+      ability: ~
+      caster: false
+      proficiency: ~
+      race: ~
+      subrace: ~
+  # Tough (PHB pg.170)
+  Tough:
+    perk:
+      ability: ~
+      language: ~
+      proficiency: ~
+      resistance: ~
+      skills: ~
+      speed: ~
+      spells: ~
+    required:
+      ability: ~
+      caster: false
+      proficiency: ~
+      race: ~
+      subrace: ~
+  # War Caster (PHB pg.170)
   War Caster:
-    caster: true
-  Weapon Master: {}
+    perk:
+      ability: ~
+      language: ~
+      proficiency: ~
+      resistance: ~
+      skills: ~
+      speed: ~
+      spells: ~
+    required:
+      ability: ~
+      caster: true
+      proficiency: ~
+      race: ~
+      subrace: ~
+  # Weapon Master (PHB pg.170)
+  Weapon Master:
+    perk:
+      ability:
+        Strength: 1
+        Dexterity: 1
+      language: ~
+      proficiency: ~
+      resistance: ~
+      skills: ~
+      speed: ~
+      spells: ~
+    required:
+      ability: ~
+      caster: false
+      proficiency: ~
+      race: ~
+      subrace: ~
+  # Wood Elf Magic (PHB pg.170)
   Wood Elf Magic:
-    subrace: ['Wood']
+    perk:
+      ability: ~
+      language: ~
+      proficiency: ~
+      resistance: ~
+      skills: ~
+      speed: ~
+      spells:
+        - ['Druidcraft', 'Guidance', 'Mending', 'Poison Spray', 'Produce Flame', 'Resistance', 'Shillelagh', 'Thorn Whip']
+        - Longstrider
+        - Pass Without Trace
+    required:
+      ability: ~
+      caster: false
+      proficiency: ~
+      race: ['Elf']
+      subrace: ['Wood']
