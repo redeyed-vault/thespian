@@ -468,7 +468,10 @@ class AttributeGenerator:
         for ability, bonus in self.racial_bonus.items():
             value = score_array.get(ability) + bonus
             score_array[ability] = value
-            out(f"Racial bonus of {bonus} applied to '{ability}'. Score is now {value}.", -2)
+            out(
+                f"Racial bonus of {bonus} applied to '{ability}'. Score is now {value}.",
+                -2,
+            )
 
         return score_array
 
@@ -610,7 +613,7 @@ class ImprovementGenerator:
                 # Retrieve bonus abilities by feat
                 feat_ability_options = tuple(perks.get(perk).keys())
 
-                # If Resilient feat selected, treat a lil differently
+                # If Resilient feat selected, treat a upgrade differently
                 # Feat offers only one ability option
                 # Otherwise feat offers multiple ability options
                 if feat == "Resilient":
@@ -636,6 +639,8 @@ class ImprovementGenerator:
                 else:
                     # Retrieve primary, secondary class abilities
                     class_abilities = tuple(self.primary_ability.values())
+                    # Store the chosen ability value
+                    chosen_ability = None
                     # If at least one class ability in feat ability options
                     # Otherwise just randomly choose one ability
                     if has_one(class_abilities, feat_ability_options):
@@ -645,13 +650,24 @@ class ImprovementGenerator:
                             # Otherwise, keep it movin'
                             if ability in feat_ability_options:
                                 if self._is_adjustable(ability):
-                                    self._set_feat_ability([ability])
+                                    chosen_ability = ability
+                                    self._set_feat_ability([chosen_ability])
                                     break
                                 else:
                                     continue
                     else:
-                        ability = sample(feat_ability_options, 1)
-                        self._set_feat_ability(ability)
+                        chosen_ability = sample(feat_ability_options, 1)
+                        self._set_feat_ability(chosen_ability)
+
+                    # If Squat Nimbleness feat chosen
+                    # Append Athletics skill if Strength chosen
+                    # Append Acrobatics skill if Dexterity chosen
+                    if feat == "Squat Nimbleness":
+                        perk_skills = get_feat_perks(feat).get("skills")
+                        if chosen_ability == "Strength":
+                            self.skills.append(perk_skills[1])
+                        elif chosen_ability == "Dexterity":
+                            self.skills.append(perk_skills[0])
 
             # Feat "language" perk
             if perk == "language":
@@ -659,7 +675,9 @@ class ImprovementGenerator:
                 # Add 3 if Linguist feat
                 # Add 1 otherwise
                 bonus_languages = perks.get(perk)
-                bonus_languages = [x for x in bonus_languages if x not in self.languages]
+                bonus_languages = [
+                    x for x in bonus_languages if x not in self.languages
+                ]
                 if feat == "Linguist":
                     self.languages = self.languages + sample(bonus_languages, 3)
                 else:
@@ -671,12 +689,74 @@ class ImprovementGenerator:
                 # Armor category, append bonus proficiencies
                 # Tool category, append bonus proficiencies
                 if "armors" in proficiency_categories:
-                    self.armor_proficiency = self.armor_proficiency + proficiency_categories.get("armors")
+                    self.armor_proficiency = (
+                        self.armor_proficiency + proficiency_categories.get("armors")
+                    )
                 elif "tools" in proficiency_categories:
-                    tool_choice = [x for x in proficiency_categories.get("tools") if x not in self.tool_proficiency]
+                    tool_choice = [
+                        x
+                        for x in proficiency_categories.get("tools")
+                        if x not in self.tool_proficiency
+                    ]
                     self.tool_proficiency.append(choice(tool_choice))
                 elif "weapons" in proficiency_categories:
-                    pass
+
+                    def get_all_weapons():
+                        all_weapons = list()
+                        weapons = proficiency_categories.get("weapons")
+                        # User has simple weapon proficiencies
+                        # Remove all simple weapons from list
+                        if "Simple" in self.weapon_proficiency:
+                            del weapons["Simple"]
+
+                        # Make an exclusion of non-simple weapons
+                        # Make an exclusion of non-martial weapons
+                        excluded_weapons = [
+                            x
+                            for x in self.weapon_proficiency
+                            if x != "Simple" and x != "Martial"
+                        ]
+
+                        for category, _ in weapons.items():
+                            for weapon in weapons.get(category):
+                                all_weapons.append(weapon)
+
+                        return all_weapons
+
+                    weapons = [x for x in get_weapon_chest()]
+                    selections = weapons[0]
+                    # Has Simple weapon proficiency.
+                    if "Simple" in self.weapon_proficiency:
+                        # Has Simple proficiency and tight list of weapon proficiencies.
+                        del selections["Simple"]
+                        selections = selections.get("Martial")
+                        if len(self.weapon_proficiency) > 1:
+                            tight_weapon_list = [
+                                proficiency
+                                for proficiency in self.weapon_proficiency
+                                if proficiency != "Simple"
+                            ]
+                            selections = [
+                                selection
+                                for selection in selections
+                                if selection not in tight_weapon_list
+                            ]
+                            tight_weapon_list.clear()
+                    # Doesn't have Simple or Martial proficiency but a tight list of weapons.
+                    elif "Simple" and "Martial" not in self.weapon_proficiency:
+                        selections = selections.get("Martial") + selections.get(
+                            "Simple"
+                        )
+                        selections = [
+                            selection
+                            for selection in selections
+                            if selection not in self.weapon_proficiency
+                        ]
+
+                    self.weapon_proficiency = self.weapon_proficiency + sample(
+                        selections, 4
+                    )
+                    selections.clear()
 
             # Feat "resistance" perk
             if perk == "resistance":
@@ -686,33 +766,14 @@ class ImprovementGenerator:
             if perk == "skills":
                 pass
 
-
-        # Drow High Magic/Svirfneblin Magic/Wood Elf Magic
-        if feat in ("Drow High Magic", "Svirfneblin Magic", "Wood Elf Magic"):
-            if feat == "Drow High Magic":
-                self.magic_innate.append("Detect Magic")
-                self.magic_innate.append("Dispel Magic")
-                self.magic_innate.append("Levitate")
-            elif feat == "Svirfneblin Magic":
-                self.magic_innate.append("Blindness/Deafness")
-                self.magic_innate.append("Blur")
-                self.magic_innate.append("Disguise")
-                self.magic_innate.append("Nondetection")
-            elif feat == "Wood Elf Magic":
-                druid_cantrips = (
-                    "Druidcraft",
-                    "Guidance",
-                    "Mending",
-                    "Poison Spray",
-                    "Produce Flame",
-                    "Resistance",
-                    "Shillelagh",
-                    "Thorn Whip",
-                )
-                self.magic_innate.append(choice(druid_cantrips))
-                self.magic_innate.append("Longstrider")
-                self.magic_innate.append("Pass Without Trace")
-
+            # Feat "spells" perk
+            if perk == "spells":
+                spells = perks.get(perk)
+                for spell in spells:
+                    if isinstance(spell, list):
+                        self.magic_innate.append(choice(spell))
+                    else:
+                        self.magic_innate.append(spell)
 
         # Squat Nimbleness
         if feat == "Squat Nimbleness":
@@ -727,39 +788,6 @@ class ImprovementGenerator:
                     skill_choice = "Acrobatics"
                 self.skills.append(skill_choice)
                 out(f"Feat '{feat}' added skill '{skill_choice}'.", -2)
-
-        # Weapon Master
-        if feat == "Weapon Master":
-            weapons = [t for t in get_weapon_chest()]
-            selections = weapons[0]
-            # Has Simple weapon proficiency.
-            if "Simple" in self.weapon_proficiency:
-                # Has Simple proficiency and tight list of weapon proficiencies.
-                del selections["Simple"]
-                selections = selections.get("Martial")
-                if len(self.weapon_proficiency) > 1:
-                    tight_weapon_list = [
-                        proficiency
-                        for proficiency in self.weapon_proficiency
-                        if proficiency != "Simple"
-                    ]
-                    selections = [
-                        selection
-                        for selection in selections
-                        if selection not in tight_weapon_list
-                    ]
-                    tight_weapon_list.clear()
-            # Doesn't have Simple or Martial proficiency but a tight list of weapons.
-            elif "Simple" and "Martial" not in self.weapon_proficiency:
-                selections = selections.get("Martial") + selections.get("Simple")
-                selections = [
-                    selection
-                    for selection in selections
-                    if selection not in self.weapon_proficiency
-                ]
-
-            self.weapon_proficiency = self.weapon_proficiency + sample(selections, 4)
-            selections.clear()
 
     def _get_upgrade_ratio(self, percentage: int) -> tuple:
         """Returns an 'ability to feat' upgrade ration by percentage."""
@@ -832,9 +860,13 @@ class ImprovementGenerator:
             elif feat == "Weapon Master" and "Martial" in self.weapon_proficiency:
                 return False
 
-        def get_feat_requirements(feat_name: str, use_local: bool = True) -> (dict, None):
+        def get_feat_requirements(
+            feat_name: str, use_local: bool = True
+        ) -> (dict, None):
             """Returns all requirements for feat_name."""
-            return Load.get_columns(feat_name, "required", source_file="feats", use_local=use_local)
+            return Load.get_columns(
+                feat_name, "required", source_file="feats", use_local=use_local
+            )
 
         # Go through ALL prerequisites.
         prerequisite = get_feat_requirements(feat)
@@ -948,7 +980,7 @@ class ImprovementGenerator:
             # If one ability specified, apply a +2 bonus
             if len(ability_array) == 1:
                 bonus = 2
-            # If two abilities specified, apply a +1 bonus 
+            # If two abilities specified, apply a +1 bonus
             elif len(ability_array) == 2:
                 bonus = 1
             # Otherwise raise error
