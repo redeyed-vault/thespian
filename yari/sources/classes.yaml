@@ -22,6 +22,7 @@ classes:
       18: ['Indomitable Might']
       20: ['Primal Champion']
     hit_die: 12
+    language: ~
     proficiency:
       - ['Armor', ['Light', 'Medium', 'Shield']]
       - ['Tools',  []]
@@ -60,6 +61,7 @@ classes:
       18: ['Magical Secrets']
       20: ['Superior Inspiration']
     hit_die: 8
+    language: ~
     proficiency:
       - ['Armor', ['Light']]
       - ['Tools',  []]
@@ -115,6 +117,7 @@ classes:
       17: ['Destroy Undead']
       20: ['Divine Intervention']
     hit_die: 8
+    language: ~
     proficiency:
       - ['Armor', ['Light', 'Medium', 'Shield']]
       - ['Tools',  []]
@@ -170,6 +173,7 @@ classes:
       18: ['Beast Spells', 'Timeless Body']
       20: ['Archdruid']
     hit_die: 8
+    language: ['Druidic']
     proficiency:
       - ['Armor', ['Light', 'Medium', 'Shield']]
       - ['Tools',  ['Herbalism Kit']]
@@ -231,6 +235,7 @@ classes:
       17: ['Action Surge', 'Indomitable']
       20: ['Extra Attack']
     hit_die: 10
+    language: ~
     proficiency:
       - ['Armor', ['Light', 'Medium', 'Heavy', 'Shield']]
       - ['Tools',  []]
@@ -288,6 +293,7 @@ classes:
       18: ['Empty Body']
       20: ['Perfect Self']
     hit_die: 8
+    language: ~
     proficiency:
       - ['Armor', []]
       - ['Tools',  ["Artisan's tools - Alchemists supplies", "Artisan's tools - Brewer's supplies", "Artisan's tools - Calligrapher's supplies", "Artisan's tools - Carpenter's tools", "Artisan's tools - Cartographer's tools", "Artisan's tools - Cobbler's tools", "Artisan's tools - Cook's utensils", "Artisan's tools - Glassblower's tools", "Artisan's tools - Jeweler's tools", "Artisan's tools - Leatherworker's tools", "Artisan's tools - Mason's tools", "Artisan's tools - Painter's supplies", "Artisan's tools - Potter's tools", "Artisan's tools - Smith's tools", "Artisan's tools - Tinker's tools", "Artisan's tools - Weaver's tools", "Artisan's tools - Woodcarver's tools", "Musical instrument - Bagpipes", "Musical instrument - Drum", "Musical instrument - Dulcimer", "Musical instrument - Flute", "Musical instrument - Lute", "Musical instrument - Lyre", "Musical instrument - Horn", "Musical instrument - Pan flute", "Musical instrument - Shawm", "Musical instrument - Viol"]]
@@ -323,6 +329,7 @@ classes:
       14: ['Cleansing Touch']
       18: ['Aura of Courage', 'Aura of Protection']
     hit_die: 10
+    language: ~
     proficiency:
       - ['Armor', ['Light', 'Medium', 'Heavy', 'Shield']]
       - ['Tools',  []]
@@ -377,6 +384,7 @@ classes:
       18: ['Feral Senses']
       20: ['Foe Slayer']
     hit_die: 10
+    language: ~
     proficiency:
       - ['Armor', ['Light', 'Medium', 'Shield']]
       - ['Tools',  []]
@@ -432,6 +440,7 @@ classes:
       18: ['Elusive']
       20: ['Stroke of Luck']
     hit_die: 8
+    language: ["Thieves' cant"]
     proficiency:
       - ['Armor', ['Light']]
       - ['Tools',  ["Thieves' tools"]]
@@ -483,6 +492,7 @@ classes:
       17: ['Metamagic']
       20: ['Sorcerous Restoration']
     hit_die: 6
+    language: ~
     proficiency:
       - ['Armor', []]
       - ['Tools',  []]
@@ -536,6 +546,7 @@ classes:
       17: ['Mystic Arcanum']
       20: ['Eldritch Master']
     hit_die: 8
+    language: ~
     proficiency:
       - ['Armor', ['Light']]
       - ['Tools',  []]
@@ -585,6 +596,7 @@ classes:
       18: ['Spell Mastery']
       20: ['Signature Spell']
     hit_die: 6
+    language: ~
     proficiency:
       - ['Armor', []]
       - ['Tools',  []]
