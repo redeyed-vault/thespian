@@ -118,7 +118,10 @@ feats:
   # Dragon Fear (XGtE pg.74)
   Dragon Fear:
     perk:
-      ability: ~
+      ability:
+        Strength: 1
+        Constitution: 1
+        Charisma: 1
       language: ~
       proficiency: ~
       resistance: ~
@@ -134,7 +137,10 @@ feats:
   # Dragon Hide (XGtE pg.74)
   Dragon Hide:
     perk:
-      ability: ~
+      ability:
+        Strength: 1
+        Constitution: 1
+        Charisma: 1
       language: ~
       proficiency: ~
       resistance: ~
@@ -320,8 +326,7 @@ feats:
   # Grapper (PHB pg.167)
   Grappler:
     perk:
-      ability:
-        Strength: 13
+      ability: ~
       language: ~
       proficiency: ~
       resistance: ~
@@ -329,7 +334,8 @@ feats:
       speed: ~
       spells: ~
     required:
-      ability: ~
+      ability:
+        Strength: 13
       caster: false
       proficiency: ~
       race: ~
@@ -1105,7 +1111,47 @@ feats:
         Strength: 1
         Dexterity: 1
       language: ~
-      proficiency: ~
+      proficiency:
+        weapons:
+          Simple:
+            - Club
+            - Dagger
+            - Dart
+            - Greatclub
+            - Handaxe
+            - Javelin
+            - Light Crossbow
+            - Light hammer
+            - Mace
+            - Quarterstaff
+            - Shortbow
+            - Sickle
+            - Sling
+            - Spear
+            - Unarmed strike
+          Martial:
+            - Battleaxe
+            - Blowgun
+            - Flail
+            - Greataxe
+            - Greatsword
+            - Halberd
+            - Hand Crossbow
+            - Heavy Crossbow
+            - Lance
+            - Longbow
+            - Longsword
+            - Maul
+            - Morningstar
+            - Net
+            - Pike
+            - Rapier
+            - Scimitar
+            - Shortsword
+            - Trident
+            - War pick
+            - Warhammer
+            - Whip
       resistance: ~
       skills: ~
       speed: ~
