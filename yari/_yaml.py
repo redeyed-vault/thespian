@@ -13,7 +13,6 @@ class QueryNotFound(Exception):
 
 
 class Load:
-
     @staticmethod
     def _load_source(*fields, file: str, use_local: bool = True):
         """
@@ -53,15 +52,6 @@ class Load:
                 return [q for q in qo.fetch(*fields)][0]
             except QueryNotFound:
                 return None
-
-    '''
-        except TypeError as error:
-            print(error)
-            traceback.print_exc()
-            sys.exit()
-        except (FileNotFoundError, MalformedError) as error:
-            sys.exit(error)
-    '''
 
     @classmethod
     def get_columns(cls, *cols, source_file: str, use_local: bool = True):
