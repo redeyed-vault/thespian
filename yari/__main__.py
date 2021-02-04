@@ -66,7 +66,9 @@ from . import (
     get_all_languages,
     get_all_skills,
     get_default_background,
+    get_language_by_class,
     get_proficiency_bonus,
+    get_skills_by_subclass,
     get_subclasses_by_class,
     get_subraces_by_race,
     roll,
@@ -346,7 +348,7 @@ def main(
             magic_innate=_race.magic_innate,
             spell_slots=_class.spell_slots,
             score_array=score_array,
-            languages=_race.languages,
+            languages=_race.languages + _class.languages,
             armor_proficiency=armors,
             tool_proficiency=tools,
             weapon_proficiency=weapons,
@@ -519,46 +521,6 @@ class ImprovementGenerator:
     feats: list
     upgrade_ratio: int
 
-    def _add_bonus_proficiency(self):
-        """Adds special bonus class proficiencies (if applicable)."""
-        if self.klass == "Druid":
-            self.languages.append("Druidic")
-        elif self.klass == "Rogue":
-            self.languages.append("Thieves' cant")
-
-        if self.level >= 3:
-            if self.subclass == "Cavalier":
-                cavalier_skills = [
-                    "Animal Handling",
-                    "History",
-                    "Insight",
-                    "Performance",
-                    "Persuasion",
-                ]
-                cavalier_skills = [s for s in cavalier_skills if s not in self.skills]
-                self.skills = self.skills + sample(cavalier_skills, 1)
-            elif self.subclass == "College of Lore":
-                lore_skills = [x for x in get_all_skills() if x not in self.skills]
-                self.skills = self.skills + sample(lore_skills, 3)
-            elif self.subclass == "Samurai":
-                proficiency_choice = choice(("Language", "Skill"))
-                if proficiency_choice == "Language":
-                    samurai_language = [
-                        x for x in get_all_languages() if x not in self.languages
-                    ]
-                    self.languages = self.languages + sample(samurai_language, 1)
-                elif proficiency_choice == "Skill":
-                    samurai_skills = [
-                        "History",
-                        "Insight",
-                        "Performance",
-                        "Persuasion",
-                    ]
-                    samurai_skills = [s for s in samurai_skills if s not in self.skills]
-                    self.skills = self.skills + sample(samurai_skills, 1)
-            elif self.subclass == "Way of the Drunken Master":
-                self.skills.append("Performance")
-
     def _add_feat(self) -> None:
         """Randomly selects and adds a valid feats."""
         feats = [feat for feat in list(PC_FEATS) if feat not in self.feats]
@@ -685,9 +647,7 @@ class ImprovementGenerator:
             # Add 3 if Linguist feat
             # Add 1 otherwise
             bonus_languages = perks.get("language")
-            bonus_languages = [
-                x for x in bonus_languages if x not in self.languages
-            ]
+            bonus_languages = [x for x in bonus_languages if x not in self.languages]
             if feat == "Linguist":
                 self.languages + sample(bonus_languages, 3)
             else:
@@ -754,9 +714,7 @@ class ImprovementGenerator:
                         tight_weapon_list.clear()
                 # Doesn't have Simple or Martial proficiency but a tight list of weapons.
                 elif "Simple" and "Martial" not in self.weapon_proficiency:
-                    selections = selections.get("Martial") + selections.get(
-                        "Simple"
-                    )
+                    selections = selections.get("Martial") + selections.get("Simple")
                     selections = [
                         selection
                         for selection in selections
@@ -1060,8 +1018,6 @@ class ImprovementGenerator:
 
     def upgrade(self):
         """Runs character upgrades (if applicable)."""
-        self._add_bonus_proficiency()
-
         # Determine and assign upgrades by ability/feat upgrade ratio.
         upgrade_ratio = self._get_upgrade_ratio(self.upgrade_ratio)
         if sum(upgrade_ratio) == 0:
