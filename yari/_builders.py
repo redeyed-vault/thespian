@@ -1,5 +1,5 @@
 import math
-import random
+from random import choice, sample
 import sys
 
 from ._constants import (
@@ -147,9 +147,13 @@ class _ClassBuilder:
                 "Ranger, Rogue, Sorcerer, Warlock and Wizard 'job' classes."
             )
 
+        # Class is not valid
         if not get_is_class(self.klass):
             raise ValueError(f"Character class '{self.klass}' is invalid.")
 
+        # Level is not integer
+        # Level is not between 1-20
+        # Otherwise set the level value
         if not isinstance(level, int):
             raise ValueError("Argument 'level' value must be of type 'int'.")
         elif level not in range(1, 21):
@@ -157,6 +161,10 @@ class _ClassBuilder:
         else:
             self.level = level
 
+        # If level is 3 or above
+        # Set the subclass, if valid
+        # Throw error is subclass isn't valid
+        # Otherwise, if level is below 3 don't set the subclass
         if self.level >= 3:
             if get_is_subclass(subclass, self.klass):
                 self.subclass = subclass
@@ -165,7 +173,7 @@ class _ClassBuilder:
                     f"Character class '{self.klass}' has no subclass '{subclass}'."
                 )
         else:
-            self.subclass = ""
+            self.subclass = "None"
 
         if get_is_background(background):
             self.background = background
@@ -189,13 +197,14 @@ class _ClassBuilder:
         self.armors = None
         self.tools = None
         self.weapons = None
+        self.languages = None
         self.saving_throws = None
         self.skills = None
         self.magic_class = None
         self.spell_slots = None
 
     def __repr__(self):
-        if self.subclass != "":
+        if self.subclass != "None":
             return '<{} subclass="{}" level="{}">'.format(
                 self.klass, self.subclass, self.level
             )
@@ -219,10 +228,10 @@ class _ClassBuilder:
             self.klass, "abilities", source_file="classes"
         )
         if self.klass == "Cleric":
-            class_abilities[2] = random.choice(class_abilities[2])
+            class_abilities[2] = choice(class_abilities[2])
         elif self.klass in ("Fighter", "Ranger"):
             ability_choices = class_abilities.get(1)
-            class_abilities[1] = random.choice(ability_choices)
+            class_abilities[1] = choice(ability_choices)
             if self.klass == "Fighter" and self.subclass != "Eldritch Knight":
                 class_abilities[2] = "Constitution"
             elif self.klass == "Fighter" and self.subclass == "Eldritch Knight":
@@ -236,7 +245,7 @@ class _ClassBuilder:
                 class_abilities[2] = "Intelligence"
         elif self.klass == "Wizard":
             ability_choices = class_abilities.get(2)
-            class_abilities[2] = random.choice(ability_choices)
+            class_abilities[2] = choice(ability_choices)
 
         self.all["abilities"] = class_abilities
 
@@ -253,32 +262,28 @@ class _ClassBuilder:
         self.all["equipment"] = self.equipment = equipment
 
     def _add_features(self) -> None:
-        """Generates a collection of class and subclass features by level."""
-
-        def feature_splice(cls_features: dict, sc_features: dict) -> dict:
-            """Splices class/subclass features."""
-            for lv, ft in sc_features.items():
-                if lv in cls_features:
-                    feature_list = cls_features[lv] + sc_features[lv]
-                    feature_list.sort()
-                    cls_features[lv] = feature_list
-                else:
-                    cls_features[lv] = sc_features[lv]
-            return cls_features
-
+        """
+        Generates a collection of class and subclass features by level.
+        
+        """
         try:
             class_features = Load.get_columns(
                 self.klass, "features", source_file="classes"
             )
-            if self.subclass != "":
+            if self.subclass != "None":
                 subclass_features = Load.get_columns(
                     self.subclass, "features", source_file="subclasses"
                 )
-                features = feature_splice(class_features, subclass_features)
-            else:
-                features = class_features
+                for level_obtained, _ in subclass_features.items():
+                    if level_obtained in class_features:
+                        feature_list = class_features[level_obtained] + subclass_features[level_obtained]
+                        feature_list.sort()
+                        class_features[level_obtained] = feature_list
+                    else:
+                        class_features[level_obtained] = subclass_features[level_obtained]
+
             # Create feature dictionary based on level.
-            features = {lv: features[lv] for lv in features if lv <= self.level}
+            features = {lv: class_features[lv] for lv in class_features if lv <= self.level}
         except (TypeError, KeyError) as e:
             # exit("Cannot find class/subclass '{}'")
             sys.exit(e)
@@ -319,59 +324,69 @@ class _ClassBuilder:
         self.all["magic_class"] = extended_magic_list
 
     def _add_proficiencies(self) -> None:
-        """Merge class proficiencies with subclass proficiencies (if applicable)."""
-        # If no subclass is specified
-        if self.subclass == "":
-            return
+        """
+        Merge class proficiencies with subclass proficiencies (if applicable).
 
-        # If no bonus proficiency available
-        bonus_proficiency = self.all.get("proficiency")
-        if bonus_proficiency is None:
-            return
+        Add proficiencies
+        Add languages
+        Add skills
 
-        for category in ("Armor", "Tools", "Weapons"):
-            for index, proficiency in enumerate(bonus_proficiency):
-                if category in proficiency:
-                    if (
-                        category
-                        in (
-                            "Armor",
-                            "Weapons",
-                        )
-                        and self.subclass in ("College of Valor", "College of Swords")
-                        and self.level < 3
-                    ):
-                        return
-                    elif (
-                        category == "Tools"
-                        and self.subclass == "Assassin"
-                        and self.level < 3
-                    ):
-                        return
-
-                    try:
-                        subclass_proficiency = [
-                            x for x in get_subclass_proficiency(self.subclass, category)
-                        ]
-                        proficiencies = proficiency[1] + subclass_proficiency[0]
-                        self.all["proficiency"][index] = [category, proficiencies]
-                    except IndexError:
-                        pass
-
-        # Monk bonus tool or musical instrument proficiency.
+        """
+        # Proficiencies
+        # Get starting proficiencies
+        # Monks get a bonus tool proficiency
+        self.all["proficiency"]["armors"] = Load.get_columns(
+            self.klass, "proficiency", "armors", source_file="classes"
+        )
         if self.klass == "Monk":
-            tool_selection = [random.choice(self.all["proficiency"][1][1])]
-            self.all["proficiency"][1][1] = tool_selection
+            self.all["proficiency"]["tools"] = Load.get_columns(
+                self.klass, "proficiency", "tools", source_file="classes"
+            )
+        else:
+            self.all["proficiency"]["tools"] = choice(Load.get_columns(
+                self.klass, "proficiency", "tools", source_file="classes"
+            ))
+        self.all["proficiency"]["weapons"] = Load.get_columns(
+            self.klass, "proficiency", "weapons", source_file="classes"
+        )
 
-        self.all["proficiency"] = [tuple(x) for x in self.all.get("proficiency")]
+        # If subclass specified
+        # Check if subclass proficiencies available
+        # Look through proficiency categories and upgrade lists as necessary
+        # Remove all proficiencies from bonus proficiency list
+        # If already possessed by the character
+        # Add bonus proficiency to the appropriate category
+        if self.subclass != "None":
+            subclass_proficiency_categories = Load.get_columns(
+                self.subclass, "proficiency", source_file="subclasses"
+            )
+            if subclass_proficiency_categories is not None:
+                for category in tuple(subclass_proficiency_categories.keys()):
+                    subclass_proficiency = Load.get_columns(
+                        self.subclass, "proficiency", category, source_file="subclasses"
+                    )
+                    subclass_proficiency = [
+                        x
+                        for x in subclass_proficiency
+                        if x not in self.all.get("proficiency").get(category)
+                    ]
+                    self.all["proficiency"][category] = (
+                        self.all["proficiency"][category] + subclass_proficiency
+                    )
 
-    def _add_skills(self):
-        """Generates character's skill set."""
-        # Skill handling and allotment.
-        skill_pool = self.all["proficiency"][4][1]
+        # Languages
+        # Add bonus class specific languages, (if applicable)
+        self.all["languages"] = list()
+        bonus_languages = get_language_by_class(self.klass)
+        if bonus_languages is not None:
+            self.all["languages"].append(bonus_languages[0])
+
+        # Skills
+        # Set the skill groundwork.
+        skill_pool = self.all.get("skills")
         skills = list()
 
-        # Get skill allotment by class.
+        # Determine skill allotment by class.
         if self.klass in ("Rogue",):
             allotment = 4
         elif self.klass in ("Bard", "Ranger"):
@@ -379,14 +394,43 @@ class _ClassBuilder:
         else:
             allotment = 2
 
-        # Remove any bonus racial skill from pool.
+        # Set starting allotment of racial/class skills
+        # Remove any skill from the pool that is a racial skill
+        # Then apply racial skills to skill list
         if len(self.race_skills) != 0:
             skill_pool = [x for x in skill_pool if x not in self.race_skills]
             skills = skills + self.race_skills
 
-        skills = skills + random.sample(skill_pool, allotment)
+        # Select class skills based on starting count generated above
+        # Add class skills to skill list
+        skills = skills + sample(skill_pool, allotment)
+
+        # Add subclass bonus skills at level 3 or above, (if applicable)
+        if self.level >= 3:
+            bonus_skills = get_skills_by_subclass(self.subclass)
+            if bonus_skills is not None:
+                if len(bonus_skills) > 1:
+                    bonus_skills = [x for x in bonus_skills if x not in skills]
+                    if self.subclass == "College of Lore":
+                        skills = skills + sample(bonus_skills, 3)
+                    else:
+                        skills = skills + sample(bonus_skills, 1)
+                else:
+                    skills.append(bonus_skills[0])
+
+            """
+            # TODO: Remove as much hardcoding as possible
+            if self.subclass == "Samurai":
+                proficiency_choice = choice(("Language", "Skill"))
+                if proficiency_choice == "Language":
+                    samurai_language = [
+                        x for x in get_all_languages() if x not in self.languages
+                    ]
+                    self.languages = self.languages + sample(samurai_language, 1)
+            """
+
         skills.sort()
-        self.all["proficiency"][4] = ["Skills", skills]
+        self.all["skills"] = skills
 
         # Proficiency handling and allotment (if applicable).
         self.all["proficiency_bonus"] = get_proficiency_bonus(self.level)
@@ -419,7 +463,6 @@ class _ClassBuilder:
         self._add_hit_die()
         self._add_extended_magic()
         self._add_proficiencies()
-        self._add_skills()
         self._add_spell_slots()
         # Apply class fine-tuning modifications
         self.primary_ability = self.all.get("abilities")
@@ -429,11 +472,12 @@ class _ClassBuilder:
         self.hit_die = self.all.get("hit_die")
         self.hit_points = self.all.get("hit_points")
         self.proficiency_bonus = self.all.get("proficiency_bonus")
-        self.armors = self.all.get("proficiency")[0][1]
-        self.tools = self.all.get("proficiency")[1][1]
-        self.weapons = self.all.get("proficiency")[2][1]
-        self.saving_throws = self.all.get("proficiency")[3][1]
-        self.skills = self.all.get("proficiency")[4][1]
+        self.armors = self.all.get("proficiency").get("armors")
+        self.tools = self.all.get("proficiency").get("tools")
+        self.weapons = self.all.get("proficiency").get("weapons")
+        self.saving_throws = self.all.get("saving_throws")
+        self.languages = self.all.get("languages")
+        self.skills = self.all.get("skills")
         self.magic_class = self.all["magic_class"]
         self.spell_slots = self.all.get("spell_slots")
         # Delete class template
@@ -579,6 +623,26 @@ def get_background_skills(background: str):
     return Load.get_columns(background, "skills", source_file="backgrounds")
 
 
+def get_language_by_class(klass: str):
+    """
+    Returns a tuple of class specific languages by klass, (if applicable).
+
+    :param str klass:
+
+    """
+    return Load.get_columns(klass, "languages", source_file="classes")
+
+
+def get_skills_by_subclass(subclass: str):
+    """
+    Returns a tuple of bonus skills for subclass, (if applicable).
+
+    :param str subclass:
+
+    """
+    return Load.get_columns(subclass, "skills", source_file="subclasses")
+
+
 def get_subclasses_by_class(klass: str) -> tuple:
     """
     Returns a tuple of valid subclasses for klass.
@@ -703,7 +767,7 @@ class _RaceBuilder:
                 "Intelligence",
                 "Wisdom",
             ]
-            valid_abilities = random.sample(valid_abilities, 2)
+            valid_abilities = sample(valid_abilities, 2)
             for ability in valid_abilities:
                 self.all["bonus"][ability] = 1
 
@@ -728,7 +792,7 @@ class _RaceBuilder:
         self.all = Load.get_columns(self.race, source_file="races")
         self.ancestor = (
             self.race == "Dragonborn"
-            and random.choice(
+            and choice(
                 (
                     "Black",
                     "Blue",
@@ -801,7 +865,7 @@ class _RaceBuilder:
                     if value > self.darkvision:
                         self.darkvision = value
                 elif name == "Cantrip":
-                    self.magic_innate = random.sample(value, 1)
+                    self.magic_innate = sample(value, 1)
                 elif name == "Natural Illusionist":
                     self.magic_innate = [value]
                 elif name in (
@@ -843,9 +907,9 @@ class _RaceBuilder:
                 ):
                     self.skills.append(value[0])
                 elif name in ("Decadent Mastery", "Extra Language", "Languages"):
-                    self.languages.append(random.choice(value))
+                    self.languages.append(choice(value))
                 elif name in ("Hunter's Lore", "Kenku Training", "Skill Versatility"):
-                    self.skills = self.skills + random.sample(value, 2)
+                    self.skills = self.skills + sample(value, 2)
                 elif name in (
                     "Dwarven Armor Training",
                     "Martial Prodigy (Armor)",
@@ -855,7 +919,7 @@ class _RaceBuilder:
                 elif name == "Tinker":
                     self.tools.append(value)
                 elif name == "Tool Proficiency":
-                    self.tools.append(random.choice(value))
+                    self.tools.append(choice(value))
                 elif name in (
                     "Drow Weapon Training",
                     "Dwarven Combat Training",
@@ -865,7 +929,7 @@ class _RaceBuilder:
                 ):
                     self.weapons = value
                 elif name in "Martial Training (Weapon)":
-                    self.weapons = random.sample(value, 2)
+                    self.weapons = sample(value, 2)
 
     def _add_subrace_traits(self) -> None:
         """ Merges subrace traits with race traits. """
