@@ -22,13 +22,19 @@ classes:
       18: ['Indomitable Might']
       20: ['Primal Champion']
     hit_die: 12
-    language: ~
+    languages: ~
     proficiency:
-      - ['Armor', ['Light', 'Medium', 'Shield']]
-      - ['Tools',  []]
-      - ['Weapons', ['Simple', 'Martial']]
-      - ['Saves', ['Constitution', 'Strength']]
-      - ['Skills', ['Animal Handling', 'Athletics', 'Intimidation', 'Nature', 'Perception', 'Survival']]
+      armors: ['Light', 'Medium', 'Shield']
+      tools: []
+      weapons: ['Simple', 'Martial']
+    saving_throws: ['Constitution', 'Strength']
+    skills:
+      - Animal Handling
+      - Athletics
+      - Intimidation
+      - Nature 
+      - Perception
+      - Survival
     spell_slots: ~
     subclasses:
       - Path of the Ancestral Guardian
@@ -61,13 +67,31 @@ classes:
       18: ['Magical Secrets']
       20: ['Superior Inspiration']
     hit_die: 8
-    language: ~
+    languages: ~
     proficiency:
-      - ['Armor', ['Light']]
-      - ['Tools',  []]
-      - ['Weapons', ['Simple', 'Hand Crossbow', 'Longsword', 'Rapier', 'Shortsword']]
-      - ['Saves', ['Charisma', 'Dexterity']]
-      - ['Skills', ['Acrobatics', 'Animal Handling', 'Arcana', 'Athletics', 'Deception', 'History', 'Insight', 'Intimidation', 'Investigation', 'Medicine', 'Nature', 'Perception', 'Performance', 'Persuasion', 'Religion', 'Sleight of Hand', 'Stealth', 'Survival']]
+      armors: ['Light']
+      tools: []
+      weapons: ['Simple', 'Hand Crossbow', 'Longsword', 'Rapier', 'Shortsword']
+    saving_throws: ['Charisma', 'Dexterity']
+    skills:
+      - Acrobatics
+      - Animal Handling
+      - Arcana
+      - Athletics
+      - Deception
+      - History
+      - Insight
+      - Intimidation
+      - Investigation
+      - Medicine
+      - Nature
+      - Perception
+      - Performance
+      - Persuasion
+      - Religion
+      - Sleight of Hand
+      - Stealth
+      - Survival
     spell_slots:
       1: 2
       2: 3
@@ -117,14 +141,19 @@ classes:
       17: ['Destroy Undead']
       20: ['Divine Intervention']
     hit_die: 8
-    language: ~
+    languages: ~
     proficiency:
-      - ['Armor', ['Light', 'Medium', 'Shield']]
-      - ['Tools',  []]
-      - ['Weapons', ['Simple']]
-      - ['Saves', ['Charisma', 'Wisdom']]
-      - ['Skills', ['History', 'Insight', 'Medicine', 'Persuasion', 'Religion']]
-    saves: ['Charisma', 'Wisdom']
+      armors: ['Light', 'Medium', 'Shield']
+      tools: []
+      weapons: ['Simple']
+    saving_throws: ['Charisma', 'Wisdom']
+    skills:
+      - History
+      - Insight
+      - Medicine
+      - Persuasion
+      - Religion
+    saving_throws: ['Charisma', 'Wisdom']
     spell_slots:
       1: 2
       2: 3
@@ -173,13 +202,21 @@ classes:
       18: ['Beast Spells', 'Timeless Body']
       20: ['Archdruid']
     hit_die: 8
-    language: ['Druidic']
+    languages: ['Druidic']
     proficiency:
-      - ['Armor', ['Light', 'Medium', 'Shield']]
-      - ['Tools',  ['Herbalism Kit']]
-      - ['Weapons', ['Club', 'Dagger', 'Dart', 'Javelin', 'Mace', 'Quarterstaff', 'Scimitar', 'Sickle', 'Sling', 'Spear']]
-      - ['Saves', ['Intelligence', 'Wisdom']]
-      - ['Skills', ['Animal Handling', 'Arcana', 'Insight', 'Medicine', 'Nature', 'Perception', 'Religion', 'Survival']]
+      armors: ['Light', 'Medium', 'Shield']
+      tools: ['Herbalism Kit']
+      weapons: ['Club', 'Dagger', 'Dart', 'Javelin', 'Mace', 'Quarterstaff', 'Scimitar', 'Sickle', 'Sling', 'Spear']
+    saving_throws: ['Intelligence', 'Wisdom']
+    skills:
+      - Animal Handling
+      - Arcana
+      - Insight
+      - Medicine
+      - Nature
+      - Perception
+      - Religion
+      - Survival
     spell_slots:
       1: 2
       2: 3
@@ -235,13 +272,21 @@ classes:
       17: ['Action Surge', 'Indomitable']
       20: ['Extra Attack']
     hit_die: 10
-    language: ~
+    languages: ~
     proficiency:
-      - ['Armor', ['Light', 'Medium', 'Heavy', 'Shield']]
-      - ['Tools',  []]
-      - ['Weapons', ['Simple', 'Martial']]
-      - ['Saves', ['Constitution', 'Strength']]
-      - ['Skills', ['Acrobatics', 'Animal Handling', 'Athletics', 'History', 'Insight', 'Intimidation', 'Perception', 'Survival']]
+      armors: ['Light', 'Medium', 'Heavy', 'Shield']
+      tools: []
+      weapons: ['Simple', 'Martial']
+    saving_throws: ['Constitution', 'Strength']
+    skills:
+      - Acrobatics
+      - Animal Handling
+      - Athletics
+      - History
+      - Insight
+      - Intimidation
+      - Perception
+      - Survival
     spell_slots:
       3: 2
       4: 3
@@ -293,13 +338,19 @@ classes:
       18: ['Empty Body']
       20: ['Perfect Self']
     hit_die: 8
-    language: ~
+    languages: ~
     proficiency:
-      - ['Armor', []]
-      - ['Tools',  ["Artisan's tools - Alchemists supplies", "Artisan's tools - Brewer's supplies", "Artisan's tools - Calligrapher's supplies", "Artisan's tools - Carpenter's tools", "Artisan's tools - Cartographer's tools", "Artisan's tools - Cobbler's tools", "Artisan's tools - Cook's utensils", "Artisan's tools - Glassblower's tools", "Artisan's tools - Jeweler's tools", "Artisan's tools - Leatherworker's tools", "Artisan's tools - Mason's tools", "Artisan's tools - Painter's supplies", "Artisan's tools - Potter's tools", "Artisan's tools - Smith's tools", "Artisan's tools - Tinker's tools", "Artisan's tools - Weaver's tools", "Artisan's tools - Woodcarver's tools", "Musical instrument - Bagpipes", "Musical instrument - Drum", "Musical instrument - Dulcimer", "Musical instrument - Flute", "Musical instrument - Lute", "Musical instrument - Lyre", "Musical instrument - Horn", "Musical instrument - Pan flute", "Musical instrument - Shawm", "Musical instrument - Viol"]]
-      - ['Weapons', ['Simple', 'Shortsword']]
-      - ['Saves', ['Dexterity', 'Strength']]
-      - ['Skills', ['Acrobatics', 'Athletics', 'History', 'Insight', 'Religion', 'Stealth']]
+      armors: []
+      tools: ["Artisan's tools - Alchemists supplies", "Artisan's tools - Brewer's supplies", "Artisan's tools - Calligrapher's supplies", "Artisan's tools - Carpenter's tools", "Artisan's tools - Cartographer's tools", "Artisan's tools - Cobbler's tools", "Artisan's tools - Cook's utensils", "Artisan's tools - Glassblower's tools", "Artisan's tools - Jeweler's tools", "Artisan's tools - Leatherworker's tools", "Artisan's tools - Mason's tools", "Artisan's tools - Painter's supplies", "Artisan's tools - Potter's tools", "Artisan's tools - Smith's tools", "Artisan's tools - Tinker's tools", "Artisan's tools - Weaver's tools", "Artisan's tools - Woodcarver's tools", "Musical instrument - Bagpipes", "Musical instrument - Drum", "Musical instrument - Dulcimer", "Musical instrument - Flute", "Musical instrument - Lute", "Musical instrument - Lyre", "Musical instrument - Horn", "Musical instrument - Pan flute", "Musical instrument - Shawm", "Musical instrument - Viol"]
+      weapons: ['Simple', 'Shortsword']
+    saving_throws: ['Dexterity', 'Strength']
+    skills:
+      - Acrobatics
+      - Athletics
+      - History
+      - Insight
+      - Religion
+      - Stealth
     spell_slots: ~
     subclasses:
       - Way of the Drunken Master
@@ -329,13 +380,19 @@ classes:
       14: ['Cleansing Touch']
       18: ['Aura of Courage', 'Aura of Protection']
     hit_die: 10
-    language: ~
+    languages: ~
     proficiency:
-      - ['Armor', ['Light', 'Medium', 'Heavy', 'Shield']]
-      - ['Tools',  []]
-      - ['Weapons', ['Simple', 'Martial']]
-      - ['Saves', ['Charisma', 'Wisdom']]
-      - ['Skills', ['Athletics', 'Insight', 'Intimidation', 'Medicine', 'Persuasion', 'Religion']]
+      armors: ['Light', 'Medium', 'Heavy', 'Shield']
+      tools: []
+      weapons: ['Simple', 'Martial']
+    saving_throws: ['Charisma', 'Wisdom']
+    skills:
+      - Athletics
+      - Insight
+      - Intimidation
+      - Medicine
+      - Persuasion
+      - Religion
     spell_slots:
       2: 2
       3: 3
@@ -384,13 +441,22 @@ classes:
       18: ['Feral Senses']
       20: ['Foe Slayer']
     hit_die: 10
-    language: ~
+    languages: ~
     proficiency:
-      - ['Armor', ['Light', 'Medium', 'Shield']]
-      - ['Tools',  []]
-      - ['Weapons', ['Simple', 'Martial']]
-      - ['Saves', ['Dexterity', 'Strength']]
-      - ['Skills', ['Animal Handling', 'Athletics', 'Insight', 'Investigation', 'Nature', 'Perception', 'Sleight of Hand', 'Stealth', 'Survival']]
+      armors: ['Light', 'Medium', 'Shield']
+      tools: []
+      weapons: ['Simple', 'Martial']
+    saving_throws: ['Dexterity', 'Strength']
+    skills:
+      - Animal Handling
+      - Athletics
+      - Insight
+      - Investigation
+      - Nature
+      - Perception
+      - Sleight of Hand
+      - Stealth
+      - Survival
     spell_slots:
       2: 2
       3: 3
@@ -440,13 +506,24 @@ classes:
       18: ['Elusive']
       20: ['Stroke of Luck']
     hit_die: 8
-    language: ["Thieves' cant"]
+    languages: ["Thieves' cant"]
     proficiency:
-      - ['Armor', ['Light']]
-      - ['Tools',  ["Thieves' tools"]]
-      - ['Weapons', ['Simple', 'Hand Crossbow', 'Longsword', 'Rapier', 'Shortsword']]
-      - ['Saves', ['Dexterity', 'Intelligence']]
-      - ['Skills', ['Acrobatics', 'Athletics', 'Deception', 'Insight', 'Intimidation', 'Investigation', 'Perception', 'Performance', 'Persuasion', 'Sleight of Hand', 'Stealth']]
+      armors: ['Light']
+      tools: ["Thieves' tools"]
+      weapons: ['Simple', 'Hand Crossbow', 'Longsword', 'Rapier', 'Shortsword']
+    saving_throws: ['Dexterity', 'Intelligence']
+    skills:
+      - Acrobatics
+      - Athletics
+      - Deception
+      - Insight
+      - Intimidation
+      - Investigation
+      - Perception
+      - Performance
+      - Persuasion
+      - Sleight of Hand
+      - Stealth
     spell_slots:
       3: 2
       4: 3
@@ -492,13 +569,19 @@ classes:
       17: ['Metamagic']
       20: ['Sorcerous Restoration']
     hit_die: 6
-    language: ~
+    languages: ~
     proficiency:
-      - ['Armor', []]
-      - ['Tools',  []]
-      - ['Weapons', ['Dagger', 'Dart', 'Light Crossbow', 'Sling', 'Quarterstaff']]
-      - ['Saves', ['Charisma', 'Constitution']]
-      - ['Skills', ['Arcana', 'Deception', 'Insight', 'Intimidation', 'Persuasion', 'Religion']]
+      armors: []
+      tools: []
+      weapons: ['Dagger', 'Dart', 'Light Crossbow', 'Sling', 'Quarterstaff']
+    saving_throws: ['Charisma', 'Constitution']
+    skills:
+      - Arcana
+      - Deception
+      - Insight
+      - Intimidation
+      - Persuasion
+      - Religion
     spell_slots:
       1: 2
       2: 3
@@ -546,13 +629,20 @@ classes:
       17: ['Mystic Arcanum']
       20: ['Eldritch Master']
     hit_die: 8
-    language: ~
+    languages: ~
     proficiency:
-      - ['Armor', ['Light']]
-      - ['Tools',  []]
-      - ['Weapons', ['Simple']]
-      - ['Saves', ['Charisma', 'Wisdom']]
-      - ['Skills', ['Arcana', 'Deception', 'History', 'Intimidation', 'Investigation', 'Nature', 'Religion']]
+      armors: ['Light']
+      tools: []
+      weapons: ['Simple']
+    saving_throws: ['Charisma', 'Wisdom']
+    skills:
+      - Arcana
+      - Deception
+      - History
+      - Intimidation
+      - Investigation
+      - Nature
+      - Religion
     spell_slots:
       1: 1
       2: 2
@@ -596,13 +686,19 @@ classes:
       18: ['Spell Mastery']
       20: ['Signature Spell']
     hit_die: 6
-    language: ~
+    languages: ~
     proficiency:
-      - ['Armor', []]
-      - ['Tools',  []]
-      - ['Weapons', ['Dagger', 'Dart', 'Light Crossbow', 'Sling', 'Quarterstaff']]
-      - ['Saves', ['Intelligence', 'Wisdom']]
-      - ['Skills', ['Arcana', 'History', 'Insight', 'Investigation', 'Medicine', 'Religion']]
+      armors: []
+      tools: []
+      weapons: ['Dagger', 'Dart', 'Light Crossbow', 'Sling', 'Quarterstaff']
+    saving_throws: ['Intelligence', 'Wisdom']
+    skills:
+      - Arcana
+      - History
+      - Insight
+      - Investigation
+      - Medicine
+      - Religion
     spell_slots:
       1: 2
       2: 3
