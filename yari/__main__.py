@@ -326,7 +326,7 @@ def main(
 
     try:
         # Generate ability scores.
-        _attributes = AttributeGenerator(_class.primary_ability, _race.bonus)
+        _attributes = AttributeGenerator(_class.abilities, _race.bonus)
         score_array = _attributes.roll()
 
         # Generate character armor, tool and weapon proficiencies.
@@ -343,7 +343,7 @@ def main(
             subclass=_class.subclass,
             klass=klass,
             level=level,
-            primary_ability=_class.primary_ability,
+            primary_ability=_class.abilities,
             saves=_class.saving_throws,
             magic_innate=_race.magic_innate,
             spell_slots=_class.spell_slots,
@@ -649,9 +649,9 @@ class ImprovementGenerator:
             bonus_languages = perks.get("language")
             bonus_languages = [x for x in bonus_languages if x not in self.languages]
             if feat == "Linguist":
-                self.languages + sample(bonus_languages, 3)
+                self.languages = self.languages + sample(bonus_languages, 3)
             else:
-                self.languages + sample(bonus_languages, 1)
+                self.languages = self.languages + sample(bonus_languages, 1)
 
         # Feat "proficiency" perk
         if perks.get("proficiency") is not None:
