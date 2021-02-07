@@ -3,6 +3,7 @@ races:
     bonus:
       Charisma: 2
     languages: ['Common', 'Celestial']
+    proficiency: ~
     ratio:
       height:
         base: 56
@@ -21,6 +22,7 @@ races:
       Dexterity: 1
       Strength: 2
     languages: ['Common', 'Goblin']
+    proficiency: ~
     ratio:
       height:
         base: 72
@@ -41,6 +43,7 @@ races:
       Strength: 2
       Charisma: 1
     languages: ['Common', 'Draconic']
+    proficiency: ~
     ratio:
       height:
         base: 66
@@ -58,6 +61,8 @@ races:
     bonus:
       Constitution: 2
     languages: ['Common', 'Dwarvish']
+    proficiency:
+      weapons: [Battleaxe, Handaxe, Throwing hammer, Warhammer]
     ratio: ~
     size: Medium
     speed: 30
@@ -72,6 +77,7 @@ races:
     bonus:
       Dexterity: 2
     languages: ['Common', 'Elvish']
+    proficiency: ~
     ratio: ~
     size: Medium
     speed: 30
@@ -85,6 +91,7 @@ races:
       Strength: 1
       Wisdom: 2
     languages: ['Common', 'Elvish', 'Giant']
+    proficiency: ~
     ratio:
       height:
         base: 74
@@ -103,6 +110,7 @@ races:
     bonus:
       Intelligence: 1
     languages: ['Common', 'Gith']
+    proficiency: ~
     ratio: ~
     size: Medium
     speed: 30
@@ -111,6 +119,7 @@ races:
     bonus:
       Intelligence: 2
     languages: ['Common', 'Gnomish']
+    proficiency: ~
     ratio:
       height:
         base: 35
@@ -128,6 +137,7 @@ races:
       Dexterity: 2
       Constitution: 1
     languages: ['Common', 'Goblin']
+    proficiency: ~
     ratio:
       height:
         base: 41
@@ -146,6 +156,7 @@ races:
       Constitution: 1
       Strength: 2
     languages: ['Common', 'Giant']
+    proficiency: ~
     ratio:
       height:
         base: 74
@@ -164,6 +175,7 @@ races:
     bonus:
       Charisma: 2
     languages: ['Common', 'Elvish']
+    proficiency: ~
     ratio:
       height:
         base: 57
@@ -183,6 +195,7 @@ races:
       Strength: 2
       Constitution: 1
     languages: ['Common', 'Orc']
+    proficiency: ~
     ratio:
       height:
         base: 58
@@ -201,6 +214,7 @@ races:
     bonus:
       Dexterity: 2
     languages: ['Common', 'Halfling']
+    proficiency: ~
     ratio:
       height:
         base: 31
@@ -219,6 +233,30 @@ races:
       Constitution: 2
       Intelligence: 1
     languages: ['Common', 'Goblin']
+    proficiency:
+      weapons:
+        - Battleaxe
+        - Blowgun
+        - Flail
+        - Greataxe
+        - Greatsword
+        - Halberd
+        - Hand Crossbow
+        - Heavy Crossbow
+        - Lance, Longbow
+        - Longsword
+        - Maul
+        - Morningstar
+        - Net
+        - Pike
+        - Rapier
+        - Scimitar
+        - Shortsword
+        - Trident
+        - War pick
+        - Warhammer
+        - Whip
+        - 2
     ratio:
       height:
         base: 56
@@ -242,6 +280,7 @@ races:
       Wisdom: 1
       Charisma: 1
     languages: ['Common']
+    proficiency: ~
     ratio:
       height:
         base: 56
@@ -258,6 +297,7 @@ races:
       Dexterity: 2
       Wisdom: 1
     languages: ['Common', 'Auran']
+    proficiency: ~
     ratio:
       height:
         base: 52
@@ -276,6 +316,7 @@ races:
       Dexterity: 2
       Strength: -2
     languages: ['Common', 'Draconic']
+    proficiency: ~
     ratio:
       height:
         base: 25
@@ -295,6 +336,7 @@ races:
       Constitution: 2
       Wisdom: 1
     languages: ['Common', 'Draconic']
+    proficiency: ~
     ratio:
       height:
         base: 57
@@ -316,6 +358,7 @@ races:
       Constitution: 1
       Strength: 2
     languages: ['Common', 'Orc']
+    proficiency: ~
     ratio:
       height:
         base: 64
@@ -335,6 +378,7 @@ races:
       Dexterity: 2
       Charisma: 1
     languages: ['Common']
+    proficiency: ~
     ratio:
       height:
         base: 58
@@ -354,6 +398,7 @@ races:
     bonus:
       Charisma: 2
     languages: ['Common', 'Infernal']
+    proficiency: ~
     ratio:
       height:
         base: 57
@@ -372,6 +417,7 @@ races:
       Constitution: 1
       Strength: 1
     languages: ['Common', 'Primordial']
+    proficiency: ~
     ratio:
       height:
         base: 54
@@ -391,6 +437,7 @@ races:
       Charisma: 2
       Intelligence: 1
     languages: ['Abyssal', 'Common', 'Draconic']
+    proficiency: ~
     ratio:
       height:
         base: 56
