@@ -735,7 +735,7 @@ class __RaceBuilder:
             ]
             valid_abilities = sample(valid_abilities, 2)
             for ability in valid_abilities:
-                self.all["bonus"][ability] = 1
+                self.bonus[ability] = 1
 
     def _add_mass_calculation(self) -> None:
         """Generates and sets character's height & weight."""
