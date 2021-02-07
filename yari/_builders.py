@@ -290,6 +290,7 @@ class _ClassBuilder:
             class_features = Load.get_columns(
                 self.klass, "features", source_file="classes"
             )
+
             if self.subclass != "None":
                 subclass_features = Load.get_columns(
                     self.subclass, "features", source_file="subclasses"
@@ -339,28 +340,50 @@ class _ClassBuilder:
         """
         Merge class proficiencies with subclass proficiencies (if applicable).
 
-        Add proficiencies
-        Add languages
-        Add skills
+            - Add proficiencies
+            - Add languages
+            - Add skills
 
         """
         # Proficiencies
-        # Get starting proficiencies
-        # Monks get a bonus tool proficiency
-        self.armors = Load.get_columns(
-            self.klass, "proficiency", "armors", source_file="classes"
-        )
-        if self.klass == "Monk":
-            self.tools = Load.get_columns(
-                self.klass, "proficiency", "tools", source_file="classes"
+        # Get starting armor, tool and weapon proficiencies
+        def assign_base_proficiency(
+            proficiency_category, proficiency_list, sample_int=None
+        ):
+            if isinstance(sample_int, int):
+                proficiency_list = sample(proficiency_list, sample_int)
+
+            if proficiency_category == "armors":
+                self.armors = proficiency_list
+            elif proficiency_category == "tools":
+                self.tools = proficiency_list
+            elif proficiency_category == "weapons":
+                self.weapons = proficiency_list
+
+        for category in (
+            "armors",
+            "tools",
+            "weapons",
+        ):
+            base_proficiency = Load.get_columns(
+                self.klass, "proficiency", category, source_file="classes"
             )
-        else:
-            self.tools = Load.get_columns(
-                self.klass, "proficiency", "tools", source_file="classes"
-            )
-        self.weapons = Load.get_columns(
-            self.klass, "proficiency", "weapons", source_file="classes"
-        )
+
+            # Generate sample count if proficiency has random selection
+            # i.e: Monk gets one random tool proficiency
+            if len(base_proficiency) < 2:
+                sample_count = None
+            else:
+                sample_count = base_proficiency[-1]
+                if not isinstance(sample_count, int):
+                    sample_count = None
+
+            if sample_count is None:
+                assign_base_proficiency(category, base_proficiency)
+            elif isinstance(sample_count, int):
+                del base_proficiency[-1]
+                sample_count = int(sample_count)
+                assign_base_proficiency(category, base_proficiency, sample_count)
 
         # If subclass specified
         # Check if subclass proficiencies available
@@ -432,7 +455,12 @@ class _ClassBuilder:
         if self.level >= 3:
             bonus_skills = get_skills_by_subclass(self.subclass)
             if bonus_skills is not None:
-                if len(bonus_skills) > 1:
+                if len(bonus_skills) == 1:
+                    skills.append(bonus_skills[0])
+                else:
+                    # College of Lore - 3 bonus skills
+                    # Samurai - 1 bonus language or skill
+                    # Otherwise - 1 bonus skill
                     bonus_skills = [x for x in bonus_skills if x not in skills]
                     if self.subclass == "College of Lore":
                         skills = skills + sample(bonus_skills, 3)
@@ -451,8 +479,6 @@ class _ClassBuilder:
                             skills = skills + sample(bonus_skills, 1)
                     else:
                         skills = skills + sample(bonus_skills, 1)
-                else:
-                    skills.append(bonus_skills[0])
 
         skills.sort()
         self.skills = skills
@@ -467,7 +493,7 @@ class _ClassBuilder:
         """
         # Character has no spell slots
         # Or character is a Fighter/Rogue and not Eldritch Knight/Arcane Trickster
-        # Otherwise has spellcasting ability
+        # Otherwise character has spellcasting ability
         if (
             self.spell_slots is None
             or self.klass in ("Fighter", "Rogue")
