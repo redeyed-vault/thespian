@@ -1,3 +1,4 @@
+from dataclasses import dataclass
 import math
 from random import choice, sample
 import sys
@@ -707,6 +708,124 @@ def has_extended_magic(subclass: str) -> bool:
     if Load.get_columns(subclass, "magic", source_file="subclasses") is not None:
         return True
     return False
+
+
+##
+# Test generic exception class
+class Error(Exception):
+    pass
+
+
+# Begin test code for RaceBuilder
+@dataclass
+class __RaceBuilder:
+    sex: str
+    subrace: str
+    level: int
+
+    def _add_ability_bonus(self):
+        """Adds Half-Elves chosen bonus racial ability bonus (if applicable)."""
+        if self.race == "HalfElf":
+            valid_abilities = [
+                "Strength",
+                "Dexterity",
+                "Constitution",
+                "Intelligence",
+                "Wisdom",
+            ]
+            valid_abilities = sample(valid_abilities, 2)
+            for ability in valid_abilities:
+                self.all["bonus"][ability] = 1
+
+    def _add_mass_calculation(self) -> None:
+        """Generates and sets character's height & weight."""
+        height_base = self.height.get("base")
+        height_modifier = self.height.get("modifier")
+        height_modifier = sum(list(roll(height_modifier)))
+        self.height = height_base + height_modifier
+
+        weight_base = self.weight.get("base")
+        weight_modifier = self.weight.get("modifier")
+        weight_modifier = sum(list(roll(weight_modifier)))
+        self.weight = (height_modifier * weight_modifier) + weight_base
+
+    def run(self):
+        self.race = self.__class__.__name__
+        if self.race == "__RaceBuilder":
+            raise Error(
+                "This class must be inherited to use. It is currently used by "
+                "the Aasimar, Bugbear, Dragonborn, Dwarf, Elf, Firbolg, Gith, "
+                "Gnome, Goblin, Goliath, HalfElf, HalfOrc, Halfling, Hobgoblin, "
+                "Human, Kenku, Kobold, Lizardfolk, Orc, Tabaxi, Tiefling, "
+                "Triton, and Yuanti 'race' classes."
+            )
+
+        # Debugging value stuff
+        self.race = self.race.replace("_", "")
+
+        if self.sex not in ("Female", "Male",):
+            raise Error(f"Value '{self.sex}' is not a valid gender option.")
+
+        if has_subraces(self.race):
+            allowed_subraces = [x for x in get_subraces_by_race(self.race)]
+            if self.subrace not in allowed_subraces:
+                raise Error(f"Value '{self.subrace}' is not a valid '{self.race}' subrace.")
+
+        if isinstance(self.level, int):
+            if not range(1, 21):
+                raise Error("Value 'level' must be between 1-20.")
+        else:
+            raise Error("Value must be of type 'integer'.")
+
+        race_template = Load.get_columns(self.race, source_file="races")
+        if race_template is not None:
+            subrace_template = None
+            if self.subrace != "":
+                subrace_template = Load.get_columns(self.subrace, source_file="subraces")
+                if subrace_template is None:
+                    raise Error(f"Cannot load subrace template for '{self.subrace}'.")
+
+                for trait, value in subrace_template.items():
+                    if trait not in race_template:
+                        race_template[trait] = subrace_template[trait]
+                    elif trait == "bonus":
+                        for ability, bonus in value.items():
+                            race_template[trait][ability] = bonus
+                    elif trait == "ratio":
+                        ratio = subrace_template.get(trait)
+                        if ratio is not None:
+                            race_template[trait] = ratio
+                    elif trait == "traits":
+                        for other in subrace_template.get(trait):
+                            race_template[trait].append(other)
+
+                self.ancestor = None
+                self.bonus = race_template.get("bonus")
+                #self.darkvision = race_template.get("darkvision")
+                self.languages = race_template.get("languages")
+                self.height = race_template.get("ratio").get("height")
+                self.weight = race_template.get("ratio").get("weight")
+                self.size = race_template.get("size")
+                self.speed = race_template.get("speed")
+                self.traits = race_template.get("traits")
+                #self.magic_innate = list()
+                self.resistances = list()
+                self.skills = list()
+                self.armors = list()
+                self.tools = list()
+                self.weapons = list()
+                del race_template
+
+                self._add_mass_calculation()
+        else:
+            raise Error(f"Cannot load race template for '{self.race}'.")
+
+
+# Begin test code for Elf_ class using test __RaceBuilder class
+class Elf_(__RaceBuilder):
+    def __init__(self, sex, subrace, level) -> None:
+        super(Elf_, self).__init__(sex, subrace, level)
+## End test code
 
 
 class _RaceBuilder:
