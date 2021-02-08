@@ -1,4 +1,3 @@
-from dataclasses import dataclass
 import math
 from random import choice, sample
 import sys
@@ -717,11 +716,28 @@ class Error(Exception):
 
 
 # Begin test code for RaceBuilder
-@dataclass
 class __RaceBuilder:
-    sex: str
-    subrace: str
-    level: int
+
+    def __init__(self, subrace: str, sex: str = "Female", level: int = 1):
+        self.sex = sex
+        self.subrace = subrace
+        self.level = level
+        self.race = self.__class__.__name__
+        self.ancestor = None
+        self.bonus = None
+        self.darkvision = None
+        self.languages = None
+        self.height = None
+        self.weight = None
+        self.size = None
+        self.speed = None
+        self.traits = None
+        self.magic_innate = None
+        self.resistances = None
+        self.skills = None
+        self.armors = None
+        self.tools = None
+        self.weapons = None
 
     def _add_ability_bonus(self):
         """Adds Half-Elves chosen bonus racial ability bonus (if applicable)."""
@@ -737,20 +753,7 @@ class __RaceBuilder:
             for ability in valid_abilities:
                 self.bonus[ability] = 1
 
-    def _add_mass_calculation(self) -> None:
-        """Generates and sets character's height & weight."""
-        height_base = self.height.get("base")
-        height_modifier = self.height.get("modifier")
-        height_modifier = sum(list(roll(height_modifier)))
-        self.height = height_base + height_modifier
-
-        weight_base = self.weight.get("base")
-        weight_modifier = self.weight.get("modifier")
-        weight_modifier = sum(list(roll(weight_modifier)))
-        self.weight = (height_modifier * weight_modifier) + weight_base
-
     def run(self):
-        self.race = self.__class__.__name__
         if self.race == "__RaceBuilder":
             raise Error(
                 "This class must be inherited to use. It is currently used by "
@@ -769,7 +772,7 @@ class __RaceBuilder:
         if has_subraces(self.race):
             allowed_subraces = [x for x in get_subraces_by_race(self.race)]
             if self.subrace not in allowed_subraces:
-                raise Error(f"Value '{self.subrace}' is not a valid '{self.race}' subrace.")
+                raise Error(f"Value '{self.subrace}' is not a valid '{self.race}' subrace option.")
 
         if isinstance(self.level, int):
             if not range(1, 21):
@@ -777,55 +780,93 @@ class __RaceBuilder:
         else:
             raise Error("Value must be of type 'integer'.")
 
+        # Load template for race
         race_template = Load.get_columns(self.race, source_file="races")
-        if race_template is not None:
-            subrace_template = None
-            if self.subrace != "":
-                subrace_template = Load.get_columns(self.subrace, source_file="subraces")
-                if subrace_template is None:
-                    raise Error(f"Cannot load subrace template for '{self.subrace}'.")
-
-                for trait, value in subrace_template.items():
-                    if trait not in race_template:
-                        race_template[trait] = subrace_template[trait]
-                    elif trait == "bonus":
-                        for ability, bonus in value.items():
-                            race_template[trait][ability] = bonus
-                    elif trait == "ratio":
-                        ratio = subrace_template.get(trait)
-                        if ratio is not None:
-                            race_template[trait] = ratio
-                    elif trait == "traits":
-                        for other in subrace_template.get(trait):
-                            race_template[trait].append(other)
-
-                self.ancestor = None
-                self.bonus = race_template.get("bonus")
-                #self.darkvision = race_template.get("darkvision")
-                self.languages = race_template.get("languages")
-                self.height = race_template.get("ratio").get("height")
-                self.weight = race_template.get("ratio").get("weight")
-                self.size = race_template.get("size")
-                self.speed = race_template.get("speed")
-                self.traits = race_template.get("traits")
-                #self.magic_innate = list()
-                self.resistances = list()
-                self.skills = list()
-                self.armors = list()
-                self.tools = list()
-                self.weapons = list()
-                del race_template
-
-                self._add_mass_calculation()
-        else:
+        if race_template is None:
             raise Error(f"Cannot load race template for '{self.race}'.")
+
+        # Set the base proficiencies
+        racial_proficiencies = race_template.get("proficiency")
+        for category in racial_proficiencies:
+            base_proficiencies = racial_proficiencies.get(category)
+
+            if len(base_proficiencies) >= 2:
+                last_value = base_proficiencies[-1]
+                if isinstance(last_value, int):
+                    del base_proficiencies[-1]
+                    base_proficiencies = sample(base_proficiencies, last_value)
+
+            if category == "armors":
+                self.armors = base_proficiencies
+            elif category == "tools":
+                self.tools = base_proficiencies
+            elif category == "weapons":
+                self.weapons = base_proficiencies
+
+        # Set default languages
+        self.languages = race_template.get("languages")
+
+        # Merge traits from base race and subrace (if applicable)
+        if self.subrace != "":
+            subrace_template = Load.get_columns(self.subrace, source_file="subraces")
+            if subrace_template is None:
+                raise Error(f"Cannot load subrace template for '{self.subrace}'.")
+
+            for trait, value in subrace_template.items():
+                if trait not in race_template:
+                    race_template[trait] = subrace_template[trait]
+                elif trait == "bonus":
+                    for ability, bonus in value.items():
+                        race_template[trait][ability] = bonus
+                elif trait == "proficiency":
+                    subrace_proficiencies = subrace_template[trait]
+                    for category in subrace_proficiencies:
+                        added_proficiencies = subrace_proficiencies.get(category)
+
+                        if category == "armors":
+                            self.armors = self.armors + added_proficiencies
+                        elif category == "tools":
+                            self.tools = self.tools + added_proficiencies
+                        elif category == "weapons":
+                            self.weapons = self.weapons + added_proficiencies
+                elif trait == "ratio":
+                    ratio = subrace_template.get(trait)
+                    if ratio is not None:
+                        race_template[trait] = ratio
+                elif trait == "traits":
+                    for other in subrace_template.get(trait):
+                        race_template[trait].append(other)
+
+        # Set ability bonuses
+        self.bonus = race_template.get("bonus")
+
+        # Calculate height/weight
+        ratio = race_template.get("ratio")
+
+        height_base = ratio.get("height").get("base")
+        height_modifier = ratio.get("height").get("modifier")
+        height_modifier = sum(list(roll(height_modifier)))
+
+        weight_base = ratio.get("weight").get("base")
+        weight_modifier = ratio.get("weight").get("modifier")
+        weight_modifier = sum(list(roll(weight_modifier)))
+
+        self.height = height_base + height_modifier
+        self.weight = (height_modifier * weight_modifier) + weight_base
+        self.size = race_template.get("size")
 
 
 # Begin test code for Elf_ class using test __RaceBuilder class
+class Dwarf_(__RaceBuilder):
+    def __init__(self, subrace, sex, level) -> None:
+        super(Dwarf_, self).__init__(subrace, sex, level)
+
+
 class Elf_(__RaceBuilder):
-    def __init__(self, sex, subrace, level) -> None:
-        super(Elf_, self).__init__(sex, subrace, level)
-## End test code
+    def __init__(self, subrace, sex, level) -> None:
+        super(Elf_, self).__init__(subrace, sex, level)
+
+# End test code
 
 
 class _RaceBuilder:
