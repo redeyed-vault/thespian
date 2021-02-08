@@ -5,8 +5,12 @@ subraces:
       Strength: 1
     languages: ~
     parent: Aasimar
-    proficiency: ~
+    proficiency:
+      armors: []
+      tools: []
+      weapons: []
     ratio: ~
+    resistance: []
     traits:
       - [Necrotic Shroud, 3]
   Protector:
@@ -14,8 +18,12 @@ subraces:
       Wisdom: 1
     languages: ~
     parent: Aasimar
-    proficiency: ~
+    proficiency:
+      armors: []
+      tools: []
+      weapons: []
     ratio: ~
+    resistance: []
     traits:
       - [Radiant Soul, 3]
   Scourge:
@@ -23,8 +31,12 @@ subraces:
       Constitution: 1
     languages: ~
     parent: Aasimar
-    proficiency: ~
+    proficiency:
+      armors: []
+      tools: []
+      weapons: []
     ratio: ~
+    resistance: []
     traits:
       - [Radiant Consumption, 3]
   # Elf Subraces
@@ -34,6 +46,8 @@ subraces:
     languages: ~
     parent: Elf
     proficiency:
+      armors: []
+      tools: []
       weapons: [Hand Crossbow, Rapier, Shortsword]
     ratio:
       height:
@@ -42,9 +56,10 @@ subraces:
       weight:
         base: 75
         modifier: 1d6
+    resistance: []
     traits:
       - [Drow Magic, [[1, Dancing Lights], [3, Faerie Fire], [5, Darkness]]]
-      - [Drow Weapon Training, [Hand Crossbow, Rapier, Shortsword]]
+      - [Drow Weapon Training]
       - [Sunlight Sensitivity]
       - [Superior Darkvision, 120]
   Eladrin:
@@ -53,6 +68,8 @@ subraces:
     languages: ~
     parent: Elf
     proficiency:
+      armors: []
+      tools: []
       weapons: [Longsword, Shortsword, Shortbow, Longbow]
     ratio:
       height:
@@ -61,8 +78,9 @@ subraces:
       weight:
         base: 90
         modifier: 1d4
+    resistance: []
     traits:
-      - [Elf Weapon Training, [Longsword, Shortsword, Shortbow, Longbow]]
+      - [Elf Weapon Training]
       - [Fey Step]
   High:
     bonus:
@@ -70,6 +88,8 @@ subraces:
     languages: ~
     parent: Elf
     proficiency:
+      armors: []
+      tools: []
       weapons: [Longsword, Shortsword, Shortbow, Longbow]
     ratio:
       height:
@@ -78,9 +98,10 @@ subraces:
       weight:
         base: 90
         modifier: 1d4
+    resistance: []
     traits:
       - [Cantrip, [Acid Splash, Blade Ward, Chill Touch, Dancing Lights, Fire Bolt, Friends, Light, Mage Hand, Mending, Message, Minor Illusion, Poison Spray, Prestidigitation, Ray of Frost, Shocking Grasp, True Strike]]
-      - [Elf Weapon Training, [Longsword, Shortsword, Shortbow, Longbow]]
+      - [Elf Weapon Training]
       - [Extra Language, [Abyssal, Celestial, Deep Speech, Draconic, Dwarvish, Giant, Gith, Gnomish, Goblin, Halfling, Infernal, Orc, Primordial, Sylvan, Undercommon]]
   Sea:
       bonus:
@@ -88,6 +109,8 @@ subraces:
       languages: ['Aquan']
       parent: Elf
       proficiency:
+        armors: []
+        tools: []
         weapons: [Light Crossbow, Net, Spear, Trident]
       ratio:
         height:
@@ -96,16 +119,20 @@ subraces:
         weight:
           base: 90
           modifier: 1d4
+      resistance: []
       traits:
         - [Child of the Sea]
         - [Friend of the Sea]
-        - [Sea Elf Training, [Light Crossbow, Net, Spear, Trident]]
+        - [Sea Elf Training]
   Shadar-kai:
     bonus:
       Constitution: 1
     languages: ~
     parent: Elf
-    proficiency: ~
+    proficiency:
+      armors: []
+      tools: []
+      weapons: []
     ratio:
       height:
         base: 56
@@ -113,15 +140,18 @@ subraces:
       weight:
         base: 90
         modifier: 1d4
+    resistance: [Necrotic]
     traits:
       - [Blessing of the Raven Queen]
-      - [Necrotic Resistance, ['Necrotic']]
+      - [Necrotic Resistance]
   Wood:
     bonus:
       Wisdom: 1
     languages: ~
     parent: Elf
     proficiency:
+      armors: []
+      tools: []
       weapons: [Longsword, Shortsword, Shortbow, Longbow]
     ratio:
       height:
@@ -130,8 +160,9 @@ subraces:
       weight:
         base: 100
         modifier: 1d4
+    resistance: []
     traits:
-      - [Elf Weapon Training, [Longsword, Shortsword, Shortbow, Longbow]]
+      - [Elf Weapon Training]
       - [Fleet of Foot]
       - [Mask of the Wild]
   # Dwarf Subraces
@@ -140,7 +171,10 @@ subraces:
       Strength: 1
     languages: ['Undercommon']
     parent: Dwarf
-    proficiency: ~
+    proficiency:
+      armors: []
+      tools: []
+      weapons: []
     ratio:
       height:
         base: 44
@@ -148,9 +182,10 @@ subraces:
       weight:
         base: 115
         modifier: 2d6
+    resistance: [Charm, Illusion, Paralysis]
     traits:
       - [Duergar Magic, [[3, Enlarge/Reduce], [5, Invisibility]]]
-      - [Duergar Resilience, [Charm, Illusion, Paralysis]]
+      - [Duergar Resilience]
       - [Extra Language, [Undercommon]]
       - [Sunlight Sensitivity]
       - [Superior Darkvision, 120]
@@ -159,7 +194,10 @@ subraces:
       Wisdom: 1
     languages: ~
     parent: Dwarf
-    proficiency: ~
+    proficiency:
+      armors: []
+      tools: []
+      weapons: []
     ratio:
       height:
         base: 44
@@ -167,6 +205,7 @@ subraces:
       weight:
         base: 115
         modifier: 2d6
+    resistance: []
     traits:
       - [Dwarven Toughness]
   Mountain:
@@ -176,6 +215,8 @@ subraces:
     parent: Dwarf
     proficiency:
       armors: [Light, Medium]
+      tools: []
+      weapons: []
     ratio:
       height:
         base: 48
@@ -183,6 +224,7 @@ subraces:
       weight:
         base: 130
         modifier: 2d6
+    resistance: []
     traits:
       - [Dwarven Armor Training, ['Light', 'Medium']]
   # Gith Subraces
@@ -193,6 +235,7 @@ subraces:
     parent: Gith
     proficiency:
       armors: [Light, Medium]
+      tools: []
       weapons: [Greatsword, Longsword, Shortsword]
     ratio:
       height:
@@ -201,17 +244,20 @@ subraces:
       weight:
         base: 100
         modifier: 2d4
+    resistance: []
     traits:
       - [Decadent Mastery, [Abyssal, Celestial, Deep Speech, Draconic, Dwarvish, Elvish, Giant, Gnomish, Goblin, Halfling, Infernal, Orc, Primordial, Sylvan, Undercommon]]
       - [Githyanki Psionics, [[1, Mage Hand], [3, Jump], [5, Misty Step]]]
-      - [Martial Prodigy (Armor), [Light, Medium]]
-      - [Martial Prodigy (Weapon), [Greatsword, Longsword, Shortsword]]
+      - [Martial Prodigy]
   Githzerai:
     bonus:
       Wisdom: 2
     languages: ~
     parent: Gith
-    proficiency: ~
+    proficiency:
+      armors: []
+      tools: []
+      weapons: []
     ratio:
       height:
         base: 59
@@ -219,17 +265,22 @@ subraces:
       weight:
         base: 90
         modifier: 1d4
+    resistance: [Charm, Fright]
     traits:
       - [Githzerai Psionics, [[1, Mage Hand], [3, Shield], [5, Detect Thoughts]]]
-      - [Mental Discipline, [Charm, Fright]]
+      - [Mental Discipline]
   # Gnome Subraces
   Deep:
     bonus:
       Dexterity: 1
     languages: ['Undercommon']
     parent: Gnome
-    proficiency: ~
+    proficiency:
+      armors: []
+      tools: []
+      weapons: []
     ratio: ~
+    resistance: []
     traits:
       - [Extra Language, [Undercommon]]
       - [Superior Darkvision, 120]
@@ -239,7 +290,12 @@ subraces:
       Dexterity: 1
     languages: ~
     parent: Gnome
+    proficiency:
+      armors: []
+      tools: []
+      weapons: []
     ratio: ~
+    resistance: []
     traits:
       - [Natural Illusionist, ['Minor Illusion']]
       - [Speak with Small Beasts]
@@ -249,8 +305,11 @@ subraces:
     languages: ~
     parent: Gnome
     proficiency:
+      armors: []
       tools: [Artisan's tools - Tinker's tools]
+      weapons: []
     ratio: ~
+    resistance: []
     traits:
       - [Artificer's Lore]
       - [Tinker, "Artisan's tools - Tinker's tools"]
@@ -260,8 +319,12 @@ subraces:
       Charisma: 1
     languages: ~
     parent: Halfling
-    proficiency: ~
+    proficiency:
+      armors: []
+      tools: []
+      weapons: []
     ratio: ~
+    resistance: []
     traits:
       - [Naturally Stealthy]
   Stout:
@@ -269,7 +332,12 @@ subraces:
       Constitution: 1
     languages: ~
     parent: Halfling
+    proficiency:
+      armors: []
+      tools: []
+      weapons: []
     ratio: ~
+    resistance: []
     traits:
       - [Stout Resilience, ['Poison']]
   # Tiefling Subraces
@@ -278,8 +346,12 @@ subraces:
       Intelligence: 1
     languages: ~
     parent: Tiefling
-    proficiency: ~
+    proficiency:
+      armors: []
+      tools: []
+      weapons: []
     ratio: ~
+    resistance: []
     traits:
       - [Infernal Legacy, [[1, Thaumaturgy], [3, Hellish Rebuke], [5, Darkness]]]
   Baalzebul:
@@ -287,8 +359,12 @@ subraces:
       Intelligence: 1
     languages: ~
     parent: Tiefling
-    proficiency: ~
+    proficiency:
+      armors: []
+      tools: []
+      weapons: []
     ratio: ~
+    resistance: []
     traits:
       - [Legacy of Maladomini, [[1, Thaumaturgy], [3, Ray of Sickness], [5, Crown of Madness]]]
   Dispater:
@@ -296,8 +372,12 @@ subraces:
       Dexterity: 1
     languages: ~
     parent: Tiefling
-    proficiency: ~
+    proficiency:
+      armors: []
+      tools: []
+      weapons: []
     ratio: ~
+    resistance: []
     traits:
       - [Legacy of Dis, [[1, Thaumaturgy], [3, Disguise], [5, Detect Thoughts]]]
   Fierna:
@@ -305,8 +385,12 @@ subraces:
       Wisdom: 1
     languages: ~
     parent: Tiefling
-    proficiency: ~
+    proficiency:
+      armors: []
+      tools: []
+      weapons: []
     ratio: ~
+    resistance: []
     traits:
       - [Legacy of Phlegethos, [[1, Friends], [3, Charm Person], [5, Suggestion]]]
   Glasya:
@@ -314,8 +398,12 @@ subraces:
       Dexterity: 1
     languages: ~
     parent: Tiefling
-    proficiency: ~
+    proficiency:
+      armors: []
+      tools: []
+      weapons: []
     ratio: ~
+    resistance: []
     traits:
       - [Legacy of Malbolge, [[1, Minor Illusion], [3, Disguise Self], [5, Invisibility]]]
   Levistus:
@@ -323,8 +411,12 @@ subraces:
       Constitution: 1
     languages: ~
     parent: Tiefling
-    proficiency: ~
+    proficiency:
+      armors: []
+      tools: []
+      weapons: []
     ratio: ~
+    resistance: []
     traits:
       - [Legacy of Stygia, [[1, Ray of Frost], [3, Armor of Agathys], [5, Darkness]]]
   Mammon:
@@ -332,8 +424,12 @@ subraces:
       Intelligence: 1
     languages: ~
     parent: Tiefling
-    proficiency: ~
+    proficiency:
+      armors: []
+      tools: []
+      weapons: []
     ratio: ~
+    resistance: []
     traits:
       - [Legacy of Minauros, [[1, Mage Hand], [3, Tensor's Floating Disk], [5, Arcane Lock]]]
   Mephistopheles:
@@ -341,8 +437,12 @@ subraces:
       Intelligence: 1
     languages: ~
     parent: Tiefling
-    proficiency: ~
+    proficiency:
+      armors: []
+      tools: []
+      weapons: []
     ratio: ~
+    resistance: []
     traits:
       - [Legacy of Cania, [[1, Mage Hand], [3, Burning Hands], [5, Flame Blade]]]
   Zariel:
@@ -350,7 +450,11 @@ subraces:
       Strength: 1
     languages: ~
     parent: Tiefling
-    proficiency: ~
+    proficiency:
+      armors: []
+      tools: []
+      weapons: []
     ratio: ~
+    resistance: []
     traits:
       - [Legacy of Avernus, [[1, Thaumaturgy], [3, Searing], [5, Branding Smite]]]
