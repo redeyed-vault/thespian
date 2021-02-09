@@ -717,7 +717,6 @@ class Error(Exception):
 
 # Begin test code for RaceBuilder
 class __RaceBuilder:
-
     def __init__(self, subrace: str, sex: str = "Female", level: int = 1):
         self.sex = sex
         self.subrace = subrace
@@ -739,20 +738,6 @@ class __RaceBuilder:
         self.tools = None
         self.weapons = None
 
-    def _add_ability_bonus(self):
-        """Adds Half-Elves chosen bonus racial ability bonus (if applicable)."""
-        if self.race == "HalfElf":
-            valid_abilities = [
-                "Strength",
-                "Dexterity",
-                "Constitution",
-                "Intelligence",
-                "Wisdom",
-            ]
-            valid_abilities = sample(valid_abilities, 2)
-            for ability in valid_abilities:
-                self.bonus[ability] = 1
-
     def run(self):
         if self.race == "__RaceBuilder":
             raise Error(
@@ -766,13 +751,18 @@ class __RaceBuilder:
         # Debugging value stuff
         self.race = self.race.replace("_", "")
 
-        if self.sex not in ("Female", "Male",):
+        if self.sex not in (
+            "Female",
+            "Male",
+        ):
             raise Error(f"Value '{self.sex}' is not a valid gender option.")
 
         if has_subraces(self.race):
             allowed_subraces = [x for x in get_subraces_by_race(self.race)]
             if self.subrace not in allowed_subraces:
-                raise Error(f"Value '{self.subrace}' is not a valid '{self.race}' subrace option.")
+                raise Error(
+                    f"Value '{self.subrace}' is not a valid '{self.race}' subrace option."
+                )
 
         if isinstance(self.level, int):
             if not range(1, 21):
@@ -839,6 +829,29 @@ class __RaceBuilder:
 
         # Set ability bonuses
         self.bonus = race_template.get("bonus")
+        if "random" in self.bonus:
+            bonus_ability_count = self.bonus.get("random")
+            del self.bonus["random"]
+            if not isinstance(bonus_ability_count, int):
+                return
+            allowed_bonus_abilities = (
+                "Strength",
+                "Dexterity",
+                "Constitution",
+                "Intelligence",
+                "Wisdom",
+                "Charisma",
+            )
+            bonus_abilities = tuple(self.bonus.keys())
+            count_limit = len(allowed_bonus_abilities) - len(bonus_abilities)
+            if bonus_ability_count > count_limit:
+                raise Error("The number of bonus abilities exceeds the number of allowed ability bonuses.")
+            bonus_abilities = [
+                x for x in allowed_bonus_abilities if x not in bonus_abilities
+            ]
+            bonus_abilities = sample(bonus_abilities, bonus_ability_count)
+            for ability in bonus_abilities:
+                self.bonus[ability] = 1
 
         # Calculate height/weight
         ratio = race_template.get("ratio")
@@ -865,6 +878,12 @@ class Dwarf_(__RaceBuilder):
 class Elf_(__RaceBuilder):
     def __init__(self, subrace, sex, level) -> None:
         super(Elf_, self).__init__(subrace, sex, level)
+
+
+class HalfElf_(__RaceBuilder):
+    def __init__(self, subrace, sex, level) -> None:
+        super(HalfElf_, self).__init__(subrace, sex, level)
+
 
 # End test code
 

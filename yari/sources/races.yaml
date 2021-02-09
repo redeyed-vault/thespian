@@ -217,6 +217,7 @@ races:
   HalfElf:
     bonus:
       Charisma: 2
+      random: 1
     languages: ['Common', 'Elvish']
     proficiency:
       armors: []
