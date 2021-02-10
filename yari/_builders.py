@@ -10,6 +10,7 @@ from ._constants import (
     PC_SUBRACES,
 )
 from ._dice import roll
+from ._utils import prompt
 from ._yaml import Load
 
 
@@ -793,6 +794,9 @@ class __RaceBuilder:
             elif category == "weapons":
                 self.weapons = base_proficiencies
 
+        # Set darkvision
+        self.darkvision = race_template.get("darkvision")
+
         # Set default languages
         self.languages = race_template.get("languages")
 
@@ -808,6 +812,12 @@ class __RaceBuilder:
                 elif trait == "bonus":
                     for ability, bonus in value.items():
                         race_template[trait][ability] = bonus
+                elif trait == "darkvision":
+                    race_darkvision = race_template(trait)
+                    subrace_darkvision = subrace_template(trait)
+                    if subrace_darkvision is not None:
+                        if subrace_darkvision > race_darkvision:
+                            self.darkvision = subrace_darkvision
                 elif trait == "proficiency":
                     subrace_proficiencies = subrace_template[trait]
                     for category in subrace_proficiencies:
@@ -842,16 +852,20 @@ class __RaceBuilder:
                 "Wisdom",
                 "Charisma",
             )
-            bonus_abilities = tuple(self.bonus.keys())
-            count_limit = len(allowed_bonus_abilities) - len(bonus_abilities)
+            bonus_ability_choices = tuple(self.bonus.keys())
+            count_limit = len(allowed_bonus_abilities) - len(bonus_ability_choices)
             if bonus_ability_count > count_limit:
                 raise Error("The number of bonus abilities exceeds the number of allowed ability bonuses.")
-            bonus_abilities = [
-                x for x in allowed_bonus_abilities if x not in bonus_abilities
+            bonus_ability_choices = [
+                x for x in allowed_bonus_abilities if x not in bonus_ability_choices
             ]
-            bonus_abilities = sample(bonus_abilities, bonus_ability_count)
-            for ability in bonus_abilities:
-                self.bonus[ability] = 1
+            for _ in range(bonus_ability_count):
+                option_list = ", ".join(bonus_ability_choices)
+                message = f"Choose your bonus ability: [{option_list}]"
+                bonus_ability_choice = prompt(message, bonus_ability_choices)
+                if bonus_ability_choice in bonus_ability_choices:
+                    self.bonus[bonus_ability_choice] = 1
+                    bonus_ability_choices.remove(bonus_ability_choice)
 
         # Calculate height/weight
         ratio = race_template.get("ratio")
