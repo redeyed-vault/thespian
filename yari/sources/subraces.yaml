@@ -3,6 +3,7 @@ subraces:
   Fallen:
     bonus:
       Strength: 1
+    darkvision: ~
     languages: ~
     parent: Aasimar
     proficiency:
@@ -16,6 +17,7 @@ subraces:
   Protector:
     bonus:
       Wisdom: 1
+    darkvision: ~
     languages: ~
     parent: Aasimar
     proficiency:
@@ -29,6 +31,7 @@ subraces:
   Scourge:
     bonus:
       Constitution: 1
+    darkvision: ~
     languages: ~
     parent: Aasimar
     proficiency:
@@ -39,10 +42,76 @@ subraces:
     resistance: []
     traits:
       - [Radiant Consumption, 3]
+  # Dwarf Subraces
+  Duergar:
+    bonus:
+      Strength: 1
+    darkvision: 120
+    languages: ['Undercommon']
+    parent: Dwarf
+    proficiency:
+      armors: []
+      tools: []
+      weapons: []
+    ratio:
+      height:
+        base: 44
+        modifier: 2d4
+      weight:
+        base: 115
+        modifier: 2d6
+    resistance: [Charm, Illusion, Paralysis]
+    traits:
+      - [Duergar Magic, [[3, Enlarge/Reduce], [5, Invisibility]]]
+      - [Duergar Resilience]
+      - [Extra Language]
+      - [Sunlight Sensitivity]
+      - [Superior Darkvision]
+  Hill:
+    bonus:
+      Wisdom: 1
+    darkvision: ~
+    languages: ~
+    parent: Dwarf
+    proficiency:
+      armors: []
+      tools: []
+      weapons: []
+    ratio:
+      height:
+        base: 44
+        modifier: 2d4
+      weight:
+        base: 115
+        modifier: 2d6
+    resistance: []
+    traits:
+      - [Dwarven Toughness]
+  Mountain:
+    bonus:
+      Strength: 2
+    darkvision: ~
+    languages: ~
+    parent: Dwarf
+    proficiency:
+      armors: [Light, Medium]
+      tools: []
+      weapons: []
+    ratio:
+      height:
+        base: 48
+        modifier: 2d4
+      weight:
+        base: 130
+        modifier: 2d6
+    resistance: []
+    traits:
+      - [Dwarven Armor Training]
   # Elf Subraces
   Drow:
     bonus:
       Charisma: 1
+    darkvision: 120
     languages: ~
     parent: Elf
     proficiency:
@@ -61,10 +130,11 @@ subraces:
       - [Drow Magic, [[1, Dancing Lights], [3, Faerie Fire], [5, Darkness]]]
       - [Drow Weapon Training]
       - [Sunlight Sensitivity]
-      - [Superior Darkvision, 120]
+      - [Superior Darkvision]
   Eladrin:
     bonus:
       Intelligence: 1
+    darkvision: ~
     languages: ~
     parent: Elf
     proficiency:
@@ -85,6 +155,7 @@ subraces:
   High:
     bonus:
       Intelligence: 1
+    darkvision: ~
     languages: ~
     parent: Elf
     proficiency:
@@ -104,29 +175,31 @@ subraces:
       - [Elf Weapon Training]
       - [Extra Language, [Abyssal, Celestial, Deep Speech, Draconic, Dwarvish, Giant, Gith, Gnomish, Goblin, Halfling, Infernal, Orc, Primordial, Sylvan, Undercommon]]
   Sea:
-      bonus:
-        Constitution: 1
-      languages: ['Aquan']
-      parent: Elf
-      proficiency:
-        armors: []
-        tools: []
-        weapons: [Light Crossbow, Net, Spear, Trident]
-      ratio:
-        height:
-          base: 54
-          modifier: 2d8
-        weight:
-          base: 90
-          modifier: 1d4
-      resistance: []
-      traits:
-        - [Child of the Sea]
-        - [Friend of the Sea]
-        - [Sea Elf Training]
+    bonus:
+      Constitution: 1
+    darkvision: ~
+    languages: ['Aquan']
+    parent: Elf
+    proficiency:
+      armors: []
+      tools: []
+      weapons: [Light Crossbow, Net, Spear, Trident]
+    ratio:
+      height:
+        base: 54
+        modifier: 2d8
+      weight:
+        base: 90
+        modifier: 1d4
+    resistance: []
+    traits:
+      - [Child of the Sea]
+      - [Friend of the Sea]
+      - [Sea Elf Training]
   Shadar-kai:
     bonus:
       Constitution: 1
+    darkvision: ~
     languages: ~
     parent: Elf
     proficiency:
@@ -147,6 +220,7 @@ subraces:
   Wood:
     bonus:
       Wisdom: 1
+    darkvision: ~
     languages: ~
     parent: Elf
     proficiency:
@@ -165,72 +239,11 @@ subraces:
       - [Elf Weapon Training]
       - [Fleet of Foot]
       - [Mask of the Wild]
-  # Dwarf Subraces
-  Duergar:
-    bonus:
-      Strength: 1
-    languages: ['Undercommon']
-    parent: Dwarf
-    proficiency:
-      armors: []
-      tools: []
-      weapons: []
-    ratio:
-      height:
-        base: 44
-        modifier: 2d4
-      weight:
-        base: 115
-        modifier: 2d6
-    resistance: [Charm, Illusion, Paralysis]
-    traits:
-      - [Duergar Magic, [[3, Enlarge/Reduce], [5, Invisibility]]]
-      - [Duergar Resilience]
-      - [Extra Language, [Undercommon]]
-      - [Sunlight Sensitivity]
-      - [Superior Darkvision, 120]
-  Hill:
-    bonus:
-      Wisdom: 1
-    languages: ~
-    parent: Dwarf
-    proficiency:
-      armors: []
-      tools: []
-      weapons: []
-    ratio:
-      height:
-        base: 44
-        modifier: 2d4
-      weight:
-        base: 115
-        modifier: 2d6
-    resistance: []
-    traits:
-      - [Dwarven Toughness]
-  Mountain:
-    bonus:
-      Strength: 2
-    languages: ~
-    parent: Dwarf
-    proficiency:
-      armors: [Light, Medium]
-      tools: []
-      weapons: []
-    ratio:
-      height:
-        base: 48
-        modifier: 2d4
-      weight:
-        base: 130
-        modifier: 2d6
-    resistance: []
-    traits:
-      - [Dwarven Armor Training, ['Light', 'Medium']]
   # Gith Subraces
   Githyanki:
     bonus:
       Strength: 2
+    darkvision: ~
     languages: ~
     parent: Gith
     proficiency:
@@ -252,6 +265,7 @@ subraces:
   Githzerai:
     bonus:
       Wisdom: 2
+    darkvision: ~
     languages: ~
     parent: Gith
     proficiency:
@@ -273,6 +287,7 @@ subraces:
   Deep:
     bonus:
       Dexterity: 1
+    darkvision: 120
     languages: ['Undercommon']
     parent: Gnome
     proficiency:
@@ -282,12 +297,13 @@ subraces:
     ratio: ~
     resistance: []
     traits:
-      - [Extra Language, [Undercommon]]
-      - [Superior Darkvision, 120]
+      - [Extra Language]
+      - [Superior Darkvision]
       - [Stone Camouflage]
   Forest:
     bonus:
       Dexterity: 1
+    darkvision: ~
     languages: ~
     parent: Gnome
     proficiency:
@@ -302,6 +318,7 @@ subraces:
   Rock:
     bonus:
       Constitution: 1
+    darkvision: ~
     languages: ~
     parent: Gnome
     proficiency:
@@ -312,11 +329,12 @@ subraces:
     resistance: []
     traits:
       - [Artificer's Lore]
-      - [Tinker, "Artisan's tools - Tinker's tools"]
+      - [Tinker]
   # Halfling Subraces
   Lightfoot:
     bonus:
       Charisma: 1
+    darkvision: ~
     languages: ~
     parent: Halfling
     proficiency:
@@ -330,6 +348,7 @@ subraces:
   Stout:
     bonus:
       Constitution: 1
+    darkvision: ~
     languages: ~
     parent: Halfling
     proficiency:
@@ -337,13 +356,14 @@ subraces:
       tools: []
       weapons: []
     ratio: ~
-    resistance: []
+    resistance: [Poison]
     traits:
-      - [Stout Resilience, ['Poison']]
+      - [Stout Resilience]
   # Tiefling Subraces
   Asmodeus:
     bonus:
       Intelligence: 1
+    darkvision: ~
     languages: ~
     parent: Tiefling
     proficiency:
@@ -357,6 +377,7 @@ subraces:
   Baalzebul:
     bonus:
       Intelligence: 1
+    darkvision: ~
     languages: ~
     parent: Tiefling
     proficiency:
@@ -370,6 +391,7 @@ subraces:
   Dispater:
     bonus:
       Dexterity: 1
+    darkvision: ~
     languages: ~
     parent: Tiefling
     proficiency:
@@ -383,6 +405,7 @@ subraces:
   Fierna:
     bonus:
       Wisdom: 1
+    darkvision: ~
     languages: ~
     parent: Tiefling
     proficiency:
@@ -396,6 +419,7 @@ subraces:
   Glasya:
     bonus:
       Dexterity: 1
+    darkvision: ~
     languages: ~
     parent: Tiefling
     proficiency:
@@ -409,6 +433,7 @@ subraces:
   Levistus:
     bonus:
       Constitution: 1
+    darkvision: ~
     languages: ~
     parent: Tiefling
     proficiency:
@@ -422,6 +447,7 @@ subraces:
   Mammon:
     bonus:
       Intelligence: 1
+    darkvision: ~
     languages: ~
     parent: Tiefling
     proficiency:
@@ -435,6 +461,7 @@ subraces:
   Mephistopheles:
     bonus:
       Intelligence: 1
+    darkvision: ~
     languages: ~
     parent: Tiefling
     proficiency:
@@ -448,6 +475,7 @@ subraces:
   Zariel:
     bonus:
       Strength: 1
+    darkvision: ~
     languages: ~
     parent: Tiefling
     proficiency:

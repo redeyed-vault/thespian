@@ -2,6 +2,7 @@ races:
   Aasimar:
     bonus:
       Charisma: 2
+    darkvision: 60
     languages: ['Common', 'Celestial']
     proficiency:
       armors: []
@@ -20,11 +21,12 @@ races:
     traits:
       - [Celestial Legacy, [[1, Light]]]
       - [Celestial Resistance]
-      - [Darkvision, 60]
+      - [Darkvision]
   Bugbear:
     bonus:
       Dexterity: 1
       Strength: 2
+    darkvision: 60
     languages: ['Common', 'Goblin']
     proficiency:
       armors: []
@@ -41,7 +43,7 @@ races:
     size: Medium
     speed: 30
     traits:
-      - [Darkvision, 60]
+      - [Darkvision]
       - [Long-Limbed]
       - [Powerful Build]
       - [Sneaky, [Stealth]]
@@ -50,6 +52,7 @@ races:
     bonus:
       Strength: 2
       Charisma: 1
+    darkvision: ~
     languages: ['Common', 'Draconic']
     proficiency:
       armors: []
@@ -72,6 +75,7 @@ races:
   Dwarf:
     bonus:
       Constitution: 2
+    darkvision: 60
     languages: ['Common', 'Dwarvish']
     proficiency:
       armors: []
@@ -86,7 +90,7 @@ races:
     size: Medium
     speed: 30
     traits:
-      - [Darkvision, 60]
+      - [Darkvision]
       - [Dwarven Combat Training]
       - [Dwarven Resilience]
       - [Dwarven Toughness]
@@ -95,6 +99,7 @@ races:
   Elf:
     bonus:
       Dexterity: 2
+    darkvision: 60
     languages: ['Common', 'Elvish']
     proficiency:
       armors: []
@@ -105,7 +110,7 @@ races:
     size: Medium
     speed: 30
     traits:
-      - [Darkvision, 60]
+      - [Darkvision]
       - [Fey Ancestry]
       - [Keen Senses, [Perception]]
       - [Trance]
@@ -113,6 +118,7 @@ races:
     bonus:
       Strength: 1
       Wisdom: 2
+    darkvision: 60
     languages: ['Common', 'Elvish', 'Giant']
     proficiency:
       armors: []
@@ -136,6 +142,7 @@ races:
   Gith:
     bonus:
       Intelligence: 1
+    darkvision: ~
     languages: ['Common', 'Gith']
     proficiency:
       armors: []
@@ -149,6 +156,7 @@ races:
   Gnome:
     bonus:
       Intelligence: 2
+    darkvision: 60
     languages: ['Common', 'Gnomish']
     proficiency:
       armors: []
@@ -166,11 +174,12 @@ races:
     speed: 25
     traits:
       - [Gnome Cunning]
-      - [Darkvision, 60]
+      - [Darkvision]
   Goblin:
     bonus:
       Dexterity: 2
       Constitution: 1
+    darkvision: 60
     languages: ['Common', 'Goblin']
     proficiency:
       armors: []
@@ -187,13 +196,14 @@ races:
     size: Small
     speed: 30
     traits:
-      - [Darkvision, 60]
+      - [Darkvision]
       - [Fury of the Small]
       - [Nimble Escape]
   Goliath:
     bonus:
       Constitution: 1
       Strength: 2
+    darkvision: 60
     languages: ['Common', 'Giant']
     proficiency:
       armors: []
@@ -218,6 +228,7 @@ races:
     bonus:
       Charisma: 2
       random: 1
+    darkvision: 60
     languages: ['Common', 'Elvish']
     proficiency:
       armors: []
@@ -234,7 +245,7 @@ races:
     size: Medium
     speed: 30
     traits:
-      - [Darkvision, 60]
+      - [Darkvision]
       - [Fey Ancestry]
       - [Languages, [Abyssal, Celestial, Deep Speech, Draconic, Dwarvish, Giant, Gith, Gnomish, Goblin, Halfling, Infernal, Orc, Primordial, Sylvan, Undercommon]]
       - [Skill Versatility, [Acrobatics, Animal Handling, Arcana, Athletics, Deception, History, Insight, Intimidation, Investigation, Medicine, Nature, Perception, Performance, Persuasion, Religion, Sleight of Hand, Stealth, Survival]]
@@ -242,6 +253,7 @@ races:
     bonus:
       Strength: 2
       Constitution: 1
+    darkvision: 60
     languages: ['Common', 'Orc']
     proficiency:
       armors: []
@@ -258,13 +270,14 @@ races:
     size: Medium
     speed: 30
     traits:
-      - [Darkvision, 60]
+      - [Darkvision]
       - [Menacing, [Intimidation]]
       - [Relentless Endurance]
       - [Savage Attacks]
   Halfling:
     bonus:
       Dexterity: 2
+    darkvision: 60
     languages: ['Common', 'Halfling']
     proficiency:
       armors: []
@@ -288,6 +301,7 @@ races:
     bonus:
       Constitution: 2
       Intelligence: 1
+    darkvision: 60
     languages: ['Common', 'Goblin']
     proficiency:
       armors: []
@@ -326,9 +340,8 @@ races:
     size: Medium
     speed: 30
     traits:
-      - [Darkvision, 60]
-      - [Martial Training (Weapon), [Battleaxe, Blowgun, Flail, Greataxe, Greatsword, Halberd, Hand Crossbow, Heavy Crossbow, Lance, Longbow, Longsword, Maul, Morningstar, Net, Pike, Rapier, Scimitar, Shortsword, Trident, War pick, Warhammer, Whip]]
-      - [Martial Training (Armor), [Light]]
+      - [Darkvision]
+      - [Martial Training]
       - [Saving Face]
   Human:
     bonus:
@@ -338,6 +351,7 @@ races:
       Intelligence: 1
       Wisdom: 1
       Charisma: 1
+    darkvision: ~
     languages: ['Common']
     proficiency:
       armors: []
@@ -358,6 +372,7 @@ races:
     bonus:
       Dexterity: 2
       Wisdom: 1
+    darkvision: ~
     languages: ['Common', 'Auran']
     proficiency:
       armors: []
@@ -381,6 +396,7 @@ races:
     bonus:
       Dexterity: 2
       Strength: -2
+    darkvision: 60
     languages: ['Common', 'Draconic']
     proficiency:
       armors: []
@@ -397,7 +413,7 @@ races:
     size: Small
     speed: 30
     traits:
-      - [Darkvision, 60]
+      - [Darkvision]
       - ["Grovel, Cower, and Beg"]
       - [Pack Tactics]
       - [Sunlight Sensitivity]
@@ -405,6 +421,7 @@ races:
     bonus:
       Constitution: 2
       Wisdom: 1
+    darkvision: ~
     languages: ['Common', 'Draconic']
     proficiency:
       armors: []
@@ -431,6 +448,7 @@ races:
     bonus:
       Constitution: 1
       Strength: 2
+    darkvision: 60
     languages: ['Common', 'Orc']
     proficiency:
       armors: []
@@ -447,7 +465,7 @@ races:
     size: Medium
     speed: 30
     traits:
-      - [Darkvision, 60]
+      - [Darkvision]
       - [Aggressive]
       - [Menacing, [Intimidation]]
       - [Powerful Build]
@@ -455,6 +473,7 @@ races:
     bonus:
       Dexterity: 2
       Charisma: 1
+    darkvision: 60
     languages: ['Common']
     proficiency:
       armors: []
@@ -471,7 +490,7 @@ races:
     size: Medium
     speed: 30
     traits:
-      - [Darkvision, 60]
+      - [Darkvision]
       - [Feline Agility]
       - [Cat's Claws, 1d4]
       - [Cat's Talent, [Perception]]
@@ -479,6 +498,7 @@ races:
   Tiefling:
     bonus:
       Charisma: 2
+    darkvision: 60
     languages: ['Common', 'Infernal']
     proficiency:
       armors: []
@@ -495,13 +515,14 @@ races:
     size: Medium
     speed: 30
     traits:
-      - [Darkvision, 60]
+      - [Darkvision]
       - [Hellish Resistance]
   Triton:
     bonus:
       Charisma: 1
       Constitution: 1
       Strength: 1
+    darkvision: ~
     languages: ['Common', 'Primordial']
     proficiency:
       armors: []
@@ -526,6 +547,7 @@ races:
     bonus:
       Charisma: 2
       Intelligence: 1
+    darkvision: 60
     languages: ['Abyssal', 'Common', 'Draconic']
     proficiency:
       armors: []
@@ -542,7 +564,7 @@ races:
     size: Medium
     speed: 30
     traits:
-      - [Darkvision, 60]
+      - [Darkvision]
       - [Innate Spellcasting, [[0, Poison Spray], [1, Animal Friendship (Snakes only)], [3, Suggestion]]]
       - [Magic Resistance]
       - [Poison Immunity]
