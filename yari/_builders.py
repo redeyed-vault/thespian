@@ -10,7 +10,10 @@ from ._constants import (
     PC_SUBRACES,
 )
 from ._dice import roll
-from ._utils import prompt
+from ._utils import (
+    has_subraces, 
+    prompt,
+)
 from ._yaml import Load
 
 
@@ -579,137 +582,6 @@ class Wizard(_ClassBuilder):
         super(Wizard, self).__init__(subclass, background, level, race_skills)
 
 
-def get_default_background(klass: str):
-    """
-    Returns the default background by klass.
-
-    :param str klass: Characters chosen class.
-
-    """
-    return Load.get_columns(klass, "background", source_file="classes")
-
-
-def get_is_background(background: str) -> bool:
-    """
-    Returns whether the background is valid.
-
-    :param str background: Chosen background to check.
-
-    """
-    return background in PC_BACKGROUNDS
-
-
-def get_is_class(klass: str) -> bool:
-    """
-    Returns whether the klass is valid.
-
-    :param str klass: Character's chosen class.
-
-    """
-    return klass in PC_CLASSES
-
-
-def get_is_subclass(subclass: str, klass: str) -> bool:
-    """
-    Returns whether subclass is a valid subclass of klass.
-
-    :param str subclass: Character's chosen subclass.
-    :param str klass: Character's chosen class.
-
-    """
-    return subclass in Load.get_columns(klass, "subclasses", source_file="classes")
-
-
-def get_subclass_proficiency(subclass: str, category: str):
-    """
-    Returns subclass bonus proficiencies (if ANY).
-
-    :param str subclass: Character subclass to get proficiencies for.
-    :param str category: Proficiency category to get proficiencies for.
-
-    """
-    if category not in ("Armor", "Tools", "Weapons"):
-        raise ValueError("Argument 'category' must be 'Armor', 'Tools' or 'Weapons'.")
-
-    trait_list = Load.get_columns(subclass, source_file="subclasses")
-    if trait_list.get("proficiency") is not None:
-        proficiencies = trait_list.get("proficiency")
-        for proficiency in proficiencies:
-            if proficiency[0] == category:
-                yield proficiency[1]
-
-
-def get_all_languages() -> tuple:
-    return PC_LANGUAGES
-
-
-def get_all_skills() -> tuple:
-    """Returns a list of ALL skills."""
-    return PC_SKILLS
-
-
-def get_background_skills(background: str):
-    """
-    Returns bonus skills by background (if applicable).
-
-    :param str background: Background to return background skills for.
-
-    """
-    return Load.get_columns(background, "skills", source_file="backgrounds")
-
-
-def get_language_by_class(klass: str):
-    """
-    Returns a tuple of class specific languages by klass, (if applicable).
-
-    :param str klass:
-
-    """
-    return Load.get_columns(klass, "languages", source_file="classes")
-
-
-def get_skills_by_subclass(subclass: str):
-    """
-    Returns a tuple of bonus skills for subclass, (if applicable).
-
-    :param str subclass:
-
-    """
-    return Load.get_columns(subclass, "skills", source_file="subclasses")
-
-
-def get_subclasses_by_class(klass: str) -> tuple:
-    """
-    Returns a tuple of valid subclasses for klass.
-
-    :param str klass: Character's class.
-
-    """
-    return Load.get_columns(klass, "subclasses", source_file="classes")
-
-
-def get_proficiency_bonus(level: int) -> int:
-    """
-    Returns a proficiency bonus value by level.
-
-    :param int level: Level of character.
-
-    """
-    return math.ceil((level / 4) + 1)
-
-
-def has_extended_magic(subclass: str) -> bool:
-    """
-    Returns whether class subclass has spells.
-
-    :param str subclass: Character's subclass.
-
-    """
-    if Load.get_columns(subclass, "magic", source_file="subclasses") is not None:
-        return True
-    return False
-
-
 ##
 # Test generic exception class
 class Error(Exception):
@@ -719,27 +591,7 @@ class Error(Exception):
 # Begin test code for RaceBuilder
 class __RaceBuilder:
     def __init__(self, subrace: str, sex: str = "Female", level: int = 1):
-        self.sex = sex
-        self.subrace = subrace
-        self.level = level
         self.race = self.__class__.__name__
-        self.ancestor = None
-        self.bonus = None
-        self.darkvision = None
-        self.languages = None
-        self.height = None
-        self.weight = None
-        self.size = None
-        self.speed = None
-        self.traits = None
-        self.magic_innate = None
-        self.resistances = None
-        self.skills = None
-        self.armors = None
-        self.tools = None
-        self.weapons = None
-
-    def run(self):
         if self.race == "__RaceBuilder":
             raise Error(
                 "This class must be inherited to use. It is currently used by "
@@ -749,34 +601,34 @@ class __RaceBuilder:
                 "Triton, and Yuanti 'race' classes."
             )
 
-        # Debugging value stuff
-        self.race = self.race.replace("_", "")
-
-        if self.sex not in (
+        if sex not in (
             "Female",
             "Male",
         ):
-            raise Error(f"Value '{self.sex}' is not a valid gender option.")
+            raise Error(f"Value '{sex}' is not a valid gender option.")
 
         if has_subraces(self.race):
             allowed_subraces = [x for x in get_subraces_by_race(self.race)]
-            if self.subrace not in allowed_subraces:
+            if subrace not in allowed_subraces:
                 raise Error(
-                    f"Value '{self.subrace}' is not a valid '{self.race}' subrace option."
+                    f"Value '{subrace}' is not a valid '{self.race}' subrace option."
                 )
 
-        if isinstance(self.level, int):
+        if isinstance(level, int):
             if not range(1, 21):
                 raise Error("Value 'level' must be between 1-20.")
         else:
             raise Error("Value must be of type 'integer'.")
+
+        # Debugging value stuff
+        self.race = self.race.replace("_", "")
 
         # Load template for race
         race_template = Load.get_columns(self.race, source_file="races")
         if race_template is None:
             raise Error(f"Cannot load race template for '{self.race}'.")
 
-        # Set the base proficiencies
+        # Set the base armor, tool, weapon proficiencies
         racial_proficiencies = race_template.get("proficiency")
         for category in racial_proficiencies:
             base_proficiencies = racial_proficiencies.get(category)
@@ -794,17 +646,11 @@ class __RaceBuilder:
             elif category == "weapons":
                 self.weapons = base_proficiencies
 
-        # Set darkvision
-        self.darkvision = race_template.get("darkvision")
-
-        # Set default languages
-        self.languages = race_template.get("languages")
-
         # Merge traits from base race and subrace (if applicable)
-        if self.subrace != "":
-            subrace_template = Load.get_columns(self.subrace, source_file="subraces")
+        if subrace != "":
+            subrace_template = Load.get_columns(subrace, source_file="subraces")
             if subrace_template is None:
-                raise Error(f"Cannot load subrace template for '{self.subrace}'.")
+                raise Error(f"Cannot load subrace template for '{subrace}'.")
 
             for trait, value in subrace_template.items():
                 if trait not in race_template:
@@ -813,8 +659,8 @@ class __RaceBuilder:
                     for ability, bonus in value.items():
                         race_template[trait][ability] = bonus
                 elif trait == "darkvision":
-                    race_darkvision = race_template(trait)
-                    subrace_darkvision = subrace_template(trait)
+                    race_darkvision = race_template.get(trait)
+                    subrace_darkvision = subrace_template.get(trait)
                     if subrace_darkvision is not None:
                         if subrace_darkvision > race_darkvision:
                             self.darkvision = subrace_darkvision
@@ -833,12 +679,30 @@ class __RaceBuilder:
                     ratio = subrace_template.get(trait)
                     if ratio is not None:
                         race_template[trait] = ratio
+                elif trait == "resistances":
+                    pass
                 elif trait == "traits":
                     for other in subrace_template.get(trait):
                         race_template[trait].append(other)
 
-        # Set ability bonuses
+        self.sex = sex
+        self.subrace = subrace
+        self.level = level
+        self.ancestor = None
         self.bonus = race_template.get("bonus")
+        self.darkvision = race_template.get("darkvision")
+        self.languages = race_template.get("languages")
+        self.height = race_template.get("ratio").get("height")
+        self.weight = race_template.get("ratio").get("weight")
+        self.size = race_template.get("size")
+        self.speed = race_template.get("speed")
+        self.traits = race_template.get("traits")
+        self.magic_innate = None
+        self.resistances = race_template.get("resistances")
+        self.skills = None
+
+    def run(self):
+        # Set random racial ability bonuses
         if "random" in self.bonus:
             bonus_ability_count = self.bonus.get("random")
             del self.bonus["random"]
@@ -855,7 +719,9 @@ class __RaceBuilder:
             bonus_ability_choices = tuple(self.bonus.keys())
             count_limit = len(allowed_bonus_abilities) - len(bonus_ability_choices)
             if bonus_ability_count > count_limit:
-                raise Error("The number of bonus abilities exceeds the number of allowed ability bonuses.")
+                raise Error(
+                    "The number of bonus abilities exceeds the number of allowed ability bonuses."
+                )
             bonus_ability_choices = [
                 x for x in allowed_bonus_abilities if x not in bonus_ability_choices
             ]
@@ -868,19 +734,16 @@ class __RaceBuilder:
                     bonus_ability_choices.remove(bonus_ability_choice)
 
         # Calculate height/weight
-        ratio = race_template.get("ratio")
-
-        height_base = ratio.get("height").get("base")
-        height_modifier = ratio.get("height").get("modifier")
+        height_base = self.height.get("base")
+        height_modifier = self.height.get("modifier")
         height_modifier = sum(list(roll(height_modifier)))
 
-        weight_base = ratio.get("weight").get("base")
-        weight_modifier = ratio.get("weight").get("modifier")
+        weight_base = self.weight.get("base")
+        weight_modifier = self.weight.get("modifier")
         weight_modifier = sum(list(roll(weight_modifier)))
 
         self.height = height_base + height_modifier
         self.weight = (height_modifier * weight_modifier) + weight_base
-        self.size = race_template.get("size")
 
 
 # Begin test code for Elf_ class using test __RaceBuilder class
@@ -1306,27 +1169,3 @@ class Triton(_RaceBuilder):
 class Yuanti(_RaceBuilder):
     def __init__(self, sex, subrace, level) -> None:
         super(Yuanti, self).__init__(sex, subrace, level)
-
-
-def get_subraces_by_race(race: str):
-    """Yields a list of valid subraces by race.
-
-    :param str race: Race to retrieve subraces for.
-
-    """
-    for subrace in PC_SUBRACES:
-        if Load.get_columns(subrace, "parent", source_file="subraces") == race:
-            yield subrace
-
-
-def has_subraces(race: str) -> bool:
-    """
-    Determines if race has subraces.
-
-    :param str race: Race to determine if it has subraces.
-
-    """
-    try:
-        return [s for s in get_subraces_by_race(race)][0]
-    except IndexError:
-        return False
