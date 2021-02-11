@@ -10,34 +10,22 @@ from .._utils import (
 from .._yaml import Load
 
 
-class _Race:
-    def __init__(self, subrace: str, sex: str = "Female", level: int = 1):
-        self.race = self.__class__.__name__
-        if self.race == "__RaceBuilder":
-            raise Error(
-                "This class must be inherited to use. It is currently used by "
-                "the Aasimar, Bugbear, Dragonborn, Dwarf, Elf, Firbolg, Gith, "
-                "Gnome, Goblin, Goliath, HalfElf, HalfOrc, Halfling, Hobgoblin, "
-                "Human, Kenku, Kobold, Lizardfolk, Orc, Tabaxi, Tiefling, "
-                "Triton, and Yuanti 'race' classes."
-            )
+class RaceBuilder:
+    def __init__(self, race: str, subrace: str, sex: str = "Female", level: int = 1):
+        if has_subraces(race):
+            if subrace == "":
+                raise Error(f"Subrace option not selected but '{race}' has subraces.")
+            allowed_subraces = [x for x in get_subraces_by_race(race)]
+            if subrace not in allowed_subraces:
+                raise Error(
+                    f"Value '{subrace}' is not a valid '{race}' subrace option."
+                )
 
         if sex not in (
             "Female",
             "Male",
         ):
             raise Error(f"Value '{sex}' is not a valid gender option.")
-
-        if has_subraces(self.race):
-            if subrace == "":
-                raise Error(
-                    f"Subrace option not selected but '{self.race}' has subraces."
-                )
-            allowed_subraces = [x for x in get_subraces_by_race(self.race)]
-            if subrace not in allowed_subraces:
-                raise Error(
-                    f"Value '{subrace}' is not a valid '{self.race}' subrace option."
-                )
 
         if isinstance(level, int):
             if not range(1, 21):
@@ -46,6 +34,7 @@ class _Race:
             raise Error("Value must be of type 'integer'.")
 
         # Load template for race
+        self.race = race
         race_data = Load.get_columns(self.race, source_file="races")
         if race_data is None:
             raise Error(f"Cannot load race template for '{self.race}'.")
@@ -59,13 +48,23 @@ class _Race:
         self.bonus = race_data.get("bonus")
         self.darkvision = race_data.get("darkvision")
         self.languages = race_data.get("languages")
-        self.height = race_data.get("ratio") is not None and race_data.get("ratio").get("height") or None
-        self.weight = race_data.get("ratio") is not None and race_data.get("ratio").get("weight") or None
+        self.height = (
+            race_data.get("ratio") is not None
+            and race_data.get("ratio").get("height")
+            or None
+        )
+        self.weight = (
+            race_data.get("ratio") is not None
+            and race_data.get("ratio").get("weight")
+            or None
+        )
         self.size = race_data.get("size")
         self.speed = race_data.get("speed")
         self.traits = race_data.get("traits")
         self.magic_innate = None
-        self.skills = race_data.get("skills") is not None and race_data.get("skills") or list()
+        self.skills = (
+            race_data.get("skills") is not None and race_data.get("skills") or list()
+        )
 
         for category in racial_proficiencies:
             base_proficiencies = racial_proficiencies.get(category)
@@ -175,33 +174,3 @@ class _Race:
 
         self.height = height_base + height_modifier
         self.weight = (height_modifier * weight_modifier) + weight_base
-
-
-class Dwarf(_Race):
-    def __init__(self, subrace, sex, level) -> None:
-        super(Dwarf, self).__init__(subrace, sex, level)
-
-
-class Elf(_Race):
-    def __init__(self, subrace, sex, level) -> None:
-        super(Elf, self).__init__(subrace, sex, level)
-
-
-class Firbolg(_Race):
-    def __init__(self, subrace, sex, level) -> None:
-        super(Firbolg, self).__init__(subrace, sex, level)
-
-
-class HalfElf(_Race):
-    def __init__(self, subrace, sex, level) -> None:
-        super(HalfElf, self).__init__(subrace, sex, level)
-
-
-class Hobgoblin(_Race):
-    def __init__(self, subrace, sex, level) -> None:
-        super(Hobgoblin, self).__init__(subrace, sex, level)
-
-
-class Human(_Race):
-    def __init__(self, subrace, sex, level) -> None:
-        super(Human, self).__init__(subrace, sex, level)

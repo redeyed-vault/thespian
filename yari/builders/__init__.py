@@ -1,8 +1,1 @@
-from .races import (
-    Dwarf,
-    Elf,
-    Firbolg,
-    HalfElf,
-    Hobgoblin,
-    Human,
-)
+from .races import RaceBuilder
