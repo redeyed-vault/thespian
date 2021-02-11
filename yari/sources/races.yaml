@@ -15,7 +15,7 @@ races:
       weight:
         base: 110
         modifier: 2d4
-    resistance: [Necrotic, Radiant]
+    resistances: [Necrotic, Radiant]
     size: Medium
     speed: 30
     traits:
@@ -39,7 +39,7 @@ races:
       weight:
         base: 200
         modifier: 2d6
-    resistance: []
+    resistances: []
     size: Medium
     speed: 30
     traits:
@@ -65,7 +65,7 @@ races:
       weight:
         base: 175
         modifier: 2d6
-    resistance: []
+    resistances: []
     size: Medium
     speed: 30
     traits:
@@ -86,7 +86,7 @@ races:
         - 1
       weapons: [Battleaxe, Handaxe, Throwing hammer, Warhammer]
     ratio: ~
-    resistance: [Poison]
+    resistances: [Poison]
     size: Medium
     speed: 30
     traits:
@@ -106,7 +106,7 @@ races:
       tools: []
       weapons: []
     ratio: ~
-    resistance: [Charm, Sleep]
+    resistances: [Charm, Sleep]
     size: Medium
     speed: 30
     traits:
@@ -131,7 +131,7 @@ races:
       weight:
         base: 175
         modifier: 2d6
-    resistance: []
+    resistances: []
     size: Medium
     speed: 30
     traits:
@@ -149,7 +149,7 @@ races:
       tools: []
       weapons: []
     ratio: ~
-    resistance: []
+    resistances: []
     size: Medium
     speed: 30
     traits: ~
@@ -169,7 +169,7 @@ races:
       weight:
         base: 35
         modifier: 1d1
-    resistance: []
+    resistances: []
     size: Small
     speed: 25
     traits:
@@ -192,7 +192,7 @@ races:
       weight:
         base: 35
         modifier: 1d1
-    resistance: []
+    resistances: []
     size: Small
     speed: 30
     traits:
@@ -216,7 +216,7 @@ races:
       weight:
         base: 200
         modifier: 2d6
-    resistance: []
+    resistances: []
     size: Medium
     speed: 30
     traits:
@@ -241,7 +241,7 @@ races:
       weight:
         base: 110
         modifier: 2d4
-    resistance: [Charm, Sleep]
+    resistances: [Charm, Sleep]
     size: Medium
     speed: 30
     traits:
@@ -266,7 +266,7 @@ races:
       weight:
         base: 140
         modifier: 2d6
-    resistance: []
+    resistances: []
     size: Medium
     speed: 30
     traits:
@@ -290,7 +290,7 @@ races:
       weight:
         base: 35
         modifier: 1d1
-    resistance: []
+    resistances: []
     size: Small
     speed: 25
     traits:
@@ -336,7 +336,7 @@ races:
       weight:
         base: 110
         modifier: 2d4
-    resistance: []
+    resistances: []
     size: Medium
     speed: 30
     traits:
@@ -385,7 +385,7 @@ races:
       weight:
         base: 50
         modifier: 1d6
-    resistance: []
+    resistances: []
     size: Medium
     speed: 30
     traits:
@@ -409,7 +409,7 @@ races:
       weight:
         base: 25
         modifier: 1d1
-    resistance: []
+    resistances: []
     size: Small
     speed: 30
     traits:
@@ -434,7 +434,7 @@ races:
       weight:
         base: 120
         modifier: 2d6
-    resistance: []
+    resistances: []
     size: Medium
     speed: 30
     traits:
@@ -461,7 +461,7 @@ races:
       weight:
         base: 175
         modifier: 2d6
-    resistance: []
+    resistances: []
     size: Medium
     speed: 30
     traits:
@@ -486,7 +486,7 @@ races:
       weight:
         base: 90
         modifier: 2d4
-    resistance: []
+    resistances: []
     size: Medium
     speed: 30
     traits:
@@ -511,7 +511,7 @@ races:
       weight:
         base: 110
         modifier: 2d4
-    resistance: [Fire]
+    resistances: [Fire]
     size: Medium
     speed: 30
     traits:
@@ -535,7 +535,7 @@ races:
       weight:
         base: 90
         modifier: 2d4
-    resistance: []
+    resistances: []
     size: Medium
     speed: 30
     traits:
@@ -560,7 +560,7 @@ races:
       weight:
         base: 110
         modififer: 2d4
-    resistance: []
+    resistances: []
     size: Medium
     speed: 30
     traits:
