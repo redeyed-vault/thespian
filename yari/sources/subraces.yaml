@@ -12,6 +12,7 @@ subraces:
       weapons: []
     ratio: ~
     resistances: []
+    skills: ~
     traits:
       - [Necrotic Shroud, 3]
   Protector:
@@ -26,6 +27,7 @@ subraces:
       weapons: []
     ratio: ~
     resistances: []
+    skills: ~
     traits:
       - [Radiant Soul, 3]
   Scourge:
@@ -40,6 +42,7 @@ subraces:
       weapons: []
     ratio: ~
     resistances: []
+    skills: ~
     traits:
       - [Radiant Consumption, 3]
   # Dwarf Subraces
@@ -61,6 +64,7 @@ subraces:
         base: 115
         modifier: 2d6
     resistances: [Charm, Illusion, Paralysis]
+    skills: ~
     traits:
       - [Duergar Magic, [[3, Enlarge/Reduce], [5, Invisibility]]]
       - [Duergar Resilience]
@@ -85,6 +89,7 @@ subraces:
         base: 115
         modifier: 2d6
     resistances: []
+    skills: ~
     traits:
       - [Dwarven Toughness]
   Mountain:
@@ -105,6 +110,7 @@ subraces:
         base: 130
         modifier: 2d6
     resistances: []
+    skills: ~
     traits:
       - [Dwarven Armor Training]
   # Elf Subraces
@@ -126,6 +132,7 @@ subraces:
         base: 75
         modifier: 1d6
     resistances: []
+    skills: ~
     traits:
       - [Drow Magic, [[1, Dancing Lights], [3, Faerie Fire], [5, Darkness]]]
       - [Drow Weapon Training]
@@ -149,6 +156,7 @@ subraces:
         base: 90
         modifier: 1d4
     resistances: []
+    skills: ~
     traits:
       - [Elf Weapon Training]
       - [Fey Step]
@@ -170,6 +178,7 @@ subraces:
         base: 90
         modifier: 1d4
     resistances: []
+    skills: ~
     traits:
       - [Cantrip, [Acid Splash, Blade Ward, Chill Touch, Dancing Lights, Fire Bolt, Friends, Light, Mage Hand, Mending, Message, Minor Illusion, Poison Spray, Prestidigitation, Ray of Frost, Shocking Grasp, True Strike]]
       - [Elf Weapon Training]
@@ -192,6 +201,7 @@ subraces:
         base: 90
         modifier: 1d4
     resistances: []
+    skills: ~
     traits:
       - [Child of the Sea]
       - [Friend of the Sea]
@@ -214,6 +224,7 @@ subraces:
         base: 90
         modifier: 1d4
     resistances: [Necrotic]
+    skills: ~
     traits:
       - [Blessing of the Raven Queen]
       - [Necrotic Resistance]
@@ -235,6 +246,7 @@ subraces:
         base: 100
         modifier: 1d4
     resistances: []
+    skills: ~
     traits:
       - [Elf Weapon Training]
       - [Fleet of Foot]
@@ -258,6 +270,7 @@ subraces:
         base: 100
         modifier: 2d4
     resistances: []
+    skills: ~
     traits:
       - [Decadent Mastery, [Abyssal, Celestial, Deep Speech, Draconic, Dwarvish, Elvish, Giant, Gnomish, Goblin, Halfling, Infernal, Orc, Primordial, Sylvan, Undercommon]]
       - [Githyanki Psionics, [[1, Mage Hand], [3, Jump], [5, Misty Step]]]
@@ -280,6 +293,7 @@ subraces:
         base: 90
         modifier: 1d4
     resistances: [Charm, Fright]
+    skills: ~
     traits:
       - [Githzerai Psionics, [[1, Mage Hand], [3, Shield], [5, Detect Thoughts]]]
       - [Mental Discipline]
@@ -296,6 +310,7 @@ subraces:
       weapons: []
     ratio: ~
     resistances: []
+    skills: ~
     traits:
       - [Extra Language]
       - [Superior Darkvision]
@@ -312,6 +327,7 @@ subraces:
       weapons: []
     ratio: ~
     resistances: []
+    skills: ~
     traits:
       - [Natural Illusionist, ['Minor Illusion']]
       - [Speak with Small Beasts]
@@ -327,6 +343,7 @@ subraces:
       weapons: []
     ratio: ~
     resistances: []
+    skills: ~
     traits:
       - [Artificer's Lore]
       - [Tinker]
@@ -343,6 +360,7 @@ subraces:
       weapons: []
     ratio: ~
     resistances: []
+    skills: ~
     traits:
       - [Naturally Stealthy]
   Stout:
@@ -357,6 +375,7 @@ subraces:
       weapons: []
     ratio: ~
     resistances: [Poison]
+    skills: ~
     traits:
       - [Stout Resilience]
   # Tiefling Subraces
@@ -372,6 +391,7 @@ subraces:
       weapons: []
     ratio: ~
     resistances: []
+    skills: ~
     traits:
       - [Infernal Legacy, [[1, Thaumaturgy], [3, Hellish Rebuke], [5, Darkness]]]
   Baalzebul:
@@ -386,6 +406,7 @@ subraces:
       weapons: []
     ratio: ~
     resistances: []
+    skills: ~
     traits:
       - [Legacy of Maladomini, [[1, Thaumaturgy], [3, Ray of Sickness], [5, Crown of Madness]]]
   Dispater:
@@ -400,6 +421,7 @@ subraces:
       weapons: []
     ratio: ~
     resistances: []
+    skills: ~
     traits:
       - [Legacy of Dis, [[1, Thaumaturgy], [3, Disguise], [5, Detect Thoughts]]]
   Fierna:
@@ -414,6 +436,7 @@ subraces:
       weapons: []
     ratio: ~
     resistances: []
+    skills: ~
     traits:
       - [Legacy of Phlegethos, [[1, Friends], [3, Charm Person], [5, Suggestion]]]
   Glasya:
@@ -428,6 +451,7 @@ subraces:
       weapons: []
     ratio: ~
     resistances: []
+    skills: ~
     traits:
       - [Legacy of Malbolge, [[1, Minor Illusion], [3, Disguise Self], [5, Invisibility]]]
   Levistus:
@@ -442,6 +466,7 @@ subraces:
       weapons: []
     ratio: ~
     resistances: []
+    skills: ~
     traits:
       - [Legacy of Stygia, [[1, Ray of Frost], [3, Armor of Agathys], [5, Darkness]]]
   Mammon:
@@ -456,6 +481,7 @@ subraces:
       weapons: []
     ratio: ~
     resistances: []
+    skills: ~
     traits:
       - [Legacy of Minauros, [[1, Mage Hand], [3, Tensor's Floating Disk], [5, Arcane Lock]]]
   Mephistopheles:
@@ -470,6 +496,7 @@ subraces:
       weapons: []
     ratio: ~
     resistances: []
+    skills: ~
     traits:
       - [Legacy of Cania, [[1, Mage Hand], [3, Burning Hands], [5, Flame Blade]]]
   Zariel:
@@ -484,5 +511,6 @@ subraces:
       weapons: []
     ratio: ~
     resistances: []
+    skills: ~
     traits:
       - [Legacy of Avernus, [[1, Thaumaturgy], [3, Searing], [5, Branding Smite]]]

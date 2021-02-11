@@ -17,6 +17,7 @@ races:
         modifier: 2d4
     resistances: [Necrotic, Radiant]
     size: Medium
+    skills: ~
     speed: 30
     traits:
       - [Celestial Legacy, [[1, Light]]]
@@ -41,6 +42,7 @@ races:
         modifier: 2d6
     resistances: []
     size: Medium
+    skills: ~
     speed: 30
     traits:
       - [Darkvision]
@@ -67,6 +69,7 @@ races:
         modifier: 2d6
     resistances: []
     size: Medium
+    skills: ~
     speed: 30
     traits:
       - [Breath Weapon]
@@ -88,6 +91,7 @@ races:
     ratio: ~
     resistances: [Poison]
     size: Medium
+    skills: ~
     speed: 30
     traits:
       - [Darkvision]
@@ -108,6 +112,7 @@ races:
     ratio: ~
     resistances: [Charm, Sleep]
     size: Medium
+    skills: ~
     speed: 30
     traits:
       - [Darkvision]
@@ -133,6 +138,7 @@ races:
         modifier: 2d6
     resistances: []
     size: Medium
+    skills: ~
     speed: 30
     traits:
       - [Firbolg Magic, [[1, Detect Magic], [1, Disguise]]]
@@ -151,6 +157,7 @@ races:
     ratio: ~
     resistances: []
     size: Medium
+    skills: ~
     speed: 30
     traits: ~
   Gnome:
@@ -171,6 +178,7 @@ races:
         modifier: 1d1
     resistances: []
     size: Small
+    skills: ~
     speed: 25
     traits:
       - [Gnome Cunning]
@@ -194,6 +202,7 @@ races:
         modifier: 1d1
     resistances: []
     size: Small
+    skills: ~
     speed: 30
     traits:
       - [Darkvision]
@@ -218,9 +227,10 @@ races:
         modifier: 2d6
     resistances: []
     size: Medium
+    skills: [Athletics]
     speed: 30
     traits:
-      - [Natural Athlete, [Athletics]]
+      - [Natural Athlete]
       - [Stone's Endurance]
       - [Powerful Build]
       - [Mountain Born]
@@ -243,12 +253,32 @@ races:
         modifier: 2d4
     resistances: [Charm, Sleep]
     size: Medium
+    skills:
+      - Acrobatics
+      - Animal Handling
+      - Arcana
+      - Athletics
+      - Deception
+      - History
+      - Insight
+      - Intimidation
+      - Investigation
+      - Medicine
+      - Nature
+      - Perception
+      - Performance
+      - Persuasion
+      - Religion
+      - Sleight of Hand
+      - Stealth
+      - Survival
+      - 2
     speed: 30
     traits:
       - [Darkvision]
       - [Fey Ancestry]
       - [Languages, [Abyssal, Celestial, Deep Speech, Draconic, Dwarvish, Giant, Gith, Gnomish, Goblin, Halfling, Infernal, Orc, Primordial, Sylvan, Undercommon]]
-      - [Skill Versatility, [Acrobatics, Animal Handling, Arcana, Athletics, Deception, History, Insight, Intimidation, Investigation, Medicine, Nature, Perception, Performance, Persuasion, Religion, Sleight of Hand, Stealth, Survival]]
+      - [Skill Versatility]
   HalfOrc:
     bonus:
       Strength: 2
@@ -268,10 +298,11 @@ races:
         modifier: 2d6
     resistances: []
     size: Medium
+    skills: [Intimidation]
     speed: 30
     traits:
       - [Darkvision]
-      - [Menacing, [Intimidation]]
+      - [Menacing]
       - [Relentless Endurance]
       - [Savage Attacks]
   Halfling:
@@ -292,6 +323,7 @@ races:
         modifier: 1d1
     resistances: []
     size: Small
+    skills: ~
     speed: 25
     traits:
       - [Brave]
@@ -338,6 +370,7 @@ races:
         modifier: 2d4
     resistances: []
     size: Medium
+    skills: ~
     speed: 30
     traits:
       - [Darkvision]
@@ -365,6 +398,7 @@ races:
         base: 110
         modifier: 2d4
     size: Medium
+    skills: ~
     speed: 30
     traits:
       - [Languages, [Abyssal, Celestial, Deep Speech, Draconic, Dwarvish, Elvish, Giant, Gith, Gnomish, Goblin, Halfling, Infernal, Orc, Primordial, Sylvan, Undercommon]]
@@ -387,10 +421,16 @@ races:
         modifier: 1d6
     resistances: []
     size: Medium
+    skills:
+      - Acrobatics
+      - Deception
+      - Stealth
+      - Sleight of Hand
+      - 2
     speed: 30
     traits:
       - [Expert Forgery]
-      - [Kenku Training, [Acrobatics, Deception, Stealth, Sleight of Hand]]
+      - [Kenku Training]
       - [Mimicry]
   Kobold:
     bonus:
@@ -411,6 +451,7 @@ races:
         modifier: 1d1
     resistances: []
     size: Small
+    skills: ~
     speed: 30
     traits:
       - [Darkvision]
@@ -436,12 +477,19 @@ races:
         modifier: 2d6
     resistances: []
     size: Medium
+    skills:
+      - Animal Handling
+      - Nature
+      - Perception
+      - Stealth
+      - Survival
+      - 2
     speed: 30
     traits:
       - [Bite, 1d6]
       - [Cunning Artisan]
       - [Hold Breath]
-      - [Hunter's Lore, [Animal Handling, Nature, Perception, Stealth, Survival]]
+      - [Hunter's Lore]
       - [Natural Armor, 13]
       - [Hungry Jaws]
   Orc:
@@ -463,11 +511,12 @@ races:
         modifier: 2d6
     resistances: []
     size: Medium
+    skills: [Intimidation]
     speed: 30
     traits:
       - [Darkvision]
       - [Aggressive]
-      - [Menacing, [Intimidation]]
+      - [Menacing]
       - [Powerful Build]
   Tabaxi:
     bonus:
@@ -488,12 +537,13 @@ races:
         modifier: 2d4
     resistances: []
     size: Medium
+    skills: [Perception]
     speed: 30
     traits:
       - [Darkvision]
       - [Feline Agility]
       - [Cat's Claws, 1d4]
-      - [Cat's Talent, [Perception]]
+      - [Cat's Talent]
       - [Languages, [Abyssal, Celestial, Deep Speech, Draconic, Dwarvish, Elvish, Giant, Gith, Gnomish, Goblin, Halfling, Infernal, Orc, Primordial, Sylvan, Undercommon]]
   Tiefling:
     bonus:
@@ -513,6 +563,7 @@ races:
         modifier: 2d4
     resistances: [Fire]
     size: Medium
+    skills: ~
     speed: 30
     traits:
       - [Darkvision]
@@ -537,6 +588,7 @@ races:
         modifier: 2d4
     resistances: []
     size: Medium
+    skills: ~
     speed: 30
     traits:
       - [Amphibious]
@@ -562,6 +614,7 @@ races:
         modififer: 2d4
     resistances: []
     size: Medium
+    skills: ~
     speed: 30
     traits:
       - [Darkvision]
