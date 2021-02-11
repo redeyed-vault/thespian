@@ -1,17 +1,19 @@
-import math
 from random import choice, sample
 import sys
 
-from ._constants import (
-    PC_BACKGROUNDS,
-    PC_CLASSES,
-    PC_LANGUAGES,
-    PC_SKILLS,
-    PC_SUBRACES,
-)
+from ._constants import PC_SKILLS
 from ._dice import roll
 from ._utils import (
-    has_subraces, 
+    get_all_languages,
+    get_is_background,
+    get_is_class,
+    get_is_subclass,
+    get_language_by_class,
+    get_proficiency_bonus,
+    get_skills_by_subclass,
+    get_subraces_by_race,
+    has_extended_magic,
+    has_subraces,
     prompt,
 )
 from ._yaml import Load
@@ -580,189 +582,6 @@ class Warlock(_ClassBuilder):
 class Wizard(_ClassBuilder):
     def __init__(self, subclass, background, level, race_skills) -> None:
         super(Wizard, self).__init__(subclass, background, level, race_skills)
-
-
-##
-# Test generic exception class
-class Error(Exception):
-    pass
-
-
-# Begin test code for RaceBuilder
-class __RaceBuilder:
-    def __init__(self, subrace: str, sex: str = "Female", level: int = 1):
-        self.race = self.__class__.__name__
-        if self.race == "__RaceBuilder":
-            raise Error(
-                "This class must be inherited to use. It is currently used by "
-                "the Aasimar, Bugbear, Dragonborn, Dwarf, Elf, Firbolg, Gith, "
-                "Gnome, Goblin, Goliath, HalfElf, HalfOrc, Halfling, Hobgoblin, "
-                "Human, Kenku, Kobold, Lizardfolk, Orc, Tabaxi, Tiefling, "
-                "Triton, and Yuanti 'race' classes."
-            )
-
-        if sex not in (
-            "Female",
-            "Male",
-        ):
-            raise Error(f"Value '{sex}' is not a valid gender option.")
-
-        if has_subraces(self.race):
-            allowed_subraces = [x for x in get_subraces_by_race(self.race)]
-            if subrace not in allowed_subraces:
-                raise Error(
-                    f"Value '{subrace}' is not a valid '{self.race}' subrace option."
-                )
-
-        if isinstance(level, int):
-            if not range(1, 21):
-                raise Error("Value 'level' must be between 1-20.")
-        else:
-            raise Error("Value must be of type 'integer'.")
-
-        # Debugging value stuff
-        self.race = self.race.replace("_", "")
-
-        # Load template for race
-        race_template = Load.get_columns(self.race, source_file="races")
-        if race_template is None:
-            raise Error(f"Cannot load race template for '{self.race}'.")
-
-        # Set the base armor, tool, weapon proficiencies
-        racial_proficiencies = race_template.get("proficiency")
-        for category in racial_proficiencies:
-            base_proficiencies = racial_proficiencies.get(category)
-
-            if len(base_proficiencies) >= 2:
-                last_value = base_proficiencies[-1]
-                if isinstance(last_value, int):
-                    del base_proficiencies[-1]
-                    base_proficiencies = sample(base_proficiencies, last_value)
-
-            if category == "armors":
-                self.armors = base_proficiencies
-            elif category == "tools":
-                self.tools = base_proficiencies
-            elif category == "weapons":
-                self.weapons = base_proficiencies
-
-        # Merge traits from base race and subrace (if applicable)
-        if subrace != "":
-            subrace_template = Load.get_columns(subrace, source_file="subraces")
-            if subrace_template is None:
-                raise Error(f"Cannot load subrace template for '{subrace}'.")
-
-            for trait, value in subrace_template.items():
-                if trait not in race_template:
-                    race_template[trait] = subrace_template[trait]
-                elif trait == "bonus":
-                    for ability, bonus in value.items():
-                        race_template[trait][ability] = bonus
-                elif trait == "darkvision":
-                    race_darkvision = race_template.get(trait)
-                    subrace_darkvision = subrace_template.get(trait)
-                    if subrace_darkvision is not None:
-                        if subrace_darkvision > race_darkvision:
-                            self.darkvision = subrace_darkvision
-                elif trait == "proficiency":
-                    subrace_proficiencies = subrace_template[trait]
-                    for category in subrace_proficiencies:
-                        added_proficiencies = subrace_proficiencies.get(category)
-
-                        if category == "armors":
-                            self.armors = self.armors + added_proficiencies
-                        elif category == "tools":
-                            self.tools = self.tools + added_proficiencies
-                        elif category == "weapons":
-                            self.weapons = self.weapons + added_proficiencies
-                elif trait == "ratio":
-                    ratio = subrace_template.get(trait)
-                    if ratio is not None:
-                        race_template[trait] = ratio
-                elif trait == "resistances":
-                    pass
-                elif trait == "traits":
-                    for other in subrace_template.get(trait):
-                        race_template[trait].append(other)
-
-        self.sex = sex
-        self.subrace = subrace
-        self.level = level
-        self.ancestor = None
-        self.bonus = race_template.get("bonus")
-        self.darkvision = race_template.get("darkvision")
-        self.languages = race_template.get("languages")
-        self.height = race_template.get("ratio").get("height")
-        self.weight = race_template.get("ratio").get("weight")
-        self.size = race_template.get("size")
-        self.speed = race_template.get("speed")
-        self.traits = race_template.get("traits")
-        self.magic_innate = None
-        self.resistances = race_template.get("resistances")
-        self.skills = None
-
-    def run(self):
-        # Set random racial ability bonuses
-        if "random" in self.bonus:
-            bonus_ability_count = self.bonus.get("random")
-            del self.bonus["random"]
-            if not isinstance(bonus_ability_count, int):
-                return
-            allowed_bonus_abilities = (
-                "Strength",
-                "Dexterity",
-                "Constitution",
-                "Intelligence",
-                "Wisdom",
-                "Charisma",
-            )
-            bonus_ability_choices = tuple(self.bonus.keys())
-            count_limit = len(allowed_bonus_abilities) - len(bonus_ability_choices)
-            if bonus_ability_count > count_limit:
-                raise Error(
-                    "The number of bonus abilities exceeds the number of allowed ability bonuses."
-                )
-            bonus_ability_choices = [
-                x for x in allowed_bonus_abilities if x not in bonus_ability_choices
-            ]
-            for _ in range(bonus_ability_count):
-                option_list = ", ".join(bonus_ability_choices)
-                message = f"Choose your bonus ability: [{option_list}]"
-                bonus_ability_choice = prompt(message, bonus_ability_choices)
-                if bonus_ability_choice in bonus_ability_choices:
-                    self.bonus[bonus_ability_choice] = 1
-                    bonus_ability_choices.remove(bonus_ability_choice)
-
-        # Calculate height/weight
-        height_base = self.height.get("base")
-        height_modifier = self.height.get("modifier")
-        height_modifier = sum(list(roll(height_modifier)))
-
-        weight_base = self.weight.get("base")
-        weight_modifier = self.weight.get("modifier")
-        weight_modifier = sum(list(roll(weight_modifier)))
-
-        self.height = height_base + height_modifier
-        self.weight = (height_modifier * weight_modifier) + weight_base
-
-
-# Begin test code for Elf_ class using test __RaceBuilder class
-class Dwarf_(__RaceBuilder):
-    def __init__(self, subrace, sex, level) -> None:
-        super(Dwarf_, self).__init__(subrace, sex, level)
-
-
-class Elf_(__RaceBuilder):
-    def __init__(self, subrace, sex, level) -> None:
-        super(Elf_, self).__init__(subrace, sex, level)
-
-
-class HalfElf_(__RaceBuilder):
-    def __init__(self, subrace, sex, level) -> None:
-        super(HalfElf_, self).__init__(subrace, sex, level)
-
-
-# End test code
 
 
 class _RaceBuilder:
