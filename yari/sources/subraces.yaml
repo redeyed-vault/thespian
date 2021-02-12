@@ -4,6 +4,7 @@ subraces:
     bonus:
       Strength: 1
     darkvision: ~
+    innate_spellcasting: ~
     languages: ~
     parent: Aasimar
     proficiency:
@@ -19,6 +20,7 @@ subraces:
     bonus:
       Wisdom: 1
     darkvision: ~
+    innate_spellcasting: ~
     languages: ~
     parent: Aasimar
     proficiency:
@@ -34,6 +36,7 @@ subraces:
     bonus:
       Constitution: 1
     darkvision: ~
+    innate_spellcasting: ~
     languages: ~
     parent: Aasimar
     proficiency:
@@ -50,6 +53,9 @@ subraces:
     bonus:
       Strength: 1
     darkvision: 120
+    innate_spellcasting:
+      3: [Enlarge/Reduce]
+      5: [Invisibility]
     languages: ['Undercommon']
     parent: Dwarf
     proficiency:
@@ -66,15 +72,16 @@ subraces:
     resistances: [Charm, Illusion, Paralysis]
     skills: ~
     traits:
-      - [Duergar Magic, [[3, Enlarge/Reduce], [5, Invisibility]]]
-      - [Duergar Resilience]
-      - [Extra Language]
-      - [Sunlight Sensitivity]
-      - [Superior Darkvision]
+      - Duergar Magic
+      - Duergar Resilience
+      - Extra Language
+      - Sunlight Sensitivity
+      - Superior Darkvision
   Hill:
     bonus:
       Wisdom: 1
     darkvision: ~
+    innate_spellcasting: ~
     languages: ~
     parent: Dwarf
     proficiency:
@@ -91,11 +98,12 @@ subraces:
     resistances: []
     skills: ~
     traits:
-      - [Dwarven Toughness]
+      - Dwarven Toughness
   Mountain:
     bonus:
       Strength: 2
     darkvision: ~
+    innate_spellcasting: ~
     languages: ~
     parent: Dwarf
     proficiency:
@@ -112,12 +120,16 @@ subraces:
     resistances: []
     skills: ~
     traits:
-      - [Dwarven Armor Training]
+      - Dwarven Armor Training
   # Elf Subraces
   Drow:
     bonus:
       Charisma: 1
     darkvision: 120
+    innate_spellcasting:
+      1: [Dancing Lights]
+      3: [Faerie Fire]
+      5: [Darkness]
     languages: ~
     parent: Elf
     proficiency:
@@ -134,14 +146,15 @@ subraces:
     resistances: []
     skills: ~
     traits:
-      - [Drow Magic, [[1, Dancing Lights], [3, Faerie Fire], [5, Darkness]]]
-      - [Drow Weapon Training]
-      - [Sunlight Sensitivity]
-      - [Superior Darkvision]
+      - Drow Magic
+      - Drow Weapon Training
+      - Sunlight Sensitivity
+      - Superior Darkvision
   Eladrin:
     bonus:
       Intelligence: 1
     darkvision: ~
+    innate_spellcasting: ~
     languages: ~
     parent: Elf
     proficiency:
@@ -158,13 +171,47 @@ subraces:
     resistances: []
     skills: ~
     traits:
-      - [Elf Weapon Training]
-      - [Fey Step]
+      - Elf Weapon Training
+      - Fey Step
   High:
     bonus:
       Intelligence: 1
     darkvision: ~
-    languages: ~
+    innate_spellcasting:
+      - Acid Splash
+      - Blade Ward
+      - Chill Touch
+      - Dancing Lights
+      - Fire Bolt
+      - Friends
+      - Light
+      - Mage Hand
+      - Mending
+      - Message
+      - Minor Illusion
+      - Poison Spray
+      - Prestidigitation
+      - Ray of Frost
+      - Shocking Grasp
+      - True Strike
+      - 1
+    languages:
+      - Abyssal
+      - Celestial
+      - Deep Speech
+      - Draconic
+      - Dwarvish
+      - Elvish
+      - Giant
+      - Gnomish
+      - Goblin
+      - Halfling
+      - Infernal
+      - Orc
+      - Primordial
+      - Sylvan
+      - Undercommon
+      - 1
     parent: Elf
     proficiency:
       armors: []
@@ -180,13 +227,14 @@ subraces:
     resistances: []
     skills: ~
     traits:
-      - [Cantrip, [Acid Splash, Blade Ward, Chill Touch, Dancing Lights, Fire Bolt, Friends, Light, Mage Hand, Mending, Message, Minor Illusion, Poison Spray, Prestidigitation, Ray of Frost, Shocking Grasp, True Strike]]
-      - [Elf Weapon Training]
-      - [Extra Language, [Abyssal, Celestial, Deep Speech, Draconic, Dwarvish, Giant, Gith, Gnomish, Goblin, Halfling, Infernal, Orc, Primordial, Sylvan, Undercommon]]
+      - Cantrip
+      - Elf Weapon Training
+      - Extra Language
   Sea:
     bonus:
       Constitution: 1
     darkvision: ~
+    innate_spellcasting: ~
     languages: ['Aquan']
     parent: Elf
     proficiency:
@@ -203,13 +251,14 @@ subraces:
     resistances: []
     skills: ~
     traits:
-      - [Child of the Sea]
-      - [Friend of the Sea]
-      - [Sea Elf Training]
+      - Child of the Sea
+      - Friend of the Sea
+      - Sea Elf Training
   Shadar-kai:
     bonus:
       Constitution: 1
     darkvision: ~
+    innate_spellcasting: ~
     languages: ~
     parent: Elf
     proficiency:
@@ -226,12 +275,13 @@ subraces:
     resistances: [Necrotic]
     skills: ~
     traits:
-      - [Blessing of the Raven Queen]
-      - [Necrotic Resistance]
+      - Blessing of the Raven Queen
+      - Necrotic Resistance
   Wood:
     bonus:
       Wisdom: 1
     darkvision: ~
+    innate_spellcasting: ~
     languages: ~
     parent: Elf
     proficiency:
@@ -248,15 +298,35 @@ subraces:
     resistances: []
     skills: ~
     traits:
-      - [Elf Weapon Training]
-      - [Fleet of Foot]
-      - [Mask of the Wild]
+      - Elf Weapon Training
+      - Fleet of Foot
+      - Mask of the Wild
   # Gith Subraces
   Githyanki:
     bonus:
       Strength: 2
     darkvision: ~
-    languages: ~
+    innate_spellcasting:
+      1: [Mage Hand]
+      3: [Jump]
+      5: [Misty Step]
+    languages:
+      - Abyssal
+      - Celestial
+      - Deep Speech
+      - Draconic
+      - Dwarvish
+      - Elvish
+      - Giant
+      - Gnomish
+      - Goblin
+      - Halfling
+      - Infernal
+      - Orc
+      - Primordial
+      - Sylvan
+      - Undercommon
+      - 1
     parent: Gith
     proficiency:
       armors: [Light, Medium]
@@ -272,13 +342,17 @@ subraces:
     resistances: []
     skills: ~
     traits:
-      - [Decadent Mastery, [Abyssal, Celestial, Deep Speech, Draconic, Dwarvish, Elvish, Giant, Gnomish, Goblin, Halfling, Infernal, Orc, Primordial, Sylvan, Undercommon]]
-      - [Githyanki Psionics, [[1, Mage Hand], [3, Jump], [5, Misty Step]]]
-      - [Martial Prodigy]
+      - Decadent Mastery
+      - Githyanki Psionics
+      - Martial Prodigy
   Githzerai:
     bonus:
       Wisdom: 2
     darkvision: ~
+    innate_spellcasting:
+      1: [Mage Hand]
+      3: [Shield]
+      5: [Detect Thoughts]
     languages: ~
     parent: Gith
     proficiency:
@@ -295,13 +369,14 @@ subraces:
     resistances: [Charm, Fright]
     skills: ~
     traits:
-      - [Githzerai Psionics, [[1, Mage Hand], [3, Shield], [5, Detect Thoughts]]]
-      - [Mental Discipline]
+      - Githzerai Psionics
+      - Mental Discipline
   # Gnome Subraces
   Deep:
     bonus:
       Dexterity: 1
     darkvision: 120
+    innate_spellcasting: ~
     languages: ['Undercommon']
     parent: Gnome
     proficiency:
@@ -312,13 +387,15 @@ subraces:
     resistances: []
     skills: ~
     traits:
-      - [Extra Language]
-      - [Superior Darkvision]
-      - [Stone Camouflage]
+      - Extra Language
+      - Superior Darkvision
+      - Stone Camouflage
   Forest:
     bonus:
       Dexterity: 1
     darkvision: ~
+    innate_spellcasting:
+      - Minor Illusion
     languages: ~
     parent: Gnome
     proficiency:
@@ -329,12 +406,13 @@ subraces:
     resistances: []
     skills: ~
     traits:
-      - [Natural Illusionist, ['Minor Illusion']]
-      - [Speak with Small Beasts]
+      - Natural Illusionist
+      - Speak with Small Beasts]
   Rock:
     bonus:
       Constitution: 1
     darkvision: ~
+    innate_spellcasting: ~
     languages: ~
     parent: Gnome
     proficiency:
@@ -345,13 +423,14 @@ subraces:
     resistances: []
     skills: ~
     traits:
-      - [Artificer's Lore]
-      - [Tinker]
+      - Artificer's Lore
+      - Tinker
   # Halfling Subraces
   Lightfoot:
     bonus:
       Charisma: 1
     darkvision: ~
+    innate_spellcasting: ~
     languages: ~
     parent: Halfling
     proficiency:
@@ -362,11 +441,12 @@ subraces:
     resistances: []
     skills: ~
     traits:
-      - [Naturally Stealthy]
+      - Naturally Stealthy
   Stout:
     bonus:
       Constitution: 1
     darkvision: ~
+    innate_spellcasting: ~
     languages: ~
     parent: Halfling
     proficiency:
@@ -377,12 +457,16 @@ subraces:
     resistances: [Poison]
     skills: ~
     traits:
-      - [Stout Resilience]
+      - Stout Resilience
   # Tiefling Subraces
   Asmodeus:
     bonus:
       Intelligence: 1
     darkvision: ~
+    innate_spellcasting:
+      1: [Thaumaturgy]
+      3: [Hellish Rebuke]
+      5: [Darkness]
     languages: ~
     parent: Tiefling
     proficiency:
@@ -393,11 +477,15 @@ subraces:
     resistances: []
     skills: ~
     traits:
-      - [Infernal Legacy, [[1, Thaumaturgy], [3, Hellish Rebuke], [5, Darkness]]]
+      - Infernal Legacy
   Baalzebul:
     bonus:
       Intelligence: 1
     darkvision: ~
+    innate_spellcasting:
+      1: [Thaumaturgy]
+      3: [Ray of Sickness]
+      5: [Crown of Madness]
     languages: ~
     parent: Tiefling
     proficiency:
@@ -408,11 +496,15 @@ subraces:
     resistances: []
     skills: ~
     traits:
-      - [Legacy of Maladomini, [[1, Thaumaturgy], [3, Ray of Sickness], [5, Crown of Madness]]]
+      - Legacy of Maladomini
   Dispater:
     bonus:
       Dexterity: 1
     darkvision: ~
+    innate_spellcasting:
+      1: [Thaumaturgy]
+      3: [Disguise]
+      5: [Detect Thoughts]
     languages: ~
     parent: Tiefling
     proficiency:
@@ -423,11 +515,15 @@ subraces:
     resistances: []
     skills: ~
     traits:
-      - [Legacy of Dis, [[1, Thaumaturgy], [3, Disguise], [5, Detect Thoughts]]]
+      - Legacy of Dis
   Fierna:
     bonus:
       Wisdom: 1
     darkvision: ~
+    innate_spellcasting:
+      1: [Friends]
+      3: [Charm Person]
+      5: [Suggestion]
     languages: ~
     parent: Tiefling
     proficiency:
@@ -438,11 +534,15 @@ subraces:
     resistances: []
     skills: ~
     traits:
-      - [Legacy of Phlegethos, [[1, Friends], [3, Charm Person], [5, Suggestion]]]
+      - Legacy of Phlegethos
   Glasya:
     bonus:
       Dexterity: 1
     darkvision: ~
+    innate_spellcasting:
+      1: [Minor Illusion]
+      3: [Disguise Self]
+      5: [Invisibility]
     languages: ~
     parent: Tiefling
     proficiency:
@@ -453,11 +553,15 @@ subraces:
     resistances: []
     skills: ~
     traits:
-      - [Legacy of Malbolge, [[1, Minor Illusion], [3, Disguise Self], [5, Invisibility]]]
+      - Legacy of Malbolge
   Levistus:
     bonus:
       Constitution: 1
     darkvision: ~
+    innate_spellcasting:
+      1: [Ray of Frost]
+      3: [Armor of Agathys]
+      5: [Darkness]
     languages: ~
     parent: Tiefling
     proficiency:
@@ -468,11 +572,15 @@ subraces:
     resistances: []
     skills: ~
     traits:
-      - [Legacy of Stygia, [[1, Ray of Frost], [3, Armor of Agathys], [5, Darkness]]]
+      - Legacy of Stygia
   Mammon:
     bonus:
       Intelligence: 1
     darkvision: ~
+    innate_spellcasting:
+      1: [Mage Hand]
+      3: [Tensor's Floating Disk]
+      5: [Arcane Lock]
     languages: ~
     parent: Tiefling
     proficiency:
@@ -483,11 +591,15 @@ subraces:
     resistances: []
     skills: ~
     traits:
-      - [Legacy of Minauros, [[1, Mage Hand], [3, Tensor's Floating Disk], [5, Arcane Lock]]]
+      - Legacy of Minauros
   Mephistopheles:
     bonus:
       Intelligence: 1
     darkvision: ~
+    innate_spellcasting:
+      1: [Mage Hand]
+      3: [Burning Hands]
+      5: [Flame Blade]
     languages: ~
     parent: Tiefling
     proficiency:
@@ -498,11 +610,15 @@ subraces:
     resistances: []
     skills: ~
     traits:
-      - [Legacy of Cania, [[1, Mage Hand], [3, Burning Hands], [5, Flame Blade]]]
+      - Legacy of Cania
   Zariel:
     bonus:
       Strength: 1
     darkvision: ~
+    innate_spellcasting:
+      1: [Thaumaturgy]
+      3: [Searing]
+      5: [Branding Smite]
     languages: ~
     parent: Tiefling
     proficiency:
@@ -513,4 +629,4 @@ subraces:
     resistances: []
     skills: ~
     traits:
-      - [Legacy of Avernus, [[1, Thaumaturgy], [3, Searing], [5, Branding Smite]]]
+      - Legacy of Avernus

@@ -3,6 +3,8 @@ races:
     bonus:
       Charisma: 2
     darkvision: 60
+    innate_spellcasting:
+      1: [Light]
     languages: ['Common', 'Celestial']
     proficiency:
       armors: []
@@ -20,14 +22,15 @@ races:
     skills: ~
     speed: 30
     traits:
-      - [Celestial Legacy, [[1, Light]]]
-      - [Celestial Resistance]
-      - [Darkvision]
+      - Celestial Legacy
+      - Celestial Resistance
+      - Darkvision
   Bugbear:
     bonus:
       Dexterity: 1
       Strength: 2
     darkvision: 60
+    innate_spellcasting: ~
     languages: ['Common', 'Goblin']
     proficiency:
       armors: []
@@ -42,19 +45,20 @@ races:
         modifier: 2d6
     resistances: []
     size: Medium
-    skills: ~
+    skills: [Stealth]
     speed: 30
     traits:
-      - [Darkvision]
-      - [Long-Limbed]
-      - [Powerful Build]
-      - [Sneaky, [Stealth]]
-      - [Surprise Attack]
+      - Darkvision
+      - Long-Limbed
+      - Powerful Build
+      - Sneaky
+      - Surprise Attack
   Dragonborn:
     bonus:
       Strength: 2
       Charisma: 1
     darkvision: ~
+    innate_spellcasting: ~
     languages: ['Common', 'Draconic']
     proficiency:
       armors: []
@@ -82,13 +86,14 @@ races:
     skills: ~
     speed: 30
     traits:
-      - [Breath Weapon]
-      - [Damage Resistance]
-      - [Draconic Ancestry]
+      - Breath Weapon
+      - Damage Resistance
+      - Draconic Ancestry
   Dwarf:
     bonus:
       Constitution: 2
     darkvision: 60
+    innate_spellcasting: ~
     languages: ['Common', 'Dwarvish']
     proficiency:
       armors: []
@@ -104,16 +109,17 @@ races:
     skills: ~
     speed: 30
     traits:
-      - [Darkvision]
-      - [Dwarven Combat Training]
-      - [Dwarven Resilience]
-      - [Dwarven Toughness]
-      - [Stonecunning]
-      - [Tool Proficiency]
+      - Darkvision
+      - Dwarven Combat Training
+      - Dwarven Resilience
+      - Dwarven Toughness
+      - Stonecunning
+      - Tool Proficiency
   Elf:
     bonus:
       Dexterity: 2
     darkvision: 60
+    innate_spellcasting: ~
     languages: ['Common', 'Elvish']
     proficiency:
       armors: []
@@ -122,18 +128,19 @@ races:
     ratio: ~
     resistances: [Charm, Sleep]
     size: Medium
-    skills: ~
+    skills: [Perception]
     speed: 30
     traits:
-      - [Darkvision]
-      - [Fey Ancestry]
-      - [Keen Senses, [Perception]]
-      - [Trance]
+      - Darkvision
+      - Fey Ancestry
+      - Keen Senses
+      - Trance]
   Firbolg:
     bonus:
       Strength: 1
       Wisdom: 2
     darkvision: 60
+    innate_spellcasting: [[1, Detect Magic], [1, Disguise]]
     languages: ['Common', 'Elvish', 'Giant']
     proficiency:
       armors: []
@@ -151,14 +158,15 @@ races:
     skills: ~
     speed: 30
     traits:
-      - [Firbolg Magic, [[1, Detect Magic], [1, Disguise]]]
-      - [Hidden Step]
-      - [Powerful Build]
-      - [Speech of Beast and Leaf]
+      - Firbolg Magic
+      - Hidden Step
+      - Powerful Build
+      - Speech of Beast and Leaf
   Gith:
     bonus:
       Intelligence: 1
     darkvision: ~
+    innate_spellcasting: ~
     languages: ['Common', 'Gith']
     proficiency:
       armors: []
@@ -174,6 +182,7 @@ races:
     bonus:
       Intelligence: 2
     darkvision: 60
+    innate_spellcasting: ~
     languages: ['Common', 'Gnomish']
     proficiency:
       armors: []
@@ -191,13 +200,14 @@ races:
     skills: ~
     speed: 25
     traits:
-      - [Gnome Cunning]
-      - [Darkvision]
+      - Gnome Cunning
+      - Darkvision
   Goblin:
     bonus:
       Dexterity: 2
       Constitution: 1
     darkvision: 60
+    innate_spellcasting: ~
     languages: ['Common', 'Goblin']
     proficiency:
       armors: []
@@ -215,14 +225,15 @@ races:
     skills: ~
     speed: 30
     traits:
-      - [Darkvision]
-      - [Fury of the Small]
-      - [Nimble Escape]
+      - Darkvision
+      - Fury of the Small
+      - Nimble Escape
   Goliath:
     bonus:
       Constitution: 1
       Strength: 2
     darkvision: 60
+    innate_spellcasting: ~
     languages: ['Common', 'Giant']
     proficiency:
       armors: []
@@ -240,15 +251,16 @@ races:
     skills: [Athletics]
     speed: 30
     traits:
-      - [Natural Athlete]
-      - [Stone's Endurance]
-      - [Powerful Build]
-      - [Mountain Born]
+      - Natural Athlete
+      - Stone's Endurance
+      - Powerful Build
+      - Mountain Born
   HalfElf:
     bonus:
       Charisma: 2
       random: 1
     darkvision: 60
+    innate_spellcasting: ~
     languages: ['Common', 'Elvish']
     proficiency:
       armors: []
@@ -294,6 +306,7 @@ races:
       Strength: 2
       Constitution: 1
     darkvision: 60
+    innate_spellcasting: ~
     languages: ['Common', 'Orc']
     proficiency:
       armors: []
@@ -319,6 +332,7 @@ races:
     bonus:
       Dexterity: 2
     darkvision: 60
+    innate_spellcasting: ~
     languages: ['Common', 'Halfling']
     proficiency:
       armors: []
@@ -336,14 +350,15 @@ races:
     skills: ~
     speed: 25
     traits:
-      - [Brave]
-      - [Halfling Nimbleness]
-      - [Lucky]
+      - Brave
+      - Halfling Nimbleness
+      - Lucky
   Hobgoblin:
     bonus:
       Constitution: 2
       Intelligence: 1
     darkvision: 60
+    innate_spellcasting: ~
     languages: ['Common', 'Goblin']
     proficiency:
       armors: []
@@ -383,9 +398,9 @@ races:
     skills: ~
     speed: 30
     traits:
-      - [Darkvision]
-      - [Martial Training]
-      - [Saving Face]
+      - Darkvision
+      - Martial Training
+      - Saving Face
   Human:
     bonus:
       Strength: 1
@@ -395,6 +410,7 @@ races:
       Wisdom: 1
       Charisma: 1
     darkvision: ~
+    innate_spellcasting: ~
     languages: ['Common']
     proficiency:
       armors: []
@@ -417,6 +433,7 @@ races:
       Dexterity: 2
       Wisdom: 1
     darkvision: ~
+    innate_spellcasting: ~
     languages: ['Common', 'Auran']
     proficiency:
       armors: []
@@ -439,14 +456,15 @@ races:
       - 2
     speed: 30
     traits:
-      - [Expert Forgery]
-      - [Kenku Training]
-      - [Mimicry]
+      - Expert Forgery
+      - Kenku Training
+      - Mimicry
   Kobold:
     bonus:
       Dexterity: 2
       Strength: -2
     darkvision: 60
+    innate_spellcasting: ~
     languages: ['Common', 'Draconic']
     proficiency:
       armors: []
@@ -464,15 +482,16 @@ races:
     skills: ~
     speed: 30
     traits:
-      - [Darkvision]
-      - ["Grovel, Cower, and Beg"]
-      - [Pack Tactics]
-      - [Sunlight Sensitivity]
+      - Darkvision
+      - Grovel, Cower, and Beg
+      - Pack Tactics
+      - Sunlight Sensitivity
   Lizardfolk:
     bonus:
       Constitution: 2
       Wisdom: 1
     darkvision: ~
+    innate_spellcasting: ~
     languages: ['Common', 'Draconic']
     proficiency:
       armors: []
@@ -507,6 +526,7 @@ races:
       Constitution: 1
       Strength: 2
     darkvision: 60
+    innate_spellcasting: ~
     languages: ['Common', 'Orc']
     proficiency:
       armors: []
@@ -524,15 +544,16 @@ races:
     skills: [Intimidation]
     speed: 30
     traits:
-      - [Darkvision]
-      - [Aggressive]
-      - [Menacing]
-      - [Powerful Build]
+      - Darkvision
+      - Aggressive
+      - Menacing
+      - Powerful Build
   Tabaxi:
     bonus:
       Dexterity: 2
       Charisma: 1
     darkvision: 60
+    innate_spellcasting: ~
     languages: ['Common']
     proficiency:
       armors: []
@@ -559,6 +580,7 @@ races:
     bonus:
       Charisma: 2
     darkvision: 60
+    innate_spellcasting: ~
     languages: ['Common', 'Infernal']
     proficiency:
       armors: []
@@ -576,14 +598,15 @@ races:
     skills: ~
     speed: 30
     traits:
-      - [Darkvision]
-      - [Hellish Resistance]
+      - Darkvision
+      - Hellish Resistance
   Triton:
     bonus:
       Charisma: 1
       Constitution: 1
       Strength: 1
     darkvision: ~
+    innate_spellcasting: ~
     languages: ['Common', 'Primordial']
     proficiency:
       armors: []
@@ -601,15 +624,16 @@ races:
     skills: ~
     speed: 30
     traits:
-      - [Amphibious]
-      - [Control Air and Water]
-      - [Emissary of the Sea]
-      - [Guardians of the Depths]
+      - Amphibious
+      - Control Air and Water
+      - Emissary of the Sea
+      - Guardians of the Depths
   Yuanti:
     bonus:
       Charisma: 2
       Intelligence: 1
     darkvision: 60
+    innate_spellcasting: [[0, Poison Spray], [1, Animal Friendship (Snakes only)], [3, Suggestion]]
     languages: ['Abyssal', 'Common', 'Draconic']
     proficiency:
       armors: []
@@ -627,7 +651,7 @@ races:
     skills: ~
     speed: 30
     traits:
-      - [Darkvision]
-      - [Innate Spellcasting, [[0, Poison Spray], [1, Animal Friendship (Snakes only)], [3, Suggestion]]]
-      - [Magic Resistance]
-      - [Poison Immunity]
+      - Darkvision
+      - Innate Spellcasting
+      - Magic Resistance
+      - Poison Immunity
