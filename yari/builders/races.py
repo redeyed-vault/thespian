@@ -3,6 +3,7 @@ from random import sample
 from .errors import Error
 from .._dice import roll
 from .._utils import (
+    get_is_race,
     get_subraces_by_race,
     has_subraces,
     prompt,
@@ -12,6 +13,9 @@ from .._yaml import Load
 
 class RaceBuilder:
     def __init__(self, race: str, subrace: str, sex: str = "Female", level: int = 1):
+        if not get_is_race(race):
+            raise Error(f"Invalid race option specified '{race}'.")
+
         if has_subraces(race):
             if subrace == "":
                 raise Error(f"Subrace option not selected but '{race}' has subraces.")
@@ -132,7 +136,6 @@ class RaceBuilder:
                         race_data[trait].append(other)
 
     def run(self):
-        # Set random racial ability bonuses
         if "random" in self.bonus:
             bonus_ability_count = self.bonus.get("random")
             del self.bonus["random"]
@@ -162,6 +165,18 @@ class RaceBuilder:
                 if bonus_ability_choice in bonus_ability_choices:
                     self.bonus[bonus_ability_choice] = 1
                     bonus_ability_choices.remove(bonus_ability_choice)
+
+        # Dragonborn ancestry prompt
+        if self.race == "Dragonborn" and isinstance(self.resistances, dict):
+            dragon_ancestor = tuple(self.resistances.keys())
+            dragon_ancestor_list = "\n".join(dragon_ancestor)
+            draconic_ancestry = prompt(
+                f"Choose your draconic ancestor's dragon type:\n\n{dragon_ancestor_list}\n\n",
+                dragon_ancestor,
+            )
+            ancestry_resistances = self.resistances
+            self.resistances = []
+            self.resistances.append(ancestry_resistances.get(draconic_ancestry))
 
         # Calculate height/weight
         height_base = self.height.get("base")
