@@ -67,7 +67,17 @@ races:
       weight:
         base: 175
         modifier: 2d6
-    resistances: []
+    resistances:
+      Black: Acid
+      Blue: Lightning
+      Brass: Fire
+      Bronze: Lightning
+      Copper: Acid
+      Gold: Fire
+      Green: Poison
+      Red: Fire
+      Silver: Cold
+      White: Cold
     size: Medium
     skills: ~
     speed: 30
