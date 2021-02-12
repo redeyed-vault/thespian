@@ -135,6 +135,9 @@ class RaceBuilder:
                     for other in subrace_data.get(trait):
                         race_data[trait].append(other)
 
+        # Assign updated traits list
+        self.traits = race_data.get("traits")
+
     def run(self):
         if "random" in self.bonus:
             bonus_ability_count = self.bonus.get("random")
@@ -171,7 +174,7 @@ class RaceBuilder:
             dragon_ancestor = tuple(self.resistances.keys())
             dragon_ancestor_list = "\n".join(dragon_ancestor)
             draconic_ancestry = prompt(
-                f"Choose your draconic ancestor's dragon type:\n\n{dragon_ancestor_list}\n\n",
+                f"Choose your draconic ancestor's type:\n\n{dragon_ancestor_list}\n\n>",
                 dragon_ancestor,
             )
             ancestry_resistances = self.resistances
