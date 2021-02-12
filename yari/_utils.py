@@ -6,6 +6,7 @@ from ._constants import (
     PC_BACKGROUNDS,
     PC_CLASSES,
     PC_LANGUAGES,
+    PC_RACES,
     PC_SKILLS,
     PC_SUBRACES,
 )
@@ -42,6 +43,16 @@ def get_is_class(klass: str) -> bool:
     return klass in PC_CLASSES
 
 
+def get_is_race(race: str) -> bool:
+    """
+    Returns whether the race is valid.
+
+    :param str race: Character's chosen race.
+
+    """
+    return race in PC_RACES
+
+
 def get_is_subclass(subclass: str, klass: str) -> bool:
     """
     Returns whether subclass is a valid subclass of klass.
@@ -73,11 +84,12 @@ def get_subclass_proficiency(subclass: str, category: str):
 
 
 def get_all_languages() -> tuple:
+    """Returns a tuple of ALL languages."""
     return PC_LANGUAGES
 
 
 def get_all_skills() -> tuple:
-    """Returns a list of ALL skills."""
+    """Returns a tuple of ALL skills."""
     return PC_SKILLS
 
 
@@ -101,7 +113,17 @@ def get_language_by_class(klass: str):
     return Load.get_columns(klass, "languages", source_file="classes")
 
 
-def get_skills_by_subclass(subclass: str):
+def get_proficiency_bonus(level: int) -> int:
+    """
+    Returns a proficiency bonus value by level.
+
+    :param int level: Level of character.
+
+    """
+    return ceil((level / 4) + 1)
+
+
+def get_skills_by_subclass(subclass: str) -> tuple:
     """
     Returns a tuple of bonus skills for subclass, (if applicable).
 
@@ -121,14 +143,13 @@ def get_subclasses_by_class(klass: str) -> tuple:
     return Load.get_columns(klass, "subclasses", source_file="classes")
 
 
-def get_proficiency_bonus(level: int) -> int:
+def get_subraces_by_race(race: str):
+    """Yields a list of valid subraces by race.
+    :param str race: Race to retrieve subraces for.
     """
-    Returns a proficiency bonus value by level.
-
-    :param int level: Level of character.
-
-    """
-    return ceil((level / 4) + 1)
+    for subrace in PC_SUBRACES:
+        if Load.get_columns(subrace, "parent", source_file="subraces") == race:
+            yield subrace
 
 
 def has_extended_magic(subclass: str) -> bool:
@@ -141,17 +162,6 @@ def has_extended_magic(subclass: str) -> bool:
     if Load.get_columns(subclass, "magic", source_file="subclasses") is not None:
         return True
     return False
-
-
-def get_subraces_by_race(race: str):
-    """Yields a list of valid subraces by race.
-
-    :param str race: Race to retrieve subraces for.
-
-    """
-    for subrace in PC_SUBRACES:
-        if Load.get_columns(subrace, "parent", source_file="subraces") == race:
-            yield subrace
 
 
 def has_subraces(race: str) -> bool:
@@ -167,7 +177,7 @@ def has_subraces(race: str) -> bool:
         return False
 
 
-def prompt(message, options=None):
+def prompt(message: str, options: (list, tuple, None) = None) -> str:
     try:
         user_prompt_value = click.prompt(message, type=str)
         if user_prompt_value in options:
