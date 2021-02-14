@@ -153,7 +153,6 @@ classes:
       - Medicine
       - Persuasion
       - Religion
-    saving_throws: ['Charisma', 'Wisdom']
     spell_slots:
       1: 2
       2: 3
