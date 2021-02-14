@@ -138,6 +138,16 @@ class RaceBuilder:
         # Assign updated traits list
         self.traits = race_data.get("traits")
 
+    def __repr__(self):
+        if self.subrace != "":
+            return '<{} race="{}" subrace="{}" level="{}">'.format(
+                self.__class__.__name__, self.race, self.subrace, self.level
+            )
+        else:
+            return '<{} race="{}" level="{}">'.format(
+                self.__class__.__name__, self.race, self.level
+            )
+
     def run(self):
         if "random" in self.bonus:
             bonus_ability_count = self.bonus.get("random")
