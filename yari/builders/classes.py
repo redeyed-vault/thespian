@@ -1,5 +1,4 @@
 from random import choice, sample
-import sys
 
 from .errors import Error
 from .._utils import (
@@ -111,45 +110,6 @@ class ClassBuilder:
                 extended_magic_list[level] = tuple(spells)
 
         self.magic_class = extended_magic_list
-
-    def _add_features(self) -> None:
-        """
-        Generates a collection of class and subclass features by level.
-
-        """
-        try:
-            class_features = Load.get_columns(
-                self.klass, "features", source_file="classes"
-            )
-
-            if self.subclass != "":
-                subclass_features = Load.get_columns(
-                    self.subclass, "features", source_file="subclasses"
-                )
-                for level_obtained, _ in subclass_features.items():
-                    if level_obtained in class_features:
-                        feature_list = (
-                            class_features[level_obtained]
-                            + subclass_features[level_obtained]
-                        )
-                        feature_list.sort()
-                        class_features[level_obtained] = feature_list
-                    else:
-                        class_features[level_obtained] = subclass_features[
-                            level_obtained
-                        ]
-
-            # Create feature dictionary based on level.
-            features = {
-                lv: class_features[lv] for lv in class_features if lv <= self.level
-            }
-        except (TypeError, KeyError) as e:
-            # exit("Cannot find class/subclass '{}'")
-            sys.exit(e)
-        else:
-            for lv, fts in features.items():
-                features[lv] = tuple(fts)
-            self.features = features
 
     def _add_hit_die(self) -> None:
         """
@@ -349,7 +309,37 @@ class ClassBuilder:
         equipment = class_equipment + background_equipment
         self.equipment = equipment
 
-        self._add_features()
+        # Truncate class features to what is applicable to my level
+        self.features = {l:f for (l,f) in self.features.items() if l <= self.level}
+
+        # Merge class and subclass features by level (if applicable)
+        if self.subclass != "":
+            subclass_features = Load.get_columns(
+                self.subclass, "features", source_file="subclasses"
+            )
+            for level_obtained, _ in subclass_features.items():
+                # Stop if feature is too high level for character
+                if level_obtained > self.level:
+                    break
+
+                # If features already assigned for this level
+                # Append subclass features to class features
+                # Otherwise make new listing for level with associated features
+                if level_obtained in self.features:
+                    feature_list = (
+                        self.features[level_obtained]
+                        + subclass_features[level_obtained]
+                    )
+                    feature_list.sort()
+                    self.features[level_obtained] = feature_list
+                else:
+                    self.features[level_obtained] = subclass_features[
+                        level_obtained
+                    ]
+
+        # Convert each feature list by level to a tuple
+        self.features = {l:tuple(f) for (l,f) in self.features.items()}
+            
         self._add_hit_die()
         self._add_extended_magic()
         self._add_proficiencies()
