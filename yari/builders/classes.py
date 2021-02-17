@@ -32,10 +32,6 @@ class ClassBuilder:
         if not get_is_subclass(subclass, klass):
             raise Error(f"Subclass '{subclass}' is not a valid option for '{klass}'.")
 
-        # Unset subclass if character is below level 3
-        if level < 3:
-            subclass = ""
-
         # If level is not integer
         if not isinstance(level, int):
             raise Error("Invalid type specified. 'level' must be of type 'int'.")
@@ -43,6 +39,10 @@ class ClassBuilder:
         # If level is between 1-20
         if level not in range(1, 21):
             raise Error("Argument 'level' value must be between 1-20.")
+
+        # Unset subclass if character is below level 3
+        if level < 3:
+            subclass = ""
 
         # If background set, make sure its valid
         if background != "" and not get_is_background(background):
