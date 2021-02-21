@@ -3,7 +3,7 @@ races:
     bonus:
       Charisma: 2
     darkvision: 60
-    innate_spellcasting:
+    innatemagic:
       1: [Light]
     languages: ['Common', 'Celestial']
     proficiency:
@@ -19,7 +19,7 @@ races:
         modifier: 2d4
     resistances: [Necrotic, Radiant]
     size: Medium
-    skills: ~
+    skills: []
     speed: 30
     traits:
       - Celestial Legacy
@@ -30,7 +30,7 @@ races:
       Dexterity: 1
       Strength: 2
     darkvision: 60
-    innate_spellcasting: ~
+    innatemagic: ~
     languages: ['Common', 'Goblin']
     proficiency:
       armors: []
@@ -58,7 +58,7 @@ races:
       Strength: 2
       Charisma: 1
     darkvision: ~
-    innate_spellcasting: ~
+    innatemagic: ~
     languages: ['Common', 'Draconic']
     proficiency:
       armors: []
@@ -83,7 +83,7 @@ races:
       Silver: Cold
       White: Cold
     size: Medium
-    skills: ~
+    skills: []
     speed: 30
     traits:
       - Breath Weapon
@@ -93,7 +93,7 @@ races:
     bonus:
       Constitution: 2
     darkvision: 60
-    innate_spellcasting: ~
+    innatemagic: ~
     languages: ['Common', 'Dwarvish']
     proficiency:
       armors: []
@@ -106,7 +106,7 @@ races:
     ratio: ~
     resistances: [Poison]
     size: Medium
-    skills: ~
+    skills: []
     speed: 30
     traits:
       - Darkvision
@@ -119,7 +119,7 @@ races:
     bonus:
       Dexterity: 2
     darkvision: 60
-    innate_spellcasting: ~
+    innatemagic: ~
     languages: ['Common', 'Elvish']
     proficiency:
       armors: []
@@ -140,7 +140,8 @@ races:
       Strength: 1
       Wisdom: 2
     darkvision: 60
-    innate_spellcasting: [[1, Detect Magic], [1, Disguise]]
+    innatemagic:
+      1: [Detect Magic, Disguise]
     languages: ['Common', 'Elvish', 'Giant']
     proficiency:
       armors: []
@@ -155,7 +156,7 @@ races:
         modifier: 2d6
     resistances: []
     size: Medium
-    skills: ~
+    skills: []
     speed: 30
     traits:
       - Firbolg Magic
@@ -166,7 +167,7 @@ races:
     bonus:
       Intelligence: 1
     darkvision: ~
-    innate_spellcasting: ~
+    innatemagic: ~
     languages: ['Common', 'Gith']
     proficiency:
       armors: []
@@ -175,14 +176,14 @@ races:
     ratio: ~
     resistances: []
     size: Medium
-    skills: ~
+    skills: []
     speed: 30
     traits: ~
   Gnome:
     bonus:
       Intelligence: 2
     darkvision: 60
-    innate_spellcasting: ~
+    innatemagic: ~
     languages: ['Common', 'Gnomish']
     proficiency:
       armors: []
@@ -197,7 +198,7 @@ races:
         modifier: 1d1
     resistances: []
     size: Small
-    skills: ~
+    skills: []
     speed: 25
     traits:
       - Gnome Cunning
@@ -207,7 +208,7 @@ races:
       Dexterity: 2
       Constitution: 1
     darkvision: 60
-    innate_spellcasting: ~
+    innatemagic: ~
     languages: ['Common', 'Goblin']
     proficiency:
       armors: []
@@ -222,7 +223,7 @@ races:
         modifier: 1d1
     resistances: []
     size: Small
-    skills: ~
+    skills: []
     speed: 30
     traits:
       - Darkvision
@@ -233,7 +234,7 @@ races:
       Constitution: 1
       Strength: 2
     darkvision: 60
-    innate_spellcasting: ~
+    innatemagic: ~
     languages: ['Common', 'Giant']
     proficiency:
       armors: []
@@ -260,7 +261,7 @@ races:
       Charisma: 2
       random: 1
     darkvision: 60
-    innate_spellcasting: ~
+    innatemagic: ~
     languages: ['Common', 'Elvish']
     proficiency:
       armors: []
@@ -306,7 +307,7 @@ races:
       Strength: 2
       Constitution: 1
     darkvision: 60
-    innate_spellcasting: ~
+    innatemagic: ~
     languages: ['Common', 'Orc']
     proficiency:
       armors: []
@@ -332,7 +333,7 @@ races:
     bonus:
       Dexterity: 2
     darkvision: 60
-    innate_spellcasting: ~
+    innatemagic: ~
     languages: ['Common', 'Halfling']
     proficiency:
       armors: []
@@ -347,7 +348,7 @@ races:
         modifier: 1d1
     resistances: []
     size: Small
-    skills: ~
+    skills: []
     speed: 25
     traits:
       - Brave
@@ -358,7 +359,7 @@ races:
       Constitution: 2
       Intelligence: 1
     darkvision: 60
-    innate_spellcasting: ~
+    innatemagic: ~
     languages: ['Common', 'Goblin']
     proficiency:
       armors: []
@@ -395,7 +396,7 @@ races:
         modifier: 2d4
     resistances: []
     size: Medium
-    skills: ~
+    skills: []
     speed: 30
     traits:
       - Darkvision
@@ -410,7 +411,7 @@ races:
       Wisdom: 1
       Charisma: 1
     darkvision: ~
-    innate_spellcasting: ~
+    innatemagic: ~
     languages: ['Common']
     proficiency:
       armors: []
@@ -424,7 +425,7 @@ races:
         base: 110
         modifier: 2d4
     size: Medium
-    skills: ~
+    skills: []
     speed: 30
     traits:
       - [Languages, [Abyssal, Celestial, Deep Speech, Draconic, Dwarvish, Elvish, Giant, Gith, Gnomish, Goblin, Halfling, Infernal, Orc, Primordial, Sylvan, Undercommon]]
@@ -433,7 +434,7 @@ races:
       Dexterity: 2
       Wisdom: 1
     darkvision: ~
-    innate_spellcasting: ~
+    innatemagic: ~
     languages: ['Common', 'Auran']
     proficiency:
       armors: []
@@ -464,7 +465,7 @@ races:
       Dexterity: 2
       Strength: -2
     darkvision: 60
-    innate_spellcasting: ~
+    innatemagic: ~
     languages: ['Common', 'Draconic']
     proficiency:
       armors: []
@@ -479,7 +480,7 @@ races:
         modifier: 1d1
     resistances: []
     size: Small
-    skills: ~
+    skills: []
     speed: 30
     traits:
       - Darkvision
@@ -491,7 +492,7 @@ races:
       Constitution: 2
       Wisdom: 1
     darkvision: ~
-    innate_spellcasting: ~
+    innatemagic: ~
     languages: ['Common', 'Draconic']
     proficiency:
       armors: []
@@ -526,7 +527,7 @@ races:
       Constitution: 1
       Strength: 2
     darkvision: 60
-    innate_spellcasting: ~
+    innatemagic: ~
     languages: ['Common', 'Orc']
     proficiency:
       armors: []
@@ -553,7 +554,7 @@ races:
       Dexterity: 2
       Charisma: 1
     darkvision: 60
-    innate_spellcasting: ~
+    innatemagic: ~
     languages: ['Common']
     proficiency:
       armors: []
@@ -580,8 +581,10 @@ races:
     bonus:
       Charisma: 2
     darkvision: 60
-    innate_spellcasting: ~
-    languages: ['Common', 'Infernal']
+    innatemagic: ~
+    languages:
+      - Common
+      - Infernal
     proficiency:
       armors: []
       tools: []
@@ -595,7 +598,7 @@ races:
         modifier: 2d4
     resistances: [Fire]
     size: Medium
-    skills: ~
+    skills: []
     speed: 30
     traits:
       - Darkvision
@@ -606,8 +609,10 @@ races:
       Constitution: 1
       Strength: 1
     darkvision: ~
-    innate_spellcasting: ~
-    languages: ['Common', 'Primordial']
+    innatemagic: ~
+    languages:
+      - Common
+      - Primordial
     proficiency:
       armors: []
       tools: []
@@ -621,7 +626,7 @@ races:
         modifier: 2d4
     resistances: []
     size: Medium
-    skills: ~
+    skills: []
     speed: 30
     traits:
       - Amphibious
@@ -633,8 +638,13 @@ races:
       Charisma: 2
       Intelligence: 1
     darkvision: 60
-    innate_spellcasting: [[0, Poison Spray], [1, Animal Friendship (Snakes only)], [3, Suggestion]]
-    languages: ['Abyssal', 'Common', 'Draconic']
+    innatemagic:
+      1: [Animal Friendship (Snakes only), Poison Spray]
+      3: [Suggestion]
+    languages:
+      - Abyssal
+      - Common
+      - Draconic
     proficiency:
       armors: []
       tools: []
@@ -648,7 +658,7 @@ races:
         modififer: 2d4
     resistances: []
     size: Medium
-    skills: ~
+    skills: []
     speed: 30
     traits:
       - Darkvision
