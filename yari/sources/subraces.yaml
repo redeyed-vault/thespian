@@ -4,7 +4,7 @@ subraces:
     bonus:
       Strength: 1
     darkvision: ~
-    innate_spellcasting: ~
+    innatemagic: ~
     languages: ~
     parent: Aasimar
     proficiency:
@@ -20,7 +20,7 @@ subraces:
     bonus:
       Wisdom: 1
     darkvision: ~
-    innate_spellcasting: ~
+    innatemagic: ~
     languages: ~
     parent: Aasimar
     proficiency:
@@ -36,7 +36,7 @@ subraces:
     bonus:
       Constitution: 1
     darkvision: ~
-    innate_spellcasting: ~
+    innatemagic: ~
     languages: ~
     parent: Aasimar
     proficiency:
@@ -53,7 +53,7 @@ subraces:
     bonus:
       Strength: 1
     darkvision: 120
-    innate_spellcasting:
+    innatemagic:
       3: [Enlarge/Reduce]
       5: [Invisibility]
     languages: ['Undercommon']
@@ -81,7 +81,7 @@ subraces:
     bonus:
       Wisdom: 1
     darkvision: ~
-    innate_spellcasting: ~
+    innatemagic: ~
     languages: ~
     parent: Dwarf
     proficiency:
@@ -103,7 +103,7 @@ subraces:
     bonus:
       Strength: 2
     darkvision: ~
-    innate_spellcasting: ~
+    innatemagic: ~
     languages: ~
     parent: Dwarf
     proficiency:
@@ -126,7 +126,7 @@ subraces:
     bonus:
       Charisma: 1
     darkvision: 120
-    innate_spellcasting:
+    innatemagic:
       1: [Dancing Lights]
       3: [Faerie Fire]
       5: [Darkness]
@@ -154,7 +154,7 @@ subraces:
     bonus:
       Intelligence: 1
     darkvision: ~
-    innate_spellcasting: ~
+    innatemagic: ~
     languages: ~
     parent: Elf
     proficiency:
@@ -177,7 +177,7 @@ subraces:
     bonus:
       Intelligence: 1
     darkvision: ~
-    innate_spellcasting:
+    innatemagic:
       - Acid Splash
       - Blade Ward
       - Chill Touch
@@ -234,7 +234,7 @@ subraces:
     bonus:
       Constitution: 1
     darkvision: ~
-    innate_spellcasting: ~
+    innatemagic: ~
     languages: ['Aquan']
     parent: Elf
     proficiency:
@@ -258,7 +258,7 @@ subraces:
     bonus:
       Constitution: 1
     darkvision: ~
-    innate_spellcasting: ~
+    innatemagic: ~
     languages: ~
     parent: Elf
     proficiency:
@@ -281,7 +281,7 @@ subraces:
     bonus:
       Wisdom: 1
     darkvision: ~
-    innate_spellcasting: ~
+    innatemagic: ~
     languages: ~
     parent: Elf
     proficiency:
@@ -306,7 +306,7 @@ subraces:
     bonus:
       Strength: 2
     darkvision: ~
-    innate_spellcasting:
+    innatemagic:
       1: [Mage Hand]
       3: [Jump]
       5: [Misty Step]
@@ -349,7 +349,7 @@ subraces:
     bonus:
       Wisdom: 2
     darkvision: ~
-    innate_spellcasting:
+    innatemagic:
       1: [Mage Hand]
       3: [Shield]
       5: [Detect Thoughts]
@@ -376,7 +376,7 @@ subraces:
     bonus:
       Dexterity: 1
     darkvision: 120
-    innate_spellcasting: ~
+    innatemagic: ~
     languages: ['Undercommon']
     parent: Gnome
     proficiency:
@@ -394,7 +394,7 @@ subraces:
     bonus:
       Dexterity: 1
     darkvision: ~
-    innate_spellcasting:
+    innatemagic:
       - Minor Illusion
     languages: ~
     parent: Gnome
@@ -412,7 +412,7 @@ subraces:
     bonus:
       Constitution: 1
     darkvision: ~
-    innate_spellcasting: ~
+    innatemagic: ~
     languages: ~
     parent: Gnome
     proficiency:
@@ -430,7 +430,7 @@ subraces:
     bonus:
       Charisma: 1
     darkvision: ~
-    innate_spellcasting: ~
+    innatemagic: ~
     languages: ~
     parent: Halfling
     proficiency:
@@ -446,7 +446,7 @@ subraces:
     bonus:
       Constitution: 1
     darkvision: ~
-    innate_spellcasting: ~
+    innatemagic: ~
     languages: ~
     parent: Halfling
     proficiency:
@@ -463,7 +463,7 @@ subraces:
     bonus:
       Intelligence: 1
     darkvision: ~
-    innate_spellcasting:
+    innatemagic:
       1: [Thaumaturgy]
       3: [Hellish Rebuke]
       5: [Darkness]
@@ -482,7 +482,7 @@ subraces:
     bonus:
       Intelligence: 1
     darkvision: ~
-    innate_spellcasting:
+    innatemagic:
       1: [Thaumaturgy]
       3: [Ray of Sickness]
       5: [Crown of Madness]
@@ -501,7 +501,7 @@ subraces:
     bonus:
       Dexterity: 1
     darkvision: ~
-    innate_spellcasting:
+    innatemagic:
       1: [Thaumaturgy]
       3: [Disguise]
       5: [Detect Thoughts]
@@ -520,7 +520,7 @@ subraces:
     bonus:
       Wisdom: 1
     darkvision: ~
-    innate_spellcasting:
+    innatemagic:
       1: [Friends]
       3: [Charm Person]
       5: [Suggestion]
@@ -539,7 +539,7 @@ subraces:
     bonus:
       Dexterity: 1
     darkvision: ~
-    innate_spellcasting:
+    innatemagic:
       1: [Minor Illusion]
       3: [Disguise Self]
       5: [Invisibility]
@@ -558,7 +558,7 @@ subraces:
     bonus:
       Constitution: 1
     darkvision: ~
-    innate_spellcasting:
+    innatemagic:
       1: [Ray of Frost]
       3: [Armor of Agathys]
       5: [Darkness]
@@ -577,7 +577,7 @@ subraces:
     bonus:
       Intelligence: 1
     darkvision: ~
-    innate_spellcasting:
+    innatemagic:
       1: [Mage Hand]
       3: [Tensor's Floating Disk]
       5: [Arcane Lock]
@@ -596,7 +596,7 @@ subraces:
     bonus:
       Intelligence: 1
     darkvision: ~
-    innate_spellcasting:
+    innatemagic:
       1: [Mage Hand]
       3: [Burning Hands]
       5: [Flame Blade]
@@ -615,7 +615,7 @@ subraces:
     bonus:
       Strength: 1
     darkvision: ~
-    innate_spellcasting:
+    innatemagic:
       1: [Thaumaturgy]
       3: [Searing]
       5: [Branding Smite]
