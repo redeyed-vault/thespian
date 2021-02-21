@@ -1,72 +1,72 @@
 subclasses:
   # Barbarian Paths
   Path of the Ancestral Guardian:
+    bonusmagic: ~
     features:
       3: ['Ancestral Protectors']
       6: ['Spirit Shield (2d6)']
       10: ['Consult the Spirits', 'Spirit Shield (3d6)']
       14: ['Vengeful Ancestors', 'Spirit Shield (4d6)']
     languages: ~
-    magic: ~
     proficiency: ~
     skills: ~
   Path of the Berserker:
+    bonusmagic: ~
     features:
       3: ['Frenzy']
       6: ['Mindless Rage']
       10: ['Intimidating Presence']
       14: ['Retaliation']
     languages: ~
-    magic: ~
     proficiency: ~
     skills: ~
   Path of the Storm Herald:
+    bonusmagic: ~
     features:
       3: ['Storm Aura']
       6: ['Storm Soul']
       10: ['Shielding Storm']
       14: ['Raging Storm']
     languages: ~
-    magic: ~
     proficiency: ~
     skills: ~
   Path of the Totem Warrior:
+    bonusmagic: ~
     features:
       3: ['Beast Sense', 'Speak with Animals', 'Totem Spirit']
       6: ['Aspect of the Beast']
       10: ['Spirit Walker']
       14: ['Totemic Attunement']
     languages: ~
-    magic: ~
     proficiency: ~
     skills: ~
   Path of the Zealot:
+    bonusmagic: ~
     features:
       3: ['Divine Fury', 'Warrior of the Gods']
       6: ['Fanatical Focus']
       10: ['Zealous Presence']
       14: ['Rage beyond Death']
     languages: ~
-    magic: ~
     proficiency: ~
     skills: ~
   # Bard Colleges
   College of Glamour:
+    bonusmagic: ~
     features:
       3: ['Enthralling Performance', 'Mantle of Inspiration']
       6: ['Mantle of Majesty']
       14: ['Unbreakable Majesty']
     languages: ~
-    magic: ~
     proficiency: ~
     skills: ~
   College of Lore:
+    bonusmagic: ~
     features:
       3: ['Cutting Words']
       6: ['Additional Magical Secrets']
       14: ['Peerless Skill']
     languages: ~
-    magic: ~
     proficiency: ~
     skills:
       - Acrobatics
@@ -88,38 +88,44 @@ subclasses:
       - Stealth
       - Survival
   College of Swords:
+    bonusmagic: ~
     features:
       3: ['Blade Flourish', 'Bonus Proficiencies', 'Fighting Style']
       6: ['Extra Attack']
       14: ["Master's Flourish"]
     languages: ~
-    magic: ~
     proficiency:
       armors: ['Medium']
       weapons: ['Scimitar']
     skills: ~
   College of Valor:
+    bonusmagic: ~
     features:
       3: ['Combat Inspiration']
       6: ['Extra Attack']
       14: ['Battle Magic']
     languages: ~
-    magic: ~
     proficiency:
       armors: ['Medium', 'Shield']
       weapons: ['Martial']
     skills: ~
   College of Whispers:
+    bonusmagic: ~
     features:
       3: ['Psychic Blades', 'Words of Terror']
       6: ['Mantle of Whispers']
       14: ['Shadow Lore']
     languages: ~
-    magic: ~
     proficiency: ~
     skills: ~
   # Cleric Domains
   Forge Domain:
+    bonusmagic:
+      1: ['Identify', 'Searing Smite']
+      3: ['Heat Metal', 'Magic Weapon']
+      5: ['Elemental Weapon', 'Protection From Energy']
+      7: ['Fabricate', 'Wall of Fire']
+      9: ['Animate Objects', 'Creation']
     features:
       1: ['Bonus Proficiencies', 'Blessing of the Forge']
       2: ["Channel Divinity - Artisan's Blessing"]
@@ -128,17 +134,17 @@ subclasses:
       14: ['Divine Strike (2d8)']
       17: ['Saint of Forge and Fire']
     languages: ~
-    magic:
-      1: ['Identify', 'Searing Smite']
-      3: ['Heat Metal', 'Magic Weapon']
-      5: ['Elemental Weapon', 'Protection From Energy']
-      7: ['Fabricate', 'Wall of Fire']
-      9: ['Animate Objects', 'Creation']
     proficiency:
       armors: ['Heavy']
       tools: ["Artisan's tools - Smith's tools"]
     skills: ~
   Grave Domain:
+    bonusmagic:
+      1: ['Bane', 'False Life']
+      3: ['Gentle Repose', 'Ray of Enfeeblement']
+      5: ['Revivify', 'Vampiric Touch']
+      7: ['Blight', 'Death Ward']
+      9: ['Antilife Shell', 'Raise Dead']
     features:
       1: ['Circle of Mortality', 'Eyes of the Grave']
       2: ['Channel Divinity - Path to the Grave']
@@ -146,15 +152,15 @@ subclasses:
       8: ['Potent Spellcasting']
       17: ['Keeper of Souls']
     languages: ~
-    magic:
-      1: ['Bane', 'False Life']
-      3: ['Gentle Repose', 'Ray of Enfeeblement']
-      5: ['Revivify', 'Vampiric Touch']
-      7: ['Blight', 'Death Ward']
-      9: ['Antilife Shell', 'Raise Dead']
     proficiency: ~
     skills: ~
   Knowledge Domain:
+    bonusmagic:
+      1: ['Command', 'Identify']
+      3: ['Augury', 'Suggestion']
+      5: ['Nondetection', 'Speak with Dead']
+      7: ['Arcane Eye', 'Confusion']
+      9: ['Legend Lore', 'Scrying']
     features:
       1: ['Blessings of Knowledge']
       2: ['Channel Divinity - Knowledge of the Ages']
@@ -162,15 +168,15 @@ subclasses:
       8: ['Potent Spellcasting']
       17: ['Visions of the Past']
     languages: ~
-    magic:
-      1: ['Command', 'Identify']
-      3: ['Augury', 'Suggestion']
-      5: ['Nondetection', 'Speak with Dead']
-      7: ['Arcane Eye', 'Confusion']
-      9: ['Legend Lore', 'Scrying']
     proficiency: ~
     skills: ~
   Life Domain:
+    bonusmagic:
+      1: ['Bless', 'Cure Wounds']
+      3: ['Lesser Restoration', 'Spiritual Weapon']
+      5: ['Beacon of Hope', 'Revivify']
+      7: ['Death Ward', 'Guardian of Faith']
+      9: ['Mass Cure Wounds', 'Raise Dead']
     features:
       1: ['Disciple of Life']
       3: ['Channel Divinity - Preserve Life']
@@ -178,16 +184,16 @@ subclasses:
       8: ['Divine Strike']
       17: ['Supreme Healing']
     languages: ~
-    magic:
-      1: ['Bless', 'Cure Wounds']
-      3: ['Lesser Restoration', 'Spiritual Weapon']
-      5: ['Beacon of Hope', 'Revivify']
-      7: ['Death Ward', 'Guardian of Faith']
-      9: ['Mass Cure Wounds', 'Raise Dead']
     proficiency:
       armors: ['Heavy']
     skills: ~
   Light Domain:
+    bonusmagic:
+      1: ['Burning Hands', 'Faerie Fire']
+      3: ['Flaming Sphere', 'Scorching Ray']
+      5: ['Daylight', 'Fireball']
+      7: ['Guardian of Faith', 'Wall of Fire']
+      9: ['Flame Strike', 'Raise Dead']
     features:
       1: ['Bonus Cantrip', 'Warding Flare']
       2: ['Channel Divinity - Radiance of the Dawn']
@@ -195,15 +201,15 @@ subclasses:
       8: ['Potent Spellcasting']
       17: ['Corona of Light']
     languages: ~
-    magic:
-      1: ['Burning Hands', 'Faerie Fire']
-      3: ['Flaming Sphere', 'Scorching Ray']
-      5: ['Daylight', 'Fireball']
-      7: ['Guardian of Faith', 'Wall of Fire']
-      9: ['Flame Strike', 'Raise Dead']
     proficiency: ~
     skills: ~
   Nature Domain:
+    bonusmagic:
+      1: ['Animal Friendship', 'Speak with Animals']
+      3: ['Barkskin', 'Spike Growth']
+      5: ['Plant Growth', 'Wind Wall']
+      7: ['Dominate Beast', 'Grasping Vine']
+      9: ['Insect Plague', 'Tree Stride']
     features:
       1: ['Acolyte of Nature']
       2: ['Channel Divinity - Charm Animals and Plants']
@@ -211,16 +217,16 @@ subclasses:
       8: ['Divine Strike']
       17: ['Master of Nature']
     languages: ~
-    magic:
-      1: ['Animal Friendship', 'Speak with Animals']
-      3: ['Barkskin', 'Spike Growth']
-      5: ['Plant Growth', 'Wind Wall']
-      7: ['Dominate Beast', 'Grasping Vine']
-      9: ['Insect Plague', 'Tree Stride']
     proficiency:
       armors: ['Heavy']
     skills: ~
   Tempest Domain:
+    bonusmagic:
+      1: ['Fog Cloud', 'Thunderwave']
+      3: ['Gust of Wind', 'Shatter']
+      5: ['Call Lightning', 'Sleet Storm']
+      7: ['Control Water', 'Ice Storm']
+      9: ['Destructive Wave', 'Insect Plague']
     features:
       1: ['Wrath of the Storm']
       2: ['Channel Divinity - Destructive Wrath']
@@ -228,17 +234,17 @@ subclasses:
       8: ['Divine Strike']
       17: ['Stormborn']
     languages: ~
-    magic:
-      1: ['Fog Cloud', 'Thunderwave']
-      3: ['Gust of Wind', 'Shatter']
-      5: ['Call Lightning', 'Sleet Storm']
-      7: ['Control Water', 'Ice Storm']
-      9: ['Destructive Wave', 'Insect Plague']
     proficiency:
       armors: ['Heavy']
       weapons: ['Martial']
     skills: ~
   Trickery Domain:
+    bonusmagic:
+      1: ['Charm Person', 'Disguise Self']
+      3: ['Mirror Image', 'Pass Without Trace']
+      5: ['Blink', 'Dispel Magic']
+      7: ['Dimension Door', 'Polymorph']
+      9: ['Dominate Person', 'Modify Memory']
     features:
       1: ['Blessing of the Trickster']
       2: ['Channel Divinity - Invoke Duplicity']
@@ -246,15 +252,15 @@ subclasses:
       8: ['Divine Strike']
       17: ['Improved Duplicity']
     languages: ~
-    magic:
-      1: ['Charm Person', 'Disguise Self']
-      3: ['Mirror Image', 'Pass Without Trace']
-      5: ['Blink', 'Dispel Magic']
-      7: ['Dimension Door', 'Polymorph']
-      9: ['Dominate Person', 'Modify Memory']
     proficiency: ~
     skills: ~
   War Domain:
+    bonusmagic:
+      1: ['Divine Favor', 'Shield of Faith']
+      3: ['Magic Weapon', 'Spiritual Weapon']
+      5: ["Crusader's Mantle", 'Spirit Guardians']
+      7: ['Freedom of Movement', 'Stoneskin']
+      9: ['Flame Strike', 'Hold Monster']
     features:
       1: ['War Priest']
       2: ['Channel Divinity - Guided Strike']
@@ -262,161 +268,156 @@ subclasses:
       8: ['Divine Strike']
       17: ['Avatar of Battle']
     languages: ~
-    magic:
-      1: ['Divine Favor', 'Shield of Faith']
-      3: ['Magic Weapon', 'Spiritual Weapon']
-      5: ["Crusader's Mantle", 'Spirit Guardians']
-      7: ['Freedom of Movement', 'Stoneskin']
-      9: ['Flame Strike', 'Hold Monster']
     proficiency:
       armors: ['Heavy']
       weapons: ['Martial']
     skills: ~
   # Druid Circles
   Circle of the Arctic:
-    features:
-      2: ['Bonus Cantrip', 'Natural Recovery']
-      6: ["Land's Stride"]
-      10: ["Nature's Ward"]
-      14: ["Nature's Sanctuary"]
-    languages: ~
-    magic:
+    bonusmagic:
       3: ['Hold Person', 'Spike Growth']
       5: ['Sleet Storm', 'Slow']
       7: ['Freedom of Movement', 'Ice Storm']
       9: ['Commune With Nature', 'Cone of Cold']
-    proficiency: ~
-    skills: ~
-  Circle of the Coast:
     features:
       2: ['Bonus Cantrip', 'Natural Recovery']
       6: ["Land's Stride"]
       10: ["Nature's Ward"]
       14: ["Nature's Sanctuary"]
     languages: ~
-    magic:
+    proficiency: ~
+    skills: ~
+  Circle of the Coast:
+    bonusmagic:
       3: ['Mirror Image', 'Misty Step']
       5: ['Water Breathing', 'Water Walk']
       7: ['Control Water', 'Freedom of Movement']
       9: ['Conjure Elemental', 'Scrying']
-    proficiency: ~
-    skills: ~
-  Circle of the Desert:
     features:
       2: ['Bonus Cantrip', 'Natural Recovery']
       6: ["Land's Stride"]
       10: ["Nature's Ward"]
       14: ["Nature's Sanctuary"]
     languages: ~
-    magic:
+    proficiency: ~
+    skills: ~
+  Circle of the Desert:
+    bonusmagic:
       3: ['Blur', 'Silence']
       5: ['Create Food and Water', 'Protection From Energy']
       7: ['Blight', 'Hallucinatory Terrain']
       9: ['Insect Plague', 'Wall of Stone']
+    features:
+      2: ['Bonus Cantrip', 'Natural Recovery']
+      6: ["Land's Stride"]
+      10: ["Nature's Ward"]
+      14: ["Nature's Sanctuary"]
+    languages: ~
     proficiency: ~
     skills: ~
   Circle of the Dreams:
+    bonusmagic: ~
     features:
       2: ['Balm of the Summer Court']
       6: ['Hearth of Moonlight and Shadow']
       10: ['Hidden Paths']
       14: ['Walker in Dreams']
     languages: ~
-    magic: ~
     proficiency: ~
     skills: ~
   Circle of the Forest:
-    features:
-      2: ['Bonus Cantrip', 'Natural Recovery']
-      6: ["Land's Stride"]
-      10: ["Nature's Ward"]
-      14: ["Nature's Sanctuary"]
-    languages: ~
-    magic:
+    bonusmagic:
       3: ['Barkskin', 'Spider Climb']
       5: ['Call Lightning', 'Plant Growth']
       7: ['Divination', 'Freedom of Movement']
       9: ['Commune With Nature', 'Tree Stride']
-    proficiency: ~
-    skills: ~
-  Circle of the Grassland:
     features:
       2: ['Bonus Cantrip', 'Natural Recovery']
       6: ["Land's Stride"]
       10: ["Nature's Ward"]
       14: ["Nature's Sanctuary"]
     languages: ~
-    magic:
+    proficiency: ~
+    skills: ~
+  Circle of the Grassland:
+    bonusmagic:
       3: ['Invisibility', 'Pass Without Trace']
       5: ['Daylight', 'Haste']
       7: ['Divination', 'Freedom of Movement']
       9: ['Dream', 'Insect Plague']
+    features:
+      2: ['Bonus Cantrip', 'Natural Recovery']
+      6: ["Land's Stride"]
+      10: ["Nature's Ward"]
+      14: ["Nature's Sanctuary"]
+    languages: ~
     proficiency: ~
     skills: ~
   Circle of the Moon:
+    bonusmagic: ~
     features:
       2: ['Circle Forms', 'Combat Wild Shape']
       6: ['Primal Strike']
       10: ['Elemental Wild Shape']
       14: ['Thousand Forms']
     languages: ~
-    magic: ~
     proficiency: ~
     skills: ~
   Circle of the Mountain:
+    bonusmagic:
+      3: ['Spider Climb', 'Spike Growth']
+      5: ['Lightning Bolt', 'Meld Into Stone']
+      7: ['Stone Shape', 'Stoneskin']
+      9: ['Passwall', 'Wall of Stone']
     features:
       2: ['Bonus Cantrip', 'Natural Recovery']
       6: ["Land's Stride"]
       10: ["Nature's Ward"]
       14: ["Nature's Sanctuary"]
     languages: ~
-    magic:
-      3: ['Spider Climb', 'Spike Growth']
-      5: ['Lightning Bolt', 'Meld Into Stone']
-      7: ['Stone Shape', 'Stoneskin']
-      9: ['Passwall', 'Wall of Stone']
     proficiency: ~
     skills: ~
   Circle of the Shepherd:
+    bonusmagic: ~
     features:
       2: ['Speech of the Woods', 'Spirit Totem']
       6: ['Mighty Summoner']
       10: ['Guardian Spirit']
       14: ['Faithful Summons']
     languages: ~
-    magic: ~
     proficiency: ~
     skills: ~
   Circle of the Swamp:
-    features:
-      2: ['Bonus Cantrip', 'Natural Recovery']
-      6: ["Land's Stride"]
-      10: ["Nature's Ward"]
-      14: ["Nature's Sanctuary"]
-    languages: ~
-    magic:
+    bonusmagic:
       3: ['Darkness', "Melf's Acid Arrow"]
       5: ['Water Walk', 'Stinking Cloud']
       7: ['Freedom of Movement', 'Locate Creature']
       9: ['Insect Plague', 'Scrying']
-    proficiency: ~
-    skills: ~
-  Circle of the Underdark:
     features:
       2: ['Bonus Cantrip', 'Natural Recovery']
       6: ["Land's Stride"]
       10: ["Nature's Ward"]
       14: ["Nature's Sanctuary"]
     languages: ~
-    magic:
+    proficiency: ~
+    skills: ~
+  Circle of the Underdark:
+    bonusmagic:
       3: ['Spider Climb', 'Web']
       5: ['Gaseous Form', 'Stinking Cloud']
       7: ['Greater Invisibility', 'Stone Shape']
       9: ['Cloudkill', 'Insect Plague']
+    features:
+      2: ['Bonus Cantrip', 'Natural Recovery']
+      6: ["Land's Stride"]
+      10: ["Nature's Ward"]
+      14: ["Nature's Sanctuary"]
+    languages: ~
     proficiency: ~
     skills: ~
   # Fighter Archetypes
   Arcane Archer:
+    bonusmagic: ~
     features:
       3: ['Arcane Archer Lore', 'Arcane Shot (2 options)']
       7: ['Curving Shot', 'Magic Arrow', 'Arcane Shot (3 options)']
@@ -424,20 +425,20 @@ subclasses:
       15: ['Ever-Ready Shot', 'Arcane Shot (5 options)']
       18: ['Arcane Shot (6 options, improved shots)']
     languages: ~
-    magic: ~
     proficiency: ~
     skills: ~
   Battle Master:
+    bonusmagic: ~
     features:
       3: ['Combat Superiority', 'Student of War']
       7: ['Know Your Enemy']
       10: ['Improved Combat Superiority']
       15: ['Relentless']
     languages: ~
-    magic: ~
     proficiency: ~
     skills: ~
   Cavalier:
+    bonusmagic: ~
     features:
       3: ['Bonus Proficiency', 'Born to the Saddle', 'Unwavering Mark']
       7: ['Warding Maneuver']
@@ -445,10 +446,10 @@ subclasses:
       15: ['Ferocious Charger']
       18: ['Vigilant Defender']
     languages: ~
-    magic: ~
     proficiency: ~
     skills: ['Animal Handling', 'History', 'Insight', 'Performance', 'Persuasion']
   Champion:
+    bonusmagic: ~
     features:
       3: ['Improved Critical']
       7: ['Remarkable Athlete']
@@ -456,10 +457,10 @@ subclasses:
       15: ['Superior Critical']
       18: ['Survivor']
     languages: ~
-    magic: ~
     proficiency: ~
     skills: ~
   Eldritch Knight:
+    bonusmagic: ~
     features:
       3: ['Spellcasting', 'Weapon Bond']
       7: ['War Magic']
@@ -467,10 +468,10 @@ subclasses:
       15: ['Arcane Charge']
       18: ['Improved War Magic']
     languages: ~
-    magic: ~
     proficiency: ~
     skills: ~
   Samurai:
+    bonusmagic: ~
     features:
       3: ['Bonus Proficiency', 'Fighting Spirit (5 temp. hp)']
       7: ['Elegant Courtier']
@@ -493,30 +494,30 @@ subclasses:
       - Primordial
       - Sylvan
       - Undercommon
-    magic: ~
     proficiency: ~
     skills: ['History', 'Insight', 'Performance', 'Persuasion']
   # Monk Traditions
   Way of Shadow:
+    bonusmagic: ~
     features:
       3: ['Shadow Arts']
       6: ['Shadow Step']
       11: ['Cloak of Shadows']
       17: ['Opportunist']
     languages: ~
-    magic: ~
     proficiency: ~
   Way of the Drunken Master:
+    bonusmagic: ~
     features:
       3: ['Bonus Proficiencies', 'Drunken Technique']
       6: ['Tipsy Sway']
       11: ["Drunkard's Luck"]
       17: ['Intoxicated Frenzy']
     languages: ~
-    magic: ~
     proficiency: ~
     skills: ['Performance']
   Way of the Four Elements:
+    bonusmagic: ~
     features:
       3:
         - Disciple of the Elements
@@ -532,56 +533,61 @@ subclasses:
       11: ['Eternal Mountain Defense', 'Flames of the Phoenix', 'Mist Stance', 'Ride the Wind']
       17: ['Breath of Winter', 'River of Hungry Flame', 'Wave of Rolling Earth']
     languages: ~
-    magic: ~
     proficiency: ~
     skills: ~
   Way of the Kensei:
+    bonusmagic: ~
     features:
       3: ['Path of the Kensei (2 weapons)']
       6: ['One with the Blade', 'Path of the Kensei (3 weapons)']
       11: ['Sharpen the Blade', 'Path of the Kensei (4 weapons)']
       17: ['Unerring Accuracy', 'Path of the Kensei (5 weapons)']
     languages: ~
-    magic: ~
     proficiency: ~
     skills: ~
   Way of the Open Hand:
+    bonusmagic: ~
     features:
       3: ['Open Hand Technique']
       6: ['Wholeness of Body']
       11: ['Tranquility']
       17: ['Quivering Palm']
     languages: ~
-    magic: ~
     proficiency: ~
     skills: ~
   Way of the Sun Soul:
+    bonusmagic: ~
     features:
       3: ['Radiant Sun Bolt']
       6: ['Searing Arc Strike']
       11: ['Searing Sunburst']
       17: ['Sun Shield']
     languages: ~
-    magic: ~
     proficiency: ~
     skills: ~
   # Paladin Oaths
   Oath of the Ancients:
+    bonusmagic:
+      3: ['Ensnaring Strike', 'Speak With Animals']
+      5: ['Moonbeam', 'Misty Step']
+      9: ['Plant Growth', 'Protection From Energy']
+      13: ['Ice Storm', 'Stoneskin']
+      17: ['Commune With Nature', 'Tree Stride']
     features:
       3: ["Channel Divinity - Nature's Wrath", 'Turn the Faithless']
       7: ['Aura of Warding']
       15: ['Undying Sentinel']
       20: ['Elder Champion']
     languages: ~
-    magic:
-      3: ['Ensnaring Strike', 'Speak With Animals']
-      5: ['Moonbeam', 'Misty Step']
-      9: ['Plant Growth', 'Protection From Energy']
-      13: ['Ice Storm', 'Stoneskin']
-      17: ['Commune With Nature', 'Tree Stride']
     proficiency: ~
     skills: ~
   Oath of Conquest:
+    bonusmagic:
+      3: ['Armor of Agathys', 'Command']
+      5: ['Hold Person', 'Spiritual Weapon']
+      9: ['Bestow Curse', 'Fear']
+      13: ['Dominate Beast', 'Stoneskin']
+      17: ['Cloudkill', 'Dominate Person']
     features:
       3: ['Channel Divinity - Conquering Presence', 'Channel Divinity - Guided Strike', 'Oath Spells']
       7: ['Aura of Conquest']
@@ -589,30 +595,30 @@ subclasses:
       18: ['Aura of Conquest']
       20: ['Invincible Conqueror']
     languages: ~
-    magic:
-      3: ['Armor of Agathys', 'Command']
-      5: ['Hold Person', 'Spiritual Weapon']
-      9: ['Bestow Curse', 'Fear']
-      13: ['Dominate Beast', 'Stoneskin']
-      17: ['Cloudkill', 'Dominate Person']
     proficiency: ~
     skills: ~
   Oath of Devotion:
+    bonusmagic:
+      3: ['Protected From Evil and Good', 'Sanctuary']
+      5: ['Lesser Restoration', 'Zone of Truth']
+      9: ['Beacon of Hope', 'Dispel Magic']
+      13: ['Freedom of Movement', 'Guardian of Faith']
+      17: ['Commune', 'Flame Strike']
     features:
       3: ['Channel Divinity - Sacred Weapon', 'Channel Divinity - Turn the Unholy']
       6: ['Aura of Devotion']
       15: ['Purity of Spirit']
       20: ['Holy Nimbus']
     languages: ~
-    magic:
-      3: ['Protected From Evil and Good', 'Sanctuary']
-      5: ['Lesser Restoration', 'Zone of Truth']
-      9: ['Beacon of Hope', 'Dispel Magic']
-      13: ['Freedom of Movement', 'Guardian of Faith']
-      17: ['Commune', 'Flame Strike']
     proficiency: ~
     skills: ~
   Oath of Redemption:
+    bonusmagic:
+      3: ['Sanctuary', 'Sleep']
+      5: ['Calm Emotions', 'Hold Person']
+      9: ['Counterspell', 'Hypnotic Pattern']
+      13: ["Otiluke's Resilience Sphere", 'Stoneskin']
+      17: ['Hold Monster', 'Wall of Force']
     features:
       3: ['Channel Divinity - Emissary of Peace', 'Channel Divinity - Rebuke the Violent', 'Oath Spells']
       7: ['Aura of the Guardian (10 ft.)']
@@ -620,194 +626,189 @@ subclasses:
       18: ['Aura of the Guardian (30 ft.)']
       20: ['Emissary of Redemption']
     languages: ~
-    magic:
-      3: ['Sanctuary', 'Sleep']
-      5: ['Calm Emotions', 'Hold Person']
-      9: ['Counterspell', 'Hypnotic Pattern']
-      13: ["Otiluke's Resilience Sphere", 'Stoneskin']
-      17: ['Hold Monster', 'Wall of Force']
     proficiency: ~
     skills: ~
   Oath of Vengeance:
+    bonusmagic:
+      3: ['Bane', "Hunter's Mark"]
+      5: ['Hold Person', 'Misty Step']
+      9: ['Haste', 'Protection From Energy']
+      13: ['Banishment', 'Dimension Door']
+      17: ['Hold Monster', 'Scrying']
     features:
       3: ['Channel Divinity - Abjure Enemy', 'Channel Divinity - Vow of Enmity']
       7: ['Relentless Avenger']
       15: ['Soul of Vengeance']
       20: ['Avenging Angel']
     languages: ~
-    magic:
-      3: ['Bane', "Hunter's Mark"]
-      5: ['Hold Person', 'Misty Step']
-      9: ['Haste', 'Protection From Energy']
-      13: ['Banishment', 'Dimension Door']
-      17: ['Hold Monster', 'Scrying']
     proficiency: ~
     skills: ~
   # Ranger Archetypes
   Beast Master:
+    bonusmagic: ~
     features:
       3: ["Ranger's Companion"]
       7: ['Exceptional Training']
       11: ['Beastial Fury']
       15: ['Share Spells']
     languages: ~
-    magic: ~
     proficiency: ~
     skills: ~
   Gloom Stalker:
+    bonusmagic:
+      3: ['Disguise Self']
+      5: ['Rope Trick']
+      9: ['Fear']
+      13: ['Greater Invisibility']
+      17: ['Seeming']
     features:
       3: ['Dread Ambusher', 'Gloom Stalker Magic', 'Umbral Sight']
       7: ['Iron Mind']
       11: ["Stalker's Flurry"]
       15: ['Shadowy Dodge']
     languages: ~
-    magic:
-      3: ['Disguise Self']
-      5: ['Rope Trick']
-      9: ['Fear']
-      13: ['Greater Invisibility']
-      17: ['Seeming']
     proficiency: ~
     skills: ~
   Horizon Walker:
+    bonusmagic:
+      3: ['Protected From Evil and Good']
+      5: ['Misty Step']
+      9: ['Haste']
+      13: ['Banishment']
+      17: ['Teleportation Circle']
     features:
       3: ['Detect Portal', 'Horizon Walker Magic', 'Planar Warrior (1d8)']
       7: ['Etheral Step']
       11: ['Distant Strike', 'Planar Warrior (2d8)']
       15: ['Spectral Defense']
     languages: ~
-    magic:
-      3: ['Protected From Evil and Good']
-      5: ['Misty Step']
-      9: ['Haste']
-      13: ['Banishment']
-      17: ['Teleportation Circle']
     proficiency: ~
     skills: ~
   Hunter:
+    bonusmagic: ~
     features:
       3: ["Hunter's Prey"]
       7: ['Defensive Tactics']
       11: ['Multiattack']
       15: ["Superior Hunter's Defense"]
     languages: ~
-    magic: ~
     proficiency: ~
     skills: ~
   Monster Slayer:
+    bonusmagic:
+      3: ['Protected From Evil and Good']
+      5: ['Zone of Truth']
+      9: ['Magic Circle']
+      13: ['Banishment']
+      17: ['Hold Monster']
     features:
       3: ["Hunter's Sense", 'Monster Slayer Magic', "Slayer's Prey"]
       7: ['Supernatural Defense']
       11: ["Magic User's Nemesis"]
       15: ["Slayer's Counter"]
     languages: ~
-    magic:
-      3: ['Protected From Evil and Good']
-      5: ['Zone of Truth']
-      9: ['Magic Circle']
-      13: ['Banishment']
-      17: ['Hold Monster']
     proficiency: ~
     skills: ~
   # Rogue Archetypes
   Arcane Trickster:
+    bonusmagic: ~
     features:
       3: ['Mage Hand Legerdemain', 'Spellcasting']
       9: ['Magical Ambush']
       13: ['Versatile Trickster']
       17: ['Spell Thief']
     languages: ~
-    magic: ~
     proficiency: ~
     skills: ~
   Assassin:
+    bonusmagic: ~
     features:
       3: ['Assassinate']
       9: ['Infiltration Expertise']
       13: ['Impostor']
       17: ['Death Strike']
     languages: ~
-    magic: ~
     proficiency:
       tools: ['Disguise kit', "Poisoner's kit"]
     skills: ~
   Inquisitive:
+    bonusmagic: ~
     features:
       3: ['Ear for Deceit', 'Eye for Detail', 'Insightful Fighting']
       9: ['Steady Eye']
       13: ['Unerring Eye']
       17: ['Eye for Weakness']
     languages: ~
-    magic: ~
     proficiency: ~
     skills: ~
   Mastermind:
+    bonusmagic: ~
     features:
       3: ['Master of Intrigue', 'Master of Tactics']
       9: ['Insightful Manipulator']
       13: ['Misdirection']
       17: ['Soul of Deceit']
     languages: ~
-    magic: ~
     proficiency: ~
     skills: ~
   Scout:
+    bonusmagic: ~
     features:
       3: ['Skirmisher', 'Survivalist']
       9: ['Superior Mobility']
       13: ['Ambush Master']
       17: ['Sudden Strike']
     languages: ~
-    magic: ~
     proficiency: ~
     skills: ~
   Swashbuckler:
+    bonusmagic: ~
     features:
       3: ['Fancy Footwork', 'Rakish Audacity']
       9: ['Panache']
       13: ['Elegant Maneuver']
       17: ['Master Duelist']
     languages: ~
-    magic: ~
     proficiency: ~
     skills: ~
   Thief:
+    bonusmagic: ~
     features:
       3: ['Fast Hands', 'Second-Story Work']
       9: ['Supreme Sneak']
       13: ['Use Magic Device']
       17: ["Thief's Reflexes"]
     languages: ~
-    magic: ~
     proficiency: ~
     skills: ~
   # Sorcerer Origins
   Divine Soul:
+    bonusmagic:
+      'Good': ['Cure Wounds']
+      'Evil': ['Inflict Wounds']
+      'Law': ['Bless']
+      'Chaos': ['Bane']
+      'Neutrality': ['Protection From Evil and Good']
     features:
       3: ['Divine Magic', 'Favored by the Gods']
       6: ['Empowered Healing']
       14: ['Otherworldly Wings']
       18: ['Unearthly Recovery']
     languages: ~
-    magic:
-      'Good': ['Cure Wounds']
-      'Evil': ['Inflict Wounds']
-      'Law': ['Bless']
-      'Chaos': ['Bane']
-      'Neutrality': ['Protection From Evil and Good']
     proficiency: ~
     skills: ~
   Draconic Bloodline:
+    bonusmagic: ~
     features:
       1: ['Draconic Resilience', 'Dragon Ancestor']
       6: ['Elemental Affinity']
       14: ['Dragon Wings']
       18: ['Draconic Presence']
     languages: ~
-    magic: ~
     proficiency: ~
     skills: ~
   Shadow Magic:
+    bonusmagic: ~
     features:
       1: ['Eyes of the Dark', 'Strength of the Grave']
       3: ['Eyes of the Dark (darkness)']
@@ -815,191 +816,190 @@ subclasses:
       14: ['Shadow Walk']
       18: ['Umbral Form']
     languages: ~
-    magic: ~
     proficiency: ~
     skills: ~
   Storm Sorcery:
+    bonusmagic: ~
     features:
       1: ['Wind Speaker', 'Tempestuous Magic']
       6: ['Heart of the Storm', 'Storm Guide']
       14: ["Storm's Fury"]
       18: ['Wind Soul']
     languages: ~
-    magic: ~
     proficiency: ~
     skills: ~
   Wild Magic:
+    bonusmagic: ~
     features:
       1: ['Tides of Chaos', 'Wild Magic Surge']
       6: ['Bend Luck']
       14: ['Controlled Chaos']
       18: ['Spell Bombardment']
     languages: ~
-    magic: ~
     proficiency: ~
     skills: ~
   # Warlock Pacts
   The Archfey:
+    bonusmagic:
+      1: ['Faerie Fire', 'Sleep']
+      2: ['Calm Emotions', 'Phantasmal Force']
+      3: ['Blink', 'Plant Growth']
+      4: ['Dominate Beast', 'Greater Invisibility']
+      5: ['Dominate Person', 'Seeming']
     features:
       1: ['Fey Presence']
       6: ['Misty Escape']
       10: ['Beguiling Defenses']
       14: ['Dark Delerium']
     languages: ~
-    magic:
-      1: ['Faerie Fire', 'Sleep']
-      2: ['Calm Emotions', 'Phantasmal Force']
-      3: ['Blink', 'Plant Growth']
-      4: ['Dominate Beast', 'Greater Invisibility']
-      5: ['Dominate Person', 'Seeming']
     proficiency: ~
     skills: ~
   The Celestial:
+    bonusmagic:
+      1: ['Cure Wounds', 'Guiding Bolt']
+      2: ['Flaming Sphere', 'Lesser Restoration']
+      3: ['Daylight', 'Revivify']
+      4: ['Guardian of Faith', 'Wall of Fire']
+      5: ['Flame Strike', 'Greater Restoration']
     features:
       1: ['Expanded Spell List', 'Bonus Cantrips', 'Healing Light']
       6: ['Radiant Soul']
       10: ['Celestial Resilience']
       14: ['Searing Vengeance']
     languages: ~
-    magic:
-      1: ['Cure Wounds', 'Guiding Bolt']
-      2: ['Flaming Sphere', 'Lesser Restoration']
-      3: ['Daylight', 'Revivify']
-      4: ['Guardian of Faith', 'Wall of Fire']
-      5: ['Flame Strike', 'Greater Restoration']
     proficiency: ~
     skills: ~
   The Fiend:
+    bonusmagic:
+      1: ['Burning Hands', 'Command']
+      2: ['Blindness/Deafness', 'Scorching Ray']
+      3: ['Fireball', 'Stinking Cloud']
+      4: ['Fire Shield', 'Wall of Fire']
+      5: ['Flame Strike', 'Hallow']
     features:
       1: ["Dark One's Blessing"]
       6: ["Dark One's Own Luck"]
       10: ['Fiendish Resilience']
       14: ['Hurl Through Hell']
     languages: ~
-    magic:
-      1: ['Burning Hands', 'Command']
-      2: ['Blindness/Deafness', 'Scorching Ray']
-      3: ['Fireball', 'Stinking Cloud']
-      4: ['Fire Shield', 'Wall of Fire']
-      5: ['Flame Strike', 'Hallow']
     proficiency: ~
     skills: ~
   The Great Old One:
+    bonusmagic:
+      1: ['Dissonant Whispers', "Tasha's Hideous Laughter"]
+      2: ['Detect Thoughts', 'Phantasmal Force']
+      3: ['Clairvoyance', 'Sending']
+      4: ['Dominate Beast', "Evard's Black Tentacles"]
+      5: ['Dominate Person', 'Telekinesis']
     features:
       1: ['Awakened Mind']
       6: ['Entropic Ward']
       10: ['Thought Shield']
       14: ['Create Thrall']
     languages: ~
-    magic:
-      1: ['Dissonant Whispers', "Tasha's Hideous Laughter"]
-      2: ['Detect Thoughts', 'Phantasmal Force']
-      3: ['Clairvoyance', 'Sending']
-      4: ['Dominate Beast', "Evard's Black Tentacles"]
-      5: ['Dominate Person', 'Telekinesis']
     proficiency: ~
     skills: ~
   The Hexblade:
+    bonusmagic:
+      1: ['Shield', 'Wrathful Smite']
+      2: ['Blur', 'Branding Smite']
+      3: ['Blink', 'Elemental Weapon']
+      4: ['Phantasmal Killer', 'Staggering Smite']
+      5: ['Banishing Smite', 'Cone of Cold']
     features:
       1: ['Expanded Spell List', "Hexblade's Curse", 'Hex Warrior']
       6: ['Accursed Specter']
       10: ['Armor of Hexes']
       14: ['Master of Hexes']
     languages: ~
-    magic:
-      1: ['Shield', 'Wrathful Smite']
-      2: ['Blur', 'Branding Smite']
-      3: ['Blink', 'Elemental Weapon']
-      4: ['Phantasmal Killer', 'Staggering Smite']
-      5: ['Banishing Smite', 'Cone of Cold']
     proficiency: ~
     skills: ~
   # Wizard Schools
   School of Abjuration:
+    bonusmagic: ~
     features:
       2: ['Abjuration Savant', 'Arcane Ward']
       6: ['Projected Ward']
       10: ['Improved Abjuration']
       14: ['Spell Resistance']
     languages: ~
-    magic: ~
     proficiency: ~
     skills: ~
   School of Conjuration:
+    bonusmagic: ~
     features:
       2: ['Conjuration Savant', 'Minor Conjuration']
       6: ['Benign Transposition']
       10: ['Focused Conjuration']
       14: ['Durable Summons']
     languages: ~
-    magic: ~
     proficiency: ~
   School of Divination:
+    bonusmagic: ~
     features:
       2: ['Divination Savant', 'Portent']
       6: ['Expert Divination']
       10: ['The Third Eye']
       14: ['Greater Portent']
     languages: ~
-    magic: ~
     proficiency: ~
     skills: ~
   School of Enchantment:
+    bonusmagic: ~
     features:
       2: ['Enchantment Savant', 'Hypnotic Gaze']
       6: ['Instinctive Charm']
       10: ['Split Enchantment']
       14: ['Alter Memories']
     languages: ~
-    magic: ~
     proficiency: ~
     skills: ~
   School of Evocation:
+    bonusmagic: ~
     features:
       2: ['Evocation Savant', 'Sculpt Spells']
       6: ['Potent Cantrip']
       10: ['Empowered Evocation']
       14: ['Overchannel']
     languages: ~
-    magic: ~
     proficiency: ~
   School of Illusion:
+    bonusmagic: ~
     features:
       2: ['Illusion Savant', 'Improved Minor Illusion']
       6: ['Malleable Illusions']
       10: ['Illusory Self']
       14: ['Illusory Reality']
     languages: ~
-    magic: ~
     proficiency: ~
     skills: ~
   School of Necromancy:
+    bonusmagic: ~
     features:
       2: ['Necromancy Savant', 'Grim Harvest']
       6: ['Undead Thralls']
       10: ['Inured to Undeath']
       14: ['Command Undead']
     languages: ~
-    magic: ~
     proficiency: ~
     skills: ~
   School of Transmutation:
+    bonusmagic: ~
     features:
       2: ['Transmutation Savant', 'Minor Alchemy']
       6: ["Transmuter's Stone"]
       10: ['Shapechanger']
       14: ['Master Transmuter']
     languages: ~
-    magic: ~
     proficiency: ~
     skills: ~
   War Magic:
+    bonusmagic: ~
     features:
       2: ['Arcane Deflection', 'Tactical Wit']
       6: ['Power Surge']
       10: ['Durable Magic']
       14: ['Deflecting Shroud']
     languages: ~
-    magic: ~
     proficiency: ~
     skills: ~
