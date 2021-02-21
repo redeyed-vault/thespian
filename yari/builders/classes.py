@@ -9,7 +9,6 @@ from .._utils import (
     get_language_by_class,
     get_proficiency_bonus,
     get_skills_by_subclass,
-    has_extended_magic,
     prompt,
 )
 from .._yaml import Load
@@ -65,15 +64,15 @@ class ClassBuilder:
         self.background = class_data.get("background")
         self.equipment = class_data.get("equipment")
         self.features = class_data.get("features")
-        self.hit_die = class_data.get("hit_die")
-        self.hit_points = None
+        self.hitdie = class_data.get("hit_die")
+        self.hitpoints = None
         self.proficiency_bonus = None
         self.languages = class_data.get("languages")
         self.armors = class_data.get("proficiency").get("armors")
         self.tools = class_data.get("proficiency").get("tools")
         self.weapons = class_data.get("proficiency").get("weapons")
         self.saving_throws = class_data.get("saving_throws")
-        self.magic_class = None
+        self.bonusmagic = None
         self.spell_slots = class_data.get("spell_slots")
         self.subclasses = class_data.get("subclasses")
 
@@ -92,40 +91,6 @@ class ClassBuilder:
             return '<{} class="{}" level="{}">'.format(
                 self.__class__.__name__, self.klass, self.level
             )
-
-    def _add_extended_magic(self) -> None:
-        """Adds extended magic spells (Domain, Warlock, etc)."""
-        self.magic_class = dict()
-
-        # If no extended magic available
-        if self.subclass == "" or not has_extended_magic(self.subclass):
-            return
-
-        extended_magic_list = dict()
-        # Only apply spells available at that level
-        for level, spells in Load.get_columns(
-            self.subclass, "magic", source_file="subclasses"
-        ).items():
-            if level <= self.level:
-                extended_magic_list[level] = tuple(spells)
-
-        self.magic_class = extended_magic_list
-
-    def _add_hit_die(self) -> None:
-        """
-        Generates hit die and point totals.
-
-        """
-        hit_die = int(self.hit_die)
-        self.hit_die = f"{self.level}d{hit_die}"
-        self.hit_points = hit_die
-        if self.level > 1:
-            new_level = self.level - 1
-            die_rolls = list()
-            for _ in range(0, new_level):
-                hp_result = int((hit_die / 2) + 1)
-                die_rolls.append(hp_result)
-            self.hit_points += sum(die_rolls)
 
     def _add_proficiencies(self) -> None:
         """
@@ -309,8 +274,8 @@ class ClassBuilder:
         equipment = class_equipment + background_equipment
         self.equipment = equipment
 
-        # Truncate class features to what is applicable to my level
-        self.features = {l:f for (l,f) in self.features.items() if l <= self.level}
+        # Truncate base class features by level
+        self.features = {x: y for (x, y) in self.features.items() if x <= self.level}
 
         # Merge class and subclass features by level (if applicable)
         if self.subclass != "":
@@ -333,14 +298,39 @@ class ClassBuilder:
                     feature_list.sort()
                     self.features[level_obtained] = feature_list
                 else:
-                    self.features[level_obtained] = subclass_features[
-                        level_obtained
-                    ]
+                    self.features[level_obtained] = subclass_features[level_obtained]
 
         # Convert each feature list by level to a tuple
-        self.features = {l:tuple(f) for (l,f) in self.features.items()}
-            
-        self._add_hit_die()
-        self._add_extended_magic()
+        self.features = {l: tuple(f) for (l, f) in self.features.items()}
+
+        # Calculate hit die/points
+        hit_die = int(self.hitdie)
+        self.hitdie = f"{self.level}d{hit_die}"
+        self.hitpoints = hit_die
+        if self.level > 1:
+            new_level = self.level - 1
+            die_rolls = list()
+            for _ in range(0, new_level):
+                hp_result = int((hit_die / 2) + 1)
+                die_rolls.append(hp_result)
+            self.hitpoints += sum(die_rolls)
+
+        # Adds extended magic spells (Domain, Warlock, etc)."""
+        if self.subclass == "":
+            self.bonusmagic = {}
+        else:
+            self.bonusmagic = Load.get_columns(
+                self.subclass, "bonusmagic", source_file="subclasses"
+            )
+            self.bonusmagic = {
+                x: y for (x, y) in self.bonusmagic.items() if x <= self.level
+            }
+            extended_magic_list = list()
+            for _, spells in self.bonusmagic.items():
+                for spell in spells:
+                    extended_magic_list.append(spell)
+            extended_magic_list.sort()
+            self.bonusmagic = extended_magic_list
+
         self._add_proficiencies()
         self._add_spell_slots()
