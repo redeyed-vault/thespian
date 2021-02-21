@@ -205,7 +205,17 @@ classes:
     proficiency:
       armors: ['Light', 'Medium', 'Shield']
       tools: ['Herbalism Kit']
-      weapons: ['Club', 'Dagger', 'Dart', 'Javelin', 'Mace', 'Quarterstaff', 'Scimitar', 'Sickle', 'Sling', 'Spear']
+      weapons:
+        - Club
+        - Dagger
+        - Dart
+        - Javelin
+        - Mace
+        - Quarterstaff
+        - Scimitar
+        - Sickle
+        - Sling
+        - Spear
     saving_throws: ['Intelligence', 'Wisdom']
     skills:
       - Animal Handling
@@ -689,7 +699,12 @@ classes:
     proficiency:
       armors: []
       tools: []
-      weapons: ['Dagger', 'Dart', 'Light Crossbow', 'Sling', 'Quarterstaff']
+      weapons:
+        - Dagger
+        - Dart
+        - Light Crossbow
+        - Sling
+        - Quarterstaff
     saving_throws: ['Intelligence', 'Wisdom']
     skills:
       - Arcana
