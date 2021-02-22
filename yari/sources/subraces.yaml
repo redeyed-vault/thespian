@@ -5,7 +5,7 @@ subraces:
       Strength: 1
     darkvision: ~
     innatemagic: ~
-    languages: ~
+    languages: []
     parent: Aasimar
     proficiency:
       armors: []
@@ -13,7 +13,7 @@ subraces:
       weapons: []
     ratio: ~
     resistances: []
-    skills: ~
+    skills: []
     traits:
       - [Necrotic Shroud, 3]
   Protector:
@@ -21,7 +21,7 @@ subraces:
       Wisdom: 1
     darkvision: ~
     innatemagic: ~
-    languages: ~
+    languages: []
     parent: Aasimar
     proficiency:
       armors: []
@@ -29,7 +29,7 @@ subraces:
       weapons: []
     ratio: ~
     resistances: []
-    skills: ~
+    skills: []
     traits:
       - [Radiant Soul, 3]
   Scourge:
@@ -37,7 +37,7 @@ subraces:
       Constitution: 1
     darkvision: ~
     innatemagic: ~
-    languages: ~
+    languages: []
     parent: Aasimar
     proficiency:
       armors: []
@@ -45,7 +45,7 @@ subraces:
       weapons: []
     ratio: ~
     resistances: []
-    skills: ~
+    skills: []
     traits:
       - [Radiant Consumption, 3]
   # Dwarf Subraces
@@ -70,7 +70,7 @@ subraces:
         base: 115
         modifier: 2d6
     resistances: [Charm, Illusion, Paralysis]
-    skills: ~
+    skills: []
     traits:
       - Duergar Magic
       - Duergar Resilience
@@ -82,7 +82,7 @@ subraces:
       Wisdom: 1
     darkvision: ~
     innatemagic: ~
-    languages: ~
+    languages: []
     parent: Dwarf
     proficiency:
       armors: []
@@ -96,7 +96,7 @@ subraces:
         base: 115
         modifier: 2d6
     resistances: []
-    skills: ~
+    skills: []
     traits:
       - Dwarven Toughness
   Mountain:
@@ -104,7 +104,7 @@ subraces:
       Strength: 2
     darkvision: ~
     innatemagic: ~
-    languages: ~
+    languages: []
     parent: Dwarf
     proficiency:
       armors: [Light, Medium]
@@ -118,7 +118,7 @@ subraces:
         base: 130
         modifier: 2d6
     resistances: []
-    skills: ~
+    skills: []
     traits:
       - Dwarven Armor Training
   # Elf Subraces
@@ -130,7 +130,7 @@ subraces:
       1: [Dancing Lights]
       3: [Faerie Fire]
       5: [Darkness]
-    languages: ~
+    languages: []
     parent: Elf
     proficiency:
       armors: []
@@ -144,7 +144,7 @@ subraces:
         base: 75
         modifier: 1d6
     resistances: []
-    skills: ~
+    skills: []
     traits:
       - Drow Magic
       - Drow Weapon Training
@@ -155,7 +155,7 @@ subraces:
       Intelligence: 1
     darkvision: ~
     innatemagic: ~
-    languages: ~
+    languages: []
     parent: Elf
     proficiency:
       armors: []
@@ -169,7 +169,7 @@ subraces:
         base: 90
         modifier: 1d4
     resistances: []
-    skills: ~
+    skills: []
     traits:
       - Elf Weapon Training
       - Fey Step
@@ -225,7 +225,7 @@ subraces:
         base: 90
         modifier: 1d4
     resistances: []
-    skills: ~
+    skills: []
     traits:
       - Cantrip
       - Elf Weapon Training
@@ -249,7 +249,7 @@ subraces:
         base: 90
         modifier: 1d4
     resistances: []
-    skills: ~
+    skills: []
     traits:
       - Child of the Sea
       - Friend of the Sea
@@ -259,7 +259,7 @@ subraces:
       Constitution: 1
     darkvision: ~
     innatemagic: ~
-    languages: ~
+    languages: []
     parent: Elf
     proficiency:
       armors: []
@@ -273,7 +273,7 @@ subraces:
         base: 90
         modifier: 1d4
     resistances: [Necrotic]
-    skills: ~
+    skills: []
     traits:
       - Blessing of the Raven Queen
       - Necrotic Resistance
@@ -282,7 +282,7 @@ subraces:
       Wisdom: 1
     darkvision: ~
     innatemagic: ~
-    languages: ~
+    languages: []
     parent: Elf
     proficiency:
       armors: []
@@ -296,7 +296,7 @@ subraces:
         base: 100
         modifier: 1d4
     resistances: []
-    skills: ~
+    skills: []
     traits:
       - Elf Weapon Training
       - Fleet of Foot
@@ -340,7 +340,7 @@ subraces:
         base: 100
         modifier: 2d4
     resistances: []
-    skills: ~
+    skills: []
     traits:
       - Decadent Mastery
       - Githyanki Psionics
@@ -353,7 +353,7 @@ subraces:
       1: [Mage Hand]
       3: [Shield]
       5: [Detect Thoughts]
-    languages: ~
+    languages: []
     parent: Gith
     proficiency:
       armors: []
@@ -367,7 +367,7 @@ subraces:
         base: 90
         modifier: 1d4
     resistances: [Charm, Fright]
-    skills: ~
+    skills: []
     traits:
       - Githzerai Psionics
       - Mental Discipline
@@ -385,7 +385,7 @@ subraces:
       weapons: []
     ratio: ~
     resistances: []
-    skills: ~
+    skills: []
     traits:
       - Extra Language
       - Superior Darkvision
@@ -396,7 +396,7 @@ subraces:
     darkvision: ~
     innatemagic:
       - Minor Illusion
-    languages: ~
+    languages: []
     parent: Gnome
     proficiency:
       armors: []
@@ -404,7 +404,7 @@ subraces:
       weapons: []
     ratio: ~
     resistances: []
-    skills: ~
+    skills: []
     traits:
       - Natural Illusionist
       - Speak with Small Beasts]
@@ -413,7 +413,7 @@ subraces:
       Constitution: 1
     darkvision: ~
     innatemagic: ~
-    languages: ~
+    languages: []
     parent: Gnome
     proficiency:
       armors: []
@@ -421,7 +421,7 @@ subraces:
       weapons: []
     ratio: ~
     resistances: []
-    skills: ~
+    skills: []
     traits:
       - Artificer's Lore
       - Tinker
@@ -431,7 +431,7 @@ subraces:
       Charisma: 1
     darkvision: ~
     innatemagic: ~
-    languages: ~
+    languages: []
     parent: Halfling
     proficiency:
       armors: []
@@ -439,7 +439,7 @@ subraces:
       weapons: []
     ratio: ~
     resistances: []
-    skills: ~
+    skills: []
     traits:
       - Naturally Stealthy
   Stout:
@@ -447,7 +447,7 @@ subraces:
       Constitution: 1
     darkvision: ~
     innatemagic: ~
-    languages: ~
+    languages: []
     parent: Halfling
     proficiency:
       armors: []
@@ -455,7 +455,7 @@ subraces:
       weapons: []
     ratio: ~
     resistances: [Poison]
-    skills: ~
+    skills: []
     traits:
       - Stout Resilience
   # Tiefling Subraces
@@ -467,7 +467,7 @@ subraces:
       1: [Thaumaturgy]
       3: [Hellish Rebuke]
       5: [Darkness]
-    languages: ~
+    languages: []
     parent: Tiefling
     proficiency:
       armors: []
@@ -475,7 +475,7 @@ subraces:
       weapons: []
     ratio: ~
     resistances: []
-    skills: ~
+    skills: []
     traits:
       - Infernal Legacy
   Baalzebul:
@@ -486,7 +486,7 @@ subraces:
       1: [Thaumaturgy]
       3: [Ray of Sickness]
       5: [Crown of Madness]
-    languages: ~
+    languages: []
     parent: Tiefling
     proficiency:
       armors: []
@@ -494,7 +494,7 @@ subraces:
       weapons: []
     ratio: ~
     resistances: []
-    skills: ~
+    skills: []
     traits:
       - Legacy of Maladomini
   Dispater:
@@ -505,7 +505,7 @@ subraces:
       1: [Thaumaturgy]
       3: [Disguise]
       5: [Detect Thoughts]
-    languages: ~
+    languages: []
     parent: Tiefling
     proficiency:
       armors: []
@@ -513,7 +513,7 @@ subraces:
       weapons: []
     ratio: ~
     resistances: []
-    skills: ~
+    skills: []
     traits:
       - Legacy of Dis
   Fierna:
@@ -524,7 +524,7 @@ subraces:
       1: [Friends]
       3: [Charm Person]
       5: [Suggestion]
-    languages: ~
+    languages: []
     parent: Tiefling
     proficiency:
       armors: []
@@ -532,7 +532,7 @@ subraces:
       weapons: []
     ratio: ~
     resistances: []
-    skills: ~
+    skills: []
     traits:
       - Legacy of Phlegethos
   Glasya:
@@ -543,7 +543,7 @@ subraces:
       1: [Minor Illusion]
       3: [Disguise Self]
       5: [Invisibility]
-    languages: ~
+    languages: []
     parent: Tiefling
     proficiency:
       armors: []
@@ -551,7 +551,7 @@ subraces:
       weapons: []
     ratio: ~
     resistances: []
-    skills: ~
+    skills: []
     traits:
       - Legacy of Malbolge
   Levistus:
@@ -562,7 +562,7 @@ subraces:
       1: [Ray of Frost]
       3: [Armor of Agathys]
       5: [Darkness]
-    languages: ~
+    languages: []
     parent: Tiefling
     proficiency:
       armors: []
@@ -570,7 +570,7 @@ subraces:
       weapons: []
     ratio: ~
     resistances: []
-    skills: ~
+    skills: []
     traits:
       - Legacy of Stygia
   Mammon:
@@ -581,7 +581,7 @@ subraces:
       1: [Mage Hand]
       3: [Tensor's Floating Disk]
       5: [Arcane Lock]
-    languages: ~
+    languages: []
     parent: Tiefling
     proficiency:
       armors: []
@@ -589,7 +589,7 @@ subraces:
       weapons: []
     ratio: ~
     resistances: []
-    skills: ~
+    skills: []
     traits:
       - Legacy of Minauros
   Mephistopheles:
@@ -600,7 +600,7 @@ subraces:
       1: [Mage Hand]
       3: [Burning Hands]
       5: [Flame Blade]
-    languages: ~
+    languages: []
     parent: Tiefling
     proficiency:
       armors: []
@@ -608,7 +608,7 @@ subraces:
       weapons: []
     ratio: ~
     resistances: []
-    skills: ~
+    skills: []
     traits:
       - Legacy of Cania
   Zariel:
@@ -619,7 +619,7 @@ subraces:
       1: [Thaumaturgy]
       3: [Searing]
       5: [Branding Smite]
-    languages: ~
+    languages: []
     parent: Tiefling
     proficiency:
       armors: []
@@ -627,6 +627,6 @@ subraces:
       weapons: []
     ratio: ~
     resistances: []
-    skills: ~
+    skills: []
     traits:
       - Legacy of Avernus
