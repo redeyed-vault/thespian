@@ -197,18 +197,21 @@ class YariBuilder:
         }
 
         if subclass != "":
-            subclass_proficiency_categories = Load.get_columns(
-                subclass, "proficiency", source_file="subclasses"
-            )
-            if subclass_proficiency_categories is not None:
-                for category in tuple(subclass_proficiency_categories.keys()):
-                    subclass_proficiencies = Load.get_columns(
-                        subclass, "proficiency", category, source_file="subclasses"
+            subclass_data = Load.get_columns(subclass, source_file="subclasses")
+            for feature, value in subclass_data.items():
+                if feature == "proficiency":
+                    subclass_proficiency_categories = Load.get_columns(
+                        subclass, feature, source_file="subclasses"
                     )
-                    proficiency_base = race_data["proficiency"][category]
-                    for proficiency in subclass_proficiencies:
-                        if proficiency not in proficiency_base:
-                            proficiency_base.append(proficiency)
+                    if subclass_proficiency_categories is not None:
+                        for category in tuple(subclass_proficiency_categories.keys()):
+                            subclass_proficiencies = Load.get_columns(
+                                subclass, "proficiency", category, source_file="subclasses"
+                            )
+                            proficiency_base = race_data["proficiency"][category]
+                            for proficiency in subclass_proficiencies:
+                                if proficiency not in proficiency_base:
+                                    proficiency_base.append(proficiency)
 
         skill_pool = class_data["skills"]
         skill_pool = [x for x in skill_pool if x not in race_data["skills"]]
