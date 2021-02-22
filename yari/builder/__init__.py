@@ -141,52 +141,60 @@ class YariBuilder:
                     for other in subrace_data.get(trait):
                         race_data[trait].append(other)
 
-            # Calculate height/weight
-            height_base = race_data.get("ratio").get("height").get("base")
-            height_modifier = race_data.get("ratio").get("height").get("modifier")
-            height_modifier = sum(list(roll(height_modifier)))
-            weight_base = race_data.get("ratio").get("weight").get("base")
-            weight_modifier = race_data.get("ratio").get("weight").get("modifier")
-            weight_modifier = sum(list(roll(weight_modifier)))
-            race_data["height"] = height_base + height_modifier
-            race_data["weight"] = (height_modifier * weight_modifier) + weight_base
-            del race_data["ratio"]
+        # Calculate height/weight
+        height_base = race_data.get("ratio").get("height").get("base")
+        height_modifier = race_data.get("ratio").get("height").get("modifier")
+        height_modifier = sum(list(roll(height_modifier)))
+        weight_base = race_data.get("ratio").get("weight").get("base")
+        weight_modifier = race_data.get("ratio").get("weight").get("modifier")
+        weight_modifier = sum(list(roll(weight_modifier)))
+        race_data["height"] = height_base + height_modifier
+        race_data["weight"] = (height_modifier * weight_modifier) + weight_base
+        del race_data["ratio"]
 
-            class_data = Load.get_columns(klass, source_file="classes")
-            if class_data is None:
-                raise Error(f"Cannot load class template for '{klass}'.")
+        class_data = Load.get_columns(klass, source_file="classes")
+        if class_data is None:
+            raise Error(f"Cannot load class template for '{klass}'.")
 
-            for category in (
-                "armors",
-                "tools",
-                "weapons",
-            ):
-                class_proficiency_list = class_data.get("proficiency").get(category)
-                if len(class_proficiency_list) < 2:
+        for category in (
+            "armors",
+            "tools",
+            "weapons",
+        ):
+            class_proficiency_list = class_data.get("proficiency").get(category)
+            if len(class_proficiency_list) < 2:
+                sample_count = None
+            else:
+                sample_count = class_proficiency_list[-1]
+                if not isinstance(sample_count, int):
                     sample_count = None
-                else:
-                    sample_count = class_proficiency_list[-1]
-                    if not isinstance(sample_count, int):
-                        sample_count = None
-                race_proficiency_list = race_data["proficiency"][category]
-                if sample_count is None:
-                    class_proficiency_list = [
-                        x
-                        for x in class_proficiency_list
-                        if x not in race_data["proficiency"][category]
-                    ]
-                    race_proficiency_list += class_proficiency_list
-                elif isinstance(sample_count, int):
-                    del class_proficiency_list[-1]
-                    class_proficiency_list = [
-                        x
-                        for x in class_proficiency_list
-                        if x not in race_data["proficiency"][category]
-                    ]
-                    sample_count = int(sample_count)
-                    race_proficiency_list += sample(
-                        class_proficiency_list, sample_count
-                    )
+            race_proficiency_list = race_data["proficiency"][category]
+            if sample_count is None:
+                class_proficiency_list = [
+                    x
+                    for x in class_proficiency_list
+                    if x not in race_data["proficiency"][category]
+                ]
+                race_proficiency_list += class_proficiency_list
+            elif isinstance(sample_count, int):
+                del class_proficiency_list[-1]
+                class_proficiency_list = [
+                    x
+                    for x in class_proficiency_list
+                    if x not in race_data["proficiency"][category]
+                ]
+                sample_count = int(sample_count)
+                race_proficiency_list += sample(class_proficiency_list, sample_count)
+
+        bonus_languages = get_language_by_class(klass)
+        if len(bonus_languages) != 0:
+            bonus_language = bonus_languages[0]
+            if bonus_language not in race_data["languages"]:
+                race_data["languages"].append(bonus_languages)
+
+        class_data["features"] = {
+            x: y for (x, y) in class_data["features"].items() if x <= level
+        }
 
         if subclass != "":
             subclass_proficiency_categories = Load.get_columns(
@@ -201,16 +209,6 @@ class YariBuilder:
                     for proficiency in subclass_proficiencies:
                         if proficiency not in proficiency_base:
                             proficiency_base.append(proficiency)
-
-        bonus_languages = get_language_by_class(klass)
-        if len(bonus_languages) != 0:
-            bonus_language = bonus_languages[0]
-            if bonus_language not in race_data["languages"]:
-                race_data["languages"].append(bonus_languages)
-
-        class_data["features"] = {
-            x: y for (x, y) in class_data["features"].items() if x <= level
-        }
 
         skill_pool = class_data["skills"]
         skill_pool = [x for x in skill_pool if x not in race_data["skills"]]
