@@ -7,6 +7,7 @@ from .._utils import (
     get_is_class,
     get_is_race,
     get_is_subclass,
+    get_language_by_class,
     get_proficiency_bonus,
     get_subraces_by_race,
     has_subraces,
@@ -95,29 +96,123 @@ class YariBuilder:
                     ):
                         race_data[trait] = subrace_darkvision
                 elif trait == "innatemagic":
-                    if race_data[trait] is None and subrace_data[trait] is not None:
-                        race_data[trait] = subrace_data[trait]
-                    elif race_data[trait] is not None:
-                        pass
+                    if race_data[trait] is None and subrace_data[trait] is None:
+                        race_data[trait] = list()
+                        continue
                     else:
-                        race_data[trait] = {}
-                    if len(race_data[trait]) > 0:
-                        race_data[trait] = {x: y for (x, y) in race_data[trait].items() if x <= level}
+                        if race_data[trait] is None and subrace_data[trait] is not None:
+                            race_data[trait] = subrace_data[trait]
+                        innate_spells = race_data[trait]
+                        if len(innate_spells) == 0:
+                            continue
+                        if isinstance(innate_spells, list):
+                            if len(innate_spells) >= 2:
+                                last_value = innate_spells[-1]
+                                if isinstance(last_value, int):
+                                    del innate_spells[-1]
+                                    race_data[trait] = sample(innate_spells, last_value)
+                        elif isinstance(innate_spells, dict):
+                            spell_list = list()
+                            innate_spells = {
+                                x: y
+                                for (x, y) in race_data[trait].items()
+                                if x <= level
+                            }
+                            for _, spells in innate_spells.items():
+                                for spell in spells:
+                                    spell_list.append(spell)
+                            race_data[trait] = spell_list
+                elif trait == "languages":
+                    race_data[trait] += subrace_data[trait]
                 elif trait == "proficiency":
                     subrace_proficiency_types = subrace_data[trait]
                     for category in tuple(subrace_proficiency_types.keys()):
                         subrace_proficiencies = subrace_proficiency_types.get(category)
                         race_data[trait][category] += subrace_proficiencies
+                elif trait == "skills":
+                    race_data[trait] += subrace_data[trait]
                 elif trait == "ratio":
                     if race_data[trait] is None:
                         subrace_ratio = subrace_data[trait]
                         race_data[trait] = subrace_ratio
                 elif trait == "resistances":
-                    added_resistances = subrace_data[trait]
-                    race_data[trait] += added_resistances
+                    race_data[trait] += subrace_data[trait]
                 elif trait == "traits":
                     for other in subrace_data.get(trait):
                         race_data[trait].append(other)
+
+            for category in (
+                "armors",
+                "tools",
+                "weapons",
+            ):
+                base_proficiency_list = Load.get_columns(
+                    klass, "proficiency", category, source_file="classes"
+                )
+                if len(base_proficiency_list) < 2:
+                    sample_count = None
+                else:
+                    sample_count = base_proficiency_list[-1]
+                    if not isinstance(sample_count, int):
+                        sample_count = None
+                base_proficiency_category = race_data["proficiency"][category]
+                if sample_count is None:
+                    base_proficiency_list = [
+                        x
+                        for x in base_proficiency_list
+                        if x not in race_data["proficiency"][category]
+                    ]
+                    base_proficiency_category += base_proficiency_list
+                elif isinstance(sample_count, int):
+                    del base_proficiency_list[-1]
+                    base_proficiency_list = [
+                        x
+                        for x in base_proficiency_list
+                        if x not in race_data["proficiency"][category]
+                    ]
+                    sample_count = int(sample_count)
+                    base_proficiency_category += sample(
+                        base_proficiency_list, sample_count
+                    )
+
+            if subclass != "":
+                subclass_proficiency_categories = Load.get_columns(
+                    subclass, "proficiency", source_file="subclasses"
+                )
+                if subclass_proficiency_categories is not None:
+                    for category in tuple(subclass_proficiency_categories.keys()):
+                        subclass_proficiencies = Load.get_columns(
+                            subclass, "proficiency", category, source_file="subclasses"
+                        )
+                        proficiency_base = race_data["proficiency"][category]
+                        for proficiency in subclass_proficiencies:
+                            if proficiency not in proficiency_base:
+                                proficiency_base.append(proficiency)
+
+            bonus_languages = get_language_by_class(klass)
+            if len(bonus_languages) != 0:
+                bonus_language = bonus_languages[0]
+                if bonus_language not in race_data["languages"]:
+                    race_data["languages"].append(bonus_languages)
+
+            '''
+            # Skills
+            # Set the skill groundwork.
+            skill_pool = self.skills
+            skills = list()
+
+            # Determine skill allotment by class.
+            if self.klass in ("Rogue",):
+                allotment = 4
+            elif self.klass in ("Bard", "Ranger"):
+                allotment = 3
+            else:
+                allotment = 2
+
+            # Select class skills based on starting count generated above
+            # Add class skills to skill list
+            skills = skills + sample(skill_pool, allotment)
+        '''
 
         # Calculate height/weight
         height_base = race_data.get("ratio").get("height").get("base")
@@ -156,9 +251,7 @@ class YariBuilder:
         self.savingthrows = class_data.get("saving_throws")
         self.sex = sex
         self.size = race_data.get("size")
-        self.skills = (
-            race_data.get("skills") is not None and race_data.get("skills") or list()
-        )
+        self.skills = race_data.get("skills")
         self.speed = race_data.get("speed")
         self.spell_slots = class_data.get("spell_slots")
         self.subclass = subclass
