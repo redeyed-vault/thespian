@@ -1,6 +1,6 @@
 from random import sample
 
-from .errors import Error
+from .._errors import Error
 from .._dice import roll
 from .._utils import (
     get_is_background,
@@ -13,10 +13,10 @@ from .._utils import (
     has_subraces,
     prompt,
 )
-from .._yaml import Load
+from yari.builder._yaml import Load
 
 
-class YariBuilder:
+class _YariBuilder:
     def __init__(
         self,
         race: str,
@@ -63,119 +63,43 @@ class YariBuilder:
         if level < 3:
             subclass = ""
 
-        race_data = Load.get_columns(race, source_file="races")
-        if race_data is None:
-            raise Error(f"Cannot load race template for '{race}'.")
+        self.klass = klass
+        self.level = level
+        self.race = race
+        self.sex = sex
+        self.subclass = subclass
+        self.subrace = subrace
 
-        racial_proficiencies = race_data.get("proficiency")
-        for category in racial_proficiencies:
-            base_proficiencies = racial_proficiencies.get(category)
-            if len(base_proficiencies) >= 2:
-                last_value = base_proficiencies[-1]
-                if isinstance(last_value, int):
-                    del base_proficiencies[-1]
-                    base_proficiencies = sample(base_proficiencies, last_value)
-            race_data["proficiency"][category] = base_proficiencies
+    @staticmethod
+    def _truncate_dict(dict_to_truncate: dict, level_ceiling: int):
+        return {x: y for (x, y) in dict_to_truncate.items() if x <= level_ceiling}
 
-        if subrace != "":
-            subrace_data = Load.get_columns(subrace, source_file="subraces")
-            if subrace_data is None:
-                raise Error(f"Cannot load subrace template for '{subrace}'.")
-            for trait, value in subrace_data.items():
-                if trait not in race_data:
-                    race_data[trait] = subrace_data[trait]
-                elif trait == "bonus":
-                    for ability, bonus in value.items():
-                        race_data[trait][ability] = bonus
-                elif trait == "darkvision":
-                    race_darkvision = race_data.get(trait)
-                    subrace_darkvision = subrace_data.get(trait)
-                    if (
-                        subrace_darkvision is not None
-                        and subrace_darkvision > race_darkvision
-                    ):
-                        race_data[trait] = subrace_darkvision
-                elif trait == "innatemagic":
-                    if race_data[trait] is None and subrace_data[trait] is None:
-                        race_data[trait] = list()
-                        continue
-                    else:
-                        if race_data[trait] is None and subrace_data[trait] is not None:
-                            race_data[trait] = subrace_data[trait]
-                        innate_spells = race_data[trait]
-                        if len(innate_spells) == 0:
-                            continue
-                        if isinstance(innate_spells, list):
-                            if len(innate_spells) >= 2:
-                                last_value = innate_spells[-1]
-                                if isinstance(last_value, int):
-                                    del innate_spells[-1]
-                                    race_data[trait] = sample(innate_spells, last_value)
-                        elif isinstance(innate_spells, dict):
-                            spell_list = list()
-                            innate_spells = {
-                                x: y
-                                for (x, y) in race_data[trait].items()
-                                if x <= level
-                            }
-                            for _, spells in innate_spells.items():
-                                for spell in spells:
-                                    spell_list.append(spell)
-                            race_data[trait] = spell_list
-                elif trait == "languages":
-                    race_data[trait] += subrace_data[trait]
-                elif trait == "proficiency":
-                    subrace_proficiency_types = subrace_data[trait]
-                    for category in tuple(subrace_proficiency_types.keys()):
-                        subrace_proficiencies = subrace_proficiency_types.get(category)
-                        race_data[trait][category] += subrace_proficiencies
-                elif trait == "skills":
-                    race_data[trait] += subrace_data[trait]
-                elif trait == "ratio":
-                    if race_data[trait] is None:
-                        subrace_ratio = subrace_data[trait]
-                        race_data[trait] = subrace_ratio
-                elif trait == "resistances":
-                    race_data[trait] += subrace_data[trait]
-                elif trait == "traits":
-                    for other in subrace_data.get(trait):
-                        race_data[trait].append(other)
-
-        # Calculate height/weight
-        height_base = race_data.get("ratio").get("height").get("base")
-        height_modifier = race_data.get("ratio").get("height").get("modifier")
-        height_modifier = sum(list(roll(height_modifier)))
-        weight_base = race_data.get("ratio").get("weight").get("base")
-        weight_modifier = race_data.get("ratio").get("weight").get("modifier")
-        weight_modifier = sum(list(roll(weight_modifier)))
-        race_data["height"] = height_base + height_modifier
-        race_data["weight"] = (height_modifier * weight_modifier) + weight_base
-        del race_data["ratio"]
-
-        class_data = Load.get_columns(klass, source_file="classes")
-        if class_data is None:
+    def _build_class(self, klass, subclass, level, race_data):
+        data = Load.get_columns(klass, source_file="classes")
+        if data is None:
             raise Error(f"Cannot load class template for '{klass}'.")
+
+        del data["subclasses"]
 
         for category in (
             "armors",
             "tools",
             "weapons",
         ):
-            class_proficiency_list = class_data.get("proficiency").get(category)
+            class_proficiency_list = data.get("proficiency").get(category)
             if len(class_proficiency_list) < 2:
                 sample_count = None
             else:
                 sample_count = class_proficiency_list[-1]
                 if not isinstance(sample_count, int):
                     sample_count = None
-            race_proficiency_list = race_data["proficiency"][category]
             if sample_count is None:
                 class_proficiency_list = [
                     x
                     for x in class_proficiency_list
                     if x not in race_data["proficiency"][category]
                 ]
-                race_proficiency_list += class_proficiency_list
+                data["proficiency"][category] = class_proficiency_list
             elif isinstance(sample_count, int):
                 del class_proficiency_list[-1]
                 class_proficiency_list = [
@@ -184,36 +108,78 @@ class YariBuilder:
                     if x not in race_data["proficiency"][category]
                 ]
                 sample_count = int(sample_count)
-                race_proficiency_list += sample(class_proficiency_list, sample_count)
+                data["proficiency"][category] = sample(class_proficiency_list, sample_count)
 
         bonus_languages = get_language_by_class(klass)
         if len(bonus_languages) != 0:
             bonus_language = bonus_languages[0]
-            if bonus_language not in race_data["languages"]:
-                race_data["languages"].append(bonus_languages)
+            if bonus_language not in data["languages"]:
+                data["languages"].append(bonus_languages)
 
-        class_data["features"] = {
-            x: y for (x, y) in class_data["features"].items() if x <= level
-        }
+        if (
+            data["spellslots"] is None
+            or self.klass in ("Fighter", "Rogue")
+            and self.subclass
+            not in (
+                "Arcane Trickster",
+                "Eldritch Knight",
+            )
+        ):
+            data["spellslots"] = "0"
+        else:
+            data["spellslots"] = data["spellslots"].get(self.level)
 
-        if subclass != "":
+        if subclass == "":
+            data["features"] = self._truncate_dict(data["features"], level)
+        else:
             subclass_data = Load.get_columns(subclass, source_file="subclasses")
             for feature, value in subclass_data.items():
-                if feature == "proficiency":
+                if feature == "bonusmagic":
+                    if subclass_data[feature] is None:
+                        data[feature] = list()
+                        continue
+                    bonus_magic = self._truncate_dict(subclass_data[feature], level)
+                    extended_spell_list = list()
+                    for spell_list in tuple(bonus_magic.values()):
+                        extended_spell_list += spell_list
+                    data[feature] = extended_spell_list
+                elif feature == "features":
+                    for level_obtained, feature_list in value.items():
+                        if level_obtained in data["features"]:
+                            data["features"][level_obtained] += feature_list
+                        else:
+                            data["features"][level_obtained] = feature_list
+                    data["features"] = self._truncate_dict(data["features"], level)
+                elif feature == "proficiency":
                     subclass_proficiency_categories = Load.get_columns(
                         subclass, feature, source_file="subclasses"
                     )
                     if subclass_proficiency_categories is not None:
                         for category in tuple(subclass_proficiency_categories.keys()):
                             subclass_proficiencies = Load.get_columns(
-                                subclass, "proficiency", category, source_file="subclasses"
+                                subclass,
+                                "proficiency",
+                                category,
+                                source_file="subclasses",
                             )
-                            proficiency_base = race_data["proficiency"][category]
+                            proficiency_base = data["proficiency"][category]
                             for proficiency in subclass_proficiencies:
                                 if proficiency not in proficiency_base:
                                     proficiency_base.append(proficiency)
 
-        skill_pool = class_data["skills"]
+        # Calculate hit die/points
+        hit_die = int(data["hit_die"])
+        data["hitdie"] = f"{self.level}d{hit_die}"
+        data["hitpoints"] = hit_die
+        if self.level > 1:
+            new_level = self.level - 1
+            die_rolls = list()
+            for _ in range(0, new_level):
+                hp_result = int((hit_die / 2) + 1)
+                die_rolls.append(hp_result)
+            data["hitpoints"] += sum(die_rolls)
+
+        skill_pool = data["skills"]
         skill_pool = [x for x in skill_pool if x not in race_data["skills"]]
         if klass in ("Rogue",):
             allotment = 4
@@ -221,40 +187,145 @@ class YariBuilder:
             allotment = 3
         else:
             allotment = 2
-        race_data["skills"] += sample(skill_pool, allotment)
+        data["skills"] = sample(skill_pool, allotment)
 
-        self.abilities = class_data.get("abilities")
+        return data
+
+    def _build_race(self, race, subrace, level):
+        data = Load.get_columns(race, source_file="races")
+        if data is None:
+            raise Error(f"Cannot load race template for '{race}'.")
+
+        racial_proficiencies = data.get("proficiency")
+        for category in racial_proficiencies:
+            base_proficiencies = racial_proficiencies.get(category)
+            if len(base_proficiencies) >= 2:
+                last_value = base_proficiencies[-1]
+                if isinstance(last_value, int):
+                    del base_proficiencies[-1]
+                    base_proficiencies = sample(base_proficiencies, last_value)
+            data["proficiency"][category] = base_proficiencies
+
+        if subrace != "":
+            subrace_data = Load.get_columns(subrace, source_file="subraces")
+            if subrace_data is None:
+                raise Error(f"Cannot load subrace template for '{subrace}'.")
+            for trait, value in subrace_data.items():
+                if trait not in data:
+                    data[trait] = subrace_data[trait]
+                elif trait == "bonus":
+                    for ability, bonus in value.items():
+                        data[trait][ability] = bonus
+                elif trait == "darkvision":
+                    race_darkvision = data.get(trait)
+                    subrace_darkvision = subrace_data.get(trait)
+                    if (
+                        subrace_darkvision is not None
+                        and subrace_darkvision > race_darkvision
+                    ):
+                        data[trait] = subrace_darkvision
+                elif trait == "innatemagic":
+                    if data[trait] is None and subrace_data[trait] is None:
+                        data[trait] = list()
+                        continue
+                    else:
+                        if data[trait] is None and subrace_data[trait] is not None:
+                            data[trait] = subrace_data[trait]
+                        innate_spells = data[trait]
+                        if len(innate_spells) == 0:
+                            continue
+                        if isinstance(innate_spells, list):
+                            if len(innate_spells) >= 2:
+                                last_value = innate_spells[-1]
+                                if isinstance(last_value, int):
+                                    del innate_spells[-1]
+                                    data[trait] = sample(innate_spells, last_value)
+                        elif isinstance(innate_spells, dict):
+                            spell_list = list()
+                            innate_spells = self._truncate_dict(data[trait], level)
+                            for _, spells in innate_spells.items():
+                                for spell in spells:
+                                    spell_list.append(spell)
+                            data[trait] = spell_list
+                elif trait == "languages":
+                    data[trait] += subrace_data[trait]
+                elif trait == "proficiency":
+                    subrace_proficiency_types = subrace_data[trait]
+                    for category in tuple(subrace_proficiency_types.keys()):
+                        subrace_proficiencies = subrace_proficiency_types.get(category)
+                        data[trait][category] += subrace_proficiencies
+                elif trait == "skills":
+                    data[trait] += subrace_data[trait]
+                elif trait == "ratio":
+                    if data[trait] is None:
+                        subrace_ratio = subrace_data[trait]
+                        data[trait] = subrace_ratio
+                elif trait == "resistances":
+                    data[trait] += subrace_data[trait]
+                elif trait == "traits":
+                    for other in subrace_data.get(trait):
+                        data[trait].append(other)
+
+        # Calculate height/weight
+        height_base = data.get("ratio").get("height").get("base")
+        height_modifier = data.get("ratio").get("height").get("modifier")
+        height_modifier = sum(list(roll(height_modifier)))
+        weight_base = data.get("ratio").get("weight").get("base")
+        weight_modifier = data.get("ratio").get("weight").get("modifier")
+        weight_modifier = sum(list(roll(weight_modifier)))
+        data["height"] = height_base + height_modifier
+        data["weight"] = (height_modifier * weight_modifier) + weight_base
+        del data["ratio"]
+
+        return data
+
+
+class Yari(_YariBuilder):
+    def __init__(
+        self,
+        race: str,
+        subrace: str,
+        klass: str,
+        subclass: str,
+        level: int = 1,
+        sex: str = "Female",
+        background: str = "",
+    ):
+        super(Yari, self).__init__(
+            race, subrace, klass, subclass, level, sex, background
+        )
+        rdata = self._build_race(self.race, self.subrace, self.level)
+        cdata = self._build_class(self.klass, self.subclass, self.level, rdata)
+        self.abilities = cdata.get("abilities")
         self.ancestor = None
-        self.armors = race_data.get("proficiency").get("armors")
-        self.background = class_data.get("background")
-        self.bonus = race_data.get("bonus")
-        self.bonusmagic = None
-        self.darkvision = race_data.get("darkvision")
-        self.equipment = class_data.get("equipment")
-        self.features = class_data.get("features")
-        self.height = race_data.get("height")
-        self.hitdie = class_data.get("hit_die")
-        self.hitpoints = None
-        self.innatemagic = race_data.get("innatemagic")
-        self.klass = klass
-        self.languages = race_data.get("languages")
-        self.level = level
-        self.proficiency_bonus = get_proficiency_bonus(self.level)
-        self.race = race
-        self.resistances = race_data.get("resistances")
-        self.savingthrows = class_data.get("saving_throws")
-        self.sex = sex
-        self.size = race_data.get("size")
-        self.skills = race_data.get("skills")
-        self.speed = race_data.get("speed")
-        self.spell_slots = class_data.get("spell_slots")
-        self.subclass = subclass
-        self.subclasses = class_data.get("subclasses")
-        self.subrace = subrace
-        self.tools = race_data.get("proficiency").get("tools")
-        self.traits = race_data.get("traits")
-        self.weapons = race_data.get("proficiency").get("weapons")
-        self.weight = race_data.get("weight")
+        self.armors = rdata.get("proficiency").get("armors") + cdata.get(
+            "proficiency"
+        ).get("armors")
+        self.bonus = rdata.get("bonus")
+        self.bonusmagic = cdata.get("bonusmagic")
+        self.darkvision = rdata.get("darkvision")
+        self.equipment = cdata.get("equipment")
+        self.features = cdata.get("features")
+        self.height = rdata.get("height")
+        self.hitdie = cdata.get("hit_die")
+        self.hitpoints = cdata.get("hitpoints")
+        self.innatemagic = rdata.get("innatemagic")
+        self.languages = rdata.get("languages")
+        self.proficiencybonus = get_proficiency_bonus(self.level)
+        self.resistances = rdata.get("resistances")
+        self.savingthrows = cdata.get("savingthrows")
+        self.size = rdata.get("size")
+        self.skills = cdata.get("skills")
+        self.speed = rdata.get("speed")
+        self.spellslots = cdata.get("spellslots")
+        self.tools = rdata.get("proficiency").get("tools") + cdata.get(
+            "proficiency"
+        ).get("tools")
+        self.traits = rdata.get("traits")
+        self.weapons = rdata.get("proficiency").get("weapons") + cdata.get(
+            "proficiency"
+        ).get("weapons")
+        self.weight = rdata.get("weight")
 
     def run(self):
         if "random" in self.bonus:

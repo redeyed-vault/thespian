@@ -27,7 +27,7 @@ classes:
       armors: ['Light', 'Medium', 'Shield']
       tools: []
       weapons: ['Simple', 'Martial']
-    saving_throws: ['Constitution', 'Strength']
+    savingthrows: ['Constitution', 'Strength']
     skills:
       - Animal Handling
       - Athletics
@@ -35,7 +35,7 @@ classes:
       - Nature 
       - Perception
       - Survival
-    spell_slots: ~
+    spellslots: ~
     subclasses:
       - Path of the Ancestral Guardian
       - Path of the Berserker
@@ -72,7 +72,7 @@ classes:
       armors: ['Light']
       tools: []
       weapons: ['Simple', 'Hand Crossbow', 'Longsword', 'Rapier', 'Shortsword']
-    saving_throws: ['Charisma', 'Dexterity']
+    savingthrows: ['Charisma', 'Dexterity']
     skills:
       - Acrobatics
       - Animal Handling
@@ -92,7 +92,7 @@ classes:
       - Sleight of Hand
       - Stealth
       - Survival
-    spell_slots:
+    spellslots:
       1: 2
       2: 3
       3: 4,2
@@ -146,14 +146,14 @@ classes:
       armors: ['Light', 'Medium', 'Shield']
       tools: []
       weapons: ['Simple']
-    saving_throws: ['Charisma', 'Wisdom']
+    savingthrows: ['Charisma', 'Wisdom']
     skills:
       - History
       - Insight
       - Medicine
       - Persuasion
       - Religion
-    spell_slots:
+    spellslots:
       1: 2
       2: 3
       3: 4,2
@@ -216,7 +216,7 @@ classes:
         - Sickle
         - Sling
         - Spear
-    saving_throws: ['Intelligence', 'Wisdom']
+    savingthrows: ['Intelligence', 'Wisdom']
     skills:
       - Animal Handling
       - Arcana
@@ -226,7 +226,7 @@ classes:
       - Perception
       - Religion
       - Survival
-    spell_slots:
+    spellslots:
       1: 2
       2: 3
       3: 4,2
@@ -286,7 +286,7 @@ classes:
       armors: ['Light', 'Medium', 'Heavy', 'Shield']
       tools: []
       weapons: ['Simple', 'Martial']
-    saving_throws: ['Constitution', 'Strength']
+    savingthrows: ['Constitution', 'Strength']
     skills:
       - Acrobatics
       - Animal Handling
@@ -296,7 +296,7 @@ classes:
       - Intimidation
       - Perception
       - Survival
-    spell_slots:
+    spellslots:
       3: 2
       4: 3
       5: 3
@@ -352,7 +352,7 @@ classes:
       armors: []
       tools: ["Artisan's tools - Alchemists supplies", "Artisan's tools - Brewer's supplies", "Artisan's tools - Calligrapher's supplies", "Artisan's tools - Carpenter's tools", "Artisan's tools - Cartographer's tools", "Artisan's tools - Cobbler's tools", "Artisan's tools - Cook's utensils", "Artisan's tools - Glassblower's tools", "Artisan's tools - Jeweler's tools", "Artisan's tools - Leatherworker's tools", "Artisan's tools - Mason's tools", "Artisan's tools - Painter's supplies", "Artisan's tools - Potter's tools", "Artisan's tools - Smith's tools", "Artisan's tools - Tinker's tools", "Artisan's tools - Weaver's tools", "Artisan's tools - Woodcarver's tools", "Musical instrument - Bagpipes", "Musical instrument - Drum", "Musical instrument - Dulcimer", "Musical instrument - Flute", "Musical instrument - Lute", "Musical instrument - Lyre", "Musical instrument - Horn", "Musical instrument - Pan flute", "Musical instrument - Shawm", "Musical instrument - Viol", 1]
       weapons: ['Simple', 'Shortsword']
-    saving_throws: ['Dexterity', 'Strength']
+    savingthrows: ['Dexterity', 'Strength']
     skills:
       - Acrobatics
       - Athletics
@@ -360,7 +360,7 @@ classes:
       - Insight
       - Religion
       - Stealth
-    spell_slots: ~
+    spellslots: ~
     subclasses:
       - Way of the Drunken Master
       - Way of the Four Elements
@@ -394,7 +394,7 @@ classes:
       armors: ['Light', 'Medium', 'Heavy', 'Shield']
       tools: []
       weapons: ['Simple', 'Martial']
-    saving_throws: ['Charisma', 'Wisdom']
+    savingthrows: ['Charisma', 'Wisdom']
     skills:
       - Athletics
       - Insight
@@ -402,7 +402,7 @@ classes:
       - Medicine
       - Persuasion
       - Religion
-    spell_slots:
+    spellslots:
       2: 2
       3: 3
       4: 3
@@ -455,7 +455,7 @@ classes:
       armors: ['Light', 'Medium', 'Shield']
       tools: []
       weapons: ['Simple', 'Martial']
-    saving_throws: ['Dexterity', 'Strength']
+    savingthrows: ['Dexterity', 'Strength']
     skills:
       - Animal Handling
       - Athletics
@@ -466,7 +466,7 @@ classes:
       - Sleight of Hand
       - Stealth
       - Survival
-    spell_slots:
+    spellslots:
       2: 2
       3: 3
       4: 3
@@ -520,7 +520,7 @@ classes:
       armors: ['Light']
       tools: ["Thieves' tools"]
       weapons: ['Simple', 'Hand Crossbow', 'Longsword', 'Rapier', 'Shortsword']
-    saving_throws: ['Dexterity', 'Intelligence']
+    savingthrows: ['Dexterity', 'Intelligence']
     skills:
       - Acrobatics
       - Athletics
@@ -533,7 +533,7 @@ classes:
       - Persuasion
       - Sleight of Hand
       - Stealth
-    spell_slots:
+    spellslots:
       3: 2
       4: 3
       5: 3
@@ -583,7 +583,7 @@ classes:
       armors: []
       tools: []
       weapons: ['Dagger', 'Dart', 'Light Crossbow', 'Sling', 'Quarterstaff']
-    saving_throws: ['Charisma', 'Constitution']
+    savingthrows: ['Charisma', 'Constitution']
     skills:
       - Arcana
       - Deception
@@ -591,7 +591,7 @@ classes:
       - Intimidation
       - Persuasion
       - Religion
-    spell_slots:
+    spellslots:
       1: 2
       2: 3
       3: 4,2
@@ -643,7 +643,7 @@ classes:
       armors: ['Light']
       tools: []
       weapons: ['Simple']
-    saving_throws: ['Charisma', 'Wisdom']
+    savingthrows: ['Charisma', 'Wisdom']
     skills:
       - Arcana
       - Deception
@@ -652,7 +652,7 @@ classes:
       - Investigation
       - Nature
       - Religion
-    spell_slots:
+    spellslots:
       1: 1
       2: 2
       3: 2
@@ -705,7 +705,7 @@ classes:
         - Light Crossbow
         - Sling
         - Quarterstaff
-    saving_throws: ['Intelligence', 'Wisdom']
+    savingthrows: ['Intelligence', 'Wisdom']
     skills:
       - Arcana
       - History
@@ -713,7 +713,7 @@ classes:
       - Investigation
       - Medicine
       - Religion
-    spell_slots:
+    spellslots:
       1: 2
       2: 3
       3: 4,2

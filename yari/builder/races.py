@@ -1,6 +1,6 @@
 from random import sample
 
-from .errors import Error
+from yari._errors import Error
 from .._dice import roll
 from .._utils import (
     get_is_race,
@@ -8,7 +8,7 @@ from .._utils import (
     has_subraces,
     prompt,
 )
-from .._yaml import Load
+from yari.builder._yaml import Load
 
 
 class RaceBuilder:

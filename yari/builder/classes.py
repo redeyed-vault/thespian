@@ -1,6 +1,6 @@
 from random import choice, sample
 
-from .errors import Error
+from yari._errors import Error
 from .._utils import (
     get_all_languages,
     get_is_background,
@@ -11,7 +11,7 @@ from .._utils import (
     get_skills_by_subclass,
     prompt,
 )
-from .._yaml import Load
+from yari.builder._yaml import Load
 
 
 class ClassBuilder:
