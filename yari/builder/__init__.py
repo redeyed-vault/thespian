@@ -1,19 +1,13 @@
 from random import sample
 
+from ._yaml import Load
 from .._errors import Error
 from .._dice import roll
 from .._utils import (
-    get_is_background,
-    get_is_class,
-    get_is_race,
-    get_is_subclass,
     get_language_by_class,
     get_proficiency_bonus,
-    get_subraces_by_race,
-    has_subraces,
     prompt,
 )
-from yari.builder._yaml import Load
 
 
 class _YariBuilder:
@@ -27,41 +21,10 @@ class _YariBuilder:
         sex: str = "Female",
         background: str = "",
     ):
-        if not get_is_race(race):
-            raise Error(f"Invalid race option specified '{race}'.")
-
-        if has_subraces(race):
-            if subrace == "":
-                raise Error(f"Subrace option not selected but '{race}' has subraces.")
-            allowed_subraces = [x for x in get_subraces_by_race(race)]
-            if subrace not in allowed_subraces:
-                raise Error(
-                    f"Value '{subrace}' is not a valid '{race}' subrace option."
-                )
-
-        if not get_is_class(klass):
-            raise Error(f"Invalid class option specified '{klass}'.")
-
-        if not get_is_subclass(subclass, klass):
-            raise Error(f"Subclass '{subclass}' is not a valid option for '{klass}'.")
-
-        if sex not in (
-            "Female",
-            "Male",
-        ):
-            raise Error(f"Value '{sex}' is not a valid gender option.")
-
-        if background != "" and not get_is_background(background):
-            raise Error(f"Character background '{background}' is invalid.")
-
-        if isinstance(level, int):
-            if not range(1, 21):
-                raise Error("Value 'level' must be between 1-20.")
-        else:
-            raise Error("Value must be of type 'integer'.")
-
         if level < 3:
             subclass = ""
+        if background == "":
+            background = Load.get_columns(klass, "background", source_file="classes")
 
         self.klass = klass
         self.level = level
@@ -69,6 +32,7 @@ class _YariBuilder:
         self.sex = sex
         self.subclass = subclass
         self.subrace = subrace
+        self.background = background
 
     @staticmethod
     def _truncate_dict(dict_to_truncate: dict, level_ceiling: int):
@@ -108,7 +72,9 @@ class _YariBuilder:
                     if x not in race_data["proficiency"][category]
                 ]
                 sample_count = int(sample_count)
-                data["proficiency"][category] = sample(class_proficiency_list, sample_count)
+                data["proficiency"][category] = sample(
+                    class_proficiency_list, sample_count
+                )
 
         bonus_languages = get_language_by_class(klass)
         if len(bonus_languages) != 0:
@@ -166,6 +132,9 @@ class _YariBuilder:
                             for proficiency in subclass_proficiencies:
                                 if proficiency not in proficiency_base:
                                     proficiency_base.append(proficiency)
+                elif feature == "skills":
+                    if len(subclass_data[feature]) == 1:
+                        data[feature] += subclass_data[feature]
 
         # Calculate hit die/points
         hit_die = int(data["hit_die"])
@@ -180,14 +149,22 @@ class _YariBuilder:
             data["hitpoints"] += sum(die_rolls)
 
         skill_pool = data["skills"]
-        skill_pool = [x for x in skill_pool if x not in race_data["skills"]]
+        background_skills = Load.get_columns(
+            self.background, "skills", source_file="backgrounds"
+        )
+        skill_pool = [
+            x
+            for x in skill_pool
+            if x not in race_data["skills"] and x not in background_skills
+        ]
         if klass in ("Rogue",):
             allotment = 4
         elif klass in ("Bard", "Ranger"):
             allotment = 3
         else:
             allotment = 2
-        data["skills"] = sample(skill_pool, allotment)
+        data["skills"] = background_skills
+        data["skills"] += sample(skill_pool, allotment)
 
         return data
 
@@ -328,6 +305,14 @@ class Yari(_YariBuilder):
         self.weight = rdata.get("weight")
 
     def run(self):
+        for rank, options in self.abilities.items():
+            if isinstance(options, list):
+                ability_options_list = "\n".join(options)
+                ability_choice = prompt(
+                    f"Choose your primary ability:\n\n{ability_options_list}\n\n>",
+                    options,
+                )
+                self.abilities[rank] = ability_choice
         if "random" in self.bonus:
             bonus_ability_count = self.bonus.get("random")
             del self.bonus["random"]

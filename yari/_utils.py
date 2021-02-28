@@ -1,7 +1,5 @@
 from math import ceil
 
-import click
-
 from yari.builder._yaml import Load
 
 
@@ -169,11 +167,11 @@ def has_subraces(race: str) -> bool:
         return False
 
 
-def prompt(message: str, options: (list, tuple, None) = None) -> str:
+def prompt(message: str, options: (list, tuple)) -> str:
     try:
-        user_prompt_value = click.prompt(message, type=str)
-        if user_prompt_value in options:
-            return user_prompt_value
+        user_value = str(input(f"{message} "))
+        if user_value in options:
+            return user_value
         else:
             raise ValueError
     except ValueError:
