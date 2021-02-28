@@ -133,7 +133,10 @@ class _YariBuilder:
                                 if proficiency not in proficiency_base:
                                     proficiency_base.append(proficiency)
                 elif feature == "skills":
-                    if len(subclass_data[feature]) == 1:
+                    bonus_skills = subclass_data[feature]
+                    if bonus_skills is None:
+                        continue
+                    if len(bonus_skills) == 1:
                         data[feature] += subclass_data[feature]
 
         # Calculate hit die/points
