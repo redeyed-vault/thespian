@@ -10,7 +10,7 @@ setup(
     name="yari",
     version=__version__,
     packages=find_packages(),
-    package_data={"yari": ["sources/*.yaml"]},
+    package_data={"yari": ["builder/sources/*.yaml"]},
     url="https://taylormarcus.github.io/Yari/",
     license="MIT",
     author="Marcus T Taylor",
@@ -20,7 +20,6 @@ setup(
     install_requires=[
         "aiohttp",
         "beautifulsoup4",
-        "click",
         "PyYAML",
     ],
     python_requires=">=3.0",
