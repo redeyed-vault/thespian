@@ -239,31 +239,6 @@ def main(
         out(str(error), 2)
 
 
-class ProficiencyGenerator:
-    """
-    Merges class with racial proficiencies (if applicable).
-
-    :param str proficiency_type: Proficiency type (armors|tools|weapons).
-    :param list class_proficiency: Class based proficiency by proficiency_type.
-    :param list race_proficiency: Race based proficiency by proficiency_type (if applicable).
-
-    """
-
-    def __init__(
-        self, proficiency_type: str, class_proficiency: list, race_proficiency: list
-    ) -> None:
-        if proficiency_type not in ("armors", "tools", "weapons"):
-            raise ValueError(
-                f"Invalid 'proficiency_type' argument '{proficiency_type}' specified."
-            )
-
-        race_proficiency = [p for p in race_proficiency if p not in class_proficiency]
-        if len(race_proficiency) != 0:
-            self.proficiency = class_proficiency + race_proficiency
-        else:
-            self.proficiency = class_proficiency
-
-
 def get_armor_chest():
     """Returns a full collection of armors."""
     armor_chest = dict()
@@ -294,7 +269,7 @@ def get_weapon_chest():
     yield weapon_chest
 
 
-class HTTPServer:
+class YariHTTP:
     def __init__(self, data: OrderedDict):
         self.data = data
         self.text: str = ""
