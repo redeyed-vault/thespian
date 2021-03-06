@@ -8,6 +8,7 @@ from .parser import Load
 from ..errors import Error
 from ..dice import roll
 from ..utils import (
+    get_character_feats,
     get_proficiency_bonus,
     prompt,
     truncate_dict,
@@ -373,25 +374,18 @@ class ImprovementGenerator:
     weapon_proficiency: list
     skills: list
     feats: list
-    upgrade_ratio: int
 
     def _add_feat(self) -> None:
         """Randomly selects and adds a valid feats."""
-        feats = [feat for feat in list(PC_FEATS) if feat not in self.feats]
-        shuffle(feats)
-        feat_choice = feats.pop()
-        out(f"Checking prerequisites for '{feat_choice}'...", -2)
-        # Keep choosing a feat until prerequisites met
-        if not self._has_required(feat_choice):
-            out(f"Prerequisites not met for '{feat_choice}'.", -1)
-            while not self._has_required(feat_choice):
-                shuffle(feats)
-                feat_choice = feats.pop()
-                out(f"Checking prerequisites for '{feat_choice}'...", -2)
-                if not self._has_required(feat_choice):
-                    out(f"Prerequisites not met for '{feat_choice}'.", -1)
-        # Prerequisites met, inform, add to list and apply features
-        out(f"Prerequisites met for '{feat_choice}'.")
+        feat_list = get_character_feats()
+        filtered_feat_options = [
+            x for x in feat_list if self._has_required(x) and x not in self.feats
+        ]
+        filtered_feat_list = "\n".join(filtered_feat_options)
+        feat_choice = prompt(
+            f"Choose a feat:\n\n{filtered_feat_list}\n\n>",
+            filtered_feat_options,
+        )
         self._add_feat_perks(feat_choice)
         self.feats.append(feat_choice)
 
@@ -610,35 +604,6 @@ class ImprovementGenerator:
             return True
         except ValueError:
             return False
-
-    def _get_upgrade_ratio(self, percentage: int) -> tuple:
-        """Returns an 'ability to feat' upgrade ration by percentage."""
-        if percentage not in range(0, 101):
-            raise ValueError("Argument 'percentage' value must be between 0-100.")
-        elif (percentage % 10) != 0:
-            raise ValueError("Argument 'percentage' value must be a multiple of 10.")
-        else:
-            num_of_upgrades = 0
-            for _ in range(1, self.level + 1):
-                if (_ % 4) == 0 and _ != 20:
-                    num_of_upgrades += 1
-
-            if self.klass == "Fighter" and self.level >= 6:
-                num_of_upgrades += 1
-
-            if self.klass == "Rogue" and self.level >= 8:
-                num_of_upgrades += 1
-
-            if self.klass == "Fighter" and self.level >= 14:
-                num_of_upgrades += 1
-
-            if self.level >= 19:
-                num_of_upgrades += 1
-
-            percentage = float(percentage)
-            ability_upgrades = floor(num_of_upgrades * percentage / 100.0)
-            feat_upgrades = num_of_upgrades - ability_upgrades
-            return ability_upgrades, feat_upgrades
 
     def _has_required(self, feat: str) -> bool:
         """
@@ -871,43 +836,37 @@ class ImprovementGenerator:
             traceback.print_exc()
 
     def upgrade(self):
-        """Runs character upgrades (if applicable)."""
-        # Determine and assign upgrades by ability/feat upgrade ratio.
-        upgrade_ratio = self._get_upgrade_ratio(self.upgrade_ratio)
-        if sum(upgrade_ratio) == 0:
+        """
+        Runs character upgrades (if applicable).
+
+        """
+        num_of_upgrades = 0
+        for x in range(1, self.level + 1):
+            if (x % 4) == 0 and x != 20:
+                num_of_upgrades += 1
+        if self.klass == "Fighter" and self.level >= 6:
+            num_of_upgrades += 1
+        if self.klass == "Rogue" and self.level >= 8:
+            num_of_upgrades += 1
+        if self.klass == "Fighter" and self.level >= 14:
+            num_of_upgrades += 1
+        if self.level >= 19:
+            num_of_upgrades += 1
+        if sum(num_of_upgrades) == 0:
             return
 
-        ability_upgrades = upgrade_ratio[0]
-        feat_upgrades = upgrade_ratio[1]
-
-        # Handle ability score upgrades
-        if ability_upgrades > 0:
-            primary_ability = list(self.primary_ability.values())
-            for _ in range(0, ability_upgrades):
-                try:
-                    if not self._is_adjustable(primary_ability):
-                        raise ValueError("No upgradeable primary abilities.")
-
-                    bonus_type = choice([1, 2])
-                    # +1 bonus two abilities
-                    if bonus_type == 1 and self._is_adjustable(primary_ability):
-                        self._set_ability_score(primary_ability)
-                    # +2 bonus one ability - 1st ability upgradeable
-                    elif bonus_type == 2 and self._is_adjustable(primary_ability[0]):
-                        self._set_ability_score([primary_ability[0]])
-                    # +2 bonus one ability - 1st ability not upgradeable, choose 2nd
-                    elif bonus_type == 2 and self._is_adjustable(primary_ability[1]):
-                        self._set_ability_score([primary_ability[1]])
-                    # Neither ability upgradable
-                    else:
-                        raise ValueError("No upgradeable primary ability by bonus.")
-                except ValueError:
+        while num_of_upgrades > 0:
+            print(f"You currently have {num_of_upgrades}(s) available.")
+            upgrade_path_options = ["Ability", "Feat"]
+            upgrade_path = prompt("Choose your upgrade path", upgrade_path_options)
+            if upgrade_path in upgrade_path_options:
+                if upgrade_path == "Ability":
+                    pass
+                if upgrade_path == "Feat":
                     self._add_feat()
-
-            # Handle feat upgrades
-            if feat_upgrades > 0:
-                for _ in range(0, feat_upgrades):
-                    self._add_feat()
+                num_of_upgrades -= 1
+        else:
+            print("Done.")
 
 
 class Yari(_YariBuilder):
@@ -961,9 +920,8 @@ class Yari(_YariBuilder):
     def run(self):
         for rank, options in self.abilities.items():
             if isinstance(options, list):
-                ability_options_list = "\n".join(options)
                 ability_choice = prompt(
-                    f"Choose your primary ability:\n\n{ability_options_list}\n\n>",
+                    f"Choose your primary ability",
                     options,
                 )
                 self.abilities[rank] = ability_choice
@@ -990,8 +948,7 @@ class Yari(_YariBuilder):
                 x for x in allowed_bonus_abilities if x not in bonus_ability_choices
             ]
             for _ in range(bonus_ability_count):
-                option_list = "\n".join(bonus_ability_choices)
-                message = f"Choose your bonus ability:\n\n{option_list}\n"
+                message = f"Choose your bonus ability"
                 bonus_ability_choice = prompt(message, bonus_ability_choices)
                 if bonus_ability_choice in bonus_ability_choices:
                     self.bonus[bonus_ability_choice] = 1
@@ -1000,9 +957,8 @@ class Yari(_YariBuilder):
         # Dragonborn ancestry prompt
         if self.race == "Dragonborn" and isinstance(self.resistances, dict):
             dragon_ancestor_options = tuple(self.resistances.keys())
-            dragon_ancestor_list = "\n".join(dragon_ancestor_options)
             draconic_ancestry = prompt(
-                f"Choose your draconic ancestor's type:\n\n{dragon_ancestor_list}\n\n>",
+                "Choose your draconic ancestor's type",
                 dragon_ancestor_options,
             )
             self.ancestor = draconic_ancestry
