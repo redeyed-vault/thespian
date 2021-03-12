@@ -375,20 +375,6 @@ class ImprovementGenerator:
     skills: list
     feats: list
 
-    def _add_feat(self) -> None:
-        """Randomly selects and adds a valid feats."""
-        feat_list = get_character_feats()
-        filtered_feat_options = [
-            x for x in feat_list if self._has_required(x) and x not in self.feats
-        ]
-        filtered_feat_list = "\n".join(filtered_feat_options)
-        feat_choice = prompt(
-            f"Choose a feat:\n\n{filtered_feat_list}\n\n>",
-            filtered_feat_options,
-        )
-        self._add_feat_perks(feat_choice)
-        self.feats.append(feat_choice)
-
     def _add_feat_perks(self, feat: str) -> None:
         """
         Assign associated features by specified feat
@@ -728,20 +714,17 @@ class ImprovementGenerator:
                     return False
         return True
 
-    def _is_adjustable(self, abilities: (list, str), bonus: int = 1) -> bool:
+    def _is_adjustable(self, ability: str, bonus: int = 1) -> bool:
         """
         Determines if an ability can be adjusted i.e: not over 20.
 
-        :param list abilities: Ability score(s) to be checked.
+        :param str abilities:
+        :param int bonus:
 
         """
         try:
-            if isinstance(abilities, list):
-                for ability in abilities:
-                    if (self.score_array[ability] + bonus) > 20:
-                        raise ValueError
-            elif isinstance(abilities, str):
-                if (self.score_array[abilities] + bonus) > 20:
+            if isinstance(ability, str):
+                if (self.score_array[ability] + bonus) > 20:
                     raise ValueError
             else:
                 raise RuntimeError
@@ -749,8 +732,7 @@ class ImprovementGenerator:
             traceback.print_exc()
         except ValueError:
             return False
-        else:
-            return True
+        return True
 
     def _set_ability_score(self, ability_array: list) -> None:
         """
@@ -841,29 +823,64 @@ class ImprovementGenerator:
 
         """
         num_of_upgrades = 0
-        for x in range(1, self.level + 1):
-            if (x % 4) == 0 and x != 20:
+        if self.level >= 4:
+            for x in range(1, self.level + 1):
+                if (x % 4) == 0 and x != 20:
+                    num_of_upgrades += 1
+            if self.klass == "Fighter" and self.level >= 6:
                 num_of_upgrades += 1
-        if self.klass == "Fighter" and self.level >= 6:
-            num_of_upgrades += 1
-        if self.klass == "Rogue" and self.level >= 8:
-            num_of_upgrades += 1
-        if self.klass == "Fighter" and self.level >= 14:
-            num_of_upgrades += 1
-        if self.level >= 19:
-            num_of_upgrades += 1
-        if sum(num_of_upgrades) == 0:
+            if self.klass == "Rogue" and self.level >= 8:
+                num_of_upgrades += 1
+            if self.klass == "Fighter" and self.level >= 14:
+                num_of_upgrades += 1
+            if self.level >= 19:
+                num_of_upgrades += 1
+        if num_of_upgrades == 0:
             return
-
         while num_of_upgrades > 0:
-            print(f"You currently have {num_of_upgrades}(s) available.")
+            if num_of_upgrades > 1:
+                print(f"You have {num_of_upgrades} upgrades available.")
+            else:
+                print(f"You have 1 upgrade available")
             upgrade_path_options = ["Ability", "Feat"]
             upgrade_path = prompt("Choose your upgrade path", upgrade_path_options)
             if upgrade_path in upgrade_path_options:
                 if upgrade_path == "Ability":
-                    pass
-                if upgrade_path == "Feat":
-                    self._add_feat()
+                    bonus_choice = prompt("Choose bonus value", ["1", "2"])
+                    upgrade_options = (
+                        "Strength",
+                        "Dexterity",
+                        "Constitution",
+                        "Intelligence",
+                        "Wisdom",
+                        "Charisma",
+                    )
+                    bonus_choice = int(bonus_choice)
+                    upgrade_options = [
+                        x
+                        for x in upgrade_options
+                        if self._is_adjustable(x, bonus_choice)
+                    ]
+                    if bonus_choice == 1:
+                        pass
+                    elif bonus_choice == 2:
+                        upgrade_choice = prompt(
+                            "Choose an ability to upgrade", upgrade_options
+                        )
+                        print(upgrade_choice)
+                elif upgrade_path == "Feat":
+                    feat_list = get_character_feats()
+                    filtered_feat_options = [
+                        x
+                        for x in feat_list
+                        if self._has_required(x) and x not in self.feats
+                    ]
+                    feat_choice = prompt(
+                        "Choose a feat",
+                        filtered_feat_options,
+                    )
+                    self._add_feat_perks(feat_choice)
+                    self.feats.append(feat_choice)
                 num_of_upgrades -= 1
         else:
             print("Done.")
