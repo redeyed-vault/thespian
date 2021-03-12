@@ -87,7 +87,6 @@ def main():
     print(f.weapons)
     print(f.weight)
 
-    '''
     u = ImprovementGenerator(
         race=race,
         subrace=subrace,
@@ -95,7 +94,7 @@ def main():
         klass=klass,
         level=level,
         primary_ability=f.abilities,
-        saves=f.saving_throws,
+        saves=f.savingthrows,
         magic_innate=f.innatemagic,
         spell_slots=f.spellslots,
         score_array=f.scores,
@@ -107,7 +106,6 @@ def main():
         feats=[],
     )
     u.upgrade()
-    '''
 
 
 if __name__ == "__main__":
