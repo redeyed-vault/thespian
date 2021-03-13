@@ -3,6 +3,7 @@ from dataclasses import dataclass
 from math import floor
 from random import choice, sample, shuffle
 import traceback
+from typing import Dict, List, Type
 
 from .parser import Load
 from ..errors import Error
@@ -26,9 +27,9 @@ class YariAttributeBuilder:
 
     """
 
-    primary_ability: dict
-    racial_bonus: dict
-    threshold: int = 65
+    primary_ability: Dict[int, str]
+    racial_bonus: Dict[str, int]
+    threshold: Type[int] = 65
 
     def roll(self) -> OrderedDict:
         """
@@ -36,7 +37,7 @@ class YariAttributeBuilder:
 
         """
 
-        def determine_ability_scores(threshold) -> list:
+        def determine_ability_scores(threshold: Type[int]) -> list:
             def _roll() -> int:
                 rolls = list(roll("4d6"))
                 rolls.remove(min(rolls))
@@ -86,13 +87,13 @@ class YariAttributeBuilder:
 class _YariBuilder:
     def __init__(
         self,
-        race: str,
-        subrace: str,
-        klass: str,
-        subclass: str,
-        level: int = 1,
-        sex: str = "Female",
-        background: str = "",
+        race: Type[str],
+        subrace: Type[str],
+        klass: Type[str],
+        subclass: Type[str],
+        level: Type[int] = 1,
+        sex: Type[str] = "Female",
+        background: Type[str] = "",
     ):
         if level < 3:
             subclass = ""
@@ -107,7 +108,9 @@ class _YariBuilder:
         self.subrace = subrace
         self.background = background
 
-    def _build_class(self, klass, subclass, level, race_data):
+    def _build_class(
+        self, klass: Type[str], subclass: Type[str], level: Type[int], race_data
+    ):
         data = Load.get_columns(klass, source_file="classes")
         if data is None:
             raise Error(f"Cannot load class template for '{klass}'.")
@@ -244,7 +247,7 @@ class _YariBuilder:
         return data
 
     @staticmethod
-    def _build_race(race, subrace, level):
+    def _build_race(race: Type[str], subrace: Type[str], level: Type[int]):
         data = Load.get_columns(race, source_file="races")
         if data is None:
             raise Error(f"Cannot load race template for '{race}'.")
@@ -358,24 +361,24 @@ class ImprovementGenerator:
 
     """
 
-    race: str
-    subrace: str
-    klass: str
-    subclass: str
-    level: int
-    primary_ability: dict
-    saves: list
-    magic_innate: list
-    spell_slots: str
+    race: Type[str]
+    subrace: Type[str]
+    klass: Type[str]
+    subclass: Type[str]
+    level: Type[int]
+    primary_ability: Dict[int, str]
+    saves: List[str]
+    magic_innate: List[str]
+    spell_slots: Type[str]
     score_array: OrderedDict
-    languages: list
-    armor_proficiency: list
-    tool_proficiency: list
-    weapon_proficiency: list
-    skills: list
-    feats: list
+    languages: List[str]
+    armor_proficiency: List[str]
+    tool_proficiency: List[str]
+    weapon_proficiency: List[str]
+    skills: List[str]
+    feats: List[str]
 
-    def _add_feat_perks(self, feat: str) -> None:
+    def _add_feat_perks(self, feat: Type[str]) -> None:
         """
         Assign associated features by specified feat
 
@@ -383,7 +386,7 @@ class ImprovementGenerator:
 
         """
 
-        def get_feat_perks(feat_name: str) -> (dict, None):
+        def get_feat_perks(feat_name: Type[str]) -> (dict, None):
             """Get perks for a feat by feat_name."""
             return Load.get_columns(feat_name, "perk", source_file="feats")
 
@@ -577,7 +580,7 @@ class ImprovementGenerator:
                 else:
                     self.magic_innate.append(spell)
 
-    def _add_skill(self, skill: str, alternate_skill: str = None) -> bool:
+    def _add_skill(self, skill: Type[str], alternate_skill: Type[str] = None) -> bool:
         """Adds skill or alternate_skill to skill list, (if applicable)."""
         try:
             if skill not in self.skills:
@@ -591,7 +594,7 @@ class ImprovementGenerator:
         except ValueError:
             return False
 
-    def _has_required(self, feat: str) -> bool:
+    def _has_required(self, feat: Type[str]) -> bool:
         """
         Determines if character has the prerequisites for feat.
 
@@ -714,7 +717,7 @@ class ImprovementGenerator:
                     return False
         return True
 
-    def _is_adjustable(self, ability: str, bonus: int = 1) -> bool:
+    def _is_adjustable(self, ability: Type[str], bonus: Type[int] = 1) -> bool:
         """
         Determines if an ability can be adjusted i.e: not over 20.
 
@@ -734,45 +737,22 @@ class ImprovementGenerator:
             return False
         return True
 
-    def _set_ability_score(self, ability_array: list) -> None:
+    def _set_ability_score(self, ability: Type[str], bonus: Type[int]) -> None:
         """
         Adjust a specified ability_array score with bonus.
 
-        :param list ability_array: ability_array score to set.
+        :param list ability:
+        :param list bonus
 
         """
         try:
-            # Ensure score_array object is type OrderedDict
             if not isinstance(self.score_array, OrderedDict):
                 raise TypeError("Object 'score_array' is not type 'OrderedDict'.")
-
-            # If one ability specified, apply a +2 bonus
-            if len(ability_array) == 1:
-                bonus = 2
-            # If two abilities specified, apply a +1 bonus
-            elif len(ability_array) == 2:
-                bonus = 1
-            # Otherwise raise error
-            else:
-                raise RuntimeError("Argument 'ability_array' require 1 or 2 values.")
-
-            for ability in ability_array:
-                if ability not in self.score_array:
-                    raise KeyError(f"Argument 'ability_array' is invalid. ({ability}).")
-                elif not self._is_adjustable(ability, bonus):
-                    raise ValueError(
-                        f"Argument 'ability_array' is not upgradeable ({ability})."
-                    )
-                else:
-                    value = self.score_array.get(ability) + bonus
-                    self.score_array[ability] = value
-                    out(f"Ability Score Improvement: '{ability}' set to {value}.", -2)
         except (KeyError, TypeError):
             traceback.print_exc()
-        except RuntimeError as err:
-            exit(err)
-        except ValueError:
-            pass
+        new_score = self.score_array.get(ability) + bonus
+        self.score_array[ability] = new_score
+        print(f"Ability Score Improvement: '{ability}' set to {new_score}.")
 
     def _set_feat_ability(self, ability_options: list) -> None:
         """
@@ -817,7 +797,7 @@ class ImprovementGenerator:
         except (KeyError, TypeError):
             traceback.print_exc()
 
-    def upgrade(self):
+    def run(self):
         """
         Runs character upgrades (if applicable).
 
@@ -862,12 +842,15 @@ class ImprovementGenerator:
                         if self._is_adjustable(x, bonus_choice)
                     ]
                     if bonus_choice == 1:
-                        pass
+                        for _ in range(2):
+                            upgrade_choice = prompt("Choose an ability to upgrade", upgrade_options)
+                            upgrade_options.remove(upgrade_choice)
+                            self._set_ability_score(upgrade_choice, bonus_choice)
                     elif bonus_choice == 2:
                         upgrade_choice = prompt(
                             "Choose an ability to upgrade", upgrade_options
                         )
-                        print(upgrade_choice)
+                        self._set_ability_score(upgrade_choice, bonus_choice)
                 elif upgrade_path == "Feat":
                     feat_list = get_character_feats()
                     filtered_feat_options = [
@@ -882,20 +865,18 @@ class ImprovementGenerator:
                     self._add_feat_perks(feat_choice)
                     self.feats.append(feat_choice)
                 num_of_upgrades -= 1
-        else:
-            print("Done.")
 
 
 class Yari(_YariBuilder):
     def __init__(
         self,
-        race: str,
-        subrace: str,
-        klass: str,
-        subclass: str,
-        level: int = 1,
-        sex: str = "Female",
-        background: str = "",
+        race: Type[str],
+        subrace: Type[str],
+        klass: Type[str],
+        subclass: Type[str],
+        level: Type[int] = 1,
+        sex: Type[str] = "Female",
+        background: Type[str] = "",
     ):
         super(Yari, self).__init__(
             race, subrace, klass, subclass, level, sex, background

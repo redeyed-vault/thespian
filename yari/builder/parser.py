@@ -1,11 +1,10 @@
 from dataclasses import dataclass
 import os
+from typing import Type
 
 import yaml
 
-
-class Error(Exception):
-    """Handles source reader exceptions."""
+from ..errors import Error
 
 
 class QueryNotFound(Exception):
@@ -14,7 +13,7 @@ class QueryNotFound(Exception):
 
 class Load:
     @staticmethod
-    def _load_source(*fields, file: str, use_local: bool = True):
+    def _load_source(*fields, file: Type[str], use_local: Type[bool] = True):
         """
         Loads the requested YAML source file and pulls requested fields.
 
