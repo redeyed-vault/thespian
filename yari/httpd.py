@@ -1,7 +1,5 @@
 from collections import OrderedDict
 from dataclasses import dataclass
-from math import floor
-from random import choice, sample, shuffle
 import socket
 from sys import exit
 import traceback
@@ -39,130 +37,6 @@ def main(
         )
     conn.close()
 
-    def callback(method: str, **args):
-        init = eval(method)
-        if all(k in args for k in ("subclass", "background", "level", "race_skills")):
-            return init(
-                args["subclass"], args["background"], args["level"], args["race_skills"]
-            )
-        elif all(
-            k in args
-            for k in (
-                "sex",
-                "subrace",
-                "level",
-            )
-        ):
-            return init(args["sex"], args["subrace"], args["level"])
-        else:
-            raise RuntimeError(f"Not all parameters specified for callback '{method}'.")
-
-    # Handle application argument processing.
-    if race not in PC_RACES:
-        out(f"invalid character race '{race}'.", 1)
-
-    if klass not in PC_CLASSES:
-        out(f"invalid character class '{klass}'", 1)
-
-    if level not in range(1, 21):
-        out(f"level must be between 1-20 ({level})", 1)
-
-    if ratio not in range(0, 11):
-        out(f"ratio must be between 0-10 ({ratio})", 1)
-    else:
-        ratios = {
-            0: 0,
-            1: 10,
-            2: 20,
-            3: 30,
-            4: 40,
-            5: 50,
-            6: 60,
-            7: 70,
-            8: 80,
-            9: 90,
-            10: 100,
-        }
-        ratio = ratios.get(ratio)
-
-    alignments = {
-        "CE": "Chaotic Evil",
-        "CG": "Chaotic Good",
-        "CN": "Chaotic Neutral",
-        "LE": "Lawful Evil",
-        "LG": "Lawful Good",
-        "LN": "Lawful Neutral",
-        "NE": "Neutral Evil",
-        "NG": "Neutral Good",
-        "N": "True Neutral",
-    }
-    if alignment not in alignments:
-        out(f"invalid character alignment '{alignment}'.", 1)
-    else:
-        alignment = alignments.get(alignment)
-
-    _race = None
-    try:
-        if sex in PC_GENDERS:
-            sex = sex
-        else:
-            sex = choice(PC_GENDERS)
-
-        subraces_by_race = [s for s in get_subraces_by_race(race)]
-        if subrace == "":
-            if len(subraces_by_race) != 0:
-                subrace = choice(subraces_by_race)
-        else:
-            try:
-                # Race has no subraces
-                if len(subraces_by_race) == 0:
-                    raise ValueError(f"'{race}' has no available subraces.")
-
-                # Race has subraces but invalid one chosen
-                if subrace not in subraces_by_race:
-                    raise ValueError(f"'{subrace}' is not a subrace of '{race}'.")
-            except ValueError as e:
-                out(str(e), 1)
-
-        _race = callback(race, sex=sex, level=level, subrace=subrace)
-        _race.create()
-    except (
-        Exception,
-        NameError,
-        ValueError,
-    ) as race_error:
-        out(race_error, 2)
-
-    _class = None
-    try:
-        if background == "":
-            background = get_default_background(klass)
-        else:
-            if background not in PC_BACKGROUNDS:
-                out(f"invalid character background '{background}'.", 1)
-
-        valid_class_subclasses = get_subclasses_by_class(klass)
-        if subclass == "":
-            subclass = choice(valid_class_subclasses)
-        else:
-            if subclass not in valid_class_subclasses:
-                out(f"class '{klass}' has no subclass '{subclass}'.", 1)
-
-        _class = callback(
-            klass,
-            background=background,
-            subclass=subclass,
-            level=level,
-            race_skills=_race.skills,
-        )
-        _class.create()
-    except (
-        Exception,
-        NameError,
-        ValueError,
-    ) as class_error:
-        out(class_error, 2)
-
     try:
         # Generate ability scores.
         _attributes = AttributeGenerator(_class.abilities, _race.bonus)
@@ -174,61 +48,6 @@ def main(
         weapons = ProficiencyGenerator(
             "weapons", _class.weapons, _race.weapons
         ).proficiency
-
-        # Assign ability/feat improvements.
-        _upgrade = ImprovementGenerator(
-            race=race,
-            subrace=subrace,
-            subclass=_class.subclass,
-            klass=klass,
-            level=level,
-            primary_ability=_class.abilities,
-            saves=_class.saving_throws,
-            magic_innate=_race.magic_innate,
-            spell_slots=_class.spell_slots,
-            score_array=score_array,
-            languages=_race.languages + _class.languages,
-            armor_proficiency=armors,
-            tool_proficiency=tools,
-            weapon_proficiency=weapons,
-            skills=_class.skills,
-            feats=[],
-            upgrade_ratio=ratio,
-        )
-        _upgrade.upgrade()
-
-        # Create proficiency data packet.
-        proficiency_info = OrderedDict()
-        proficiency_info["armors"] = _upgrade.armor_proficiency
-        proficiency_info["tools"] = _upgrade.tool_proficiency
-        proficiency_info["weapons"] = _upgrade.weapon_proficiency
-
-        # Gather data for character sheet.
-        cs = OrderedDict()
-        cs["race"] = _upgrade.race
-        cs["subrace"] = subrace
-        cs["sex"] = sex
-        cs["alignment"] = alignment
-        cs["background"] = background
-        cs["size"] = _race.size
-        cs["height"] = _race.height
-        cs["weight"] = _race.weight
-        cs["class"] = klass
-        cs["level"] = level
-        cs["subclass"] = _upgrade.subclass
-        cs["bonus"] = get_proficiency_bonus(level)
-        cs["score_array"] = _upgrade.score_array
-        cs["saves"] = _upgrade.saves
-        cs["magic_class"] = _class.magic_class
-        cs["magic_innate"] = _upgrade.magic_innate
-        cs["spell_slots"] = _upgrade.spell_slots
-        cs["proficiency"] = proficiency_info
-        cs["languages"] = _upgrade.languages
-        cs["skills"] = _upgrade.skills
-        cs["feats"] = _upgrade.feats
-        cs["equipment"] = _class.equipment
-        cs["features"] = _class.features
-        cs["traits"] = _race.traits
 
         try:
             with HTTPServer(cs) as http:
@@ -270,8 +89,9 @@ def get_weapon_chest():
 
 
 class YariHTTP:
-    def __init__(self, data: OrderedDict):
+    def __init__(self, data: OrderedDict, port: Type[int] = 5000):
         self.data = data
+        self.port = port
         self.text: str = ""
 
     def __enter__(self):
@@ -414,16 +234,6 @@ class YariHTTP:
             else:
                 race = self.data.get("race")
             return race
-
-        def format_size():
-            size = self.data.get("size")
-            hgt = self.data.get("height")
-            wgt = self.data.get("weight")
-            feet = floor(hgt / 12)
-            inches = hgt % 12
-            hgt = "{}' {}\"".format(feet, inches)
-            wgt = f"{wgt} lbs."
-            return size, hgt, wgt
 
         data_keys = (
             "race",
