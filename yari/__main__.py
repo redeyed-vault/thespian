@@ -47,6 +47,24 @@ def main():
         default="Female",
     )
     app.add_argument(
+        "-alignment",
+        "-a",
+        help="sets character's alignment",
+        type=str,
+        choices=(
+            "Chaotic Evil",
+            "Chaotic Good",
+            "Chaotic Neutral",
+            "Lawful Evil",
+            "Lawful Good",
+            "Lawful Neutral",
+            "Neutral Evil",
+            "Neutral Good",
+            "True Neutral",
+        ),
+        default="True Neutral",
+    )
+    app.add_argument(
         "-background", "-b", help="sets character's background", type=str, default=""
     )
     args = app.parse_args()
@@ -56,6 +74,7 @@ def main():
     subclass = args.subclass
     level = args.level
     sex = args.sex
+    alignment = args.alignment
     background = args.background
 
     f = Yari(race, subrace, klass, subclass, level, sex, background)
@@ -105,7 +124,7 @@ def main():
         skills=f.skills,
         feats=[],
     )
-    u.upgrade()
+    u.run()
 
 
 if __name__ == "__main__":
