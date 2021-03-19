@@ -501,6 +501,7 @@ feats:
         - Primordial
         - Sylvan
         - Undercommon
+        - 3
       proficiency: ~
       resistance: ~
       skills: ~
@@ -718,6 +719,7 @@ feats:
         - Primordial
         - Sylvan
         - Undercommon
+        - 1
       proficiency:
         tools:
           - Artisan's tools - Alchemists supplies
@@ -758,6 +760,7 @@ feats:
           - Poisoner's kit
           - Thieves' tools
           - Vehicles
+          - 1
       resistance: ~
       skills:
         - Acrobatics
@@ -778,6 +781,7 @@ feats:
         - Sleight of Hand
         - Stealth
         - Survival
+        - 1
       speed: ~
       spells: ~
     required:
