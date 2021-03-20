@@ -1,6 +1,7 @@
 subclasses:
   # Barbarian Paths
   Path of the Ancestral Guardian:
+    armors: []
     bonusmagic: ~
     features:
       3: ['Ancestral Protectors']
@@ -8,9 +9,11 @@ subclasses:
       10: ['Consult the Spirits', 'Spirit Shield (3d6)']
       14: ['Vengeful Ancestors', 'Spirit Shield (4d6)']
     languages: ~
-    proficiency: ~
     skills: ~
+    tools: []
+    weapons: []
   Path of the Berserker:
+    armors: []
     bonusmagic: ~
     features:
       3: ['Frenzy']
@@ -18,9 +21,11 @@ subclasses:
       10: ['Intimidating Presence']
       14: ['Retaliation']
     languages: ~
-    proficiency: ~
     skills: ~
+    tools: []
+    weapons: []
   Path of the Storm Herald:
+    armors: []
     bonusmagic: ~
     features:
       3: ['Storm Aura']
@@ -28,9 +33,11 @@ subclasses:
       10: ['Shielding Storm']
       14: ['Raging Storm']
     languages: ~
-    proficiency: ~
     skills: ~
+    tools: []
+    weapons: []
   Path of the Totem Warrior:
+    armors: []
     bonusmagic: ~
     features:
       3: ['Beast Sense', 'Speak with Animals', 'Totem Spirit']
@@ -38,9 +45,11 @@ subclasses:
       10: ['Spirit Walker']
       14: ['Totemic Attunement']
     languages: ~
-    proficiency: ~
     skills: ~
+    tools: []
+    weapons: []
   Path of the Zealot:
+    armors: []
     bonusmagic: ~
     features:
       3: ['Divine Fury', 'Warrior of the Gods']
@@ -48,26 +57,29 @@ subclasses:
       10: ['Zealous Presence']
       14: ['Rage beyond Death']
     languages: ~
-    proficiency: ~
     skills: ~
+    tools: []
+    weapons: []
   # Bard Colleges
   College of Glamour:
+    armors: []
     bonusmagic: ~
     features:
       3: ['Enthralling Performance', 'Mantle of Inspiration']
       6: ['Mantle of Majesty']
       14: ['Unbreakable Majesty']
     languages: ~
-    proficiency: ~
     skills: ~
+    tools: []
+    weapons: []
   College of Lore:
+    armors: []
     bonusmagic: ~
     features:
       3: ['Cutting Words']
       6: ['Additional Magical Secrets']
       14: ['Peerless Skill']
     languages: ~
-    proficiency: ~
     skills:
       - Acrobatics
       - Animal Handling
@@ -87,39 +99,44 @@ subclasses:
       - Sleight of Hand
       - Stealth
       - Survival
+    tools: []
+    weapons: []
   College of Swords:
+    armors: ['Medium']
     bonusmagic: ~
     features:
       3: ['Blade Flourish', 'Bonus Proficiencies', 'Fighting Style']
       6: ['Extra Attack']
       14: ["Master's Flourish"]
     languages: ~
-    proficiency:
-      armors: ['Medium']
-      weapons: ['Scimitar']
     skills: ~
+    tools: []
+    weapons: ['Scimitar']
   College of Valor:
+    armors: ['Medium', 'Shield']
     bonusmagic: ~
     features:
       3: ['Combat Inspiration']
       6: ['Extra Attack']
       14: ['Battle Magic']
     languages: ~
-    proficiency:
-      armors: ['Medium', 'Shield']
-      weapons: ['Martial']
     skills: ~
+    tools: []
+    weapons: ['Martial']
   College of Whispers:
+    armors: []
     bonusmagic: ~
     features:
       3: ['Psychic Blades', 'Words of Terror']
       6: ['Mantle of Whispers']
       14: ['Shadow Lore']
     languages: ~
-    proficiency: ~
     skills: ~
+    tools: []
+    weapons: []
   # Cleric Domains
   Forge Domain:
+    armors: ['Heavy']
     bonusmagic:
       1: ['Identify', 'Searing Smite']
       3: ['Heat Metal', 'Magic Weapon']
@@ -134,11 +151,11 @@ subclasses:
       14: ['Divine Strike (2d8)']
       17: ['Saint of Forge and Fire']
     languages: ~
-    proficiency:
-      armors: ['Heavy']
-      tools: ["Artisan's tools - Smith's tools"]
     skills: ~
+    tools: ["Artisan's tools - Smith's tools"]
+    weapons: []
   Grave Domain:
+    armors: []
     bonusmagic:
       1: ['Bane', 'False Life']
       3: ['Gentle Repose', 'Ray of Enfeeblement']
@@ -152,9 +169,11 @@ subclasses:
       8: ['Potent Spellcasting']
       17: ['Keeper of Souls']
     languages: ~
-    proficiency: ~
     skills: ~
+    tools: []
+    weapons: []
   Knowledge Domain:
+    armors: []
     bonusmagic:
       1: ['Command', 'Identify']
       3: ['Augury', 'Suggestion']
@@ -168,9 +187,11 @@ subclasses:
       8: ['Potent Spellcasting']
       17: ['Visions of the Past']
     languages: ~
-    proficiency: ~
     skills: ~
+    tools: []
+    weapons: []
   Life Domain:
+    armors: ['Heavy']
     bonusmagic:
       1: ['Bless', 'Cure Wounds']
       3: ['Lesser Restoration', 'Spiritual Weapon']
@@ -184,10 +205,11 @@ subclasses:
       8: ['Divine Strike']
       17: ['Supreme Healing']
     languages: ~
-    proficiency:
-      armors: ['Heavy']
     skills: ~
+    tools: []
+    weapons: []
   Light Domain:
+    armors: []
     bonusmagic:
       1: ['Burning Hands', 'Faerie Fire']
       3: ['Flaming Sphere', 'Scorching Ray']
@@ -201,9 +223,11 @@ subclasses:
       8: ['Potent Spellcasting']
       17: ['Corona of Light']
     languages: ~
-    proficiency: ~
     skills: ~
+    tools: []
+    weapons: []
   Nature Domain:
+    armors: ['Heavy']
     bonusmagic:
       1: ['Animal Friendship', 'Speak with Animals']
       3: ['Barkskin', 'Spike Growth']
@@ -217,10 +241,11 @@ subclasses:
       8: ['Divine Strike']
       17: ['Master of Nature']
     languages: ~
-    proficiency:
-      armors: ['Heavy']
     skills: ~
+    tools: []
+    weapons: []
   Tempest Domain:
+    armors: ['Heavy']
     bonusmagic:
       1: ['Fog Cloud', 'Thunderwave']
       3: ['Gust of Wind', 'Shatter']
@@ -234,11 +259,11 @@ subclasses:
       8: ['Divine Strike']
       17: ['Stormborn']
     languages: ~
-    proficiency:
-      armors: ['Heavy']
-      weapons: ['Martial']
     skills: ~
+    tools: []
+    weapons: ['Martial']
   Trickery Domain:
+    armors: []
     bonusmagic:
       1: ['Charm Person', 'Disguise Self']
       3: ['Mirror Image', 'Pass Without Trace']
@@ -252,9 +277,11 @@ subclasses:
       8: ['Divine Strike']
       17: ['Improved Duplicity']
     languages: ~
-    proficiency: ~
     skills: ~
+    tools: []
+    weapons: []
   War Domain:
+    armors: ['Heavy']
     bonusmagic:
       1: ['Divine Favor', 'Shield of Faith']
       3: ['Magic Weapon', 'Spiritual Weapon']
@@ -268,12 +295,12 @@ subclasses:
       8: ['Divine Strike']
       17: ['Avatar of Battle']
     languages: ~
-    proficiency:
-      armors: ['Heavy']
-      weapons: ['Martial']
     skills: ~
+    tools: []
+    weapons: ['Martial']
   # Druid Circles
   Circle of the Arctic:
+    armors: []
     bonusmagic:
       3: ['Hold Person', 'Spike Growth']
       5: ['Sleet Storm', 'Slow']
@@ -285,9 +312,11 @@ subclasses:
       10: ["Nature's Ward"]
       14: ["Nature's Sanctuary"]
     languages: ~
-    proficiency: ~
     skills: ~
+    tools: []
+    weapons: []
   Circle of the Coast:
+    armors: []
     bonusmagic:
       3: ['Mirror Image', 'Misty Step']
       5: ['Water Breathing', 'Water Walk']
@@ -299,9 +328,11 @@ subclasses:
       10: ["Nature's Ward"]
       14: ["Nature's Sanctuary"]
     languages: ~
-    proficiency: ~
     skills: ~
+    tools: []
+    weapons: []
   Circle of the Desert:
+    armors: []
     bonusmagic:
       3: ['Blur', 'Silence']
       5: ['Create Food and Water', 'Protection From Energy']
@@ -313,9 +344,11 @@ subclasses:
       10: ["Nature's Ward"]
       14: ["Nature's Sanctuary"]
     languages: ~
-    proficiency: ~
     skills: ~
+    tools: []
+    weapons: []
   Circle of the Dreams:
+    armors: []
     bonusmagic: ~
     features:
       2: ['Balm of the Summer Court']
@@ -323,9 +356,11 @@ subclasses:
       10: ['Hidden Paths']
       14: ['Walker in Dreams']
     languages: ~
-    proficiency: ~
     skills: ~
+    tools: []
+    weapons: []
   Circle of the Forest:
+    armors: []
     bonusmagic:
       3: ['Barkskin', 'Spider Climb']
       5: ['Call Lightning', 'Plant Growth']
@@ -337,9 +372,11 @@ subclasses:
       10: ["Nature's Ward"]
       14: ["Nature's Sanctuary"]
     languages: ~
-    proficiency: ~
     skills: ~
+    tools: []
+    weapons: []
   Circle of the Grassland:
+    armors: []
     bonusmagic:
       3: ['Invisibility', 'Pass Without Trace']
       5: ['Daylight', 'Haste']
@@ -351,9 +388,11 @@ subclasses:
       10: ["Nature's Ward"]
       14: ["Nature's Sanctuary"]
     languages: ~
-    proficiency: ~
     skills: ~
+    tools: []
+    weapons: []
   Circle of the Moon:
+    armors: []
     bonusmagic: ~
     features:
       2: ['Circle Forms', 'Combat Wild Shape']
@@ -361,9 +400,11 @@ subclasses:
       10: ['Elemental Wild Shape']
       14: ['Thousand Forms']
     languages: ~
-    proficiency: ~
     skills: ~
+    tools: []
+    weapons: []
   Circle of the Mountain:
+    armors: []
     bonusmagic:
       3: ['Spider Climb', 'Spike Growth']
       5: ['Lightning Bolt', 'Meld Into Stone']
@@ -375,9 +416,11 @@ subclasses:
       10: ["Nature's Ward"]
       14: ["Nature's Sanctuary"]
     languages: ~
-    proficiency: ~
     skills: ~
+    tools: []
+    weapons: []
   Circle of the Shepherd:
+    armors: []
     bonusmagic: ~
     features:
       2: ['Speech of the Woods', 'Spirit Totem']
@@ -385,9 +428,11 @@ subclasses:
       10: ['Guardian Spirit']
       14: ['Faithful Summons']
     languages: ~
-    proficiency: ~
     skills: ~
+    tools: []
+    weapons: []
   Circle of the Swamp:
+    armors: []
     bonusmagic:
       3: ['Darkness', "Melf's Acid Arrow"]
       5: ['Water Walk', 'Stinking Cloud']
@@ -399,9 +444,11 @@ subclasses:
       10: ["Nature's Ward"]
       14: ["Nature's Sanctuary"]
     languages: ~
-    proficiency: ~
     skills: ~
+    tools: []
+    weapons: []
   Circle of the Underdark:
+    armors: []
     bonusmagic:
       3: ['Spider Climb', 'Web']
       5: ['Gaseous Form', 'Stinking Cloud']
@@ -413,10 +460,12 @@ subclasses:
       10: ["Nature's Ward"]
       14: ["Nature's Sanctuary"]
     languages: ~
-    proficiency: ~
     skills: ~
+    tools: []
+    weapons: []
   # Fighter Archetypes
   Arcane Archer:
+    armors: []
     bonusmagic: ~
     features:
       3: ['Arcane Archer Lore', 'Arcane Shot (2 options)']
@@ -425,9 +474,11 @@ subclasses:
       15: ['Ever-Ready Shot', 'Arcane Shot (5 options)']
       18: ['Arcane Shot (6 options, improved shots)']
     languages: ~
-    proficiency: ~
     skills: ~
+    tools: []
+    weapons: []
   Battle Master:
+    armors: []
     bonusmagic: ~
     features:
       3: ['Combat Superiority', 'Student of War']
@@ -435,9 +486,11 @@ subclasses:
       10: ['Improved Combat Superiority']
       15: ['Relentless']
     languages: ~
-    proficiency: ~
     skills: ~
+    tools: []
+    weapons: []
   Cavalier:
+    armors: []
     bonusmagic: ~
     features:
       3: ['Bonus Proficiency', 'Born to the Saddle', 'Unwavering Mark']
@@ -446,9 +499,11 @@ subclasses:
       15: ['Ferocious Charger']
       18: ['Vigilant Defender']
     languages: ~
-    proficiency: ~
     skills: ['Animal Handling', 'History', 'Insight', 'Performance', 'Persuasion']
+    tools: []
+    weapons: []
   Champion:
+    armors: []
     bonusmagic: ~
     features:
       3: ['Improved Critical']
@@ -457,9 +512,11 @@ subclasses:
       15: ['Superior Critical']
       18: ['Survivor']
     languages: ~
-    proficiency: ~
     skills: ~
+    tools: []
+    weapons: []
   Eldritch Knight:
+    armors: []
     bonusmagic: ~
     features:
       3: ['Spellcasting', 'Weapon Bond']
@@ -468,9 +525,11 @@ subclasses:
       15: ['Arcane Charge']
       18: ['Improved War Magic']
     languages: ~
-    proficiency: ~
     skills: ~
+    tools: []
+    weapons: []
   Samurai:
+    armors: []
     bonusmagic: ~
     features:
       3: ['Bonus Proficiency', 'Fighting Spirit (5 temp. hp)']
@@ -494,10 +553,12 @@ subclasses:
       - Primordial
       - Sylvan
       - Undercommon
-    proficiency: ~
     skills: ['History', 'Insight', 'Performance', 'Persuasion']
+    tools: []
+    weapons: []
   # Monk Traditions
   Way of Shadow:
+    armors: []
     bonusmagic: ~
     features:
       3: ['Shadow Arts']
@@ -505,8 +566,10 @@ subclasses:
       11: ['Cloak of Shadows']
       17: ['Opportunist']
     languages: ~
-    proficiency: ~
+    tools: []
+    weapons: []
   Way of the Drunken Master:
+    armors: []
     bonusmagic: ~
     features:
       3: ['Bonus Proficiencies', 'Drunken Technique']
@@ -514,9 +577,11 @@ subclasses:
       11: ["Drunkard's Luck"]
       17: ['Intoxicated Frenzy']
     languages: ~
-    proficiency: ~
     skills: ['Performance']
+    tools: []
+    weapons: []
   Way of the Four Elements:
+    armors: []
     bonusmagic: ~
     features:
       3:
@@ -533,9 +598,11 @@ subclasses:
       11: ['Eternal Mountain Defense', 'Flames of the Phoenix', 'Mist Stance', 'Ride the Wind']
       17: ['Breath of Winter', 'River of Hungry Flame', 'Wave of Rolling Earth']
     languages: ~
-    proficiency: ~
     skills: ~
+    tools: []
+    weapons: []
   Way of the Kensei:
+    armors: []
     bonusmagic: ~
     features:
       3: ['Path of the Kensei (2 weapons)']
@@ -543,9 +610,11 @@ subclasses:
       11: ['Sharpen the Blade', 'Path of the Kensei (4 weapons)']
       17: ['Unerring Accuracy', 'Path of the Kensei (5 weapons)']
     languages: ~
-    proficiency: ~
     skills: ~
+    tools: []
+    weapons: []
   Way of the Open Hand:
+    armors: []
     bonusmagic: ~
     features:
       3: ['Open Hand Technique']
@@ -553,9 +622,11 @@ subclasses:
       11: ['Tranquility']
       17: ['Quivering Palm']
     languages: ~
-    proficiency: ~
     skills: ~
+    tools: []
+    weapons: []
   Way of the Sun Soul:
+    armors: []
     bonusmagic: ~
     features:
       3: ['Radiant Sun Bolt']
@@ -563,10 +634,12 @@ subclasses:
       11: ['Searing Sunburst']
       17: ['Sun Shield']
     languages: ~
-    proficiency: ~
     skills: ~
+    tools: []
+    weapons: []
   # Paladin Oaths
   Oath of the Ancients:
+    armors: []
     bonusmagic:
       3: ['Ensnaring Strike', 'Speak With Animals']
       5: ['Moonbeam', 'Misty Step']
@@ -579,9 +652,11 @@ subclasses:
       15: ['Undying Sentinel']
       20: ['Elder Champion']
     languages: ~
-    proficiency: ~
     skills: ~
+    tools: []
+    weapons: []
   Oath of Conquest:
+    armors: []
     bonusmagic:
       3: ['Armor of Agathys', 'Command']
       5: ['Hold Person', 'Spiritual Weapon']
@@ -595,9 +670,11 @@ subclasses:
       18: ['Aura of Conquest']
       20: ['Invincible Conqueror']
     languages: ~
-    proficiency: ~
     skills: ~
+    tools: []
+    weapons: []
   Oath of Devotion:
+    armors: []
     bonusmagic:
       3: ['Protected From Evil and Good', 'Sanctuary']
       5: ['Lesser Restoration', 'Zone of Truth']
@@ -610,9 +687,11 @@ subclasses:
       15: ['Purity of Spirit']
       20: ['Holy Nimbus']
     languages: ~
-    proficiency: ~
     skills: ~
+    tools: []
+    weapons: []
   Oath of Redemption:
+    armors: []
     bonusmagic:
       3: ['Sanctuary', 'Sleep']
       5: ['Calm Emotions', 'Hold Person']
@@ -626,9 +705,11 @@ subclasses:
       18: ['Aura of the Guardian (30 ft.)']
       20: ['Emissary of Redemption']
     languages: ~
-    proficiency: ~
     skills: ~
+    tools: []
+    weapons: []
   Oath of Vengeance:
+    armors: []
     bonusmagic:
       3: ['Bane', "Hunter's Mark"]
       5: ['Hold Person', 'Misty Step']
@@ -641,10 +722,12 @@ subclasses:
       15: ['Soul of Vengeance']
       20: ['Avenging Angel']
     languages: ~
-    proficiency: ~
     skills: ~
+    tools: []
+    weapons: []
   # Ranger Archetypes
   Beast Master:
+    armors: []
     bonusmagic: ~
     features:
       3: ["Ranger's Companion"]
@@ -652,9 +735,11 @@ subclasses:
       11: ['Beastial Fury']
       15: ['Share Spells']
     languages: ~
-    proficiency: ~
     skills: ~
+    tools: []
+    weapons: []
   Gloom Stalker:
+    armors: []
     bonusmagic:
       3: ['Disguise Self']
       5: ['Rope Trick']
@@ -667,9 +752,11 @@ subclasses:
       11: ["Stalker's Flurry"]
       15: ['Shadowy Dodge']
     languages: ~
-    proficiency: ~
     skills: ~
+    tools: []
+    weapons: []
   Horizon Walker:
+    armors: []
     bonusmagic:
       3: ['Protected From Evil and Good']
       5: ['Misty Step']
@@ -682,9 +769,11 @@ subclasses:
       11: ['Distant Strike', 'Planar Warrior (2d8)']
       15: ['Spectral Defense']
     languages: ~
-    proficiency: ~
     skills: ~
+    tools: []
+    weapons: []
   Hunter:
+    armors: []
     bonusmagic: ~
     features:
       3: ["Hunter's Prey"]
@@ -692,9 +781,11 @@ subclasses:
       11: ['Multiattack']
       15: ["Superior Hunter's Defense"]
     languages: ~
-    proficiency: ~
     skills: ~
+    tools: []
+    weapons: []
   Monster Slayer:
+    armors: []
     bonusmagic:
       3: ['Protected From Evil and Good']
       5: ['Zone of Truth']
@@ -707,10 +798,12 @@ subclasses:
       11: ["Magic User's Nemesis"]
       15: ["Slayer's Counter"]
     languages: ~
-    proficiency: ~
     skills: ~
+    tools: []
+    weapons: []
   # Rogue Archetypes
   Arcane Trickster:
+    armors: []
     bonusmagic: ~
     features:
       3: ['Mage Hand Legerdemain', 'Spellcasting']
@@ -718,9 +811,11 @@ subclasses:
       13: ['Versatile Trickster']
       17: ['Spell Thief']
     languages: ~
-    proficiency: ~
     skills: ~
+    tools: []
+    weapons: []
   Assassin:
+    armors: []
     bonusmagic: ~
     features:
       3: ['Assassinate']
@@ -728,10 +823,11 @@ subclasses:
       13: ['Impostor']
       17: ['Death Strike']
     languages: ~
-    proficiency:
-      tools: ['Disguise kit', "Poisoner's kit"]
     skills: ~
+    tools: ['Disguise kit', "Poisoner's kit"]
+    weapons: []
   Inquisitive:
+    armors: []
     bonusmagic: ~
     features:
       3: ['Ear for Deceit', 'Eye for Detail', 'Insightful Fighting']
@@ -739,9 +835,11 @@ subclasses:
       13: ['Unerring Eye']
       17: ['Eye for Weakness']
     languages: ~
-    proficiency: ~
     skills: ~
+    tools: []
+    weapons: []
   Mastermind:
+    armors: []
     bonusmagic: ~
     features:
       3: ['Master of Intrigue', 'Master of Tactics']
@@ -749,9 +847,11 @@ subclasses:
       13: ['Misdirection']
       17: ['Soul of Deceit']
     languages: ~
-    proficiency: ~
     skills: ~
+    tools: []
+    weapons: []
   Scout:
+    armors: []
     bonusmagic: ~
     features:
       3: ['Skirmisher', 'Survivalist']
@@ -759,9 +859,11 @@ subclasses:
       13: ['Ambush Master']
       17: ['Sudden Strike']
     languages: ~
-    proficiency: ~
     skills: ~
+    tools: []
+    weapons: []
   Swashbuckler:
+    armors: []
     bonusmagic: ~
     features:
       3: ['Fancy Footwork', 'Rakish Audacity']
@@ -769,9 +871,11 @@ subclasses:
       13: ['Elegant Maneuver']
       17: ['Master Duelist']
     languages: ~
-    proficiency: ~
     skills: ~
+    tools: []
+    weapons: []
   Thief:
+    armors: []
     bonusmagic: ~
     features:
       3: ['Fast Hands', 'Second-Story Work']
@@ -779,10 +883,12 @@ subclasses:
       13: ['Use Magic Device']
       17: ["Thief's Reflexes"]
     languages: ~
-    proficiency: ~
     skills: ~
+    tools: []
+    weapons: []
   # Sorcerer Origins
   Divine Soul:
+    armors: []
     bonusmagic:
       'Good': ['Cure Wounds']
       'Evil': ['Inflict Wounds']
@@ -795,9 +901,11 @@ subclasses:
       14: ['Otherworldly Wings']
       18: ['Unearthly Recovery']
     languages: ~
-    proficiency: ~
     skills: ~
+    tools: []
+    weapons: []
   Draconic Bloodline:
+    armors: []
     bonusmagic: ~
     features:
       1: ['Draconic Resilience', 'Dragon Ancestor']
@@ -805,9 +913,11 @@ subclasses:
       14: ['Dragon Wings']
       18: ['Draconic Presence']
     languages: ~
-    proficiency: ~
     skills: ~
+    tools: []
+    weapons: []
   Shadow Magic:
+    armors: []
     bonusmagic: ~
     features:
       1: ['Eyes of the Dark', 'Strength of the Grave']
@@ -816,9 +926,11 @@ subclasses:
       14: ['Shadow Walk']
       18: ['Umbral Form']
     languages: ~
-    proficiency: ~
     skills: ~
+    tools: []
+    weapons: []
   Storm Sorcery:
+    armors: []
     bonusmagic: ~
     features:
       1: ['Wind Speaker', 'Tempestuous Magic']
@@ -826,9 +938,11 @@ subclasses:
       14: ["Storm's Fury"]
       18: ['Wind Soul']
     languages: ~
-    proficiency: ~
     skills: ~
+    tools: []
+    weapons: []
   Wild Magic:
+    armors: []
     bonusmagic: ~
     features:
       1: ['Tides of Chaos', 'Wild Magic Surge']
@@ -836,10 +950,12 @@ subclasses:
       14: ['Controlled Chaos']
       18: ['Spell Bombardment']
     languages: ~
-    proficiency: ~
     skills: ~
+    tools: []
+    weapons: []
   # Warlock Pacts
   The Archfey:
+    armors: []
     bonusmagic:
       1: ['Faerie Fire', 'Sleep']
       2: ['Calm Emotions', 'Phantasmal Force']
@@ -852,9 +968,11 @@ subclasses:
       10: ['Beguiling Defenses']
       14: ['Dark Delerium']
     languages: ~
-    proficiency: ~
     skills: ~
+    tools: []
+    weapons: []
   The Celestial:
+    armors: []
     bonusmagic:
       1: ['Cure Wounds', 'Guiding Bolt']
       2: ['Flaming Sphere', 'Lesser Restoration']
@@ -867,9 +985,11 @@ subclasses:
       10: ['Celestial Resilience']
       14: ['Searing Vengeance']
     languages: ~
-    proficiency: ~
     skills: ~
+    tools: []
+    weapons: []
   The Fiend:
+    armors: []
     bonusmagic:
       1: ['Burning Hands', 'Command']
       2: ['Blindness/Deafness', 'Scorching Ray']
@@ -882,9 +1002,11 @@ subclasses:
       10: ['Fiendish Resilience']
       14: ['Hurl Through Hell']
     languages: ~
-    proficiency: ~
     skills: ~
+    tools: []
+    weapons: []
   The Great Old One:
+    armors: []
     bonusmagic:
       1: ['Dissonant Whispers', "Tasha's Hideous Laughter"]
       2: ['Detect Thoughts', 'Phantasmal Force']
@@ -897,9 +1019,11 @@ subclasses:
       10: ['Thought Shield']
       14: ['Create Thrall']
     languages: ~
-    proficiency: ~
     skills: ~
+    tools: []
+    weapons: []
   The Hexblade:
+    armors: []
     bonusmagic:
       1: ['Shield', 'Wrathful Smite']
       2: ['Blur', 'Branding Smite']
@@ -912,10 +1036,12 @@ subclasses:
       10: ['Armor of Hexes']
       14: ['Master of Hexes']
     languages: ~
-    proficiency: ~
     skills: ~
+    tools: []
+    weapons: []
   # Wizard Schools
   School of Abjuration:
+    armors: []
     bonusmagic: ~
     features:
       2: ['Abjuration Savant', 'Arcane Ward']
@@ -923,9 +1049,11 @@ subclasses:
       10: ['Improved Abjuration']
       14: ['Spell Resistance']
     languages: ~
-    proficiency: ~
     skills: ~
+    tools: []
+    weapons: []
   School of Conjuration:
+    armors: []
     bonusmagic: ~
     features:
       2: ['Conjuration Savant', 'Minor Conjuration']
@@ -933,8 +1061,11 @@ subclasses:
       10: ['Focused Conjuration']
       14: ['Durable Summons']
     languages: ~
-    proficiency: ~
+    skills: ~
+    tools: []
+    weapons: []
   School of Divination:
+    armors: []
     bonusmagic: ~
     features:
       2: ['Divination Savant', 'Portent']
@@ -942,9 +1073,11 @@ subclasses:
       10: ['The Third Eye']
       14: ['Greater Portent']
     languages: ~
-    proficiency: ~
     skills: ~
+    tools: []
+    weapons: []
   School of Enchantment:
+    armors: []
     bonusmagic: ~
     features:
       2: ['Enchantment Savant', 'Hypnotic Gaze']
@@ -952,9 +1085,11 @@ subclasses:
       10: ['Split Enchantment']
       14: ['Alter Memories']
     languages: ~
-    proficiency: ~
     skills: ~
+    tools: []
+    weapons: []
   School of Evocation:
+    armors: []
     bonusmagic: ~
     features:
       2: ['Evocation Savant', 'Sculpt Spells']
@@ -962,8 +1097,11 @@ subclasses:
       10: ['Empowered Evocation']
       14: ['Overchannel']
     languages: ~
-    proficiency: ~
+    skills: ~
+    tools: []
+    weapons: []
   School of Illusion:
+    armors: []
     bonusmagic: ~
     features:
       2: ['Illusion Savant', 'Improved Minor Illusion']
@@ -971,9 +1109,11 @@ subclasses:
       10: ['Illusory Self']
       14: ['Illusory Reality']
     languages: ~
-    proficiency: ~
     skills: ~
+    tools: []
+    weapons: []
   School of Necromancy:
+    armors: []
     bonusmagic: ~
     features:
       2: ['Necromancy Savant', 'Grim Harvest']
@@ -981,9 +1121,11 @@ subclasses:
       10: ['Inured to Undeath']
       14: ['Command Undead']
     languages: ~
-    proficiency: ~
     skills: ~
+    tools: []
+    weapons: []
   School of Transmutation:
+    armors: []
     bonusmagic: ~
     features:
       2: ['Transmutation Savant', 'Minor Alchemy']
@@ -991,9 +1133,11 @@ subclasses:
       10: ['Shapechanger']
       14: ['Master Transmuter']
     languages: ~
-    proficiency: ~
     skills: ~
+    tools: []
+    weapons: []
   War Magic:
+    armors: []
     bonusmagic: ~
     features:
       2: ['Arcane Deflection', 'Tactical Wit']
@@ -1001,5 +1145,6 @@ subclasses:
       10: ['Durable Magic']
       14: ['Deflecting Shroud']
     languages: ~
-    proficiency: ~
     skills: ~
+    tools: []
+    weapons: []
