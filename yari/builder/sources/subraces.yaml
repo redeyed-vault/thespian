@@ -1,55 +1,53 @@
 subraces:
   # Aasimar Subraces
   Fallen:
+    armors: []
     bonus:
       Strength: 1
     darkvision: ~
     innatemagic: ~
     languages: []
     parent: Aasimar
-    proficiency:
-      armors: []
-      tools: []
-      weapons: []
     ratio: ~
     resistances: []
     skills: []
+    tools: []
     traits:
       - [Necrotic Shroud, 3]
+    weapons: []
   Protector:
+    armors: []
     bonus:
       Wisdom: 1
     darkvision: ~
     innatemagic: ~
     languages: []
     parent: Aasimar
-    proficiency:
-      armors: []
-      tools: []
-      weapons: []
     ratio: ~
     resistances: []
     skills: []
+    tools: []
     traits:
       - [Radiant Soul, 3]
+    weapons: []
   Scourge:
+    armors: []
     bonus:
       Constitution: 1
     darkvision: ~
     innatemagic: ~
     languages: []
     parent: Aasimar
-    proficiency:
-      armors: []
-      tools: []
-      weapons: []
     ratio: ~
     resistances: []
     skills: []
+    tools: []
     traits:
       - [Radiant Consumption, 3]
+    weapons: []
   # Dwarf Subraces
   Duergar:
+    armors: []
     bonus:
       Strength: 1
     darkvision: 120
@@ -58,10 +56,6 @@ subraces:
       5: [Invisibility]
     languages: ['Undercommon']
     parent: Dwarf
-    proficiency:
-      armors: []
-      tools: []
-      weapons: []
     ratio:
       height:
         base: 44
@@ -69,25 +63,27 @@ subraces:
       weight:
         base: 115
         modifier: 2d6
-    resistances: [Charm, Illusion, Paralysis]
+    resistances:
+      - Charm
+      - Illusion
+      - Paralysis
     skills: []
+    tools: []
     traits:
       - Duergar Magic
       - Duergar Resilience
       - Extra Language
       - Sunlight Sensitivity
       - Superior Darkvision
+    weapons: []
   Hill:
+    armors: []
     bonus:
       Wisdom: 1
     darkvision: ~
     innatemagic: ~
     languages: []
     parent: Dwarf
-    proficiency:
-      armors: []
-      tools: []
-      weapons: []
     ratio:
       height:
         base: 44
@@ -97,19 +93,18 @@ subraces:
         modifier: 2d6
     resistances: []
     skills: []
+    tools: []
     traits:
       - Dwarven Toughness
+    weapons: []
   Mountain:
+    armors: [Light, Medium]
     bonus:
       Strength: 2
     darkvision: ~
     innatemagic: ~
     languages: []
     parent: Dwarf
-    proficiency:
-      armors: [Light, Medium]
-      tools: []
-      weapons: []
     ratio:
       height:
         base: 48
@@ -119,10 +114,13 @@ subraces:
         modifier: 2d6
     resistances: []
     skills: []
+    tools: []
     traits:
       - Dwarven Armor Training
+    weapons: []
   # Elf Subraces
   Drow:
+    armors: []
     bonus:
       Charisma: 1
     darkvision: 120
@@ -132,10 +130,6 @@ subraces:
       5: [Darkness]
     languages: []
     parent: Elf
-    proficiency:
-      armors: []
-      tools: []
-      weapons: [Hand Crossbow, Rapier, Shortsword]
     ratio:
       height:
         base: 53
@@ -145,22 +139,24 @@ subraces:
         modifier: 1d6
     resistances: []
     skills: []
+    tools: []
     traits:
       - Drow Magic
       - Drow Weapon Training
       - Sunlight Sensitivity
       - Superior Darkvision
+    weapons:
+      - Hand Crossbow
+      - Rapier
+      - Shortsword
   Eladrin:
+    armors: []
     bonus:
       Intelligence: 1
     darkvision: ~
     innatemagic: ~
     languages: []
     parent: Elf
-    proficiency:
-      armors: []
-      tools: []
-      weapons: [Longsword, Shortsword, Shortbow, Longbow]
     ratio:
       height:
         base: 54
@@ -170,10 +166,17 @@ subraces:
         modifier: 1d4
     resistances: []
     skills: []
+    tools: []
     traits:
       - Elf Weapon Training
       - Fey Step
+    weapons:
+      - Longsword
+      - Shortsword
+      - Shortbow
+      - Longbow
   High:
+    armors: []
     bonus:
       Intelligence: 1
     darkvision: ~
@@ -213,10 +216,6 @@ subraces:
       - Undercommon
       - 1
     parent: Elf
-    proficiency:
-      armors: []
-      tools: []
-      weapons: [Longsword, Shortsword, Shortbow, Longbow]
     ratio:
       height:
         base: 54
@@ -226,21 +225,24 @@ subraces:
         modifier: 1d4
     resistances: []
     skills: []
+    tools: []
     traits:
       - Cantrip
       - Elf Weapon Training
       - Extra Language
+    weapons:
+      - Longsword
+      - Shortsword
+      - Shortbow
+      - Longbow
   Sea:
+    armors: []
     bonus:
       Constitution: 1
     darkvision: ~
     innatemagic: ~
     languages: ['Aquan']
     parent: Elf
-    proficiency:
-      armors: []
-      tools: []
-      weapons: [Light Crossbow, Net, Spear, Trident]
     ratio:
       height:
         base: 54
@@ -250,21 +252,24 @@ subraces:
         modifier: 1d4
     resistances: []
     skills: []
+    tools: []
     traits:
       - Child of the Sea
       - Friend of the Sea
       - Sea Elf Training
+    weapons:
+      - Light Crossbow
+      - Net
+      - Spear
+      - Trident
   Shadar-kai:
+    armors: []
     bonus:
       Constitution: 1
     darkvision: ~
     innatemagic: ~
     languages: []
     parent: Elf
-    proficiency:
-      armors: []
-      tools: []
-      weapons: []
     ratio:
       height:
         base: 56
@@ -274,20 +279,19 @@ subraces:
         modifier: 1d4
     resistances: [Necrotic]
     skills: []
+    tools: []
     traits:
       - Blessing of the Raven Queen
       - Necrotic Resistance
+    weapons: []
   Wood:
+    armors: []
     bonus:
       Wisdom: 1
     darkvision: ~
     innatemagic: ~
     languages: []
     parent: Elf
-    proficiency:
-      armors: []
-      tools: []
-      weapons: [Longsword, Shortsword, Shortbow, Longbow]
     ratio:
       height:
         base: 54
@@ -297,12 +301,19 @@ subraces:
         modifier: 1d4
     resistances: []
     skills: []
+    tools: []
     traits:
       - Elf Weapon Training
       - Fleet of Foot
       - Mask of the Wild
+    weapons:
+      - Longsword
+      - Shortsword
+      - Shortbow
+      - Longbow
   # Gith Subraces
   Githyanki:
+    armors: [Light, Medium]
     bonus:
       Strength: 2
     darkvision: ~
@@ -328,10 +339,6 @@ subraces:
       - Undercommon
       - 1
     parent: Gith
-    proficiency:
-      armors: [Light, Medium]
-      tools: []
-      weapons: [Greatsword, Longsword, Shortsword]
     ratio:
       height:
         base: 60
@@ -341,11 +348,17 @@ subraces:
         modifier: 2d4
     resistances: []
     skills: []
+    tools: []
     traits:
       - Decadent Mastery
       - Githyanki Psionics
       - Martial Prodigy
+    weapons:
+      - Greatsword
+      - Longsword
+      - Shortsword
   Githzerai:
+    armors: []
     bonus:
       Wisdom: 2
     darkvision: ~
@@ -355,10 +368,6 @@ subraces:
       5: [Detect Thoughts]
     languages: []
     parent: Gith
-    proficiency:
-      armors: []
-      tools: []
-      weapons: []
     ratio:
       height:
         base: 59
@@ -368,29 +377,31 @@ subraces:
         modifier: 1d4
     resistances: [Charm, Fright]
     skills: []
+    tools: []
     traits:
       - Githzerai Psionics
       - Mental Discipline
+    weapons: []
   # Gnome Subraces
   Deep:
+    armors: []
     bonus:
       Dexterity: 1
     darkvision: 120
     innatemagic: ~
     languages: ['Undercommon']
     parent: Gnome
-    proficiency:
-      armors: []
-      tools: []
-      weapons: []
     ratio: ~
     resistances: []
     skills: []
+    tools: []
     traits:
       - Extra Language
       - Superior Darkvision
       - Stone Camouflage
+    weapons: []
   Forest:
+    armors: []
     bonus:
       Dexterity: 1
     darkvision: ~
@@ -398,33 +409,30 @@ subraces:
       - Minor Illusion
     languages: []
     parent: Gnome
-    proficiency:
-      armors: []
-      tools: []
-      weapons: []
     ratio: ~
     resistances: []
     skills: []
+    tools: []
     traits:
       - Natural Illusionist
-      - Speak with Small Beasts]
+      - Speak with Small Beasts
+    weapons: []
   Rock:
+    armors: []
     bonus:
       Constitution: 1
     darkvision: ~
     innatemagic: ~
     languages: []
     parent: Gnome
-    proficiency:
-      armors: []
-      tools: [Artisan's tools - Tinker's tools]
-      weapons: []
     ratio: ~
     resistances: []
     skills: []
+    tools: [Artisan's tools - Tinker's tools]
     traits:
       - Artificer's Lore
       - Tinker
+    weapons: []
   # Halfling Subraces
   Lightfoot:
     bonus:
@@ -555,6 +563,7 @@ subraces:
     traits:
       - Legacy of Malbolge
   Levistus:
+    armors: []
     bonus:
       Constitution: 1
     darkvision: ~
@@ -564,16 +573,15 @@ subraces:
       5: [Darkness]
     languages: []
     parent: Tiefling
-    proficiency:
-      armors: []
-      tools: []
-      weapons: []
     ratio: ~
     resistances: []
     skills: []
+    tools: []
     traits:
       - Legacy of Stygia
+    weapons: []
   Mammon:
+    armors: []
     bonus:
       Intelligence: 1
     darkvision: ~
@@ -583,16 +591,15 @@ subraces:
       5: [Arcane Lock]
     languages: []
     parent: Tiefling
-    proficiency:
-      armors: []
-      tools: []
-      weapons: []
     ratio: ~
     resistances: []
     skills: []
+    tools: []
     traits:
       - Legacy of Minauros
+    weapons: []
   Mephistopheles:
+    armors: []
     bonus:
       Intelligence: 1
     darkvision: ~
@@ -602,16 +609,15 @@ subraces:
       5: [Flame Blade]
     languages: []
     parent: Tiefling
-    proficiency:
-      armors: []
-      tools: []
-      weapons: []
     ratio: ~
     resistances: []
     skills: []
+    tools: []
     traits:
       - Legacy of Cania
+    weapons: []
   Zariel:
+    armors: []
     bonus:
       Strength: 1
     darkvision: ~
@@ -621,12 +627,10 @@ subraces:
       5: [Branding Smite]
     languages: []
     parent: Tiefling
-    proficiency:
-      armors: []
-      tools: []
-      weapons: []
     ratio: ~
     resistances: []
     skills: []
+    tools: []
     traits:
       - Legacy of Avernus
+    weapons: []

@@ -1,15 +1,12 @@
 races:
   Aasimar:
+    armors: []
     bonus:
       Charisma: 2
     darkvision: 60
     innatemagic:
       1: [Light]
     languages: ['Common', 'Celestial']
-    proficiency:
-      armors: []
-      tools: []
-      weapons: []
     ratio:
       height:
         base: 56
@@ -21,21 +18,20 @@ races:
     size: Medium
     skills: []
     speed: 30
+    tools: []
     traits:
       - Celestial Legacy
       - Celestial Resistance
       - Darkvision
+    weapons: []
   Bugbear:
+    armors: []
     bonus:
       Dexterity: 1
       Strength: 2
     darkvision: 60
     innatemagic: ~
     languages: ['Common', 'Goblin']
-    proficiency:
-      armors: []
-      tools: []
-      weapons: []
     ratio:
       height:
         base: 72
@@ -47,23 +43,22 @@ races:
     size: Medium
     skills: [Stealth]
     speed: 30
+    tools: []
     traits:
       - Darkvision
       - Long-Limbed
       - Powerful Build
       - Sneaky
       - Surprise Attack
+    weapons: []
   Dragonborn:
+    armors: []
     bonus:
       Strength: 2
       Charisma: 1
     darkvision: ~
     innatemagic: ~
     languages: ['Common', 'Draconic']
-    proficiency:
-      armors: []
-      tools: []
-      weapons: []
     ratio:
       height:
         base: 66
@@ -85,29 +80,29 @@ races:
     size: Medium
     skills: []
     speed: 30
+    tools: []
     traits:
       - Breath Weapon
       - Damage Resistance
       - Draconic Ancestry
+    weapons: []
   Dwarf:
+    armors: []
     bonus:
       Constitution: 2
     darkvision: 60
     innatemagic: ~
     languages: ['Common', 'Dwarvish']
-    proficiency:
-      armors: []
-      tools:
-        - Artisan's tools - Brewer's supplies
-        - Artisan's tools - Mason's tools
-        - Artisan's tools - Smith's tools
-        - 1
-      weapons: [Battleaxe, Handaxe, Throwing hammer, Warhammer]
     ratio: ~
     resistances: [Poison]
     size: Medium
     skills: []
     speed: 30
+    tools:
+      - Artisan's tools - Brewer's supplies
+      - Artisan's tools - Mason's tools
+      - Artisan's tools - Smith's tools
+      - 1
     traits:
       - Darkvision
       - Dwarven Combat Training
@@ -115,27 +110,32 @@ races:
       - Dwarven Toughness
       - Stonecunning
       - Tool Proficiency
+    weapons:
+      - Battleaxe
+      - Handaxe
+      - Throwing hammer
+      - Warhammer
   Elf:
+    armors: []
     bonus:
       Dexterity: 2
     darkvision: 60
     innatemagic: ~
     languages: ['Common', 'Elvish']
-    proficiency:
-      armors: []
-      tools: []
-      weapons: []
     ratio: ~
     resistances: [Charm, Sleep]
     size: Medium
     skills: [Perception]
     speed: 30
+    tools: []
     traits:
       - Darkvision
       - Fey Ancestry
       - Keen Senses
       - Trance
+    weapons: []
   Firbolg:
+    armors: []
     bonus:
       Strength: 1
       Wisdom: 2
@@ -143,10 +143,6 @@ races:
     innatemagic:
       1: [Detect Magic, Disguise]
     languages: ['Common', 'Elvish', 'Giant']
-    proficiency:
-      armors: []
-      tools: []
-      weapons: []
     ratio:
       height:
         base: 74
@@ -158,37 +154,35 @@ races:
     size: Medium
     skills: []
     speed: 30
+    tools: []
     traits:
       - Firbolg Magic
       - Hidden Step
       - Powerful Build
       - Speech of Beast and Leaf
+    weapons: []
   Gith:
+    armors: []
     bonus:
       Intelligence: 1
     darkvision: ~
     innatemagic: ~
     languages: ['Common', 'Gith']
-    proficiency:
-      armors: []
-      tools: []
-      weapons: []
     ratio: ~
     resistances: []
     size: Medium
     skills: []
     speed: 30
+    tools: []
     traits: ~
+    weapons: []
   Gnome:
+    armors: []
     bonus:
       Intelligence: 2
     darkvision: 60
     innatemagic: ~
     languages: ['Common', 'Gnomish']
-    proficiency:
-      armors: []
-      tools: []
-      weapons: []
     ratio:
       height:
         base: 35
@@ -200,20 +194,19 @@ races:
     size: Small
     skills: []
     speed: 25
+    tools: []
     traits:
       - Gnome Cunning
       - Darkvision
+    weapons: []
   Goblin:
+    armors: []
     bonus:
       Dexterity: 2
       Constitution: 1
     darkvision: 60
     innatemagic: ~
     languages: ['Common', 'Goblin']
-    proficiency:
-      armors: []
-      tools: []
-      weapons: []
     ratio:
       height:
         base: 41
@@ -225,21 +218,20 @@ races:
     size: Small
     skills: []
     speed: 30
+    tools: []
     traits:
       - Darkvision
       - Fury of the Small
       - Nimble Escape
+    weapons: []
   Goliath:
+    armors: []
     bonus:
       Constitution: 1
       Strength: 2
     darkvision: 60
     innatemagic: ~
     languages: ['Common', 'Giant']
-    proficiency:
-      armors: []
-      tools: []
-      weapons: []
     ratio:
       height:
         base: 74
@@ -251,22 +243,24 @@ races:
     size: Medium
     skills: [Athletics]
     speed: 30
+    tools: []
     traits:
       - Natural Athlete
       - Stone's Endurance
       - Powerful Build
       - Mountain Born
+    weapons: []
   HalfElf:
+    armors: []
     bonus:
       Charisma: 2
       random: 1
     darkvision: 60
     innatemagic: ~
-    languages: ['Common', 'Elvish']
-    proficiency:
-      armors: []
-      tools: []
-      weapons: []
+    languages:
+      - Common
+      - Elvish
+      - [Abyssal, Celestial, Deep Speech, Draconic, Dwarvish, Giant, Gith, Gnomish, Goblin, Halfling, Infernal, Orc, Primordial, Sylvan, Undercommon, 1]
     ratio:
       height:
         base: 57
@@ -297,22 +291,21 @@ races:
       - Survival
       - 2
     speed: 30
+    tools: []
     traits:
-      - [Darkvision]
-      - [Fey Ancestry]
-      - [Languages, [Abyssal, Celestial, Deep Speech, Draconic, Dwarvish, Giant, Gith, Gnomish, Goblin, Halfling, Infernal, Orc, Primordial, Sylvan, Undercommon]]
-      - [Skill Versatility]
+      - Darkvision
+      - Fey Ancestry
+      - Languages
+      - Skill Versatility
+    weapons: []
   HalfOrc:
+    armors: []
     bonus:
       Strength: 2
       Constitution: 1
     darkvision: 60
     innatemagic: ~
     languages: ['Common', 'Orc']
-    proficiency:
-      armors: []
-      tools: []
-      weapons: []
     ratio:
       height:
         base: 58
@@ -324,21 +317,20 @@ races:
     size: Medium
     skills: [Intimidation]
     speed: 30
+    tools: []
     traits:
-      - [Darkvision]
-      - [Menacing]
-      - [Relentless Endurance]
-      - [Savage Attacks]
+      - Darkvision
+      - Menacing
+      - Relentless Endurance
+      - Savage Attacks
+    weapons: []
   Halfling:
+    armors: []
     bonus:
       Dexterity: 2
     darkvision: 60
     innatemagic: ~
     languages: ['Common', 'Halfling']
-    proficiency:
-      armors: []
-      tools: []
-      weapons: []
     ratio:
       height:
         base: 31
@@ -350,43 +342,20 @@ races:
     size: Small
     skills: []
     speed: 25
+    tools: []
     traits:
       - Brave
       - Halfling Nimbleness
       - Lucky
+    weapons: []
   Hobgoblin:
+    armors: []
     bonus:
       Constitution: 2
       Intelligence: 1
     darkvision: 60
     innatemagic: ~
     languages: ['Common', 'Goblin']
-    proficiency:
-      armors: []
-      tools: []
-      weapons:
-        - Battleaxe
-        - Blowgun
-        - Flail
-        - Greataxe
-        - Greatsword
-        - Halberd
-        - Hand Crossbow
-        - Heavy Crossbow
-        - Lance, Longbow
-        - Longsword
-        - Maul
-        - Morningstar
-        - Net
-        - Pike
-        - Rapier
-        - Scimitar
-        - Shortsword
-        - Trident
-        - War pick
-        - Warhammer
-        - Whip
-        - 2
     ratio:
       height:
         base: 56
@@ -398,11 +367,36 @@ races:
     size: Medium
     skills: []
     speed: 30
+    tools: []
     traits:
       - Darkvision
       - Martial Training
       - Saving Face
+    weapons:
+      - Battleaxe
+      - Blowgun
+      - Flail
+      - Greataxe
+      - Greatsword
+      - Halberd
+      - Hand Crossbow
+      - Heavy Crossbow
+      - Lance, Longbow
+      - Longsword
+      - Maul
+      - Morningstar
+      - Net
+      - Pike
+      - Rapier
+      - Scimitar
+      - Shortsword
+      - Trident
+      - War pick
+      - Warhammer
+      - Whip
+      - 2
   Human:
+    armors: []
     bonus:
       Strength: 1
       Dexterity: 1
@@ -412,11 +406,9 @@ races:
       Charisma: 1
     darkvision: ~
     innatemagic: ~
-    languages: ['Common']
-    proficiency:
-      armors: []
-      tools: []
-      weapons: []
+    languages:
+      - Common
+      - [Abyssal, Celestial, Deep Speech, Draconic, Dwarvish, Elvish, Giant, Gith, Gnomish, Goblin, Halfling, Infernal, Orc, Primordial, Sylvan, Undercommon]
     ratio:
       height:
         base: 56
@@ -427,8 +419,10 @@ races:
     size: Medium
     skills: []
     speed: 30
+    tools: []
     traits:
-      - [Languages, [Abyssal, Celestial, Deep Speech, Draconic, Dwarvish, Elvish, Giant, Gith, Gnomish, Goblin, Halfling, Infernal, Orc, Primordial, Sylvan, Undercommon]]
+      - Languages
+    weapons: []
   Kenku:
     bonus:
       Dexterity: 2
