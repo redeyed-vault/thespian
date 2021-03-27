@@ -408,7 +408,7 @@ races:
     innatemagic: ~
     languages:
       - Common
-      - [Abyssal, Celestial, Deep Speech, Draconic, Dwarvish, Elvish, Giant, Gith, Gnomish, Goblin, Halfling, Infernal, Orc, Primordial, Sylvan, Undercommon]
+      - [Abyssal, Celestial, Deep Speech, Draconic, Dwarvish, Elvish, Giant, Gith, Gnomish, Goblin, Halfling, Infernal, Orc, Primordial, Sylvan, Undercommon, 1]
     ratio:
       height:
         base: 56
@@ -424,16 +424,13 @@ races:
       - Languages
     weapons: []
   Kenku:
+    armors: []
     bonus:
       Dexterity: 2
       Wisdom: 1
     darkvision: ~
     innatemagic: ~
     languages: ['Common', 'Auran']
-    proficiency:
-      armors: []
-      tools: []
-      weapons: []
     ratio:
       height:
         base: 52
@@ -450,21 +447,20 @@ races:
       - Sleight of Hand
       - 2
     speed: 30
+    tools: []
     traits:
       - Expert Forgery
       - Kenku Training
       - Mimicry
+    weapons: []
   Kobold:
+    armors: []
     bonus:
       Dexterity: 2
       Strength: -2
     darkvision: 60
     innatemagic: ~
     languages: ['Common', 'Draconic']
-    proficiency:
-      armors: []
-      tools: []
-      weapons: []
     ratio:
       height:
         base: 25
@@ -476,22 +472,21 @@ races:
     size: Small
     skills: []
     speed: 30
+    tools: []
     traits:
       - Darkvision
       - Grovel, Cower, and Beg
       - Pack Tactics
       - Sunlight Sensitivity
+    weapons: []
   Lizardfolk:
+    armors: []
     bonus:
       Constitution: 2
       Wisdom: 1
     darkvision: ~
     innatemagic: ~
     languages: ['Common', 'Draconic']
-    proficiency:
-      armors: []
-      tools: []
-      weapons: []
     ratio:
       height:
         base: 57
@@ -509,24 +504,23 @@ races:
       - Survival
       - 2
     speed: 30
+    tools: []
     traits:
-      - [Bite, 1d6]
-      - [Cunning Artisan]
-      - [Hold Breath]
-      - [Hunter's Lore]
-      - [Natural Armor, 13]
-      - [Hungry Jaws]
+      - Bite
+      - Cunning Artisan
+      - Hold Breath
+      - Hunter's Lore
+      - Natural Armor
+      - Hungry Jaws
+    weapons: []
   Orc:
+    armors: []
     bonus:
       Constitution: 1
       Strength: 2
     darkvision: 60
     innatemagic: ~
     languages: ['Common', 'Orc']
-    proficiency:
-      armors: []
-      tools: []
-      weapons: []
     ratio:
       height:
         base: 64
@@ -538,22 +532,23 @@ races:
     size: Medium
     skills: [Intimidation]
     speed: 30
+    tools: []
     traits:
       - Darkvision
       - Aggressive
       - Menacing
       - Powerful Build
+    weapons: []
   Tabaxi:
+    armors: []
     bonus:
       Dexterity: 2
       Charisma: 1
     darkvision: 60
     innatemagic: ~
-    languages: ['Common']
-    proficiency:
-      armors: []
-      tools: []
-      weapons: []
+    languages:
+      - Common
+      - [Abyssal, Celestial, Deep Speech, Draconic, Dwarvish, Elvish, Giant, Gith, Gnomish, Goblin, Halfling, Infernal, Orc, Primordial, Sylvan, Undercommon, 1]
     ratio:
       height:
         base: 58
@@ -565,13 +560,16 @@ races:
     size: Medium
     skills: [Perception]
     speed: 30
+    tools: []
     traits:
-      - [Darkvision]
-      - [Feline Agility]
-      - [Cat's Claws, 1d4]
-      - [Cat's Talent]
-      - [Languages, [Abyssal, Celestial, Deep Speech, Draconic, Dwarvish, Elvish, Giant, Gith, Gnomish, Goblin, Halfling, Infernal, Orc, Primordial, Sylvan, Undercommon]]
+      - Darkvision
+      - Feline Agility
+      - Cat's Claws
+      - Cat's Talent
+      - Languages
+    weapons: []
   Tiefling:
+    armors: []
     bonus:
       Charisma: 2
     darkvision: 60
@@ -579,10 +577,6 @@ races:
     languages:
       - Common
       - Infernal
-    proficiency:
-      armors: []
-      tools: []
-      weapons: []
     ratio:
       height:
         base: 57
@@ -594,10 +588,13 @@ races:
     size: Medium
     skills: []
     speed: 30
+    tools: []
     traits:
       - Darkvision
       - Hellish Resistance
+    weapons: []
   Triton:
+    armors: []
     bonus:
       Charisma: 1
       Constitution: 1
@@ -607,10 +604,6 @@ races:
     languages:
       - Common
       - Primordial
-    proficiency:
-      armors: []
-      tools: []
-      weapons: []
     ratio:
       height:
         base: 54
@@ -622,12 +615,15 @@ races:
     size: Medium
     skills: []
     speed: 30
+    tools: []
     traits:
       - Amphibious
       - Control Air and Water
       - Emissary of the Sea
       - Guardians of the Depths
+    weapons: []
   Yuanti:
+    armors: []
     bonus:
       Charisma: 2
       Intelligence: 1
@@ -639,10 +635,6 @@ races:
       - Abyssal
       - Common
       - Draconic
-    proficiency:
-      armors: []
-      tools: []
-      weapons: []
     ratio:
       height:
         base: 56
@@ -654,8 +646,10 @@ races:
     size: Medium
     skills: []
     speed: 30
+    tools: []
     traits:
       - Darkvision
       - Innate Spellcasting
       - Magic Resistance
       - Poison Immunity
+    weapons: []
