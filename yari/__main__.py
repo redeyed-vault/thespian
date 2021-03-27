@@ -1,10 +1,13 @@
 import argparse
+from random import choice
 
 from yari import (
     Yari,
     ImprovementGenerator,
     get_character_classes,
     get_character_races,
+    get_subclasses_by_class,
+    prompt,
 )
 
 
@@ -29,13 +32,15 @@ def main():
         choices=get_character_classes(),
         default="Fighter",
     )
-    app.add_argument("-subclass", "-sc", help="sets character's subclass", type=str)
+    app.add_argument(
+        "-subclass", "-sc", help="sets character's subclass", type=str, default=""
+    )
     app.add_argument(
         "-level",
         "-l",
         help="sets character's level",
         type=int,
-        choices=list(range(1, 21)),
+        choices=tuple(range(1, 21)),
         default=1,
     )
     app.add_argument(
@@ -76,6 +81,9 @@ def main():
     sex = args.sex
     alignment = args.alignment
     background = args.background
+
+    if subclass == "":
+        subclass = prompt("Choose your subclass", get_subclasses_by_class(klass))
 
     f = Yari(race, subrace, klass, subclass, level, sex, background)
     f.run()
