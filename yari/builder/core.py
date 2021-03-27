@@ -12,12 +12,13 @@ from ..utils import (
     get_character_feats,
     get_proficiency_bonus,
     prompt,
+    sample_choice,
     truncate_dict,
 )
 
 
 @dataclass
-class YariAttributeBuilder:
+class _AttributeBuilder:
     """
     Assigns abilities by class, and adds racial bonuses in value/modifier pairs.
 
@@ -37,8 +38,8 @@ class YariAttributeBuilder:
 
         """
 
-        def determine_ability_scores(threshold: Type[int]) -> list:
-            def _roll() -> int:
+        def determine_ability_scores(threshold: Type[int]) -> List[int]:
+            def _roll() -> Type[int]:
                 rolls = list(roll("4d6"))
                 rolls.remove(min(rolls))
                 return sum(rolls)
@@ -65,6 +66,10 @@ class YariAttributeBuilder:
             "Charisma",
         ]
 
+        # Generate six ability scores
+        # Assign primary class abilities first
+        # Assign the remaining abilities
+        # Apply racial bonuses
         generated_scores = determine_ability_scores(self.threshold)
         for ability in tuple(self.primary_ability.values()):
             value = max(generated_scores)
@@ -84,16 +89,16 @@ class YariAttributeBuilder:
         return score_array
 
 
-class _YariBuilder:
+class _CharacterBuilder:
     def __init__(
         self,
         race: Type[str],
         subrace: Type[str],
         klass: Type[str],
         subclass: Type[str],
-        level: Type[int] = 1,
-        sex: Type[str] = "Female",
-        background: Type[str] = "",
+        level: Type[int],
+        sex: Type[str],
+        background: Type[str],
     ):
         if level < 3:
             subclass = ""
@@ -125,31 +130,11 @@ class _YariBuilder:
             "tools",
             "weapons",
         ):
-            class_proficiency_list = data.get("proficiency").get(category)
-            if len(class_proficiency_list) < 2:
-                sample_count = None
-            else:
-                sample_count = class_proficiency_list[-1]
-                if not isinstance(sample_count, int):
-                    sample_count = None
-            if sample_count is None:
-                class_proficiency_list = [
-                    x
-                    for x in class_proficiency_list
-                    if x not in race_data["proficiency"][category]
-                ]
-                data["proficiency"][category] = class_proficiency_list
-            elif isinstance(sample_count, int):
-                del class_proficiency_list[-1]
-                class_proficiency_list = [
-                    x
-                    for x in class_proficiency_list
-                    if x not in race_data["proficiency"][category]
-                ]
-                sample_count = int(sample_count)
-                data["proficiency"][category] = sample(
-                    class_proficiency_list, sample_count
-                )
+            class_proficiency_list = data[category]
+            class_proficiency_list = [
+                x for x in class_proficiency_list if x not in race_data[category]
+            ]
+            data[category] = sample_choice(class_proficiency_list)
 
         bonus_languages = Load.get_columns(klass, "languages", source_file="classes")
         if len(bonus_languages) != 0:
@@ -192,21 +177,16 @@ class _YariBuilder:
                             data["features"][level_obtained] = feature_list
                     data["features"] = truncate_dict(data["features"], level)
                 elif feature == "proficiency":
-                    subclass_proficiency_categories = Load.get_columns(
-                        subclass, feature, source_file="subclasses"
-                    )
-                    if subclass_proficiency_categories is not None:
-                        for category in tuple(subclass_proficiency_categories.keys()):
-                            subclass_proficiencies = Load.get_columns(
-                                subclass,
-                                "proficiency",
-                                category,
-                                source_file="subclasses",
-                            )
-                            proficiency_base = data["proficiency"][category]
-                            for proficiency in subclass_proficiencies:
-                                if proficiency not in proficiency_base:
-                                    proficiency_base.append(proficiency)
+                    for category in ("armors", "tools", "weapons"):
+                        subclass_proficiencies = Load.get_columns(
+                            subclass,
+                            category,
+                            source_file="subclasses",
+                        )
+                        proficiency_base = data[category]
+                        for proficiency in subclass_proficiencies:
+                            if proficiency not in proficiency_base:
+                                proficiency_base.append(proficiency)
                 elif feature == "skills":
                     bonus_skills = subclass_data[feature]
                     if bonus_skills is None:
@@ -252,15 +232,8 @@ class _YariBuilder:
         if data is None:
             raise Error(f"Cannot load race template for '{race}'.")
 
-        racial_proficiencies = data.get("proficiency")
-        for category in racial_proficiencies:
-            base_proficiencies = racial_proficiencies.get(category)
-            if len(base_proficiencies) >= 2:
-                last_value = base_proficiencies[-1]
-                if isinstance(last_value, int):
-                    del base_proficiencies[-1]
-                    base_proficiencies = sample(base_proficiencies, last_value)
-            data["proficiency"][category] = base_proficiencies
+        for category in ("armors", "tools", "weapons"):
+            data[category] = sample_choice(data.get(category))
 
         if subrace != "":
             subrace_data = Load.get_columns(subrace, source_file="subraces")
@@ -269,6 +242,15 @@ class _YariBuilder:
             for trait, value in subrace_data.items():
                 if trait not in data:
                     data[trait] = subrace_data[trait]
+                elif trait in (
+                    "armors",
+                    "languages",
+                    "resistances",
+                    "skills",
+                    "tools",
+                    "weapons",
+                ):
+                    data[trait] += subrace_data[trait]
                 elif trait == "bonus":
                     for ability, bonus in value.items():
                         data[trait][ability] = bonus
@@ -303,21 +285,10 @@ class _YariBuilder:
                                 for spell in spells:
                                     spell_list.append(spell)
                             data[trait] = spell_list
-                elif trait == "languages":
-                    data[trait] += subrace_data[trait]
-                elif trait == "proficiency":
-                    subrace_proficiency_types = subrace_data[trait]
-                    for category in tuple(subrace_proficiency_types.keys()):
-                        subrace_proficiencies = subrace_proficiency_types.get(category)
-                        data[trait][category] += subrace_proficiencies
-                elif trait == "skills":
-                    data[trait] += subrace_data[trait]
                 elif trait == "ratio":
                     if data[trait] is None:
                         subrace_ratio = subrace_data[trait]
                         data[trait] = subrace_ratio
-                elif trait == "resistances":
-                    data[trait] += subrace_data[trait]
                 elif trait == "traits":
                     for other in subrace_data.get(trait):
                         data[trait].append(other)
@@ -843,7 +814,9 @@ class ImprovementGenerator:
                     ]
                     if bonus_choice == 1:
                         for _ in range(2):
-                            upgrade_choice = prompt("Choose an ability to upgrade", upgrade_options)
+                            upgrade_choice = prompt(
+                                "Choose an ability to upgrade", upgrade_options
+                            )
                             upgrade_options.remove(upgrade_choice)
                             self._set_ability_score(upgrade_choice, bonus_choice)
                     elif bonus_choice == 2:
@@ -867,7 +840,7 @@ class ImprovementGenerator:
                 num_of_upgrades -= 1
 
 
-class Yari(_YariBuilder):
+class Yari(_CharacterBuilder):
     def __init__(
         self,
         race: Type[str],
@@ -885,9 +858,7 @@ class Yari(_YariBuilder):
         cdata = self._build_class(self.klass, self.subclass, self.level, rdata)
         self.abilities = cdata.get("abilities")
         self.ancestor = None
-        self.armors = rdata.get("proficiency").get("armors") + cdata.get(
-            "proficiency"
-        ).get("armors")
+        self.armors = rdata.get("armors") + cdata.get("armors")
         self.bonus = rdata.get("bonus")
         self.bonusmagic = cdata.get("bonusmagic")
         self.darkvision = rdata.get("darkvision")
@@ -906,13 +877,9 @@ class Yari(_YariBuilder):
         self.skills = cdata.get("skills")
         self.speed = rdata.get("speed")
         self.spellslots = cdata.get("spellslots")
-        self.tools = rdata.get("proficiency").get("tools") + cdata.get(
-            "proficiency"
-        ).get("tools")
+        self.tools = rdata.get("tools") + cdata.get("tools")
         self.traits = rdata.get("traits")
-        self.weapons = rdata.get("proficiency").get("weapons") + cdata.get(
-            "proficiency"
-        ).get("weapons")
+        self.weapons = rdata.get("weapons") + cdata.get("weapons")
         self.weight = rdata.get("weight")
 
     def run(self):
@@ -964,4 +931,4 @@ class Yari(_YariBuilder):
             self.resistances = []
             self.resistances.append(ancestry_resistances.get(draconic_ancestry))
 
-        self.scores = YariAttributeBuilder(self.abilities, self.bonus).roll()
+        self.scores = _AttributeBuilder(self.abilities, self.bonus).roll()
