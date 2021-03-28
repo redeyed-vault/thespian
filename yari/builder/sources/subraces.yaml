@@ -7,7 +7,6 @@ subraces:
     darkvision: ~
     innatemagic: ~
     languages: []
-    parent: Aasimar
     ratio: ~
     resistances: []
     skills: []
@@ -22,7 +21,6 @@ subraces:
     darkvision: ~
     innatemagic: ~
     languages: []
-    parent: Aasimar
     ratio: ~
     resistances: []
     skills: []
@@ -37,7 +35,6 @@ subraces:
     darkvision: ~
     innatemagic: ~
     languages: []
-    parent: Aasimar
     ratio: ~
     resistances: []
     skills: []
@@ -55,7 +52,6 @@ subraces:
       3: [Enlarge/Reduce]
       5: [Invisibility]
     languages: ['Undercommon']
-    parent: Dwarf
     ratio:
       height:
         base: 44
@@ -83,7 +79,6 @@ subraces:
     darkvision: ~
     innatemagic: ~
     languages: []
-    parent: Dwarf
     ratio:
       height:
         base: 44
@@ -104,7 +99,6 @@ subraces:
     darkvision: ~
     innatemagic: ~
     languages: []
-    parent: Dwarf
     ratio:
       height:
         base: 48
@@ -129,7 +123,6 @@ subraces:
       3: [Faerie Fire]
       5: [Darkness]
     languages: []
-    parent: Elf
     ratio:
       height:
         base: 53
@@ -156,7 +149,6 @@ subraces:
     darkvision: ~
     innatemagic: ~
     languages: []
-    parent: Elf
     ratio:
       height:
         base: 54
@@ -215,7 +207,6 @@ subraces:
       - Sylvan
       - Undercommon
       - 1
-    parent: Elf
     ratio:
       height:
         base: 54
@@ -242,7 +233,6 @@ subraces:
     darkvision: ~
     innatemagic: ~
     languages: ['Aquan']
-    parent: Elf
     ratio:
       height:
         base: 54
@@ -269,7 +259,6 @@ subraces:
     darkvision: ~
     innatemagic: ~
     languages: []
-    parent: Elf
     ratio:
       height:
         base: 56
@@ -291,7 +280,6 @@ subraces:
     darkvision: ~
     innatemagic: ~
     languages: []
-    parent: Elf
     ratio:
       height:
         base: 54
@@ -338,7 +326,6 @@ subraces:
       - Sylvan
       - Undercommon
       - 1
-    parent: Gith
     ratio:
       height:
         base: 60
@@ -367,7 +354,6 @@ subraces:
       3: [Shield]
       5: [Detect Thoughts]
     languages: []
-    parent: Gith
     ratio:
       height:
         base: 59
@@ -390,7 +376,6 @@ subraces:
     darkvision: 120
     innatemagic: ~
     languages: ['Undercommon']
-    parent: Gnome
     ratio: ~
     resistances: []
     skills: []
@@ -408,7 +393,6 @@ subraces:
     innatemagic:
       - Minor Illusion
     languages: []
-    parent: Gnome
     ratio: ~
     resistances: []
     skills: []
@@ -424,7 +408,6 @@ subraces:
     darkvision: ~
     innatemagic: ~
     languages: []
-    parent: Gnome
     ratio: ~
     resistances: []
     skills: []
@@ -441,7 +424,6 @@ subraces:
     darkvision: ~
     innatemagic: ~
     languages: []
-    parent: Halfling
     ratio: ~
     resistances: []
     skills: []
@@ -456,7 +438,6 @@ subraces:
     darkvision: ~
     innatemagic: ~
     languages: []
-    parent: Halfling
     ratio: ~
     resistances: [Poison]
     skills: []
@@ -475,7 +456,6 @@ subraces:
       3: [Hellish Rebuke]
       5: [Darkness]
     languages: []
-    parent: Tiefling
     ratio: ~
     resistances: []
     skills: []
@@ -493,7 +473,6 @@ subraces:
       3: [Ray of Sickness]
       5: [Crown of Madness]
     languages: []
-    parent: Tiefling
     ratio: ~
     resistances: []
     skills: []
