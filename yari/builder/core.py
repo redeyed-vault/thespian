@@ -160,7 +160,16 @@ class _CharacterBuilder:
         else:
             subclass_data = Load.get_columns(subclass, source_file="subclasses")
             for feature, value in subclass_data.items():
-                if feature == "bonusmagic":
+                if feature in ("armors", "tools", "weapons"):
+                    subclass_proficiencies = Load.get_columns(
+                        subclass,
+                        feature,
+                        source_file="subclasses",
+                    )
+                    for proficiency in subclass_proficiencies:
+                        if proficiency not in data[feature]:
+                            data[feature].append(proficiency)
+                elif feature == "bonusmagic":
                     if subclass_data[feature] is None:
                         data[feature] = list()
                         continue
@@ -176,17 +185,6 @@ class _CharacterBuilder:
                         else:
                             data["features"][level_obtained] = feature_list
                     data["features"] = truncate_dict(data["features"], level)
-                elif feature == "proficiency":
-                    for category in ("armors", "tools", "weapons"):
-                        subclass_proficiencies = Load.get_columns(
-                            subclass,
-                            category,
-                            source_file="subclasses",
-                        )
-                        proficiency_base = data[category]
-                        for proficiency in subclass_proficiencies:
-                            if proficiency not in proficiency_base:
-                                proficiency_base.append(proficiency)
                 elif feature == "skills":
                     bonus_skills = subclass_data[feature]
                     if bonus_skills is None:
