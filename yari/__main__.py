@@ -6,6 +6,7 @@ from yari import (
     get_character_classes,
     get_character_races,
     get_subclasses_by_class,
+    get_subraces_by_race,
     prompt,
 )
 
@@ -81,8 +82,18 @@ def main():
     alignment = args.alignment
     background = args.background
 
+    subraces = get_subraces_by_race(race)
+    if len(subraces) > 0:
+        if subrace == "":
+            subrace = prompt("Choose your subrace", subraces)
+        elif subrace not in subraces:
+            subrace = prompt("Choose a valid subrace", subraces)
+
+    subclasses = get_subclasses_by_class(klass)
     if subclass == "":
-        subclass = prompt("Choose your subclass", get_subclasses_by_class(klass))
+        subclass = prompt("Choose your subclass", subclasses)
+    elif subclass not in subclasses:
+        subclass = prompt("Choose a valid subclass", subclasses)
 
     f = Yari(race, subrace, klass, subclass, level, sex, background)
     f.run()

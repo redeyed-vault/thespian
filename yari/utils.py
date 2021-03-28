@@ -34,6 +34,11 @@ def get_subclasses_by_class(klass: str) -> list:
     return parser.Load.get_columns(klass, "subclasses", source_file="classes")
 
 
+def get_subraces_by_race(race: str) -> list:
+    """Returns a list of subraces by race."""
+    return parser.Load.get_columns(race, "subraces", source_file="races")
+
+
 def merge_dicts(dict1: dict, dict2: (dict, None) = None) -> dict:
     if dict2 is None:
         return dict1
