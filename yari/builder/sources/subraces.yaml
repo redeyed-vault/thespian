@@ -435,39 +435,38 @@ subraces:
     weapons: []
   # Halfling Subraces
   Lightfoot:
+    armors: []
     bonus:
       Charisma: 1
     darkvision: ~
     innatemagic: ~
     languages: []
     parent: Halfling
-    proficiency:
-      armors: []
-      tools: []
-      weapons: []
     ratio: ~
     resistances: []
     skills: []
+    tools: []
     traits:
       - Naturally Stealthy
+    weapons: []
   Stout:
+    armors: []
     bonus:
       Constitution: 1
     darkvision: ~
     innatemagic: ~
     languages: []
     parent: Halfling
-    proficiency:
-      armors: []
-      tools: []
-      weapons: []
     ratio: ~
     resistances: [Poison]
     skills: []
+    tools: []
     traits:
       - Stout Resilience
+    weapons: []
   # Tiefling Subraces
   Asmodeus:
+    armors: []
     bonus:
       Intelligence: 1
     darkvision: ~
@@ -477,16 +476,15 @@ subraces:
       5: [Darkness]
     languages: []
     parent: Tiefling
-    proficiency:
-      armors: []
-      tools: []
-      weapons: []
     ratio: ~
     resistances: []
     skills: []
+    tools: []
     traits:
       - Infernal Legacy
+    weapons: []
   Baalzebul:
+    armors: []
     bonus:
       Intelligence: 1
     darkvision: ~
@@ -496,16 +494,15 @@ subraces:
       5: [Crown of Madness]
     languages: []
     parent: Tiefling
-    proficiency:
-      armors: []
-      tools: []
-      weapons: []
     ratio: ~
     resistances: []
     skills: []
+    tools: []
     traits:
       - Legacy of Maladomini
+    weapons: []
   Dispater:
+    armors: []
     bonus:
       Dexterity: 1
     darkvision: ~
@@ -515,16 +512,15 @@ subraces:
       5: [Detect Thoughts]
     languages: []
     parent: Tiefling
-    proficiency:
-      armors: []
-      tools: []
-      weapons: []
     ratio: ~
     resistances: []
     skills: []
+    tools: []
     traits:
       - Legacy of Dis
+    weapons: []
   Fierna:
+    armors: []
     bonus:
       Wisdom: 1
     darkvision: ~
@@ -534,16 +530,15 @@ subraces:
       5: [Suggestion]
     languages: []
     parent: Tiefling
-    proficiency:
-      armors: []
-      tools: []
-      weapons: []
     ratio: ~
     resistances: []
     skills: []
+    tools: []
     traits:
       - Legacy of Phlegethos
+    weapons: []
   Glasya:
+    armors: []
     bonus:
       Dexterity: 1
     darkvision: ~
@@ -553,15 +548,13 @@ subraces:
       5: [Invisibility]
     languages: []
     parent: Tiefling
-    proficiency:
-      armors: []
-      tools: []
-      weapons: []
     ratio: ~
     resistances: []
     skills: []
+    tools: []
     traits:
       - Legacy of Malbolge
+    weapons: []
   Levistus:
     armors: []
     bonus:
