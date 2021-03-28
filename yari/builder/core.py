@@ -306,7 +306,7 @@ class _CharacterBuilder:
 
 
 @dataclass
-class ImprovementGenerator:
+class _ImprovementGenerator:
     """
     Applies level based upgrades.
 
@@ -931,7 +931,7 @@ class Yari(_CharacterBuilder):
 
         self.scores = _AttributeBuilder(self.abilities, self.bonus).roll()
 
-        u = ImprovementGenerator(
+        u = _ImprovementGenerator(
             race=self.race,
             subrace=self.subrace,
             subclass=self.subclass,
