@@ -18,6 +18,10 @@ races:
     size: Medium
     skills: []
     speed: 30
+    subraces:
+      - Fallen
+      - Protector
+      - Scourge
     tools: []
     traits:
       - Celestial Legacy
@@ -43,6 +47,7 @@ races:
     size: Medium
     skills: [Stealth]
     speed: 30
+    subraces: []
     tools: []
     traits:
       - Darkvision
@@ -80,6 +85,7 @@ races:
     size: Medium
     skills: []
     speed: 30
+    subraces: []
     tools: []
     traits:
       - Breath Weapon
@@ -98,6 +104,10 @@ races:
     size: Medium
     skills: []
     speed: 30
+    subraces:
+      - Duergar
+      - Hill
+      - Mountain
     tools:
       - Artisan's tools - Brewer's supplies
       - Artisan's tools - Mason's tools
@@ -127,6 +137,13 @@ races:
     size: Medium
     skills: [Perception]
     speed: 30
+    subraces:
+      - Drow
+      - Eladrin
+      - High
+      - Sea
+      - Shadar-kai
+      - Wood
     tools: []
     traits:
       - Darkvision
@@ -154,6 +171,7 @@ races:
     size: Medium
     skills: []
     speed: 30
+    subraces: []
     tools: []
     traits:
       - Firbolg Magic
@@ -173,6 +191,9 @@ races:
     size: Medium
     skills: []
     speed: 30
+    subraces:
+      - Githyanki
+      - Githzerai
     tools: []
     traits: ~
     weapons: []
@@ -194,6 +215,10 @@ races:
     size: Small
     skills: []
     speed: 25
+    subraces:
+      - Deep
+      - Forest
+      - Rock
     tools: []
     traits:
       - Gnome Cunning
@@ -218,6 +243,7 @@ races:
     size: Small
     skills: []
     speed: 30
+    subraces: []
     tools: []
     traits:
       - Darkvision
@@ -243,6 +269,7 @@ races:
     size: Medium
     skills: [Athletics]
     speed: 30
+    subraces: []
     tools: []
     traits:
       - Natural Athlete
@@ -291,6 +318,7 @@ races:
       - Survival
       - 2
     speed: 30
+    subraces: []
     tools: []
     traits:
       - Darkvision
@@ -317,6 +345,7 @@ races:
     size: Medium
     skills: [Intimidation]
     speed: 30
+    subraces: []
     tools: []
     traits:
       - Darkvision
@@ -342,6 +371,9 @@ races:
     size: Small
     skills: []
     speed: 25
+    subraces:
+      - Lightfoot
+      - Stout
     tools: []
     traits:
       - Brave
@@ -367,6 +399,7 @@ races:
     size: Medium
     skills: []
     speed: 30
+    subraces: []
     tools: []
     traits:
       - Darkvision
@@ -419,6 +452,7 @@ races:
     size: Medium
     skills: []
     speed: 30
+    subraces: []
     tools: []
     traits:
       - Languages
@@ -447,6 +481,7 @@ races:
       - Sleight of Hand
       - 2
     speed: 30
+    subraces: []
     tools: []
     traits:
       - Expert Forgery
@@ -472,6 +507,7 @@ races:
     size: Small
     skills: []
     speed: 30
+    subraces: []
     tools: []
     traits:
       - Darkvision
@@ -504,6 +540,7 @@ races:
       - Survival
       - 2
     speed: 30
+    subraces: []
     tools: []
     traits:
       - Bite
@@ -532,6 +569,7 @@ races:
     size: Medium
     skills: [Intimidation]
     speed: 30
+    subraces: []
     tools: []
     traits:
       - Darkvision
@@ -560,6 +598,7 @@ races:
     size: Medium
     skills: [Perception]
     speed: 30
+    subraces: []
     tools: []
     traits:
       - Darkvision
@@ -588,6 +627,16 @@ races:
     size: Medium
     skills: []
     speed: 30
+    subraces:
+      - Asmodeus
+      - Baalzebul
+      - Dispater
+      - Fierna
+      - Glasya
+      - Levistus
+      - Mammon
+      - Mephistopheles
+      - Zariel
     tools: []
     traits:
       - Darkvision
@@ -615,6 +664,7 @@ races:
     size: Medium
     skills: []
     speed: 30
+    subraces: []
     tools: []
     traits:
       - Amphibious
@@ -646,6 +696,7 @@ races:
     size: Medium
     skills: []
     speed: 30
+    subraces: []
     tools: []
     traits:
       - Darkvision
