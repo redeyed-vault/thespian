@@ -1,1 +1,1 @@
-from .core import Yari, ImprovementGenerator
+from .core import Yari

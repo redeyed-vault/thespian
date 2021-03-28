@@ -884,7 +884,7 @@ class Yari(_CharacterBuilder):
         for rank, options in self.abilities.items():
             if isinstance(options, list):
                 ability_choice = prompt(
-                    f"Choose your primary ability",
+                    f"Choose your primary ability for ({self.klass})",
                     options,
                 )
                 self.abilities[rank] = ability_choice
@@ -930,3 +930,23 @@ class Yari(_CharacterBuilder):
             self.resistances.append(ancestry_resistances.get(draconic_ancestry))
 
         self.scores = _AttributeBuilder(self.abilities, self.bonus).roll()
+
+        u = ImprovementGenerator(
+            race=self.race,
+            subrace=self.subrace,
+            subclass=self.subclass,
+            klass=self.klass,
+            level=self.level,
+            primary_ability=self.abilities,
+            saves=self.savingthrows,
+            magic_innate=self.innatemagic,
+            spell_slots=self.spellslots,
+            score_array=self.scores,
+            languages=self.languages,
+            armor_proficiency=self.armors,
+            tool_proficiency=self.tools,
+            weapon_proficiency=self.weapons,
+            skills=self.skills,
+            feats=[],
+        )
+        u.run()

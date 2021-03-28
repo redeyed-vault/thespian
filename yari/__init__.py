@@ -1,4 +1,4 @@
-from .builder import Yari, ImprovementGenerator
+from .builder import Yari
 from .dice import roll
 from .utils import (
     get_character_classes,

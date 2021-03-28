@@ -3,7 +3,6 @@ from random import choice
 
 from yari import (
     Yari,
-    ImprovementGenerator,
     get_character_classes,
     get_character_races,
     get_subclasses_by_class,
@@ -113,26 +112,6 @@ def main():
     print(f.traits)
     print(f.weapons)
     print(f.weight)
-
-    u = ImprovementGenerator(
-        race=race,
-        subrace=subrace,
-        subclass=subclass,
-        klass=klass,
-        level=level,
-        primary_ability=f.abilities,
-        saves=f.savingthrows,
-        magic_innate=f.innatemagic,
-        spell_slots=f.spellslots,
-        score_array=f.scores,
-        languages=f.languages,
-        armor_proficiency=f.armors,
-        tool_proficiency=f.tools,
-        weapon_proficiency=f.weapons,
-        skills=f.skills,
-        feats=[],
-    )
-    u.run()
 
 
 if __name__ == "__main__":
