@@ -34,6 +34,38 @@ def get_subclasses_by_class(klass: str) -> list:
     return parser.Load.get_columns(klass, "subclasses", source_file="classes")
 
 
+def merge_dicts(dict1: dict, dict2: (dict, None) = None) -> dict:
+    if dict2 is None:
+        return dict1
+
+    def is_instance(*objs, obj_type) -> bool:
+        for obj in objs:
+            if not isinstance(obj, obj_type):
+                return False
+        return True
+
+    for key, value in dict2.items():
+        if key not in dict1:
+            dict1[key] = dict2[key]
+        else:
+            if is_instance(dict1[key], dict2[key], obj_type=dict):
+                if key == "features":
+                    new_value = dict()
+                    features1 = dict1[key]
+                    new_value = features1
+                    features2 = dict2[key]
+                    for level, features in features2.items():
+                        if level in features1:
+                            new_value[level] = new_value[level] + features
+                        else:
+                            new_value[level] = features
+                    dict1[key] = new_value
+            elif is_instance(dict1[key], dict2[key], obj_type=list):
+                if key in ("armors", "tools", "weapons"):
+                    dict1[key] = dict1[key] + dict2[key]
+    return dict1
+
+
 def prompt(message: str, options: (list, tuple)) -> str:
     """
     User prompt
