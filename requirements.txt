@@ -1,3 +1,13 @@
 aiohttp
+async-timeout
+attrs
 beautifulsoup4
+chardet
+colorama
+idna
+multidict
 PyYAML
+soupsieve
+termcolor
+typing-extensions
+yarl
