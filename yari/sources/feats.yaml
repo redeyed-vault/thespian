@@ -57,6 +57,7 @@ feats:
   Bountiful Luck:
     perk:
       ability: ~
+      flags: none
       language: ~
       proficiency: ~
       resistance: ~
@@ -73,6 +74,7 @@ feats:
   Charger:
     perk:
       ability: ~
+      flags: none
       language: ~
       proficiency: ~
       resistance: ~
@@ -89,6 +91,7 @@ feats:
   Crossbow Expert:
     perk:
       ability: ~
+      flags: none
       language: ~
       proficiency: ~
       resistance: ~
@@ -655,6 +658,7 @@ feats:
       ability:
         Intelligence: 1
         Wisdom: 1
+      flags: none
       language: ~
       proficiency: ~
       resistance: ~
@@ -689,6 +693,7 @@ feats:
   Polearm Master:
     perk:
       ability: ~
+      flags: none
       language: ~
       proficiency: ~
       resistance: ~

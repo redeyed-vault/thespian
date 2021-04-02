@@ -1,16 +1,21 @@
+from argparse import ArgumentParser
 from collections import OrderedDict
 from dataclasses import dataclass
-from math import floor
-from random import choice, sample, shuffle
+from random import choice, sample
 import traceback
 from typing import Dict, List, Type
 
-from .parser import Load
-from ..errors import Error
-from ..dice import roll
-from ..utils import (
+from yari.parser import Load
+from yari.errors import Error
+from yari.dice import roll
+from yari.utils import (
+    get_character_backgrounds,
+    get_character_classes,
     get_character_feats,
+    get_character_races,
     get_proficiency_bonus,
+    get_subclasses_by_class,
+    get_subraces_by_race,
     prompt,
     sample_choice,
     truncate_dict,
@@ -385,6 +390,8 @@ class _ImprovementGenerator:
             ]
             ability = prompt(f"Choose ability bonus for '{feat}' feat", ability_choices)
             self._set_ability_score(ability, perks.get("ability").get(ability))
+            if "save" in bonus_flags:
+                self.saves.append(ability)
 
         return
         # Feat "ability" perk
@@ -970,3 +977,134 @@ class Yari(_CharacterBuilder):
             feats=[],
         )
         u.run()
+
+
+def main():
+    app = ArgumentParser(
+        prog="Yari", description="A 5e Dungeons & Dragons character generator."
+    )
+    app.add_argument(
+        "-race",
+        "-r",
+        help="sets character's race",
+        required=True,
+        type=str,
+        choices=get_character_races(),
+        default="Human",
+    )
+    app.add_argument(
+        "-subrace",
+        "-sr",
+        help="sets character's subrace",
+        required=True,
+        type=str,
+        default="",
+    )
+    app.add_argument(
+        "-klass",
+        "-k",
+        help="sets character's class",
+        type=str,
+        choices=get_character_classes(),
+        default="Fighter",
+    )
+    app.add_argument(
+        "-subclass",
+        "-sc",
+        help="sets character's subclass",
+        type=str,
+        default="",
+    )
+    app.add_argument(
+        "-level",
+        "-l",
+        help="sets character's level",
+        type=int,
+        choices=tuple(range(1, 21)),
+        default=1,
+    )
+    app.add_argument(
+        "-sex",
+        "-s",
+        help="sets character's sex",
+        type=str,
+        choices=("Female", "Male"),
+        default="Female",
+    )
+    app.add_argument(
+        "-alignment",
+        "-a",
+        help="sets character's alignment",
+        type=str,
+        choices=(
+            "Chaotic Evil",
+            "Chaotic Good",
+            "Chaotic Neutral",
+            "Lawful Evil",
+            "Lawful Good",
+            "Lawful Neutral",
+            "Neutral Evil",
+            "Neutral Good",
+            "True Neutral",
+        ),
+        default="True Neutral",
+    )
+    app.add_argument(
+        "-background",
+        "-b",
+        help="sets character's background",
+        type=str,
+        choices=get_character_backgrounds(),
+        default="",
+    )
+    args = app.parse_args()
+    race = args.race
+    subrace = args.subrace
+    klass = args.klass
+    subclass = args.subclass
+    level = args.level
+    sex = args.sex
+    alignment = args.alignment
+    background = args.background
+
+    subraces = get_subraces_by_race(race)
+    if len(subraces) > 0:
+        if subrace == "":
+            subrace = prompt(f"Choose your '{race}' subrace", subraces)
+        elif subrace not in subraces:
+            subrace = prompt(f"Choose a valid '{race}' subrace", subraces)
+
+    subclasses = get_subclasses_by_class(klass)
+    if subclass == "":
+        subclass = prompt(f"Choose your '{klass}' subclass", subclasses)
+    elif subclass not in subclasses:
+        subclass = prompt(f"Choose a valid '{klass}' subclass", subclasses)
+
+    f = Yari(race, subrace, klass, subclass, level, sex, background)
+    f.run()
+
+    print(f.abilities)
+    print(f.ancestor)
+    print(f.armors)
+    print(f.bonus)
+    print(f.bonusmagic)
+    print(f.darkvision)
+    print(f.equipment)
+    print(f.features)
+    print(f.height)
+    print(f.hitdie)
+    print(f.hitpoints)
+    print(f.innatemagic)
+    print(f.languages)
+    print(f.proficiencybonus)
+    print(f.resistances)
+    print(f.savingthrows)
+    print(f.scores)
+    print(f.size)
+    print(f.skills)
+    print(f.speed)
+    print(f.spellslots)
+    print(f.tools)
+    print(f.traits)
+    print(f.weapons)
+    print(f.weight)

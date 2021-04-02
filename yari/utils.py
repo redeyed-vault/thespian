@@ -6,7 +6,7 @@ from termcolor import colored
 
 init(autoreset=True)
 
-from .builder import parser
+from parser import Load
 
 
 def _e(message, color):
@@ -15,22 +15,22 @@ def _e(message, color):
 
 def get_character_backgrounds() -> tuple:
     """Returns a tuple of all character backgrounds."""
-    return parser.Load.get_row_ids(source_file="backgrounds")
+    return Load.get_row_ids(source_file="backgrounds")
 
 
 def get_character_classes() -> tuple:
     """Returns a tuple of all character classes."""
-    return parser.Load.get_row_ids(source_file="classes")
+    return Load.get_row_ids(source_file="classes")
 
 
 def get_character_feats() -> tuple:
     """Returns a tuple of all character feats."""
-    return parser.Load.get_row_ids(source_file="feats")
+    return Load.get_row_ids(source_file="feats")
 
 
 def get_character_races() -> tuple:
     """Returns a tuple of all character races."""
-    return parser.Load.get_row_ids(source_file="races")
+    return Load.get_row_ids(source_file="races")
 
 
 def get_proficiency_bonus(level: int) -> int:
@@ -45,12 +45,12 @@ def get_proficiency_bonus(level: int) -> int:
 
 def get_subclasses_by_class(klass: str) -> list:
     """Returns a list of subclasses by klass."""
-    return parser.Load.get_columns(klass, "subclasses", source_file="classes")
+    return Load.get_columns(klass, "subclasses", source_file="classes")
 
 
 def get_subraces_by_race(race: str) -> list:
     """Returns a list of subraces by race."""
-    return parser.Load.get_columns(race, "subraces", source_file="races")
+    return Load.get_columns(race, "subraces", source_file="races")
 
 
 def merge_dicts(dict1: dict, dict2: (dict, None) = None) -> dict:
