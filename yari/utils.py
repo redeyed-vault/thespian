@@ -1,7 +1,21 @@
 from math import ceil
 from random import sample
 
+from colorama import init
+from termcolor import colored
+
+init(autoreset=True)
+
 from .builder import parser
+
+
+def _e(message, color):
+    print(colored(message, color, attrs=["bold"]))
+
+
+def get_character_backgrounds() -> tuple:
+    """Returns a tuple of all character backgrounds."""
+    return parser.Load.get_row_ids(source_file="backgrounds")
 
 
 def get_character_classes() -> tuple:
