@@ -4,6 +4,7 @@ feats:
     perk:
       ability:
         Charisma: 1
+      flags: ability
       language: ~
       proficiency: ~
       resistance: ~
@@ -20,6 +21,7 @@ feats:
   Alert:
     perk:
       ability: ~
+      flags: none
       language: ~
       proficiency: ~
       resistance: ~
@@ -38,6 +40,7 @@ feats:
       ability:
         Strength: 1
         Dexterity: 1
+      flags: ability|one
       language: ~
       proficiency: ~
       resistance: ~
@@ -800,6 +803,7 @@ feats:
         Intelligence: 1
         Wisdom: 1
         Charisma: 1
+      flags: ability|one|save
       language: ~
       proficiency: ~
       resistance: ~
