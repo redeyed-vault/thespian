@@ -14,6 +14,7 @@ from ..utils import (
     prompt,
     sample_choice,
     truncate_dict,
+    _e,
 )
 
 
@@ -76,15 +77,18 @@ class _AttributeBuilder:
             score_array[ability] = value
             ability_choices.remove(ability)
             generated_scores.remove(value)
+            _e(f"INFO: Ability '{ability}' set to {value}.", "green")
         for _ in range(0, 4):
             ability = choice(ability_choices)
             value = choice(generated_scores)
             score_array[ability] = value
             ability_choices.remove(ability)
             generated_scores.remove(value)
+            _e(f"INFO: Ability '{ability}' set to {value}.", "yellow")
         for ability, bonus in self.racial_bonus.items():
             value = score_array.get(ability) + bonus
             score_array[ability] = value
+            _e(f"INFO: Bonus of {bonus} applied to '{ability}' ({value}).", "green")
 
         return score_array
 
@@ -368,7 +372,21 @@ class _ImprovementGenerator:
 
         # Retrieve all perks for the chosen feat
         perks = get_feat_perks(feat)
+        bonus_flags = perks.get("flags").split("|")
+        if "none" in bonus_flags:
+            return
 
+        if all(x in bonus_flags for x in ["ability", "one"]):
+            ability_choices = list(perks.get("ability").keys())
+            ability_choices = [
+                x
+                for x in ability_choices
+                if self._is_adjustable(x, perks.get("ability").get(x))
+            ]
+            ability = prompt(f"Choose ability bonus for '{feat}' feat", ability_choices)
+            self._set_ability_score(ability, perks.get("ability").get(ability))
+
+        return
         # Feat "ability" perk
         if perks.get("ability") is not None:
             # Retrieve bonus abilities by feat
@@ -721,7 +739,7 @@ class _ImprovementGenerator:
             traceback.print_exc()
         new_score = self.score_array.get(ability) + bonus
         self.score_array[ability] = new_score
-        print(f"Ability Score Improvement: '{ability}' set to {new_score}.")
+        _e(f"INFO: Ability '{ability}' is now set to {new_score}.", "green")
 
     def _set_feat_ability(self, ability_options: list) -> None:
         """
@@ -811,6 +829,7 @@ class _ImprovementGenerator:
                         if self._is_adjustable(x, bonus_choice)
                     ]
                     if bonus_choice == 1:
+                        print("You may apply a bonus of 1 to two abilities.")
                         for _ in range(2):
                             upgrade_choice = prompt(
                                 "Choose an ability to upgrade", upgrade_options
@@ -818,6 +837,7 @@ class _ImprovementGenerator:
                             upgrade_options.remove(upgrade_choice)
                             self._set_ability_score(upgrade_choice, bonus_choice)
                     elif bonus_choice == 2:
+                        print("You may apply a bonus of 2 to one ability.")
                         upgrade_choice = prompt(
                             "Choose an ability to upgrade", upgrade_options
                         )
@@ -884,7 +904,7 @@ class Yari(_CharacterBuilder):
         for rank, options in self.abilities.items():
             if isinstance(options, list):
                 ability_choice = prompt(
-                    f"Choose your primary ability for ({self.klass})",
+                    f"Choose '{self.klass}' class ability",
                     options,
                 )
                 self.abilities[rank] = ability_choice

@@ -1,28 +1,38 @@
-import argparse
+from argparse import ArgumentParser
 from random import choice
 
 from yari import (
     Yari,
+    get_character_backgrounds,
     get_character_classes,
     get_character_races,
     get_subclasses_by_class,
     get_subraces_by_race,
     prompt,
+    _e,
 )
 
 
 def main():
-    app = argparse.ArgumentParser(prog="Yari", description="Yari character maker.")
+    app = ArgumentParser(
+        prog="Yari", description="A 5e Dungeons & Dragons character generator."
+    )
     app.add_argument(
         "-race",
         "-r",
         help="sets character's race",
+        required=True,
         type=str,
         choices=get_character_races(),
         default="Human",
     )
     app.add_argument(
-        "-subrace", "-sr", help="sets character's subrace", type=str, default=""
+        "-subrace",
+        "-sr",
+        help="sets character's subrace",
+        required=True,
+        type=str,
+        default="",
     )
     app.add_argument(
         "-klass",
@@ -33,7 +43,11 @@ def main():
         default="Fighter",
     )
     app.add_argument(
-        "-subclass", "-sc", help="sets character's subclass", type=str, default=""
+        "-subclass",
+        "-sc",
+        help="sets character's subclass",
+        type=str,
+        default="",
     )
     app.add_argument(
         "-level",
@@ -70,7 +84,12 @@ def main():
         default="True Neutral",
     )
     app.add_argument(
-        "-background", "-b", help="sets character's background", type=str, default=""
+        "-background",
+        "-b",
+        help="sets character's background",
+        type=str,
+        choices=get_character_backgrounds(),
+        default="",
     )
     args = app.parse_args()
     race = args.race
@@ -85,15 +104,15 @@ def main():
     subraces = get_subraces_by_race(race)
     if len(subraces) > 0:
         if subrace == "":
-            subrace = prompt("Choose your subrace", subraces)
+            subrace = prompt(f"Choose your '{race}' subrace", subraces)
         elif subrace not in subraces:
-            subrace = prompt("Choose a valid subrace", subraces)
+            subrace = prompt(f"Choose a valid '{race}' subrace", subraces)
 
     subclasses = get_subclasses_by_class(klass)
     if subclass == "":
-        subclass = prompt("Choose your subclass", subclasses)
+        subclass = prompt(f"Choose your '{klass}' subclass", subclasses)
     elif subclass not in subclasses:
-        subclass = prompt("Choose a valid subclass", subclasses)
+        subclass = prompt(f"Choose a valid '{klass}' subclass", subclasses)
 
     f = Yari(race, subrace, klass, subclass, level, sex, background)
     f.run()
