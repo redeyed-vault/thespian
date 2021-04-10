@@ -5,10 +5,10 @@ from random import choice, sample
 import traceback
 from typing import Dict, List, Type
 
-from yari.parser import Load
-from yari.errors import Error
-from yari.dice import roll
-from yari.utils import (
+from parser import Load
+from errors import Error
+from dice import roll
+from utils import (
     get_character_backgrounds,
     get_character_classes,
     get_character_feats,
@@ -981,7 +981,7 @@ class Yari(_CharacterBuilder):
 
 def main():
     app = ArgumentParser(
-        prog="Yari", description="A 5e Dungeons & Dragons character generator."
+        prog="Yari", description="Yari: A 5e Dungeons & Dragons character generator."
     )
     app.add_argument(
         "-race",
