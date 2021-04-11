@@ -4,13 +4,16 @@ feats:
     perk:
       ability:
         Charisma: 1
-      flags: ability
+      armors: none
+      flags: ability|all
       language: ~
       proficiency: ~
       resistance: ~
       skills: ~
       speed: ~
       spells: ~
+      tools: ~
+      weapons: ~
     required:
       ability: ~
       caster: false
@@ -21,6 +24,7 @@ feats:
   Alert:
     perk:
       ability: ~
+      armors: ~
       flags: none
       language: ~
       proficiency: ~
@@ -28,6 +32,8 @@ feats:
       skills: ~
       speed: ~
       spells: ~
+      tools: ~
+      weapons: ~
     required:
       ability: ~
       caster: false
@@ -40,6 +46,7 @@ feats:
       ability:
         Strength: 1
         Dexterity: 1
+      armors: ~
       flags: ability|one
       language: ~
       proficiency: ~
@@ -47,6 +54,8 @@ feats:
       skills: ~
       speed: ~
       spells: ~
+      tools: ~
+      weapons: ~
     required:
       ability: ~
       caster: false
@@ -57,6 +66,7 @@ feats:
   Bountiful Luck:
     perk:
       ability: ~
+      armors: ~
       flags: none
       language: ~
       proficiency: ~
@@ -64,6 +74,8 @@ feats:
       skills: ~
       speed: ~
       spells: ~
+      tools: ~
+      weapons: ~
     required:
       ability: ~
       caster: false
@@ -74,6 +86,7 @@ feats:
   Charger:
     perk:
       ability: ~
+      armors: ~
       flags: none
       language: ~
       proficiency: ~
@@ -81,6 +94,8 @@ feats:
       skills: ~
       speed: ~
       spells: ~
+      tools: ~
+      weapons: ~
     required:
       ability: ~
       caster: false
@@ -91,6 +106,7 @@ feats:
   Crossbow Expert:
     perk:
       ability: ~
+      armors: ~
       flags: none
       language: ~
       proficiency: ~
@@ -98,6 +114,8 @@ feats:
       skills: ~
       speed: ~
       spells: ~
+      tools: ~
+      weapons: ~
     required:
       ability: ~
       caster: false
@@ -108,12 +126,16 @@ feats:
   Defensive Duelist:
     perk:
       ability: ~
+      armors: ~
+      flags: none
       language: ~
       proficiency: ~
       resistance: ~
       skills: ~
       speed: ~
       spells: ~
+      tools: ~
+      weapons: ~
     required:
       ability:
         Dexterity: 13
@@ -128,12 +150,16 @@ feats:
         Strength: 1
         Constitution: 1
         Charisma: 1
+      armors: ~
+      flags: ability|one
       language: ~
       proficiency: ~
       resistance: ~
       skills: ~
       speed: ~
       spells: ~
+      tools: ~
+      weapons: ~
     required:
       ability: ~
       caster: false
@@ -147,12 +173,16 @@ feats:
         Strength: 1
         Constitution: 1
         Charisma: 1
+      armors: ~
+      flags: ability|one
       language: ~
       proficiency: ~
       resistance: ~
       skills: ~
       speed: ~
       spells: ~
+      tools: ~
+      weapons: ~
     required:
       ability: ~
       caster: false
@@ -163,12 +193,16 @@ feats:
   Drow High Magic:
     perk:
       ability: ~
+      armors: ~
+      flags: none
       language: ~
       proficiency: ~
       resistance: ~
       skills: ~
       speed: ~
       spells: ['Detect Magic', 'Dispel Magic', 'Levitate']
+      tools: ~
+      weapons: ~
     required:
       ability: ~
       caster: false
@@ -179,12 +213,16 @@ feats:
   Dual Wielder:
     perk:
       ability: ~
+      armors: ~
+      flags: none
       language: ~
       proficiency: ~
       resistance: ~
       skills: ~
       speed: ~
       spells: ~
+      tools: ~
+      weapons: ~
     required:
       ability: ~
       caster: false
@@ -195,12 +233,16 @@ feats:
   Dungeon Delver:
     perk:
       ability: ~
+      armors: ~
+      flags: none
       language: ~
       proficiency: ~
       resistance: ['Traps']
       skills: ~
       speed: ~
       spells: ~
+      tools: ~
+      weapons: ~
     required:
       ability: ~
       caster: false
@@ -212,12 +254,16 @@ feats:
     perk:
       ability:
         Constitution: 1
+      armors: ~
+      flags: ability|all
       language: ~
       proficiency: ~
       skills: ~
       resistance: ~
       speed: ~
       spells: ~
+      tools: ~
+      weapons: ~
     required:
       ability: ~
       caster: false
@@ -229,12 +275,16 @@ feats:
     perk:
       ability:
         Constitution: 1
+      armors: ~
+      flags: ability|all
       language: ~
       proficiency: ~
       resistance: ~
       skills: ~
       speed: ~
       spells: ~
+      tools: ~
+      weapons: ~
     required:
       ability: ~
       caster: false
@@ -245,12 +295,16 @@ feats:
   Elemental Adept:
     perk:
       ability: ~
+      armors: ~
+      flags: none
       language: ~
       proficiency: ~
       resistance: ~
       skills: ~
       speed: ~
       spells: ~
+      tools: ~
+      weapons: ~
     required:
       ability: ~
       caster: true
@@ -265,12 +319,16 @@ feats:
         Intelligence: 1
         Wisdom: 1
         Charisma: 1
+      armors: ~
+      flags: ability|one
       language: ~
       proficiency: ~
       resistance: ~
       skills: ~
       speed: ~
       spells: ~
+      tools: ~
+      weapons: ~
     required:
       ability: ~
       caster: false
@@ -1089,12 +1147,16 @@ feats:
   Tough:
     perk:
       ability: ~
+      armors: ~
+      flags: none
       language: ~
       proficiency: ~
       resistance: ~
       skills: ~
       speed: ~
       spells: ~
+      tools: ~
+      weapons: ~
     required:
       ability: ~
       caster: false
@@ -1105,12 +1167,16 @@ feats:
   War Caster:
     perk:
       ability: ~
+      armors: ~
+      flags: none
       language: ~
       proficiency: ~
       resistance: ~
       skills: ~
       speed: ~
       spells: ~
+      tools: ~
+      weapons: ~
     required:
       ability: ~
       caster: true
@@ -1123,52 +1189,55 @@ feats:
       ability:
         Strength: 1
         Dexterity: 1
+      armors: ~
+      flags: none
       language: ~
       proficiency:
-        weapons:
-          Simple:
-            - Club
-            - Dagger
-            - Dart
-            - Greatclub
-            - Handaxe
-            - Javelin
-            - Light Crossbow
-            - Light hammer
-            - Mace
-            - Quarterstaff
-            - Shortbow
-            - Sickle
-            - Sling
-            - Spear
-            - Unarmed strike
-          Martial:
-            - Battleaxe
-            - Blowgun
-            - Flail
-            - Greataxe
-            - Greatsword
-            - Halberd
-            - Hand Crossbow
-            - Heavy Crossbow
-            - Lance
-            - Longbow
-            - Longsword
-            - Maul
-            - Morningstar
-            - Net
-            - Pike
-            - Rapier
-            - Scimitar
-            - Shortsword
-            - Trident
-            - War pick
-            - Warhammer
-            - Whip
       resistance: ~
       skills: ~
       speed: ~
       spells: ~
+      tools: ~
+      weapons:
+        Simple:
+          - Club
+          - Dagger
+          - Dart
+          - Greatclub
+          - Handaxe
+          - Javelin
+          - Light Crossbow
+          - Light hammer
+          - Mace
+          - Quarterstaff
+          - Shortbow
+          - Sickle
+          - Sling
+          - Spear
+          - Unarmed strike
+        Martial:
+          - Battleaxe
+          - Blowgun
+          - Flail
+          - Greataxe
+          - Greatsword
+          - Halberd
+          - Hand Crossbow
+          - Heavy Crossbow
+          - Lance
+          - Longbow
+          - Longsword
+          - Maul
+          - Morningstar
+          - Net
+          - Pike
+          - Rapier
+          - Scimitar
+          - Shortsword
+          - Trident
+          - War pick
+          - Warhammer
+          - Whip
     required:
       ability: ~
       caster: false
@@ -1179,6 +1248,8 @@ feats:
   Wood Elf Magic:
     perk:
       ability: ~
+      armors: ~
+      flags: none
       language: ~
       proficiency: ~
       resistance: ~
@@ -1188,6 +1259,8 @@ feats:
         - ['Druidcraft', 'Guidance', 'Mending', 'Poison Spray', 'Produce Flame', 'Resistance', 'Shillelagh', 'Thorn Whip']
         - Longstrider
         - Pass Without Trace
+      tools: ~
+      weapons: ~
     required:
       ability: ~
       caster: false
