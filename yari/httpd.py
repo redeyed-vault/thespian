@@ -3,92 +3,15 @@ from dataclasses import dataclass
 import socket
 from sys import exit
 import traceback
+from typing import Type
+
+from errors import Error
 
 from aiohttp import web
 from bs4 import BeautifulSoup
 
-from . import (
-    get_proficiency_bonus,
-    roll,
-    __version__,
-)
 
-
-def main(
-    race: str,
-    subrace: str,
-    sex: str,
-    alignment: str,
-    background: str,
-    klass: str,
-    subclass: str,
-    level: int,
-    ratio: int,
-    port: int,
-) -> None:
-    # Checks to see if address is already being used
-    conn = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-    location = ("127.0.0.1", port)
-    host, port = location
-    if conn.connect_ex(location) == 0:
-        out(
-            f"Address {host}:{port} is already in use. Please use another port with the '-port=<DIFFERENT_PORT>' argument or close the process currently associated with this address.",
-            1,
-        )
-    conn.close()
-
-    try:
-        # Generate ability scores.
-        _attributes = AttributeGenerator(_class.abilities, _race.bonus)
-        score_array = _attributes.roll()
-
-        # Generate character armor, tool and weapon proficiencies.
-        armors = ProficiencyGenerator("armors", _class.armors, _race.armors).proficiency
-        tools = ProficiencyGenerator("tools", _class.tools, _race.tools).proficiency
-        weapons = ProficiencyGenerator(
-            "weapons", _class.weapons, _race.weapons
-        ).proficiency
-
-        try:
-            with HTTPServer(cs) as http:
-                http.run(port)
-        except (OSError, TypeError, ValueError) as e:
-            out(e, 2)
-    except ValueError as error:
-        out(str(error), 2)
-
-
-def get_armor_chest():
-    """Returns a full collection of armors."""
-    armor_chest = dict()
-    for armor_category in ("Heavy", "Light", "Medium"):
-        armor_chest[armor_category] = Load.get_columns(
-            armor_category, source_file="armors"
-        )
-    yield armor_chest
-
-
-def get_tool_chest():
-    """Returns a full collection of tools."""
-    for main_tool in PC_TOOLS:
-        if main_tool in ("Artisan's tools", "Gaming set", "Musical instrument"):
-            for sub_tool in Load.get_columns(main_tool, source_file="tools"):
-                yield f"{main_tool} - {sub_tool}"
-        else:
-            yield main_tool
-
-
-def get_weapon_chest():
-    """Returns a full collection of weapons."""
-    weapon_chest = dict()
-    for weapon_category in ("Simple", "Martial"):
-        weapon_chest[weapon_category] = Load.get_columns(
-            weapon_category, source_file="weapons"
-        )
-    yield weapon_chest
-
-
-class YariHTTP:
+class HTTPD:
     def __init__(self, data: OrderedDict, port: Type[int] = 5000):
         self.data = data
         self.port = port
@@ -219,6 +142,17 @@ class YariHTTP:
         :param int port: Character server port number. Default port is 8080.
 
         """
+        conn = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        location = ("127.0.0.1", port)
+        host, port = location
+        if conn.connect_ex(location) == 0:
+            raise Error(
+                f"Address {host}:{port} is already in use. Please use another "
+                "port with the '-port=<DIFFERENT_PORT>' argument or close the "
+                "process currently associated with this address."
+            )
+        conn.close()
+
         if not isinstance(self.data, OrderedDict):
             raise TypeError("Argument 'data' must be of type 'OrderedDict'.")
 
@@ -271,7 +205,7 @@ class YariHTTP:
 
         (size_class, height, weight) = format_size()
         self._write = "<!DOCTYPE html>"
-        self._write = f"<html><head><title>Yari {__version__}</title></head><body>"
+        self._write = "<html><head><title>Yari</title></head><body>"
         self._write = "<p>"
         self._write = f"<strong>Race:</strong> {format_race()}<br/>"
         self._write = f'<strong>Sex: </strong>{self.data.get("sex")}<br/>'
@@ -315,37 +249,3 @@ class YariHTTP:
         app = web.Application()
         app.router.add_get("/", index)
         web.run_app(app, host="127.0.0.1", port=port)
-
-
-def out(message: str, output_code: int = 0):
-    """
-    Used to output status messages to the terminal.
-
-    :param str message: Message for output
-    :param int output_code: Error code number (-2 - 2)
-        -2: Info
-        -1: Warning
-         0: Success (Default)
-         1: Error
-         2: Error w/ traceback
-
-    """
-    if output_code not in range(-2, 3):
-        raise ValueError("Argument 'output_code' is invalid.")
-    else:
-        # Error
-        if output_code in (1, 2):
-            click.secho(f"ERROR: {message}", bold=True, fg="red")
-            # Adds traceback to error message
-            if output_code == 2:
-                traceback.print_exc()
-            exit()
-        # Warning
-        elif output_code == -1:
-            click.secho(f"WARN: {message}", bold=True, fg="yellow")
-        # Info
-        elif output_code == -2:
-            click.secho(f"INFO: {message}", bold=False, fg="white")
-        # Success
-        else:
-            click.secho(f"OK: {message}", bold=False, fg="bright_green")

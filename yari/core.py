@@ -8,6 +8,7 @@ from typing import Dict, List, Type
 from parser import Load
 from errors import Error
 from dice import roll
+from httpd import HTTPD
 from utils import (
     get_character_backgrounds,
     get_character_classes,
@@ -1057,6 +1058,13 @@ def main():
         choices=get_character_backgrounds(),
         default="",
     )
+    app.add_argument(
+        "-port",
+        "-p",
+        help="character's output HTTP server port",
+        type=int,
+        default=8080,
+    )
     args = app.parse_args()
     race = args.race
     subrace = args.subrace
@@ -1066,6 +1074,7 @@ def main():
     sex = args.sex
     alignment = args.alignment
     background = args.background
+    port = args.port
 
     subraces = get_subraces_by_race(race)
     if len(subraces) > 0:
@@ -1084,6 +1093,7 @@ def main():
     f.run()
 
     print(f.abilities)
+    print(alignment)
     print(f.ancestor)
     print(f.armors)
     print(f.bonus)
@@ -1108,3 +1118,11 @@ def main():
     print(f.traits)
     print(f.weapons)
     print(f.weight)
+
+    """
+    try:
+        with HTTPD(cs) as http:
+            http.run(port)
+    except (OSError, TypeError, ValueError) as e:
+        out(e, 2)
+    """
