@@ -4,7 +4,7 @@ from typing import Type
 
 import yaml
 
-from yari.errors import Error
+from errors import Error
 
 
 class QueryNotFound(Exception):
