@@ -369,109 +369,47 @@ class _ImprovementGenerator:
             """Get perks for a feat by feat_name."""
             return Load.get_columns(feat_name, "perk", source_file="feats")
 
-        def has_one(keys: tuple, iterable: tuple) -> bool:
-            """Returns True if at least one key is found in iterable."""
-            for x in keys:
-                if x in iterable:
-                    return True
+        def has_flags(available_flags: list, required_flags: list) -> bool:
+            """Returns True if all required_flags are found in the available_flags iterable."""
+            if all(x in available_flags for x in required_flags):
+                return True
             return False
 
         # Retrieve all perks for the chosen feat
         perks = get_feat_perks(feat)
         bonus_flags = perks.get("flags").split("|")
+        # If none flag is specified, don't bother
         if "none" in bonus_flags:
             return
-
-        if all(x in bonus_flags for x in ["ability", "one"]):
+        if perks["ability"] is not None:
+            # Bonus ability/saving throws
+            # Assign all applicable ability bonuses
+            # Assign player chosen ability bonus
             ability_choices = list(perks.get("ability").keys())
-            ability_choices = [
-                x
-                for x in ability_choices
-                if self._is_adjustable(x, perks.get("ability").get(x))
-            ]
-            ability = prompt(f"Choose ability bonus for '{feat}' feat", ability_choices)
-            self._set_ability_score(ability, perks.get("ability").get(ability))
-            if "save" in bonus_flags:
-                self.saves.append(ability)
+            if has_flags(bonus_flags, ["ability", "all"]):
+                for ability, bonus in perks.get("ability").items():
+                    if self._is_adjustable(ability, bonus):
+                        self._set_ability_score(ability, bonus)
+            elif has_flags(bonus_flags, ["ability", "one"]):
+                if "save" in bonus_flags:
+                    ability_choices = [
+                        x
+                        for x in ability_choices
+                        if self._is_adjustable(x, perks.get("ability").get(x))
+                        and x not in self.saves
+                    ]
+                else:
+                    ability_choices = [
+                        x
+                        for x in ability_choices
+                        if self._is_adjustable(x, perks.get("ability").get(x))
+                    ]
+                ability = prompt(f"Choose bonus ability for '{feat}' feat", ability_choices)
+                self._set_ability_score(ability, perks.get("ability").get(ability))
+                if "save" in bonus_flags:
+                    self.saves.append(ability)
 
         return
-        # Feat "ability" perk
-        if perks.get("ability") is not None:
-            # Retrieve bonus abilities by feat
-            feat_ability_options = tuple(perks.get("ability").keys())
-
-            # If Resilient feat selected, treat a upgrade differently
-            # Feat offers only one ability option
-            # Otherwise feat offers multiple ability options
-            if feat == "Resilient":
-                # Remove all proficient saving throws.
-                resilient_saves = [
-                    "Strength",
-                    "Dexterity",
-                    "Constitution",
-                    "Intelligence",
-                    "Wisdom",
-                    "Charisma",
-                ]
-                resilient_saves = [
-                    save for save in resilient_saves if save not in self.saves
-                ]
-                # Choose one non-proficient saving throw.
-                # Set feat ability score
-                # Add ability to proficient saving throws
-                ability = sample(resilient_saves, 1)
-                self._set_feat_ability(ability)
-                self.saves = self.saves + ability
-                # Updated Resilient listing with appropriate ability
-                # self.feats.remove(feat)
-                # self.feats.append(f"{feat} ({ability})")
-            elif len(feat_ability_options) == 1:
-                chosen_ability = feat_ability_options[0]
-                self._set_feat_ability([chosen_ability])
-            else:
-                # Retrieve primary, secondary class abilities
-                class_abilities = tuple(self.primary_ability.values())
-                # Store the chosen ability value
-                chosen_ability = None
-                # If at least one class ability in feat ability options
-                # Otherwise just randomly choose one ability
-                if has_one(class_abilities, feat_ability_options):
-                    for ability in class_abilities:
-                        # Ability is one of the feat ability perk options
-                        # If ability is adjustable, adjust score
-                        # Otherwise, keep it movin'
-                        if ability in feat_ability_options:
-                            if self._is_adjustable(ability):
-                                chosen_ability = ability
-                                self._set_feat_ability([chosen_ability])
-                                break
-                            else:
-                                continue
-                else:
-                    chosen_ability = sample(feat_ability_options, 1)
-                    self._set_feat_ability(chosen_ability)
-
-                # If Squat Nimbleness feat chosen
-                # Append Athletics skill if Strength chosen
-                # Append Acrobatics skill if Dexterity chosen
-                # If Strength or Dexterity not class abilities, just choose one
-                if feat == "Squat Nimbleness":
-                    perk_skills = get_feat_perks(feat).get("skills")
-                    chosen_skill = None
-                    if "Strength" in class_abilities:
-                        chosen_skill = perk_skills[1]
-                        self._add_skill(chosen_skill)
-                    elif "Dexterity" in class_abilities:
-                        chosen_skill = perk_skills[0]
-                        self._add_skill(chosen_skill)
-                    else:
-                        chosen_ability = choice(("Strength", "Dexterity"))
-                        if chosen_ability == "Strength":
-                            chosen_skill = perk_skills[1]
-                            self._add_skill(chosen_skill, perk_skills[0])
-                        else:
-                            chosen_skill = perk_skills[0]
-                            self._add_skill(chosen_skill, perk_skills[1])
 
         # Feat "language" perk
         if perks.get("language") is not None:
