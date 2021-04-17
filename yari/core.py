@@ -336,7 +336,6 @@ class _ImprovementGenerator:
     weapon_proficiency list: Character's weapon proficiencies
     skills list: Character's skills
     feats list: Character's feats
-    upgrade_ratio int: Character's ability/feat upgrade ratio
 
     """
 
@@ -364,64 +363,66 @@ class _ImprovementGenerator:
         :param str feat: Feat to add features for
 
         """
-
-        def get_feat_perks(feat_name: Type[str]) -> (dict, None):
-            """Get perks for a feat by feat_name."""
-            return Load.get_columns(feat_name, "perk", source_file="feats")
-
-        def has_flags(available_flags: list, required_flags: list) -> bool:
-            """Returns True if all required_flags are found in the available_flags iterable."""
-            if all(x in available_flags for x in required_flags):
-                return True
-            return False
-
         # Retrieve all perks for the chosen feat
-        perks = get_feat_perks(feat)
-        bonus_flags = perks.get("flags").split("|")
+        perks = Load.get_columns(feat, "perk", source_file="feats")
+        # Set perk flags, if applicable
+        perk_flags = dict()
+        if "flags" not in perks:
+            perk_flags = None
+        else:
+            flags_finder = perks.get("flags").split("|")
+            if flags_finder == "none":
+                perk_flags = None
+            else:
+                for flag_pair in flags_finder:
+                    key, value = flag_pair.split(",")
+                    if key not in perk_flags:
+                        perk_flags[key] = int(value)
         # If none flag is specified, don't bother
-        if "none" in bonus_flags:
+        if perk_flags is None:
             return
-        if perks["ability"] is not None:
-            # Bonus ability/saving throws
-            # Assign all applicable ability bonuses
-            # Assign player chosen ability bonus
-            ability_choices = list(perks.get("ability").keys())
-            if has_flags(bonus_flags, ["ability", "all"]):
-                for ability, bonus in perks.get("ability").items():
-                    if self._is_adjustable(ability, bonus):
-                        self._set_ability_score(ability, bonus)
-            elif has_flags(bonus_flags, ["ability", "one"]):
-                if "save" in bonus_flags:
-                    ability_choices = [
-                        x
-                        for x in ability_choices
-                        if self._is_adjustable(x, perks.get("ability").get(x))
-                        and x not in self.saves
-                    ]
+        # Iterate through, honoring flags
+        for flag, value in perk_flags.items():
+            if flag == "ability":
+                if value == -1:
+                    for ability, bonus in perks.get("ability").items():
+                        if self._is_adjustable(ability, bonus):
+                            self._set_ability_score(ability, bonus)
                 else:
-                    ability_choices = [
-                        x
-                        for x in ability_choices
-                        if self._is_adjustable(x, perks.get("ability").get(x))
-                    ]
-                ability = prompt(f"Choose bonus ability for '{feat}' feat", ability_choices)
-                self._set_ability_score(ability, perks.get("ability").get(ability))
-                if "save" in bonus_flags:
-                    self.saves.append(ability)
+                    ability_choices = list(perks.get("ability").keys())
+                    if "save" in perk_flags:
+                        ability_choices = [
+                            x
+                            for x in ability_choices
+                            if self._is_adjustable(x, perks.get("ability").get(x))
+                            and x not in self.saves
+                        ]
+                    else:
+                        ability_choices = [
+                            x
+                            for x in ability_choices
+                            if self._is_adjustable(x, perks.get("ability").get(x))
+                        ]
+                    ability = prompt(f"Choose bonus ability for '{feat}' feat", ability_choices)
+                    self._set_ability_score(ability, perks.get("ability").get(ability))
+                    if "save" in perk_flags:
+                        self.saves.append(ability)
+            elif flag in ("language", "skills", "tools"):
+                for _ in range(value):
+                    bonus_options = perks.get(flag)
+                    acquired_options = None
+                    if flag == "language":
+                        acquired_options = self.languages
+                    elif flag == "skills":
+                        acquired_options = self.skills
+                    elif flag == "tools":
+                        acquired_options = self.tool_proficiency
+                    bonus_options = [x for x in bonus_options if x not in acquired_options]
+                    option = prompt(f"Choose bonus {flag} for '{feat}' feat", bonus_options)
+                    acquired_options.append(option)
+                    print(f"'{option}' {flag} chosen")
 
         return
-
-        # Feat "language" perk
-        if perks.get("language") is not None:
-            # Add bonus languages based on feat
-            # Add 3 if Linguist feat
-            # Add 1 otherwise
-            bonus_languages = perks.get("language")
-            bonus_languages = [x for x in bonus_languages if x not in self.languages]
-            if feat == "Linguist":
-                self.languages = self.languages + sample(bonus_languages, 3)
-            else:
-                self.languages = self.languages + sample(bonus_languages, 1)
 
         # Feat "proficiency" perk
         if perks.get("proficiency") is not None:
@@ -498,10 +499,6 @@ class _ImprovementGenerator:
 
         # Feat "resistance" perk
         if perks.get("resistance") is not None:
-            pass
-
-        # Feat "skills" perk
-        if perks.get("skills") is not None:
             pass
 
         # Feat "spells" perk
@@ -686,49 +683,6 @@ class _ImprovementGenerator:
         new_score = self.score_array.get(ability) + bonus
         self.score_array[ability] = new_score
         _e(f"INFO: Ability '{ability}' is now set to {new_score}.", "green")
-
-    def _set_feat_ability(self, ability_options: list) -> None:
-        """
-        Adjust a specified ability_array score with bonus.
-
-        :param list ability_options: ability_array score to set.
-
-        """
-
-        def set_ability_score(scores: OrderedDict, ability_name: str):
-            # Adjusts the ability score by 1 point
-            value = scores.get(ability_name) + 1
-            scores[ability_name] = value
-            out(f"Feat ability adjustment: '{ability_name}' set to {value}.", -2)
-
-        try:
-            # Ensure score_array object is type OrderedDict
-            if not isinstance(self.score_array, OrderedDict):
-                raise TypeError("Object 'scores' is not type 'OrderedDict'.")
-
-            # If only one ability option available
-            if len(ability_options) == 1:
-                set_ability_score(self.score_array, ability_options[0])
-                return
-
-            is_upgraded = False
-            primary_ability = list(self.primary_ability.values())
-
-            # Choose primary ability over other options (if applicable)
-            for ability in primary_ability:
-                if ability in ability_options:
-                    if self._is_adjustable(ability):
-                        set_ability_score(self.score_array, ability)
-                        is_upgraded = True
-                        break
-                    else:
-                        ability_options.remove(ability)
-
-            # Choose any one ability option if not upgraded above
-            if not is_upgraded:
-                set_ability_score(self.score_array, choice(ability_options))
-        except (KeyError, TypeError):
-            traceback.print_exc()
 
     def run(self):
         """
@@ -935,7 +889,6 @@ def main():
         "-subrace",
         "-sr",
         help="sets character's subrace",
-        required=True,
         type=str,
         default="",
     )
