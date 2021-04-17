@@ -63,7 +63,7 @@ def merge_dicts(dict1: dict, dict2: (dict, None) = None) -> dict:
                 return False
         return True
 
-    for key, value in dict2.items():
+    for key, _ in dict2.items():
         if key not in dict1:
             dict1[key] = dict2[key]
         else:
@@ -93,16 +93,20 @@ def prompt(message: str, options: (list, tuple)) -> str:
     :param list,tuple options:
     """
     try:
-        options_list = "|".join(options)
-        user_value = str(input(f"{message} [{options_list}]: "))
+        options = {x:y for x, y in enumerate(options)}
+        options_list = "\n\n"
+        for id, option in options.items():
+            options_list += f"\t{id}.) {option}\n"
+        options_list += "\nEnter a number >>"
+        user_value = int(input(f"{message} {options_list} ").strip())
         if user_value in options:
-            return user_value
+            return options[user_value]
         else:
             raise ValueError
     except ValueError:
-        return prompt(message, options)
+        return prompt(message, options.values())
     except RecursionError:
-        return ""
+        return None
 
 
 def sample_choice(choices: list) -> list:
