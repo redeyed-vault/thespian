@@ -4,16 +4,16 @@ feats:
     perk:
       ability:
         Charisma: 1
-      armors: none
-      flags: ability|all
+      armors: []
+      flags: ability,-1
       language: ~
       proficiency: ~
       resistance: ~
       skills: ~
       speed: ~
       spells: ~
-      tools: ~
-      weapons: ~
+      tools: []
+      weapons: []
     required:
       ability: ~
       caster: false
@@ -24,7 +24,7 @@ feats:
   Alert:
     perk:
       ability: ~
-      armors: ~
+      armors: []
       flags: none
       language: ~
       proficiency: ~
@@ -32,8 +32,8 @@ feats:
       skills: ~
       speed: ~
       spells: ~
-      tools: ~
-      weapons: ~
+      tools: []
+      weapons: []
     required:
       ability: ~
       caster: false
@@ -46,16 +46,16 @@ feats:
       ability:
         Strength: 1
         Dexterity: 1
-      armors: ~
-      flags: ability|one
+      armors: []
+      flags: ability,1
       language: ~
       proficiency: ~
       resistance: ~
       skills: ~
       speed: ~
       spells: ~
-      tools: ~
-      weapons: ~
+      tools: []
+      weapons: []
     required:
       ability: ~
       caster: false
@@ -66,7 +66,7 @@ feats:
   Bountiful Luck:
     perk:
       ability: ~
-      armors: ~
+      armors: []
       flags: none
       language: ~
       proficiency: ~
@@ -74,8 +74,8 @@ feats:
       skills: ~
       speed: ~
       spells: ~
-      tools: ~
-      weapons: ~
+      tools: []
+      weapons: []
     required:
       ability: ~
       caster: false
@@ -86,7 +86,7 @@ feats:
   Charger:
     perk:
       ability: ~
-      armors: ~
+      armors: []
       flags: none
       language: ~
       proficiency: ~
@@ -94,8 +94,8 @@ feats:
       skills: ~
       speed: ~
       spells: ~
-      tools: ~
-      weapons: ~
+      tools: []
+      weapons: []
     required:
       ability: ~
       caster: false
@@ -106,7 +106,7 @@ feats:
   Crossbow Expert:
     perk:
       ability: ~
-      armors: ~
+      armors: []
       flags: none
       language: ~
       proficiency: ~
@@ -114,8 +114,8 @@ feats:
       skills: ~
       speed: ~
       spells: ~
-      tools: ~
-      weapons: ~
+      tools: []
+      weapons: []
     required:
       ability: ~
       caster: false
@@ -126,7 +126,7 @@ feats:
   Defensive Duelist:
     perk:
       ability: ~
-      armors: ~
+      armors: []
       flags: none
       language: ~
       proficiency: ~
@@ -134,8 +134,8 @@ feats:
       skills: ~
       speed: ~
       spells: ~
-      tools: ~
-      weapons: ~
+      tools: []
+      weapons: []
     required:
       ability:
         Dexterity: 13
@@ -150,16 +150,16 @@ feats:
         Strength: 1
         Constitution: 1
         Charisma: 1
-      armors: ~
-      flags: ability|one
+      armors: []
+      flags: ability,1
       language: ~
       proficiency: ~
       resistance: ~
       skills: ~
       speed: ~
       spells: ~
-      tools: ~
-      weapons: ~
+      tools: []
+      weapons: []
     required:
       ability: ~
       caster: false
@@ -173,16 +173,16 @@ feats:
         Strength: 1
         Constitution: 1
         Charisma: 1
-      armors: ~
-      flags: ability|one
+      armors: []
+      flags: ability,1
       language: ~
       proficiency: ~
       resistance: ~
       skills: ~
       speed: ~
       spells: ~
-      tools: ~
-      weapons: ~
+      tools: []
+      weapons: []
     required:
       ability: ~
       caster: false
@@ -193,7 +193,7 @@ feats:
   Drow High Magic:
     perk:
       ability: ~
-      armors: ~
+      armors: []
       flags: none
       language: ~
       proficiency: ~
@@ -201,8 +201,8 @@ feats:
       skills: ~
       speed: ~
       spells: ['Detect Magic', 'Dispel Magic', 'Levitate']
-      tools: ~
-      weapons: ~
+      tools: []
+      weapons: []
     required:
       ability: ~
       caster: false
@@ -213,7 +213,7 @@ feats:
   Dual Wielder:
     perk:
       ability: ~
-      armors: ~
+      armors: []
       flags: none
       language: ~
       proficiency: ~
@@ -221,8 +221,8 @@ feats:
       skills: ~
       speed: ~
       spells: ~
-      tools: ~
-      weapons: ~
+      tools: []
+      weapons: []
     required:
       ability: ~
       caster: false
@@ -233,7 +233,7 @@ feats:
   Dungeon Delver:
     perk:
       ability: ~
-      armors: ~
+      armors: []
       flags: none
       language: ~
       proficiency: ~
@@ -241,8 +241,8 @@ feats:
       skills: ~
       speed: ~
       spells: ~
-      tools: ~
-      weapons: ~
+      tools: []
+      weapons: []
     required:
       ability: ~
       caster: false
@@ -254,16 +254,16 @@ feats:
     perk:
       ability:
         Constitution: 1
-      armors: ~
-      flags: ability|all
+      armors: []
+      flags: ability,-1
       language: ~
       proficiency: ~
       skills: ~
       resistance: ~
       speed: ~
       spells: ~
-      tools: ~
-      weapons: ~
+      tools: []
+      weapons: []
     required:
       ability: ~
       caster: false
@@ -275,16 +275,16 @@ feats:
     perk:
       ability:
         Constitution: 1
-      armors: ~
-      flags: ability|all
+      armors: []
+      flags: ability,-1
       language: ~
       proficiency: ~
       resistance: ~
       skills: ~
       speed: ~
       spells: ~
-      tools: ~
-      weapons: ~
+      tools: []
+      weapons: []
     required:
       ability: ~
       caster: false
@@ -295,7 +295,7 @@ feats:
   Elemental Adept:
     perk:
       ability: ~
-      armors: ~
+      armors: []
       flags: none
       language: ~
       proficiency: ~
@@ -303,8 +303,8 @@ feats:
       skills: ~
       speed: ~
       spells: ~
-      tools: ~
-      weapons: ~
+      tools: []
+      weapons: []
     required:
       ability: ~
       caster: true
@@ -319,16 +319,16 @@ feats:
         Intelligence: 1
         Wisdom: 1
         Charisma: 1
-      armors: ~
-      flags: ability|one
+      armors: []
+      flags: ability,1
       language: ~
       proficiency: ~
       resistance: ~
       skills: ~
       speed: ~
       spells: ~
-      tools: ~
-      weapons: ~
+      tools: []
+      weapons: []
     required:
       ability: ~
       caster: false
@@ -341,12 +341,16 @@ feats:
       ability:
         Dexterity: 1
         Intelligence: 1
+      armors: []
+      flags: ability,1
       language: ~
       proficiency: ~
       resistance: ~
       skills: ~
       speed: ~
       spells: ~
+      tools: []
+      weapons: []
     required:
       ability: ~
       caster: false
@@ -359,12 +363,16 @@ feats:
       ability:
         Intelligence: 1
         Charisma: 1
+      armors: []
+      flags: ability,1
       language: ['Sylvan']
       proficiency: ~
       resistance: ~
       skills: ~
       speed: ~
       spells: ['Misty Step']
+      tools: []
+      weapons: []
     required:
       ability: ~
       caster: false
@@ -375,12 +383,16 @@ feats:
   Flames of Phlegethos:
     perk:
       ability: ~
+      armors: []
+      flags: ~
       language: ~
       proficiency: ~
       resistance: ~
       skills: ~
       speed: ~
       spells: ~
+      tools: []
+      weapons: []
     required:
       ability: ~
       caster: false
@@ -391,12 +403,16 @@ feats:
   Grappler:
     perk:
       ability: ~
+      armors: []
+      flags: ~
       language: ~
       proficiency: ~
       resistance: ~
       skills: ~
       speed: ~
       spells: ~
+      tools: []
+      weapons: []
     required:
       ability:
         Strength: 13
@@ -548,6 +564,8 @@ feats:
     perk:
       ability:
         Intelligence: 1
+      armors: []
+      flags: ability,-1|language,3
       language:
         - Abyssal
         - Celestial
@@ -565,12 +583,13 @@ feats:
         - Primordial
         - Sylvan
         - Undercommon
-        - 3
       proficiency: ~
       resistance: ~
       skills: ~
       speed: ~
       spells: ~
+      tools: []
+      weapons: []
     required:
       ability: ~
       caster: false
@@ -768,6 +787,8 @@ feats:
   Prodigy:
     perk:
       ability: ~
+      armors: []
+      flags: language,1|skills,1|tools,1
       language:
         - Abyssal
         - Celestial
@@ -785,48 +806,6 @@ feats:
         - Primordial
         - Sylvan
         - Undercommon
-        - 1
-      proficiency:
-        tools:
-          - Artisan's tools - Alchemists supplies
-          - Artisan's tools - Brewer's supplies
-          - Artisan's tools - Calligrapher's supplies
-          - Artisan's tools - Carpenter's tools
-          - Artisan's tools - Cartographer's tools
-          - Artisan's tools - Cobbler's tools
-          - Artisan's tools - Cook's utensils
-          - Artisan's tools - Glassblower's tools
-          - Artisan's tools - Jeweler's tools
-          - Artisan's tools - Leatherworker's tools
-          - Artisan's tools - Mason's tools
-          - Artisan's tools - Painter's supplies
-          - Artisan's tools - Potter's tools
-          - Artisan's tools - Smith's tools
-          - Artisan's tools - Tinker's tools
-          - Artisan's tools - Weaver's tools
-          - Artisan's tools - Woodcarver's tools
-          - Disguise kit
-          - Forgery kit
-          - Gaming set - Dice set
-          - Gaming set - Dragonchess set
-          - Gaming set - Playing card set
-          - Gaming set - Three-Dragon Ante set
-          - Herbalism kit
-          - Musical instrument - Bagpipes
-          - Musical instrument - Drum
-          - Musical instrument - Dulcimer
-          - Musical instrument - Flute
-          - Musical instrument - Lute
-          - Musical instrument - Lyre
-          - Musical instrument - Horn
-          - Musical instrument - Pan flute
-          - Musical instrument - Shawm
-          - Musical instrument - Viol
-          - Navigator's tools
-          - Poisoner's kit
-          - Thieves' tools
-          - Vehicles
-          - 1
       resistance: ~
       skills:
         - Acrobatics
@@ -847,9 +826,48 @@ feats:
         - Sleight of Hand
         - Stealth
         - Survival
-        - 1
       speed: ~
       spells: ~
+      tools:
+        - Artisan's tools - Alchemists supplies
+        - Artisan's tools - Brewer's supplies
+        - Artisan's tools - Calligrapher's supplies
+        - Artisan's tools - Carpenter's tools
+        - Artisan's tools - Cartographer's tools
+        - Artisan's tools - Cobbler's tools
+        - Artisan's tools - Cook's utensils
+        - Artisan's tools - Glassblower's tools
+        - Artisan's tools - Jeweler's tools
+        - Artisan's tools - Leatherworker's tools
+        - Artisan's tools - Mason's tools
+        - Artisan's tools - Painter's supplies
+        - Artisan's tools - Potter's tools
+        - Artisan's tools - Smith's tools
+        - Artisan's tools - Tinker's tools
+        - Artisan's tools - Weaver's tools
+        - Artisan's tools - Woodcarver's tools
+        - Disguise kit
+        - Forgery kit
+        - Gaming set - Dice set
+        - Gaming set - Dragonchess set
+        - Gaming set - Playing card set
+        - Gaming set - Three-Dragon Ante set
+        - Herbalism kit
+        - Musical instrument - Bagpipes
+        - Musical instrument - Drum
+        - Musical instrument - Dulcimer
+        - Musical instrument - Flute
+        - Musical instrument - Lute
+        - Musical instrument - Lyre
+        - Musical instrument - Horn
+        - Musical instrument - Pan flute
+        - Musical instrument - Shawm
+        - Musical instrument - Viol
+        - Navigator's tools
+        - Poisoner's kit
+        - Thieves' tools
+        - Vehicles
+      weapons: []
     required:
       ability: ~
       caster: false
@@ -866,7 +884,7 @@ feats:
         Intelligence: 1
         Wisdom: 1
         Charisma: 1
-      flags: ability|one|save
+      flags: ability,1|save,1
       language: ~
       proficiency: ~
       resistance: ~
@@ -1147,7 +1165,7 @@ feats:
   Tough:
     perk:
       ability: ~
-      armors: ~
+      armors: []
       flags: none
       language: ~
       proficiency: ~
@@ -1155,8 +1173,8 @@ feats:
       skills: ~
       speed: ~
       spells: ~
-      tools: ~
-      weapons: ~
+      tools: []
+      weapons: []
     required:
       ability: ~
       caster: false
@@ -1167,7 +1185,7 @@ feats:
   War Caster:
     perk:
       ability: ~
-      armors: ~
+      armors: []
       flags: none
       language: ~
       proficiency: ~
@@ -1175,8 +1193,8 @@ feats:
       skills: ~
       speed: ~
       spells: ~
-      tools: ~
-      weapons: ~
+      tools: []
+      weapons: []
     required:
       ability: ~
       caster: true
@@ -1189,7 +1207,7 @@ feats:
       ability:
         Strength: 1
         Dexterity: 1
-      armors: ~
+      armors: []
       flags: none
       language: ~
       proficiency:
@@ -1197,7 +1215,7 @@ feats:
       skills: ~
       speed: ~
       spells: ~
-      tools: ~
+      tools: []
       weapons:
         Simple:
           - Club
@@ -1248,7 +1266,7 @@ feats:
   Wood Elf Magic:
     perk:
       ability: ~
-      armors: ~
+      armors: []
       flags: none
       language: ~
       proficiency: ~
@@ -1259,8 +1277,8 @@ feats:
         - ['Druidcraft', 'Guidance', 'Mending', 'Poison Spray', 'Produce Flame', 'Resistance', 'Shillelagh', 'Thorn Whip']
         - Longstrider
         - Pass Without Trace
-      tools: ~
-      weapons: ~
+      tools: []
+      weapons: []
     required:
       ability: ~
       caster: false
