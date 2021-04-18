@@ -485,12 +485,15 @@ feats:
     perk:
       ability:
         Constitution: 1
+      armor: []
+      flags: none
       language: ~
-      proficiency: ~
       resistance: ['Cold', 'Poison']
       skills: ~
       speed: 0
       spells: ~
+      tool: []
+      weapon: []
     required:
       ability: ~
       caster: false
@@ -694,11 +697,15 @@ feats:
   Mobile:
     perk:
       ability: ~
+      armor: []
+      flags: none
       language: ~
       resistance: ~
       skills: ~
       speed: 10
       spells: ~
+      tool: []
+      weapon: []
     required:
       ability: ~
       caster: false
@@ -711,13 +718,15 @@ feats:
       ability:
         Strength: 1
         Dexterity: 1
+      armor: ['Medium', 'Shields']
+      flags: ability,1
       language: ~
-      proficiency:
-        armors: ['Medium', 'Shields']
       resistance: ~
       skills: ~
       speed: 0
       spells: ~
+      tool: []
+      weapon: []
     required:
       ability: ~
       caster: false
@@ -771,11 +780,15 @@ feats:
       ability:
         Strength: 1
         Constitution: 1
+      armor: []
+      flags: ability,1
       language: ~
       resistance: ~
       skills: ~
       speed: 0
       spells: ~
+      tool: []
+      weapon: []
     required:
       ability: ~
       caster: false
@@ -786,12 +799,15 @@ feats:
   Polearm Master:
     perk:
       ability: ~
+      armor: []
       flags: none
       language: ~
       resistance: ~
       skills: ~
       speed: 0
       spells: ~
+      tool: []
+      weapon: []
     required:
       ability: ~
       caster: false
@@ -1034,49 +1050,10 @@ feats:
     perk:
       ability: ~
       armor: []
+      flags: none
       language: ~
-      proficiency:
-        tools:
-          - Artisan's tools - Alchemists supplies
-          - Artisan's tools - Brewer's supplies
-          - Artisan's tools - Calligrapher's supplies
-          - Artisan's tools - Carpenter's tools
-          - Artisan's tools - Cartographer's tools
-          - Artisan's tools - Cobbler's tools
-          - Artisan's tools - Cook's utensils
-          - Artisan's tools - Glassblower's tools
-          - Artisan's tools - Jeweler's tools
-          - Artisan's tools - Leatherworker's tools
-          - Artisan's tools - Mason's tools
-          - Artisan's tools - Painter's supplies
-          - Artisan's tools - Potter's tools
-          - Artisan's tools - Smith's tools
-          - Artisan's tools - Tinker's tools
-          - Artisan's tools - Weaver's tools
-          - Artisan's tools - Woodcarver's tools
-          - Disguise kit
-          - Forgery kit
-          - Gaming set - Dice set
-          - Gaming set - Dragonchess set
-          - Gaming set - Playing card set
-          - Gaming set - Three-Dragon Ante set
-          - Herbalism kit
-          - Musical instrument - Bagpipes
-          - Musical instrument - Drum
-          - Musical instrument - Dulcimer
-          - Musical instrument - Flute
-          - Musical instrument - Lute
-          - Musical instrument - Lyre
-          - Musical instrument - Horn
-          - Musical instrument - Pan flute
-          - Musical instrument - Shawm
-          - Musical instrument - Viol
-          - Navigator's tools
-          - Poisoner's kit
-          - Thieves' tools
-          - Vehicles
       resistance: ~
-      skills:
+      skill:
         - Acrobatics
         - Animal Handling
         - Arcana
@@ -1097,6 +1074,46 @@ feats:
         - Survival
       speed: 0
       spells: ~
+      tool:
+        - Artisan's tools - Alchemists supplies
+        - Artisan's tools - Brewer's supplies
+        - Artisan's tools - Calligrapher's supplies
+        - Artisan's tools - Carpenter's tools
+        - Artisan's tools - Cartographer's tools
+        - Artisan's tools - Cobbler's tools
+        - Artisan's tools - Cook's utensils
+        - Artisan's tools - Glassblower's tools
+        - Artisan's tools - Jeweler's tools
+        - Artisan's tools - Leatherworker's tools
+        - Artisan's tools - Mason's tools
+        - Artisan's tools - Painter's supplies
+        - Artisan's tools - Potter's tools
+        - Artisan's tools - Smith's tools
+        - Artisan's tools - Tinker's tools
+        - Artisan's tools - Weaver's tools
+        - Artisan's tools - Woodcarver's tools
+        - Disguise kit
+        - Forgery kit
+        - Gaming set - Dice set
+        - Gaming set - Dragonchess set
+        - Gaming set - Playing card set
+        - Gaming set - Three-Dragon Ante set
+        - Herbalism kit
+        - Musical instrument - Bagpipes
+        - Musical instrument - Drum
+        - Musical instrument - Dulcimer
+        - Musical instrument - Flute
+        - Musical instrument - Lute
+        - Musical instrument - Lyre
+        - Musical instrument - Horn
+        - Musical instrument - Pan flute
+        - Musical instrument - Shawm
+        - Musical instrument - Viol
+        - Navigator's tools
+        - Poisoner's kit
+        - Thieves' tools
+        - Vehicles
+      weapon: []
     required:
       ability: ~
       caster: false
@@ -1107,12 +1124,15 @@ feats:
   Skulker:
     perk:
       ability: ~
+      armor: []
+      flags: none
       language: ~
-      proficiency: ~
       resistance: ~
       skills: ~
       speed: 0
       spells: ~
+      tool: []
+      weapon: []
     required:
       ability:
         Dexterity: 13
@@ -1124,12 +1144,15 @@ feats:
   Spell Sniper:
     perk:
       ability: ~
+      armor: []
+      flags: none
       language: ~
-      proficiency: ~
       resistance: ~
       skills: ~
       speed: 0
       spells: ~
+      tool: []
+      weapon: []
     required:
       ability: ~
       caster: true
@@ -1142,14 +1165,17 @@ feats:
       ability:
         Strength: 1
         Dexterity: 1
+      armor: []
+      flags: ability,1
       language: ~
-      proficiency: ~
       resistance: ~
       skills:
         - Acrobatics
         - Athletics
       speed: 5
       spells: ~
+      tool: []
+      weapon: []
     required:
       ability: ~
       caster: false
@@ -1160,12 +1186,15 @@ feats:
   Svirfneblin Magic:
     perk:
       ability: ~
+      armor: []
+      flags: spell,-1
       language: ~
-      proficiency: ~
       resistance: ~
       skills: ~
       speed: 0
       spells: ['Blindness/Deafness', 'Blur', 'Disguise', 'Nondetection']
+      tool: []
+      weapon: []
     required:
       ability: ~
       caster: false
@@ -1178,15 +1207,17 @@ feats:
       ability:
         Strength: 1
         Constitution: 1
+      armor: []
+      flags: weapon,-1
       language: ~
-      proficiency:
-        weapons:
-          - Improvised weapons
-          - Unarmed strikes
       resistance: ~
       skills: ~
       speed: 0
       spells: ~
+      tool: []
+      weapon:
+        - Improvised weapons
+        - Unarmed strikes
     required:
       ability: ~
       caster: false
@@ -1197,16 +1228,15 @@ feats:
   Tough:
     perk:
       ability: ~
-      armors: []
+      armor: []
       flags: none
       language: ~
-      proficiency: ~
       resistance: ~
       skills: ~
       speed: 0
       spells: ~
-      tools: []
-      weapons: []
+      tool: []
+      weapon: []
     required:
       ability: ~
       caster: false
@@ -1217,16 +1247,15 @@ feats:
   War Caster:
     perk:
       ability: ~
-      armors: []
+      armor: []
       flags: none
       language: ~
-      proficiency: ~
       resistance: ~
       skills: ~
       speed: 0
       spells: ~
-      tools: []
-      weapons: []
+      tool: []
+      weapon: []
     required:
       ability: ~
       caster: true
@@ -1239,16 +1268,15 @@ feats:
       ability:
         Strength: 1
         Dexterity: 1
-      armors: []
+      armor: []
       flags: none
       language: ~
-      proficiency:
       resistance: ~
       skills: ~
       speed: 0
       spells: ~
-      tools: []
-      weapons:
+      tool: []
+      weapon:
         Simple:
           - Club
           - Dagger
@@ -1298,10 +1326,9 @@ feats:
   Wood Elf Magic:
     perk:
       ability: ~
-      armors: []
+      armor: []
       flags: none
       language: ~
-      proficiency: ~
       resistance: ~
       skills: ~
       speed: 0
@@ -1309,8 +1336,8 @@ feats:
         - ['Druidcraft', 'Guidance', 'Mending', 'Poison Spray', 'Produce Flame', 'Resistance', 'Shillelagh', 'Thorn Whip']
         - Longstrider
         - Pass Without Trace
-      tools: []
-      weapons: []
+      tool: []
+      weapon: []
     required:
       ability: ~
       caster: false
