@@ -803,7 +803,7 @@ feats:
     perk:
       ability: ~
       armor: []
-      flags: language,1|skills,1|tools,1
+      flags: language,1|skill,1|tool,1
       language:
         - Abyssal
         - Celestial
