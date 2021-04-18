@@ -822,7 +822,7 @@ feats:
         - Sylvan
         - Undercommon
       resistance: ~
-      skills:
+      skill:
         - Acrobatics
         - Animal Handling
         - Arcana
