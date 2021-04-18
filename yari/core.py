@@ -407,15 +407,15 @@ class _ImprovementGenerator:
                     self._set_ability_score(ability, perks.get("ability").get(ability))
                     if "save" in perk_flags:
                         self.saves.append(ability)
-            elif flag in ("language", "skills", "tools"):
+            elif flag in ("language", "skill", "tool"):
                 for _ in range(value):
                     bonus_options = perks.get(flag)
                     acquired_options = None
                     if flag == "language":
                         acquired_options = self.languages
-                    elif flag == "skills":
+                    elif flag == "skill":
                         acquired_options = self.skills
-                    elif flag == "tools":
+                    elif flag == "tool":
                         acquired_options = self.tool_proficiency
                     bonus_options = [x for x in bonus_options if x not in acquired_options]
                     option = prompt(f"Choose bonus {flag} for '{feat}' feat", bonus_options)
