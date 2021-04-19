@@ -315,44 +315,39 @@ class _CharacterBuilder:
         return data
 
 
-@dataclass
 class _ImprovementGenerator:
-    """
-    Applies level based upgrades.
-
-    race str: Character's race
-    subrace str: Character's subrace (if applicable)
-    klass str: Character's class
-    subclass str: Character's subclass
-    level int: Character's level
-    saves list: Character's saving throws
-    magic_innate list: Character's innate magic (if applicable)
-    spell_slots str: Character's spell slots
-    score_array OrderedDict: Character's ability scores
-    languages list: Character's languages
-    armor_proficiency list: Character's armor proficiencies
-    tool_proficiency list: Character's tool proficiencies
-    weapon_proficiency list: Character's weapon proficiencies
-    skills list: Character's skills
-    feats list: Character's feats
-
-    """
-
-    race: Type[str]
-    subrace: Type[str]
-    klass: Type[str]
-    subclass: Type[str]
-    level: Type[int]
-    saves: List[str]
-    magic_innate: List[str]
-    spell_slots: Type[str]
-    score_array: OrderedDict
-    languages: List[str]
-    armor_proficiency: List[str]
-    tool_proficiency: List[str]
-    weapon_proficiency: List[str]
-    skills: List[str]
-    feats: List[str]
+    def __init__(
+        self,
+        race: Type[str],
+        subrace: Type[str],
+        klass: Type[str],
+        subclass: Type[str],
+        level: Type[int],
+        saves: List[str],
+        magic_innate: List[str],
+        spell_slots: Type[str],
+        score_array: OrderedDict,
+        armors: List[str],
+        tools: List[str],
+        weapons: List[str],
+        skills: List[str],
+        feats: List[str],
+    ):
+        self.race = race
+        self.subrace = subrace
+        self.klass = klass
+        self.subclass = subclass
+        self.languages = list()
+        self.level = level
+        self.saves = saves
+        self.magic_innate = magic_innate
+        self.spell_slots = spell_slots
+        self.score_array = score_array
+        self.armors = armors
+        self.tools = tools
+        self.weapons = weapons
+        self.skills = skills
+        self.feats = feats
 
     def _add_feat_perks(self, feat: Type[str]) -> None:
         """
@@ -401,7 +396,9 @@ class _ImprovementGenerator:
                             for x in ability_choices
                             if self._is_adjustable(x, perks.get("ability").get(x))
                         ]
-                    ability = prompt(f"Choose bonus ability for '{feat}' feat", ability_choices)
+                    ability = prompt(
+                        f"Choose bonus ability for '{feat}' feat", ability_choices
+                    )
                     self._set_ability_score(ability, perks.get("ability").get(ability))
                     if "save" in perk_flags:
                         self.saves.append(ability)
@@ -414,9 +411,13 @@ class _ImprovementGenerator:
                     elif flag == "skill":
                         acquired_options = self.skills
                     elif flag == "tool":
-                        acquired_options = self.tool_proficiency
-                    bonus_options = [x for x in bonus_options if x not in acquired_options]
-                    option = prompt(f"Choose bonus {flag} for '{feat}' feat", bonus_options)
+                        acquired_options = self.tools
+                    bonus_options = [
+                        x for x in bonus_options if x not in acquired_options
+                    ]
+                    option = prompt(
+                        f"Choose bonus {flag} for '{feat}' feat", bonus_options
+                    )
                     acquired_options.append(option)
                     print(f"'{option}' {flag} chosen")
 
@@ -428,16 +429,14 @@ class _ImprovementGenerator:
             # Armor category, append bonus proficiencies
             # Tool category, append bonus proficiencies
             if "armors" in proficiency_categories:
-                self.armor_proficiency = (
-                    self.armor_proficiency + proficiency_categories.get("armors")
-                )
+                self.armors = self.armors + proficiency_categories.get("armors")
             elif "tools" in proficiency_categories:
                 tool_choice = [
                     x
                     for x in proficiency_categories.get("tools")
-                    if x not in self.tool_proficiency
+                    if x not in self.tools
                 ]
-                self.tool_proficiency.append(choice(tool_choice))
+                self.tools.append(choice(tool_choice))
             elif "weapons" in proficiency_categories:
 
                 def get_all_weapons():
@@ -445,15 +444,13 @@ class _ImprovementGenerator:
                     weapons = proficiency_categories.get("weapons")
                     # User has simple weapon proficiencies
                     # Remove all simple weapons from list
-                    if "Simple" in self.weapon_proficiency:
+                    if "Simple" in self.weapons:
                         del weapons["Simple"]
 
                     # Make an exclusion of non-simple weapons
                     # Make an exclusion of non-martial weapons
                     excluded_weapons = [
-                        x
-                        for x in self.weapon_proficiency
-                        if x != "Simple" and x != "Martial"
+                        x for x in self.weapons if x != "Simple" and x != "Martial"
                     ]
 
                     for category, _ in weapons.items():
@@ -465,14 +462,14 @@ class _ImprovementGenerator:
                 weapons = [x for x in get_weapon_chest()]
                 selections = weapons[0]
                 # Has Simple weapon proficiency.
-                if "Simple" in self.weapon_proficiency:
+                if "Simple" in self.weapons:
                     # Has Simple proficiency and tight list of weapon proficiencies.
                     del selections["Simple"]
                     selections = selections.get("Martial")
-                    if len(self.weapon_proficiency) > 1:
+                    if len(self.weapons) > 1:
                         tight_weapon_list = [
                             proficiency
-                            for proficiency in self.weapon_proficiency
+                            for proficiency in self.weapons
                             if proficiency != "Simple"
                         ]
                         selections = [
@@ -482,17 +479,15 @@ class _ImprovementGenerator:
                         ]
                         tight_weapon_list.clear()
                 # Doesn't have Simple or Martial proficiency but a tight list of weapons.
-                elif "Simple" and "Martial" not in self.weapon_proficiency:
+                elif "Simple" and "Martial" not in self.weapons:
                     selections = selections.get("Martial") + selections.get("Simple")
                     selections = [
                         selection
                         for selection in selections
-                        if selection not in self.weapon_proficiency
+                        if selection not in self.weapons
                     ]
 
-                self.weapon_proficiency = self.weapon_proficiency + sample(
-                    selections, 4
-                )
+                self.weapons = self.weapons + sample(selections, 4)
                 selections.clear()
 
         # Feat "resistance" perk
@@ -538,16 +533,16 @@ class _ImprovementGenerator:
             "Weapon Master",
         ):
             # Character already has heavy armor proficiency.
-            if feat == "Heavily Armored" and "Heavy" in self.armor_proficiency:
+            if feat == "Heavily Armored" and "Heavy" in self.armors:
                 return False
             # Character already has light armor proficiency.
-            elif feat == "Lightly Armored" and "Light" in self.armor_proficiency:
+            elif feat == "Lightly Armored" and "Light" in self.armors:
                 return False
             # Character already has medium armor proficiency.
-            elif feat == "Moderately Armored" and "Medium" in self.armor_proficiency:
+            elif feat == "Moderately Armored" and "Medium" in self.armors:
                 return False
             # Character already has martial weapon proficiency.
-            elif feat == "Weapon Master" and "Martial" in self.weapon_proficiency:
+            elif feat == "Weapon Master" and "Martial" in self.weapons:
                 return False
 
         def get_feat_requirements(
@@ -617,7 +612,7 @@ class _ImprovementGenerator:
                 ):
                     armors = prerequisite.get(requirement).get("armors")
                     for armor in armors:
-                        if armor not in self.armor_proficiency:
+                        if armor not in self.armors:
                             return False
 
             # Check race requirements
@@ -821,7 +816,6 @@ class Yari(_CharacterBuilder):
                 if bonus_ability_choice in bonus_ability_choices:
                     self.bonus[bonus_ability_choice] = 1
                     bonus_ability_choices.remove(bonus_ability_choice)
-
         # Dragonborn ancestry prompt
         if self.race == "Dragonborn" and isinstance(self.resistances, dict):
             dragon_ancestor_options = tuple(self.resistances.keys())
@@ -833,9 +827,9 @@ class Yari(_CharacterBuilder):
             ancestry_resistances = self.resistances
             self.resistances = []
             self.resistances.append(ancestry_resistances.get(draconic_ancestry))
-
+        # Run Attribute generator
         self.scores = _AttributeBuilder(self.abilities, self.bonus).roll()
-
+        # Run Ability Score Improvement generator
         u = _ImprovementGenerator(
             race=self.race,
             subrace=self.subrace,
@@ -846,15 +840,18 @@ class Yari(_CharacterBuilder):
             magic_innate=self.innatemagic,
             spell_slots=self.spellslots,
             score_array=self.scores,
-            languages=self.languages,
-            armor_proficiency=self.armors,
-            tool_proficiency=self.tools,
-            weapon_proficiency=self.weapons,
+            armors=self.armors,
+            tools=self.tools,
+            weapons=self.weapons,
             skills=self.skills,
             feats=[],
         )
         u.run()
+        self.armors = u.armors
         self.feats = u.feats
+        self.languages = self.languages + u.languages
+        self.tools = u.tools
+        self.weapons = u.weapons
 
 
 def main():
