@@ -325,7 +325,6 @@ class _ImprovementGenerator:
     klass str: Character's class
     subclass str: Character's subclass
     level int: Character's level
-    primary_ability dict: Character's primary class abilities
     saves list: Character's saving throws
     magic_innate list: Character's innate magic (if applicable)
     spell_slots str: Character's spell slots
@@ -344,7 +343,6 @@ class _ImprovementGenerator:
     klass: Type[str]
     subclass: Type[str]
     level: Type[int]
-    primary_ability: Dict[int, str]
     saves: List[str]
     magic_innate: List[str]
     spell_slots: Type[str]
@@ -509,20 +507,6 @@ class _ImprovementGenerator:
                     self.magic_innate.append(choice(spell))
                 else:
                     self.magic_innate.append(spell)
-
-    def _add_skill(self, skill: Type[str], alternate_skill: Type[str] = None) -> bool:
-        """Adds skill or alternate_skill to skill list, (if applicable)."""
-        try:
-            if skill not in self.skills:
-                self.skills.append(skill)
-            elif alternate_skill is not None:
-                if alternate_skill not in self.skills:
-                    self.skills.append(alternate_skill)
-                else:
-                    raise ValueError("Neither valid skills available")
-            return True
-        except ValueError:
-            return False
 
     def _has_required(self, feat: Type[str]) -> bool:
         """
@@ -781,6 +765,7 @@ class Yari(_CharacterBuilder):
         self.bonusmagic = cdata.get("bonusmagic")
         self.darkvision = rdata.get("darkvision")
         self.equipment = cdata.get("equipment")
+        self.feats = None
         self.features = cdata.get("features")
         self.height = rdata.get("height")
         self.hitdie = cdata.get("hit_die")
@@ -857,7 +842,6 @@ class Yari(_CharacterBuilder):
             subclass=self.subclass,
             klass=self.klass,
             level=self.level,
-            primary_ability=self.abilities,
             saves=self.savingthrows,
             magic_innate=self.innatemagic,
             spell_slots=self.spellslots,
@@ -870,6 +854,7 @@ class Yari(_CharacterBuilder):
             feats=[],
         )
         u.run()
+        self.feats = u.feats
 
 
 def main():
@@ -991,6 +976,7 @@ def main():
     print(f.bonusmagic)
     print(f.darkvision)
     print(f.equipment)
+    print(f.feats)
     print(f.features)
     print(f.height)
     print(f.hitdie)
@@ -1001,6 +987,7 @@ def main():
     print(f.resistances)
     print(f.savingthrows)
     print(f.scores)
+    print(f.sex)
     print(f.size)
     print(f.skills)
     print(f.speed)
