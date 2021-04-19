@@ -93,7 +93,7 @@ def prompt(message: str, options: (list, tuple)) -> str:
     :param list,tuple options:
     """
     try:
-        options = {x:y for x, y in enumerate(options)}
+        options = {x: y for x, y in enumerate(options)}
         options_list = "\n\n"
         for id, option in options.items():
             options_list += f"\t{id}.) {option}\n"
