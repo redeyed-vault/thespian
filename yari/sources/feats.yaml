@@ -10,7 +10,7 @@ feats:
       resistance: ~
       skill: ~
       speed: 0
-      spells: ~
+      spell: ~
       tool: []
       weapon: []
     required:
@@ -29,7 +29,7 @@ feats:
       resistance: ~
       skills: ~
       speed: 0
-      spells: ~
+      spell: ~
       tool: []
       weapon: []
     required:
@@ -50,7 +50,7 @@ feats:
       resistance: ~
       skill: ~
       speed: 0
-      spells: ~
+      spell: ~
       tool: []
       weapon: []
     required:
@@ -69,7 +69,7 @@ feats:
       resistance: ~
       skills: ~
       speed: 0
-      spells: ~
+      spell: ~
       tool: []
       weapon: []
     required:
@@ -88,7 +88,7 @@ feats:
       resistance: ~
       skill: ~
       speed: 0
-      spells: ~
+      spell: ~
       tool: []
       weapon: []
     required:
@@ -107,7 +107,7 @@ feats:
       resistance: ~
       skill: ~
       speed: 0
-      spells: ~
+      spell: ~
       tool: []
       weapon: []
     required:
@@ -126,7 +126,7 @@ feats:
       resistance: ~
       skills: ~
       speed: 0
-      spells: ~
+      spell: ~
       tool: []
       weapon: []
     required:
@@ -149,7 +149,7 @@ feats:
       resistance: ~
       skill: ~
       speed: 0
-      spells: ~
+      spell: ~
       tool: []
       weapon: []
     required:
@@ -171,7 +171,7 @@ feats:
       resistance: ~
       skill: ~
       speed: 0
-      spells: ~
+      spell: ~
       tool: []
       weapon: []
     required:
@@ -190,7 +190,7 @@ feats:
       resistance: ~
       skills: ~
       speed: 0
-      spells: ['Detect Magic', 'Dispel Magic', 'Levitate']
+      spell: ['Detect Magic', 'Dispel Magic', 'Levitate']
       tool: []
       weapon: []
     required:
@@ -209,7 +209,7 @@ feats:
       resistance: ~
       skills: ~
       speed: 0
-      spells: ~
+      spell: ~
       tool: []
       weapon: []
     required:
@@ -228,7 +228,7 @@ feats:
       resistance: ['Traps']
       skills: ~
       speed: 0
-      spells: ~
+      spell: ~
       tool: []
       weapon: []
     required:
@@ -248,7 +248,7 @@ feats:
       skills: ~
       resistance: ~
       speed: 0
-      spells: ~
+      spell: ~
       tool: []
       weapon: []
     required:
@@ -268,7 +268,7 @@ feats:
       resistance: ~
       skill: ~
       speed: 0
-      spells: ~
+      spell: ~
       tool: []
       weapon: []
     required:
@@ -287,7 +287,7 @@ feats:
       resistance: ~
       skill: ~
       speed: 0
-      spells: ~
+      spell: ~
       tool: []
       weapon: []
     required:
@@ -310,7 +310,7 @@ feats:
       resistance: ~
       skills: ~
       speed: 0
-      spells: ~
+      spell: ~
       tool: []
       weapon: []
     required:
@@ -331,7 +331,7 @@ feats:
       resistance: ~
       skill: ~
       speed: 0
-      spells: ~
+      spell: ~
       tool: []
       weapon: []
     required:
@@ -352,7 +352,7 @@ feats:
       resistance: ~
       skills: ~
       speed: 0
-      spells: ['Misty Step']
+      spell: ['Misty Step']
       tool: []
       weapon: []
     required:
@@ -371,7 +371,7 @@ feats:
       resistance: ~
       skills: ~
       speed: 0
-      spells: ~
+      spell: ~
       tool: []
       weapon: []
     required:
@@ -390,7 +390,7 @@ feats:
       resistance: ~
       skills: ~
       speed: 0
-      spells: ~
+      spell: ~
       tool: []
       weapon: []
     required:
@@ -410,7 +410,7 @@ feats:
       resistance: ~
       skills: ~
       speed: 0
-      spells: ~
+      spell: ~
       tool: []
       weapon: []
     required:
@@ -429,7 +429,7 @@ feats:
       resistance: ~
       skills: ~
       speed: 0
-      spells: ~
+      spell: ~
       tool: []
       weapon: []
     required:
@@ -449,7 +449,7 @@ feats:
       resistance: ~
       skills: ~
       speed: 0
-      spells: ~
+      spell: ~
       tool: []
       weapon: []
     required:
@@ -470,7 +470,7 @@ feats:
       resistance: ~
       skills: ~
       speed: 0
-      spells: ~
+      spell: ~
       tool: []
       weapon: []
     required:
@@ -491,7 +491,7 @@ feats:
       resistance: ['Cold', 'Poison']
       skills: ~
       speed: 0
-      spells: ~
+      spell: ~
       tool: []
       weapon: []
     required:
@@ -510,7 +510,7 @@ feats:
       resistance: ~
       skills: ~
       speed: 0
-      spells: ~
+      spell: ~
       tool: []
       weapon: []
     required:
@@ -531,7 +531,7 @@ feats:
       resistance: ~
       skills: ~
       speed: 0
-      spells: ~
+      spell: ~
       tool: []
       weapon: []
     required:
@@ -552,7 +552,7 @@ feats:
       resistance: ~
       skills: ~
       speed: 0
-      spells: ~
+      spell: ~
       tool: []
       weapon: []
     required:
@@ -588,7 +588,7 @@ feats:
       resistance: ~
       skills: ~
       speed: 0
-      spells: ~
+      spell: ~
       tool: []
       weapon: []
     required:
@@ -607,7 +607,7 @@ feats:
       resistance: ~
       skills: ~
       speed: 0
-      spells: ~
+      spell: ~
       tool: []
       weapon: []
     required:
@@ -626,7 +626,7 @@ feats:
       resistance: ~
       skills: ~
       speed: 0
-      spells: ~
+      spell: ~
       tool: []
       weapon: []
     required:
@@ -645,7 +645,7 @@ feats:
       resistance: ~
       skills: ~
       speed: 0
-      spells: ~
+      spell: ~
       tool: []
       weapon: []
     required:
@@ -664,7 +664,7 @@ feats:
       resistance: ~
       skills: ~
       speed: 0
-      spells: ~
+      spell: ~
       tool: []
       weapon: []
     required:
@@ -683,7 +683,7 @@ feats:
       resistance: ~
       skills: ~
       speed: 0
-      spells: ~
+      spell: ~
       tool: []
       weapon: []
     required:
@@ -703,7 +703,7 @@ feats:
       resistance: ~
       skills: ~
       speed: 10
-      spells: ~
+      spell: ~
       tool: []
       weapon: []
     required:
@@ -724,7 +724,7 @@ feats:
       resistance: ~
       skills: ~
       speed: 0
-      spells: ~
+      spell: ~
       tool: []
       weapon: []
     required:
@@ -744,7 +744,7 @@ feats:
       resistance: ~
       skills: ~
       speed: 0
-      spells: ~
+      spell: ~
       tool: []
       weapon: []
     required:
@@ -765,7 +765,7 @@ feats:
       resistance: ~
       skills: ~
       speed: 0
-      spells: ~
+      spell: ~
       tool: []
       weapon: []
     required:
@@ -786,7 +786,7 @@ feats:
       resistance: ~
       skills: ~
       speed: 0
-      spells: ~
+      spell: ~
       tool: []
       weapon: []
     required:
@@ -805,7 +805,7 @@ feats:
       resistance: ~
       skills: ~
       speed: 0
-      spells: ~
+      spell: ~
       tool: []
       weapon: []
     required:
@@ -858,7 +858,7 @@ feats:
         - Stealth
         - Survival
       speed: 0
-      spells: ~
+      spell: ~
       tool:
         - Artisan's tools - Alchemists supplies
         - Artisan's tools - Brewer's supplies
@@ -921,7 +921,7 @@ feats:
       resistance: ~
       skills: ~
       speed: 0
-      spells: ~
+      spell: ~
       tool: []
       weapon: []
     required:
@@ -940,7 +940,7 @@ feats:
       resistance: ~
       skills: ~
       speed: 0
-      spells: ~
+      spell: ~
       tool: []
       weapon: []
     required:
@@ -961,7 +961,7 @@ feats:
       resistance: ~
       skills: ~
       speed: 0
-      spells: ~
+      spell: ~
       tool: []
       weapon: []
     required:
@@ -983,7 +983,7 @@ feats:
       resistance: ~
       skills: ~
       speed: 0
-      spells: ~
+      spell: ~
       tool: []
       weapon: []
     required:
@@ -1000,7 +1000,7 @@ feats:
       resistance: ~
       skills: ~
       speed: 0
-      spells: ~
+      spell: ~
     required:
       ability: ~
       caster: false
@@ -1017,7 +1017,7 @@ feats:
       resistance: ~
       skills: ~
       speed: 0
-      spells: ~
+      spell: ~
       tool: []
       weapon: []
     required:
@@ -1036,7 +1036,7 @@ feats:
       resistance: ~
       skills: ~
       speed: 0
-      spells: ~
+      spell: ~
       tool: []
       weapon: []
     required:
@@ -1073,7 +1073,7 @@ feats:
         - Stealth
         - Survival
       speed: 0
-      spells: ~
+      spell: ~
       tool:
         - Artisan's tools - Alchemists supplies
         - Artisan's tools - Brewer's supplies
@@ -1130,7 +1130,7 @@ feats:
       resistance: ~
       skills: ~
       speed: 0
-      spells: ~
+      spell: ~
       tool: []
       weapon: []
     required:
@@ -1150,7 +1150,7 @@ feats:
       resistance: ~
       skills: ~
       speed: 0
-      spells: ~
+      spell: ~
       tool: []
       weapon: []
     required:
@@ -1173,7 +1173,7 @@ feats:
         - Acrobatics
         - Athletics
       speed: 5
-      spells: ~
+      spell: ~
       tool: []
       weapon: []
     required:
@@ -1192,7 +1192,7 @@ feats:
       resistance: ~
       skills: ~
       speed: 0
-      spells: ['Blindness/Deafness', 'Blur', 'Disguise', 'Nondetection']
+      spell: ['Blindness/Deafness', 'Blur', 'Disguise', 'Nondetection']
       tool: []
       weapon: []
     required:
@@ -1213,7 +1213,7 @@ feats:
       resistance: ~
       skills: ~
       speed: 0
-      spells: ~
+      spell: ~
       tool: []
       weapon:
         - Improvised weapons
@@ -1234,7 +1234,7 @@ feats:
       resistance: ~
       skills: ~
       speed: 0
-      spells: ~
+      spell: ~
       tool: []
       weapon: []
     required:
@@ -1253,7 +1253,7 @@ feats:
       resistance: ~
       skills: ~
       speed: 0
-      spells: ~
+      spell: ~
       tool: []
       weapon: []
     required:
@@ -1274,7 +1274,7 @@ feats:
       resistance: ~
       skills: ~
       speed: 0
-      spells: ~
+      spell: ~
       tool: []
       weapon:
         Simple:
@@ -1327,12 +1327,12 @@ feats:
     perk:
       ability: ~
       armor: []
-      flags: none
+      flags: spell,-1
       language: ~
       resistance: ~
       skills: ~
       speed: 0
-      spells:
+      spell:
         - ['Druidcraft', 'Guidance', 'Mending', 'Poison Spray', 'Produce Flame', 'Resistance', 'Shillelagh', 'Thorn Whip']
         - Longstrider
         - Pass Without Trace
