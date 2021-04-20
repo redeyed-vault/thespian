@@ -547,7 +547,7 @@ feats:
         Strength: 1
         Dexterity: 1
       armor: ['Light']
-      flags: ability,1
+      flags: ability,1|armor,-1
       language: ~
       resistance: ~
       skills: ~
@@ -719,7 +719,7 @@ feats:
         Strength: 1
         Dexterity: 1
       armor: ['Medium', 'Shields']
-      flags: ability,1
+      flags: ability,1|armor,-1
       language: ~
       resistance: ~
       skills: ~
@@ -1269,7 +1269,7 @@ feats:
         Strength: 1
         Dexterity: 1
       armor: []
-      flags: none
+      flags: weapon,4
       language: ~
       resistance: ~
       skills: ~
