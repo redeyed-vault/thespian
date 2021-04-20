@@ -322,6 +322,7 @@ class _ImprovementGenerator:
         subrace: Type[str],
         klass: Type[str],
         subclass: Type[str],
+        languages: List[str],
         level: Type[int],
         saves: List[str],
         magic_innate: List[str],
@@ -337,7 +338,7 @@ class _ImprovementGenerator:
         self.subrace = subrace
         self.klass = klass
         self.subclass = subclass
-        self.languages = list()
+        self.languages = languages
         self.level = level
         self.saves = saves
         self.magic_innate = magic_innate
@@ -402,24 +403,32 @@ class _ImprovementGenerator:
                     self._set_ability_score(ability, perks.get("ability").get(ability))
                     if "save" in perk_flags:
                         self.saves.append(ability)
-            elif flag in ("language", "skill", "tool"):
-                for _ in range(value):
-                    bonus_options = perks.get(flag)
-                    acquired_options = None
-                    if flag == "language":
-                        acquired_options = self.languages
-                    elif flag == "skill":
-                        acquired_options = self.skills
-                    elif flag == "tool":
-                        acquired_options = self.tools
-                    bonus_options = [
-                        x for x in bonus_options if x not in acquired_options
-                    ]
-                    option = prompt(
-                        f"Choose bonus {flag} for '{feat}' feat", bonus_options
-                    )
-                    acquired_options.append(option)
-                    print(f"'{option}' {flag} chosen")
+            elif flag in ("armor", "language", "skill", "tool", "weapon"):
+                bonus_options = perks.get(flag)
+                acquired_options = None
+                if flag == "armor":
+                    acquired_options = self.armors
+                elif flag == "language":
+                    acquired_options = self.languages
+                elif flag == "skill":
+                    acquired_options = self.skills
+                elif flag == "tool":
+                    acquired_options = self.tools
+                elif flag == "weapon":
+                    acquired_options = self.weapons
+                bonus_options = [x for x in bonus_options if x not in acquired_options]
+                if value == -1:
+                    acquired_options = acquired_options + bonus_options
+                else:
+                    for _ in range(value):
+                        option = prompt(
+                            f"Choose bonus {flag} for '{feat}' feat", bonus_options
+                        )
+                        acquired_options.append(option)
+                        bonus_options = [
+                            x for x in bonus_options if x not in acquired_options
+                        ]
+                        print(f"'{option}' {flag} chosen")
 
         return
 
@@ -835,6 +844,7 @@ class Yari(_CharacterBuilder):
             subrace=self.subrace,
             subclass=self.subclass,
             klass=self.klass,
+            languages=self.languages,
             level=self.level,
             saves=self.savingthrows,
             magic_innate=self.innatemagic,
