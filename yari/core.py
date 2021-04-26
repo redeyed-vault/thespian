@@ -179,7 +179,7 @@ class _CharacterBuilder:
                     for proficiency in subclass_proficiencies:
                         if proficiency not in data[feature]:
                             data[feature].append(proficiency)
-                elif feature == "bonusmagic":
+                if feature == "bonusmagic":
                     if subclass_data[feature] is None:
                         data[feature] = list()
                         continue
@@ -188,14 +188,14 @@ class _CharacterBuilder:
                     for spell_list in tuple(bonus_magic.values()):
                         extended_spell_list += spell_list
                     data[feature] = extended_spell_list
-                elif feature == "features":
+                if feature == "features":
                     for level_obtained, feature_list in value.items():
                         if level_obtained in data["features"]:
                             data["features"][level_obtained] += feature_list
                         else:
                             data["features"][level_obtained] = feature_list
                     data["features"] = truncate_dict(data["features"], level)
-                elif feature == "skills":
+                if feature == "skills":
                     bonus_skills = subclass_data[feature]
                     if bonus_skills is None:
                         continue
@@ -280,13 +280,13 @@ class _CharacterBuilder:
                         innate_spells = data[trait]
                         if len(innate_spells) == 0:
                             continue
-                        if isinstance(innate_spells, list):
+                        if type(innate_spells) is list:
                             if len(innate_spells) >= 2:
                                 last_value = innate_spells[-1]
                                 if isinstance(last_value, int):
                                     del innate_spells[-1]
                                     data[trait] = sample(innate_spells, last_value)
-                        elif isinstance(innate_spells, dict):
+                        elif type(innate_spells) is dict:
                             spell_list = list()
                             innate_spells = truncate_dict(data[trait], level)
                             for _, spells in innate_spells.items():
@@ -403,114 +403,62 @@ class _ImprovementGenerator:
                     self._set_ability_score(ability, perks.get("ability").get(ability))
                     if "save" in perk_flags:
                         self.saves.append(ability)
-            elif flag in ("armor", "language", "skill", "tool", "weapon"):
-                bonus_options = perks.get(flag)
+            if flag in ("armor", "language", "skill", "spell", "tool", "weapon"):
                 acquired_options = None
                 if flag == "armor":
                     acquired_options = self.armors
-                elif flag == "language":
+                if flag == "language":
                     acquired_options = self.languages
-                elif flag == "skill":
+                if flag == "skill":
                     acquired_options = self.skills
-                elif flag == "tool":
+                if flag == "spell":
+                    acquired_options = self.magic_innate
+                if flag == "tool":
                     acquired_options = self.tools
-                elif flag == "weapon":
+                if flag == "weapon":
                     acquired_options = self.weapons
+
+                bonus_options = perks.get(flag)
+                if type(bonus_options) is dict:
+                    weapon_options = []
+                    if "Simple" in bonus_options and "Simple" in acquired_options:
+                        del bonus_options["Simple"]
+                    else:
+                        weapon_options = weapon_options + bonus_options.get("Simple")
+                    if "Martial" in bonus_options and "Martial" in acquired_options:
+                        del bonus_options["Martial"]
+                    else:
+                        weapon_options = weapon_options + bonus_options.get("Martial")
+                    bonus_options = weapon_options
+                if type(bonus_options) is list:
+                    for index in range(len(bonus_options)):
+                        if type(bonus_options[index]) is not list:
+                            continue
+                        spell = prompt(
+                            f"Choose bonus {flag} for '{feat}' feat",
+                            bonus_options[index],
+                        )
+                        bonus_options[index] = spell
                 bonus_options = [x for x in bonus_options if x not in acquired_options]
                 if value == -1:
                     acquired_options = acquired_options + bonus_options
-                else:
-                    for _ in range(value):
-                        option = prompt(
-                            f"Choose bonus {flag} for '{feat}' feat", bonus_options
-                        )
-                        acquired_options.append(option)
-                        bonus_options = [
-                            x for x in bonus_options if x not in acquired_options
-                        ]
-                        print(f"'{option}' {flag} chosen")
+                    return
+
+                for _ in range(value):
+                    option = prompt(
+                        f"Choose bonus {flag} for '{feat}' feat", bonus_options
+                    )
+                    acquired_options.append(option)
+                    bonus_options = [
+                        x for x in bonus_options if x not in acquired_options
+                    ]
+                    print(f"'{option}' {flag} chosen")
 
         return
-
-        # Feat "proficiency" perk
-        if perks.get("proficiency") is not None:
-            proficiency_categories = perks.get("proficiency")
-            # Armor category, append bonus proficiencies
-            # Tool category, append bonus proficiencies
-            if "armors" in proficiency_categories:
-                self.armors = self.armors + proficiency_categories.get("armors")
-            elif "tools" in proficiency_categories:
-                tool_choice = [
-                    x
-                    for x in proficiency_categories.get("tools")
-                    if x not in self.tools
-                ]
-                self.tools.append(choice(tool_choice))
-            elif "weapons" in proficiency_categories:
-
-                def get_all_weapons():
-                    all_weapons = list()
-                    weapons = proficiency_categories.get("weapons")
-                    # User has simple weapon proficiencies
-                    # Remove all simple weapons from list
-                    if "Simple" in self.weapons:
-                        del weapons["Simple"]
-
-                    # Make an exclusion of non-simple weapons
-                    # Make an exclusion of non-martial weapons
-                    excluded_weapons = [
-                        x for x in self.weapons if x != "Simple" and x != "Martial"
-                    ]
-
-                    for category, _ in weapons.items():
-                        for weapon in weapons.get(category):
-                            all_weapons.append(weapon)
-
-                    return all_weapons
-
-                weapons = [x for x in get_weapon_chest()]
-                selections = weapons[0]
-                # Has Simple weapon proficiency.
-                if "Simple" in self.weapons:
-                    # Has Simple proficiency and tight list of weapon proficiencies.
-                    del selections["Simple"]
-                    selections = selections.get("Martial")
-                    if len(self.weapons) > 1:
-                        tight_weapon_list = [
-                            proficiency
-                            for proficiency in self.weapons
-                            if proficiency != "Simple"
-                        ]
-                        selections = [
-                            selection
-                            for selection in selections
-                            if selection not in tight_weapon_list
-                        ]
-                        tight_weapon_list.clear()
-                # Doesn't have Simple or Martial proficiency but a tight list of weapons.
-                elif "Simple" and "Martial" not in self.weapons:
-                    selections = selections.get("Martial") + selections.get("Simple")
-                    selections = [
-                        selection
-                        for selection in selections
-                        if selection not in self.weapons
-                    ]
-
-                self.weapons = self.weapons + sample(selections, 4)
-                selections.clear()
 
         # Feat "resistance" perk
         if perks.get("resistance") is not None:
             pass
-
-        # Feat "spells" perk
-        if perks.get("spells") is not None:
-            spells = perks.get("spells")
-            for spell in spells:
-                if isinstance(spell, list):
-                    self.magic_innate.append(choice(spell))
-                else:
-                    self.magic_innate.append(spell)
 
     def _has_required(self, feat: Type[str]) -> bool:
         """
@@ -859,6 +807,7 @@ class Yari(_CharacterBuilder):
         u.run()
         self.armors = u.armors
         self.feats = u.feats
+        self.innatemagic = u.magic_innate
         self.languages = self.languages + u.languages
         self.tools = u.tools
         self.weapons = u.weapons
