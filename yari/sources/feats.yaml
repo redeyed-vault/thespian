@@ -185,7 +185,7 @@ feats:
     perk:
       ability: ~
       armor: []
-      flags: none
+      flags: spell,-1
       language: ~
       resistance: ~
       skills: ~
