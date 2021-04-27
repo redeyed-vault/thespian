@@ -361,17 +361,14 @@ class _ImprovementGenerator:
         perks = Load.get_columns(feat, "perk", source_file="feats")
         # Set perk flags, if applicable
         perk_flags = dict()
-        if "flags" not in perks:
+        if "flags" not in perks or perks.get("flags") == "none":
             perk_flags = None
         else:
             flags_finder = perks.get("flags").split("|")
-            if flags_finder == "none":
-                perk_flags = None
-            else:
-                for flag_pair in flags_finder:
-                    key, value = flag_pair.split(",")
-                    if key not in perk_flags:
-                        perk_flags[key] = int(value)
+            for flag_pair in flags_finder:
+                key, value = flag_pair.split(",")
+                if key not in perk_flags:
+                    perk_flags[key] = int(value)
         # If none flag is specified, don't bother
         if perk_flags is None:
             return
@@ -441,7 +438,7 @@ class _ImprovementGenerator:
                         bonus_options[index] = spell
                 bonus_options = [x for x in bonus_options if x not in acquired_options]
                 if value == -1:
-                    acquired_options = acquired_options + bonus_options
+                    acquired_options += bonus_options
                     return
 
                 for _ in range(value):
@@ -808,7 +805,7 @@ class Yari(_CharacterBuilder):
         self.armors = u.armors
         self.feats = u.feats
         self.innatemagic = u.magic_innate
-        self.languages = self.languages + u.languages
+        self.languages = u.languages
         self.tools = u.tools
         self.weapons = u.weapons
 
@@ -928,6 +925,7 @@ def main():
     print(alignment)
     print(f.ancestor)
     print(f.armors)
+    print(f.background)
     print(f.bonus)
     print(f.bonusmagic)
     print(f.darkvision)
