@@ -7,7 +7,7 @@ feats:
       armor: []
       flags: ability,-1
       language: ~
-      resistance: ~
+      resistance: []
       skill: ~
       speed: 0
       spell: ~
@@ -26,7 +26,7 @@ feats:
       armor: []
       flags: none
       language: ~
-      resistance: ~
+      resistance: []
       skills: ~
       speed: 0
       spell: ~
@@ -47,7 +47,7 @@ feats:
       armor: []
       flags: ability,1
       language: ~
-      resistance: ~
+      resistance: []
       skill: ~
       speed: 0
       spell: ~
@@ -66,7 +66,7 @@ feats:
       armor: []
       flags: none
       language: ~
-      resistance: ~
+      resistance: []
       skills: ~
       speed: 0
       spell: ~
@@ -85,7 +85,7 @@ feats:
       armor: []
       flags: none
       language: ~
-      resistance: ~
+      resistance: []
       skill: ~
       speed: 0
       spell: ~
@@ -104,7 +104,7 @@ feats:
       armor: []
       flags: none
       language: ~
-      resistance: ~
+      resistance: []
       skill: ~
       speed: 0
       spell: ~
@@ -123,7 +123,7 @@ feats:
       armor: []
       flags: none
       language: ~
-      resistance: ~
+      resistance: []
       skills: ~
       speed: 0
       spell: ~
@@ -146,7 +146,7 @@ feats:
       armor: []
       flags: ability,1
       language: ~
-      resistance: ~
+      resistance: []
       skill: ~
       speed: 0
       spell: ~
@@ -168,7 +168,7 @@ feats:
       armor: []
       flags: ability,1
       language: ~
-      resistance: ~
+      resistance: []
       skill: ~
       speed: 0
       spell: ~
@@ -187,7 +187,7 @@ feats:
       armor: []
       flags: spell,-1
       language: ~
-      resistance: ~
+      resistance: []
       skills: ~
       speed: 0
       spell: ['Detect Magic', 'Dispel Magic', 'Levitate']
@@ -206,7 +206,7 @@ feats:
       armor: []
       flags: none
       language: ~
-      resistance: ~
+      resistance: []
       skills: ~
       speed: 0
       spell: ~
@@ -246,7 +246,7 @@ feats:
       flags: ability,-1
       language: ~
       skills: ~
-      resistance: ~
+      resistance: []
       speed: 0
       spell: ~
       tool: []
@@ -265,7 +265,7 @@ feats:
       armor: []
       flags: ability,-1
       language: ~
-      resistance: ~
+      resistance: []
       skill: ~
       speed: 0
       spell: ~
@@ -284,7 +284,7 @@ feats:
       armor: []
       flags: none
       language: ~
-      resistance: ~
+      resistance: []
       skill: ~
       speed: 0
       spell: ~
@@ -307,7 +307,7 @@ feats:
       armor: []
       flags: ability,1
       language: ~
-      resistance: ~
+      resistance: []
       skills: ~
       speed: 0
       spell: ~
@@ -328,7 +328,7 @@ feats:
       armor: []
       flags: ability,1
       language: ~
-      resistance: ~
+      resistance: []
       skill: ~
       speed: 0
       spell: ~
@@ -349,7 +349,7 @@ feats:
       armor: []
       flags: ability,1
       language: ['Sylvan']
-      resistance: ~
+      resistance: []
       skills: ~
       speed: 0
       spell: ['Misty Step']
@@ -368,7 +368,7 @@ feats:
       armor: []
       flags: ~
       language: ~
-      resistance: ~
+      resistance: []
       skills: ~
       speed: 0
       spell: ~
@@ -387,7 +387,7 @@ feats:
       armor: []
       flags: none
       language: ~
-      resistance: ~
+      resistance: []
       skills: ~
       speed: 0
       spell: ~
@@ -407,7 +407,7 @@ feats:
       armor: []
       flags: none
       language: ~
-      resistance: ~
+      resistance: []
       skills: ~
       speed: 0
       spell: ~
@@ -426,7 +426,7 @@ feats:
       armor: []
       flags: none
       language: ~
-      resistance: ~
+      resistance: []
       skills: ~
       speed: 0
       spell: ~
@@ -446,7 +446,7 @@ feats:
       armor: ['Heavy']
       flags: ability,-1|armor,-1
       language: ~
-      resistance: ~
+      resistance: []
       skills: ~
       speed: 0
       spell: ~
@@ -467,7 +467,7 @@ feats:
       armor: []
       flags: ability,-1
       language: ~
-      resistance: ~
+      resistance: []
       skills: ~
       speed: 0
       spell: ~
@@ -486,7 +486,7 @@ feats:
       ability:
         Constitution: 1
       armor: []
-      flags: none
+      flags: resistance,-1
       language: ~
       resistance: ['Cold', 'Poison']
       skills: ~
@@ -507,7 +507,7 @@ feats:
       armor: []
       flags: none
       language: ~
-      resistance: ~
+      resistance: []
       skills: ~
       speed: 0
       spell: ~
@@ -528,7 +528,7 @@ feats:
       armor: []
       flags: ability,-1
       language: ~
-      resistance: ~
+      resistance: []
       skills: ~
       speed: 0
       spell: ~
@@ -549,7 +549,7 @@ feats:
       armor: ['Light']
       flags: ability,1|armor,-1
       language: ~
-      resistance: ~
+      resistance: []
       skills: ~
       speed: 0
       spell: ~
@@ -585,7 +585,7 @@ feats:
         - Primordial
         - Sylvan
         - Undercommon
-      resistance: ~
+      resistance: []
       skills: ~
       speed: 0
       spell: ~
@@ -604,7 +604,7 @@ feats:
       armor: []
       flags: none
       language: ~
-      resistance: ~
+      resistance: []
       skills: ~
       speed: 0
       spell: ~
@@ -623,7 +623,7 @@ feats:
       armor: []
       flags: none
       language: ~
-      resistance: ~
+      resistance: []
       skills: ~
       speed: 0
       spell: ~
@@ -642,7 +642,7 @@ feats:
       armor: []
       flags: none
       language: ~
-      resistance: ~
+      resistance: []
       skills: ~
       speed: 0
       spell: ~
@@ -661,7 +661,7 @@ feats:
       armor: []
       flags: none
       language: ~
-      resistance: ~
+      resistance: []
       skills: ~
       speed: 0
       spell: ~
@@ -680,7 +680,7 @@ feats:
       armor: []
       flags: none
       language: ~
-      resistance: ~
+      resistance: []
       skills: ~
       speed: 0
       spell: ~
@@ -700,7 +700,7 @@ feats:
       armor: []
       flags: none
       language: ~
-      resistance: ~
+      resistance: []
       skills: ~
       speed: 10
       spell: ~
@@ -721,7 +721,7 @@ feats:
       armor: ['Medium', 'Shields']
       flags: ability,1|armor,-1
       language: ~
-      resistance: ~
+      resistance: []
       skills: ~
       speed: 0
       spell: ~
@@ -741,7 +741,7 @@ feats:
       armor: []
       flags: none
       language: ~
-      resistance: ~
+      resistance: []
       skills: ~
       speed: 0
       spell: ~
@@ -762,7 +762,7 @@ feats:
       armor: []
       flags: ability,1
       language: ~
-      resistance: ~
+      resistance: []
       skills: ~
       speed: 0
       spell: ~
@@ -783,7 +783,7 @@ feats:
       armor: []
       flags: ability,1
       language: ~
-      resistance: ~
+      resistance: []
       skills: ~
       speed: 0
       spell: ~
@@ -802,7 +802,7 @@ feats:
       armor: []
       flags: none
       language: ~
-      resistance: ~
+      resistance: []
       skills: ~
       speed: 0
       spell: ~
@@ -837,7 +837,7 @@ feats:
         - Primordial
         - Sylvan
         - Undercommon
-      resistance: ~
+      resistance: []
       skill:
         - Acrobatics
         - Animal Handling
@@ -918,7 +918,7 @@ feats:
       armor: []
       flags: ability,1|save,-1
       language: ~
-      resistance: ~
+      resistance: []
       skills: ~
       speed: 0
       spell: ~
@@ -937,7 +937,7 @@ feats:
       armor: []
       flags: none
       language: ~
-      resistance: ~
+      resistance: []
       skills: ~
       speed: 0
       spell: ~
@@ -958,7 +958,7 @@ feats:
       armor: []
       flags: none
       language: ~
-      resistance: ~
+      resistance: []
       skills: ~
       speed: 0
       spell: ~
@@ -980,7 +980,7 @@ feats:
       armor: []
       flags: ability,1
       language: ~
-      resistance: ~
+      resistance: []
       skills: ~
       speed: 0
       spell: ~
@@ -997,7 +997,7 @@ feats:
     perk:
       ability: ~
       language: ~
-      resistance: ~
+      resistance: []
       skills: ~
       speed: 0
       spell: ~
@@ -1014,7 +1014,7 @@ feats:
       armor: []
       flags: none
       language: ~
-      resistance: ~
+      resistance: []
       skills: ~
       speed: 0
       spell: ~
@@ -1033,7 +1033,7 @@ feats:
       armor: []
       flags: none
       language: ~
-      resistance: ~
+      resistance: []
       skills: ~
       speed: 0
       spell: ~
@@ -1052,7 +1052,7 @@ feats:
       armor: []
       flags: none
       language: ~
-      resistance: ~
+      resistance: []
       skill:
         - Acrobatics
         - Animal Handling
@@ -1127,7 +1127,7 @@ feats:
       armor: []
       flags: none
       language: ~
-      resistance: ~
+      resistance: []
       skills: ~
       speed: 0
       spell: ~
@@ -1147,7 +1147,7 @@ feats:
       armor: []
       flags: none
       language: ~
-      resistance: ~
+      resistance: []
       skills: ~
       speed: 0
       spell: ~
@@ -1168,7 +1168,7 @@ feats:
       armor: []
       flags: ability,1
       language: ~
-      resistance: ~
+      resistance: []
       skills:
         - Acrobatics
         - Athletics
@@ -1189,7 +1189,7 @@ feats:
       armor: []
       flags: spell,-1
       language: ~
-      resistance: ~
+      resistance: []
       skills: ~
       speed: 0
       spell: ['Blindness/Deafness', 'Blur', 'Disguise', 'Nondetection']
@@ -1210,7 +1210,7 @@ feats:
       armor: []
       flags: weapon,-1
       language: ~
-      resistance: ~
+      resistance: []
       skills: ~
       speed: 0
       spell: ~
@@ -1231,7 +1231,7 @@ feats:
       armor: []
       flags: none
       language: ~
-      resistance: ~
+      resistance: []
       skills: ~
       speed: 0
       spell: ~
@@ -1250,7 +1250,7 @@ feats:
       armor: []
       flags: none
       language: ~
-      resistance: ~
+      resistance: []
       skills: ~
       speed: 0
       spell: ~
@@ -1271,7 +1271,7 @@ feats:
       armor: []
       flags: weapon,4
       language: ~
-      resistance: ~
+      resistance: []
       skills: ~
       speed: 0
       spell: ~
@@ -1329,7 +1329,7 @@ feats:
       armor: []
       flags: spell,-1
       language: ~
-      resistance: ~
+      resistance: []
       skills: ~
       speed: 0
       spell:
