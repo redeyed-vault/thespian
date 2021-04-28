@@ -318,37 +318,39 @@ class _CharacterBuilder:
 class _ImprovementGenerator:
     def __init__(
         self,
-        race: Type[str],
-        subrace: Type[str],
+        armors: List[str],
+        feats: List[str],
         klass: Type[str],
-        subclass: Type[str],
+        innatemagic: List[str],
         languages: List[str],
         level: Type[int],
+        race: Type[str],
+        resistances: List[str],
         saves: List[str],
-        magic_innate: List[str],
-        spell_slots: Type[str],
         score_array: OrderedDict,
-        armors: List[str],
+        skills: List[str],
+        spell_slots: Type[str],
+        subclass: Type[str],
+        subrace: Type[str],
         tools: List[str],
         weapons: List[str],
-        skills: List[str],
-        feats: List[str],
     ):
-        self.race = race
-        self.subrace = subrace
+        self.armors = armors
+        self.feats = feats
         self.klass = klass
-        self.subclass = subclass
+        self.innatemagic = innatemagic
         self.languages = languages
         self.level = level
+        self.race = race
+        self.resistances = resistances
         self.saves = saves
-        self.magic_innate = magic_innate
-        self.spell_slots = spell_slots
         self.score_array = score_array
-        self.armors = armors
+        self.skills = skills
+        self.spell_slots = spell_slots
+        self.subclass = subclass
+        self.subrace = subrace
         self.tools = tools
         self.weapons = weapons
-        self.skills = skills
-        self.feats = feats
 
     def _add_feat_perks(self, feat: Type[str]) -> None:
         """
@@ -400,16 +402,18 @@ class _ImprovementGenerator:
                     self._set_ability_score(ability, perks.get("ability").get(ability))
                     if "save" in perk_flags:
                         self.saves.append(ability)
-            if flag in ("armor", "language", "skill", "spell", "tool", "weapon"):
+            if flag in ("armor", "language", "resistance", "skill", "spell", "tool", "weapon"):
                 acquired_options = None
                 if flag == "armor":
                     acquired_options = self.armors
                 if flag == "language":
                     acquired_options = self.languages
+                if flag == "resistance":
+                    acquired_options = self.resistances
                 if flag == "skill":
                     acquired_options = self.skills
                 if flag == "spell":
-                    acquired_options = self.magic_innate
+                    acquired_options = self.innatemagic
                 if flag == "tool":
                     acquired_options = self.tools
                 if flag == "weapon":
@@ -449,13 +453,7 @@ class _ImprovementGenerator:
                     bonus_options = [
                         x for x in bonus_options if x not in acquired_options
                     ]
-                    print(f"'{option}' {flag} chosen")
-
-        return
-
-        # Feat "resistance" perk
-        if perks.get("resistance") is not None:
-            pass
+                    _e(f"INFO: {flag} '{option}' chosen.", "green")
 
     def _has_required(self, feat: Type[str]) -> bool:
         """
@@ -771,41 +769,45 @@ class Yari(_CharacterBuilder):
                     self.bonus[bonus_ability_choice] = 1
                     bonus_ability_choices.remove(bonus_ability_choice)
         # Dragonborn ancestry prompt
-        if self.race == "Dragonborn" and isinstance(self.resistances, dict):
+        if self.race == "Dragonborn" and type(self.resistances) is dict:
             dragon_ancestor_options = tuple(self.resistances.keys())
             draconic_ancestry = prompt(
                 "Choose your draconic ancestor's type",
                 dragon_ancestor_options,
             )
             self.ancestor = draconic_ancestry
+            print(f"Draconic ancestor set to '{draconic_ancestry}'.")
             ancestry_resistances = self.resistances
             self.resistances = []
             self.resistances.append(ancestry_resistances.get(draconic_ancestry))
+            print(f"Resistances set for '{draconic_ancestry}' ancestry.")
         # Run Attribute generator
         self.scores = _AttributeBuilder(self.abilities, self.bonus).roll()
         # Run Ability Score Improvement generator
         u = _ImprovementGenerator(
-            race=self.race,
-            subrace=self.subrace,
-            subclass=self.subclass,
+            armors=self.armors,
+            feats=[],
             klass=self.klass,
+            innatemagic=self.innatemagic,
             languages=self.languages,
             level=self.level,
+            race=self.race,
+            resistances=self.resistances,
             saves=self.savingthrows,
-            magic_innate=self.innatemagic,
-            spell_slots=self.spellslots,
             score_array=self.scores,
-            armors=self.armors,
+            skills=self.skills,
+            spell_slots=self.spellslots,
+            subclass=self.subclass,
+            subrace=self.subrace,
             tools=self.tools,
             weapons=self.weapons,
-            skills=self.skills,
-            feats=[],
         )
         u.run()
         self.armors = u.armors
         self.feats = u.feats
-        self.innatemagic = u.magic_innate
+        self.innatemagic = u.innatemagic
         self.languages = u.languages
+        self.resistances = u.resistances
         self.tools = u.tools
         self.weapons = u.weapons
 
