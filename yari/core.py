@@ -402,7 +402,15 @@ class _ImprovementGenerator:
                     self._set_ability_score(ability, perks.get("ability").get(ability))
                     if "save" in perk_flags:
                         self.saves.append(ability)
-            if flag in ("armor", "language", "resistance", "skill", "spell", "tool", "weapon"):
+            if flag in (
+                "armor",
+                "language",
+                "resistance",
+                "skill",
+                "spell",
+                "tool",
+                "weapon",
+            ):
                 acquired_options = None
                 if flag == "armor":
                     acquired_options = self.armors
@@ -781,6 +789,64 @@ class Yari(_CharacterBuilder):
             self.resistances = []
             self.resistances.append(ancestry_resistances.get(draconic_ancestry))
             print(f"Resistances set for '{draconic_ancestry}' ancestry.")
+
+        # Apply and honor all subclass flags
+        subclass_flags_options = Load.get_columns(
+            self.subclass, "flags", source_file="subclasses"
+        )
+        subclass_flags = dict()
+        if subclass_flags_options != "none":
+            flags_finder = subclass_flags_options.split("|")
+            for flag_pair in flags_finder:
+                key, value = flag_pair.split(",")
+                if "&&" in key:
+                    flag_options = key.split("&&")
+                    if len(flag_options) >= 2:
+                        flag_option = prompt(
+                            f"'{self.subclass}': Which bonus option do you desire?",
+                            flag_options,
+                        )
+                        subclass_flags[flag_option] = int(value)
+                        _e(
+                            f"INFO: bonus {flag_option} option chosen for '{self.subclass}' subclass'.",
+                            "green",
+                        )
+                if key not in subclass_flags:
+                    subclass_flags[key] = int(value)
+        # If none flag is specified, don't bother
+        if subclass_flags is None:
+            return
+        # Iterate through, honoring flags
+        for flag, value in subclass_flags.items():
+            if flag in ("languages", "skills"):
+                acquired_options = None
+                if flag == "languages":
+                    acquired_options = self.languages
+                if flag == "skills":
+                    acquired_options = self.skills
+
+                bonus_options = Load.get_columns(
+                    self.subclass, flag, source_file="subclasses"
+                )
+                bonus_options = [x for x in bonus_options if x not in acquired_options]
+                if value == -1:
+                    acquired_options += bonus_options
+                    return
+
+                for _ in range(value):
+                    option = prompt(
+                        f"Choose bonus {flag} for subclass '{self.subclass}'",
+                        bonus_options,
+                    )
+                    acquired_options.append(option)
+                    bonus_options = [
+                        x for x in bonus_options if x not in acquired_options
+                    ]
+                    _e(
+                        f"INFO: {flag} '{option}' chosen for subclass '{self.subclass}'.",
+                        "green",
+                    )
+
         # Run Attribute generator
         self.scores = _AttributeBuilder(self.abilities, self.bonus).roll()
         # Run Ability Score Improvement generator
