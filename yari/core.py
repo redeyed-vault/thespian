@@ -129,11 +129,12 @@ class _CharacterBuilder:
         data = Load.get_columns(klass, source_file="classes")
         if data is None:
             raise Error(f"Cannot load class template for '{klass}'.")
-
+        # Remove subclasses entry
         del data["subclasses"]
-
+        # Choose default background if not user-specified
         if self.background == "":
             self.background = data["background"]
+        del data["background"]
 
         for category in (
             "armors",
@@ -892,26 +893,12 @@ def main():
         default="Human",
     )
     app.add_argument(
-        "-subrace",
-        "-sr",
-        help="sets character's subrace",
-        type=str,
-        default="",
-    )
-    app.add_argument(
         "-klass",
         "-k",
         help="sets character's class",
         type=str,
         choices=get_character_classes(),
         default="Fighter",
-    )
-    app.add_argument(
-        "-subclass",
-        "-sc",
-        help="sets character's subclass",
-        type=str,
-        default="",
     )
     app.add_argument(
         "-level",
@@ -948,14 +935,6 @@ def main():
         default="True Neutral",
     )
     app.add_argument(
-        "-background",
-        "-b",
-        help="sets character's background",
-        type=str,
-        choices=get_character_backgrounds(),
-        default="",
-    )
-    app.add_argument(
         "-port",
         "-p",
         help="character's output HTTP server port",
@@ -964,27 +943,29 @@ def main():
     )
     args = app.parse_args()
     race = args.race
-    subrace = args.subrace
     klass = args.klass
-    subclass = args.subclass
     level = args.level
     sex = args.sex
     alignment = args.alignment
-    background = args.background
     port = args.port
 
     subraces = get_subraces_by_race(race)
-    if len(subraces) > 0:
-        if subrace == "":
-            subrace = prompt(f"Choose your '{race}' subrace", subraces)
-        elif subrace not in subraces:
+    if len(subraces) == 0:
+        subrace = ""
+    else:
+        subrace = prompt(f"Choose your '{race}' subrace", subraces)
+        if subrace not in subraces:
             subrace = prompt(f"Choose a valid '{race}' subrace", subraces)
+        _e(f"INFO: '{race}' subrace '{subrace}' chosen.", "green")
 
     subclasses = get_subclasses_by_class(klass)
-    if subclass == "":
-        subclass = prompt(f"Choose your '{klass}' subclass", subclasses)
-    elif subclass not in subclasses:
+    subclass = prompt(f"Choose your '{klass}' subclass", subclasses)
+    if subclass not in subclasses:
         subclass = prompt(f"Choose a valid '{klass}' subclass", subclasses)
+    _e(f"INFO: '{klass}' subclass '{subclass}' chosen.", "green")
+
+    background = prompt("Choose your background", get_character_backgrounds())
+    _e(f"INFO: 'Character background '{background}' chosen.", "green")
 
     f = Yari(race, subrace, klass, subclass, level, sex, background)
     f.run()
