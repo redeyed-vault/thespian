@@ -5,6 +5,7 @@ subraces:
     bonus:
       Strength: 1
     darkvision: ~
+    flags: none
     innatemagic: ~
     languages: []
     ratio: ~
@@ -19,6 +20,7 @@ subraces:
     bonus:
       Wisdom: 1
     darkvision: ~
+    flags: none
     innatemagic: ~
     languages: []
     ratio: ~
@@ -33,6 +35,7 @@ subraces:
     bonus:
       Constitution: 1
     darkvision: ~
+    flags: none
     innatemagic: ~
     languages: []
     ratio: ~
@@ -48,6 +51,7 @@ subraces:
     bonus:
       Strength: 1
     darkvision: 120
+    flags: none
     innatemagic:
       3: [Enlarge/Reduce]
       5: [Invisibility]
@@ -77,6 +81,7 @@ subraces:
     bonus:
       Wisdom: 1
     darkvision: ~
+    flags: none
     innatemagic: ~
     languages: []
     ratio:
@@ -97,6 +102,7 @@ subraces:
     bonus:
       Strength: 2
     darkvision: ~
+    flags: none
     innatemagic: ~
     languages: []
     ratio:
@@ -118,6 +124,7 @@ subraces:
     bonus:
       Charisma: 1
     darkvision: 120
+    flags: none
     innatemagic:
       1: [Dancing Lights]
       3: [Faerie Fire]
@@ -147,6 +154,7 @@ subraces:
     bonus:
       Intelligence: 1
     darkvision: ~
+    flags: none
     innatemagic: ~
     languages: []
     ratio:
@@ -172,6 +180,7 @@ subraces:
     bonus:
       Intelligence: 1
     darkvision: ~
+    flags: spell,1|language,1
     innatemagic:
       - Acid Splash
       - Blade Ward
@@ -231,6 +240,7 @@ subraces:
     bonus:
       Constitution: 1
     darkvision: ~
+    flags: none
     innatemagic: ~
     languages: ['Aquan']
     ratio:
@@ -257,6 +267,7 @@ subraces:
     bonus:
       Constitution: 1
     darkvision: ~
+    flags: none
     innatemagic: ~
     languages: []
     ratio:
@@ -278,6 +289,7 @@ subraces:
     bonus:
       Wisdom: 1
     darkvision: ~
+    flags: none
     innatemagic: ~
     languages: []
     ratio:
@@ -305,6 +317,7 @@ subraces:
     bonus:
       Strength: 2
     darkvision: ~
+    flags: language,1
     innatemagic:
       1: [Mage Hand]
       3: [Jump]
@@ -325,7 +338,6 @@ subraces:
       - Primordial
       - Sylvan
       - Undercommon
-      - 1
     ratio:
       height:
         base: 60
@@ -349,6 +361,7 @@ subraces:
     bonus:
       Wisdom: 2
     darkvision: ~
+    flags: none
     innatemagic:
       1: [Mage Hand]
       3: [Shield]
@@ -374,6 +387,7 @@ subraces:
     bonus:
       Dexterity: 1
     darkvision: 120
+    flags: none
     innatemagic: ~
     languages: ['Undercommon']
     ratio: ~
@@ -390,6 +404,7 @@ subraces:
     bonus:
       Dexterity: 1
     darkvision: ~
+    flags: none
     innatemagic:
       - Minor Illusion
     languages: []
@@ -406,6 +421,7 @@ subraces:
     bonus:
       Constitution: 1
     darkvision: ~
+    flags: none
     innatemagic: ~
     languages: []
     ratio: ~
@@ -422,6 +438,7 @@ subraces:
     bonus:
       Charisma: 1
     darkvision: ~
+    flags: none
     innatemagic: ~
     languages: []
     ratio: ~
@@ -436,6 +453,7 @@ subraces:
     bonus:
       Constitution: 1
     darkvision: ~
+    flags: none
     innatemagic: ~
     languages: []
     ratio: ~
@@ -451,6 +469,7 @@ subraces:
     bonus:
       Intelligence: 1
     darkvision: ~
+    flags: none
     innatemagic:
       1: [Thaumaturgy]
       3: [Hellish Rebuke]
@@ -468,6 +487,7 @@ subraces:
     bonus:
       Intelligence: 1
     darkvision: ~
+    flags: none
     innatemagic:
       1: [Thaumaturgy]
       3: [Ray of Sickness]
@@ -485,6 +505,7 @@ subraces:
     bonus:
       Dexterity: 1
     darkvision: ~
+    flags: none
     innatemagic:
       1: [Thaumaturgy]
       3: [Disguise]
@@ -503,6 +524,7 @@ subraces:
     bonus:
       Wisdom: 1
     darkvision: ~
+    flags: none
     innatemagic:
       1: [Friends]
       3: [Charm Person]
@@ -521,6 +543,7 @@ subraces:
     bonus:
       Dexterity: 1
     darkvision: ~
+    flags: none
     innatemagic:
       1: [Minor Illusion]
       3: [Disguise Self]
@@ -539,6 +562,7 @@ subraces:
     bonus:
       Constitution: 1
     darkvision: ~
+    flags: none
     innatemagic:
       1: [Ray of Frost]
       3: [Armor of Agathys]
@@ -557,6 +581,7 @@ subraces:
     bonus:
       Intelligence: 1
     darkvision: ~
+    flags: none
     innatemagic:
       1: [Mage Hand]
       3: [Tensor's Floating Disk]
@@ -575,6 +600,7 @@ subraces:
     bonus:
       Intelligence: 1
     darkvision: ~
+    flags: none
     innatemagic:
       1: [Mage Hand]
       3: [Burning Hands]
@@ -593,6 +619,7 @@ subraces:
     bonus:
       Strength: 1
     darkvision: ~
+    flags: none
     innatemagic:
       1: [Thaumaturgy]
       3: [Searing]

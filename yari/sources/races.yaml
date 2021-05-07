@@ -4,6 +4,7 @@ races:
     bonus:
       Charisma: 2
     darkvision: 60
+    flags: none
     innatemagic:
       1: [Light]
     languages: ['Common', 'Celestial']
@@ -34,6 +35,7 @@ races:
       Dexterity: 1
       Strength: 2
     darkvision: 60
+    flags: none
     innatemagic: ~
     languages: ['Common', 'Goblin']
     ratio:
@@ -62,6 +64,7 @@ races:
       Strength: 2
       Charisma: 1
     darkvision: ~
+    flags: none
     innatemagic: ~
     languages: ['Common', 'Draconic']
     ratio:
@@ -97,6 +100,7 @@ races:
     bonus:
       Constitution: 2
     darkvision: 60
+    flags: none
     innatemagic: ~
     languages: ['Common', 'Dwarvish']
     ratio: ~
@@ -130,6 +134,7 @@ races:
     bonus:
       Dexterity: 2
     darkvision: 60
+    flags: none
     innatemagic: ~
     languages: ['Common', 'Elvish']
     ratio: ~
@@ -157,6 +162,7 @@ races:
       Strength: 1
       Wisdom: 2
     darkvision: 60
+    flags: none
     innatemagic:
       1: [Detect Magic, Disguise]
     languages: ['Common', 'Elvish', 'Giant']
@@ -184,6 +190,7 @@ races:
     bonus:
       Intelligence: 1
     darkvision: ~
+    flags: none
     innatemagic: ~
     languages: ['Common', 'Gith']
     ratio: ~
@@ -202,6 +209,7 @@ races:
     bonus:
       Intelligence: 2
     darkvision: 60
+    flags: none
     innatemagic: ~
     languages: ['Common', 'Gnomish']
     ratio:
@@ -230,6 +238,7 @@ races:
       Dexterity: 2
       Constitution: 1
     darkvision: 60
+    flags: none
     innatemagic: ~
     languages: ['Common', 'Goblin']
     ratio:
@@ -256,6 +265,7 @@ races:
       Constitution: 1
       Strength: 2
     darkvision: 60
+    flags: none
     innatemagic: ~
     languages: ['Common', 'Giant']
     ratio:
@@ -281,8 +291,8 @@ races:
     armors: []
     bonus:
       Charisma: 2
-      random: 1
     darkvision: 60
+    flags: ability,1
     innatemagic: ~
     languages:
       - Common
@@ -332,6 +342,7 @@ races:
       Strength: 2
       Constitution: 1
     darkvision: 60
+    flags: none
     innatemagic: ~
     languages: ['Common', 'Orc']
     ratio:
@@ -358,6 +369,7 @@ races:
     bonus:
       Dexterity: 2
     darkvision: 60
+    flags: none
     innatemagic: ~
     languages: ['Common', 'Halfling']
     ratio:
@@ -386,6 +398,7 @@ races:
       Constitution: 2
       Intelligence: 1
     darkvision: 60
+    flags: weapon,2
     innatemagic: ~
     languages: ['Common', 'Goblin']
     ratio:
@@ -427,7 +440,6 @@ races:
       - War pick
       - Warhammer
       - Whip
-      - 2
   Human:
     armors: []
     bonus:
@@ -438,6 +450,7 @@ races:
       Wisdom: 1
       Charisma: 1
     darkvision: ~
+    flags: none
     innatemagic: ~
     languages:
       - Common
@@ -463,6 +476,7 @@ races:
       Dexterity: 2
       Wisdom: 1
     darkvision: ~
+    flags: none
     innatemagic: ~
     languages: ['Common', 'Auran']
     ratio:
@@ -494,6 +508,7 @@ races:
       Dexterity: 2
       Strength: -2
     darkvision: 60
+    flags: none
     innatemagic: ~
     languages: ['Common', 'Draconic']
     ratio:
@@ -521,6 +536,7 @@ races:
       Constitution: 2
       Wisdom: 1
     darkvision: ~
+    flags: none
     innatemagic: ~
     languages: ['Common', 'Draconic']
     ratio:
@@ -556,6 +572,7 @@ races:
       Constitution: 1
       Strength: 2
     darkvision: 60
+    flags: none
     innatemagic: ~
     languages: ['Common', 'Orc']
     ratio:
@@ -577,16 +594,18 @@ races:
       - Menacing
       - Powerful Build
     weapons: []
+  # Tabaxi (VGtM pg. 113)
   Tabaxi:
     armors: []
     bonus:
       Dexterity: 2
       Charisma: 1
     darkvision: 60
+    flags: language,1
     innatemagic: ~
     languages:
       - Common
-      - [Abyssal, Celestial, Deep Speech, Draconic, Dwarvish, Elvish, Giant, Gith, Gnomish, Goblin, Halfling, Infernal, Orc, Primordial, Sylvan, Undercommon, 1]
+      - [Abyssal, Celestial, Deep Speech, Draconic, Dwarvish, Elvish, Giant, Gith, Gnomish, Goblin, Halfling, Infernal, Orc, Primordial, Sylvan, Undercommon]
     ratio:
       height:
         base: 58
@@ -612,6 +631,7 @@ races:
     bonus:
       Charisma: 2
     darkvision: 60
+    flags: none
     innatemagic: ~
     languages:
       - Common
@@ -642,6 +662,7 @@ races:
       - Darkvision
       - Hellish Resistance
     weapons: []
+  # Triton (VGtM pg. 115)
   Triton:
     armors: []
     bonus:
@@ -649,6 +670,7 @@ races:
       Constitution: 1
       Strength: 1
     darkvision: ~
+    flags: none
     innatemagic: ~
     languages:
       - Common
@@ -678,6 +700,7 @@ races:
       Charisma: 2
       Intelligence: 1
     darkvision: 60
+    flags: none
     innatemagic:
       1: [Animal Friendship (Snakes only), Poison Spray]
       3: [Suggestion]
