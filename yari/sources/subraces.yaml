@@ -199,7 +199,7 @@ subraces:
       - Shocking Grasp
       - True Strike
       - 1
-    languages:
+    language:
       - Abyssal
       - Celestial
       - Deep Speech
@@ -215,7 +215,7 @@ subraces:
       - Primordial
       - Sylvan
       - Undercommon
-      - 1
+    languages: []
     ratio:
       height:
         base: 54
@@ -242,6 +242,7 @@ subraces:
     darkvision: ~
     flags: none
     innatemagic: ~
+    language: []
     languages: ['Aquan']
     ratio:
       height:
@@ -317,7 +318,7 @@ subraces:
     bonus:
       Strength: 2
     darkvision: ~
-    flags: language,1
+    flags: languages,1
     innatemagic:
       1: [Mage Hand]
       3: [Jump]

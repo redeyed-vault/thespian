@@ -5,8 +5,6 @@ races:
       Charisma: 2
     darkvision: 60
     flags: none
-    innatemagic:
-      1: [Light]
     languages: ['Common', 'Celestial']
     ratio:
       height:
@@ -17,8 +15,12 @@ races:
         modifier: 2d4
     resistances: [Necrotic, Radiant]
     size: Medium
+    skill: ~
     skills: []
     speed: 30
+    spell: ~
+    spells:
+      1: [Light]
     subraces:
       - Fallen
       - Protector
@@ -36,7 +38,6 @@ races:
       Strength: 2
     darkvision: 60
     flags: none
-    innatemagic: ~
     languages: ['Common', 'Goblin']
     ratio:
       height:
@@ -47,8 +48,11 @@ races:
         modifier: 2d6
     resistances: []
     size: Medium
+    skill: ~
     skills: [Stealth]
     speed: 30
+    spell: ~
+    spells: ~
     subraces: []
     tools: []
     traits:
@@ -65,7 +69,6 @@ races:
       Charisma: 1
     darkvision: ~
     flags: none
-    innatemagic: ~
     languages: ['Common', 'Draconic']
     ratio:
       height:
@@ -86,8 +89,11 @@ races:
       Silver: Cold
       White: Cold
     size: Medium
+    skill: ~
     skills: []
     speed: 30
+    spell: ~
+    spells: ~
     subraces: []
     tools: []
     traits:
@@ -101,13 +107,15 @@ races:
       Constitution: 2
     darkvision: 60
     flags: none
-    innatemagic: ~
     languages: ['Common', 'Dwarvish']
     ratio: ~
     resistances: [Poison]
     size: Medium
+    skill: ~
     skills: []
     speed: 30
+    spell: ~
+    spells: ~
     subraces:
       - Duergar
       - Hill
@@ -135,13 +143,15 @@ races:
       Dexterity: 2
     darkvision: 60
     flags: none
-    innatemagic: ~
     languages: ['Common', 'Elvish']
     ratio: ~
     resistances: [Charm, Sleep]
     size: Medium
+    skill: ~
     skills: [Perception]
     speed: 30
+    spell: ~
+    spells: ~
     subraces:
       - Drow
       - Eladrin
@@ -163,8 +173,6 @@ races:
       Wisdom: 2
     darkvision: 60
     flags: none
-    innatemagic:
-      1: [Detect Magic, Disguise]
     languages: ['Common', 'Elvish', 'Giant']
     ratio:
       height:
@@ -175,8 +183,12 @@ races:
         modifier: 2d6
     resistances: []
     size: Medium
+    skill: ~
     skills: []
     speed: 30
+    spell: ~
+    spells:
+      1: [Detect Magic, Disguise]
     subraces: []
     tools: []
     traits:
@@ -191,13 +203,15 @@ races:
       Intelligence: 1
     darkvision: ~
     flags: none
-    innatemagic: ~
     languages: ['Common', 'Gith']
     ratio: ~
     resistances: []
     size: Medium
+    skill: ~
     skills: []
     speed: 30
+    spell: ~
+    spells: ~
     subraces:
       - Githyanki
       - Githzerai
@@ -210,7 +224,6 @@ races:
       Intelligence: 2
     darkvision: 60
     flags: none
-    innatemagic: ~
     languages: ['Common', 'Gnomish']
     ratio:
       height:
@@ -221,8 +234,11 @@ races:
         modifier: 1d1
     resistances: []
     size: Small
+    skill: ~
     skills: []
     speed: 25
+    spell: ~
+    spells: ~
     subraces:
       - Deep
       - Forest
@@ -239,7 +255,6 @@ races:
       Constitution: 1
     darkvision: 60
     flags: none
-    innatemagic: ~
     languages: ['Common', 'Goblin']
     ratio:
       height:
@@ -250,8 +265,11 @@ races:
         modifier: 1d1
     resistances: []
     size: Small
+    skill: ~
     skills: []
     speed: 30
+    spell: ~
+    spells: ~
     subraces: []
     tools: []
     traits:
@@ -266,7 +284,6 @@ races:
       Strength: 2
     darkvision: 60
     flags: none
-    innatemagic: ~
     languages: ['Common', 'Giant']
     ratio:
       height:
@@ -277,8 +294,11 @@ races:
         modifier: 2d6
     resistances: []
     size: Medium
+    skill: ~
     skills: [Athletics]
     speed: 30
+    spell: ~
+    spells: ~
     subraces: []
     tools: []
     traits:
@@ -292,12 +312,26 @@ races:
     bonus:
       Charisma: 2
     darkvision: 60
-    flags: ability,1
-    innatemagic: ~
+    flags: ability,1|language,1|skill,2
+    language:
+      - Abyssal
+      - Celestial
+      - Deep Speech
+      - Draconic
+      - Dwarvish
+      - Giant
+      - Gith
+      - Gnomish
+      - Goblin
+      - Halfling
+      - Infernal
+      - Orc
+      - Primordial
+      - Sylvan
+      - Undercommon
     languages:
       - Common
       - Elvish
-      - [Abyssal, Celestial, Deep Speech, Draconic, Dwarvish, Giant, Gith, Gnomish, Goblin, Halfling, Infernal, Orc, Primordial, Sylvan, Undercommon, 1]
     ratio:
       height:
         base: 57
@@ -307,7 +341,7 @@ races:
         modifier: 2d4
     resistances: [Charm, Sleep]
     size: Medium
-    skills:
+    skill:
       - Acrobatics
       - Animal Handling
       - Arcana
@@ -326,8 +360,10 @@ races:
       - Sleight of Hand
       - Stealth
       - Survival
-      - 2
+    skills: []
     speed: 30
+    spell: ~
+    spells: ~
     subraces: []
     tools: []
     traits:
@@ -343,7 +379,6 @@ races:
       Constitution: 1
     darkvision: 60
     flags: none
-    innatemagic: ~
     languages: ['Common', 'Orc']
     ratio:
       height:
@@ -354,8 +389,11 @@ races:
         modifier: 2d6
     resistances: []
     size: Medium
+    skill: ~
     skills: [Intimidation]
     speed: 30
+    spell: ~
+    spells: ~
     subraces: []
     tools: []
     traits:
@@ -370,7 +408,6 @@ races:
       Dexterity: 2
     darkvision: 60
     flags: none
-    innatemagic: ~
     languages: ['Common', 'Halfling']
     ratio:
       height:
@@ -381,8 +418,11 @@ races:
         modifier: 1d1
     resistances: []
     size: Small
+    skill: ~
     skills: []
     speed: 25
+    spell: ~
+    spells: ~
     subraces:
       - Lightfoot
       - Stout
@@ -399,7 +439,6 @@ races:
       Intelligence: 1
     darkvision: 60
     flags: weapon,2
-    innatemagic: ~
     languages: ['Common', 'Goblin']
     ratio:
       height:
@@ -410,8 +449,11 @@ races:
         modifier: 2d4
     resistances: []
     size: Medium
+    skill: ~
     skills: []
     speed: 30
+    spell: ~
+    spells: ~
     subraces: []
     tools: []
     traits:
@@ -450,11 +492,25 @@ races:
       Wisdom: 1
       Charisma: 1
     darkvision: ~
-    flags: none
-    innatemagic: ~
-    languages:
-      - Common
-      - [Abyssal, Celestial, Deep Speech, Draconic, Dwarvish, Elvish, Giant, Gith, Gnomish, Goblin, Halfling, Infernal, Orc, Primordial, Sylvan, Undercommon, 1]
+    flags: language,1
+    language: 
+      - Abyssal
+      - Celestial
+      - Deep Speech
+      - Draconic
+      - Dwarvish
+      - Elvish
+      - Giant
+      - Gith
+      - Gnomish
+      - Goblin
+      - Halfling
+      - Infernal
+      - Orc
+      - Primordial
+      - Sylvan
+      - Undercommon
+    languages: [Common]
     ratio:
       height:
         base: 56
@@ -463,8 +519,11 @@ races:
         base: 110
         modifier: 2d4
     size: Medium
+    skill: ~
     skills: []
     speed: 30
+    spell: ~
+    spells: ~
     subraces: []
     tools: []
     traits:
@@ -476,8 +535,7 @@ races:
       Dexterity: 2
       Wisdom: 1
     darkvision: ~
-    flags: none
-    innatemagic: ~
+    flags: skill,2
     languages: ['Common', 'Auran']
     ratio:
       height:
@@ -488,13 +546,15 @@ races:
         modifier: 1d6
     resistances: []
     size: Medium
-    skills:
+    skill:
       - Acrobatics
       - Deception
       - Stealth
       - Sleight of Hand
-      - 2
+    skills: []
     speed: 30
+    spell: ~
+    spells: ~
     subraces: []
     tools: []
     traits:
@@ -509,7 +569,6 @@ races:
       Strength: -2
     darkvision: 60
     flags: none
-    innatemagic: ~
     languages: ['Common', 'Draconic']
     ratio:
       height:
@@ -520,8 +579,11 @@ races:
         modifier: 1d1
     resistances: []
     size: Small
+    skill: ~
     skills: []
     speed: 30
+    spell: ~
+    spells: ~
     subraces: []
     tools: []
     traits:
@@ -537,7 +599,6 @@ races:
       Wisdom: 1
     darkvision: ~
     flags: none
-    innatemagic: ~
     languages: ['Common', 'Draconic']
     ratio:
       height:
@@ -548,6 +609,7 @@ races:
         modifier: 2d6
     resistances: []
     size: Medium
+    skill: ~
     skills:
       - Animal Handling
       - Nature
@@ -556,6 +618,8 @@ races:
       - Survival
       - 2
     speed: 30
+    spell: ~
+    spells: ~
     subraces: []
     tools: []
     traits:
@@ -573,7 +637,6 @@ races:
       Strength: 2
     darkvision: 60
     flags: none
-    innatemagic: ~
     languages: ['Common', 'Orc']
     ratio:
       height:
@@ -584,8 +647,11 @@ races:
         modifier: 2d6
     resistances: []
     size: Medium
+    skill: ~
     skills: [Intimidation]
     speed: 30
+    spell: ~
+    spells: ~
     subraces: []
     tools: []
     traits:
@@ -602,10 +668,24 @@ races:
       Charisma: 1
     darkvision: 60
     flags: language,1
-    innatemagic: ~
-    languages:
-      - Common
-      - [Abyssal, Celestial, Deep Speech, Draconic, Dwarvish, Elvish, Giant, Gith, Gnomish, Goblin, Halfling, Infernal, Orc, Primordial, Sylvan, Undercommon]
+    language: 
+      - Abyssal
+      - Celestial
+      - Deep Speech
+      - Draconic
+      - Dwarvish
+      - Elvish
+      - Giant
+      - Gith
+      - Gnomish
+      - Goblin
+      - Halfling
+      - Infernal
+      - Orc
+      - Primordial
+      - Sylvan
+      - Undercommon
+    languages: [Common]
     ratio:
       height:
         base: 58
@@ -615,8 +695,11 @@ races:
         modifier: 2d4
     resistances: []
     size: Medium
+    skill: ~
     skills: [Perception]
     speed: 30
+    spell: ~
+    spells: ~
     subraces: []
     tools: []
     traits:
@@ -632,7 +715,6 @@ races:
       Charisma: 2
     darkvision: 60
     flags: none
-    innatemagic: ~
     languages:
       - Common
       - Infernal
@@ -645,8 +727,11 @@ races:
         modifier: 2d4
     resistances: [Fire]
     size: Medium
+    skill: ~
     skills: []
     speed: 30
+    spell: ~
+    spells: ~
     subraces:
       - Asmodeus
       - Baalzebul
@@ -671,7 +756,6 @@ races:
       Strength: 1
     darkvision: ~
     flags: none
-    innatemagic: ~
     languages:
       - Common
       - Primordial
@@ -684,8 +768,11 @@ races:
         modifier: 2d4
     resistances: []
     size: Medium
+    skill: ~
     skills: []
     speed: 30
+    spell: ~
+    spells: ~
     subraces: []
     tools: []
     traits:
@@ -701,9 +788,6 @@ races:
       Intelligence: 1
     darkvision: 60
     flags: none
-    innatemagic:
-      1: [Animal Friendship (Snakes only), Poison Spray]
-      3: [Suggestion]
     languages:
       - Abyssal
       - Common
@@ -717,8 +801,13 @@ races:
         modififer: 2d4
     resistances: []
     size: Medium
+    skill: ~
     skills: []
     speed: 30
+    spell: ~
+    spells:
+      1: [Animal Friendship (Snakes only), Poison Spray]
+      3: [Suggestion]
     subraces: []
     tools: []
     traits:
