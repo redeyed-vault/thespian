@@ -1,11 +1,13 @@
 races:
   Aasimar:
+    armor: ~
     armors: []
     bonus:
       Charisma: 2
     darkvision: 60
     flags: none
-    languages: ['Common', 'Celestial']
+    language: ~
+    languages: [Common, Celestial]
     ratio:
       height:
         base: 56
@@ -25,20 +27,24 @@ races:
       - Fallen
       - Protector
       - Scourge
+    tool: ~
     tools: []
     traits:
       - Celestial Legacy
       - Celestial Resistance
       - Darkvision
+    weapon: ~
     weapons: []
   Bugbear:
+    armor: ~
     armors: []
     bonus:
       Dexterity: 1
       Strength: 2
     darkvision: 60
     flags: none
-    languages: ['Common', 'Goblin']
+    language: ~
+    languages: [Common, Goblin]
     ratio:
       height:
         base: 72
@@ -54,6 +60,7 @@ races:
     spell: ~
     spells: ~
     subraces: []
+    tool: ~
     tools: []
     traits:
       - Darkvision
@@ -61,15 +68,18 @@ races:
       - Powerful Build
       - Sneaky
       - Surprise Attack
+    weapon: ~
     weapons: []
   Dragonborn:
+    armor: ~
     armors: []
     bonus:
       Strength: 2
       Charisma: 1
     darkvision: ~
     flags: none
-    languages: ['Common', 'Draconic']
+    language: ~
+    languages: [Common, Draconic]
     ratio:
       height:
         base: 66
@@ -95,19 +105,23 @@ races:
     spell: ~
     spells: ~
     subraces: []
+    tool: ~
     tools: []
     traits:
       - Breath Weapon
       - Damage Resistance
       - Draconic Ancestry
+    weapon: ~
     weapons: []
   Dwarf:
+    armor: ~
     armors: []
     bonus:
       Constitution: 2
     darkvision: 60
-    flags: none
-    languages: ['Common', 'Dwarvish']
+    flags: tool,1
+    language: ~
+    languages: [Common, Dwarvish]
     ratio: ~
     resistances: [Poison]
     size: Medium
@@ -120,11 +134,11 @@ races:
       - Duergar
       - Hill
       - Mountain
-    tools:
+    tool:
       - Artisan's tools - Brewer's supplies
       - Artisan's tools - Mason's tools
       - Artisan's tools - Smith's tools
-      - 1
+    tools: []
     traits:
       - Darkvision
       - Dwarven Combat Training
@@ -132,18 +146,21 @@ races:
       - Dwarven Toughness
       - Stonecunning
       - Tool Proficiency
+    weapon: ~
     weapons:
       - Battleaxe
       - Handaxe
       - Throwing hammer
       - Warhammer
   Elf:
+    armor: ~
     armors: []
     bonus:
       Dexterity: 2
     darkvision: 60
     flags: none
-    languages: ['Common', 'Elvish']
+    language: ~
+    languages: [Common, Elvish]
     ratio: ~
     resistances: [Charm, Sleep]
     size: Medium
@@ -159,21 +176,25 @@ races:
       - Sea
       - Shadar-kai
       - Wood
+    tool: ~
     tools: []
     traits:
       - Darkvision
       - Fey Ancestry
       - Keen Senses
       - Trance
+    weapon: ~
     weapons: []
   Firbolg:
+    armor: ~
     armors: []
     bonus:
       Strength: 1
       Wisdom: 2
     darkvision: 60
     flags: none
-    languages: ['Common', 'Elvish', 'Giant']
+    language: ~
+    languages: [Common, Elvish, Giant]
     ratio:
       height:
         base: 74
@@ -190,20 +211,24 @@ races:
     spells:
       1: [Detect Magic, Disguise]
     subraces: []
+    tool: ~
     tools: []
     traits:
       - Firbolg Magic
       - Hidden Step
       - Powerful Build
       - Speech of Beast and Leaf
+    weapon: ~
     weapons: []
   Gith:
+    armor: ~
     armors: []
     bonus:
       Intelligence: 1
     darkvision: ~
     flags: none
-    languages: ['Common', 'Gith']
+    language: ~
+    languages: [Common, Gith]
     ratio: ~
     resistances: []
     size: Medium
@@ -215,16 +240,20 @@ races:
     subraces:
       - Githyanki
       - Githzerai
+    tool: ~
     tools: []
     traits: ~
+    weapon: ~
     weapons: []
   Gnome:
+    armor: ~
     armors: []
     bonus:
       Intelligence: 2
     darkvision: 60
     flags: none
-    languages: ['Common', 'Gnomish']
+    language: ~
+    languages: [Common, Gnomish]
     ratio:
       height:
         base: 35
@@ -243,19 +272,23 @@ races:
       - Deep
       - Forest
       - Rock
+    tool: ~
     tools: []
     traits:
       - Gnome Cunning
       - Darkvision
+    weapon: ~
     weapons: []
   Goblin:
+    armor: ~
     armors: []
     bonus:
       Dexterity: 2
       Constitution: 1
     darkvision: 60
     flags: none
-    languages: ['Common', 'Goblin']
+    language: ~
+    languages: [Common, Goblin]
     ratio:
       height:
         base: 41
@@ -271,20 +304,24 @@ races:
     spell: ~
     spells: ~
     subraces: []
+    tool: ~
     tools: []
     traits:
       - Darkvision
       - Fury of the Small
       - Nimble Escape
+    weapon: ~
     weapons: []
   Goliath:
+    armor: ~
     armors: []
     bonus:
       Constitution: 1
       Strength: 2
     darkvision: 60
     flags: none
-    languages: ['Common', 'Giant']
+    language: ~
+    languages: [Common, Giant]
     ratio:
       height:
         base: 74
@@ -300,14 +337,17 @@ races:
     spell: ~
     spells: ~
     subraces: []
+    tool: ~
     tools: []
     traits:
       - Natural Athlete
       - Stone's Endurance
       - Powerful Build
       - Mountain Born
+    weapon: ~
     weapons: []
   HalfElf:
+    armor: ~
     armors: []
     bonus:
       Charisma: 2
@@ -365,21 +405,25 @@ races:
     spell: ~
     spells: ~
     subraces: []
+    tool: ~
     tools: []
     traits:
       - Darkvision
       - Fey Ancestry
       - Languages
       - Skill Versatility
+    weapon: ~
     weapons: []
   HalfOrc:
+    armor: ~
     armors: []
     bonus:
       Strength: 2
       Constitution: 1
     darkvision: 60
     flags: none
-    languages: ['Common', 'Orc']
+    language: ~
+    languages: [Common, Orc]
     ratio:
       height:
         base: 58
@@ -395,20 +439,24 @@ races:
     spell: ~
     spells: ~
     subraces: []
+    tool: ~
     tools: []
     traits:
       - Darkvision
       - Menacing
       - Relentless Endurance
       - Savage Attacks
+    weapon: ~
     weapons: []
   Halfling:
+    armor: ~
     armors: []
     bonus:
       Dexterity: 2
     darkvision: 60
     flags: none
-    languages: ['Common', 'Halfling']
+    language: ~
+    languages: [Common, Halfling]
     ratio:
       height:
         base: 31
@@ -426,20 +474,24 @@ races:
     subraces:
       - Lightfoot
       - Stout
+    tool: ~
     tools: []
     traits:
       - Brave
       - Halfling Nimbleness
       - Lucky
+    weapon: ~
     weapons: []
   Hobgoblin:
+    armor: ~
     armors: []
     bonus:
       Constitution: 2
       Intelligence: 1
     darkvision: 60
     flags: weapon,2
-    languages: ['Common', 'Goblin']
+    language: ~
+    languages: [Common, Goblin]
     ratio:
       height:
         base: 56
@@ -455,12 +507,13 @@ races:
     spell: ~
     spells: ~
     subraces: []
+    tool: ~
     tools: []
     traits:
       - Darkvision
       - Martial Training
       - Saving Face
-    weapons:
+    weapon:
       - Battleaxe
       - Blowgun
       - Flail
@@ -482,7 +535,9 @@ races:
       - War pick
       - Warhammer
       - Whip
+    weapons: []
   Human:
+    armor: ~
     armors: []
     bonus:
       Strength: 1
@@ -525,18 +580,22 @@ races:
     spell: ~
     spells: ~
     subraces: []
+    tool: ~
     tools: []
     traits:
       - Languages
+    weapon: ~
     weapons: []
   Kenku:
+    armor: ~
     armors: []
     bonus:
       Dexterity: 2
       Wisdom: 1
     darkvision: ~
     flags: skill,2
-    languages: ['Common', 'Auran']
+    language: ~
+    languages: [Common, Auran]
     ratio:
       height:
         base: 52
@@ -556,20 +615,23 @@ races:
     spell: ~
     spells: ~
     subraces: []
+    tool: ~
     tools: []
     traits:
       - Expert Forgery
       - Kenku Training
       - Mimicry
+    weapon: ~
     weapons: []
   Kobold:
+    armor: ~
     armors: []
     bonus:
       Dexterity: 2
       Strength: -2
     darkvision: 60
     flags: none
-    languages: ['Common', 'Draconic']
+    languages: [Common, Draconic]
     ratio:
       height:
         base: 25
@@ -585,20 +647,24 @@ races:
     spell: ~
     spells: ~
     subraces: []
+    tool: ~
     tools: []
     traits:
       - Darkvision
       - Grovel, Cower, and Beg
       - Pack Tactics
       - Sunlight Sensitivity
+    weapon: ~
     weapons: []
   Lizardfolk:
+    armor: ~
     armors: []
     bonus:
       Constitution: 2
       Wisdom: 1
     darkvision: ~
-    flags: none
+    flags: skill,2
+    language: ~
     languages: ['Common', 'Draconic']
     ratio:
       height:
@@ -609,18 +675,18 @@ races:
         modifier: 2d6
     resistances: []
     size: Medium
-    skill: ~
-    skills:
+    skill:
       - Animal Handling
       - Nature
       - Perception
       - Stealth
       - Survival
-      - 2
+    skills: []
     speed: 30
     spell: ~
     spells: ~
     subraces: []
+    tool: ~
     tools: []
     traits:
       - Bite
@@ -629,15 +695,18 @@ races:
       - Hunter's Lore
       - Natural Armor
       - Hungry Jaws
+    weapon: ~
     weapons: []
   Orc:
+    armor: ~
     armors: []
     bonus:
       Constitution: 1
       Strength: 2
     darkvision: 60
     flags: none
-    languages: ['Common', 'Orc']
+    language: ~
+    languages: [Common, Orc]
     ratio:
       height:
         base: 64
@@ -653,22 +722,25 @@ races:
     spell: ~
     spells: ~
     subraces: []
+    tool: ~
     tools: []
     traits:
       - Darkvision
       - Aggressive
       - Menacing
       - Powerful Build
+    weapon: ~
     weapons: []
   # Tabaxi (VGtM pg. 113)
   Tabaxi:
+    armor: ~
     armors: []
     bonus:
       Dexterity: 2
       Charisma: 1
     darkvision: 60
     flags: language,1
-    language: 
+    language:
       - Abyssal
       - Celestial
       - Deep Speech
@@ -701,6 +773,7 @@ races:
     spell: ~
     spells: ~
     subraces: []
+    tool: ~
     tools: []
     traits:
       - Darkvision
@@ -708,16 +781,17 @@ races:
       - Cat's Claws
       - Cat's Talent
       - Languages
+    weapon: ~
     weapons: []
   Tiefling:
+    armor: ~
     armors: []
     bonus:
       Charisma: 2
     darkvision: 60
     flags: none
-    languages:
-      - Common
-      - Infernal
+    language: ~
+    languages: [Common, Infernal]
     ratio:
       height:
         base: 57
@@ -742,13 +816,16 @@ races:
       - Mammon
       - Mephistopheles
       - Zariel
+    tool: ~
     tools: []
     traits:
       - Darkvision
       - Hellish Resistance
+    weapon: ~
     weapons: []
   # Triton (VGtM pg. 115)
   Triton:
+    armor: ~
     armors: []
     bonus:
       Charisma: 1
@@ -774,20 +851,24 @@ races:
     spell: ~
     spells: ~
     subraces: []
+    tool: ~
     tools: []
     traits:
       - Amphibious
       - Control Air and Water
       - Emissary of the Sea
       - Guardians of the Depths
+    weapon: ~
     weapons: []
   Yuanti:
+    armor: ~
     armors: []
     bonus:
       Charisma: 2
       Intelligence: 1
     darkvision: 60
     flags: none
+    language: ~
     languages:
       - Abyssal
       - Common
@@ -809,10 +890,12 @@ races:
       1: [Animal Friendship (Snakes only), Poison Spray]
       3: [Suggestion]
     subraces: []
+    tool: ~
     tools: []
     traits:
       - Darkvision
       - Innate Spellcasting
       - Magic Resistance
       - Poison Immunity
+    weapon: ~
     weapons: []
