@@ -1,4 +1,5 @@
 races:
+  # Aasimar
   Aasimar:
     armor: ~
     armors: []
@@ -35,6 +36,7 @@ races:
       - Darkvision
     weapon: ~
     weapons: []
+  # Bugbear
   Bugbear:
     armor: ~
     armors: []
@@ -70,6 +72,7 @@ races:
       - Surprise Attack
     weapon: ~
     weapons: []
+  # Dragonborn
   Dragonborn:
     armor: ~
     armors: []
@@ -113,6 +116,7 @@ races:
       - Draconic Ancestry
     weapon: ~
     weapons: []
+  # Dwarf
   Dwarf:
     armor: ~
     armors: []
@@ -152,6 +156,7 @@ races:
       - Handaxe
       - Throwing hammer
       - Warhammer
+  # Elf
   Elf:
     armor: ~
     armors: []
@@ -185,6 +190,7 @@ races:
       - Trance
     weapon: ~
     weapons: []
+  # Firbolg
   Firbolg:
     armor: ~
     armors: []
@@ -220,6 +226,7 @@ races:
       - Speech of Beast and Leaf
     weapon: ~
     weapons: []
+  # Gith
   Gith:
     armor: ~
     armors: []
@@ -245,6 +252,7 @@ races:
     traits: ~
     weapon: ~
     weapons: []
+  # Gnome
   Gnome:
     armor: ~
     armors: []
@@ -279,6 +287,7 @@ races:
       - Darkvision
     weapon: ~
     weapons: []
+  # Goblin
   Goblin:
     armor: ~
     armors: []
@@ -312,6 +321,7 @@ races:
       - Nimble Escape
     weapon: ~
     weapons: []
+  # Goliath
   Goliath:
     armor: ~
     armors: []
@@ -346,6 +356,7 @@ races:
       - Mountain Born
     weapon: ~
     weapons: []
+  # HalfElf
   HalfElf:
     armor: ~
     armors: []
@@ -414,6 +425,7 @@ races:
       - Skill Versatility
     weapon: ~
     weapons: []
+  # HalfOrc
   HalfOrc:
     armor: ~
     armors: []
@@ -448,6 +460,7 @@ races:
       - Savage Attacks
     weapon: ~
     weapons: []
+  # Halfling
   Halfling:
     armor: ~
     armors: []
@@ -482,6 +495,7 @@ races:
       - Lucky
     weapon: ~
     weapons: []
+  # Hobgoblin
   Hobgoblin:
     armor: ~
     armors: []
@@ -536,6 +550,7 @@ races:
       - Warhammer
       - Whip
     weapons: []
+  # Human
   Human:
     armor: ~
     armors: []
@@ -586,6 +601,7 @@ races:
       - Languages
     weapon: ~
     weapons: []
+  # Kenku
   Kenku:
     armor: ~
     armors: []
@@ -623,6 +639,7 @@ races:
       - Mimicry
     weapon: ~
     weapons: []
+  # Kobold
   Kobold:
     armor: ~
     armors: []
@@ -631,6 +648,7 @@ races:
       Strength: -2
     darkvision: 60
     flags: none
+    language: ~
     languages: [Common, Draconic]
     ratio:
       height:
@@ -656,6 +674,7 @@ races:
       - Sunlight Sensitivity
     weapon: ~
     weapons: []
+  # Lizardfolk
   Lizardfolk:
     armor: ~
     armors: []
@@ -665,7 +684,7 @@ races:
     darkvision: ~
     flags: skill,2
     language: ~
-    languages: ['Common', 'Draconic']
+    languages: [Common, Draconic]
     ratio:
       height:
         base: 57
@@ -697,6 +716,7 @@ races:
       - Hungry Jaws
     weapon: ~
     weapons: []
+  # Orc
   Orc:
     armor: ~
     armors: []
@@ -783,6 +803,7 @@ races:
       - Languages
     weapon: ~
     weapons: []
+  # Tiefling
   Tiefling:
     armor: ~
     armors: []
@@ -833,6 +854,7 @@ races:
       Strength: 1
     darkvision: ~
     flags: none
+    language: ~
     languages:
       - Common
       - Primordial
@@ -860,6 +882,7 @@ races:
       - Guardians of the Depths
     weapon: ~
     weapons: []
+  # Yuanti
   Yuanti:
     armor: ~
     armors: []

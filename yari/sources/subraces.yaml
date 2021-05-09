@@ -6,14 +6,17 @@ subraces:
       Strength: 1
     darkvision: ~
     flags: none
-    innatemagic: ~
+    language: ~
     languages: []
     ratio: ~
     resistances: []
     skills: []
+    spell: ~
+    spells:
+      3: [Necrotic Shroud]
     tools: []
     traits:
-      - [Necrotic Shroud, 3]
+      - Necrotic Shroud
     weapons: []
   Protector:
     armors: []
@@ -21,14 +24,17 @@ subraces:
       Wisdom: 1
     darkvision: ~
     flags: none
-    innatemagic: ~
+    language: ~
     languages: []
     ratio: ~
     resistances: []
     skills: []
+    spell: ~
+    spells:
+      3: [Radiant Soul]
     tools: []
     traits:
-      - [Radiant Soul, 3]
+      - Radiant Soul
     weapons: []
   Scourge:
     armors: []
@@ -36,14 +42,17 @@ subraces:
       Constitution: 1
     darkvision: ~
     flags: none
-    innatemagic: ~
+    language: ~
     languages: []
     ratio: ~
     resistances: []
     skills: []
+    spell: ~
+    spells:
+      3: [Radiant Consumption]
     tools: []
     traits:
-      - [Radiant Consumption, 3]
+      - Radiant Consumption
     weapons: []
   # Dwarf Subraces
   Duergar:
@@ -52,10 +61,8 @@ subraces:
       Strength: 1
     darkvision: 120
     flags: none
-    innatemagic:
-      3: [Enlarge/Reduce]
-      5: [Invisibility]
-    languages: ['Undercommon']
+    language: ~
+    languages: [Undercommon]
     ratio:
       height:
         base: 44
@@ -67,7 +74,11 @@ subraces:
       - Charm
       - Illusion
       - Paralysis
-    skills: []
+    skills:
+    spell: ~
+    spells:
+      3: [Enlarge/Reduce]
+      5: [Invisibility]
     tools: []
     traits:
       - Duergar Magic
@@ -82,7 +93,7 @@ subraces:
       Wisdom: 1
     darkvision: ~
     flags: none
-    innatemagic: ~
+    language: ~
     languages: []
     ratio:
       height:
@@ -93,6 +104,8 @@ subraces:
         modifier: 2d6
     resistances: []
     skills: []
+    spell: ~
+    spells: []
     tools: []
     traits:
       - Dwarven Toughness
@@ -103,7 +116,7 @@ subraces:
       Strength: 2
     darkvision: ~
     flags: none
-    innatemagic: ~
+    language: ~
     languages: []
     ratio:
       height:
@@ -114,6 +127,8 @@ subraces:
         modifier: 2d6
     resistances: []
     skills: []
+    spell: ~
+    spells: []
     tools: []
     traits:
       - Dwarven Armor Training
@@ -125,10 +140,7 @@ subraces:
       Charisma: 1
     darkvision: 120
     flags: none
-    innatemagic:
-      1: [Dancing Lights]
-      3: [Faerie Fire]
-      5: [Darkness]
+    language: ~
     languages: []
     ratio:
       height:
@@ -139,6 +151,11 @@ subraces:
         modifier: 1d6
     resistances: []
     skills: []
+    spell: ~
+    spells:
+      1: [Dancing Lights]
+      3: [Faerie Fire]
+      5: [Darkness]
     tools: []
     traits:
       - Drow Magic
@@ -155,7 +172,7 @@ subraces:
       Intelligence: 1
     darkvision: ~
     flags: none
-    innatemagic: ~
+    language: ~
     languages: []
     ratio:
       height:
@@ -166,6 +183,8 @@ subraces:
         modifier: 1d4
     resistances: []
     skills: []
+    spell: ~
+    spells: []
     tools: []
     traits:
       - Elf Weapon Training
@@ -180,25 +199,7 @@ subraces:
     bonus:
       Intelligence: 1
     darkvision: ~
-    flags: spell,1|language,1
-    innatemagic:
-      - Acid Splash
-      - Blade Ward
-      - Chill Touch
-      - Dancing Lights
-      - Fire Bolt
-      - Friends
-      - Light
-      - Mage Hand
-      - Mending
-      - Message
-      - Minor Illusion
-      - Poison Spray
-      - Prestidigitation
-      - Ray of Frost
-      - Shocking Grasp
-      - True Strike
-      - 1
+    flags: language,1|spell,1
     language:
       - Abyssal
       - Celestial
@@ -225,6 +226,24 @@ subraces:
         modifier: 1d4
     resistances: []
     skills: []
+    spell:
+      - Acid Splash
+      - Blade Ward
+      - Chill Touch
+      - Dancing Lights
+      - Fire Bolt
+      - Friends
+      - Light
+      - Mage Hand
+      - Mending
+      - Message
+      - Minor Illusion
+      - Poison Spray
+      - Prestidigitation
+      - Ray of Frost
+      - Shocking Grasp
+      - True Strike
+    spells: []
     tools: []
     traits:
       - Cantrip
@@ -241,8 +260,7 @@ subraces:
       Constitution: 1
     darkvision: ~
     flags: none
-    innatemagic: ~
-    language: []
+    language: ~
     languages: ['Aquan']
     ratio:
       height:
@@ -253,6 +271,8 @@ subraces:
         modifier: 1d4
     resistances: []
     skills: []
+    spell: ~
+    spells: []
     tools: []
     traits:
       - Child of the Sea
@@ -269,7 +289,7 @@ subraces:
       Constitution: 1
     darkvision: ~
     flags: none
-    innatemagic: ~
+    language: ~
     languages: []
     ratio:
       height:
@@ -280,6 +300,8 @@ subraces:
         modifier: 1d4
     resistances: [Necrotic]
     skills: []
+    spell: ~
+    spells: []
     tools: []
     traits:
       - Blessing of the Raven Queen
@@ -291,7 +313,7 @@ subraces:
       Wisdom: 1
     darkvision: ~
     flags: none
-    innatemagic: ~
+    language: ~
     languages: []
     ratio:
       height:
@@ -302,6 +324,8 @@ subraces:
         modifier: 1d4
     resistances: []
     skills: []
+    spell: ~
+    spells: []
     tools: []
     traits:
       - Elf Weapon Training
@@ -318,12 +342,8 @@ subraces:
     bonus:
       Strength: 2
     darkvision: ~
-    flags: languages,1
-    innatemagic:
-      1: [Mage Hand]
-      3: [Jump]
-      5: [Misty Step]
-    languages:
+    flags: language,1
+    language:
       - Abyssal
       - Celestial
       - Deep Speech
@@ -339,6 +359,7 @@ subraces:
       - Primordial
       - Sylvan
       - Undercommon
+    languages: []
     ratio:
       height:
         base: 60
@@ -348,6 +369,11 @@ subraces:
         modifier: 2d4
     resistances: []
     skills: []
+    spell: ~
+    spells:
+      1: [Mage Hand]
+      3: [Jump]
+      5: [Misty Step]
     tools: []
     traits:
       - Decadent Mastery
@@ -363,10 +389,7 @@ subraces:
       Wisdom: 2
     darkvision: ~
     flags: none
-    innatemagic:
-      1: [Mage Hand]
-      3: [Shield]
-      5: [Detect Thoughts]
+    language: ~
     languages: []
     ratio:
       height:
@@ -377,6 +400,11 @@ subraces:
         modifier: 1d4
     resistances: [Charm, Fright]
     skills: []
+    spell: ~
+    spells:
+      1: [Mage Hand]
+      3: [Shield]
+      5: [Detect Thoughts]
     tools: []
     traits:
       - Githzerai Psionics
@@ -389,11 +417,13 @@ subraces:
       Dexterity: 1
     darkvision: 120
     flags: none
-    innatemagic: ~
-    languages: ['Undercommon']
+    language: ~
+    languages: [Undercommon]
     ratio: ~
     resistances: []
     skills: []
+    spell: ~
+    spells: []
     tools: []
     traits:
       - Extra Language
@@ -406,12 +436,14 @@ subraces:
       Dexterity: 1
     darkvision: ~
     flags: none
-    innatemagic:
-      - Minor Illusion
+    language: ~
     languages: []
     ratio: ~
     resistances: []
     skills: []
+    spell: ~
+    spells:
+      - Minor Illusion
     tools: []
     traits:
       - Natural Illusionist
@@ -423,11 +455,13 @@ subraces:
       Constitution: 1
     darkvision: ~
     flags: none
-    innatemagic: ~
+    language: ~
     languages: []
     ratio: ~
     resistances: []
     skills: []
+    spell: ~
+    spells: []
     tools: [Artisan's tools - Tinker's tools]
     traits:
       - Artificer's Lore
@@ -440,11 +474,13 @@ subraces:
       Charisma: 1
     darkvision: ~
     flags: none
-    innatemagic: ~
+    language: ~
     languages: []
     ratio: ~
     resistances: []
     skills: []
+    spell: ~
+    spells: []
     tools: []
     traits:
       - Naturally Stealthy
@@ -455,11 +491,13 @@ subraces:
       Constitution: 1
     darkvision: ~
     flags: none
-    innatemagic: ~
+    language: ~
     languages: []
     ratio: ~
     resistances: [Poison]
     skills: []
+    spell: ~
+    spells: []
     tools: []
     traits:
       - Stout Resilience
@@ -471,14 +509,16 @@ subraces:
       Intelligence: 1
     darkvision: ~
     flags: none
-    innatemagic:
-      1: [Thaumaturgy]
-      3: [Hellish Rebuke]
-      5: [Darkness]
+    language: ~
     languages: []
     ratio: ~
     resistances: []
     skills: []
+    spell: ~
+    spells:
+      1: [Thaumaturgy]
+      3: [Hellish Rebuke]
+      5: [Darkness]
     tools: []
     traits:
       - Infernal Legacy
@@ -489,14 +529,16 @@ subraces:
       Intelligence: 1
     darkvision: ~
     flags: none
-    innatemagic:
-      1: [Thaumaturgy]
-      3: [Ray of Sickness]
-      5: [Crown of Madness]
+    language: ~
     languages: []
     ratio: ~
     resistances: []
     skills: []
+    spell: ~
+    spells:
+      1: [Thaumaturgy]
+      3: [Ray of Sickness]
+      5: [Crown of Madness]
     tools: []
     traits:
       - Legacy of Maladomini
@@ -507,15 +549,17 @@ subraces:
       Dexterity: 1
     darkvision: ~
     flags: none
-    innatemagic:
-      1: [Thaumaturgy]
-      3: [Disguise]
-      5: [Detect Thoughts]
+    language: ~
     languages: []
     parent: Tiefling
     ratio: ~
     resistances: []
     skills: []
+    spell: ~
+    spells:
+      1: [Thaumaturgy]
+      3: [Disguise]
+      5: [Detect Thoughts]
     tools: []
     traits:
       - Legacy of Dis
@@ -526,15 +570,17 @@ subraces:
       Wisdom: 1
     darkvision: ~
     flags: none
-    innatemagic:
-      1: [Friends]
-      3: [Charm Person]
-      5: [Suggestion]
+    language: ~
     languages: []
     parent: Tiefling
     ratio: ~
     resistances: []
     skills: []
+    spell: ~
+    spells:
+      1: [Friends]
+      3: [Charm Person]
+      5: [Suggestion]
     tools: []
     traits:
       - Legacy of Phlegethos
@@ -545,15 +591,17 @@ subraces:
       Dexterity: 1
     darkvision: ~
     flags: none
-    innatemagic:
-      1: [Minor Illusion]
-      3: [Disguise Self]
-      5: [Invisibility]
+    language: ~
     languages: []
     parent: Tiefling
     ratio: ~
     resistances: []
     skills: []
+    spell: ~
+    spells:
+      1: [Minor Illusion]
+      3: [Disguise Self]
+      5: [Invisibility]
     tools: []
     traits:
       - Legacy of Malbolge
@@ -564,15 +612,17 @@ subraces:
       Constitution: 1
     darkvision: ~
     flags: none
-    innatemagic:
-      1: [Ray of Frost]
-      3: [Armor of Agathys]
-      5: [Darkness]
+    language: ~
     languages: []
     parent: Tiefling
     ratio: ~
     resistances: []
     skills: []
+    spell: ~
+    spells:
+      1: [Ray of Frost]
+      3: [Armor of Agathys]
+      5: [Darkness]
     tools: []
     traits:
       - Legacy of Stygia
@@ -583,15 +633,17 @@ subraces:
       Intelligence: 1
     darkvision: ~
     flags: none
-    innatemagic:
-      1: [Mage Hand]
-      3: [Tensor's Floating Disk]
-      5: [Arcane Lock]
+    language: ~
     languages: []
     parent: Tiefling
     ratio: ~
     resistances: []
     skills: []
+    spell: ~
+    spells:
+      1: [Mage Hand]
+      3: [Tensor's Floating Disk]
+      5: [Arcane Lock]
     tools: []
     traits:
       - Legacy of Minauros
@@ -602,15 +654,17 @@ subraces:
       Intelligence: 1
     darkvision: ~
     flags: none
-    innatemagic:
-      1: [Mage Hand]
-      3: [Burning Hands]
-      5: [Flame Blade]
+    language: ~
     languages: []
     parent: Tiefling
     ratio: ~
     resistances: []
     skills: []
+    spell: ~
+    spells:
+      1: [Mage Hand]
+      3: [Burning Hands]
+      5: [Flame Blade]
     tools: []
     traits:
       - Legacy of Cania
@@ -621,15 +675,17 @@ subraces:
       Strength: 1
     darkvision: ~
     flags: none
-    innatemagic:
-      1: [Thaumaturgy]
-      3: [Searing]
-      5: [Branding Smite]
+    language: ~
     languages: []
     parent: Tiefling
     ratio: ~
     resistances: []
     skills: []
+    spell: ~
+    spells:
+      1: [Thaumaturgy]
+      3: [Searing]
+      5: [Branding Smite]
     tools: []
     traits:
       - Legacy of Avernus
