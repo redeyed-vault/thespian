@@ -108,13 +108,12 @@ class _CharacterBuilder:
         subclass: Type[str],
         level: Type[int],
         sex: Type[str],
-        background: Type[str],
+        background: Type[str] = "",
     ):
         if level < 3:
             subclass = ""
         if background == "":
             background = Load.get_columns(klass, "background", source_file="classes")
-
         self.klass = klass
         self.level = level
         self.race = race
@@ -302,7 +301,7 @@ class _CharacterBuilder:
                     for other in subrace_data.get(trait):
                         data[trait].append(other)
 
-        # Calculate height/weight
+        # Calculate height/weight values
         height_base = data.get("ratio").get("height").get("base")
         height_modifier = data.get("ratio").get("height").get("modifier")
         height_modifier = sum(list(roll(height_modifier)))
@@ -705,6 +704,7 @@ class Yari(_CharacterBuilder):
         subrace: Type[str],
         klass: Type[str],
         subclass: Type[str],
+        alignment: Type[str],
         level: Type[int] = 1,
         sex: Type[str] = "Female",
         background: Type[str] = "",
@@ -715,6 +715,7 @@ class Yari(_CharacterBuilder):
         rdata = self._build_race(self.race, self.subrace, self.level)
         cdata = self._build_class(self.klass, self.subclass, self.level, rdata)
         self.abilities = cdata.get("abilities")
+        self.alignment = alignment
         self.ancestor = None
         self.armors = rdata.get("armors") + cdata.get("armors")
         self.bonus = rdata.get("bonus")
@@ -752,7 +753,7 @@ class Yari(_CharacterBuilder):
         if "random" in self.bonus:
             bonus_ability_count = self.bonus.get("random")
             del self.bonus["random"]
-            if not isinstance(bonus_ability_count, int):
+            if type(bonus_ability_count) is not int:
                 return
             allowed_bonus_abilities = (
                 "Strength",
@@ -937,7 +938,7 @@ def main():
     app.add_argument(
         "-port",
         "-p",
-        help="character's output HTTP server port",
+        help="sets HTTP server port",
         type=int,
         default=8080,
     )
@@ -967,11 +968,11 @@ def main():
     background = prompt("Choose your background", get_character_backgrounds())
     _e(f"INFO: 'Character background '{background}' chosen.", "green")
 
-    f = Yari(race, subrace, klass, subclass, level, sex, background)
+    f = Yari(race, subrace, klass, subclass, alignment, level, sex, background)
     f.run()
 
     print(f.abilities)
-    print(alignment)
+    print(f.alignment)
     print(f.ancestor)
     print(f.armors)
     print(f.background)
