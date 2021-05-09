@@ -1,0 +1,60 @@
+print(f.abilities)
+print(f.alignment)
+print(f.ancestor)
+print(f.armors)
+print(f.background)
+print(f.bonus)
+print(f.bonusmagic)
+print(f.darkvision)
+print(f.equipment)
+print(f.feats)
+print(f.features)
+print(f.height)
+print(f.hitdie)
+print(f.hitpoints)
+print(f.innatemagic)
+print(f.languages)
+print(f.proficiencybonus)
+print(f.resistances)
+print(f.savingthrows)
+print(f.scores)
+print(f.sex)
+print(f.size)
+print(f.skills)
+print(f.speed)
+print(f.spellslots)
+print(f.tools)
+print(f.traits)
+print(f.weapons)
+print(f.weight)
+
+    
+{1: 'Strength', 2: 'Intelligence'}
+True Neutral
+None
+['Light', 'Medium', 'Heavy', 'Shield']
+Charlatan
+{'Dexterity': 2, 'Intelligence': 1}
+[]
+60
+['(a) Chain mail or (b) Leather armor, Longbow, 20 arrows', '(a) Martial weapon and a shield or (b) 2 Martial weapons', '(a) Light crossbow and 20 bolts or (b) 2 handaxes', "(a) Dungeoneer's pack or (b) Explorer's pack"]
+['Mounted Combatant']
+{1: ['Fighting Style', 'Second Wind'], 2: ['Action Surge'], 3: ['Martial Archetype', 'Improved Critical']}
+64
+10
+28
+['Ray of Frost']
+['Common', 'Elvish', 'Abyssal', 'Celestial', 'Deep Speech', 'Draconic', 'Dwarvish', 'Elvish', 'Giant', 'Gnomish', 'Goblin', 'Halfling', 'Infernal', 'Orc', 'Primordial', 'Sylvan', 'Undercommon', 1]
+2
+['Charm', 'Sleep']
+['Constitution', 'Strength']
+OrderedDict([('Strength', 17), ('Dexterity', 14), ('Constitution', 8), ('Intelligence', 16), ('Wisdom', 14), ('Charisma', 14)])
+Female
+Medium
+['Deception', 'Sleight of Hand', 'Acrobatics', 'Insight']
+30
+0
+[]
+['Darkvision', 'Fey Ancestry', 'Keen Senses', 'Trance', 'Cantrip', 'Elf Weapon Training', 'Extra Language']
+['Longsword', 'Shortsword', 'Shortbow', 'Longbow', 'Simple', 'Martial']
+110

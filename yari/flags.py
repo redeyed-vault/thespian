@@ -1,13 +1,16 @@
 from errors import Error
-from parser import Load
+from sources import Load
 from utils import _e, prompt
 
 
-class FlagParser:
+class FlagParser(Load):
     def __init__(self, database, query):
         result = Load.get_columns(query, source_file=database)
+
+        # If dataset is empty
         if result is None:
             raise Error(f"Data could not be found for '{query}'.")
+
         self.dataset = result
         self.flags = self._parse_flags(self.dataset)
 
@@ -48,7 +51,7 @@ class RaceFlagParser(FlagParser):
         super(RaceFlagParser, self).__init__(database, query)
 
     def run(self):
-        # Loop through dataset
+        # Loop through the loaded dataset
         # Check if dataset key matches flag keys
         for key, value in self.dataset.items():
             if key not in self.flags:

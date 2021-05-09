@@ -46,7 +46,7 @@ class Load:
             data.close()
 
             # Create the Query object
-            qo = Query(resource.get(file))
+            qo = QueryObject(resource.get(file))
             try:
                 return [q for q in qo.fetch(*fields)][0]
             except QueryNotFound:
@@ -64,8 +64,7 @@ class Load:
 
 
 @dataclass
-class Query:
-
+class QueryObject:
     resource: dict
 
     def fetch(self, *fields):
@@ -78,9 +77,7 @@ class Query:
         if not isinstance(self.resource, dict):
             raise TypeError("Argument 'resource' must be of type 'dict'.")
 
-        if len(fields) == 0:
-            yield tuple(self.resource.keys())
-        else:
+        if len(fields) != 0:
             resource = self.resource
             for field in fields:
                 if field in resource:
@@ -88,3 +85,5 @@ class Query:
                 else:
                     raise QueryNotFound(f"Cannot find index '{field}' within resource.")
             yield resource
+
+        yield tuple(self.resource.keys())

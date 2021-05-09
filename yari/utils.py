@@ -6,7 +6,7 @@ from termcolor import colored
 
 init(autoreset=True)
 
-from parser import Load
+from sources import Load
 
 
 def _e(message, color):

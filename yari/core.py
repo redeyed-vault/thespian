@@ -5,10 +5,10 @@ from random import choice, sample
 import traceback
 from typing import Dict, List, Type
 
-from parser import Load
 from errors import Error
 from dice import roll
 from httpd import HTTPD
+from sources import Load
 from utils import (
     get_character_backgrounds,
     get_character_classes,
