@@ -1,3 +1,4 @@
+from abc import abstractmethod
 from errors import Error
 from sources import Load
 from utils import _e, prompt
@@ -13,6 +14,10 @@ class _SourceFlagSeamstress(Load):
         self.dataset = result
         self.flags = self._sew_flags(self.dataset)
 
+    @abstractmethod
+    def _honor_flags(self):
+        pass
+
     def _sew_flags(self, dataset):
         # No flag key found
         if "flags" not in dataset:
@@ -22,8 +27,8 @@ class _SourceFlagSeamstress(Load):
         # Otherwise try to sew flags
         if "flags" in dataset and dataset.get("flags") == "none":
             return None
-        
-        final_flags = dict()
+
+        sewn_flags = dict()
         base_flags = dataset.get("flags").split("|")
         for flag in base_flags:
             if "&&" in flag:
@@ -33,7 +38,7 @@ class _SourceFlagSeamstress(Load):
                     if "," not in option_pair:
                         continue
                     (key, value) = option_pair.split(",")
-                    if key in final_flags:
+                    if key in sewn_flags:
                         continue
                     temp_final_flags[key] = int(value)
                 print(flag_option_split)
@@ -41,20 +46,20 @@ class _SourceFlagSeamstress(Load):
                 if "," not in flag:
                     continue
                 (key, value) = flag.split(",")
-                if key in final_flags:
+                if key in sewn_flags:
                     continue
-                final_flags[key] = int(value)
+                sewn_flags[key] = int(value)
             else:
                 raise Error("Unrecognized flag format. Can't parse.")
 
-            return final_flags
+            return sewn_flags
 
 
 class RaceFlagParser(_SourceFlagSeamstress):
     def __init__(self, database, query):
         super(RaceFlagParser, self).__init__(database, query)
 
-    def run(self):
+    def _honor_flags(self):
         # Loop through the loaded dataset
         # Check if dataset key matches flag keys
         for key, value in self.dataset.items():
@@ -84,6 +89,9 @@ class RaceFlagParser(_SourceFlagSeamstress):
         del self.dataset["weapon"]
         # Show clean result
         print(self.dataset)
+
+    def run(self):
+        self._honor_flags()
 
 
 p = RaceFlagParser("races", "Lizardfolk")
