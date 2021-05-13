@@ -3,50 +3,54 @@ from sources import Load
 from utils import _e, prompt
 
 
-class FlagParser(Load):
+class _SourceFlagSeamstress(Load):
     def __init__(self, database, query):
         result = Load.get_columns(query, source_file=database)
-
         # If dataset is empty
         if result is None:
             raise Error(f"Data could not be found for '{query}'.")
 
         self.dataset = result
-        self.flags = self._parse_flags(self.dataset)
+        self.flags = self._sew_flags(self.dataset)
 
-    def _parse_flags(self, dataset):
+    def _sew_flags(self, dataset):
+        # No flag key found
+        if "flags" not in dataset:
+            return None
+
+        # No flags found, do nothing
+        # Otherwise try to sew flags
+        if "flags" in dataset and dataset.get("flags") == "none":
+            return None
+        
         final_flags = dict()
-        if "flags" in dataset:
-            if dataset.get("flags") == "none":
-                dataset["flags"] = None
+        base_flags = dataset.get("flags").split("|")
+        for flag in base_flags:
+            if "&&" in flag:
+                temp_final_flags = dict()
+                flag_option_split = flag.split("&&")
+                for option_pair in flag_option_split:
+                    if "," not in option_pair:
+                        continue
+                    (key, value) = option_pair.split(",")
+                    if key in final_flags:
+                        continue
+                    temp_final_flags[key] = int(value)
+                print(flag_option_split)
+            elif "&&" not in flag:
+                if "," not in flag:
+                    continue
+                (key, value) = flag.split(",")
+                if key in final_flags:
+                    continue
+                final_flags[key] = int(value)
             else:
-                base_flags = dataset.get("flags").split("|")
-                for flag in base_flags:
-                    if "&&" in flag:
-                        temp_final_flags = dict()
-                        flag_option_split = flag.split("&&")
-                        for option_pair in flag_option_split:
-                            if "," not in option_pair:
-                                continue
-                            (key, value) = option_pair.split(",")
-                            if key in final_flags:
-                                continue
-                            temp_final_flags[key] = int(value)
-                        print(flag_option_split)
-                    elif "&&" not in flag:
-                        if "," not in flag:
-                            continue
-                        (key, value) = flag.split(",")
-                        if key in final_flags:
-                            continue
-                        final_flags[key] = int(value)
-                    else:
-                        raise Error("Unrecognized flag format. Can't parse.")
+                raise Error("Unrecognized flag format. Can't parse.")
 
-        return final_flags
+            return final_flags
 
 
-class RaceFlagParser(FlagParser):
+class RaceFlagParser(_SourceFlagSeamstress):
     def __init__(self, database, query):
         super(RaceFlagParser, self).__init__(database, query)
 
