@@ -1,15 +1,16 @@
-from abc import abstractmethod
+from abc import ABC, abstractmethod
+
 from errors import Error
 from sources import Load
 from utils import _e, prompt
 
 
-class _SourceFlagSeamstress(Load):
-    def __init__(self, database, query):
-        result = Load.get_columns(query, source_file=database)
-        # If dataset is empty
+class _SourceFlagSeamstress(ABC):
+    def __init__(self, database, query_id):
+        result = Load.get_columns(query_id, source_file=database)
+        # If dataset is empty, throw error
         if result is None:
-            raise Error(f"Data could not be found for '{query}'.")
+            raise Error(f"Data could not be found for '{query_id}'.")
 
         self.dataset = result
         self.flags = self._sew_flags(self.dataset)
@@ -23,9 +24,8 @@ class _SourceFlagSeamstress(Load):
         if "flags" not in dataset:
             return None
 
-        # No flags found, do nothing
-        # Otherwise try to sew flags
-        if "flags" in dataset and dataset.get("flags") == "none":
+        # If "none" flag specified, do nothing
+        if dataset.get("flags") == "none":
             return None
 
         sewn_flags = dict()
@@ -50,14 +50,14 @@ class _SourceFlagSeamstress(Load):
                     continue
                 sewn_flags[key] = int(value)
             else:
-                raise Error("Unrecognized flag format. Can't parse.")
+                raise Error("Unrecognized pattern. Can't sew flag.")
 
             return sewn_flags
 
 
 class RaceFlagParser(_SourceFlagSeamstress):
-    def __init__(self, database, query):
-        super(RaceFlagParser, self).__init__(database, query)
+    def __init__(self, database, query_id):
+        super(RaceFlagParser, self).__init__(database, query_id)
 
     def _honor_flags(self):
         # Loop through the loaded dataset
@@ -92,6 +92,14 @@ class RaceFlagParser(_SourceFlagSeamstress):
 
     def run(self):
         self._honor_flags()
+
+
+class SubraceFlagParser(_SourceFlagSeamstress):
+    def __init__(self, database, query_id):
+        super(SubraceFlagParser, self).__init__(database, query_id)
+
+    def _honor_flags(self):
+        pass
 
 
 p = RaceFlagParser("races", "Lizardfolk")
