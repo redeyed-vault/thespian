@@ -6,12 +6,12 @@ from utils import _e, prompt
 
 
 class _SourceFlagSeamstress(ABC):
-    def __init__(self, database, query_id):
+    def __init__(self, database, query_id, allowed_flags):
         result = Load.get_columns(query_id, source_file=database)
-        # If dataset is empty, throw error
         if result is None:
             raise Error(f"Data could not be found for '{query_id}'.")
 
+        self.allowed_flags = allowed_flags
         self.dataset = result
         self.flags = self._sew_flags(self.dataset)
 
@@ -20,39 +20,38 @@ class _SourceFlagSeamstress(ABC):
         pass
 
     def _sew_flags(self, dataset):
-        # No flag key found
         if "flags" not in dataset:
             return None
-
-        # If "none" flag specified, do nothing
         if dataset.get("flags") == "none":
             return None
 
         sewn_flags = dict()
         base_flags = dataset.get("flags").split("|")
         for flag in base_flags:
-            if "&&" in flag:
-                temp_final_flags = dict()
-                flag_option_split = flag.split("&&")
-                for option_pair in flag_option_split:
-                    if "," not in option_pair:
-                        continue
-                    (key, value) = option_pair.split(",")
-                    if key in sewn_flags:
-                        continue
-                    temp_final_flags[key] = int(value)
-                print(flag_option_split)
-            elif "&&" not in flag:
-                if "," not in flag:
-                    continue
-                (key, value) = flag.split(",")
-                if key in sewn_flags:
-                    continue
-                sewn_flags[key] = int(value)
-            else:
-                raise Error("Unrecognized pattern. Can't sew flag.")
+            if "," not in flag:
+                raise Error("Malformed error 1")
 
-            return sewn_flags
+            flag_pair = flag.split(",")
+            if len(flag_pair) != 2:
+                raise Error("Malformed error 2")
+
+            (flag_name, flag_value) = flag_pair
+
+            if "&&" in flag_name:
+                flag_options = flag_name.split("&&")
+                if len(flag_options) > 1:
+                    flag_name = prompt("Choose your flag option.", flag_options)
+                    _e(f"INFO: You chose the flagging option '{flag_name}'", "green")
+                else:
+                    raise Error("Malformed error 3")
+
+            sewn_flags[flag_name] = int(flag_value)
+
+        return sewn_flags
+
+    @abstractmethod
+    def run():
+        pass
 
 
 class RaceFlagParser(_SourceFlagSeamstress):
@@ -87,7 +86,39 @@ class RaceFlagParser(_SourceFlagSeamstress):
         del self.dataset["skill"]
         del self.dataset["tool"]
         del self.dataset["weapon"]
-        # Show clean result
+        # Show cleaned dataset result
+        print(self.dataset)
+
+    def run(self):
+        self._honor_flags()
+
+
+class SubclassFlagParser(_SourceFlagSeamstress):
+    def __init__(self, database, query_id):
+        super(SubclassFlagParser, self).__init__(
+            database, query_id, ("languages", "skills")
+        )
+
+    def _honor_flags(self):
+        for flag in self.allowed_flags:
+            if flag not in self.flags:
+                self.dataset[flag] = []
+            else:
+                bonus_choices = list()
+                bonus_options = self.dataset.get(flag)
+                value = self.flags.get(flag)
+                for _ in range(value):
+                    bonus_choice = prompt(
+                        f"Choose a bonus '{flag}' ({value}):", bonus_options
+                    )
+                    bonus_options.remove(bonus_choice)
+                    bonus_choices.append(bonus_choice)
+                    _e(f"INFO: You chose the '{flag}' bonus > {bonus_choice}.", "green")
+                    if len(bonus_choices) > 0:
+                        self.dataset[flag] = bonus_choices
+
+        del self.dataset["flags"]
+
         print(self.dataset)
 
     def run(self):
@@ -102,5 +133,8 @@ class SubraceFlagParser(_SourceFlagSeamstress):
         pass
 
 
-p = RaceFlagParser("races", "Lizardfolk")
-p.run()
+# r = RaceFlagParser("races", "Lizardfolk")
+# r.run()
+
+c = SubclassFlagParser("subclasses", "Samurai")
+c.run()
