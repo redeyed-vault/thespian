@@ -20,20 +20,18 @@ class _SourceFlagSeamstress(ABC):
         pass
 
     def _sew_flags(self, dataset):
-        if "flags" not in dataset:
-            return None
-        if dataset.get("flags") == "none":
+        if "flags" not in dataset or dataset.get("flags") == "none":
             return None
 
         sewn_flags = dict()
         base_flags = dataset.get("flags").split("|")
         for flag in base_flags:
             if "," not in flag:
-                raise Error("Malformed error 1")
+                raise Error("Each flag entry must include a comma.")
 
             flag_pair = flag.split(",")
             if len(flag_pair) != 2:
-                raise Error("Malformed error 2")
+                raise Error("Each flag must be a pair (two values only).")
 
             (flag_name, flag_value) = flag_pair
 
@@ -43,7 +41,9 @@ class _SourceFlagSeamstress(ABC):
                     flag_name = prompt("Choose your flag option.", flag_options)
                     _e(f"INFO: You chose the flagging option '{flag_name}'", "green")
                 else:
-                    raise Error("Malformed error 3")
+                    raise Error(
+                        "Each flag if multiple options available must have two or more options."
+                    )
 
             sewn_flags[flag_name] = int(flag_value)
 
@@ -56,26 +56,27 @@ class _SourceFlagSeamstress(ABC):
 
 class RaceFlagParser(_SourceFlagSeamstress):
     def __init__(self, database, query_id):
-        super(RaceFlagParser, self).__init__(database, query_id)
+        super(RaceFlagParser, self).__init__(
+            database, query_id, ("armor", "language", "skill", "tool", "weapon")
+        )
 
     def _honor_flags(self):
-        # Loop through the loaded dataset
-        # Check if dataset key matches flag keys
-        for key, value in self.dataset.items():
-            if key not in self.flags:
+        for flag in self.allowed_flags:
+            if flag not in self.flags:
                 continue
-            if type(value) is list:
-                if key not in ("armor", "language", "skill", "tool", "weapon"):
-                    continue
-                implementation_count = self.flags.get(key)
-                for _ in range(implementation_count):
-                    options = [x for x in value if x not in self.dataset.get(key + "s")]
+            dataset_value = self.dataset.get(flag)
+            if type(dataset_value) is list:
+                flag_value = self.flags.get(flag)
+                for _ in range(flag_value):
+                    options = [
+                        x for x in dataset_value if x not in self.dataset.get(flag + "s")
+                    ]
                     bonus_language = prompt(
-                        f"Choose bonus '{key}' ({implementation_count}):", options
+                        f"Choose bonus '{flag}' ({flag_value}):", options
                     )
-                    self.dataset[key + "s"].append(bonus_language)
+                    self.dataset[flag + "s"].append(bonus_language)
                     _e(
-                        f"INFO: You chose the bonus '{key}' > {bonus_language}.",
+                        f"INFO: You chose a '{flag}' bonus > {bonus_language}.",
                         "green",
                     )
 
@@ -87,10 +88,10 @@ class RaceFlagParser(_SourceFlagSeamstress):
         del self.dataset["tool"]
         del self.dataset["weapon"]
         # Show cleaned dataset result
-        print(self.dataset)
+        return self.dataset
 
     def run(self):
-        self._honor_flags()
+        print(self._honor_flags())
 
 
 class SubclassFlagParser(_SourceFlagSeamstress):
@@ -99,13 +100,23 @@ class SubclassFlagParser(_SourceFlagSeamstress):
             database, query_id, ("languages", "skills")
         )
 
-    def _honor_flags(self):
+    def _honor_flags(self, omitted_values=None):
         for flag in self.allowed_flags:
             if flag not in self.flags:
                 self.dataset[flag] = []
             else:
                 bonus_choices = list()
                 bonus_options = self.dataset.get(flag)
+                if type(omitted_values) is dict:
+                    if (
+                        flag in omitted_values
+                        and type(omitted_values.get(flag)) is list
+                    ):
+                        bonus_options = [
+                            x
+                            for x in bonus_options
+                            if x not in omitted_values.get(flag)
+                        ]
                 value = self.flags.get(flag)
                 for _ in range(value):
                     bonus_choice = prompt(
@@ -119,10 +130,10 @@ class SubclassFlagParser(_SourceFlagSeamstress):
 
         del self.dataset["flags"]
 
-        print(self.dataset)
+        return self.dataset
 
-    def run(self):
-        self._honor_flags()
+    def run(self, omitted_values=None):
+        print(self._honor_flags(omitted_values))
 
 
 class SubraceFlagParser(_SourceFlagSeamstress):
@@ -133,8 +144,8 @@ class SubraceFlagParser(_SourceFlagSeamstress):
         pass
 
 
-# r = RaceFlagParser("races", "Lizardfolk")
-# r.run()
+r = RaceFlagParser("races", "Lizardfolk")
+r.run()
 
-c = SubclassFlagParser("subclasses", "Samurai")
-c.run()
+# c = SubclassFlagParser("subclasses", "Samurai")
+# c.run({"languages": ["Giant"]})
