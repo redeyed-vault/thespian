@@ -5,7 +5,7 @@ from sources import Load
 from utils import _e, prompt
 
 
-class _SourceFlagSeamstress(ABC):
+class _FlagSeamstress(ABC):
     def __init__(self, database, query_id, allowed_flags):
         result = Load.get_columns(query_id, source_file=database)
         if result is None:
@@ -54,9 +54,9 @@ class _SourceFlagSeamstress(ABC):
         pass
 
 
-class RaceFlagParser(_SourceFlagSeamstress):
+class RaceSeamstress(_FlagSeamstress):
     def __init__(self, database, query_id):
-        super(RaceFlagParser, self).__init__(
+        super(RaceSeamstress, self).__init__(
             database, query_id, ("armor", "language", "skill", "tool", "weapon")
         )
 
@@ -94,9 +94,9 @@ class RaceFlagParser(_SourceFlagSeamstress):
         print(self._honor_flags())
 
 
-class SubclassFlagParser(_SourceFlagSeamstress):
+class SubclassSeamstress(_FlagSeamstress):
     def __init__(self, database, query_id):
-        super(SubclassFlagParser, self).__init__(
+        super(SubclassSeamstress, self).__init__(
             database, query_id, ("languages", "skills")
         )
 
@@ -136,16 +136,47 @@ class SubclassFlagParser(_SourceFlagSeamstress):
         print(self._honor_flags(omitted_values))
 
 
-class SubraceFlagParser(_SourceFlagSeamstress):
+class SubraceSeamstress(_FlagSeamstress):
     def __init__(self, database, query_id):
-        super(SubraceFlagParser, self).__init__(database, query_id)
+        super(SubraceSeamstress, self).__init__(
+            database, query_id, ("language", "spell")
+        )
 
-    def _honor_flags(self):
-        pass
+    def _honor_flags(self, omitted_values=None):
+        for flag in self.allowed_flags:
+            if flag not in self.flags:
+                continue
+            dataset_value = self.dataset.get(flag)
+            if type(dataset_value) is list:
+                flag_value = self.flags.get(flag)
+                for _ in range(flag_value):
+                    options = [
+                        x for x in dataset_value if x not in self.dataset.get(flag + "s")
+                    ]
+                    bonus_language = prompt(
+                        f"Choose bonus '{flag}' ({flag_value}):", options
+                    )
+                    self.dataset[flag + "s"].append(bonus_language)
+                    _e(
+                        f"INFO: You chose a '{flag}' bonus > {bonus_language}.",
+                        "green",
+                    )
+
+        del self.dataset["flags"]
+        del self.dataset["language"]
+        del self.dataset["spell"]
+        
+        return self.dataset
+
+    def run(self, omitted_values=None):
+        print(self._honor_flags(omitted_values))
 
 
-r = RaceFlagParser("races", "Lizardfolk")
+# r = RaceSeamstress("races", "Lizardfolk")
+# r.run()
+
+r = SubraceSeamstress("subraces", "High")
 r.run()
 
-# c = SubclassFlagParser("subclasses", "Samurai")
+# c = SubclassSeamstress("subclasses", "Samurai")
 # c.run({"languages": ["Giant"]})
