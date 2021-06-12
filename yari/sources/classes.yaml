@@ -1,6 +1,6 @@
 classes:
   Barbarian:
-    abilities:
+    ability:
       1: Strength
       2: Constitution
     armors: ['Light', 'Medium', 'Shield']
@@ -43,7 +43,7 @@ classes:
     tools: []
     weapons: ['Simple', 'Martial']
   Bard:
-    abilities:
+    ability:
       1: Charisma
       2: Dexterity
     armors: ['Light']
@@ -120,7 +120,7 @@ classes:
     tools: []
     weapons: ['Simple', 'Hand Crossbow', 'Longsword', 'Rapier', 'Shortsword']
   Cleric:
-    abilities:
+    ability:
       1: Wisdom
       2: ['Constitution', 'Strength']
     armors: ['Light', 'Medium', 'Shield']
@@ -141,7 +141,7 @@ classes:
       14: ['Destroy Undead']
       17: ['Destroy Undead']
       20: ['Divine Intervention']
-    flags: skills,2|subclass,1
+    flags: ability,1|skills,2|subclass,1
     hit_die: 8
     languages: []
     savingthrows: ['Charisma', 'Wisdom']
@@ -185,7 +185,7 @@ classes:
     tools: []
     weapons: ['Simple']
   Druid:
-    abilities:
+    ability:
       1: Wisdom
       2: Constitution
     armors: ['Light', 'Medium', 'Shield']
@@ -261,7 +261,7 @@ classes:
       - Sling
       - Spear
   Fighter:
-    abilities:
+    ability:
       1: ['Dexterity', 'Strength']
       2: ['Constitution', 'Intelligence']
     armors: ['Light', 'Medium', 'Heavy', 'Shield']
@@ -323,7 +323,7 @@ classes:
     tools: []
     weapons: ['Simple', 'Martial']
   Monk:
-    abilities:
+    ability:
       1: Dexterity
       2: Wisdom
     armors: []
@@ -369,7 +369,7 @@ classes:
     tools: ["Artisan's tools - Alchemists supplies", "Artisan's tools - Brewer's supplies", "Artisan's tools - Calligrapher's supplies", "Artisan's tools - Carpenter's tools", "Artisan's tools - Cartographer's tools", "Artisan's tools - Cobbler's tools", "Artisan's tools - Cook's utensils", "Artisan's tools - Glassblower's tools", "Artisan's tools - Jeweler's tools", "Artisan's tools - Leatherworker's tools", "Artisan's tools - Mason's tools", "Artisan's tools - Painter's supplies", "Artisan's tools - Potter's tools", "Artisan's tools - Smith's tools", "Artisan's tools - Tinker's tools", "Artisan's tools - Weaver's tools", "Artisan's tools - Woodcarver's tools", "Musical instrument - Bagpipes", "Musical instrument - Drum", "Musical instrument - Dulcimer", "Musical instrument - Flute", "Musical instrument - Lute", "Musical instrument - Lyre", "Musical instrument - Horn", "Musical instrument - Pan flute", "Musical instrument - Shawm", "Musical instrument - Viol"]
     weapons: ['Simple', 'Shortsword']
   Paladin:
-    abilities:
+    ability:
       1: Strength
       2: Charisma
     armors: ['Light', 'Medium', 'Heavy', 'Shield']
@@ -429,7 +429,7 @@ classes:
     tools: []
     weapons: ['Simple', 'Martial']
   Ranger:
-    abilities:
+    ability:
       1: ['Dexterity', 'Strength']
       2: Wisdom
     armors: ['Light', 'Medium', 'Shield']
@@ -493,7 +493,7 @@ classes:
     tools: []
     weapons: ['Simple', 'Martial']
   Rogue:
-    abilities:
+    ability:
       1: Dexterity
       2: ['Charisma', 'Intelligence']
     armors: ['Light']
@@ -561,7 +561,7 @@ classes:
     tools: ["Thieves' tools"]
     weapons: ['Simple', 'Hand Crossbow', 'Longsword', 'Rapier', 'Shortsword']
   Sorcerer:
-    abilities:
+    ability:
       1: Charisma
       2: Constitution
     armors: []
@@ -619,7 +619,7 @@ classes:
     tools: []
     weapons: ['Dagger', 'Dart', 'Light Crossbow', 'Sling', 'Quarterstaff']
   Warlock:
-    abilities:
+    ability:
       1: Charisma
       2: Constitution
     armors: ['Light']
@@ -680,7 +680,7 @@ classes:
     tools: []
     weapons: ['Simple']
   Wizard:
-    abilities:
+    ability:
       1: Intelligence
       2: ['Constitution', 'Dexterity']
     armors: []
