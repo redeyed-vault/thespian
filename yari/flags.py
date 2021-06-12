@@ -57,15 +57,26 @@ class _FlagSeamstress(ABC):
 class ClassSeamstress(_FlagSeamstress):
     def __init__(self, query_id):
         super(ClassSeamstress, self).__init__(
-            "classes", query_id, ("skills", "subclass", "tools")
+            "classes", query_id, ("ability", "skills", "subclass", "tools")
         )
 
     def _honor_flags(self):
         for flag in self.allowed_flags:
+            _e(f"INFO: Checking for allowed flag '{flag}'...", "yellow")
             if self.flags is None:
+                _e("INFO: No flags specified. Halting flag checking...", "red")
                 break
             if flag not in self.flags:
+                _e(f"INFO: Flag '{flag}' not specified. Skipping...", "yellow")
                 continue
+
+            flag_value = self.flags.get(flag)
+            if flag == "ability":
+                for rank, abilities in self.dataset.get(flag).items():
+                    if type(abilities) is list:
+                        choice = prompt(f"Choose class option '{flag}':", abilities)
+                        self.dataset[flag][rank] = choice
+                        _e(f"You chose the ability > '{choice}'", "green")
             dataset_value = self.dataset.get(flag)
             if type(dataset_value) is list:
                 flag_value = self.flags.get(flag)
@@ -79,6 +90,7 @@ class ClassSeamstress(_FlagSeamstress):
                         option_selections.append(chosen_option)
                     else:
                         option_selections = chosen_option
+
                     options.remove(chosen_option)
                     _e(
                         f"INFO: You chose > {chosen_option}.",
@@ -220,7 +232,7 @@ class SubraceSeamstress(_FlagSeamstress):
         print(self._honor_flags(omitted_values))
 
 
-r = ClassSeamstress("Monk")
+r = ClassSeamstress("Cleric")
 r.run()
 
 # r = RaceSeamstress("Elf")
