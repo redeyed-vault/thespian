@@ -59,6 +59,12 @@ class ClassSeamstress(_FlagSeamstress):
         super(ClassSeamstress, self).__init__(
             "classes", query_id, ("ability", "skills", "subclass", "tools")
         )
+        self.equipment = self.dataset.get("equipment")
+        self.features = self.dataset.get("features")
+        self.spellslots = self.dataset.get("spellslots")
+        del self.dataset["equipment"]
+        del self.dataset["features"]
+        del self.dataset["spellslots"]
 
     def _honor_flags(self, omitted_values=None):
         for flag in self.allowed_flags:
@@ -113,12 +119,11 @@ class ClassSeamstress(_FlagSeamstress):
                     self.dataset[flag] = option_selections
 
         del self.dataset["flags"]
-        del self.dataset["spellslots"]
 
         return self.dataset
 
     def run(self, omitted_values=None):
-        print(self._honor_flags(omitted_values))
+        return self._honor_flags(omitted_values)
 
 
 class RaceSeamstress(_FlagSeamstress):
@@ -247,7 +252,7 @@ class SubraceSeamstress(_FlagSeamstress):
 
 
 r = ClassSeamstress("Cleric")
-r.run({"skills": ["Persuasion"]})
+print(r.run({"skills": ["Persuasion"]}))
 
 # r = RaceSeamstress("Elf")
 # r.run()
