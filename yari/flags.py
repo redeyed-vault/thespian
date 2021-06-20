@@ -172,9 +172,9 @@ class RaceSeamstress(_FlagSeamstress):
 
 
 class SubclassSeamstress(_FlagSeamstress):
-    def __init__(self, query_id):
+    def __init__(self, subclass):
         super(SubclassSeamstress, self).__init__(
-            "subclasses", query_id, ("languages", "skills")
+            "subclasses", subclass, ("languages", "skills")
         )
 
     def _honor_flags(self, omitted_values=None):
@@ -210,7 +210,7 @@ class SubclassSeamstress(_FlagSeamstress):
         return self.dataset
 
     def run(self, omitted_values=None):
-        print(self._honor_flags(omitted_values))
+        return self._honor_flags(omitted_values)
 
 
 class SubraceSeamstress(_FlagSeamstress):
@@ -248,11 +248,11 @@ class SubraceSeamstress(_FlagSeamstress):
         return self.dataset
 
     def run(self, omitted_values=None):
-        print(self._honor_flags(omitted_values))
+        return self._honor_flags(omitted_values)
 
 
-r = ClassSeamstress("Cleric")
-print(r.run({"skills": ["Persuasion"]}))
+a = ClassSeamstress("Cleric")
+print(a.run({"skills": ["Persuasion"]}))
 
 # r = RaceSeamstress("Elf")
 # r.run()
@@ -260,5 +260,5 @@ print(r.run({"skills": ["Persuasion"]}))
 # r = SubraceSeamstress("High")
 # r.run()
 
-# c = SubclassSeamstress("subclasses", "Samurai")
-# c.run({"languages": ["Giant"]})
+r = SubclassSeamstress(a.dataset.get("subclass"))
+print(r.run({"languages": ["Giant"]}))

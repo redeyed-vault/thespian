@@ -9,8 +9,8 @@ subclasses:
       10: ['Consult the Spirits', 'Spirit Shield (3d6)']
       14: ['Vengeful Ancestors', 'Spirit Shield (4d6)']
     flags: none
-    languages: ~
-    skills: ~
+    languages: []
+    skills: []
     tools: []
     weapons: []
   Path of the Berserker:
@@ -22,8 +22,8 @@ subclasses:
       10: ['Intimidating Presence']
       14: ['Retaliation']
     flags: none
-    languages: ~
-    skills: ~
+    languages: []
+    skills: []
     tools: []
     weapons: []
   Path of the Storm Herald:
@@ -35,8 +35,8 @@ subclasses:
       10: ['Shielding Storm']
       14: ['Raging Storm']
     flags: none
-    languages: ~
-    skills: ~
+    languages: []
+    skills: []
     tools: []
     weapons: []
   Path of the Totem Warrior:
@@ -48,8 +48,8 @@ subclasses:
       10: ['Spirit Walker']
       14: ['Totemic Attunement']
     flags: none
-    languages: ~
-    skills: ~
+    languages: []
+    skills: []
     tools: []
     weapons: []
   Path of the Zealot:
@@ -61,8 +61,8 @@ subclasses:
       10: ['Zealous Presence']
       14: ['Rage beyond Death']
     flags: none
-    languages: ~
-    skills: ~
+    languages: []
+    skills: []
     tools: []
     weapons: []
   # Bard Colleges
@@ -74,8 +74,8 @@ subclasses:
       6: ['Mantle of Majesty']
       14: ['Unbreakable Majesty']
     flags: none
-    languages: ~
-    skills: ~
+    languages: []
+    skills: []
     tools: []
     weapons: []
   College of Lore:
@@ -86,7 +86,7 @@ subclasses:
       6: ['Additional Magical Secrets']
       14: ['Peerless Skill']
     flags: none
-    languages: ~
+    languages: skills,3
     skills:
       - Acrobatics
       - Animal Handling
@@ -116,8 +116,8 @@ subclasses:
       6: ['Extra Attack']
       14: ["Master's Flourish"]
     flags: none
-    languages: ~
-    skills: ~
+    languages: []
+    skills: []
     tools: []
     weapons: ['Scimitar']
   College of Valor:
@@ -128,8 +128,8 @@ subclasses:
       6: ['Extra Attack']
       14: ['Battle Magic']
     flags: none
-    languages: ~
-    skills: ~
+    languages: []
+    skills: []
     tools: []
     weapons: ['Martial']
   College of Whispers:
@@ -140,8 +140,8 @@ subclasses:
       6: ['Mantle of Whispers']
       14: ['Shadow Lore']
     flags: none
-    languages: ~
-    skills: ~
+    languages: []
+    skills: []
     tools: []
     weapons: []
   # Cleric Domains
@@ -161,8 +161,8 @@ subclasses:
       14: ['Divine Strike (2d8)']
       17: ['Saint of Forge and Fire']
     flags: none
-    languages: ~
-    skills: ~
+    languages: []
+    skills: []
     tools: ["Artisan's tools - Smith's tools"]
     weapons: []
   Grave Domain:
@@ -180,8 +180,8 @@ subclasses:
       8: ['Potent Spellcasting']
       17: ['Keeper of Souls']
     flags: none
-    languages: ~
-    skills: ~
+    languages: []
+    skills: []
     tools: []
     weapons: []
   Knowledge Domain:
@@ -199,8 +199,8 @@ subclasses:
       8: ['Potent Spellcasting']
       17: ['Visions of the Past']
     flags: none
-    languages: ~
-    skills: ~
+    languages: []
+    skills: []
     tools: []
     weapons: []
   Life Domain:
@@ -218,8 +218,8 @@ subclasses:
       8: ['Divine Strike']
       17: ['Supreme Healing']
     flags: none
-    languages: ~
-    skills: ~
+    languages: []
+    skills: []
     tools: []
     weapons: []
   Light Domain:
@@ -237,8 +237,8 @@ subclasses:
       8: ['Potent Spellcasting']
       17: ['Corona of Light']
     flags: none
-    languages: ~
-    skills: ~
+    languages: []
+    skills: []
     tools: []
     weapons: []
   Nature Domain:
@@ -256,8 +256,8 @@ subclasses:
       8: ['Divine Strike']
       17: ['Master of Nature']
     flags: none
-    languages: ~
-    skills: ~
+    languages: []
+    skills: []
     tools: []
     weapons: []
   Tempest Domain:
@@ -275,8 +275,8 @@ subclasses:
       8: ['Divine Strike']
       17: ['Stormborn']
     flags: none
-    languages: ~
-    skills: ~
+    languages: []
+    skills: []
     tools: []
     weapons: ['Martial']
   Trickery Domain:
@@ -294,8 +294,8 @@ subclasses:
       8: ['Divine Strike']
       17: ['Improved Duplicity']
     flags: none
-    languages: ~
-    skills: ~
+    languages: []
+    skills: []
     tools: []
     weapons: []
   War Domain:
@@ -313,8 +313,8 @@ subclasses:
       8: ['Divine Strike']
       17: ['Avatar of Battle']
     flags: none
-    languages: ~
-    skills: ~
+    languages: []
+    skills: []
     tools: []
     weapons: ['Martial']
   # Druid Circles
@@ -331,8 +331,8 @@ subclasses:
       10: ["Nature's Ward"]
       14: ["Nature's Sanctuary"]
     flags: none
-    languages: ~
-    skills: ~
+    languages: []
+    skills: []
     tools: []
     weapons: []
   Circle of the Coast:
@@ -348,8 +348,8 @@ subclasses:
       10: ["Nature's Ward"]
       14: ["Nature's Sanctuary"]
     flags: none
-    languages: ~
-    skills: ~
+    languages: []
+    skills: []
     tools: []
     weapons: []
   Circle of the Desert:
@@ -365,8 +365,8 @@ subclasses:
       10: ["Nature's Ward"]
       14: ["Nature's Sanctuary"]
     flags: none
-    languages: ~
-    skills: ~
+    languages: []
+    skills: []
     tools: []
     weapons: []
   Circle of the Dreams:
@@ -378,8 +378,8 @@ subclasses:
       10: ['Hidden Paths']
       14: ['Walker in Dreams']
     flags: none
-    languages: ~
-    skills: ~
+    languages: []
+    skills: []
     tools: []
     weapons: []
   Circle of the Forest:
@@ -395,8 +395,8 @@ subclasses:
       10: ["Nature's Ward"]
       14: ["Nature's Sanctuary"]
     flags: none
-    languages: ~
-    skills: ~
+    languages: []
+    skills: []
     tools: []
     weapons: []
   Circle of the Grassland:
@@ -412,8 +412,8 @@ subclasses:
       10: ["Nature's Ward"]
       14: ["Nature's Sanctuary"]
     flags: none
-    languages: ~
-    skills: ~
+    languages: []
+    skills: []
     tools: []
     weapons: []
   Circle of the Moon:
@@ -425,8 +425,8 @@ subclasses:
       10: ['Elemental Wild Shape']
       14: ['Thousand Forms']
     flags: none
-    languages: ~
-    skills: ~
+    languages: []
+    skills: []
     tools: []
     weapons: []
   Circle of the Mountain:
@@ -442,8 +442,8 @@ subclasses:
       10: ["Nature's Ward"]
       14: ["Nature's Sanctuary"]
     flags: none
-    languages: ~
-    skills: ~
+    languages: []
+    skills: []
     tools: []
     weapons: []
   Circle of the Shepherd:
@@ -455,8 +455,8 @@ subclasses:
       10: ['Guardian Spirit']
       14: ['Faithful Summons']
     flags: none
-    languages: ~
-    skills: ~
+    languages: []
+    skills: []
     tools: []
     weapons: []
   Circle of the Swamp:
@@ -472,8 +472,8 @@ subclasses:
       10: ["Nature's Ward"]
       14: ["Nature's Sanctuary"]
     flags: none
-    languages: ~
-    skills: ~
+    languages: []
+    skills: []
     tools: []
     weapons: []
   Circle of the Underdark:
@@ -489,8 +489,8 @@ subclasses:
       10: ["Nature's Ward"]
       14: ["Nature's Sanctuary"]
     flags: none
-    languages: ~
-    skills: ~
+    languages: []
+    skills: []
     tools: []
     weapons: []
   # Fighter Archetypes
@@ -504,8 +504,8 @@ subclasses:
       15: ['Ever-Ready Shot', 'Arcane Shot (5 options)']
       18: ['Arcane Shot (6 options, improved shots)']
     flags: none
-    languages: ~
-    skills: ~
+    languages: []
+    skills: []
     tools: []
     weapons: []
   Battle Master:
@@ -517,8 +517,8 @@ subclasses:
       10: ['Improved Combat Superiority']
       15: ['Relentless']
     flags: none
-    languages: ~
-    skills: ~
+    languages: []
+    skills: []
     tools: []
     weapons: []
   Cavalier:
@@ -530,8 +530,8 @@ subclasses:
       10: ['Hold the Line']
       15: ['Ferocious Charger']
       18: ['Vigilant Defender']
-    flags: skill,1
-    languages: ~
+    flags: skills,1
+    languages: []
     skills: ['Animal Handling', 'History', 'Insight', 'Performance', 'Persuasion']
     tools: []
     weapons: []
@@ -545,8 +545,8 @@ subclasses:
       15: ['Superior Critical']
       18: ['Survivor']
     flags: none
-    languages: ~
-    skills: ~
+    languages: []
+    skills: []
     tools: []
     weapons: []
   Eldritch Knight:
@@ -559,8 +559,8 @@ subclasses:
       15: ['Arcane Charge']
       18: ['Improved War Magic']
     flags: none
-    languages: ~
-    skills: ~
+    languages: []
+    skills: []
     tools: []
     weapons: []
   Samurai:
@@ -602,7 +602,7 @@ subclasses:
       11: ['Cloak of Shadows']
       17: ['Opportunist']
     flags: none
-    languages: ~
+    languages: []
     tools: []
     weapons: []
   Way of the Drunken Master:
@@ -614,7 +614,7 @@ subclasses:
       11: ["Drunkard's Luck"]
       17: ['Intoxicated Frenzy']
     flags: none
-    languages: ~
+    languages: []
     skills: ['Performance']
     tools: []
     weapons: []
@@ -636,8 +636,8 @@ subclasses:
       11: ['Eternal Mountain Defense', 'Flames of the Phoenix', 'Mist Stance', 'Ride the Wind']
       17: ['Breath of Winter', 'River of Hungry Flame', 'Wave of Rolling Earth']
     flags: none
-    languages: ~
-    skills: ~
+    languages: []
+    skills: []
     tools: []
     weapons: []
   Way of the Kensei:
@@ -649,8 +649,8 @@ subclasses:
       11: ['Sharpen the Blade', 'Path of the Kensei (4 weapons)']
       17: ['Unerring Accuracy', 'Path of the Kensei (5 weapons)']
     flags: none
-    languages: ~
-    skills: ~
+    languages: []
+    skills: []
     tools: []
     weapons: []
   Way of the Open Hand:
@@ -662,8 +662,8 @@ subclasses:
       11: ['Tranquility']
       17: ['Quivering Palm']
     flags: none
-    languages: ~
-    skills: ~
+    languages: []
+    skills: []
     tools: []
     weapons: []
   Way of the Sun Soul:
@@ -675,8 +675,8 @@ subclasses:
       11: ['Searing Sunburst']
       17: ['Sun Shield']
     flags: none
-    languages: ~
-    skills: ~
+    languages: []
+    skills: []
     tools: []
     weapons: []
   # Paladin Oaths
@@ -694,8 +694,8 @@ subclasses:
       15: ['Undying Sentinel']
       20: ['Elder Champion']
     flags: none
-    languages: ~
-    skills: ~
+    languages: []
+    skills: []
     tools: []
     weapons: []
   Oath of Conquest:
@@ -713,8 +713,8 @@ subclasses:
       18: ['Aura of Conquest']
       20: ['Invincible Conqueror']
     flags: none
-    languages: ~
-    skills: ~
+    languages: []
+    skills: []
     tools: []
     weapons: []
   Oath of Devotion:
@@ -731,8 +731,8 @@ subclasses:
       15: ['Purity of Spirit']
       20: ['Holy Nimbus']
     flags: none
-    languages: ~
-    skills: ~
+    languages: []
+    skills: []
     tools: []
     weapons: []
   Oath of Redemption:
@@ -750,8 +750,8 @@ subclasses:
       18: ['Aura of the Guardian (30 ft.)']
       20: ['Emissary of Redemption']
     flags: none
-    languages: ~
-    skills: ~
+    languages: []
+    skills: []
     tools: []
     weapons: []
   Oath of Vengeance:
@@ -768,8 +768,8 @@ subclasses:
       15: ['Soul of Vengeance']
       20: ['Avenging Angel']
     flags: none
-    languages: ~
-    skills: ~
+    languages: []
+    skills: []
     tools: []
     weapons: []
   # Ranger Archetypes
@@ -782,8 +782,8 @@ subclasses:
       11: ['Beastial Fury']
       15: ['Share Spells']
     flags: none
-    languages: ~
-    skills: ~
+    languages: []
+    skills: []
     tools: []
     weapons: []
   Gloom Stalker:
@@ -800,8 +800,8 @@ subclasses:
       11: ["Stalker's Flurry"]
       15: ['Shadowy Dodge']
     flags: none
-    languages: ~
-    skills: ~
+    languages: []
+    skills: []
     tools: []
     weapons: []
   Horizon Walker:
@@ -818,8 +818,8 @@ subclasses:
       11: ['Distant Strike', 'Planar Warrior (2d8)']
       15: ['Spectral Defense']
     flags: none
-    languages: ~
-    skills: ~
+    languages: []
+    skills: []
     tools: []
     weapons: []
   Hunter:
@@ -831,8 +831,8 @@ subclasses:
       11: ['Multiattack']
       15: ["Superior Hunter's Defense"]
     flags: none
-    languages: ~
-    skills: ~
+    languages: []
+    skills: []
     tools: []
     weapons: []
   Monster Slayer:
@@ -849,8 +849,8 @@ subclasses:
       11: ["Magic User's Nemesis"]
       15: ["Slayer's Counter"]
     flags: none
-    languages: ~
-    skills: ~
+    languages: []
+    skills: []
     tools: []
     weapons: []
   # Rogue Archetypes
@@ -863,8 +863,8 @@ subclasses:
       13: ['Versatile Trickster']
       17: ['Spell Thief']
     flags: none
-    languages: ~
-    skills: ~
+    languages: []
+    skills: []
     tools: []
     weapons: []
   Assassin:
@@ -876,8 +876,8 @@ subclasses:
       13: ['Impostor']
       17: ['Death Strike']
     flags: none
-    languages: ~
-    skills: ~
+    languages: []
+    skills: []
     tools: ['Disguise kit', "Poisoner's kit"]
     weapons: []
   Inquisitive:
@@ -889,8 +889,8 @@ subclasses:
       13: ['Unerring Eye']
       17: ['Eye for Weakness']
     flags: none
-    languages: ~
-    skills: ~
+    languages: []
+    skills: []
     tools: []
     weapons: []
   Mastermind:
@@ -902,8 +902,8 @@ subclasses:
       13: ['Misdirection']
       17: ['Soul of Deceit']
     flags: none
-    languages: ~
-    skills: ~
+    languages: []
+    skills: []
     tools: []
     weapons: []
   Scout:
@@ -915,8 +915,8 @@ subclasses:
       13: ['Ambush Master']
       17: ['Sudden Strike']
     flags: none
-    languages: ~
-    skills: ~
+    languages: []
+    skills: []
     tools: []
     weapons: []
   Swashbuckler:
@@ -928,8 +928,8 @@ subclasses:
       13: ['Elegant Maneuver']
       17: ['Master Duelist']
     flags: none
-    languages: ~
-    skills: ~
+    languages: []
+    skills: []
     tools: []
     weapons: []
   Thief:
@@ -941,8 +941,8 @@ subclasses:
       13: ['Use Magic Device']
       17: ["Thief's Reflexes"]
     flags: none
-    languages: ~
-    skills: ~
+    languages: []
+    skills: []
     tools: []
     weapons: []
   # Sorcerer Origins
@@ -960,8 +960,8 @@ subclasses:
       14: ['Otherworldly Wings']
       18: ['Unearthly Recovery']
     flags: none
-    languages: ~
-    skills: ~
+    languages: []
+    skills: []
     tools: []
     weapons: []
   Draconic Bloodline:
@@ -973,8 +973,8 @@ subclasses:
       14: ['Dragon Wings']
       18: ['Draconic Presence']
     flags: none
-    languages: ~
-    skills: ~
+    languages: []
+    skills: []
     tools: []
     weapons: []
   Shadow Magic:
@@ -987,8 +987,8 @@ subclasses:
       14: ['Shadow Walk']
       18: ['Umbral Form']
     flags: none
-    languages: ~
-    skills: ~
+    languages: []
+    skills: []
     tools: []
     weapons: []
   Storm Sorcery:
@@ -1000,8 +1000,8 @@ subclasses:
       14: ["Storm's Fury"]
       18: ['Wind Soul']
     flags: none
-    languages: ~
-    skills: ~
+    languages: []
+    skills: []
     tools: []
     weapons: []
   Wild Magic:
@@ -1013,8 +1013,8 @@ subclasses:
       14: ['Controlled Chaos']
       18: ['Spell Bombardment']
     flags: none
-    languages: ~
-    skills: ~
+    languages: []
+    skills: []
     tools: []
     weapons: []
   # Warlock Pacts
@@ -1032,8 +1032,8 @@ subclasses:
       10: ['Beguiling Defenses']
       14: ['Dark Delerium']
     flags: none
-    languages: ~
-    skills: ~
+    languages: []
+    skills: []
     tools: []
     weapons: []
   The Celestial:
@@ -1050,8 +1050,8 @@ subclasses:
       10: ['Celestial Resilience']
       14: ['Searing Vengeance']
     flags: none
-    languages: ~
-    skills: ~
+    languages: []
+    skills: []
     tools: []
     weapons: []
   The Fiend:
@@ -1068,8 +1068,8 @@ subclasses:
       10: ['Fiendish Resilience']
       14: ['Hurl Through Hell']
     flags: none
-    languages: ~
-    skills: ~
+    languages: []
+    skills: []
     tools: []
     weapons: []
   The Great Old One:
@@ -1086,8 +1086,8 @@ subclasses:
       10: ['Thought Shield']
       14: ['Create Thrall']
     flags: none
-    languages: ~
-    skills: ~
+    languages: []
+    skills: []
     tools: []
     weapons: []
   The Hexblade:
@@ -1104,8 +1104,8 @@ subclasses:
       10: ['Armor of Hexes']
       14: ['Master of Hexes']
     flags: none
-    languages: ~
-    skills: ~
+    languages: []
+    skills: []
     tools: []
     weapons: []
   # Wizard Schools
@@ -1118,8 +1118,8 @@ subclasses:
       10: ['Improved Abjuration']
       14: ['Spell Resistance']
     flags: none
-    languages: ~
-    skills: ~
+    languages: []
+    skills: []
     tools: []
     weapons: []
   School of Conjuration:
@@ -1131,8 +1131,8 @@ subclasses:
       10: ['Focused Conjuration']
       14: ['Durable Summons']
     flags: none
-    languages: ~
-    skills: ~
+    languages: []
+    skills: []
     tools: []
     weapons: []
   School of Divination:
@@ -1144,8 +1144,8 @@ subclasses:
       10: ['The Third Eye']
       14: ['Greater Portent']
     flags: none
-    languages: ~
-    skills: ~
+    languages: []
+    skills: []
     tools: []
     weapons: []
   School of Enchantment:
@@ -1157,8 +1157,8 @@ subclasses:
       10: ['Split Enchantment']
       14: ['Alter Memories']
     flags: none
-    languages: ~
-    skills: ~
+    languages: []
+    skills: []
     tools: []
     weapons: []
   School of Evocation:
@@ -1170,8 +1170,8 @@ subclasses:
       10: ['Empowered Evocation']
       14: ['Overchannel']
     flags: none
-    languages: ~
-    skills: ~
+    languages: []
+    skills: []
     tools: []
     weapons: []
   School of Illusion:
@@ -1183,8 +1183,8 @@ subclasses:
       10: ['Illusory Self']
       14: ['Illusory Reality']
     flags: none
-    languages: ~
-    skills: ~
+    languages: []
+    skills: []
     tools: []
     weapons: []
   School of Necromancy:
@@ -1196,8 +1196,8 @@ subclasses:
       10: ['Inured to Undeath']
       14: ['Command Undead']
     flags: none
-    languages: ~
-    skills: ~
+    languages: []
+    skills: []
     tools: []
     weapons: []
   School of Transmutation:
@@ -1209,8 +1209,8 @@ subclasses:
       10: ['Shapechanger']
       14: ['Master Transmuter']
     flags: none
-    languages: ~
-    skills: ~
+    languages: []
+    skills: []
     tools: []
     weapons: []
   War Magic:
@@ -1222,7 +1222,7 @@ subclasses:
       10: ['Durable Magic']
       14: ['Deflecting Shroud']
     flags: none
-    languages: ~
-    skills: ~
+    languages: []
+    skills: []
     tools: []
     weapons: []
