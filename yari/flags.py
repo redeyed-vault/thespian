@@ -55,9 +55,9 @@ class _FlagSeamstress(ABC):
 
 
 class ClassSeamstress(_FlagSeamstress):
-    def __init__(self, query_id):
+    def __init__(self, klass):
         super(ClassSeamstress, self).__init__(
-            "classes", query_id, ("ability", "skills", "subclass", "tools")
+            "classes", klass, ("ability", "skills", "subclass", "tools")
         )
         self.equipment = self.dataset.get("equipment")
         self.features = self.dataset.get("features")
@@ -168,7 +168,7 @@ class RaceSeamstress(_FlagSeamstress):
         return self.dataset
 
     def run(self):
-        print(self._honor_flags())
+        return self._honor_flags()
 
 
 class SubclassSeamstress(_FlagSeamstress):
@@ -179,31 +179,30 @@ class SubclassSeamstress(_FlagSeamstress):
 
     def _honor_flags(self, omitted_values=None):
         for flag in self.allowed_flags:
-            if flag not in self.flags:
-                self.dataset[flag] = []
-            else:
-                bonus_choices = list()
-                bonus_options = self.dataset.get(flag)
-                if type(omitted_values) is dict:
-                    if (
-                        flag in omitted_values
-                        and type(omitted_values.get(flag)) is list
-                    ):
-                        bonus_options = [
-                            x
-                            for x in bonus_options
-                            if x not in omitted_values.get(flag)
-                        ]
-                value = self.flags.get(flag)
-                for _ in range(value):
-                    bonus_choice = prompt(
-                        f"Choose a bonus '{flag}' ({value}):", bonus_options
-                    )
-                    bonus_options.remove(bonus_choice)
-                    bonus_choices.append(bonus_choice)
-                    _e(f"INFO: You chose the '{flag}' bonus > {bonus_choice}.", "green")
-                    if len(bonus_choices) > 0:
-                        self.dataset[flag] = bonus_choices
+            if self.flags is None:
+                break
+            bonus_choices = list()
+            bonus_options = self.dataset.get(flag)
+            if type(omitted_values) is dict:
+                if (
+                    flag in omitted_values
+                    and type(omitted_values.get(flag)) is list
+                ):
+                    bonus_options = [
+                        x
+                        for x in bonus_options
+                        if x not in omitted_values.get(flag)
+                    ]
+            num_of_instances = self.flags.get(flag)
+            for _ in range(num_of_instances):
+                bonus_choice = prompt(
+                    f"Choose a bonus '{flag}' ({num_of_instances}):", bonus_options
+                )
+                bonus_options.remove(bonus_choice)
+                bonus_choices.append(bonus_choice)
+                _e(f"INFO: You chose the '{flag}' bonus > {bonus_choice}.", "green")
+                if len(bonus_choices) > 0:
+                    self.dataset[flag] = bonus_choices
 
         del self.dataset["flags"]
 
