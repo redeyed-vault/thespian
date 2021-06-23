@@ -39,10 +39,14 @@ class _FlagSeamstress(ABC):
                 flag_options = flag_name.split("&&")
                 if len(flag_options) > 1:
                     flag_name = prompt("Choose your flag option.", flag_options)
+                    flag_options.remove(flag_name)
+                    for option in flag_options:
+                        if option in self.dataset:
+                            self.dataset[option] = []
                     _e(f"INFO: You chose the flagging option '{flag_name}'", "green")
                 else:
                     raise Error(
-                        "Each flag if multiple options available must have two or more options."
+                        "If a flag has multiple options available, it must have two or more options."
                     )
 
             sewn_flags[flag_name] = int(flag_value)
@@ -68,15 +72,14 @@ class ClassSeamstress(_FlagSeamstress):
 
     def _honor_flags(self, omitted_values=None):
         for flag in self.allowed_flags:
-            _e(f"INFO: Checking for allowed flag '{flag}'...", "yellow")
+            # _e(f"INFO: Checking for allowed flag '{flag}'...", "yellow")
             if self.flags is None:
-                _e("INFO: No flags specified. Halting flag checking...", "red")
+                # _e("INFO: No flags specified. Halting flag checking...", "red")
                 break
             if flag not in self.flags:
-                _e(f"INFO: Flag '{flag}' not specified. Skipping...", "yellow")
+                # _e(f"INFO: Flag '{flag}' not specified. Skipping...", "yellow")
                 continue
 
-            flag_value = self.flags.get(flag)
             if flag == "ability":
                 for rank, abilities in self.dataset.get(flag).items():
                     if type(abilities) is list:
@@ -93,10 +96,12 @@ class ClassSeamstress(_FlagSeamstress):
                         continue
                     flag_options = [x for x in flag_options if x not in omitted_values]
 
+                num_of_instances = self.flags.get(flag)
                 option_selections = []
-                for _ in range(flag_value):
+                for _ in range(num_of_instances):
                     chosen_option = prompt(
-                        f"Choose class option '{flag}' ({flag_value}):", flag_options
+                        f"Choose class option '{flag}' ({num_of_instances}):",
+                        flag_options,
                     )
                     if flag in ("skills", "tools"):
                         option_selections.append(chosen_option)
@@ -181,18 +186,13 @@ class SubclassSeamstress(_FlagSeamstress):
         for flag in self.allowed_flags:
             if self.flags is None:
                 break
+            if flag not in self.flags:
+                continue
+
             bonus_choices = list()
             bonus_options = self.dataset.get(flag)
-            if type(omitted_values) is dict:
-                if (
-                    flag in omitted_values
-                    and type(omitted_values.get(flag)) is list
-                ):
-                    bonus_options = [
-                        x
-                        for x in bonus_options
-                        if x not in omitted_values.get(flag)
-                    ]
+            bonus_options = self._omit_values(omitted_values, flag, bonus_options)
+
             num_of_instances = self.flags.get(flag)
             for _ in range(num_of_instances):
                 bonus_choice = prompt(
@@ -207,6 +207,13 @@ class SubclassSeamstress(_FlagSeamstress):
         del self.dataset["flags"]
 
         return self.dataset
+
+    def _omit_values(self, values, flag, options):
+        if type(values) is dict:
+            if flag in values and type(values.get(flag)) is list:
+                options = [x for x in options if x not in values.get(flag)]
+
+        return options
 
     def run(self, omitted_values=None):
         return self._honor_flags(omitted_values)
@@ -250,7 +257,7 @@ class SubraceSeamstress(_FlagSeamstress):
         return self._honor_flags(omitted_values)
 
 
-a = ClassSeamstress("Cleric")
+a = ClassSeamstress("Fighter")
 print(a.run({"skills": ["Persuasion"]}))
 
 # r = RaceSeamstress("Elf")
