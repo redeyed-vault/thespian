@@ -1,4 +1,5 @@
 from abc import ABC, abstractmethod
+from collections import namedtuple
 
 from errors import Error
 from sources import Load
@@ -53,6 +54,12 @@ class _FlagSeamstress(ABC):
 
         return sewn_flags
 
+    def _toDataset(self):
+        keywords = tuple(self.dataset.keys())
+        dataset = namedtuple("Dataset", keywords)
+        self.dataset = dataset(**self.dataset)
+        return self.dataset
+
     @abstractmethod
     def run():
         pass
@@ -63,12 +70,13 @@ class ClassSeamstress(_FlagSeamstress):
         super(ClassSeamstress, self).__init__(
             "classes", klass, ("ability", "skills", "subclass", "tools")
         )
-        self.equipment = self.dataset.get("equipment")
-        self.features = self.dataset.get("features")
-        self.spellslots = self.dataset.get("spellslots")
-        del self.dataset["equipment"]
-        del self.dataset["features"]
-        del self.dataset["spellslots"]
+        level = prompt("What level are you?", list(range(1, 21)))
+        self.level = int(level)
+        _e(f"INFO: Your character level has been set to {self.level}.", "green")
+        self.dataset["features"] = {
+            x: y for x, y in self.dataset.get("features").items() if x <= self.level
+        }
+        self.dataset["spellslots"] = self.dataset.get("spellslots").get(self.level)
 
     def _honor_flags(self, omitted_values=None):
         for flag in self.allowed_flags:
@@ -125,7 +133,7 @@ class ClassSeamstress(_FlagSeamstress):
 
         del self.dataset["flags"]
 
-        return self.dataset
+        return self._toDataset()
 
     def run(self, omitted_values=None):
         return self._honor_flags(omitted_values)
@@ -206,7 +214,7 @@ class SubclassSeamstress(_FlagSeamstress):
 
         del self.dataset["flags"]
 
-        return self.dataset
+        return self._toDataset()
 
     def _omit_values(self, values, flag, options):
         if type(values) is dict:
@@ -257,14 +265,14 @@ class SubraceSeamstress(_FlagSeamstress):
         return self._honor_flags(omitted_values)
 
 
-a = ClassSeamstress("Fighter")
-print(a.run({"skills": ["Persuasion"]}))
-
 # r = RaceSeamstress("Elf")
 # r.run()
 
 # r = SubraceSeamstress("High")
 # r.run()
 
-r = SubclassSeamstress(a.dataset.get("subclass"))
+a = ClassSeamstress("Fighter").run({"skills": ["Persuasion"]})
+print(a)
+
+r = SubclassSeamstress(a.subclass)
 print(r.run({"languages": ["Giant"]}))
