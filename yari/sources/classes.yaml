@@ -281,7 +281,7 @@ classes:
       13: ['Indomitable']
       17: ['Action Surge', 'Indomitable']
       20: ['Extra Attack']
-    flags: skills,2|subclass,1
+    flags: ability,2|skills,2|subclass,1
     hit_die: 10
     languages: []
     savingthrows: ['Constitution', 'Strength']
@@ -450,7 +450,7 @@ classes:
       14: ['Favored Enemy', 'Vanish']
       18: ['Feral Senses']
       20: ['Foe Slayer']
-    flags: skills,3|subclass,1
+    flags: ability,1|skills,3|subclass,1
     hit_die: 10
     languages: []
     savingthrows: ['Dexterity', 'Strength']
@@ -515,7 +515,7 @@ classes:
       15: ['Slippery Mind']
       18: ['Elusive']
       20: ['Stroke of Luck']
-    flags: skills,4|subclass,1
+    flags: ability,1|skills,4|subclass,1
     hit_die: 8
     languages: ["Thieves' cant"]
     savingthrows: ['Dexterity', 'Intelligence']
@@ -695,7 +695,7 @@ classes:
       2: ['Arcane Tradition']
       18: ['Spell Mastery']
       20: ['Signature Spell']
-    flags: skills,2|subclass,1
+    flags: ability,1|skills,2|subclass,1
     hit_die: 6
     languages: []
     savingthrows: ['Intelligence', 'Wisdom']
