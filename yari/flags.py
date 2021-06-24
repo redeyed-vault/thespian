@@ -88,6 +88,7 @@ class BaseClassSeamstress(_FlagSeamstress):
                 # _e(f"INFO: Flag '{flag}' not specified. Skipping...", "yellow")
                 continue
 
+            num_of_instances = self.flags.get(flag)
             if flag == "ability":
                 for rank, abilities in self.dataset.get(flag).items():
                     if type(abilities) is list:
@@ -104,7 +105,6 @@ class BaseClassSeamstress(_FlagSeamstress):
                             continue
                         flag_options = [x for x in flag_options if x not in omitted_values]
 
-                    num_of_instances = self.flags.get(flag)
                     option_selections = []
                     for _ in range(num_of_instances):
                         chosen_option = prompt(
