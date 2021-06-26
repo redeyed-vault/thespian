@@ -54,12 +54,6 @@ class _FlagSeamstress(ABC):
 
         return sewn_flags
 
-    def _toDataset(self):
-        keywords = tuple(self.dataset.keys())
-        dataset = namedtuple("Dataset", keywords)
-        self.dataset = dataset(**self.dataset)
-        return self.dataset
-
     @abstractmethod
     def run():
         pass
@@ -70,13 +64,13 @@ class BaseClassSeamstress(_FlagSeamstress):
         super(BaseClassSeamstress, self).__init__(
             "classes", klass, ("ability", "skills", "subclass", "tools")
         )
-        level = prompt("What level are you?", list(range(1, 21)))
-        self.level = int(level)
-        _e(f"INFO: Your character level has been set to {self.level}.", "green")
+        level = int(prompt("What level are you?", list(range(1, 21))))
+        _e(f"INFO: Your character level has been set to {level}.", "green")
         self.dataset["features"] = {
-            x: y for x, y in self.dataset.get("features").items() if x <= self.level
+            x: y for x, y in self.dataset.get("features").items() if x <= level
         }
-        self.dataset["spellslots"] = self.dataset.get("spellslots").get(self.level)
+        self.dataset["level"] = level
+        self.dataset["spellslots"] = self.dataset.get("spellslots").get(level)
 
     def _honor_flags(self, omitted_values=None):
         for flag in self.allowed_flags:
@@ -103,7 +97,9 @@ class BaseClassSeamstress(_FlagSeamstress):
                         omitted_values = omitted_values.get(flag)
                         if type(omitted_values) is not list:
                             continue
-                        flag_options = [x for x in flag_options if x not in omitted_values]
+                        flag_options = [
+                            x for x in flag_options if x not in omitted_values
+                        ]
 
                     option_selections = []
                     for _ in range(num_of_instances):
@@ -131,9 +127,12 @@ class BaseClassSeamstress(_FlagSeamstress):
                     else:
                         self.dataset[flag] = option_selections
 
+        ability = self.dataset.get("ability")
+        if type(ability) is dict:
+            self.dataset["ability"] = tuple(ability.values())
         del self.dataset["flags"]
 
-        return self._toDataset()
+        return self.dataset
 
     def run(self, omitted_values=None):
         return self._honor_flags(omitted_values)
@@ -217,7 +216,7 @@ class SubClassSeamstress(_FlagSeamstress):
 
         del self.dataset["flags"]
 
-        return self._toDataset()
+        return self.dataset
 
     def _omit_values(self, values, flag, options):
         if type(values) is dict:
@@ -268,14 +267,38 @@ class SubraceSeamstress(_FlagSeamstress):
         return self._honor_flags(omitted_values)
 
 
+class ClassSeamstress:
+    def __init__(self, klass, omitted_values=None):
+        a = BaseClassSeamstress(klass).run(omitted_values)
+        b = SubClassSeamstress(a.get("subclass"), a.get("level")).run(omitted_values)
+        print(Dataset(a, b).dataset)
+
+
+class Dataset:
+    def __init__(self, a, b):
+        for key, value in b.items():
+            if key not in a:
+                a[key] = value
+                continue
+            if type(value) is list:
+                a[key] = a.get(key) + value
+
+        self.dataset = a
+        keywords = list(self.dataset.keys())
+        keywords.sort()
+        sorted_dataset = {}
+        for keyword in keywords:
+            if keyword in self.dataset:
+                sorted_dataset[keyword] = self.dataset.get(keyword)
+        dataset = namedtuple("Dataset", keywords)
+        self.dataset = dataset(**sorted_dataset)
+
+
 # r = RaceSeamstress("Elf")
 # r.run()
 
 # r = SubraceSeamstress("High")
 # r.run()
 
-a = BaseClassSeamstress("Fighter").run({"skills": ["Persuasion"]})
-print(a)
-
-r = SubClassSeamstress(a.subclass).run({"languages": ["Giant"]})
-print(r)
+omit_values = {"languages": ["Giant"], "skills": ["Persuasion"]}
+a = ClassSeamstress("Bard", omit_values)
