@@ -82,15 +82,16 @@ class _BaseClassSeamstress(_FlagSeamstress):
                 # _e(f"INFO: Flag '{flag}' not specified. Skipping...", "yellow")
                 continue
 
-            num_of_instances = self.flags.get(flag)
             if flag == "ability":
                 for rank, abilities in self.dataset.get(flag).items():
-                    if type(abilities) is list:
-                        choice = prompt(f"Choose class option '{flag}':", abilities)
-                        self.dataset[flag][rank] = choice
-                        _e(f"You chose the ability > '{choice}'", "green")
+                    if type(abilities) is not list:
+                        continue
+                    choice = prompt(f"Choose class option '{flag}':", abilities)
+                    self.dataset[flag][rank] = choice
+                    _e(f"You chose the ability > '{choice}'", "green")
                 self.dataset[flag] = tuple(self.dataset[flag].values())
             else:
+                num_of_instances = self.flags.get(flag)
                 flag_options = self.dataset.get(flag)
                 if type(flag_options) is list:
                     if type(omitted_values) is dict and flag in omitted_values:
@@ -184,10 +185,10 @@ class _SubClassSeamstress(_FlagSeamstress):
         return self._honor_flags(omitted_values)
 
 
-class RaceSeamstress(_FlagSeamstress):
-    def __init__(self, query_id):
-        super(RaceSeamstress, self).__init__(
-            "races", query_id, ("armor", "language", "skill", "tool", "weapon")
+class _BaseRaceSeamstress(_FlagSeamstress):
+    def __init__(self, race):
+        super(_BaseRaceSeamstress, self).__init__(
+            "races", race, ("armor", "language", "skill", "tool", "weapon")
         )
 
     def _honor_flags(self):
@@ -304,7 +305,7 @@ class Dataset:
         self.dataset = dataset(**sorted_dataset)
 
 
-# r = RaceSeamstress("Elf")
+# r = _BaseRaceSeamstress("Elf")
 # r.run()
 
 # r = SubraceSeamstress("High")
