@@ -59,9 +59,9 @@ class _FlagSeamstress(ABC):
         pass
 
 
-class BaseClassSeamstress(_FlagSeamstress):
+class _BaseClassSeamstress(_FlagSeamstress):
     def __init__(self, klass):
-        super(BaseClassSeamstress, self).__init__(
+        super(_BaseClassSeamstress, self).__init__(
             "classes", klass, ("ability", "skills", "subclass", "tools")
         )
         level = int(prompt("What level are you?", list(range(1, 21))))
@@ -138,6 +138,52 @@ class BaseClassSeamstress(_FlagSeamstress):
         return self._honor_flags(omitted_values)
 
 
+class _SubClassSeamstress(_FlagSeamstress):
+    def __init__(self, subclass, level=1):
+        super(_SubClassSeamstress, self).__init__(
+            "subclasses", subclass, ("languages", "skills")
+        )
+        self.dataset["features"] = {
+            x: y for x, y in self.dataset.get("features").items() if x <= level
+        }
+
+    def _honor_flags(self, omitted_values=None):
+        for flag in self.allowed_flags:
+            if self.flags is None:
+                break
+            if flag not in self.flags:
+                continue
+
+            bonus_choices = list()
+            bonus_options = self.dataset.get(flag)
+            bonus_options = self._omit_values(omitted_values, flag, bonus_options)
+
+            num_of_instances = self.flags.get(flag)
+            for _ in range(num_of_instances):
+                bonus_choice = prompt(
+                    f"Choose a bonus '{flag}' ({num_of_instances}):", bonus_options
+                )
+                bonus_options.remove(bonus_choice)
+                bonus_choices.append(bonus_choice)
+                _e(f"INFO: You chose the '{flag}' bonus > {bonus_choice}.", "green")
+                if len(bonus_choices) > 0:
+                    self.dataset[flag] = bonus_choices
+
+        del self.dataset["flags"]
+
+        return self.dataset
+
+    def _omit_values(self, values, flag, options):
+        if type(values) is dict:
+            if flag in values and type(values.get(flag)) is list:
+                options = [x for x in options if x not in values.get(flag)]
+
+        return options
+
+    def run(self, omitted_values=None):
+        return self._honor_flags(omitted_values)
+
+
 class RaceSeamstress(_FlagSeamstress):
     def __init__(self, query_id):
         super(RaceSeamstress, self).__init__(
@@ -183,52 +229,6 @@ class RaceSeamstress(_FlagSeamstress):
         return self._honor_flags()
 
 
-class SubClassSeamstress(_FlagSeamstress):
-    def __init__(self, subclass, level=1):
-        super(SubClassSeamstress, self).__init__(
-            "subclasses", subclass, ("languages", "skills")
-        )
-        self.dataset["features"] = {
-            x: y for x, y in self.dataset.get("features").items() if x <= level
-        }
-
-    def _honor_flags(self, omitted_values=None):
-        for flag in self.allowed_flags:
-            if self.flags is None:
-                break
-            if flag not in self.flags:
-                continue
-
-            bonus_choices = list()
-            bonus_options = self.dataset.get(flag)
-            bonus_options = self._omit_values(omitted_values, flag, bonus_options)
-
-            num_of_instances = self.flags.get(flag)
-            for _ in range(num_of_instances):
-                bonus_choice = prompt(
-                    f"Choose a bonus '{flag}' ({num_of_instances}):", bonus_options
-                )
-                bonus_options.remove(bonus_choice)
-                bonus_choices.append(bonus_choice)
-                _e(f"INFO: You chose the '{flag}' bonus > {bonus_choice}.", "green")
-                if len(bonus_choices) > 0:
-                    self.dataset[flag] = bonus_choices
-
-        del self.dataset["flags"]
-
-        return self.dataset
-
-    def _omit_values(self, values, flag, options):
-        if type(values) is dict:
-            if flag in values and type(values.get(flag)) is list:
-                options = [x for x in options if x not in values.get(flag)]
-
-        return options
-
-    def run(self, omitted_values=None):
-        return self._honor_flags(omitted_values)
-
-
 class SubraceSeamstress(_FlagSeamstress):
     def __init__(self, query_id):
         super(SubraceSeamstress, self).__init__(
@@ -269,8 +269,8 @@ class SubraceSeamstress(_FlagSeamstress):
 
 class ClassSeamstress:
     def __init__(self, klass, omitted_values=None):
-        a = BaseClassSeamstress(klass).run(omitted_values)
-        b = SubClassSeamstress(a.get("subclass"), a.get("level")).run(omitted_values)
+        a = _BaseClassSeamstress(klass).run(omitted_values)
+        b = _SubClassSeamstress(a.get("subclass"), a.get("level")).run(omitted_values)
         print(Dataset(a, b).dataset)
 
 
@@ -280,8 +280,18 @@ class Dataset:
             if key not in a:
                 a[key] = value
                 continue
+            if type(value) is dict:
+                a_dict = a.get(key)
+                for subkey, subvalue in value.items():
+                    if subkey not in a_dict:
+                        a[key][subkey] = subvalue
+                    else:
+                        a[key][subkey] = a_dict.get(subkey) + subvalue
+                continue
             if type(value) is list:
-                a[key] = a.get(key) + value
+                a_list = a.get(key)
+                if type(a_list) is list:
+                    a[key] = a_list + value
 
         self.dataset = a
         keywords = list(self.dataset.keys())
