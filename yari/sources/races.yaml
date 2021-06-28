@@ -18,13 +18,12 @@ races:
         modifier: 2d4
     resistances: [Necrotic, Radiant]
     size: Medium
-    skill: ~
     skills: []
     speed: 30
     spell: ~
     spells:
       1: [Light]
-    subraces:
+    subrace:
       - Fallen
       - Protector
       - Scourge
@@ -54,12 +53,12 @@ races:
         modifier: 2d6
     resistances: []
     size: Medium
-    skill: ~
-    skills: [Stealth]
+    skills:
+      - Stealth
     speed: 30
     spell: ~
     spells: ~
-    subraces: []
+    subrace: []
     tools: []
     traits:
       - Darkvision
@@ -108,12 +107,11 @@ races:
       Silver: Cold
       White: Cold
     size: Medium
-    skill: ~
     skills: []
     speed: 30
     spell: ~
     spells: ~
-    subraces: []
+    subrace: []
     tools: []
     traits:
       - Breath Weapon
@@ -133,12 +131,11 @@ races:
     ratio: ~
     resistances: [Poison]
     size: Medium
-    skill: ~
     skills: []
     speed: 30
     spell: ~
     spells: ~
-    subraces:
+    subrace:
       - Duergar
       - Hill
       - Mountain
@@ -171,12 +168,12 @@ races:
     ratio: ~
     resistances: [Charm, Sleep]
     size: Medium
-    skill: ~
-    skills: [Perception]
+    skills:
+      - Perception
     speed: 30
     spell: ~
     spells: ~
-    subraces:
+    subrace:
       - Drow
       - Eladrin
       - High
@@ -210,13 +207,12 @@ races:
         modifier: 2d6
     resistances: []
     size: Medium
-    skill: ~
     skills: []
     speed: 30
     spell: ~
     spells:
       1: [Detect Magic, Disguise]
-    subraces: []
+    subrace: []
     tools: []
     traits:
       - Firbolg Magic
@@ -237,12 +233,11 @@ races:
     ratio: ~
     resistances: []
     size: Medium
-    skill: ~
     skills: []
     speed: 30
     spell: ~
     spells: ~
-    subraces:
+    subrace:
       - Githyanki
       - Githzerai
     tools: []
@@ -267,12 +262,11 @@ races:
         modifier: 1d1
     resistances: []
     size: Small
-    skill: ~
     skills: []
     speed: 25
     spell: ~
     spells: ~
-    subraces:
+    subrace:
       - Deep
       - Forest
       - Rock
@@ -301,12 +295,11 @@ races:
         modifier: 1d1
     resistances: []
     size: Small
-    skill: ~
     skills: []
     speed: 30
     spell: ~
     spells: ~
-    subraces: []
+    subrace: []
     tools: []
     traits:
       - Darkvision
@@ -333,12 +326,12 @@ races:
         modifier: 2d6
     resistances: []
     size: Medium
-    skill: ~
-    skills: [Athletics]
+    skills:
+      - Athletics
     speed: 30
     spell: ~
     spells: ~
-    subraces: []
+    subrace: []
     tools: []
     traits:
       - Natural Athlete
@@ -353,7 +346,7 @@ races:
     bonus:
       Charisma: 2
     darkvision: 60
-    flags: ability,1|languages,1|skill,2
+    flags: ability,1|languages,1|skills,2
     languages:
       - [Common, Elvish]
       - Abyssal
@@ -380,7 +373,7 @@ races:
         modifier: 2d4
     resistances: [Charm, Sleep]
     size: Medium
-    skill:
+    skills:
       - Acrobatics
       - Animal Handling
       - Arcana
@@ -399,11 +392,10 @@ races:
       - Sleight of Hand
       - Stealth
       - Survival
-    skills: []
     speed: 30
     spell: ~
     spells: ~
-    subraces: []
+    subrace: []
     tools: []
     traits:
       - Darkvision
@@ -431,12 +423,12 @@ races:
         modifier: 2d6
     resistances: []
     size: Medium
-    skill: ~
-    skills: [Intimidation]
+    skills:
+      - Intimidation
     speed: 30
     spell: ~
     spells: ~
-    subraces: []
+    subrace: []
     tools: []
     traits:
       - Darkvision
@@ -463,12 +455,11 @@ races:
         modifier: 1d1
     resistances: []
     size: Small
-    skill: ~
     skills: []
     speed: 25
     spell: ~
     spells: ~
-    subraces:
+    subrace:
       - Lightfoot
       - Stout
     tools: []
@@ -497,12 +488,11 @@ races:
         modifier: 2d4
     resistances: []
     size: Medium
-    skill: ~
     skills: []
     speed: 30
     spell: ~
     spells: ~
-    subraces: []
+    subrace: []
     tools: []
     traits:
       - Darkvision
@@ -569,12 +559,11 @@ races:
         base: 110
         modifier: 2d4
     size: Medium
-    skill: ~
     skills: []
     speed: 30
     spell: ~
     spells: ~
-    subraces: []
+    subrace: []
     tools: []
     traits:
       - Languages
@@ -604,7 +593,7 @@ races:
     speed: 30
     spell: ~
     spells: ~
-    subraces: []
+    subrace: []
     tools: []
     traits:
       - Expert Forgery
@@ -635,7 +624,7 @@ races:
     speed: 30
     spell: ~
     spells: ~
-    subraces: []
+    subrace: []
     tools: []
     traits:
       - Darkvision
@@ -651,7 +640,7 @@ races:
       Constitution: 2
       Wisdom: 1
     darkvision: 0
-    flags: skill,2
+    flags: skills,2
     languages:
       - [Common, Draconic]
     ratio:
@@ -663,17 +652,12 @@ races:
         modifier: 2d6
     resistances: []
     size: Medium
-    skill:
-      - Animal Handling
-      - Nature
-      - Perception
-      - Stealth
-      - Survival
-    skills: []
+    skills:
+      - [Animal Handling, Nature, Perception, Stealth, Survival]
     speed: 30
     spell: ~
     spells: ~
-    subraces: []
+    subrace: []
     tools: []
     traits:
       - Bite
@@ -708,7 +692,7 @@ races:
     speed: 30
     spell: ~
     spells: ~
-    subraces: []
+    subrace: []
     tools: []
     traits:
       - Darkvision
@@ -752,12 +736,12 @@ races:
         modifier: 2d4
     resistances: []
     size: Medium
-    skill: ~
-    skills: [Perception]
+    skills:
+      - Perception
     speed: 30
     spell: ~
     spells: ~
-    subraces: []
+    subrace: []
     tools: []
     traits:
       - Darkvision
@@ -785,12 +769,11 @@ races:
         modifier: 2d4
     resistances: [Fire]
     size: Medium
-    skill: ~
     skills: []
     speed: 30
     spell: ~
     spells: ~
-    subraces:
+    subrace:
       - Asmodeus
       - Baalzebul
       - Dispater
@@ -826,12 +809,11 @@ races:
         modifier: 2d4
     resistances: []
     size: Medium
-    skill: ~
     skills: []
     speed: 30
     spell: ~
     spells: ~
-    subraces: []
+    subrace: []
     tools: []
     traits:
       - Amphibious
@@ -859,14 +841,13 @@ races:
         modififer: 2d4
     resistances: []
     size: Medium
-    skill: ~
     skills: []
     speed: 30
     spell: ~
     spells:
       1: [Animal Friendship (Snakes only), Poison Spray]
       3: [Suggestion]
-    subraces: []
+    subrace: []
     tools: []
     traits:
       - Darkvision
