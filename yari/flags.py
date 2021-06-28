@@ -188,16 +188,63 @@ class _SubClassSeamstress(_FlagSeamstress):
 class _BaseRaceSeamstress(_FlagSeamstress):
     def __init__(self, race):
         super(_BaseRaceSeamstress, self).__init__(
-            "races", race, ("armor", "language", "skill", "tool", "weapon")
+            "races",
+            race,
+            ("armors", "languages", "skills", "subrace", "tools", "weapons"),
         )
 
     def _honor_flags(self):
+        # Set base languages
+        base_languages = list()
+        for language in self.dataset.get("languages"):
+            if type(language) is list:
+                base_languages += language
+                self.dataset["languages"].remove(language)
+        # Set base skills
+        base_skills = list()
+        base_skill_options = self.dataset.get("skills")
+        if len(base_skill_options) > 0:
+            num_of_instances = self.flags.get("skills")
+            for skill_option in base_skill_options:
+                if type(skill_option) is str:
+                    base_skills.append(skill_option)
+                    continue
+                for _ in range(num_of_instances):
+                    choice = prompt(
+                        f"Choose your 'skills' ({num_of_instances})", skill_option
+                    )
+                    base_skills.append(choice)
+                    skill_option.remove(choice)
+                    _e(
+                        f"INFO: You chose > {choice}.",
+                        "green",
+                    )
+            self.dataset["skills"] = base_skills
+
+        """
         for flag in self.allowed_flags:
             if self.flags is None:
                 break
-            if flag not in self.flags:
+            if flag not in self.flags or flag in ("languages", "skills"):
                 continue
-            dataset_value = self.dataset.get(flag)
+
+            option_choices = list()
+            options = self.dataset.get(flag)
+            num_of_instances = self.flags.get(flag)
+            for _ in range(num_of_instances):
+                choice = prompt(f"Choose your '{flag}' ({num_of_instances})", options)
+                option_choices.append(choice)
+                options.remove(choice)
+                _e(
+                    f"INFO: You chose > {choice}.",
+                    "green",
+                )
+
+            if flag == "languages":
+                self.dataset[flag] = base_languages + option_choices
+            else:
+                self.dataset[flag] = option_choices
+            
             if type(dataset_value) is list:
                 flag_value = self.flags.get(flag)
                 for _ in range(flag_value):
@@ -215,14 +262,11 @@ class _BaseRaceSeamstress(_FlagSeamstress):
                         "green",
                     )
 
-        del self.dataset["armor"]
         del self.dataset["flags"]
-        del self.dataset["language"]
         del self.dataset["skill"]
         del self.dataset["spell"]
         del self.dataset["subraces"]
-        del self.dataset["tool"]
-        del self.dataset["weapon"]
+        """
 
         return self.dataset
 
@@ -305,11 +349,11 @@ class Dataset:
         self.dataset = dataset(**sorted_dataset)
 
 
-# r = _BaseRaceSeamstress("Elf")
-# r.run()
+r = _BaseRaceSeamstress("Lizardfolk")
+print(r.run())
 
 # r = SubraceSeamstress("High")
 # r.run()
 
-omit_values = {"languages": ["Giant"], "skills": ["Persuasion"]}
-a = ClassSeamstress("Bard", omit_values)
+# omit_values = {"languages": ["Giant"], "skills": ["Persuasion"]}
+# a = ClassSeamstress("Bard", omit_values)
