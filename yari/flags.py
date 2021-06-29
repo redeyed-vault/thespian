@@ -221,52 +221,26 @@ class _BaseRaceSeamstress(_FlagSeamstress):
                     )
             self.dataset["skills"] = base_skills
 
-        """
         for flag in self.allowed_flags:
             if self.flags is None:
                 break
             if flag not in self.flags or flag in ("languages", "skills"):
+                if flag == "subrace" and len(self.dataset.get(flag)) == 0:
+                    self.dataset["subrace"] = None
                 continue
 
-            option_choices = list()
-            options = self.dataset.get(flag)
             num_of_instances = self.flags.get(flag)
             for _ in range(num_of_instances):
-                choice = prompt(f"Choose your '{flag}' ({num_of_instances})", options)
-                option_choices.append(choice)
-                options.remove(choice)
+                choice = prompt(
+                    f"Choose your '{flag}' ({num_of_instances})", skill_option
+                )
                 _e(
                     f"INFO: You chose > {choice}.",
                     "green",
                 )
-
-            if flag == "languages":
-                self.dataset[flag] = base_languages + option_choices
-            else:
-                self.dataset[flag] = option_choices
-            
-            if type(dataset_value) is list:
-                flag_value = self.flags.get(flag)
-                for _ in range(flag_value):
-                    options = [
-                        x
-                        for x in dataset_value
-                        if x not in self.dataset.get(flag + "s")
-                    ]
-                    bonus_language = prompt(
-                        f"Choose bonus '{flag}' ({flag_value}):", options
-                    )
-                    self.dataset[flag + "s"].append(bonus_language)
-                    _e(
-                        f"INFO: You chose a '{flag}' bonus > {bonus_language}.",
-                        "green",
-                    )
-
+        
         del self.dataset["flags"]
-        del self.dataset["skill"]
         del self.dataset["spell"]
-        del self.dataset["subraces"]
-        """
 
         return self.dataset
 
@@ -320,23 +294,24 @@ class ClassSeamstress:
 
 
 class Dataset:
-    def __init__(self, a, b):
-        for key, value in b.items():
-            if key not in a:
-                a[key] = value
-                continue
-            if type(value) is dict:
-                a_dict = a.get(key)
-                for subkey, subvalue in value.items():
-                    if subkey not in a_dict:
-                        a[key][subkey] = subvalue
-                    else:
-                        a[key][subkey] = a_dict.get(subkey) + subvalue
-                continue
-            if type(value) is list:
-                a_list = a.get(key)
-                if type(a_list) is list:
-                    a[key] = a_list + value
+    def __init__(self, a, b=None):
+        if type(b) is dict:
+            for key, value in b.items():
+                if key not in a:
+                    a[key] = value
+                    continue
+                if type(value) is dict:
+                    a_dict = a.get(key)
+                    for subkey, subvalue in value.items():
+                        if subkey not in a_dict:
+                            a[key][subkey] = subvalue
+                        else:
+                            a[key][subkey] = a_dict.get(subkey) + subvalue
+                    continue
+                if type(value) is list:
+                    a_list = a.get(key)
+                    if type(a_list) is list:
+                        a[key] = a_list + value
 
         self.dataset = a
         keywords = list(self.dataset.keys())
@@ -349,7 +324,7 @@ class Dataset:
         self.dataset = dataset(**sorted_dataset)
 
 
-r = _BaseRaceSeamstress("Lizardfolk")
+r = _BaseRaceSeamstress("Elf")
 print(r.run())
 
 # r = SubraceSeamstress("High")
