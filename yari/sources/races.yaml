@@ -6,7 +6,7 @@ races:
     bonus:
       Charisma: 2
     darkvision: 60
-    flags: none
+    flags: subrace,1
     languages:
       - [Common, Celestial]
     ratio:
@@ -125,7 +125,7 @@ races:
     bonus:
       Constitution: 2
     darkvision: 60
-    flags: tools,1
+    flags: subrace,1|tools,1
     languages:
       - [Common, Dwarvish]
     ratio: ~
@@ -162,7 +162,7 @@ races:
     bonus:
       Dexterity: 2
     darkvision: 60
-    flags: none
+    flags: subrace,1
     languages:
       - [Common, Elvish]
     ratio: ~
@@ -227,7 +227,7 @@ races:
     bonus:
       Intelligence: 1
     darkvision: 0
-    flags: none
+    flags: subrace,1
     languages:
       - [Common, Gith]
     ratio: ~
@@ -250,7 +250,7 @@ races:
     bonus:
       Intelligence: 2
     darkvision: 60
-    flags: none
+    flags: subrace,1
     languages:
       - [Common, Gnomish]
     ratio:
@@ -443,7 +443,7 @@ races:
     bonus:
       Dexterity: 2
     darkvision: 60
-    flags: none
+    flags: subrace,1
     languages:
       - [Common, Halfling]
     ratio:
@@ -757,7 +757,7 @@ races:
     bonus:
       Charisma: 2
     darkvision: 60
-    flags: none
+    flags: subrace,1
     languages:
       - [Common, Infernal]
     ratio:
