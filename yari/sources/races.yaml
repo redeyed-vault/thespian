@@ -289,7 +289,6 @@ races:
     size: Small
     skills: []
     speed: 30
-    spell: ~
     spells: []
     subrace: []
     tools: []
