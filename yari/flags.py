@@ -200,45 +200,37 @@ class _BaseRaceSeamstress(_FlagSeamstress):
             if type(language) is list:
                 base_languages += language
                 self.dataset["languages"].remove(language)
-        # Set base skills
-        base_skills = list()
-        base_skill_options = self.dataset.get("skills")
-        if len(base_skill_options) > 0:
-            num_of_instances = self.flags.get("skills")
-            for skill_option in base_skill_options:
-                if type(skill_option) is str:
-                    base_skills.append(skill_option)
-                    continue
+
+        # Set base subrace
+        base_subrace_options = self.dataset.get("subrace")
+        if len(base_subrace_options) == 0:
+            self.dataset["subrace"] = None
+        else:
+            choice = prompt("Choose your 'subrace'", base_subrace_options)
+            self.dataset["subrace"] = choice
+            _e(f"INFO: You chose > {choice}.", "green")
+
+        # Set base skills, proficiencies
+        for proficiency in ("armors", "languages", "skills", "tools", "weapons"):
+            if proficiency not in self.flags:
+                continue
+            base_skills = list()
+            base_skill_options = self.dataset.get(proficiency)
+            if len(base_skill_options) > 0:
+                num_of_instances = self.flags.get(proficiency)
                 for _ in range(num_of_instances):
                     choice = prompt(
-                        f"Choose your 'skills' ({num_of_instances})", skill_option
+                        f"Choose your '{proficiency}' ({num_of_instances})",
+                        base_skill_options,
                     )
                     base_skills.append(choice)
-                    skill_option.remove(choice)
+                    base_skill_options.remove(choice)
                     _e(
                         f"INFO: You chose > {choice}.",
                         "green",
                     )
-            self.dataset["skills"] = base_skills
+                self.dataset[proficiency] = base_skills
 
-        for flag in self.allowed_flags:
-            if self.flags is None:
-                break
-            if flag not in self.flags or flag in ("languages", "skills"):
-                if flag == "subrace" and len(self.dataset.get(flag)) == 0:
-                    self.dataset["subrace"] = None
-                continue
-
-            num_of_instances = self.flags.get(flag)
-            for _ in range(num_of_instances):
-                choice = prompt(
-                    f"Choose your '{flag}' ({num_of_instances})", skill_option
-                )
-                _e(
-                    f"INFO: You chose > {choice}.",
-                    "green",
-                )
-        
         del self.dataset["flags"]
         del self.dataset["spell"]
 
@@ -277,7 +269,6 @@ class SubraceSeamstress(_FlagSeamstress):
                     )
 
         del self.dataset["flags"]
-        del self.dataset["language"]
         del self.dataset["spell"]
 
         return self.dataset
@@ -324,7 +315,7 @@ class Dataset:
         self.dataset = dataset(**sorted_dataset)
 
 
-r = _BaseRaceSeamstress("Elf")
+r = _BaseRaceSeamstress("Hobgoblin")
 print(r.run())
 
 # r = SubraceSeamstress("High")
