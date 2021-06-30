@@ -194,6 +194,17 @@ class _BaseRaceSeamstress(_FlagSeamstress):
         )
 
     def _honor_flags(self):
+        # Set base ancestry
+        base_ancestry_options = self.dataset.get("ancestry")
+        if len(base_ancestry_options) == 0:
+            self.dataset["ancestry"] = None
+        else:
+            ancestry = prompt("What is your dragon ancestry?", base_ancestry_options)
+            resistance = self.dataset.get("resistances").get(ancestry)
+            self.dataset["ancestry"] = ancestry
+            self.dataset["resistances"] = [self.dataset.get("resistances").get(ancestry)]
+            _e(f"INFO: You chose > {ancestry}.", "green")
+
         # Set base languages
         base_languages = list()
         for language in self.dataset.get("languages"):
@@ -201,16 +212,31 @@ class _BaseRaceSeamstress(_FlagSeamstress):
                 base_languages += language
                 self.dataset["languages"].remove(language)
 
+        # Set base spells
+        base_spells = list()
+        base_spell_options = self.dataset.get("spells")
+        if len(base_spell_options) != 0:
+            if type(base_spell_options) is dict:
+                level = int(prompt("What is your caster level?", list(range(1, 21))))
+                self.dataset["spells"] = {
+                    x: y for x, y in self.dataset.get("spells").items() if x <= level
+                }
+                self.dataset["spells"] = list(self.dataset.get("spells").values())
+
         # Set base subrace
         base_subrace_options = self.dataset.get("subrace")
         if len(base_subrace_options) == 0:
             self.dataset["subrace"] = None
         else:
-            choice = prompt("Choose your 'subrace'", base_subrace_options)
-            self.dataset["subrace"] = choice
-            _e(f"INFO: You chose > {choice}.", "green")
+            subrace = prompt("Choose your 'subrace'", base_subrace_options)
+            self.dataset["subrace"] = subrace
+            _e(f"INFO: You chose > {subrace}.", "green")
 
-        # Set base skills, proficiencies
+        # No flags actually specified
+        if self.flags is None:
+            return self.dataset
+
+        # Determine bonus languages, skills, proficiencies
         for proficiency in ("armors", "languages", "skills", "tools", "weapons"):
             if proficiency not in self.flags:
                 continue
@@ -232,7 +258,6 @@ class _BaseRaceSeamstress(_FlagSeamstress):
                 self.dataset[proficiency] = base_skills
 
         del self.dataset["flags"]
-        del self.dataset["spell"]
 
         return self.dataset
 
@@ -315,7 +340,7 @@ class Dataset:
         self.dataset = dataset(**sorted_dataset)
 
 
-r = _BaseRaceSeamstress("Hobgoblin")
+r = _BaseRaceSeamstress("Dragonborn")
 print(r.run())
 
 # r = SubraceSeamstress("High")
