@@ -199,8 +199,7 @@ class _BaseRaceSeamstress(_FlagSeamstress):
         if len(base_ancestry_options) == 0:
             self.dataset["ancestry"] = None
         else:
-            ancestry = prompt("What is your dragon ancestry?", base_ancestry_options)
-            resistance = self.dataset.get("resistances").get(ancestry)
+            ancestry = prompt("What is your draconic ancestry?", base_ancestry_options)
             self.dataset["ancestry"] = ancestry
             self.dataset["resistances"] = [self.dataset.get("resistances").get(ancestry)]
             _e(f"INFO: You chose > {ancestry}.", "green")
@@ -213,7 +212,7 @@ class _BaseRaceSeamstress(_FlagSeamstress):
                 self.dataset["languages"].remove(language)
 
         # Set base spells
-        base_spells = list()
+        # base_spells = list()
         base_spell_options = self.dataset.get("spells")
         if len(base_spell_options) != 0:
             if type(base_spell_options) is dict:
@@ -222,6 +221,7 @@ class _BaseRaceSeamstress(_FlagSeamstress):
                     x: y for x, y in self.dataset.get("spells").items() if x <= level
                 }
                 self.dataset["spells"] = list(self.dataset.get("spells").values())
+                self.dataset["spells"] = [x + x for x in self.dataset["spells"]][0]
 
         # Set base subrace
         base_subrace_options = self.dataset.get("subrace")
@@ -265,9 +265,9 @@ class _BaseRaceSeamstress(_FlagSeamstress):
         return self._honor_flags()
 
 
-class SubraceSeamstress(_FlagSeamstress):
+class SubRaceSeamstress(_FlagSeamstress):
     def __init__(self, query_id):
-        super(SubraceSeamstress, self).__init__(
+        super(SubRaceSeamstress, self).__init__(
             "subraces", query_id, ("language", "spell")
         )
 
@@ -340,7 +340,7 @@ class Dataset:
         self.dataset = dataset(**sorted_dataset)
 
 
-r = _BaseRaceSeamstress("Dragonborn")
+r = _BaseRaceSeamstress("Yuanti")
 print(r.run())
 
 # r = SubraceSeamstress("High")
