@@ -4,14 +4,12 @@ subraces:
     armors: []
     bonus:
       Strength: 1
-    darkvision: ~
+    darkvision: 0
     flags: none
-    language: ~
     languages: []
     ratio: ~
     resistances: []
     skills: []
-    spell: ~
     spells:
       3: [Necrotic Shroud]
     tools: []
@@ -22,14 +20,12 @@ subraces:
     armors: []
     bonus:
       Wisdom: 1
-    darkvision: ~
+    darkvision: 0
     flags: none
-    language: ~
     languages: []
     ratio: ~
     resistances: []
     skills: []
-    spell: ~
     spells:
       3: [Radiant Soul]
     tools: []
@@ -40,14 +36,12 @@ subraces:
     armors: []
     bonus:
       Constitution: 1
-    darkvision: ~
+    darkvision: 0
     flags: none
-    language: ~
     languages: []
     ratio: ~
     resistances: []
     skills: []
-    spell: ~
     spells:
       3: [Radiant Consumption]
     tools: []
@@ -61,7 +55,6 @@ subraces:
       Strength: 1
     darkvision: 120
     flags: none
-    language: ~
     languages: [Undercommon]
     ratio:
       height:
@@ -74,8 +67,7 @@ subraces:
       - Charm
       - Illusion
       - Paralysis
-    skills:
-    spell: ~
+    skills: []
     spells:
       3: [Enlarge/Reduce]
       5: [Invisibility]
@@ -91,9 +83,8 @@ subraces:
     armors: []
     bonus:
       Wisdom: 1
-    darkvision: ~
+    darkvision: 0
     flags: none
-    language: ~
     languages: []
     ratio:
       height:
@@ -104,7 +95,6 @@ subraces:
         modifier: 2d6
     resistances: []
     skills: []
-    spell: ~
     spells: []
     tools: []
     traits:
@@ -114,9 +104,8 @@ subraces:
     armors: [Light, Medium]
     bonus:
       Strength: 2
-    darkvision: ~
+    darkvision: 0
     flags: none
-    language: ~
     languages: []
     ratio:
       height:
@@ -127,7 +116,6 @@ subraces:
         modifier: 2d6
     resistances: []
     skills: []
-    spell: ~
     spells: []
     tools: []
     traits:
@@ -140,7 +128,6 @@ subraces:
       Charisma: 1
     darkvision: 120
     flags: none
-    language: ~
     languages: []
     ratio:
       height:
@@ -151,7 +138,6 @@ subraces:
         modifier: 1d6
     resistances: []
     skills: []
-    spell: ~
     spells:
       1: [Dancing Lights]
       3: [Faerie Fire]
@@ -170,9 +156,8 @@ subraces:
     armors: []
     bonus:
       Intelligence: 1
-    darkvision: ~
+    darkvision: 0
     flags: none
-    language: ~
     languages: []
     ratio:
       height:
@@ -183,7 +168,6 @@ subraces:
         modifier: 1d4
     resistances: []
     skills: []
-    spell: ~
     spells: []
     tools: []
     traits:
@@ -198,9 +182,9 @@ subraces:
     armors: []
     bonus:
       Intelligence: 1
-    darkvision: ~
-    flags: language,1|spell,1
-    language:
+    darkvision: 0
+    flags: languages,1|spells,1
+    languages:
       - Abyssal
       - Celestial
       - Deep Speech
@@ -216,7 +200,6 @@ subraces:
       - Primordial
       - Sylvan
       - Undercommon
-    languages: []
     ratio:
       height:
         base: 54
@@ -226,7 +209,7 @@ subraces:
         modifier: 1d4
     resistances: []
     skills: []
-    spell:
+    spells:
       - Acid Splash
       - Blade Ward
       - Chill Touch
@@ -243,7 +226,6 @@ subraces:
       - Ray of Frost
       - Shocking Grasp
       - True Strike
-    spells: []
     tools: []
     traits:
       - Cantrip
@@ -258,9 +240,8 @@ subraces:
     armors: []
     bonus:
       Constitution: 1
-    darkvision: ~
+    darkvision: 0
     flags: none
-    language: ~
     languages: ['Aquan']
     ratio:
       height:
@@ -271,7 +252,6 @@ subraces:
         modifier: 1d4
     resistances: []
     skills: []
-    spell: ~
     spells: []
     tools: []
     traits:
@@ -287,9 +267,8 @@ subraces:
     armors: []
     bonus:
       Constitution: 1
-    darkvision: ~
+    darkvision: 0
     flags: none
-    language: ~
     languages: []
     ratio:
       height:
@@ -300,7 +279,6 @@ subraces:
         modifier: 1d4
     resistances: [Necrotic]
     skills: []
-    spell: ~
     spells: []
     tools: []
     traits:
@@ -311,9 +289,8 @@ subraces:
     armors: []
     bonus:
       Wisdom: 1
-    darkvision: ~
+    darkvision: 0
     flags: none
-    language: ~
     languages: []
     ratio:
       height:
@@ -324,7 +301,6 @@ subraces:
         modifier: 1d4
     resistances: []
     skills: []
-    spell: ~
     spells: []
     tools: []
     traits:
@@ -341,9 +317,9 @@ subraces:
     armors: [Light, Medium]
     bonus:
       Strength: 2
-    darkvision: ~
-    flags: language,1
-    language:
+    darkvision: 0
+    flags: languages,1
+    languages:
       - Abyssal
       - Celestial
       - Deep Speech
@@ -359,7 +335,6 @@ subraces:
       - Primordial
       - Sylvan
       - Undercommon
-    languages: []
     ratio:
       height:
         base: 60
@@ -369,7 +344,6 @@ subraces:
         modifier: 2d4
     resistances: []
     skills: []
-    spell: ~
     spells:
       1: [Mage Hand]
       3: [Jump]
@@ -387,9 +361,8 @@ subraces:
     armors: []
     bonus:
       Wisdom: 2
-    darkvision: ~
+    darkvision: 0
     flags: none
-    language: ~
     languages: []
     ratio:
       height:
@@ -400,7 +373,6 @@ subraces:
         modifier: 1d4
     resistances: [Charm, Fright]
     skills: []
-    spell: ~
     spells:
       1: [Mage Hand]
       3: [Shield]
@@ -417,12 +389,10 @@ subraces:
       Dexterity: 1
     darkvision: 120
     flags: none
-    language: ~
     languages: [Undercommon]
     ratio: ~
     resistances: []
     skills: []
-    spell: ~
     spells: []
     tools: []
     traits:
@@ -434,14 +404,12 @@ subraces:
     armors: []
     bonus:
       Dexterity: 1
-    darkvision: ~
+    darkvision: 0
     flags: none
-    language: ~
     languages: []
     ratio: ~
     resistances: []
     skills: []
-    spell: ~
     spells:
       - Minor Illusion
     tools: []
@@ -453,14 +421,12 @@ subraces:
     armors: []
     bonus:
       Constitution: 1
-    darkvision: ~
+    darkvision: 0
     flags: none
-    language: ~
     languages: []
     ratio: ~
     resistances: []
     skills: []
-    spell: ~
     spells: []
     tools: [Artisan's tools - Tinker's tools]
     traits:
@@ -472,14 +438,12 @@ subraces:
     armors: []
     bonus:
       Charisma: 1
-    darkvision: ~
+    darkvision: 0
     flags: none
-    language: ~
     languages: []
     ratio: ~
     resistances: []
     skills: []
-    spell: ~
     spells: []
     tools: []
     traits:
@@ -489,14 +453,12 @@ subraces:
     armors: []
     bonus:
       Constitution: 1
-    darkvision: ~
+    darkvision: 0
     flags: none
-    language: ~
     languages: []
     ratio: ~
     resistances: [Poison]
     skills: []
-    spell: ~
     spells: []
     tools: []
     traits:
@@ -507,14 +469,12 @@ subraces:
     armors: []
     bonus:
       Intelligence: 1
-    darkvision: ~
+    darkvision: 0
     flags: none
-    language: ~
     languages: []
     ratio: ~
     resistances: []
     skills: []
-    spell: ~
     spells:
       1: [Thaumaturgy]
       3: [Hellish Rebuke]
@@ -527,14 +487,12 @@ subraces:
     armors: []
     bonus:
       Intelligence: 1
-    darkvision: ~
+    darkvision: 0
     flags: none
-    language: ~
     languages: []
     ratio: ~
     resistances: []
     skills: []
-    spell: ~
     spells:
       1: [Thaumaturgy]
       3: [Ray of Sickness]
@@ -547,15 +505,13 @@ subraces:
     armors: []
     bonus:
       Dexterity: 1
-    darkvision: ~
+    darkvision: 0
     flags: none
-    language: ~
     languages: []
     parent: Tiefling
     ratio: ~
     resistances: []
     skills: []
-    spell: ~
     spells:
       1: [Thaumaturgy]
       3: [Disguise]
@@ -568,15 +524,13 @@ subraces:
     armors: []
     bonus:
       Wisdom: 1
-    darkvision: ~
+    darkvision: 0
     flags: none
-    language: ~
     languages: []
     parent: Tiefling
     ratio: ~
     resistances: []
     skills: []
-    spell: ~
     spells:
       1: [Friends]
       3: [Charm Person]
@@ -589,15 +543,13 @@ subraces:
     armors: []
     bonus:
       Dexterity: 1
-    darkvision: ~
+    darkvision: 0
     flags: none
-    language: ~
     languages: []
     parent: Tiefling
     ratio: ~
     resistances: []
     skills: []
-    spell: ~
     spells:
       1: [Minor Illusion]
       3: [Disguise Self]
@@ -610,15 +562,13 @@ subraces:
     armors: []
     bonus:
       Constitution: 1
-    darkvision: ~
+    darkvision: 0
     flags: none
-    language: ~
     languages: []
     parent: Tiefling
     ratio: ~
     resistances: []
     skills: []
-    spell: ~
     spells:
       1: [Ray of Frost]
       3: [Armor of Agathys]
@@ -631,15 +581,13 @@ subraces:
     armors: []
     bonus:
       Intelligence: 1
-    darkvision: ~
+    darkvision: 0
     flags: none
-    language: ~
     languages: []
     parent: Tiefling
     ratio: ~
     resistances: []
     skills: []
-    spell: ~
     spells:
       1: [Mage Hand]
       3: [Tensor's Floating Disk]
@@ -652,15 +600,13 @@ subraces:
     armors: []
     bonus:
       Intelligence: 1
-    darkvision: ~
+    darkvision: 0
     flags: none
-    language: ~
     languages: []
     parent: Tiefling
     ratio: ~
     resistances: []
     skills: []
-    spell: ~
     spells:
       1: [Mage Hand]
       3: [Burning Hands]
@@ -673,15 +619,13 @@ subraces:
     armors: []
     bonus:
       Strength: 1
-    darkvision: ~
+    darkvision: 0
     flags: none
-    language: ~
     languages: []
     parent: Tiefling
     ratio: ~
     resistances: []
     skills: []
-    spell: ~
     spells:
       1: [Thaumaturgy]
       3: [Searing]
