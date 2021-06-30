@@ -20,7 +20,6 @@ races:
     size: Medium
     skills: []
     speed: 30
-    spell: ~
     spells:
       1: [Light]
     subrace:
@@ -56,8 +55,7 @@ races:
     skills:
       - Stealth
     speed: 30
-    spell: ~
-    spells: ~
+    spells: []
     subrace: []
     tools: []
     traits:
@@ -109,8 +107,7 @@ races:
     size: Medium
     skills: []
     speed: 30
-    spell: ~
-    spells: ~
+    spells: []
     subrace: []
     tools: []
     traits:
@@ -133,8 +130,7 @@ races:
     size: Medium
     skills: []
     speed: 30
-    spell: ~
-    spells: ~
+    spells: []
     subrace:
       - Duergar
       - Hill
@@ -171,8 +167,7 @@ races:
     skills:
       - Perception
     speed: 30
-    spell: ~
-    spells: ~
+    spells: []
     subrace:
       - Drow
       - Eladrin
@@ -209,7 +204,6 @@ races:
     size: Medium
     skills: []
     speed: 30
-    spell: ~
     spells:
       1: [Detect Magic, Disguise]
     subrace: []
@@ -235,8 +229,7 @@ races:
     size: Medium
     skills: []
     speed: 30
-    spell: ~
-    spells: ~
+    spells: []
     subrace:
       - Githyanki
       - Githzerai
@@ -264,8 +257,7 @@ races:
     size: Small
     skills: []
     speed: 25
-    spell: ~
-    spells: ~
+    spells: []
     subrace:
       - Deep
       - Forest
@@ -298,7 +290,7 @@ races:
     skills: []
     speed: 30
     spell: ~
-    spells: ~
+    spells: []
     subrace: []
     tools: []
     traits:
@@ -329,8 +321,7 @@ races:
     skills:
       - Athletics
     speed: 30
-    spell: ~
-    spells: ~
+    spells: []
     subrace: []
     tools: []
     traits:
@@ -393,8 +384,7 @@ races:
       - Stealth
       - Survival
     speed: 30
-    spell: ~
-    spells: ~
+    spells: []
     subrace: []
     tools: []
     traits:
@@ -426,8 +416,7 @@ races:
     skills:
       - Intimidation
     speed: 30
-    spell: ~
-    spells: ~
+    spells: []
     subrace: []
     tools: []
     traits:
@@ -457,8 +446,7 @@ races:
     size: Small
     skills: []
     speed: 25
-    spell: ~
-    spells: ~
+    spells: []
     subrace:
       - Lightfoot
       - Stout
@@ -490,8 +478,7 @@ races:
     size: Medium
     skills: []
     speed: 30
-    spell: ~
-    spells: ~
+    spells: []
     subrace: []
     tools: []
     traits:
@@ -561,8 +548,7 @@ races:
     size: Medium
     skills: []
     speed: 30
-    spell: ~
-    spells: ~
+    spells: []
     subrace: []
     tools: []
     traits:
@@ -591,8 +577,7 @@ races:
     skills:
       - [Acrobatics, Deception, Stealth, Sleight of Hand]
     speed: 30
-    spell: ~
-    spells: ~
+    spells: []
     subrace: []
     tools: []
     traits:
@@ -622,8 +607,7 @@ races:
     size: Small
     skills: []
     speed: 30
-    spell: ~
-    spells: ~
+    spells: []
     subrace: []
     tools: []
     traits:
@@ -655,8 +639,7 @@ races:
     skills:
       - [Animal Handling, Nature, Perception, Stealth, Survival]
     speed: 30
-    spell: ~
-    spells: ~
+    spells: []
     subrace: []
     tools: []
     traits:
@@ -690,8 +673,7 @@ races:
     skills:
       - Intimidation
     speed: 30
-    spell: ~
-    spells: ~
+    spells: []
     subrace: []
     tools: []
     traits:
@@ -739,8 +721,7 @@ races:
     skills:
       - Perception
     speed: 30
-    spell: ~
-    spells: ~
+    spells: []
     subrace: []
     tools: []
     traits:
@@ -771,8 +752,7 @@ races:
     size: Medium
     skills: []
     speed: 30
-    spell: ~
-    spells: ~
+    spells: []
     subrace:
       - Asmodeus
       - Baalzebul
@@ -811,8 +791,7 @@ races:
     size: Medium
     skills: []
     speed: 30
-    spell: ~
-    spells: ~
+    spells: []
     subrace: []
     tools: []
     traits:
@@ -843,7 +822,6 @@ races:
     size: Medium
     skills: []
     speed: 30
-    spell: ~
     spells:
       1: [Animal Friendship (Snakes only), Poison Spray]
       3: [Suggestion]
