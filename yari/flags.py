@@ -201,22 +201,28 @@ class _BaseRaceSeamstress(_FlagSeamstress):
         else:
             ancestry = prompt("What is your draconic ancestry?", base_ancestry_options)
             self.dataset["ancestry"] = ancestry
-            self.dataset["resistances"] = [self.dataset.get("resistances").get(ancestry)]
+            self.dataset["resistances"] = [
+                self.dataset.get("resistances").get(ancestry)
+            ]
             _e(f"INFO: You set your draconic ancestry to > {ancestry}.", "green")
 
         # Set base languages
+        base_language_options = self.dataset.get("languages")
         base_languages = list()
-        for language in self.dataset.get("languages"):
+        for language in base_language_options:
             if type(language) is list:
                 base_languages += language
-                self.dataset["languages"].remove(language)
+                base_language_options.remove(language)
+        self.dataset["languages"] = base_languages
 
         # Set base spells
         # base_spells = list()
         base_spell_options = self.dataset.get("spells")
         if len(base_spell_options) != 0:
             if type(base_spell_options) is dict:
-                caster_level = int(prompt("What is your caster level?", list(range(1, 21))))
+                caster_level = int(
+                    prompt("What is your caster level?", list(range(1, 21)))
+                )
                 base_spells = []
                 for req_level, spell_list in base_spell_options.items():
                     if req_level <= caster_level:
@@ -232,8 +238,6 @@ class _BaseRaceSeamstress(_FlagSeamstress):
             subrace = prompt("Choose your 'subrace'", base_subrace_options)
             self.dataset["subrace"] = subrace
             _e(f"INFO: You set your subrace to > {subrace}.", "green")
-
-        del self.dataset["flags"]
 
         # No flags actually specified
         if self.flags is None:
@@ -255,7 +259,7 @@ class _BaseRaceSeamstress(_FlagSeamstress):
                     base_skills.append(choice)
                     base_skill_options.remove(choice)
                     _e(
-                        f"INFO: You chose the '{proficiency}'' proficiency > {choice}.",
+                        f"INFO: You chose the '{proficiency}' proficiency > {choice}.",
                         "green",
                     )
                 self.dataset[proficiency] = base_skills
@@ -266,36 +270,63 @@ class _BaseRaceSeamstress(_FlagSeamstress):
         return self._honor_flags()
 
 
-class SubRaceSeamstress(_FlagSeamstress):
-    def __init__(self, query_id):
-        super(SubRaceSeamstress, self).__init__(
-            "subraces", query_id, ("language", "spell")
+class _SubRaceSeamstress(_FlagSeamstress):
+    def __init__(self, subrace):
+        super(_SubRaceSeamstress, self).__init__(
+            "subraces", subrace, ("language", "spell")
         )
 
     def _honor_flags(self, omitted_values=None):
-        for flag in self.allowed_flags:
-            if flag not in self.flags:
+        # No flags actually specified
+        if self.flags is None:
+            return self.dataset
+
+        # Set base spells
+        base_spell_options = self.dataset.get("spells")
+        if len(base_spell_options) != 0:
+            base_spells = []
+            if type(base_spell_options) is dict:
+                caster_level = int(
+                    prompt("What is your caster level?", list(range(1, 21)))
+                )
+                for req_level, spell_list in base_spell_options.items():
+                    if req_level <= caster_level:
+                        base_spells += spell_list
+                self.dataset["spells"] = base_spells
+                _e(f"INFO: You set your caster level to > {caster_level}.", "green")
+            if type(base_spell_options) is list:
+                if "spells" in self.flags:
+                    num_of_instances = self.flags.get("spells")
+                    for _ in range(num_of_instances):
+                        spell_choice = prompt(
+                            f"Choose your 'spells' proficiency ({num_of_instances})",
+                            base_spell_options,
+                        )
+                        base_spells.append(spell_choice)
+                        base_spell_options.remove(spell_choice)
+                        _e(f"You selected the spell > '{spell_choice}'", "green")
+                    self.dataset["spells"] = base_spells
+
+        # Determine bonus languages, skills, proficiencies
+        for proficiency in ("armors", "languages", "skills", "tools", "weapons"):
+            if proficiency not in self.flags:
                 continue
-            dataset_value = self.dataset.get(flag)
-            if type(dataset_value) is list:
-                flag_value = self.flags.get(flag)
-                for _ in range(flag_value):
-                    options = [
-                        x
-                        for x in dataset_value
-                        if x not in self.dataset.get(flag + "s")
-                    ]
-                    bonus_language = prompt(
-                        f"Choose bonus '{flag}' ({flag_value}):", options
+            base_skills = list()
+            base_skill_options = self.dataset.get(proficiency)
+            if len(base_skill_options) > 0:
+                num_of_instances = self.flags.get(proficiency)
+                for _ in range(num_of_instances):
+                    choice = prompt(
+                        f"Choose your '{proficiency}' proficiency ({num_of_instances})",
+                        base_skill_options,
                     )
-                    self.dataset[flag + "s"].append(bonus_language)
+                    base_skills.append(choice)
+                    base_skill_options.remove(choice)
                     _e(
-                        f"INFO: You chose a '{flag}' bonus > {bonus_language}.",
+                        f"INFO: You chose the '{proficiency}' proficiency > {choice}.",
                         "green",
                     )
-
-        del self.dataset["flags"]
-        del self.dataset["spell"]
+                self.dataset[proficiency] = base_skills
 
         return self.dataset
 
@@ -303,23 +334,24 @@ class SubRaceSeamstress(_FlagSeamstress):
         return self._honor_flags(omitted_values)
 
 
-class ClassSeamstress:
-    def __init__(self, klass, omitted_values=None):
-        a = _BaseClassSeamstress(klass).run(omitted_values)
-        b = _SubClassSeamstress(a.get("subclass"), a.get("level")).run(omitted_values)
-        print(Dataset(a, b).dataset)
+class _DataSet:
+    def __init__(self):
+        self.dataset = None
+        self.keywords = None
 
+    def _toDataset(self):
+        dataset = namedtuple("Dataset", self.keywords)
+        return dataset(**self.dataset)
 
-class RaceSeamstress:
-    def __init__(self, race):
-        a = _BaseRaceSeamstress(race).run()
-        b = None
-        #b = _SubClassSeamstress(a.get("subclass"), a.get("level")).run(omitted_values)
-        print(Dataset(a, b).dataset)
+    def _toDict(self):
+        return self.dataset
 
+    def parse_dataset(self, a, b=None):
+        if "flags" in a:
+            del a["flags"]
+        if "flags" in b:
+            del b["flags"]
 
-class Dataset:
-    def __init__(self, a, b=None):
         if type(b) is dict:
             for key, value in b.items():
                 if key not in a:
@@ -328,28 +360,73 @@ class Dataset:
                 if type(value) is dict:
                     a_dict = a.get(key)
                     for subkey, subvalue in value.items():
+                        if a_dict is None:
+                            break
                         if subkey not in a_dict:
-                            a[key][subkey] = subvalue
+                            try:
+                                a[key][subkey] = subvalue
+                            except IndexError:
+                                a[key] = subvalue
                         else:
                             a[key][subkey] = a_dict.get(subkey) + subvalue
                     continue
+                if type(value) is int:
+                    a_int = a.get(key)
+                    if type(a_int) is not int:
+                        continue
+                    if value > a_int:
+                        a[key] = value
                 if type(value) is list:
                     a_list = a.get(key)
                     if type(a_list) is list:
                         a[key] = a_list + value
 
-        self.dataset = a
-        keywords = list(self.dataset.keys())
-        keywords.sort()
+        raw_dataset = a
+        self.keywords = list(raw_dataset.keys())
+        self.keywords.sort()
         sorted_dataset = {}
-        for keyword in keywords:
-            if keyword in self.dataset:
-                sorted_dataset[keyword] = self.dataset.get(keyword)
-        dataset = namedtuple("Dataset", keywords)
-        self.dataset = dataset(**sorted_dataset)
+        for keyword in self.keywords:
+            if keyword in raw_dataset:
+                sorted_dataset[keyword] = raw_dataset.get(keyword)
+
+        self.dataset = sorted_dataset
+
+    def read_dataset(self, to_dict=False):
+        if not to_dict:
+            self.dataset = self._toDataset()
+        else:
+            self.dataset = self._toDict()
+        
+        return self.dataset
 
 
-a = RaceSeamstress("Firbolg")
+class ClassSeamstress(_DataSet):
+    def __init__(self, klass, omitted_values=None):
+        a = _BaseClassSeamstress(klass).run(omitted_values)
+        b = _SubClassSeamstress(a.get("subclass"), a.get("level")).run(omitted_values)
 
-# omit_values = {"languages": ["Giant"], "skills": ["Persuasion"]}
-# b = ClassSeamstress("Bard", omit_values)
+        super(_DataSet, self).__init__()
+        self.parse_dataset(a, b)
+        self.data = self.read_dataset(True)
+
+
+class RaceSeamstress(_DataSet):
+    def __init__(self, race):
+        a = _BaseRaceSeamstress(race).run()
+        subrace = a.get("subrace")
+        if subrace is None:
+            b = None
+        else:
+            b = _SubRaceSeamstress(subrace).run(a)
+
+        super(_DataSet, self).__init__()
+        self.parse_dataset(a, b)
+        self.data = self.read_dataset(True)
+
+
+if __name__ == "__main__":
+    a = RaceSeamstress("Elf")
+    b = ClassSeamstress("Bard", a.data)
+    c = _DataSet()
+    c.parse_dataset(a.data, b.data)
+    print(c.read_dataset())
