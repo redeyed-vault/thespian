@@ -7,7 +7,6 @@ subraces:
     darkvision: 0
     flags: none
     languages: []
-    ratio: ~
     resistances: []
     skills: []
     spells:
@@ -23,7 +22,6 @@ subraces:
     darkvision: 0
     flags: none
     languages: []
-    ratio: ~
     resistances: []
     skills: []
     spells:
@@ -39,7 +37,6 @@ subraces:
     darkvision: 0
     flags: none
     languages: []
-    ratio: ~
     resistances: []
     skills: []
     spells:
@@ -56,13 +53,6 @@ subraces:
     darkvision: 120
     flags: none
     languages: [Undercommon]
-    ratio:
-      height:
-        base: 44
-        modifier: 2d4
-      weight:
-        base: 115
-        modifier: 2d6
     resistances:
       - Charm
       - Illusion
@@ -86,13 +76,6 @@ subraces:
     darkvision: 0
     flags: none
     languages: []
-    ratio:
-      height:
-        base: 44
-        modifier: 2d4
-      weight:
-        base: 115
-        modifier: 2d6
     resistances: []
     skills: []
     spells: []
@@ -107,13 +90,6 @@ subraces:
     darkvision: 0
     flags: none
     languages: []
-    ratio:
-      height:
-        base: 48
-        modifier: 2d4
-      weight:
-        base: 130
-        modifier: 2d6
     resistances: []
     skills: []
     spells: []
@@ -129,13 +105,6 @@ subraces:
     darkvision: 120
     flags: none
     languages: []
-    ratio:
-      height:
-        base: 53
-        modifier: 2d6
-      weight:
-        base: 75
-        modifier: 1d6
     resistances: []
     skills: []
     spells:
@@ -159,13 +128,6 @@ subraces:
     darkvision: 0
     flags: none
     languages: []
-    ratio:
-      height:
-        base: 54
-        modifier: 2d12
-      weight:
-        base: 90
-        modifier: 1d4
     resistances: []
     skills: []
     spells: []
@@ -200,13 +162,6 @@ subraces:
       - Primordial
       - Sylvan
       - Undercommon
-    ratio:
-      height:
-        base: 54
-        modifier: 2d10
-      weight:
-        base: 90
-        modifier: 1d4
     resistances: []
     skills: []
     spells:
@@ -243,13 +198,6 @@ subraces:
     darkvision: 0
     flags: none
     languages: ['Aquan']
-    ratio:
-      height:
-        base: 54
-        modifier: 2d8
-      weight:
-        base: 90
-        modifier: 1d4
     resistances: []
     skills: []
     spells: []
@@ -270,13 +218,6 @@ subraces:
     darkvision: 0
     flags: none
     languages: []
-    ratio:
-      height:
-        base: 56
-        modifier: 2d8
-      weight:
-        base: 90
-        modifier: 1d4
     resistances: [Necrotic]
     skills: []
     spells: []
@@ -292,13 +233,6 @@ subraces:
     darkvision: 0
     flags: none
     languages: []
-    ratio:
-      height:
-        base: 54
-        modifier: 2d10
-      weight:
-        base: 100
-        modifier: 1d4
     resistances: []
     skills: []
     spells: []
@@ -335,13 +269,6 @@ subraces:
       - Primordial
       - Sylvan
       - Undercommon
-    ratio:
-      height:
-        base: 60
-        modifier: 2d12
-      weight:
-        base: 100
-        modifier: 2d4
     resistances: []
     skills: []
     spells:
@@ -364,13 +291,6 @@ subraces:
     darkvision: 0
     flags: none
     languages: []
-    ratio:
-      height:
-        base: 59
-        modifier: 2d12
-      weight:
-        base: 90
-        modifier: 1d4
     resistances: [Charm, Fright]
     skills: []
     spells:
@@ -390,7 +310,6 @@ subraces:
     darkvision: 120
     flags: none
     languages: [Undercommon]
-    ratio: ~
     resistances: []
     skills: []
     spells: []
@@ -407,7 +326,6 @@ subraces:
     darkvision: 0
     flags: none
     languages: []
-    ratio: ~
     resistances: []
     skills: []
     spells:
@@ -424,7 +342,6 @@ subraces:
     darkvision: 0
     flags: none
     languages: []
-    ratio: ~
     resistances: []
     skills: []
     spells: []
@@ -441,7 +358,6 @@ subraces:
     darkvision: 0
     flags: none
     languages: []
-    ratio: ~
     resistances: []
     skills: []
     spells: []
@@ -456,7 +372,6 @@ subraces:
     darkvision: 0
     flags: none
     languages: []
-    ratio: ~
     resistances: [Poison]
     skills: []
     spells: []
@@ -472,7 +387,6 @@ subraces:
     darkvision: 0
     flags: none
     languages: []
-    ratio: ~
     resistances: []
     skills: []
     spells:
@@ -490,7 +404,6 @@ subraces:
     darkvision: 0
     flags: none
     languages: []
-    ratio: ~
     resistances: []
     skills: []
     spells:
@@ -509,7 +422,6 @@ subraces:
     flags: none
     languages: []
     parent: Tiefling
-    ratio: ~
     resistances: []
     skills: []
     spells:
@@ -528,7 +440,6 @@ subraces:
     flags: none
     languages: []
     parent: Tiefling
-    ratio: ~
     resistances: []
     skills: []
     spells:
@@ -547,7 +458,6 @@ subraces:
     flags: none
     languages: []
     parent: Tiefling
-    ratio: ~
     resistances: []
     skills: []
     spells:
@@ -566,7 +476,6 @@ subraces:
     flags: none
     languages: []
     parent: Tiefling
-    ratio: ~
     resistances: []
     skills: []
     spells:
@@ -585,7 +494,6 @@ subraces:
     flags: none
     languages: []
     parent: Tiefling
-    ratio: ~
     resistances: []
     skills: []
     spells:
@@ -604,7 +512,6 @@ subraces:
     flags: none
     languages: []
     parent: Tiefling
-    ratio: ~
     resistances: []
     skills: []
     spells:
@@ -623,7 +530,6 @@ subraces:
     flags: none
     languages: []
     parent: Tiefling
-    ratio: ~
     resistances: []
     skills: []
     spells:

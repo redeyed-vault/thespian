@@ -131,7 +131,6 @@ class _BaseClassSeamstress(_FlagSeamstress):
         ability = self.dataset.get("ability")
         if type(ability) is dict:
             self.dataset["ability"] = tuple(ability.values())
-        del self.dataset["flags"]
 
         return self.dataset
 
@@ -169,8 +168,6 @@ class _SubClassSeamstress(_FlagSeamstress):
                 _e(f"INFO: You chose the '{flag}' bonus > {bonus_choice}.", "green")
                 if len(bonus_choices) > 0:
                     self.dataset[flag] = bonus_choices
-
-        del self.dataset["flags"]
 
         return self.dataset
 
@@ -347,9 +344,14 @@ class _DataSet:
         return self.dataset
 
     def parse_dataset(self, a, b=None):
+        if type(a) is not dict:
+            raise Error("First parameter must be of type 'dict'.")
+        if type(b) is not dict and type(b) is not None:
+            raise Error("Second parameter must be of type 'dict' or 'NoneType'.")
+
         if "flags" in a:
             del a["flags"]
-        if "flags" in b:
+        if type(b) is dict and "flags" in b:
             del b["flags"]
 
         if type(b) is dict:
@@ -379,7 +381,7 @@ class _DataSet:
                 if type(value) is list:
                     a_list = a.get(key)
                     if type(a_list) is list:
-                        a[key] = a_list + value
+                        a[key] = list(set(a_list + value))
 
         raw_dataset = a
         self.keywords = list(raw_dataset.keys())

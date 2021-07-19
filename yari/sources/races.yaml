@@ -9,13 +9,6 @@ races:
     flags: subrace,1
     languages:
       - [Common, Celestial]
-    ratio:
-      height:
-        base: 56
-        modifier: 2d10
-      weight:
-        base: 110
-        modifier: 2d4
     resistances: [Necrotic, Radiant]
     size: Medium
     skills: []
@@ -43,13 +36,6 @@ races:
     flags: none
     languages:
       - [Common, Goblin]
-    ratio:
-      height:
-        base: 72
-        modifier: 2d12
-      weight:
-        base: 200
-        modifier: 2d6
     resistances: []
     size: Medium
     skills:
@@ -86,13 +72,6 @@ races:
     flags: none
     languages:
       - [Common, Draconic]
-    ratio:
-      height:
-        base: 66
-        modifier: 2d8
-      weight:
-        base: 175
-        modifier: 2d6
     resistances:
       Black: Acid
       Blue: Lightning
@@ -125,7 +104,6 @@ races:
     flags: subrace,1|tools,1
     languages:
       - [Common, Dwarvish]
-    ratio: ~
     resistances: [Poison]
     size: Medium
     skills: []
@@ -161,7 +139,6 @@ races:
     flags: subrace,1
     languages:
       - [Common, Elvish]
-    ratio: ~
     resistances: [Charm, Sleep]
     size: Medium
     skills:
@@ -193,13 +170,6 @@ races:
     flags: none
     languages:
       - [Common, Elvish, Giant]
-    ratio:
-      height:
-        base: 74
-        modifier: 2d12
-      weight:
-        base: 175
-        modifier: 2d6
     resistances: []
     size: Medium
     skills: []
@@ -224,7 +194,6 @@ races:
     flags: subrace,1
     languages:
       - [Common, Gith]
-    ratio: ~
     resistances: []
     size: Medium
     skills: []
@@ -246,13 +215,6 @@ races:
     flags: subrace,1
     languages:
       - [Common, Gnomish]
-    ratio:
-      height:
-        base: 35
-        modifier: 2d4
-      weight:
-        base: 35
-        modifier: 1d1
     resistances: []
     size: Small
     skills: []
@@ -278,13 +240,6 @@ races:
     flags: none
     languages:
       - [Common, Goblin]
-    ratio:
-      height:
-        base: 41
-        modifier: 2d4
-      weight:
-        base: 35
-        modifier: 1d1
     resistances: []
     size: Small
     skills: []
@@ -308,13 +263,6 @@ races:
     flags: none
     languages:
       - [Common, Giant]
-    ratio:
-      height:
-        base: 74
-        modifier: 2d10
-      weight:
-        base: 200
-        modifier: 2d6
     resistances: []
     size: Medium
     skills:
@@ -354,13 +302,6 @@ races:
       - Primordial
       - Sylvan
       - Undercommon
-    ratio:
-      height:
-        base: 57
-        modifier: 2d8
-      weight:
-        base: 110
-        modifier: 2d4
     resistances: [Charm, Sleep]
     size: Medium
     skills:
@@ -403,13 +344,6 @@ races:
     flags: none
     languages:
       - [Common, Orc]
-    ratio:
-      height:
-        base: 58
-        modifier: 2d10
-      weight:
-        base: 140
-        modifier: 2d6
     resistances: []
     size: Medium
     skills:
@@ -434,13 +368,6 @@ races:
     flags: subrace,1
     languages:
       - [Common, Halfling]
-    ratio:
-      height:
-        base: 31
-        modifier: 2d4
-      weight:
-        base: 35
-        modifier: 1d1
     resistances: []
     size: Small
     skills: []
@@ -466,13 +393,6 @@ races:
     flags: weapons,2
     languages:
       - [Common, Goblin]
-    ratio:
-      height:
-        base: 56
-        modifier: 2d10
-      weight:
-        base: 110
-        modifier: 2d4
     resistances: []
     size: Medium
     skills: []
@@ -537,13 +457,6 @@ races:
       - Primordial
       - Sylvan
       - Undercommon
-    ratio:
-      height:
-        base: 56
-        modifier: 2d10
-      weight:
-        base: 110
-        modifier: 2d4
     size: Medium
     skills: []
     speed: 30
@@ -564,13 +477,6 @@ races:
     flags: skills,2
     languages:
       - [Common, Auran]
-    ratio:
-      height:
-        base: 52
-        modifier: 2d8
-      weight:
-        base: 50
-        modifier: 1d6
     resistances: []
     size: Medium
     skills:
@@ -595,13 +501,6 @@ races:
     flags: none
     languages:
       - [Common, Draconic]
-    ratio:
-      height:
-        base: 25
-        modifier: 2d4
-      weight:
-        base: 25
-        modifier: 1d1
     resistances: []
     size: Small
     skills: []
@@ -626,13 +525,6 @@ races:
     flags: skills,2
     languages:
       - [Common, Draconic]
-    ratio:
-      height:
-        base: 57
-        modifier: 2d10
-      weight:
-        base: 120
-        modifier: 2d6
     resistances: []
     size: Medium
     skills:
@@ -660,13 +552,6 @@ races:
     flags: none
     languages:
       - [Common, Orc]
-    ratio:
-      height:
-        base: 64
-        modifier: 2d8
-      weight:
-        base: 175
-        modifier: 2d6
     resistances: []
     size: Medium
     skills:
@@ -708,13 +593,6 @@ races:
       - Primordial
       - Sylvan
       - Undercommon
-    ratio:
-      height:
-        base: 58
-        modifier: 2d10
-      weight:
-        base: 90
-        modifier: 2d4
     resistances: []
     size: Medium
     skills:
@@ -740,13 +618,6 @@ races:
     flags: subrace,1
     languages:
       - [Common, Infernal]
-    ratio:
-      height:
-        base: 57
-        modifier: 2d8
-      weight:
-        base: 110
-        modifier: 2d4
     resistances: [Fire]
     size: Medium
     skills: []
@@ -779,13 +650,6 @@ races:
     flags: none
     languages:
       - [Common, Primordial]
-    ratio:
-      height:
-        base: 54
-        modifier: 2d10
-      weight:
-        base: 90
-        modifier: 2d4
     resistances: []
     size: Medium
     skills: []
@@ -810,13 +674,6 @@ races:
     flags: none
     languages:
       - [Abyssal, Common, Draconic]
-    ratio:
-      height:
-        base: 56
-        modifier: 2d10
-      weight:
-        base: 110
-        modififer: 2d4
     resistances: []
     size: Medium
     skills: []
