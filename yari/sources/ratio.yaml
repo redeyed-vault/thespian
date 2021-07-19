@@ -1,0 +1,729 @@
+ratio:
+  # Aasimar
+  Aasimar:
+    height: 56,2d10
+    weight: 110,2d4
+  # Bugbear
+  Bugbear:
+    height: 72,2d12
+    weight: 200,2d6
+  # Dragonborn
+  Dragonborn:
+    height: 66,2d8
+    weight: 175,2d6
+  # Dwarf
+  Dwarf:
+    ratio: ~
+  # Elf
+  Elf:
+    ratio: ~
+  # Firbolg
+  Firbolg:
+    height: 74,2d12
+    weight: 175,2d6
+  # Gith
+  Gith:
+    ratio: ~
+  # Gnome
+  Gnome:
+    height: 35,2d4
+    weight: 35,1d1
+  # Goblin
+  Goblin:
+    height: 41,2d4
+    weight: 35,1d1
+  # Goliath
+  Goliath:
+    height: 74,2d10
+    weight: 200,2d6
+  # HalfElf
+  HalfElf:
+    height: 57,2d8
+    weight: 110,2d4
+  # HalfOrc
+  HalfOrc:
+    height:
+      base: 58
+      modifier: 2d10
+    weight: 140,2d6
+  # Halfling
+  Halfling:
+    height: 31,2d4
+    weight: 35,1d1
+  # Hobgoblin
+  Hobgoblin:
+    height: 56,2d10
+    weight: 110,2d4
+  # Human
+  Human:
+    height: 56,2d10
+    weight: 110,2d4
+  # Kenku
+  Kenku:
+    height: 52,2d8
+    weight: 50,1d6
+  # Kobold
+  Kobold:
+    height: 25,2d4
+    weight: 25,1d1
+  # Lizardfolk
+  Lizardfolk:
+    height: 57,2d10
+    weight: 120,2d6
+  # Orc
+  Orc:
+    height: 64,2d8
+    weight: 175,2d6
+  # Tabaxi (VGtM pg. 113)
+  Tabaxi:
+    height: 58,2d10
+    weight: 90,2d4
+  # Tiefling
+  Tiefling:
+    height: 57,2d8
+    weight: 110,2d4
+  # Triton (VGtM pg. 115)
+  Triton:
+    height: 54,2d10
+    weight: 90,2d4
+  # Yuanti
+  Yuanti:
+    height: 56,2d10
+    weight: 110,2d4
+  # Aasimar Subraces
+  Fallen:
+    armors: []
+    bonus:
+      Strength: 1
+    darkvision: 0
+    flags: none
+    languages: []
+    ratio: ~
+    resistances: []
+    skills: []
+    spells:
+      3: [Necrotic Shroud]
+    tools: []
+    traits:
+      - Necrotic Shroud
+    weapons: []
+  Protector:
+    armors: []
+    bonus:
+      Wisdom: 1
+    darkvision: 0
+    flags: none
+    languages: []
+    ratio: ~
+    resistances: []
+    skills: []
+    spells:
+      3: [Radiant Soul]
+    tools: []
+    traits:
+      - Radiant Soul
+    weapons: []
+  Scourge:
+    armors: []
+    bonus:
+      Constitution: 1
+    darkvision: 0
+    flags: none
+    languages: []
+    ratio: ~
+    resistances: []
+    skills: []
+    spells:
+      3: [Radiant Consumption]
+    tools: []
+    traits:
+      - Radiant Consumption
+    weapons: []
+  # Dwarf Subraces
+  Duergar:
+    armors: []
+    bonus:
+      Strength: 1
+    darkvision: 120
+    flags: none
+    languages: [Undercommon]
+    ratio:
+      height:
+        base: 44
+        modifier: 2d4
+      weight:
+        base: 115
+        modifier: 2d6
+    resistances:
+      - Charm
+      - Illusion
+      - Paralysis
+    skills: []
+    spells:
+      3: [Enlarge/Reduce]
+      5: [Invisibility]
+    tools: []
+    traits:
+      - Duergar Magic
+      - Duergar Resilience
+      - Extra Language
+      - Sunlight Sensitivity
+      - Superior Darkvision
+    weapons: []
+  Hill:
+    armors: []
+    bonus:
+      Wisdom: 1
+    darkvision: 0
+    flags: none
+    languages: []
+    ratio:
+      height:
+        base: 44
+        modifier: 2d4
+      weight:
+        base: 115
+        modifier: 2d6
+    resistances: []
+    skills: []
+    spells: []
+    tools: []
+    traits:
+      - Dwarven Toughness
+    weapons: []
+  Mountain:
+    armors: [Light, Medium]
+    bonus:
+      Strength: 2
+    darkvision: 0
+    flags: none
+    languages: []
+    ratio:
+      height:
+        base: 48
+        modifier: 2d4
+      weight:
+        base: 130
+        modifier: 2d6
+    resistances: []
+    skills: []
+    spells: []
+    tools: []
+    traits:
+      - Dwarven Armor Training
+    weapons: []
+  # Elf Subraces
+  Drow:
+    armors: []
+    bonus:
+      Charisma: 1
+    darkvision: 120
+    flags: none
+    languages: []
+    ratio:
+      height:
+        base: 53
+        modifier: 2d6
+      weight:
+        base: 75
+        modifier: 1d6
+    resistances: []
+    skills: []
+    spells:
+      1: [Dancing Lights]
+      3: [Faerie Fire]
+      5: [Darkness]
+    tools: []
+    traits:
+      - Drow Magic
+      - Drow Weapon Training
+      - Sunlight Sensitivity
+      - Superior Darkvision
+    weapons:
+      - Hand Crossbow
+      - Rapier
+      - Shortsword
+  Eladrin:
+    armors: []
+    bonus:
+      Intelligence: 1
+    darkvision: 0
+    flags: none
+    languages: []
+    ratio:
+      height:
+        base: 54
+        modifier: 2d12
+      weight:
+        base: 90
+        modifier: 1d4
+    resistances: []
+    skills: []
+    spells: []
+    tools: []
+    traits:
+      - Elf Weapon Training
+      - Fey Step
+    weapons:
+      - Longsword
+      - Shortsword
+      - Shortbow
+      - Longbow
+  High:
+    armors: []
+    bonus:
+      Intelligence: 1
+    darkvision: 0
+    flags: languages,1|spells,1
+    height: 54,2d10
+    languages:
+      - Abyssal
+      - Celestial
+      - Deep Speech
+      - Draconic
+      - Dwarvish
+      - Elvish
+      - Giant
+      - Gnomish
+      - Goblin
+      - Halfling
+      - Infernal
+      - Orc
+      - Primordial
+      - Sylvan
+      - Undercommon
+    ratio:
+      height:
+        base: 54
+        modifier: 2d10
+      weight:
+        base: 90
+        modifier: 1d4
+    resistances: []
+    skills: []
+    spells:
+      - Acid Splash
+      - Blade Ward
+      - Chill Touch
+      - Dancing Lights
+      - Fire Bolt
+      - Friends
+      - Light
+      - Mage Hand
+      - Mending
+      - Message
+      - Minor Illusion
+      - Poison Spray
+      - Prestidigitation
+      - Ray of Frost
+      - Shocking Grasp
+      - True Strike
+    tools: []
+    traits:
+      - Cantrip
+      - Elf Weapon Training
+      - Extra Language
+    weapons:
+      - Longsword
+      - Shortsword
+      - Shortbow
+      - Longbow
+    weight: 90,1d4
+  Sea:
+    armors: []
+    bonus:
+      Constitution: 1
+    darkvision: 0
+    flags: none
+    languages: ['Aquan']
+    ratio:
+      height:
+        base: 54
+        modifier: 2d8
+      weight:
+        base: 90
+        modifier: 1d4
+    resistances: []
+    skills: []
+    spells: []
+    tools: []
+    traits:
+      - Child of the Sea
+      - Friend of the Sea
+      - Sea Elf Training
+    weapons:
+      - Light Crossbow
+      - Net
+      - Spear
+      - Trident
+  Shadar-kai:
+    armors: []
+    bonus:
+      Constitution: 1
+    darkvision: 0
+    flags: none
+    languages: []
+    ratio:
+      height:
+        base: 56
+        modifier: 2d8
+      weight:
+        base: 90
+        modifier: 1d4
+    resistances: [Necrotic]
+    skills: []
+    spells: []
+    tools: []
+    traits:
+      - Blessing of the Raven Queen
+      - Necrotic Resistance
+    weapons: []
+  Wood:
+    armors: []
+    bonus:
+      Wisdom: 1
+    darkvision: 0
+    flags: none
+    languages: []
+    ratio:
+      height:
+        base: 54
+        modifier: 2d10
+      weight:
+        base: 100
+        modifier: 1d4
+    resistances: []
+    skills: []
+    spells: []
+    tools: []
+    traits:
+      - Elf Weapon Training
+      - Fleet of Foot
+      - Mask of the Wild
+    weapons:
+      - Longsword
+      - Shortsword
+      - Shortbow
+      - Longbow
+  # Gith Subraces
+  Githyanki:
+    armors: [Light, Medium]
+    bonus:
+      Strength: 2
+    darkvision: 0
+    flags: languages,1
+    languages:
+      - Abyssal
+      - Celestial
+      - Deep Speech
+      - Draconic
+      - Dwarvish
+      - Elvish
+      - Giant
+      - Gnomish
+      - Goblin
+      - Halfling
+      - Infernal
+      - Orc
+      - Primordial
+      - Sylvan
+      - Undercommon
+    ratio:
+      height:
+        base: 60
+        modifier: 2d12
+      weight:
+        base: 100
+        modifier: 2d4
+    resistances: []
+    skills: []
+    spells:
+      1: [Mage Hand]
+      3: [Jump]
+      5: [Misty Step]
+    tools: []
+    traits:
+      - Decadent Mastery
+      - Githyanki Psionics
+      - Martial Prodigy
+    weapons:
+      - Greatsword
+      - Longsword
+      - Shortsword
+  Githzerai:
+    armors: []
+    bonus:
+      Wisdom: 2
+    darkvision: 0
+    flags: none
+    languages: []
+    ratio:
+      height:
+        base: 59
+        modifier: 2d12
+      weight:
+        base: 90
+        modifier: 1d4
+    resistances: [Charm, Fright]
+    skills: []
+    spells:
+      1: [Mage Hand]
+      3: [Shield]
+      5: [Detect Thoughts]
+    tools: []
+    traits:
+      - Githzerai Psionics
+      - Mental Discipline
+    weapons: []
+  # Gnome Subraces
+  Deep:
+    armors: []
+    bonus:
+      Dexterity: 1
+    darkvision: 120
+    flags: none
+    languages: [Undercommon]
+    ratio: ~
+    resistances: []
+    skills: []
+    spells: []
+    tools: []
+    traits:
+      - Extra Language
+      - Superior Darkvision
+      - Stone Camouflage
+    weapons: []
+  Forest:
+    armors: []
+    bonus:
+      Dexterity: 1
+    darkvision: 0
+    flags: none
+    languages: []
+    ratio: ~
+    resistances: []
+    skills: []
+    spells:
+      - Minor Illusion
+    tools: []
+    traits:
+      - Natural Illusionist
+      - Speak with Small Beasts
+    weapons: []
+  Rock:
+    armors: []
+    bonus:
+      Constitution: 1
+    darkvision: 0
+    flags: none
+    languages: []
+    ratio: ~
+    resistances: []
+    skills: []
+    spells: []
+    tools: [Artisan's tools - Tinker's tools]
+    traits:
+      - Artificer's Lore
+      - Tinker
+    weapons: []
+  # Halfling Subraces
+  Lightfoot:
+    armors: []
+    bonus:
+      Charisma: 1
+    darkvision: 0
+    flags: none
+    languages: []
+    ratio: ~
+    resistances: []
+    skills: []
+    spells: []
+    tools: []
+    traits:
+      - Naturally Stealthy
+    weapons: []
+  Stout:
+    armors: []
+    bonus:
+      Constitution: 1
+    darkvision: 0
+    flags: none
+    languages: []
+    ratio: ~
+    resistances: [Poison]
+    skills: []
+    spells: []
+    tools: []
+    traits:
+      - Stout Resilience
+    weapons: []
+  # Tiefling Subraces
+  Asmodeus:
+    armors: []
+    bonus:
+      Intelligence: 1
+    darkvision: 0
+    flags: none
+    languages: []
+    ratio: ~
+    resistances: []
+    skills: []
+    spells:
+      1: [Thaumaturgy]
+      3: [Hellish Rebuke]
+      5: [Darkness]
+    tools: []
+    traits:
+      - Infernal Legacy
+    weapons: []
+  Baalzebul:
+    armors: []
+    bonus:
+      Intelligence: 1
+    darkvision: 0
+    flags: none
+    languages: []
+    ratio: ~
+    resistances: []
+    skills: []
+    spells:
+      1: [Thaumaturgy]
+      3: [Ray of Sickness]
+      5: [Crown of Madness]
+    tools: []
+    traits:
+      - Legacy of Maladomini
+    weapons: []
+  Dispater:
+    armors: []
+    bonus:
+      Dexterity: 1
+    darkvision: 0
+    flags: none
+    languages: []
+    parent: Tiefling
+    ratio: ~
+    resistances: []
+    skills: []
+    spells:
+      1: [Thaumaturgy]
+      3: [Disguise]
+      5: [Detect Thoughts]
+    tools: []
+    traits:
+      - Legacy of Dis
+    weapons: []
+  Fierna:
+    armors: []
+    bonus:
+      Wisdom: 1
+    darkvision: 0
+    flags: none
+    languages: []
+    parent: Tiefling
+    ratio: ~
+    resistances: []
+    skills: []
+    spells:
+      1: [Friends]
+      3: [Charm Person]
+      5: [Suggestion]
+    tools: []
+    traits:
+      - Legacy of Phlegethos
+    weapons: []
+  Glasya:
+    armors: []
+    bonus:
+      Dexterity: 1
+    darkvision: 0
+    flags: none
+    languages: []
+    parent: Tiefling
+    ratio: ~
+    resistances: []
+    skills: []
+    spells:
+      1: [Minor Illusion]
+      3: [Disguise Self]
+      5: [Invisibility]
+    tools: []
+    traits:
+      - Legacy of Malbolge
+    weapons: []
+  Levistus:
+    armors: []
+    bonus:
+      Constitution: 1
+    darkvision: 0
+    flags: none
+    languages: []
+    parent: Tiefling
+    ratio: ~
+    resistances: []
+    skills: []
+    spells:
+      1: [Ray of Frost]
+      3: [Armor of Agathys]
+      5: [Darkness]
+    tools: []
+    traits:
+      - Legacy of Stygia
+    weapons: []
+  Mammon:
+    armors: []
+    bonus:
+      Intelligence: 1
+    darkvision: 0
+    flags: none
+    languages: []
+    parent: Tiefling
+    ratio: ~
+    resistances: []
+    skills: []
+    spells:
+      1: [Mage Hand]
+      3: [Tensor's Floating Disk]
+      5: [Arcane Lock]
+    tools: []
+    traits:
+      - Legacy of Minauros
+    weapons: []
+  Mephistopheles:
+    armors: []
+    bonus:
+      Intelligence: 1
+    darkvision: 0
+    flags: none
+    languages: []
+    parent: Tiefling
+    ratio: ~
+    resistances: []
+    skills: []
+    spells:
+      1: [Mage Hand]
+      3: [Burning Hands]
+      5: [Flame Blade]
+    tools: []
+    traits:
+      - Legacy of Cania
+    weapons: []
+  Zariel:
+    armors: []
+    bonus:
+      Strength: 1
+    darkvision: 0
+    flags: none
+    languages: []
+    parent: Tiefling
+    ratio: ~
+    resistances: []
+    skills: []
+    spells:
+      1: [Thaumaturgy]
+      3: [Searing]
+      5: [Branding Smite]
+    tools: []
+    traits:
+      - Legacy of Avernus
+    weapons: []
