@@ -11,12 +11,18 @@ ratio:
   Dragonborn:
     height: 66,2d8
     weight: 175,2d6
-  # Dwarf
-  Dwarf:
-    ratio: ~
-  # Elf
-  Elf:
-    ratio: ~
+  # Drow, Elf
+  Drow:
+    height: 53,2d6
+    weight: 75,1d6
+  # Duergar, Dwarf
+  Duergar:
+    height: 44,2d4
+    weight: 115,2d6
+  # Eladrin, Elf
+  Eladrin:
+    height: 54,2d12
+    weight: 90,1d4
   # Firbolg
   Firbolg:
     height: 74,2d12
@@ -50,6 +56,14 @@ ratio:
   Halfling:
     height: 31,2d4
     weight: 35,1d1
+  # High, Elf
+  High:
+    height: 54,2d10
+    weight: 90,1d4
+  # Hill, Dwarf
+  Hill:
+    height: 44,2d4
+    weight: 115,2d6
   # Hobgoblin
   Hobgoblin:
     height: 56,2d10
@@ -70,6 +84,10 @@ ratio:
   Lizardfolk:
     height: 57,2d10
     weight: 120,2d6
+  # Mountain, Dwarf
+  Mountain:
+    height: 48,2d4
+    weight: 130,2d6
   # Orc
   Orc:
     height: 64,2d8
@@ -90,245 +108,7 @@ ratio:
   Yuanti:
     height: 56,2d10
     weight: 110,2d4
-  # Aasimar Subraces
-  Fallen:
-    armors: []
-    bonus:
-      Strength: 1
-    darkvision: 0
-    flags: none
-    languages: []
-    ratio: ~
-    resistances: []
-    skills: []
-    spells:
-      3: [Necrotic Shroud]
-    tools: []
-    traits:
-      - Necrotic Shroud
-    weapons: []
-  Protector:
-    armors: []
-    bonus:
-      Wisdom: 1
-    darkvision: 0
-    flags: none
-    languages: []
-    ratio: ~
-    resistances: []
-    skills: []
-    spells:
-      3: [Radiant Soul]
-    tools: []
-    traits:
-      - Radiant Soul
-    weapons: []
-  Scourge:
-    armors: []
-    bonus:
-      Constitution: 1
-    darkvision: 0
-    flags: none
-    languages: []
-    ratio: ~
-    resistances: []
-    skills: []
-    spells:
-      3: [Radiant Consumption]
-    tools: []
-    traits:
-      - Radiant Consumption
-    weapons: []
-  # Dwarf Subraces
-  Duergar:
-    armors: []
-    bonus:
-      Strength: 1
-    darkvision: 120
-    flags: none
-    languages: [Undercommon]
-    ratio:
-      height:
-        base: 44
-        modifier: 2d4
-      weight:
-        base: 115
-        modifier: 2d6
-    resistances:
-      - Charm
-      - Illusion
-      - Paralysis
-    skills: []
-    spells:
-      3: [Enlarge/Reduce]
-      5: [Invisibility]
-    tools: []
-    traits:
-      - Duergar Magic
-      - Duergar Resilience
-      - Extra Language
-      - Sunlight Sensitivity
-      - Superior Darkvision
-    weapons: []
-  Hill:
-    armors: []
-    bonus:
-      Wisdom: 1
-    darkvision: 0
-    flags: none
-    languages: []
-    ratio:
-      height:
-        base: 44
-        modifier: 2d4
-      weight:
-        base: 115
-        modifier: 2d6
-    resistances: []
-    skills: []
-    spells: []
-    tools: []
-    traits:
-      - Dwarven Toughness
-    weapons: []
-  Mountain:
-    armors: [Light, Medium]
-    bonus:
-      Strength: 2
-    darkvision: 0
-    flags: none
-    languages: []
-    ratio:
-      height:
-        base: 48
-        modifier: 2d4
-      weight:
-        base: 130
-        modifier: 2d6
-    resistances: []
-    skills: []
-    spells: []
-    tools: []
-    traits:
-      - Dwarven Armor Training
-    weapons: []
   # Elf Subraces
-  Drow:
-    armors: []
-    bonus:
-      Charisma: 1
-    darkvision: 120
-    flags: none
-    languages: []
-    ratio:
-      height:
-        base: 53
-        modifier: 2d6
-      weight:
-        base: 75
-        modifier: 1d6
-    resistances: []
-    skills: []
-    spells:
-      1: [Dancing Lights]
-      3: [Faerie Fire]
-      5: [Darkness]
-    tools: []
-    traits:
-      - Drow Magic
-      - Drow Weapon Training
-      - Sunlight Sensitivity
-      - Superior Darkvision
-    weapons:
-      - Hand Crossbow
-      - Rapier
-      - Shortsword
-  Eladrin:
-    armors: []
-    bonus:
-      Intelligence: 1
-    darkvision: 0
-    flags: none
-    languages: []
-    ratio:
-      height:
-        base: 54
-        modifier: 2d12
-      weight:
-        base: 90
-        modifier: 1d4
-    resistances: []
-    skills: []
-    spells: []
-    tools: []
-    traits:
-      - Elf Weapon Training
-      - Fey Step
-    weapons:
-      - Longsword
-      - Shortsword
-      - Shortbow
-      - Longbow
-  High:
-    armors: []
-    bonus:
-      Intelligence: 1
-    darkvision: 0
-    flags: languages,1|spells,1
-    height: 54,2d10
-    languages:
-      - Abyssal
-      - Celestial
-      - Deep Speech
-      - Draconic
-      - Dwarvish
-      - Elvish
-      - Giant
-      - Gnomish
-      - Goblin
-      - Halfling
-      - Infernal
-      - Orc
-      - Primordial
-      - Sylvan
-      - Undercommon
-    ratio:
-      height:
-        base: 54
-        modifier: 2d10
-      weight:
-        base: 90
-        modifier: 1d4
-    resistances: []
-    skills: []
-    spells:
-      - Acid Splash
-      - Blade Ward
-      - Chill Touch
-      - Dancing Lights
-      - Fire Bolt
-      - Friends
-      - Light
-      - Mage Hand
-      - Mending
-      - Message
-      - Minor Illusion
-      - Poison Spray
-      - Prestidigitation
-      - Ray of Frost
-      - Shocking Grasp
-      - True Strike
-    tools: []
-    traits:
-      - Cantrip
-      - Elf Weapon Training
-      - Extra Language
-    weapons:
-      - Longsword
-      - Shortsword
-      - Shortbow
-      - Longbow
-    weight: 90,1d4
   Sea:
     armors: []
     bonus:
