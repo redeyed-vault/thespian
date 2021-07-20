@@ -1,0 +1,125 @@
+metrics:
+  # Aasimar
+  Aasimar:
+    height: 56,2d10
+    weight: 110,2d4
+  # Bugbear
+  Bugbear:
+    height: 72,2d12
+    weight: 200,2d6
+  # Dragonborn
+  Dragonborn:
+    height: 66,2d8
+    weight: 175,2d6
+  # Drow, Elf
+  Drow:
+    height: 53,2d6
+    weight: 75,1d6
+  # Duergar, Dwarf
+  Duergar:
+    height: 44,2d4
+    weight: 115,2d6
+  # Eladrin, Elf
+  Eladrin:
+    height: 54,2d12
+    weight: 90,1d4
+  # Firbolg
+  Firbolg:
+    height: 74,2d12
+    weight: 175,2d6
+  # Githyanki, Gith
+  Githyanki:
+    height: 60,2d12
+    weight: 100,2d4
+  # Githzerai, Gith
+  Githzerai:
+    height: 59,2d12
+    weight: 90,1d4
+  # Gnome
+  Gnome:
+    height: 35,2d4
+    weight: 35,1d1
+  # Goblin
+  Goblin:
+    height: 41,2d4
+    weight: 35,1d1
+  # Goliath
+  Goliath:
+    height: 74,2d10
+    weight: 200,2d6
+  # HalfElf
+  HalfElf:
+    height: 57,2d8
+    weight: 110,2d4
+  # HalfOrc
+  HalfOrc:
+    height: 58,2d10
+    weight: 140,2d6
+  # Halfling
+  Halfling:
+    height: 31,2d4
+    weight: 35,1d1
+  # High, Elf
+  High:
+    height: 54,2d10
+    weight: 90,1d4
+  # Hill, Dwarf
+  Hill:
+    height: 44,2d4
+    weight: 115,2d6
+  # Hobgoblin
+  Hobgoblin:
+    height: 56,2d10
+    weight: 110,2d4
+  # Human
+  Human:
+    height: 56,2d10
+    weight: 110,2d4
+  # Kenku
+  Kenku:
+    height: 52,2d8
+    weight: 50,1d6
+  # Kobold
+  Kobold:
+    height: 25,2d4
+    weight: 25,1d1
+  # Lizardfolk
+  Lizardfolk:
+    height: 57,2d10
+    weight: 120,2d6
+  # Mountain, Dwarf
+  Mountain:
+    height: 48,2d4
+    weight: 130,2d6
+  # Orc
+  Orc:
+    height: 64,2d8
+    weight: 175,2d6
+  # Sea, Elf
+  Sea:
+    height: 54,2d8
+    weight: 90,1d4
+  # Shadar-kai, Elf
+  Shadar-kai:
+    height: 56,2d8
+    weight: 90,1d4
+  # Tabaxi (VGtM pg. 113)
+  Tabaxi:
+    height: 58,2d10
+    weight: 90,2d4
+  # Tiefling
+  Tiefling:
+    height: 57,2d8
+    weight: 110,2d4
+  # Triton (VGtM pg. 115)
+  Triton:
+    height: 54,2d10
+    weight: 90,2d4
+  # Wood, Elf
+  Wood:
+    height: 54,2d10
+    weight: 100,1d4
+  # Yuanti
+  Yuanti:
+    height: 56,2d10
+    weight: 110,2d4
