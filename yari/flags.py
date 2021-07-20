@@ -399,7 +399,7 @@ class _DataSet:
             self.dataset = self._toDataset()
         else:
             self.dataset = self._toDict()
-        
+
         return self.dataset
 
 
@@ -436,15 +436,30 @@ class AnthropometricCalculator:
     def _select_base(self):
         base_values = list()
         for characteristic in ("height", "weight"):
-            result = Load.get_columns(self.race, characteristic, source_file="ratio")
+            result = Load.get_columns(self.race, characteristic, source_file="metrics")
             if result is None:
-                result = Load.get_columns(self.subrace, characteristic, source_file="ratio")
+                result = Load.get_columns(
+                    self.subrace, characteristic, source_file="metrics"
+                )
                 if result is None:
                     raise Error("No racial base found for height/weight calculation.")
             base_values.append(result)
 
-        height,weight = base_values
+        height, weight = base_values
         return height, weight
+        
+    def _select_origin(self):
+        result = Load.get_columns(self.race, source_file="metrics")
+        if result is None:
+            result = Load.get_columns(
+                self.subrace, source_file="metrics"
+            )
+            if result is not None:
+                return self.subrace
+            else:
+                raise Error("No racial origin could be determined.")
+
+        return self.race
 
     def calculate(self, factor_sex=False):
         height_values, weight_values = self._select_base()
@@ -461,18 +476,36 @@ class AnthropometricCalculator:
         weight_modifier = sum(list(roll(weight_pair[1])))
         weight_calculation = (weight_modifier * height_modifier) + weight_base
 
-        # Unofficial rule, using real world examples
+        # Unofficial rule for height/weight differential by gender
+        #
+        #   - Men tend to be 15-20% larger than women on average
+        #
         if factor_sex:
-            raise Error("Not yet implemented.")
+            dominant_sex = Load.get_columns(self._select_origin(), "dominant", source_file="metrics")
+            if dominant_sex is None:
+                _e("INFO: Dominant gender could not be determined. Default to 'Male'.", "yellow")
+                dominant_sex = 'Male'
+
+            if self.sex == dominant_sex:
+                import random
+
+                diff_percent = random.randint(15, 20) / 100
+                _e(f"INFO: Using a dominant gender differential of {diff_percent}%.", "yellow")
+                height_diff = round(height_calculation * diff_percent)
+                weight_diff = round(weight_calculation * diff_percent)
+                height_calculation = height_calculation - height_diff
+                weight_calculation = weight_calculation - weight_diff
 
         return height_calculation, weight_calculation
 
 
 if __name__ == "__main__":
-    a = AnthropometricCalculator("Elf", "Male", "Drow")
-    print(a.calculate())
+    a = AnthropometricCalculator("Elf", "Female", "Drow")
+    print(a.calculate(True))
+    """
     a = RaceSeamstress("Elf")
     b = ClassSeamstress("Bard", a.data)
     c = _DataSet()
     c.parse_dataset(a.data, b.data)
     print(c.read_dataset())
+    """
