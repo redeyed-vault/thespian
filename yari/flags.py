@@ -447,13 +447,11 @@ class AnthropometricCalculator:
 
         height, weight = base_values
         return height, weight
-        
+
     def _select_origin(self):
         result = Load.get_columns(self.race, source_file="metrics")
         if result is None:
-            result = Load.get_columns(
-                self.subrace, source_file="metrics"
-            )
+            result = Load.get_columns(self.subrace, source_file="metrics")
             if result is not None:
                 return self.subrace
             else:
@@ -477,30 +475,44 @@ class AnthropometricCalculator:
         weight_calculation = (weight_modifier * height_modifier) + weight_base
 
         # Unofficial rule for height/weight differential by gender
-        #
-        #   - Men tend to be 15-20% larger than women on average
-        #
         if factor_sex:
-            dominant_sex = Load.get_columns(self._select_origin(), "dominant", source_file="metrics")
+            dominant_sex = Load.get_columns(
+                self._select_origin(), "dominant", source_file="metrics"
+            )
             if dominant_sex is None:
-                _e("INFO: Dominant gender could not be determined. Default to 'Male'.", "yellow")
-                dominant_sex = 'Male'
+                dominant_sex = "Male"
+                _e(
+                    "INFO: Dominant gender could not be determined. Default to 'Male'.",
+                    "yellow",
+                )
 
-            if self.sex == dominant_sex:
+            import math
+
+            if self.sex != dominant_sex:
                 import random
 
-                diff_percent = random.randint(15, 20) / 100
-                _e(f"INFO: Using a dominant gender differential of {diff_percent}%.", "yellow")
-                height_diff = round(height_calculation * diff_percent)
-                weight_diff = round(weight_calculation * diff_percent)
+                # Subtract 0-5 inches from height
+                height_diff = random.randint(0, 5)
                 height_calculation = height_calculation - height_diff
-                weight_calculation = weight_calculation - weight_diff
+                _e(f"INFO: Using a non-dominant gender height differential of -{height_diff}\".", "yellow")
+
+                # Subtract 15-20% from weight
+                weight_diff = random.randint(15, 20) / 100
+                weight_calculation = weight_calculation - math.floor(weight_calculation * weight_diff)
+                _e(f"INFO: Using a non-dominant gender weight differential of -{weight_diff}%.", "yellow")
+
+        if height_calculation < 12:
+            height_calculation = (0, height_calculation)
+        else:
+            feet = math.floor(height_calculation / 12)
+            inches = height_calculation - (feet * 12)
+            height_calculation = (feet, inches)
 
         return height_calculation, weight_calculation
 
 
 if __name__ == "__main__":
-    a = AnthropometricCalculator("Elf", "Female", "Drow")
+    a = AnthropometricCalculator("Human", "Female")
     print(a.calculate(True))
     """
     a = RaceSeamstress("Elf")
