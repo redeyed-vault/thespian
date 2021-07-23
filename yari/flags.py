@@ -332,7 +332,7 @@ class _SubRaceSeamstress(_FlagSeamstress):
         return self._honor_flags(omitted_values)
 
 
-class _DataSet:
+class DataSet:
     def __init__(self):
         self.dataset = None
         self.keywords = None
@@ -403,18 +403,18 @@ class _DataSet:
         return self.dataset
 
 
-class ClassSeamstress(_DataSet):
+class ClassSeamstress(DataSet):
     def __init__(self, klass, omitted_values=None):
         a = _BaseClassSeamstress(klass).run(omitted_values)
         b = _SubClassSeamstress(a.get("subclass"), a.get("level")).run(omitted_values)
 
-        super(_DataSet, self).__init__()
+        super(DataSet, self).__init__()
         self.parse_dataset(a, b)
         self.data = self.read_dataset(True)
 
 
-class RaceSeamstress(_DataSet):
-    def __init__(self, race):
+class RaceSeamstress(DataSet):
+    def __init__(self, race, sex):
         a = _BaseRaceSeamstress(race).run()
         subrace = a.get("subrace")
         if subrace is None:
@@ -422,7 +422,12 @@ class RaceSeamstress(_DataSet):
         else:
             b = _SubRaceSeamstress(subrace).run(a)
 
-        super(_DataSet, self).__init__()
+        c = AnthropometricCalculator(race, sex, subrace)
+        height, weight = c.calculate(True)
+        a["height"] = height
+        a["weight"] = weight
+
+        super(DataSet, self).__init__()
         self.parse_dataset(a, b)
         self.data = self.read_dataset(True)
 
@@ -494,12 +499,20 @@ class AnthropometricCalculator:
                 # Subtract 0-5 inches from height
                 height_diff = random.randint(0, 5)
                 height_calculation = height_calculation - height_diff
-                _e(f"INFO: Using a non-dominant gender height differential of -{height_diff}\".", "yellow")
+                _e(
+                    f'INFO: Using a non-dominant gender height differential of -{height_diff}".',
+                    "yellow",
+                )
 
                 # Subtract 15-20% from weight
                 weight_diff = random.randint(15, 20) / 100
-                weight_calculation = weight_calculation - math.floor(weight_calculation * weight_diff)
-                _e(f"INFO: Using a non-dominant gender weight differential of -{weight_diff}%.", "yellow")
+                weight_calculation = weight_calculation - math.floor(
+                    weight_calculation * weight_diff
+                )
+                _e(
+                    f"INFO: Using a non-dominant gender weight differential of -{weight_diff}%.",
+                    "yellow",
+                )
 
         if height_calculation < 12:
             height_calculation = (0, height_calculation)
@@ -509,15 +522,3 @@ class AnthropometricCalculator:
             height_calculation = (feet, inches)
 
         return height_calculation, weight_calculation
-
-
-if __name__ == "__main__":
-    a = AnthropometricCalculator("Human", "Female")
-    print(a.calculate(True))
-    """
-    a = RaceSeamstress("Elf")
-    b = ClassSeamstress("Bard", a.data)
-    c = _DataSet()
-    c.parse_dataset(a.data, b.data)
-    print(c.read_dataset())
-    """

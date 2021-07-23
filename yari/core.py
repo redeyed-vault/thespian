@@ -902,14 +902,6 @@ def main():
         default="Fighter",
     )
     app.add_argument(
-        "-level",
-        "-l",
-        help="sets character's level",
-        type=int,
-        choices=tuple(range(1, 21)),
-        default=1,
-    )
-    app.add_argument(
         "-sex",
         "-s",
         help="sets character's sex",
@@ -917,6 +909,7 @@ def main():
         choices=("Female", "Male"),
         default="Female",
     )
+    """
     app.add_argument(
         "-alignment",
         "-a",
@@ -935,6 +928,7 @@ def main():
         ),
         default="True Neutral",
     )
+    """
     app.add_argument(
         "-port",
         "-p",
@@ -945,61 +939,20 @@ def main():
     args = app.parse_args()
     race = args.race
     klass = args.klass
-    level = args.level
     sex = args.sex
-    alignment = args.alignment
-    port = args.port
+    # alignment = args.alignment
+    # port = args.port
 
-    subraces = get_subraces_by_race(race)
-    if len(subraces) == 0:
-        subrace = ""
-    else:
-        subrace = prompt(f"Choose your '{race}' subrace", subraces)
-        if subrace not in subraces:
-            subrace = prompt(f"Choose a valid '{race}' subrace", subraces)
-        _e(f"INFO: '{race}' subrace '{subrace}' chosen.", "green")
+    # background = prompt("Choose your background", get_character_backgrounds())
+    # _e(f"INFO: 'Character background '{background}' chosen.", "green")
 
-    subclasses = get_subclasses_by_class(klass)
-    subclass = prompt(f"Choose your '{klass}' subclass", subclasses)
-    if subclass not in subclasses:
-        subclass = prompt(f"Choose a valid '{klass}' subclass", subclasses)
-    _e(f"INFO: '{klass}' subclass '{subclass}' chosen.", "green")
+    from flags import RaceSeamstress, ClassSeamstress, DataSet
 
-    background = prompt("Choose your background", get_character_backgrounds())
-    _e(f"INFO: 'Character background '{background}' chosen.", "green")
-
-    f = Yari(race, subrace, klass, subclass, alignment, level, sex, background)
-    f.run()
-
-    print(f.abilities)
-    print(f.alignment)
-    print(f.ancestor)
-    print(f.armors)
-    print(f.background)
-    print(f.bonus)
-    print(f.bonusmagic)
-    print(f.darkvision)
-    print(f.equipment)
-    print(f.feats)
-    print(f.features)
-    print(f.height)
-    print(f.hitdie)
-    print(f.hitpoints)
-    print(f.innatemagic)
-    print(f.languages)
-    print(f.proficiencybonus)
-    print(f.resistances)
-    print(f.savingthrows)
-    print(f.scores)
-    print(f.sex)
-    print(f.size)
-    print(f.skills)
-    print(f.speed)
-    print(f.spellslots)
-    print(f.tools)
-    print(f.traits)
-    print(f.weapons)
-    print(f.weight)
+    a = RaceSeamstress(race, sex)
+    b = ClassSeamstress(klass, a.data)
+    c = DataSet()
+    c.parse_dataset(a.data, b.data)
+    print(c.read_dataset())
 
     """
     try:
