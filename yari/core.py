@@ -15,11 +15,7 @@ from utils import (
     get_character_feats,
     get_character_races,
     get_proficiency_bonus,
-    get_subclasses_by_class,
-    get_subraces_by_race,
     prompt,
-    sample_choice,
-    truncate_dict,
     _e,
 )
 
@@ -135,23 +131,6 @@ class _CharacterBuilder:
             self.background = data["background"]
         del data["background"]
 
-        for category in (
-            "armors",
-            "tools",
-            "weapons",
-        ):
-            class_proficiency_list = data[category]
-            class_proficiency_list = [
-                x for x in class_proficiency_list if x not in race_data[category]
-            ]
-            data[category] = sample_choice(class_proficiency_list)
-
-        bonus_languages = Load.get_columns(klass, "languages", source_file="classes")
-        if len(bonus_languages) != 0:
-            bonus_language = bonus_languages[0]
-            if bonus_language not in data["languages"]:
-                data["languages"].append(bonus_languages)
-
         if (
             data["spellslots"] is None
             or self.klass in ("Fighter", "Rogue")
@@ -165,43 +144,6 @@ class _CharacterBuilder:
         else:
             data["spellslots"] = data["spellslots"].get(self.level)
 
-        if subclass == "":
-            data["features"] = truncate_dict(data["features"], level)
-        else:
-            subclass_data = Load.get_columns(subclass, source_file="subclasses")
-            for feature, value in subclass_data.items():
-                if feature in ("armors", "tools", "weapons"):
-                    subclass_proficiencies = Load.get_columns(
-                        subclass,
-                        feature,
-                        source_file="subclasses",
-                    )
-                    for proficiency in subclass_proficiencies:
-                        if proficiency not in data[feature]:
-                            data[feature].append(proficiency)
-                if feature == "bonusmagic":
-                    if subclass_data[feature] is None:
-                        data[feature] = list()
-                        continue
-                    bonus_magic = truncate_dict(subclass_data[feature], level)
-                    extended_spell_list = list()
-                    for spell_list in tuple(bonus_magic.values()):
-                        extended_spell_list += spell_list
-                    data[feature] = extended_spell_list
-                if feature == "features":
-                    for level_obtained, feature_list in value.items():
-                        if level_obtained in data["features"]:
-                            data["features"][level_obtained] += feature_list
-                        else:
-                            data["features"][level_obtained] = feature_list
-                    data["features"] = truncate_dict(data["features"], level)
-                if feature == "skills":
-                    bonus_skills = subclass_data[feature]
-                    if bonus_skills is None:
-                        continue
-                    if len(bonus_skills) == 1:
-                        data[feature] += subclass_data[feature]
-
         # Calculate hit die/points
         hit_die = int(data["hit_die"])
         data["hitdie"] = f"{self.level}d{hit_die}"
@@ -213,104 +155,6 @@ class _CharacterBuilder:
                 hp_result = int((hit_die / 2) + 1)
                 die_rolls.append(hp_result)
             data["hitpoints"] += sum(die_rolls)
-
-        skill_pool = data["skills"]
-        background_skills = Load.get_columns(
-            self.background, "skills", source_file="backgrounds"
-        )
-        skill_pool = [
-            x
-            for x in skill_pool
-            if x not in race_data["skills"] and x not in background_skills
-        ]
-        if klass in ("Rogue",):
-            allotment = 4
-        elif klass in ("Bard", "Ranger"):
-            allotment = 3
-        else:
-            allotment = 2
-        data["skills"] = background_skills
-        data["skills"] += sample(skill_pool, allotment)
-
-        return data
-
-    @staticmethod
-    def _build_race(race: Type[str], subrace: Type[str], level: Type[int]):
-        data = Load.get_columns(race, source_file="races")
-        if data is None:
-            raise Error(f"Cannot load race template for '{race}'.")
-
-        for category in ("armors", "tools", "weapons"):
-            data[category] = sample_choice(data.get(category))
-
-        if subrace != "":
-            subrace_data = Load.get_columns(subrace, source_file="subraces")
-            if subrace_data is None:
-                raise Error(f"Cannot load subrace template for '{subrace}'.")
-            for trait, value in subrace_data.items():
-                if trait not in data:
-                    data[trait] = subrace_data[trait]
-                elif trait in (
-                    "armors",
-                    "languages",
-                    "resistances",
-                    "skills",
-                    "tools",
-                    "weapons",
-                ):
-                    data[trait] += subrace_data[trait]
-                elif trait == "bonus":
-                    for ability, bonus in value.items():
-                        data[trait][ability] = bonus
-                elif trait == "darkvision":
-                    race_darkvision = data.get(trait)
-                    subrace_darkvision = subrace_data.get(trait)
-                    if (
-                        subrace_darkvision is not None
-                        and subrace_darkvision > race_darkvision
-                    ):
-                        data[trait] = subrace_darkvision
-                elif trait == "innatemagic":
-                    if data[trait] is None and subrace_data[trait] is None:
-                        data[trait] = list()
-                        continue
-                    else:
-                        if data[trait] is None and subrace_data[trait] is not None:
-                            data[trait] = subrace_data[trait]
-                        innate_spells = data[trait]
-                        if len(innate_spells) == 0:
-                            continue
-                        if type(innate_spells) is list:
-                            if len(innate_spells) >= 2:
-                                last_value = innate_spells[-1]
-                                if isinstance(last_value, int):
-                                    del innate_spells[-1]
-                                    data[trait] = sample(innate_spells, last_value)
-                        elif type(innate_spells) is dict:
-                            spell_list = list()
-                            innate_spells = truncate_dict(data[trait], level)
-                            for _, spells in innate_spells.items():
-                                for spell in spells:
-                                    spell_list.append(spell)
-                            data[trait] = spell_list
-                elif trait == "ratio":
-                    if data[trait] is None:
-                        subrace_ratio = subrace_data[trait]
-                        data[trait] = subrace_ratio
-                elif trait == "traits":
-                    for other in subrace_data.get(trait):
-                        data[trait].append(other)
-
-        # Calculate height/weight values
-        height_base = data.get("ratio").get("height").get("base")
-        height_modifier = data.get("ratio").get("height").get("modifier")
-        height_modifier = sum(list(roll(height_modifier)))
-        weight_base = data.get("ratio").get("weight").get("base")
-        weight_modifier = data.get("ratio").get("weight").get("modifier")
-        weight_modifier = sum(list(roll(weight_modifier)))
-        data["height"] = height_base + height_modifier
-        data["weight"] = (height_modifier * weight_modifier) + weight_base
-        del data["ratio"]
 
         return data
 
@@ -507,7 +351,7 @@ class _ImprovementGenerator:
 
         def get_feat_requirements(
             feat_name: str, use_local: bool = True
-        ) -> (dict, None):
+        ):
             """Returns all requirements for feat_name."""
             return Load.get_columns(
                 feat_name, "required", source_file="feats", use_local=use_local
