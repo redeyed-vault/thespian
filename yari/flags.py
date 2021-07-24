@@ -71,6 +71,19 @@ class _BaseClassSeamstress(_FlagSeamstress):
             x: y for x, y in self.dataset.get("features").items() if x <= level
         }
         self.dataset["level"] = level
+
+        # Calculate hit die/points
+        hit_die = int(self.dataset.get("hit_die"))
+        self.dataset["hit_die"] = f"{level}d{hit_die}"
+        self.dataset["hp"] = hit_die
+        if level > 1:
+            new_level = level - 1
+            die_rolls = list()
+            for _ in range(0, new_level):
+                hp_result = int((hit_die / 2) + 1)
+                die_rolls.append(hp_result)
+            self.dataset["hp"] += sum(die_rolls)
+
         self.dataset["spellslots"] = self.dataset.get("spellslots").get(level)
 
     def _honor_flags(self, omitted_values=None):

@@ -95,70 +95,6 @@ class _AttributeBuilder:
         return score_array
 
 
-class _CharacterBuilder:
-    def __init__(
-        self,
-        race: Type[str],
-        subrace: Type[str],
-        klass: Type[str],
-        subclass: Type[str],
-        level: Type[int],
-        sex: Type[str],
-        background: Type[str] = "",
-    ):
-        if level < 3:
-            subclass = ""
-        if background == "":
-            background = Load.get_columns(klass, "background", source_file="classes")
-        self.klass = klass
-        self.level = level
-        self.race = race
-        self.sex = sex
-        self.subclass = subclass
-        self.subrace = subrace
-        self.background = background
-
-    def _build_class(
-        self, klass: Type[str], subclass: Type[str], level: Type[int], race_data
-    ):
-        data = Load.get_columns(klass, source_file="classes")
-        if data is None:
-            raise Error(f"Cannot load class template for '{klass}'.")
-        # Remove subclasses entry
-        del data["subclasses"]
-        # Choose default background if not user-specified
-        if self.background == "":
-            self.background = data["background"]
-        del data["background"]
-
-        if (
-            data["spellslots"] is None
-            or self.klass in ("Fighter", "Rogue")
-            and self.subclass
-            not in (
-                "Arcane Trickster",
-                "Eldritch Knight",
-            )
-        ):
-            data["spellslots"] = "0"
-        else:
-            data["spellslots"] = data["spellslots"].get(self.level)
-
-        # Calculate hit die/points
-        hit_die = int(data["hit_die"])
-        data["hitdie"] = f"{self.level}d{hit_die}"
-        data["hitpoints"] = hit_die
-        if self.level > 1:
-            new_level = self.level - 1
-            die_rolls = list()
-            for _ in range(0, new_level):
-                hp_result = int((hit_die / 2) + 1)
-                die_rolls.append(hp_result)
-            data["hitpoints"] += sum(die_rolls)
-
-        return data
-
-
 class _ImprovementGenerator:
     def __init__(
         self,
@@ -541,7 +477,7 @@ class _ImprovementGenerator:
                 num_of_upgrades -= 1
 
 
-class Yari(_CharacterBuilder):
+class Yari:
     def __init__(
         self,
         race: Type[str],
@@ -622,19 +558,6 @@ class Yari(_CharacterBuilder):
                 if bonus_ability_choice in bonus_ability_choices:
                     self.bonus[bonus_ability_choice] = 1
                     bonus_ability_choices.remove(bonus_ability_choice)
-        # Dragonborn ancestry prompt
-        if self.race == "Dragonborn" and type(self.resistances) is dict:
-            dragon_ancestor_options = tuple(self.resistances.keys())
-            draconic_ancestry = prompt(
-                "Choose your draconic ancestor's type",
-                dragon_ancestor_options,
-            )
-            self.ancestor = draconic_ancestry
-            print(f"Draconic ancestor set to '{draconic_ancestry}'.")
-            ancestry_resistances = self.resistances
-            self.resistances = []
-            self.resistances.append(ancestry_resistances.get(draconic_ancestry))
-            print(f"Resistances set for '{draconic_ancestry}' ancestry.")
 
         # Apply and honor all subclass flags
         subclass_flags_options = Load.get_columns(
@@ -693,8 +616,6 @@ class Yari(_CharacterBuilder):
                         "green",
                     )
 
-        # Run Attribute generator
-        self.scores = _AttributeBuilder(self.abilities, self.bonus).roll()
         # Run Ability Score Improvement generator
         u = _ImprovementGenerator(
             armors=self.armors,
@@ -794,6 +715,10 @@ def main():
 
     a = RaceSeamstress(race, sex)
     b = ClassSeamstress(klass, a.data)
+    
+    # Run Attribute generator
+    a["scores"] = _AttributeBuilder(b.data.get("ability"), a.data.get("bonus")).roll()
+    
     c = DataSet()
     c.parse_dataset(a.data, b.data)
     print(c.read_dataset())
