@@ -74,7 +74,7 @@ class _AttributeBuilder:
         # Assign the remaining abilities
         # Apply racial bonuses
         generated_scores = determine_ability_scores(self.threshold)
-        for ability in tuple(self.primary_ability.values()):
+        for ability in self.primary_ability:
             value = max(generated_scores)
             score_array[ability] = value
             ability_choices.remove(ability)
@@ -523,13 +523,6 @@ class Yari:
         self.weight = rdata.get("weight")
 
     def run(self):
-        for rank, options in self.abilities.items():
-            if isinstance(options, list):
-                ability_choice = prompt(
-                    f"Choose '{self.klass}' class ability",
-                    options,
-                )
-                self.abilities[rank] = ability_choice
         if "random" in self.bonus:
             bonus_ability_count = self.bonus.get("random")
             del self.bonus["random"]
@@ -558,63 +551,6 @@ class Yari:
                 if bonus_ability_choice in bonus_ability_choices:
                     self.bonus[bonus_ability_choice] = 1
                     bonus_ability_choices.remove(bonus_ability_choice)
-
-        # Apply and honor all subclass flags
-        subclass_flags_options = Load.get_columns(
-            self.subclass, "flags", source_file="subclasses"
-        )
-        subclass_flags = dict()
-        if subclass_flags_options != "none":
-            flags_finder = subclass_flags_options.split("|")
-            for flag_pair in flags_finder:
-                key, value = flag_pair.split(",")
-                if "&&" in key:
-                    flag_options = key.split("&&")
-                    if len(flag_options) >= 2:
-                        flag_option = prompt(
-                            f"'{self.subclass}': Which bonus option do you desire?",
-                            flag_options,
-                        )
-                        subclass_flags[flag_option] = int(value)
-                        _e(
-                            f"INFO: bonus {flag_option} option chosen for '{self.subclass}' subclass'.",
-                            "green",
-                        )
-                if key not in subclass_flags:
-                    subclass_flags[key] = int(value)
-        # If none flag is specified, don't bother
-        if subclass_flags is None:
-            return
-        # Iterate through, honoring flags
-        for flag, value in subclass_flags.items():
-            if flag in ("languages", "skills"):
-                acquired_options = None
-                if flag == "languages":
-                    acquired_options = self.languages
-                if flag == "skills":
-                    acquired_options = self.skills
-
-                bonus_options = Load.get_columns(
-                    self.subclass, flag, source_file="subclasses"
-                )
-                bonus_options = [x for x in bonus_options if x not in acquired_options]
-                if value == -1:
-                    acquired_options += bonus_options
-                    return
-
-                for _ in range(value):
-                    option = prompt(
-                        f"Choose bonus {flag} for subclass '{self.subclass}'",
-                        bonus_options,
-                    )
-                    acquired_options.append(option)
-                    bonus_options = [
-                        x for x in bonus_options if x not in acquired_options
-                    ]
-                    _e(
-                        f"INFO: {flag} '{option}' chosen for subclass '{self.subclass}'.",
-                        "green",
-                    )
 
         # Run Ability Score Improvement generator
         u = _ImprovementGenerator(
@@ -674,26 +610,6 @@ def main():
         choices=("Female", "Male"),
         default="Female",
     )
-    """
-    app.add_argument(
-        "-alignment",
-        "-a",
-        help="sets character's alignment",
-        type=str,
-        choices=(
-            "Chaotic Evil",
-            "Chaotic Good",
-            "Chaotic Neutral",
-            "Lawful Evil",
-            "Lawful Good",
-            "Lawful Neutral",
-            "Neutral Evil",
-            "Neutral Good",
-            "True Neutral",
-        ),
-        default="True Neutral",
-    )
-    """
     app.add_argument(
         "-port",
         "-p",
@@ -705,7 +621,6 @@ def main():
     race = args.race
     klass = args.klass
     sex = args.sex
-    # alignment = args.alignment
     # port = args.port
 
     # background = prompt("Choose your background", get_character_backgrounds())
@@ -717,16 +632,18 @@ def main():
     b = ClassSeamstress(klass, a.data)
     
     # Run Attribute generator
-    a["scores"] = _AttributeBuilder(b.data.get("ability"), a.data.get("bonus")).roll()
+    a.data["scores"] = _AttributeBuilder(b.data.get("ability"), a.data.get("bonus")).roll()
     
     c = DataSet()
     c.parse_dataset(a.data, b.data)
-    print(c.read_dataset())
+    d = c.read_dataset()
+    print(type(d))
+    print(d)
 
     """
     try:
-        with HTTPD(cs) as http:
-            http.run(port)
+        with HTTPD(cs, port) as http:
+            http.run()
     except (OSError, TypeError, ValueError) as e:
         out(e, 2)
     """

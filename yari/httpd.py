@@ -6,13 +6,14 @@ import traceback
 from typing import Type
 
 from errors import Error
+from flags import DataSet
 
 from aiohttp import web
 from bs4 import BeautifulSoup
 
 
 class HTTPD:
-    def __init__(self, data: OrderedDict, port: Type[int] = 5000):
+    def __init__(self, data: DataSet, port: Type[int] = 5000):
         self.data = data
         self.port = port
         self.text: str = ""

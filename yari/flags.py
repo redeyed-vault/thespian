@@ -205,6 +205,22 @@ class _BaseRaceSeamstress(_FlagSeamstress):
         )
 
     def _honor_flags(self):
+        # Set alignment
+        base_alignment_options=(
+            "Chaotic Evil",
+            "Chaotic Good",
+            "Chaotic Neutral",
+            "Lawful Evil",
+            "Lawful Good",
+            "Lawful Neutral",
+            "Neutral Evil",
+            "Neutral Good",
+            "True Neutral",
+        )
+        alignment = prompt("What is your chosen alignment?", base_alignment_options)
+        self.dataset["alignment"] = alignment
+        _e(f"INFO: You set your alignment to > {alignment}.", "green")
+
         # Set base ancestry
         base_ancestry_options = self.dataset.get("ancestry")
         if len(base_ancestry_options) == 0:
