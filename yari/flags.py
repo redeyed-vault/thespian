@@ -14,8 +14,8 @@ class _FlagSeamstress(ABC):
             raise Error(f"Data could not be found for '{query_id}'.")
 
         self.allowed_flags = allowed_flags
-        self.dataset = result
-        self.flags = self._sew_flags(self.dataset)
+        self.tapestry = result
+        self.flags = self._sew_flags(self.tapestry)
 
     @abstractmethod
     def _honor_flags(self):
@@ -43,8 +43,8 @@ class _FlagSeamstress(ABC):
                     flag_name = prompt("Choose your flag option.", flag_options)
                     flag_options.remove(flag_name)
                     for option in flag_options:
-                        if option in self.dataset:
-                            self.dataset[option] = []
+                        if option in self.tapestry:
+                            self.tapestry[option] = []
                     _e(f"INFO: You chose the flagging option '{flag_name}'", "green")
                 else:
                     raise Error(
@@ -67,24 +67,24 @@ class _BaseClassSeamstress(_FlagSeamstress):
         )
         level = int(prompt("What level are you?", list(range(1, 21))))
         _e(f"INFO: Your character level has been set to {level}.", "green")
-        self.dataset["features"] = {
-            x: y for x, y in self.dataset.get("features").items() if x <= level
+        self.tapestry["features"] = {
+            x: y for x, y in self.tapestry.get("features").items() if x <= level
         }
-        self.dataset["level"] = level
+        self.tapestry["level"] = level
 
         # Calculate hit die/points
-        hit_die = int(self.dataset.get("hit_die"))
-        self.dataset["hit_die"] = f"{level}d{hit_die}"
-        self.dataset["hp"] = hit_die
+        hit_die = int(self.tapestry.get("hit_die"))
+        self.tapestry["hit_die"] = f"{level}d{hit_die}"
+        self.tapestry["hp"] = hit_die
         if level > 1:
             new_level = level - 1
             die_rolls = list()
             for _ in range(0, new_level):
                 hp_result = int((hit_die / 2) + 1)
                 die_rolls.append(hp_result)
-            self.dataset["hp"] += sum(die_rolls)
+            self.tapestry["hp"] += sum(die_rolls)
 
-        self.dataset["spellslots"] = self.dataset.get("spellslots").get(level)
+        self.tapestry["spellslots"] = self.tapestry.get("spellslots").get(level)
 
     def _honor_flags(self, omitted_values=None):
         for flag in self.allowed_flags:
@@ -97,16 +97,16 @@ class _BaseClassSeamstress(_FlagSeamstress):
                 continue
 
             if flag == "ability":
-                for rank, abilities in self.dataset.get(flag).items():
+                for rank, abilities in self.tapestry.get(flag).items():
                     if type(abilities) is not list:
                         continue
                     choice = prompt(f"Choose class option '{flag}':", abilities)
-                    self.dataset[flag][rank] = choice
+                    self.tapestry[flag][rank] = choice
                     _e(f"You chose the ability > '{choice}'", "green")
-                self.dataset[flag] = tuple(self.dataset[flag].values())
+                self.tapestry[flag] = tuple(self.tapestry[flag].values())
             else:
                 num_of_instances = self.flags.get(flag)
-                flag_options = self.dataset.get(flag)
+                flag_options = self.tapestry.get(flag)
                 if type(flag_options) is list:
                     if type(omitted_values) is dict and flag in omitted_values:
                         omitted_values = omitted_values.get(flag)
@@ -138,15 +138,15 @@ class _BaseClassSeamstress(_FlagSeamstress):
                         and type(omitted_values) is list
                         and len(omitted_values) > 0
                     ):
-                        self.dataset[flag] = option_selections + omitted_values
+                        self.tapestry[flag] = option_selections + omitted_values
                     else:
-                        self.dataset[flag] = option_selections
+                        self.tapestry[flag] = option_selections
 
-        ability = self.dataset.get("ability")
+        ability = self.tapestry.get("ability")
         if type(ability) is dict:
-            self.dataset["ability"] = tuple(ability.values())
+            self.tapestry["ability"] = tuple(ability.values())
 
-        return self.dataset
+        return self.tapestry
 
     def run(self, omitted_values=None):
         return self._honor_flags(omitted_values)
@@ -157,8 +157,8 @@ class _SubClassSeamstress(_FlagSeamstress):
         super(_SubClassSeamstress, self).__init__(
             "subclasses", subclass, ("languages", "skills")
         )
-        self.dataset["features"] = {
-            x: y for x, y in self.dataset.get("features").items() if x <= level
+        self.tapestry["features"] = {
+            x: y for x, y in self.tapestry.get("features").items() if x <= level
         }
 
     def _honor_flags(self, omitted_values=None):
@@ -169,7 +169,7 @@ class _SubClassSeamstress(_FlagSeamstress):
                 continue
 
             bonus_choices = list()
-            bonus_options = self.dataset.get(flag)
+            bonus_options = self.tapestry.get(flag)
             bonus_options = self._omit_values(omitted_values, flag, bonus_options)
 
             num_of_instances = self.flags.get(flag)
@@ -181,9 +181,9 @@ class _SubClassSeamstress(_FlagSeamstress):
                 bonus_choices.append(bonus_choice)
                 _e(f"INFO: You chose the '{flag}' bonus > {bonus_choice}.", "green")
                 if len(bonus_choices) > 0:
-                    self.dataset[flag] = bonus_choices
+                    self.tapestry[flag] = bonus_choices
 
-        return self.dataset
+        return self.tapestry
 
     def _omit_values(self, values, flag, options):
         if type(values) is dict:
@@ -206,7 +206,7 @@ class _BaseRaceSeamstress(_FlagSeamstress):
 
     def _honor_flags(self):
         # Set alignment
-        base_alignment_options=(
+        base_alignment_options = (
             "Chaotic Evil",
             "Chaotic Good",
             "Chaotic Neutral",
@@ -218,33 +218,33 @@ class _BaseRaceSeamstress(_FlagSeamstress):
             "True Neutral",
         )
         alignment = prompt("What is your chosen alignment?", base_alignment_options)
-        self.dataset["alignment"] = alignment
+        self.tapestry["alignment"] = alignment
         _e(f"INFO: You set your alignment to > {alignment}.", "green")
 
         # Set base ancestry
-        base_ancestry_options = self.dataset.get("ancestry")
+        base_ancestry_options = self.tapestry.get("ancestry")
         if len(base_ancestry_options) == 0:
-            self.dataset["ancestry"] = None
+            self.tapestry["ancestry"] = None
         else:
             ancestry = prompt("What is your draconic ancestry?", base_ancestry_options)
-            self.dataset["ancestry"] = ancestry
-            self.dataset["resistances"] = [
-                self.dataset.get("resistances").get(ancestry)
+            self.tapestry["ancestry"] = ancestry
+            self.tapestry["resistances"] = [
+                self.tapestry.get("resistances").get(ancestry)
             ]
             _e(f"INFO: You set your draconic ancestry to > {ancestry}.", "green")
 
         # Set base languages
-        base_language_options = self.dataset.get("languages")
+        base_language_options = self.tapestry.get("languages")
         base_languages = list()
         for language in base_language_options:
             if type(language) is list:
                 base_languages += language
                 base_language_options.remove(language)
-        self.dataset["languages"] = base_languages
+        self.tapestry["languages"] = base_languages
 
         # Set base spells
         # base_spells = list()
-        base_spell_options = self.dataset.get("spells")
+        base_spell_options = self.tapestry.get("spells")
         if len(base_spell_options) != 0:
             if type(base_spell_options) is dict:
                 caster_level = int(
@@ -254,28 +254,28 @@ class _BaseRaceSeamstress(_FlagSeamstress):
                 for req_level, spell_list in base_spell_options.items():
                     if req_level <= caster_level:
                         base_spells += spell_list
-                self.dataset["spells"] = base_spells
+                self.tapestry["spells"] = base_spells
                 _e(f"INFO: You set your caster level to > {caster_level}.", "green")
 
         # Set base subrace
-        base_subrace_options = self.dataset.get("subrace")
+        base_subrace_options = self.tapestry.get("subrace")
         if len(base_subrace_options) == 0:
-            self.dataset["subrace"] = None
+            self.tapestry["subrace"] = None
         else:
             subrace = prompt("Choose your 'subrace'", base_subrace_options)
-            self.dataset["subrace"] = subrace
+            self.tapestry["subrace"] = subrace
             _e(f"INFO: You set your subrace to > {subrace}.", "green")
 
         # No flags actually specified
         if self.flags is None:
-            return self.dataset
+            return self.tapestry
 
         # Determine bonus languages, skills, proficiencies
         for proficiency in ("armors", "languages", "skills", "tools", "weapons"):
             if proficiency not in self.flags:
                 continue
             base_skills = list()
-            base_skill_options = self.dataset.get(proficiency)
+            base_skill_options = self.tapestry.get(proficiency)
             if len(base_skill_options) > 0:
                 num_of_instances = self.flags.get(proficiency)
                 for _ in range(num_of_instances):
@@ -289,9 +289,9 @@ class _BaseRaceSeamstress(_FlagSeamstress):
                         f"INFO: You chose the '{proficiency}' proficiency > {choice}.",
                         "green",
                     )
-                self.dataset[proficiency] = base_skills
+                self.tapestry[proficiency] = base_skills
 
-        return self.dataset
+        return self.tapestry
 
     def run(self):
         return self._honor_flags()
@@ -306,10 +306,10 @@ class _SubRaceSeamstress(_FlagSeamstress):
     def _honor_flags(self, omitted_values=None):
         # No flags actually specified
         if self.flags is None:
-            return self.dataset
+            return self.tapestry
 
         # Set base spells
-        base_spell_options = self.dataset.get("spells")
+        base_spell_options = self.tapestry.get("spells")
         if len(base_spell_options) != 0:
             base_spells = []
             if type(base_spell_options) is dict:
@@ -319,7 +319,7 @@ class _SubRaceSeamstress(_FlagSeamstress):
                 for req_level, spell_list in base_spell_options.items():
                     if req_level <= caster_level:
                         base_spells += spell_list
-                self.dataset["spells"] = base_spells
+                self.tapestry["spells"] = base_spells
                 _e(f"INFO: You set your caster level to > {caster_level}.", "green")
             if type(base_spell_options) is list:
                 if "spells" in self.flags:
@@ -332,14 +332,14 @@ class _SubRaceSeamstress(_FlagSeamstress):
                         base_spells.append(spell_choice)
                         base_spell_options.remove(spell_choice)
                         _e(f"You selected the spell > '{spell_choice}'", "green")
-                    self.dataset["spells"] = base_spells
+                    self.tapestry["spells"] = base_spells
 
         # Determine bonus languages, skills, proficiencies
         for proficiency in ("armors", "languages", "skills", "tools", "weapons"):
             if proficiency not in self.flags:
                 continue
             base_skills = list()
-            base_skill_options = self.dataset.get(proficiency)
+            base_skill_options = self.tapestry.get(proficiency)
             if len(base_skill_options) > 0:
                 num_of_instances = self.flags.get(proficiency)
                 for _ in range(num_of_instances):
@@ -353,27 +353,27 @@ class _SubRaceSeamstress(_FlagSeamstress):
                         f"INFO: You chose the '{proficiency}' proficiency > {choice}.",
                         "green",
                     )
-                self.dataset[proficiency] = base_skills
+                self.tapestry[proficiency] = base_skills
 
-        return self.dataset
+        return self.tapestry
 
     def run(self, omitted_values=None):
         return self._honor_flags(omitted_values)
 
 
-class DataSet:
+class MyTapestry:
     def __init__(self):
-        self.dataset = None
-        self.keywords = None
+        self.pattern = None
+        self.threads = None
 
-    def _toDataset(self):
-        dataset = namedtuple("Dataset", self.keywords)
-        return dataset(**self.dataset)
+    def _toTapestry(self):
+        pattern = namedtuple("MyTapestry", self.threads)
+        return pattern(**self.pattern)
 
     def _toDict(self):
-        return self.dataset
+        return self.pattern
 
-    def parse_dataset(self, a, b=None):
+    def sew_tapestry(self, a, b=None):
         if type(a) is not dict:
             raise Error("First parameter must be of type 'dict'.")
         if type(b) is not dict and type(b) is not None:
@@ -414,35 +414,35 @@ class DataSet:
                         a[key] = list(set(a_list + value))
 
         raw_dataset = a
-        self.keywords = list(raw_dataset.keys())
-        self.keywords.sort()
+        self.threads = list(raw_dataset.keys())
+        self.threads.sort()
         sorted_dataset = {}
-        for keyword in self.keywords:
+        for keyword in self.threads:
             if keyword in raw_dataset:
                 sorted_dataset[keyword] = raw_dataset.get(keyword)
 
-        self.dataset = sorted_dataset
+        self.pattern = sorted_dataset
 
-    def read_dataset(self, to_dict=False):
+    def view(self, to_dict=False):
         if not to_dict:
-            self.dataset = self._toDataset()
+            self.pattern = self._toTapestry()
         else:
-            self.dataset = self._toDict()
+            self.pattern = self._toDict()
 
-        return self.dataset
+        return self.pattern
 
 
-class ClassSeamstress(DataSet):
+class ClassSeamstress(MyTapestry):
     def __init__(self, klass, omitted_values=None):
         a = _BaseClassSeamstress(klass).run(omitted_values)
         b = _SubClassSeamstress(a.get("subclass"), a.get("level")).run(omitted_values)
 
-        super(DataSet, self).__init__()
-        self.parse_dataset(a, b)
-        self.data = self.read_dataset(True)
+        super(MyTapestry, self).__init__()
+        self.sew_tapestry(a, b)
+        self.data = self.view(True)
 
 
-class RaceSeamstress(DataSet):
+class RaceSeamstress(MyTapestry):
     def __init__(self, race, sex):
         a = _BaseRaceSeamstress(race).run()
         subrace = a.get("subrace")
@@ -456,9 +456,9 @@ class RaceSeamstress(DataSet):
         a["height"] = height
         a["weight"] = weight
 
-        super(DataSet, self).__init__()
-        self.parse_dataset(a, b)
-        self.data = self.read_dataset(True)
+        super(MyTapestry, self).__init__()
+        self.sew_tapestry(a, b)
+        self.data = self.view(True)
 
 
 class AnthropometricCalculator:
@@ -551,3 +551,68 @@ class AnthropometricCalculator:
             height_calculation = (feet, inches)
 
         return height_calculation, weight_calculation
+
+
+class AttributeGenerator:
+    def __init__(self, ability, bonus, threshold=65):
+        self._ability = ability
+        self._bonus = bonus
+        self.threshold = threshold
+
+    def roll(self):
+        def determine_ability_scores(threshold):
+            def _roll():
+                rolls = list(roll("4d6"))
+                rolls.remove(min(rolls))
+                return sum(rolls)
+
+            results = list()
+            while sum(results) < threshold or min(results) < 8 or max(results) < 15:
+                results = [_roll() for _ in range(6)]
+            return results
+
+        from collections import OrderedDict
+
+        score_array = OrderedDict()
+        score_array["Strength"] = None
+        score_array["Dexterity"] = None
+        score_array["Constitution"] = None
+        score_array["Intelligence"] = None
+        score_array["Wisdom"] = None
+        score_array["Charisma"] = None
+
+        ability_choices = [
+            "Strength",
+            "Dexterity",
+            "Constitution",
+            "Intelligence",
+            "Wisdom",
+            "Charisma",
+        ]
+
+        # Generate six ability scores
+        # Assign primary class abilities first
+        # Assign the remaining abilities
+        # Apply racial bonuses
+        generated_scores = determine_ability_scores(self.threshold)
+        for ability in self._ability:
+            value = max(generated_scores)
+            score_array[ability] = value
+            ability_choices.remove(ability)
+            generated_scores.remove(value)
+            _e(f"INFO: Ability '{ability}' set to {value}.", "green")
+        for _ in range(0, 4):
+            from random import choice
+
+            ability = choice(ability_choices)
+            value = choice(generated_scores)
+            score_array[ability] = value
+            ability_choices.remove(ability)
+            generated_scores.remove(value)
+            _e(f"INFO: Ability '{ability}' set to {value}.", "yellow")
+        for ability, bonus in self._bonus.items():
+            value = score_array.get(ability) + bonus
+            score_array[ability] = value
+            _e(f"INFO: Bonus of {bonus} applied to '{ability}' ({value}).", "green")
+
+        return score_array

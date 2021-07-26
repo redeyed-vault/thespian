@@ -20,81 +20,6 @@ from utils import (
 )
 
 
-@dataclass
-class _AttributeBuilder:
-    """
-    Assigns abilities by class, and adds racial bonuses in value/modifier pairs.
-
-    primary_ability dict: Primary class abilities
-    racial_bonus dict: Racial ability scores bonus
-    threshold int: Required minimum ability score total
-
-    """
-
-    primary_ability: Dict[int, str]
-    racial_bonus: Dict[str, int]
-    threshold: Type[int] = 65
-
-    def roll(self) -> OrderedDict:
-        """
-        Generates character's ability scores.
-
-        """
-
-        def determine_ability_scores(threshold: Type[int]) -> List[int]:
-            def _roll() -> Type[int]:
-                rolls = list(roll("4d6"))
-                rolls.remove(min(rolls))
-                return sum(rolls)
-
-            results = list()
-            while sum(results) < threshold or min(results) < 8 or max(results) < 15:
-                results = [_roll() for _ in range(6)]
-            return results
-
-        score_array = OrderedDict()
-        score_array["Strength"] = None
-        score_array["Dexterity"] = None
-        score_array["Constitution"] = None
-        score_array["Intelligence"] = None
-        score_array["Wisdom"] = None
-        score_array["Charisma"] = None
-
-        ability_choices = [
-            "Strength",
-            "Dexterity",
-            "Constitution",
-            "Intelligence",
-            "Wisdom",
-            "Charisma",
-        ]
-
-        # Generate six ability scores
-        # Assign primary class abilities first
-        # Assign the remaining abilities
-        # Apply racial bonuses
-        generated_scores = determine_ability_scores(self.threshold)
-        for ability in self.primary_ability:
-            value = max(generated_scores)
-            score_array[ability] = value
-            ability_choices.remove(ability)
-            generated_scores.remove(value)
-            _e(f"INFO: Ability '{ability}' set to {value}.", "green")
-        for _ in range(0, 4):
-            ability = choice(ability_choices)
-            value = choice(generated_scores)
-            score_array[ability] = value
-            ability_choices.remove(ability)
-            generated_scores.remove(value)
-            _e(f"INFO: Ability '{ability}' set to {value}.", "yellow")
-        for ability, bonus in self.racial_bonus.items():
-            value = score_array.get(ability) + bonus
-            score_array[ability] = value
-            _e(f"INFO: Bonus of {bonus} applied to '{ability}' ({value}).", "green")
-
-        return score_array
-
-
 class _ImprovementGenerator:
     def __init__(
         self,
@@ -285,9 +210,7 @@ class _ImprovementGenerator:
             elif feat == "Weapon Master" and "Martial" in self.weapons:
                 return False
 
-        def get_feat_requirements(
-            feat_name: str, use_local: bool = True
-        ):
+        def get_feat_requirements(feat_name: str, use_local: bool = True):
             """Returns all requirements for feat_name."""
             return Load.get_columns(
                 feat_name, "required", source_file="feats", use_local=use_local
@@ -523,35 +446,6 @@ class Yari:
         self.weight = rdata.get("weight")
 
     def run(self):
-        if "random" in self.bonus:
-            bonus_ability_count = self.bonus.get("random")
-            del self.bonus["random"]
-            if type(bonus_ability_count) is not int:
-                return
-            allowed_bonus_abilities = (
-                "Strength",
-                "Dexterity",
-                "Constitution",
-                "Intelligence",
-                "Wisdom",
-                "Charisma",
-            )
-            bonus_ability_choices = tuple(self.bonus.keys())
-            count_limit = len(allowed_bonus_abilities) - len(bonus_ability_choices)
-            if bonus_ability_count > count_limit:
-                raise Error(
-                    "The number of bonus abilities exceeds the number of allowed ability bonuses."
-                )
-            bonus_ability_choices = [
-                x for x in allowed_bonus_abilities if x not in bonus_ability_choices
-            ]
-            for _ in range(bonus_ability_count):
-                message = f"Choose your bonus ability"
-                bonus_ability_choice = prompt(message, bonus_ability_choices)
-                if bonus_ability_choice in bonus_ability_choices:
-                    self.bonus[bonus_ability_choice] = 1
-                    bonus_ability_choices.remove(bonus_ability_choice)
-
         # Run Ability Score Improvement generator
         u = _ImprovementGenerator(
             armors=self.armors,
@@ -583,7 +477,7 @@ class Yari:
 
 def main():
     app = ArgumentParser(
-        prog="Yari", description="Yari: A 5e Dungeons & Dragons character generator."
+        prog="Yari", description="A Dungeons & Dragons 5e character generator."
     )
     app.add_argument(
         "-race",
@@ -621,23 +515,24 @@ def main():
     race = args.race
     klass = args.klass
     sex = args.sex
-    # port = args.port
+    port = args.port
 
     # background = prompt("Choose your background", get_character_backgrounds())
     # _e(f"INFO: 'Character background '{background}' chosen.", "green")
 
-    from flags import RaceSeamstress, ClassSeamstress, DataSet
+    from flags import RaceSeamstress, ClassSeamstress, AttributeGenerator, MyTapestry
 
     a = RaceSeamstress(race, sex)
     b = ClassSeamstress(klass, a.data)
-    
+
     # Run Attribute generator
-    a.data["scores"] = _AttributeBuilder(b.data.get("ability"), a.data.get("bonus")).roll()
-    
-    c = DataSet()
-    c.parse_dataset(a.data, b.data)
-    d = c.read_dataset()
-    print(type(d))
+    a.data["scores"] = AttributeGenerator(
+        b.data.get("ability"), a.data.get("bonus")
+    ).roll()
+
+    c = MyTapestry()
+    c.sew_tapestry(a.data, b.data)
+    d = c.view()
     print(d)
 
     """
