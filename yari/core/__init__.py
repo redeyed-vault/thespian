@@ -1,20 +1,16 @@
 from argparse import ArgumentParser
 from collections import OrderedDict
-from dataclasses import dataclass
-from random import choice, sample
 import traceback
-from typing import Dict, List, Type
+from typing import List, Type
 
-from errors import Error
-from dice import roll
-from httpd import HTTPD
-from sources import Load
-from utils import (
-    get_character_backgrounds,
+from .errors import Error
+from .dice import roll
+from .httpd import HTTPD
+from .sources import Load
+from .utils import (
     get_character_classes,
     get_character_feats,
     get_character_races,
-    get_proficiency_bonus,
     prompt,
     _e,
 )
@@ -400,81 +396,6 @@ class _ImprovementGenerator:
                 num_of_upgrades -= 1
 
 
-class Yari:
-    def __init__(
-        self,
-        race: Type[str],
-        subrace: Type[str],
-        klass: Type[str],
-        subclass: Type[str],
-        alignment: Type[str],
-        level: Type[int] = 1,
-        sex: Type[str] = "Female",
-        background: Type[str] = "",
-    ):
-        super(Yari, self).__init__(
-            race, subrace, klass, subclass, level, sex, background
-        )
-        rdata = self._build_race(self.race, self.subrace, self.level)
-        cdata = self._build_class(self.klass, self.subclass, self.level, rdata)
-        self.abilities = cdata.get("abilities")
-        self.alignment = alignment
-        self.ancestor = None
-        self.armors = rdata.get("armors") + cdata.get("armors")
-        self.bonus = rdata.get("bonus")
-        self.bonusmagic = cdata.get("bonusmagic")
-        self.darkvision = rdata.get("darkvision")
-        self.equipment = cdata.get("equipment")
-        self.feats = None
-        self.features = cdata.get("features")
-        self.height = rdata.get("height")
-        self.hitdie = cdata.get("hit_die")
-        self.hitpoints = cdata.get("hitpoints")
-        self.innatemagic = rdata.get("innatemagic")
-        self.languages = rdata.get("languages")
-        self.proficiencybonus = get_proficiency_bonus(self.level)
-        self.resistances = rdata.get("resistances")
-        self.savingthrows = cdata.get("savingthrows")
-        self.scores = None
-        self.size = rdata.get("size")
-        self.skills = cdata.get("skills")
-        self.speed = rdata.get("speed")
-        self.spellslots = cdata.get("spellslots")
-        self.tools = rdata.get("tools") + cdata.get("tools")
-        self.traits = rdata.get("traits")
-        self.weapons = rdata.get("weapons") + cdata.get("weapons")
-        self.weight = rdata.get("weight")
-
-    def run(self):
-        # Run Ability Score Improvement generator
-        u = _ImprovementGenerator(
-            armors=self.armors,
-            feats=[],
-            klass=self.klass,
-            innatemagic=self.innatemagic,
-            languages=self.languages,
-            level=self.level,
-            race=self.race,
-            resistances=self.resistances,
-            saves=self.savingthrows,
-            score_array=self.scores,
-            skills=self.skills,
-            spell_slots=self.spellslots,
-            subclass=self.subclass,
-            subrace=self.subrace,
-            tools=self.tools,
-            weapons=self.weapons,
-        )
-        u.run()
-        self.armors = u.armors
-        self.feats = u.feats
-        self.innatemagic = u.innatemagic
-        self.languages = u.languages
-        self.resistances = u.resistances
-        self.tools = u.tools
-        self.weapons = u.weapons
-
-
 def main():
     app = ArgumentParser(
         prog="Yari", description="A Dungeons & Dragons 5e character generator."
@@ -517,11 +438,9 @@ def main():
     sex = args.sex
     port = args.port
 
-    # background = prompt("Choose your background", get_character_backgrounds())
-    # _e(f"INFO: 'Character background '{background}' chosen.", "green")
+    from .flags import RaceSeamstress, ClassSeamstress, AttributeGenerator, MyTapestry
 
-    from flags import RaceSeamstress, ClassSeamstress, AttributeGenerator, MyTapestry
-
+    # Generate racial and class attributes
     a = RaceSeamstress(race, sex)
     b = ClassSeamstress(klass, a.data)
 
@@ -530,15 +449,41 @@ def main():
         b.data.get("ability"), a.data.get("bonus")
     ).roll()
 
+    '''
+    # Run Ability Score Improvement generator
+    u = _ImprovementGenerator(
+        armors=self.armors,
+        feats=[],
+        klass=self.klass,
+        innatemagic=self.innatemagic,
+        languages=self.languages,
+        level=self.level,
+        race=self.race,
+        resistances=self.resistances,
+        saves=self.savingthrows,
+        score_array=self.scores,
+        skills=self.skills,
+        spell_slots=self.spellslots,
+        subclass=self.subclass,
+        subrace=self.subrace,
+        tools=self.tools,
+        weapons=self.weapons,
+    )
+    u.run()
+    self.armors = u.armors
+    self.feats = u.feats
+    self.innatemagic = u.innatemagic
+    self.languages = u.languages
+    self.resistances = u.resistances
+    self.tools = u.tools
+    self.weapons = u.weapons
+    '''
+
+    # Load final character tapestry
     c = MyTapestry()
     c.sew_tapestry(a.data, b.data)
-    d = c.view()
-    print(d)
-
-    """
     try:
-        with HTTPD(cs, port) as http:
+        with HTTPD(c.view(), port) as http:
             http.run()
     except (OSError, TypeError, ValueError) as e:
-        out(e, 2)
-    """
+        pass
