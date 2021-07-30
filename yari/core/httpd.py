@@ -1,6 +1,4 @@
 from collections import OrderedDict
-import socket
-from sys import exit
 from typing import Type
 
 from .errors import Error
@@ -51,7 +49,7 @@ class _AttributeWriter:
 
         ab = ""
         for attribute, attributes in attribs.items():
-            ab += f"<p><strong>{attribute}</strong> ({x._value})</p>"
+            ab += f"<p><strong>{attribute}</strong> ({attributes['value']})</p>"
             ab += "<p>"
             for index, value in attributes.items():
                 if index == "ability_checks":
@@ -195,19 +193,20 @@ class HTTPD:
         self._write = "</p>"
 
         self._write = _AttributeWriter.write(d.scores, d.skills)
-        print(self.text)
-        """
-        conn = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        location = ("127.0.0.1", port)
-        host, port = location
-        if conn.connect_ex(location) == 0:
-            raise Error(
-                f"Address {host}:{port} is already in use. Please use another "
-                "port with the '-port=<DIFFERENT_PORT>' argument or close the "
-                "process currently associated with this address."
-            )
-        conn.close()
 
+        self._write = "</body></html>"
+
+        async def index(request):
+            print(request.headers)
+            return web.Response(
+                content_type="text/html",
+                text=BeautifulSoup(self._write, "html.parser").prettify(),
+            )
+
+        app = web.Application()
+        app.router.add_get("/", index)
+        web.run_app(app, host="127.0.0.1", port=port)
+        """
         if not isinstance(self.data, OrderedDict):
             raise TypeError("Argument 'data' must be of type 'OrderedDict'.")
 
@@ -257,16 +256,4 @@ class HTTPD:
         self._write = self._append_features()
         self._write = self._append_magic()
         self._write = self._append_list("EQUIPMENT", self.data.get("equipment"))
-        self._write = "</body></html>"
-
-        async def index(request):
-            print(request.headers)
-            return web.Response(
-                content_type="text/html",
-                text=BeautifulSoup(self._write, "html.parser").prettify(),
-            )
-
-        app = web.Application()
-        app.router.add_get("/", index)
-        web.run_app(app, host="127.0.0.1", port=port)
         """
