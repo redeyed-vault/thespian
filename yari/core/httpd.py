@@ -1,4 +1,3 @@
-from collections import OrderedDict
 from typing import Type
 
 from .errors import Error
@@ -130,7 +129,7 @@ class HTTPD:
     def __init__(self, data: MyTapestry, port: Type[int] = 5000):
         self.data = data
         self.port = port
-        self.text: str = ""
+        self.text = ""
 
     def __enter__(self):
         return self
@@ -239,43 +238,6 @@ class HTTPD:
         app.router.add_get("/", index)
         web.run_app(app, host="127.0.0.1", port=port)
         """
-        if not isinstance(self.data, OrderedDict):
-            raise TypeError("Argument 'data' must be of type 'OrderedDict'.")
-
-        data_keys = (
-            "race",
-            "subrace",
-            "sex",
-            "alignment",
-            "background",
-            "size",
-            "height",
-            "weight",
-            "class",
-            "subclass",
-            "level",
-            "bonus",
-            "score_array",
-            "saves",
-            "proficiency",
-            "languages",
-            "magic_innate",
-            "spell_slots",
-            "skills",
-            "feats",
-            "equipment",
-            "features",
-            "traits",
-        )
-        if not all(dk in self.data for dk in data_keys):
-            raise ValueError(
-                "All data keys 'race', 'subrace', 'sex', 'alignment', "
-                "'background', 'size', 'height', 'weight', 'class', 'subclass', "
-                "'level', 'bonus', 'score_array', 'saves', 'proficiency', "
-                "'languages', 'magic_innate', 'spell_slots', 'skills', 'feats', "
-                "'equipment', 'features', 'traits' must have a value."
-            )
-
         self._write = self._append_list("Feats", self.data.get("feats"))
         self._write = self._append_list("RACIAL TRAITS", self.data.get("traits"))
         self._write = self._append_list(
