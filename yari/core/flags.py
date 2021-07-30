@@ -89,6 +89,7 @@ class _BaseClassSeamstress(_FlagSeamstress):
                 die_rolls.append(hp_result)
             self.tapestry["hp"] += sum(die_rolls)
 
+        self.tapestry["klass"] = klass
         self.tapestry["feats"] = list()
         self.tapestry["spellslots"] = self.tapestry.get("spellslots").get(level)
 
@@ -209,6 +210,7 @@ class _BaseRaceSeamstress(_FlagSeamstress):
             race,
             ("armors", "languages", "skills", "subrace", "tools", "weapons"),
         )
+        self.tapestry["race"] = race
 
     def _honor_flags(self):
         # Set alignment
@@ -463,6 +465,7 @@ class RaceSeamstress(MyTapestry):
         else:
             b = _SubRaceSeamstress(subrace).run(a)
 
+        a["sex"] = sex
         c = AnthropometricCalculator(race, sex, subrace)
         height, weight = c.calculate(True)
         a["height"] = height

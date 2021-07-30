@@ -5,9 +5,74 @@ from typing import Type
 
 from .errors import Error
 from .flags import MyTapestry
+from .sources import Load
 
 from aiohttp import web
 from bs4 import BeautifulSoup
+
+
+class _AttributeWriter:
+    def __init__(self, ability, value, skills):
+        self._ability = ability
+        self._value = value
+        self._skills = skills
+
+    def _get_attribute_array(self):
+        from math import floor
+
+        modifier = floor((self._value - 10) / 2)
+        attribute_array = dict()
+        attribute_array["ability_checks"] = modifier
+        attribute_array["saving_throws"] = modifier
+        attribute_array["value"] = self._value
+
+        if self._ability == "Strength":
+            attribute_array["carry_capacity"] = self._value * 15
+            attribute_array["push_pull_carry"] = attribute_array["carry_capacity"] * 2
+            attribute_array["maximum_lift"] = attribute_array["push_pull_carry"]
+
+        attribute_array["skills"] = list()
+        for skill in self._skills:
+            primary_ability = Load.get_columns(skill, "ability", source_file="skills")
+            if primary_ability != self._ability:
+                continue
+
+            attribute_array["skills"].append((skill, modifier))
+
+        return attribute_array
+
+    @classmethod
+    def write(cls, scores, skills):
+        attribs = dict()
+        x = None
+        for attribute in tuple(scores.keys()):
+            x = cls(attribute, scores.get(attribute), skills)
+            attribs[attribute] = x._get_attribute_array()
+
+        ab = ""
+        for attribute, attributes in attribs.items():
+            ab += f"<p><strong>{attribute}</strong> ({x._value})</p>"
+            ab += "<p>"
+            for index, value in attributes.items():
+                if index == "ability_checks":
+                    ab += f"Ability Checks {value}<br/>"
+                if index == "saving_throws":
+                    ab += f"Saving Throw Checks {value}<br/>"
+                if index == "carry_capacity":
+                    ab += f"Carry Capacity {value}<br/>"
+                if index == "push_pull_carry":
+                    ab += f"Push Pull Carry Capacity {value}<br/>"
+                if index == "maximum_lift":
+                    ab += f"Maximum Lift Capacity {value}<br/>"
+                if index == "skills":
+                    skill_list = attributes.get("skills")
+                    if len(skill_list) != 0:
+                        for pair in skill_list:
+                            skill, modifier = pair
+                            ab += f"{skill} Skill Checks {modifier}<br/>"
+            ab += "</p>"
+
+        return ab
 
 
 class HTTPD:
@@ -21,52 +86,6 @@ class HTTPD:
 
     def __exit__(self, exec_type, value, tb) -> None:
         pass
-
-    def _append_abilities(self):
-        def format_ability(attributes: dict):
-            ab = "<p><strong>{}</strong> ({})</p>".format(
-                attributes.get("name"),
-                attributes.get("value"),
-            )
-            ab += "<p>"
-            for index, value in attributes.items():
-                if index == "ability_checks":
-                    ab += f"Ability Checks {value}<br/>"
-                if index == "saving_throws":
-                    ab += f"Saving Throw Checks {value}<br/>"
-                if index == "skills":
-                    if len(value) != 0:
-                        for skill, modifier in value.items():
-                            ab += f"{skill} Skill Checks {modifier}<br/>"
-                if index == "carry_capacity":
-                    ab += f"Carry Capacity {value}<br/>"
-                if index == "push_pull_carry":
-                    ab += f"Push Pull Carry Capacity {value}<br/>"
-                if index == "maximum_lift":
-                    ab += f"Maximum Lift Capacity {value}<br/>"
-            ab += "</p>"
-            return ab
-
-        score_array = self.data.get("score_array")
-        strength = Strength(score_array.get("Strength"), self.data.get("skills"))
-        dexterity = Dexterity(score_array.get("Dexterity"), self.data.get("skills"))
-        constitution = Constitution(
-            score_array.get("Constitution"), self.data.get("skills")
-        )
-        intelligence = Intelligence(
-            score_array.get("Intelligence"), self.data.get("skills")
-        )
-        wisdom = Wisdom(score_array.get("Wisdom"), self.data.get("skills"))
-        charisma = Charisma(score_array.get("Charisma"), self.data.get("skills"))
-
-        block = "<p><strong>ABILITY SCORES</strong></p>"
-        block += format_ability(strength.attr)
-        block += format_ability(dexterity.attr)
-        block += format_ability(constitution.attr)
-        block += format_ability(intelligence.attr)
-        block += format_ability(wisdom.attr)
-        block += format_ability(charisma.attr)
-        return block
 
     def _append_features(self):
         block = "<p><strong>CLASS FEATURES</strong></p>"
@@ -141,8 +160,43 @@ class HTTPD:
         :param int port: Character server port number. Default port is 8080.
 
         """
-        print(self.data)
-        '''
+
+        def format_race(race, subrace):
+            if subrace != "":
+                race = f"{race}, {subrace}"
+            elif race == "HalfElf":
+                race = "Half-Elf"
+            elif race == "HalfOrc":
+                race = "Half-Orc"
+            elif race == "Yuanti":
+                race = "Yuan-ti"
+            else:
+                race = race
+            return race
+
+        d = self.data
+
+        self._write = "<!DOCTYPE html>"
+        self._write = "<html><head><title>Yari</title></head><body>"
+        self._write = "<p>"
+        self._write = f"<strong>Race:</strong> {format_race(d.race, d.subrace)}<br/>"
+        self._write = f"<strong>Sex: </strong>{d.sex}<br/>"
+        self._write = f"<strong>Alignment: </strong>{d.alignment}<br/>"
+        self._write = f"<strong>Background: </strong> {d.background}<br/>"
+        self._write = f"<strong>Height: </strong>{d.height}<br/>"
+        self._write = f"<strong>Weight: </strong>{d.weight}<br/>"
+        self._write = f"<strong>Size: </strong>{d.size}<br/>"
+        self._write = "</p>"
+
+        self._write = "<p>"
+        self._write = f"<strong>Class: </strong>{d.klass}<br/>"
+        self._write = f"<strong>Subclass: </strong>{d.subclass}<br/>"
+        self._write = f"<strong>Level: </strong>{d.level}<br/>"
+        self._write = "</p>"
+
+        self._write = _AttributeWriter.write(d.scores, d.skills)
+        print(self.text)
+        """
         conn = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         location = ("127.0.0.1", port)
         host, port = location
@@ -156,19 +210,6 @@ class HTTPD:
 
         if not isinstance(self.data, OrderedDict):
             raise TypeError("Argument 'data' must be of type 'OrderedDict'.")
-
-        def format_race():
-            if self.data.get("subrace") != "":
-                race = f'{self.data.get("race")}, {self.data.get("subrace")}'
-            elif self.data.get("race") == "HalfElf":
-                race = "Half-Elf"
-            elif self.data.get("race") == "HalfOrc":
-                race = "Half-Orc"
-            elif self.data.get("race") == "Yuanti":
-                race = "Yuan-ti"
-            else:
-                race = self.data.get("race")
-            return race
 
         data_keys = (
             "race",
@@ -204,28 +245,6 @@ class HTTPD:
                 "'equipment', 'features', 'traits' must have a value."
             )
 
-        (size_class, height, weight) = format_size()
-        self._write = "<!DOCTYPE html>"
-        self._write = "<html><head><title>Yari</title></head><body>"
-        self._write = "<p>"
-        self._write = f"<strong>Race:</strong> {format_race()}<br/>"
-        self._write = f'<strong>Sex: </strong>{self.data.get("sex")}<br/>'
-        self._write = f'<strong>Alignment: </strong>{self.data.get("alignment")}<br/>'
-        self._write = (
-            f'<strong>Background: </strong> {self.data.get("background")}<br/>'
-        )
-        self._write = f"<strong>Height: </strong>{height}<br/>"
-        self._write = f"<strong>Weight: </strong>{weight}<br/>"
-        self._write = f"<strong>Size: </strong>{size_class}<br/>"
-        self._write = "</p>"
-
-        self._write = "<p>"
-        self._write = f'<strong>Class: </strong>{self.data.get("class")}<br/>'
-        self._write = f'<strong>Subclass: </strong>{self.data.get("subclass")}<br/>'
-        self._write = f'<strong>Level: </strong>{self.data.get("level")}<br/>'
-        self._write = "</p>"
-
-        self._write = self._append_abilities()
         self._write = (
             f'<p><strong>Spell Slots: </strong>{self.data.get("spell_slots")}</p>'
         )
@@ -250,4 +269,4 @@ class HTTPD:
         app = web.Application()
         app.router.add_get("/", index)
         web.run_app(app, host="127.0.0.1", port=port)
-        '''
+        """

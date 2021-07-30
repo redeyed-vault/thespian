@@ -449,7 +449,7 @@ def main():
         b.data.get("ability"), a.data.get("bonus")
     ).roll()
 
-    '''
+    """
     # Run Ability Score Improvement generator
     u = _ImprovementGenerator(
         armors=self.armors,
@@ -477,7 +477,7 @@ def main():
     self.resistances = u.resistances
     self.tools = u.tools
     self.weapons = u.weapons
-    '''
+    """
 
     # Load final character tapestry
     c = MyTapestry()
