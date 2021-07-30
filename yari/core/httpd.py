@@ -73,6 +73,59 @@ class _AttributeWriter:
         return ab
 
 
+class _ProficiencyWriter:
+    def __init__(self, armors, languages, saving_throws, skills, tools, weapons):
+        self._armors = armors
+        self._languages = languages
+        self._saving_throws = saving_throws
+        self._skills = skills
+        self._tools = tools
+        self._weapons = weapons
+
+    def _sort_proficiencies(self):
+        for this_list in (
+            self._armors,
+            self._tools,
+            self._weapons,
+            self._languages,
+            self._saving_throws,
+            self._skills,
+        ):
+            this_list.sort()
+
+        return {
+            "armors": self._armors,
+            "tools": self._tools,
+            "weapons": self._weapons,
+            "languages": self._languages,
+            "saving_throws": self._saving_throws,
+            "skills": self._skills,
+        }
+
+    @classmethod
+    def write(cls, armors, languages, saving_throws, skills, tools, weapons):
+        x = cls(armors, languages, saving_throws, skills, tools, weapons)
+        types = x._sort_proficiencies()
+
+        block = "<p><strong>PROFICIENCIES</strong></p>"
+
+        for object_type in (
+            "armors",
+            "tools",
+            "weapons",
+            "languages",
+            "saving_throws",
+            "skills",
+        ):
+            block += f"<p><strong>{object_type.capitalize()}</strong></p>"
+            block += "<p>"
+            for obj in types.get(object_type):
+                block += f"{obj}<br/>"
+            block += "</p>"
+
+        return block
+
+
 class HTTPD:
     def __init__(self, data: MyTapestry, port: Type[int] = 5000):
         self.data = data
@@ -120,26 +173,6 @@ class HTTPD:
         block += "</p>"
         return block
 
-    def _append_proficiency(self):
-        def format_proficiencies(proficiencies: OrderedDict) -> str:
-            prof = ""
-            for type, proficiency_list in proficiencies.items():
-                prof += f"<p><strong>{type.capitalize()}</strong></p>"
-                prof += "<p>"
-                if isinstance(proficiency_list, list):
-                    proficiency_list.sort()
-                for proficiency in proficiency_list:
-                    prof += f"{proficiency}<br/>"
-                prof += "</p>"
-            return prof
-
-        block = "<p><strong>PROFICIENCIES</strong></p>"
-        block += format_proficiencies(self.data.get("proficiency"))
-        block += self._append_list("Languages", self.data.get("languages"))
-        block += self._append_list("Saving Throws", self.data.get("saves"))
-        block += self._append_list("Skills", self.data.get("skills"))
-        return block
-
     @property
     def _write(self):
         return self.text
@@ -152,13 +185,6 @@ class HTTPD:
             self.text = text
 
     def run(self, port: int = 8080) -> None:
-        """
-        Starts the HTTP character server.
-
-        :param int port: Character server port number. Default port is 8080.
-
-        """
-
         def format_race(race, subrace):
             if subrace != "":
                 race = f"{race}, {subrace}"
@@ -193,6 +219,12 @@ class HTTPD:
         self._write = "</p>"
 
         self._write = _AttributeWriter.write(d.scores, d.skills)
+
+        self._write = f"<p><strong>Spell Slots: </strong>{d.spellslots}</p>"
+
+        self._write = _ProficiencyWriter.write(
+            d.armors, d.languages, d.savingthrows, d.skills, d.tools, d.weapons
+        )
 
         self._write = "</body></html>"
 
@@ -244,10 +276,6 @@ class HTTPD:
                 "'equipment', 'features', 'traits' must have a value."
             )
 
-        self._write = (
-            f'<p><strong>Spell Slots: </strong>{self.data.get("spell_slots")}</p>'
-        )
-        self._write = self._append_proficiency()
         self._write = self._append_list("Feats", self.data.get("feats"))
         self._write = self._append_list("RACIAL TRAITS", self.data.get("traits"))
         self._write = self._append_list(
