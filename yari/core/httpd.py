@@ -43,7 +43,7 @@ class _AttributeWriter:
             x = cls(attribute, scores.get(attribute), skills)
             attribs[attribute] = x._get_attribute_array()
 
-        blk = ""
+        block = ""
         for attribute, attributes in attribs.items():
             block += f"<p><strong>{attribute}</strong> ({attributes['value']})</p>"
             block += "<p>"
