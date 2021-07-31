@@ -1,6 +1,3 @@
-from typing import Type
-
-from .errors import Error
 from .flags import MyTapestry
 from .sources import Load
 
@@ -39,39 +36,61 @@ class _AttributeWriter:
         return attribute_array
 
     @classmethod
-    def write(cls, scores, skills):
+    def write(cls, scores: dict, skills: list):
         attribs = dict()
         x = None
         for attribute in tuple(scores.keys()):
             x = cls(attribute, scores.get(attribute), skills)
             attribs[attribute] = x._get_attribute_array()
 
-        ab = ""
+        blk = ""
         for attribute, attributes in attribs.items():
-            ab += f"<p><strong>{attribute}</strong> ({attributes['value']})</p>"
-            ab += "<p>"
+            block += f"<p><strong>{attribute}</strong> ({attributes['value']})</p>"
+            block += "<p>"
             for index, value in attributes.items():
                 if index == "ability_checks":
-                    ab += f"Ability Checks {value}<br/>"
+                    block += f"Ability Checks {value}<br/>"
                 if index == "saving_throws":
-                    ab += f"Saving Throw Checks {value}<br/>"
+                    block += f"Saving Throw Checks {value}<br/>"
                 if index == "carry_capacity":
-                    ab += f"Carry Capacity {value}<br/>"
+                    block += f"Carry Capacity {value}<br/>"
                 if index == "push_pull_carry":
-                    ab += f"Push Pull Carry Capacity {value}<br/>"
+                    block += f"Push Pull Carry Capacity {value}<br/>"
                 if index == "maximum_lift":
-                    ab += f"Maximum Lift Capacity {value}<br/>"
+                    block += f"Maximum Lift Capacity {value}<br/>"
                 if index == "skills":
                     skill_list = attributes.get("skills")
                     if len(skill_list) != 0:
                         for pair in skill_list:
                             skill, modifier = pair
-                            ab += f"{skill} Skill Checks {modifier}<br/>"
-            ab += "</p>"
+                            block += f"{skill} Skill Checks {modifier}<br/>"
+            block += "</p>"
 
-        return ab
+        return block
 
 
+class _ListWriter:
+    def __init__(self, header: str, items: list):
+        self._header = header
+        self._items = items
+
+    @classmethod
+    def write(cls, header: str, items: list):
+        x = cls(header, items)
+        block = f"<p><strong>{header}</strong></p>"
+
+        if len(items) != 0:
+            items.sort()
+            block += "<p>"
+            for item in items:
+                block += f"{item}<br/>"
+            block += "</p>"
+        else:
+            block += "<p></p>"
+
+        return block
+        
+        
 class _ProficiencyWriter:
     def __init__(self, armors, languages, saving_throws, skills, tools, weapons):
         self._armors = armors
@@ -126,7 +145,7 @@ class _ProficiencyWriter:
 
 
 class HTTPD:
-    def __init__(self, data: MyTapestry, port: Type[int] = 5000):
+    def __init__(self, data: MyTapestry, port: int=5000):
         self.data = data
         self.port = port
         self.text = ""
@@ -143,16 +162,6 @@ class HTTPD:
         for level, _ in self.data.get("features").items():
             for feature in _:
                 block += f"{feature}<br/>"
-        block += "</p>"
-        return block
-
-    @staticmethod
-    def _append_list(header: str, items: list):
-        items.sort()
-        block = f"<p><strong>{header}</strong></p>"
-        block += "<p>"
-        for item in items:
-            block += f"{item}<br/>"
         block += "</p>"
         return block
 
@@ -183,7 +192,7 @@ class HTTPD:
         else:
             self.text = text
 
-    def run(self, port: int = 8080) -> None:
+    def run(self, port: int=8080) -> None:
         def format_race(race, subrace):
             if subrace != "":
                 race = f"{race}, {subrace}"
@@ -225,10 +234,15 @@ class HTTPD:
             d.armors, d.languages, d.savingthrows, d.skills, d.tools, d.weapons
         )
 
+        self._write = _ListWriter.write("FEATS", d.feats)
+
+        self._write = _ListWriter.write("RACIAL TRAITS", d.traits)
+
+        self._write = _ListWriter.write("INNATE SPELLCASTING", d.spells)
+
         self._write = "</body></html>"
 
         async def index(request):
-            print(request.headers)
             return web.Response(
                 content_type="text/html",
                 text=BeautifulSoup(self._write, "html.parser").prettify(),
@@ -238,11 +252,6 @@ class HTTPD:
         app.router.add_get("/", index)
         web.run_app(app, host="127.0.0.1", port=port)
         """
-        self._write = self._append_list("Feats", self.data.get("feats"))
-        self._write = self._append_list("RACIAL TRAITS", self.data.get("traits"))
-        self._write = self._append_list(
-            "Innate Spellcasting", self.data.get("magic_innate")
-        )
         self._write = self._append_features()
         self._write = self._append_magic()
         self._write = self._append_list("EQUIPMENT", self.data.get("equipment"))
