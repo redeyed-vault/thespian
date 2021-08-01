@@ -171,6 +171,35 @@ class _ProficiencyWriter:
         return block
 
 
+class _SpellWriter:
+    def __init__(self, klass, spells):
+        self._klass = klass
+        self._spells = spells
+
+    @classmethod
+    def write(cls, klass, spells):
+        x = cls(klass, spells)
+        magic_class = list()
+        for level, spells in self.data.get("magic_class").items():
+            for spell in spells:
+                if spell not in magic_class:
+                    magic_class.append(spell)
+
+        block = ""
+        if klass in ("Cleric", "Druid", "Paladin", "Warlock"):
+            title = "Circle (Druid), Domain (Cleric), Expanded (Warlock), Oath (Paladin) Spells"
+            block += f"<p><strong>{title}</strong></p>"
+            
+            block += "<p>"
+            if len(magic_class) > 0:
+                magic_class.sort()
+                for spell in magic_class:
+                    block += f"{spell}<br/>"
+            block += "</p>"
+
+        return block
+
+
 class HTTPD:
     def __init__(self, data: MyTapestry, port: int = 5000):
         self.data = data
@@ -182,22 +211,6 @@ class HTTPD:
 
     def __exit__(self, exec_type, value, tb) -> None:
         pass
-
-    def _append_magic(self):
-        magic_class = list()
-        for level, spells in self.data.get("magic_class").items():
-            for spell in spells:
-                if spell not in magic_class:
-                    magic_class.append(spell)
-
-        block = "<p><strong>Circle (Druid), Domain (Cleric), Expanded (Warlock), Oath (Paladin) Spells</strong></p>"
-        block += "<p>"
-        if len(magic_class) > 0:
-            magic_class.sort()
-            for spell in magic_class:
-                block += f"{spell}<br/>"
-        block += "</p>"
-        return block
 
     @property
     def _write(self):
