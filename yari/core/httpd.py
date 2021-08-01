@@ -69,6 +69,33 @@ class _AttributeWriter:
         return block
 
 
+class _FeatureWriter:
+    def __init__(self, features: dict):
+        self._features = features
+
+    def _format_features(self):
+        for _, features in self._features.items():
+            if type(features) is list:
+                features.sort()
+
+        return self._features
+
+    @classmethod
+    def write(cls, features: dict):
+        x = cls(features)
+        x._format_features()
+
+        block = "<p><strong>CLASS FEATURES</strong></p>"
+
+        block += "<p>"
+        for level, features in x._features.items():
+            for feature in features:
+                block += f"{level}.) {feature}<br/>"
+        block += "</p>"
+
+        return block
+
+
 class _ListWriter:
     def __init__(self, header: str, items: list):
         self._header = header
@@ -89,8 +116,8 @@ class _ListWriter:
             block += "<p></p>"
 
         return block
-        
-        
+
+
 class _ProficiencyWriter:
     def __init__(self, armors, languages, saving_throws, skills, tools, weapons):
         self._armors = armors
@@ -145,7 +172,7 @@ class _ProficiencyWriter:
 
 
 class HTTPD:
-    def __init__(self, data: MyTapestry, port: int=5000):
+    def __init__(self, data: MyTapestry, port: int = 5000):
         self.data = data
         self.port = port
         self.text = ""
@@ -155,15 +182,6 @@ class HTTPD:
 
     def __exit__(self, exec_type, value, tb) -> None:
         pass
-
-    def _append_features(self):
-        block = "<p><strong>CLASS FEATURES</strong></p>"
-        block += "<p>"
-        for level, _ in self.data.get("features").items():
-            for feature in _:
-                block += f"{feature}<br/>"
-        block += "</p>"
-        return block
 
     def _append_magic(self):
         magic_class = list()
@@ -192,7 +210,7 @@ class HTTPD:
         else:
             self.text = text
 
-    def run(self, port: int=8080) -> None:
+    def run(self, port: int = 8080) -> None:
         def format_race(race, subrace):
             if subrace != "":
                 race = f"{race}, {subrace}"
@@ -240,6 +258,12 @@ class HTTPD:
 
         self._write = _ListWriter.write("INNATE SPELLCASTING", d.spells)
 
+        self._write = _FeatureWriter.write(d.features)
+
+        # Placeholder for bonus magic
+
+        self._write = _ListWriter.write("EQUIPMENT", d.equipment)
+
         self._write = "</body></html>"
 
         async def index(request):
@@ -252,7 +276,5 @@ class HTTPD:
         app.router.add_get("/", index)
         web.run_app(app, host="127.0.0.1", port=port)
         """
-        self._write = self._append_features()
         self._write = self._append_magic()
-        self._write = self._append_list("EQUIPMENT", self.data.get("equipment"))
         """
