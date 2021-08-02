@@ -189,7 +189,7 @@ class _SpellWriter:
         if klass in ("Cleric", "Druid", "Paladin", "Warlock"):
             title = "Circle (Druid), Domain (Cleric), Expanded (Warlock), Oath (Paladin) Spells"
             block += f"<p><strong>{title}</strong></p>"
-            
+
             block += "<p>"
             if len(magic_class) > 0:
                 magic_class.sort()
