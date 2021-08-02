@@ -253,11 +253,8 @@ class _BaseRaceSeamstress(_FlagSeamstress):
         for language in base_language_options:
             if type(language) is list:
                 base_languages += language
-                base_language_options.remove(language)
-        self.tapestry["languages"] = base_languages
 
         # Set base spells
-        # base_spells = list()
         base_spell_options = self.tapestry.get("spells")
         if len(base_spell_options) != 0:
             if type(base_spell_options) is dict:
@@ -290,6 +287,7 @@ class _BaseRaceSeamstress(_FlagSeamstress):
                 continue
             base_skills = list()
             base_skill_options = self.tapestry.get(proficiency)
+            base_skill_options = [x for x in base_skill_options if type(x) is not list]
             if len(base_skill_options) > 0:
                 num_of_instances = self.flags.get(proficiency)
                 for _ in range(num_of_instances):
@@ -390,7 +388,7 @@ class MyTapestry:
     def sew_tapestry(self, a, b=None):
         if type(a) is not dict:
             raise Error("First parameter must be of type 'dict'.")
-        if type(b) is not dict and type(b) is not None:
+        if type(b) is not dict and b is not None:
             raise Error("Second parameter must be of type 'dict' or 'NoneType'.")
 
         if "flags" in a:
@@ -460,16 +458,16 @@ class RaceSeamstress(MyTapestry):
     def __init__(self, race, sex):
         a = _BaseRaceSeamstress(race).run()
         subrace = a.get("subrace")
-        if subrace is None:
+        if type(subrace) is not str or subrace == "":
             b = None
         else:
             b = _SubRaceSeamstress(subrace).run(a)
 
-        a["sex"] = sex
         c = AnthropometricCalculator(race, sex, subrace)
         height, weight = c.calculate(True)
         a["height"] = height
         a["weight"] = weight
+        a["sex"] = sex
 
         super(MyTapestry, self).__init__()
         self.sew_tapestry(a, b)
