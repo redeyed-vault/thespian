@@ -438,7 +438,12 @@ def main():
     sex = args.sex
     port = args.port
 
-    from .seamstress import RaceSeamstress, ClassSeamstress, AttributeGenerator, MyTapestry
+    from .seamstress import (
+        RaceSeamstress,
+        ClassSeamstress,
+        AttributeGenerator,
+        MyTapestry,
+    )
 
     # Generate racial and class attributes
     a = RaceSeamstress(race, sex)
