@@ -486,4 +486,4 @@ def main():
         with HTTPD(c.view(), port) as http:
             http.run()
     except (OSError, TypeError, ValueError) as e:
-        pass
+        exit(e)
