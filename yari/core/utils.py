@@ -50,22 +50,3 @@ def prompt(message: Text, options: Union[list, tuple]) -> Type[str]:
         return prompt(message, options.values())
     except RecursionError:
         return None
-
-
-def sample_choice(choices: list) -> list:
-    """Randomly returns a list of choices."""
-    if len(choices) >= 2:
-        last_value = choices[-1]
-        if isinstance(last_value, int):
-            choices.pop()
-            return sample(choices, last_value)
-    return choices
-
-
-def truncate_dict(dict_to_truncate: dict, ceiling: int) -> dict:
-    """
-
-    :param dict dict_to_truncate:
-    :param int ceiling:
-    """
-    return {x: y for (x, y) in dict_to_truncate.items() if x <= ceiling}

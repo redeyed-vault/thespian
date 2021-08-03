@@ -1,4 +1,4 @@
-from .flags import MyTapestry
+from .seamstress import MyTapestry
 from .sources import Load
 
 from aiohttp import web
