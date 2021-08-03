@@ -15,25 +15,25 @@ class _AttributeWriter:
         from math import floor
 
         modifier = floor((self._value - 10) / 2)
-        attribute_array = dict()
-        attribute_array["ability_checks"] = modifier
-        attribute_array["saving_throws"] = modifier
-        attribute_array["value"] = self._value
+        arr = dict()
+        arr["ability_checks"] = modifier
+        arr["saving_throws"] = modifier
+        arr["value"] = self._value
 
         if self._ability == "Strength":
-            attribute_array["carry_capacity"] = self._value * 15
-            attribute_array["push_pull_carry"] = attribute_array["carry_capacity"] * 2
-            attribute_array["maximum_lift"] = attribute_array["push_pull_carry"]
+            arr["carry_capacity"] = self._value * 15
+            arr["push_pull_carry"] = arr["carry_capacity"] * 2
+            arr["maximum_lift"] = arr["push_pull_carry"]
 
-        attribute_array["skills"] = list()
+        arr["skills"] = list()
         for skill in self._skills:
             primary_ability = Load.get_columns(skill, "ability", source_file="skills")
             if primary_ability != self._ability:
                 continue
 
-            attribute_array["skills"].append((skill, modifier))
+            arr["skills"].append((skill, modifier))
 
-        return attribute_array
+        return arr
 
     @classmethod
     def write(cls, scores: dict, skills: list):
@@ -104,12 +104,12 @@ class _ListWriter:
     @classmethod
     def write(cls, header: str, items: list):
         x = cls(header, items)
-        block = f"<p><strong>{header}</strong></p>"
+        block = f"<p><strong>{x._header}</strong></p>"
 
-        if len(items) != 0:
-            items.sort()
+        if len(x._items) != 0:
+            x._items.sort()
             block += "<p>"
-            for item in items:
+            for item in x._items:
                 block += f"{item}<br/>"
             block += "</p>"
         else:
@@ -172,30 +172,41 @@ class _ProficiencyWriter:
 
 
 class _SpellWriter:
-    def __init__(self, klass, spells):
+    def __init__(self, klass, level, spells):
         self._klass = klass
+        self._level = level
         self._spells = spells
 
     @classmethod
-    def write(cls, klass, spells):
-        x = cls(klass, spells)
-        magic_class = list()
-        for level, spells in self.data.get("magic_class").items():
-            for spell in spells:
-                if spell not in magic_class:
-                    magic_class.append(spell)
+    def write(cls, klass, level, spells):
+        x = cls(klass, level, spells)
+        extended_spells = list()
+        for spell_level, spell_list in x._spells.items():
+            if spell_level <= x._level:
+                extended_spells += spell_list
 
         block = ""
         if klass in ("Cleric", "Druid", "Paladin", "Warlock"):
-            title = "Circle (Druid), Domain (Cleric), Expanded (Warlock), Oath (Paladin) Spells"
-            block += f"<p><strong>{title}</strong></p>"
+            if x._klass == "Cleric":
+                title = "DOMAIN"
+            elif x._klass == "Druid":
+                title = "CIRCLE"
+            elif x._klass == "Warlock":
+                title = "EXPANDED"
+            elif x._klass == "Paladin":
+                title = "OATH"
+            else:
+                title = "EXTRA"
+            block += f"<p><strong>{title} SPELLS</strong></p>"
 
-            block += "<p>"
-            if len(magic_class) > 0:
-                magic_class.sort()
-                for spell in magic_class:
+            if len(extended_spells) == 0:
+                block = "<p></p>"
+            else:
+                extended_spells.sort()
+                block += "<p>"
+                for spell in extended_spells:
                     block += f"{spell}<br/>"
-            block += "</p>"
+                block += "</p>"
 
         return block
 
@@ -264,17 +275,11 @@ class HTTPD:
         self._write = _ProficiencyWriter.write(
             d.armors, d.languages, d.savingthrows, d.skills, d.tools, d.weapons
         )
-
         self._write = _ListWriter.write("FEATS", d.feats)
-
         self._write = _ListWriter.write("RACIAL TRAITS", d.traits)
-
         self._write = _ListWriter.write("INNATE SPELLCASTING", d.spells)
-
         self._write = _FeatureWriter.write(d.features)
-
-        # Placeholder for bonus magic
-
+        self._write = _SpellWriter.write(d.klass, d.level, d.bonusmagic)
         self._write = _ListWriter.write("EQUIPMENT", d.equipment)
 
         self._write = "</body></html>"
@@ -288,6 +293,3 @@ class HTTPD:
         app = web.Application()
         app.router.add_get("/", index)
         web.run_app(app, host="127.0.0.1", port=port)
-        """
-        self._write = self._append_magic()
-        """
