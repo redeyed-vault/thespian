@@ -32,7 +32,7 @@ Planning to eventually incorporate content from *Tasha's Cauldron of Everything*
 
 To use the 'testing' version of Yari, simply clone it:
 
-```git clone -b testing https://github.com/taylormarcus/Yari.git```
+```git clone https://github.com/taylormarcus/Yari.git```
 
 
 #### USAGE
