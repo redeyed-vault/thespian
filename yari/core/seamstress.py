@@ -1,10 +1,11 @@
 from abc import ABC, abstractmethod
-from collections import namedtuple
+from collections import OrderedDict, namedtuple
+import traceback
 
 from .dice import roll
 from .errors import Error
 from .sources import Load
-from .utils import _e, prompt
+from .utils import _e, get_character_feats, prompt
 
 
 class _FlagSeamstress(ABC):
@@ -56,7 +57,7 @@ class _FlagSeamstress(ABC):
         return sewn_flags
 
     @abstractmethod
-    def run():
+    def run(self):
         pass
 
 
@@ -242,7 +243,7 @@ class _BaseRaceSeamstress(_FlagSeamstress):
             _e(f"INFO: You set your draconic ancestry to > {ancestry}.", "green")
 
         # Set base background
-        base_background_options = result = Load.get_columns(source_file="backgrounds")
+        base_background_options = Load.get_columns(source_file="backgrounds")
         background = prompt("What is your background?", base_background_options)
         self.tapestry["background"] = background
         _e(f"INFO: 'Character background '{background}' chosen.", "green")
@@ -449,7 +450,7 @@ class ClassSeamstress(MyTapestry):
         a = _BaseClassSeamstress(klass).run(omitted_values)
         b = _SubClassSeamstress(a.get("subclass"), a.get("level")).run(omitted_values)
 
-        super(MyTapestry, self).__init__()
+        super(ClassSeamstress, self).__init__()
         self.sew_tapestry(a, b)
         self.data = self.view(True)
 
@@ -469,7 +470,7 @@ class RaceSeamstress(MyTapestry):
         a["weight"] = weight
         a["sex"] = sex
 
-        super(MyTapestry, self).__init__()
+        super(RaceSeamstress, self).__init__()
         self.sew_tapestry(a, b)
         self.data = self.view(True)
 
@@ -564,68 +565,3 @@ class AnthropometricCalculator:
             height_calculation = (feet, inches)
 
         return height_calculation, weight_calculation
-
-
-class AttributeGenerator:
-    def __init__(self, ability, bonus, threshold=65):
-        self._ability = ability
-        self._bonus = bonus
-        self.threshold = threshold
-
-    def roll(self):
-        def determine_ability_scores(threshold):
-            def _roll():
-                rolls = list(roll("4d6"))
-                rolls.remove(min(rolls))
-                return sum(rolls)
-
-            results = list()
-            while sum(results) < threshold or min(results) < 8 or max(results) < 15:
-                results = [_roll() for _ in range(6)]
-            return results
-
-        from collections import OrderedDict
-
-        score_array = OrderedDict()
-        score_array["Strength"] = None
-        score_array["Dexterity"] = None
-        score_array["Constitution"] = None
-        score_array["Intelligence"] = None
-        score_array["Wisdom"] = None
-        score_array["Charisma"] = None
-
-        ability_choices = [
-            "Strength",
-            "Dexterity",
-            "Constitution",
-            "Intelligence",
-            "Wisdom",
-            "Charisma",
-        ]
-
-        # Generate six ability scores
-        # Assign primary class abilities first
-        # Assign the remaining abilities
-        # Apply racial bonuses
-        generated_scores = determine_ability_scores(self.threshold)
-        for ability in self._ability:
-            value = max(generated_scores)
-            score_array[ability] = value
-            ability_choices.remove(ability)
-            generated_scores.remove(value)
-            _e(f"INFO: Ability '{ability}' set to {value}.", "green")
-        for _ in range(0, 4):
-            from random import choice
-
-            ability = choice(ability_choices)
-            value = choice(generated_scores)
-            score_array[ability] = value
-            ability_choices.remove(ability)
-            generated_scores.remove(value)
-            _e(f"INFO: Ability '{ability}' set to {value}.", "yellow")
-        for ability, bonus in self._bonus.items():
-            value = score_array.get(ability) + bonus
-            score_array[ability] = value
-            _e(f"INFO: Bonus of {bonus} applied to '{ability}' ({value}).", "green")
-
-        return score_array

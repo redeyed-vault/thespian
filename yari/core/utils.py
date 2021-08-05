@@ -46,6 +46,8 @@ def prompt(message: Text, options: Union[list, tuple]) -> Type[str]:
             return options[user_value]
         else:
             raise ValueError
+    except KeyboardInterrupt:
+        exit("\nThank you for using YARI! Exiting...")
     except ValueError:
         return prompt(message, options.values())
     except RecursionError:
