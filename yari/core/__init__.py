@@ -1,7 +1,8 @@
 from argparse import ArgumentParser
 
 from .dice import AttributeGenerator
-from .httpd import HTTPD
+from .httpd import HTTPd
+from .levelup import AbilityScoreImprovement
 from .seamstress import (
     RaceSeamstress,
     ClassSeamstress,
@@ -67,27 +68,32 @@ def main():
         b.data.get("ability"), a.data.get("bonus")
     ).roll()
 
+    c = MyTapestry()
+    c.sew_tapestry(a.data, b.data)
+
     """
+    print(c.view(True))
     # Run Ability Score Improvement generator
     u = AbilityScoreImprovement(
-        armors=self.armors,
+        armors=a["armors"],
         feats=[],
-        klass=self.klass,
-        innatemagic=self.innatemagic,
-        languages=self.languages,
-        level=self.level,
-        race=self.race,
-        resistances=self.resistances,
-        saves=self.savingthrows,
-        score_array=self.scores,
-        skills=self.skills,
-        spell_slots=self.spellslots,
-        subclass=self.subclass,
-        subrace=self.subrace,
-        tools=self.tools,
-        weapons=self.weapons,
+        klass=b["klass"],
+        innatemagic=a["spells"],
+        languages=a["languages"],
+        level=a["level"],
+        race=a["race"],
+        resistances=a["resistances"],
+        saves=a["savingthrows"],
+        score_array=a["scores"],
+        skills=a["skills"],
+        spell_slots=a["spellslots"],
+        subclass=a["subclass"],
+        subrace=a["subrace"],
+        tools=a["tools"],
+        weapons=a["weapons"],
     )
     u.run()
+    
     self.armors = u.armors
     self.feats = u.feats
     self.innatemagic = u.innatemagic
@@ -97,11 +103,8 @@ def main():
     self.weapons = u.weapons
     """
 
-    # Load final character tapestry
-    c = MyTapestry()
-    c.sew_tapestry(a.data, b.data)
     try:
-        with HTTPD(c.view(), port) as http:
+        with HTTPd(c.view(), port) as http:
             http.run()
     except (OSError, TypeError, ValueError) as e:
         exit(e)
