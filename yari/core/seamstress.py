@@ -230,7 +230,7 @@ class _BaseRaceSeamstress(_FlagSeamstress):
         self.tapestry["alignment"] = alignment
         _e(f"INFO: You set your alignment to > {alignment}.", "green")
 
-        # Set base ancestry
+        # Set base ancestry, for Dragonborn characters.
         base_ancestry_options = self.tapestry.get("ancestry")
         if len(base_ancestry_options) == 0:
             self.tapestry["ancestry"] = None
@@ -259,7 +259,8 @@ class _BaseRaceSeamstress(_FlagSeamstress):
 
         self.tapestry["languages"] = actual_base_languages
 
-        # For HalfElf, Humans, and Tabaxi characters.
+        # Set additional base language, if applicable.
+        # For HalfElf, Human, and Tabaxi characters.
         if len(base_language_options) != 0:
             additional_language = prompt(
                 "What additional language do you want?", base_language_options
@@ -281,7 +282,7 @@ class _BaseRaceSeamstress(_FlagSeamstress):
                 self.tapestry["spells"] = base_spells
                 _e(f"INFO: You set your caster level to > {caster_level}.", "green")
 
-        # Set base subrace
+        # Set base subrace, if applicable
         base_subrace_options = self.tapestry.get("subrace")
         if len(base_subrace_options) == 0:
             self.tapestry["subrace"] = None
@@ -290,7 +291,7 @@ class _BaseRaceSeamstress(_FlagSeamstress):
             self.tapestry["subrace"] = subrace
             _e(f"INFO: You set your subrace to > {subrace}.", "green")
 
-        # No flags actually specified
+        # No flags actually specified in configuration
         if self.flags is None:
             return self.tapestry
 
@@ -397,22 +398,34 @@ class MyTapestry:
     def _toDict(self):
         return self.pattern
 
-    def sew_tapestry(self, a, b=None):
+    def view(self, to_dict=False):
+        if not to_dict:
+            self.pattern = self._toTapestry()
+        else:
+            self.pattern = self._toDict()
+
+        return self.pattern
+
+    def weave_tapestry(self, a, b=None):
         if type(a) is not dict:
             raise Error("First parameter must be of type 'dict'.")
         if type(b) is not dict and b is not None:
             raise Error("Second parameter must be of type 'dict' or 'NoneType'.")
 
+        # Remove flags index, if applicable
         if "flags" in a:
             del a["flags"]
         if type(b) is dict and "flags" in b:
             del b["flags"]
 
+        # Merge a and b dictionaries, if applicable.
         if type(b) is dict:
             for key, value in b.items():
+                # If index not availble in root dictionary.
                 if key not in a:
                     a[key] = value
                     continue
+                # Merge dicts
                 if type(value) is dict:
                     a_dict = a.get(key)
                     for subkey, subvalue in value.items():
@@ -426,12 +439,14 @@ class MyTapestry:
                         else:
                             a[key][subkey] = a_dict.get(subkey) + subvalue
                     continue
+                # Merge integers
                 if type(value) is int:
                     a_int = a.get(key)
                     if type(a_int) is not int:
                         continue
                     if value > a_int:
                         a[key] = value
+                # Merge lists
                 if type(value) is list:
                     a_list = a.get(key)
                     if type(a_list) is list:
@@ -448,14 +463,6 @@ class MyTapestry:
 
         self.pattern = sorted_dataset
 
-    def view(self, to_dict=False):
-        if not to_dict:
-            self.pattern = self._toTapestry()
-        else:
-            self.pattern = self._toDict()
-
-        return self.pattern
-
 
 class ClassSeamstress(MyTapestry):
     def __init__(self, klass, omitted_values=None):
@@ -463,7 +470,7 @@ class ClassSeamstress(MyTapestry):
         b = _SubClassSeamstress(a.get("subclass"), a.get("level")).run(omitted_values)
 
         super().__init__()
-        self.sew_tapestry(a, b)
+        self.weave_tapestry(a, b)
         self.data = self.view(True)
 
 
@@ -485,5 +492,5 @@ class RaceSeamstress(MyTapestry):
         a["sex"] = sex
 
         super().__init__()
-        self.sew_tapestry(a, b)
+        self.weave_tapestry(a, b)
         self.data = self.view(True)
