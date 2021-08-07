@@ -69,28 +69,29 @@ def main():
     ).roll()
 
     c = MyTapestry()
-    c.sew_tapestry(a.data, b.data)
+    c.weave_tapestry(a.data, b.data)
 
     """
-    print(c.view(True))
+    d = c.view(True)
+    print(d)
     # Run Ability Score Improvement generator
     u = AbilityScoreImprovement(
-        armors=a["armors"],
+        armors=d["armors"],
         feats=[],
-        klass=b["klass"],
-        innatemagic=a["spells"],
-        languages=a["languages"],
-        level=a["level"],
-        race=a["race"],
-        resistances=a["resistances"],
-        saves=a["savingthrows"],
-        score_array=a["scores"],
-        skills=a["skills"],
-        spell_slots=a["spellslots"],
-        subclass=a["subclass"],
-        subrace=a["subrace"],
-        tools=a["tools"],
-        weapons=a["weapons"],
+        klass=d["klass"],
+        innatemagic=d["spells"],
+        languages=d["languages"],
+        level=d["level"],
+        race=d["race"],
+        resistances=d["resistances"],
+        saves=d["savingthrows"],
+        score_array=d["scores"],
+        skills=d["skills"],
+        spell_slots=d["spellslots"],
+        subclass=d["subclass"],
+        subrace=d["subrace"],
+        tools=d["tools"],
+        weapons=d["weapons"],
     )
     u.run()
     
