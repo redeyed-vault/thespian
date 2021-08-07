@@ -246,14 +246,26 @@ class _BaseRaceSeamstress(_FlagSeamstress):
         base_background_options = Load.get_columns(source_file="backgrounds")
         background = prompt("What is your background?", base_background_options)
         self.tapestry["background"] = background
-        _e(f"INFO: 'Character background '{background}' chosen.", "green")
+        _e(f"INFO: Character background '{background}' chosen.", "green")
 
         # Set base languages
         base_language_options = self.tapestry.get("languages")
-        base_languages = list()
+        actual_base_languages = list()
         for language in base_language_options:
             if type(language) is list:
-                base_languages += language
+                base_language_options.remove(language)
+                actual_base_languages = language
+                break
+
+        self.tapestry["languages"] = actual_base_languages
+
+        # For HalfElf, Humans, and Tabaxi characters.
+        if len(base_language_options) != 0:
+            additional_language = prompt(
+                "What additional language do you want?", base_language_options
+            )
+            self.tapestry["languages"].append(additional_language)
+            _e(f"INFO: Character language '{additional_language}' chosen.", "green")
 
         # Set base spells
         base_spell_options = self.tapestry.get("spells")
@@ -282,13 +294,12 @@ class _BaseRaceSeamstress(_FlagSeamstress):
         if self.flags is None:
             return self.tapestry
 
-        # Determine bonus languages, skills, proficiencies
-        for proficiency in ("armors", "languages", "skills", "tools", "weapons"):
+        # Determine bonus armors, skills, tools proficiencies
+        for proficiency in ("armors", "skills", "tools", "weapons"):
             if proficiency not in self.flags:
                 continue
             base_skills = list()
             base_skill_options = self.tapestry.get(proficiency)
-            base_skill_options = [x for x in base_skill_options if type(x) is not list]
             if len(base_skill_options) > 0:
                 num_of_instances = self.flags.get(proficiency)
                 for _ in range(num_of_instances):
@@ -426,6 +437,7 @@ class MyTapestry:
                     if type(a_list) is list:
                         a[key] = list(set(a_list + value))
 
+        # Resort dictionary by keys
         raw_dataset = a
         self.threads = list(raw_dataset.keys())
         self.threads.sort()
