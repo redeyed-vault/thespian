@@ -176,12 +176,15 @@ class SpellWriter:
     @classmethod
     def write(cls, klass, level, spells):
         x = cls(klass, level, spells)
+        block = ""
+        if x._spells is None:
+            return block
+
         extended_spells = list()
         for spell_level, spell_list in x._spells.items():
             if spell_level <= x._level:
                 extended_spells += spell_list
 
-        block = ""
         if klass in ("Cleric", "Druid", "Paladin", "Warlock"):
             if x._klass == "Cleric":
                 title = "DOMAIN"
@@ -195,13 +198,10 @@ class SpellWriter:
                 title = "EXTRA"
             block += f"<p><strong>{title} SPELLS</strong></p>"
 
-            if len(extended_spells) == 0:
-                block = "<p></p>"
-            else:
-                extended_spells.sort()
-                block += "<p>"
-                for spell in extended_spells:
-                    block += f"{spell}<br/>"
-                block += "</p>"
+            extended_spells.sort()
+            block += "<p>"
+            for spell in extended_spells:
+                block += f"{spell}<br/>"
+            block += "</p>"
 
         return block
