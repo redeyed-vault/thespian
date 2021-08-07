@@ -12,7 +12,7 @@ from aiohttp import web
 from bs4 import BeautifulSoup
 
 
-class HTTPD:
+class HTTPd:
     def __init__(self, data: MyTapestry, port: int = 5000):
         self.data = data
         self.port = port
