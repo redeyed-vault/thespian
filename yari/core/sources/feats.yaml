@@ -6,12 +6,12 @@ feats:
         Charisma: 1
       armor: []
       flags: ability,-1
-      language: ~
+      languages: []
       resistance: []
-      skill: ~
+      skills: []
       speed: 0
       spell: ~
-      tool: []
+      tools: []
       weapon: []
     required:
       ability: ~
@@ -25,12 +25,12 @@ feats:
       ability: ~
       armor: []
       flags: none
-      language: ~
+      languages: []
       resistance: []
-      skills: ~
+      skills: []
       speed: 0
       spell: ~
-      tool: []
+      tools: []
       weapon: []
     required:
       ability: ~
@@ -46,12 +46,12 @@ feats:
         Dexterity: 1
       armor: []
       flags: ability,1
-      language: ~
+      languages: []
       resistance: []
-      skill: ~
+      skills: []
       speed: 0
       spell: ~
-      tool: []
+      tools: []
       weapon: []
     required:
       ability: ~
@@ -65,12 +65,12 @@ feats:
       ability: ~
       armor: []
       flags: none
-      language: ~
+      languages: []
       resistance: []
-      skills: ~
+      skills: []
       speed: 0
       spell: ~
-      tool: []
+      tools: []
       weapon: []
     required:
       ability: ~
@@ -84,12 +84,12 @@ feats:
       ability: ~
       armor: []
       flags: none
-      language: ~
+      languages: []
       resistance: []
-      skill: ~
+      skills: []
       speed: 0
       spell: ~
-      tool: []
+      tools: []
       weapon: []
     required:
       ability: ~
@@ -103,12 +103,12 @@ feats:
       ability: ~
       armor: []
       flags: none
-      language: ~
+      languages: []
       resistance: []
-      skill: ~
+      skills: []
       speed: 0
       spell: ~
-      tool: []
+      tools: []
       weapon: []
     required:
       ability: ~
@@ -122,12 +122,12 @@ feats:
       ability: ~
       armor: []
       flags: none
-      language: ~
+      languages: []
       resistance: []
       skills: ~
       speed: 0
       spell: ~
-      tool: []
+      tools: []
       weapon: []
     required:
       ability:
@@ -145,12 +145,12 @@ feats:
         Charisma: 1
       armor: []
       flags: ability,1
-      language: ~
+      languages: []
       resistance: []
-      skill: ~
+      skills: []
       speed: 0
       spell: ~
-      tool: []
+      tools: []
       weapon: []
     required:
       ability: ~
@@ -167,12 +167,12 @@ feats:
         Charisma: 1
       armor: []
       flags: ability,1
-      language: ~
+      languages: []
       resistance: []
-      skill: ~
+      skills: []
       speed: 0
       spell: ~
-      tool: []
+      tools: []
       weapon: []
     required:
       ability: ~
@@ -186,12 +186,12 @@ feats:
       ability: ~
       armor: []
       flags: spell,-1
-      language: ~
+      languages: []
       resistance: []
-      skills: ~
+      skills: []
       speed: 0
       spell: ['Detect Magic', 'Dispel Magic', 'Levitate']
-      tool: []
+      tools: []
       weapon: []
     required:
       ability: ~
@@ -205,12 +205,12 @@ feats:
       ability: ~
       armor: []
       flags: none
-      language: ~
+      languages: []
       resistance: []
-      skills: ~
+      skills: []
       speed: 0
       spell: ~
-      tool: []
+      tools: []
       weapon: []
     required:
       ability: ~
@@ -224,12 +224,12 @@ feats:
       ability: ~
       armor: []
       flags: none
-      language: ~
+      languages: []
       resistance: ['Traps']
-      skills: ~
+      skills: []
       speed: 0
       spell: ~
-      tool: []
+      tools: []
       weapon: []
     required:
       ability: ~
@@ -244,12 +244,12 @@ feats:
         Constitution: 1
       armor: []
       flags: ability,-1
-      language: ~
-      skills: ~
+      languages: []
       resistance: []
+      skills: []
       speed: 0
       spell: ~
-      tool: []
+      tools: []
       weapon: []
     required:
       ability: ~
@@ -264,12 +264,12 @@ feats:
         Constitution: 1
       armor: []
       flags: ability,-1
-      language: ~
+      languages: []
       resistance: []
-      skill: ~
+      skills: []
       speed: 0
       spell: ~
-      tool: []
+      tools: []
       weapon: []
     required:
       ability: ~
@@ -283,12 +283,12 @@ feats:
       ability: ~
       armor: []
       flags: none
-      language: ~
+      languages: []
       resistance: []
-      skill: ~
+      skills: []
       speed: 0
       spell: ~
-      tool: []
+      tools: []
       weapon: []
     required:
       ability: ~
@@ -306,12 +306,12 @@ feats:
         Charisma: 1
       armor: []
       flags: ability,1
-      language: ~
+      languages: []
       resistance: []
-      skills: ~
+      skills: []
       speed: 0
       spell: ~
-      tool: []
+      tools: []
       weapon: []
     required:
       ability: ~
@@ -327,12 +327,12 @@ feats:
         Intelligence: 1
       armor: []
       flags: ability,1
-      language: ~
+      languages: []
       resistance: []
-      skill: ~
+      skills: []
       speed: 0
       spell: ~
-      tool: []
+      tools: []
       weapon: []
     required:
       ability: ~
@@ -348,12 +348,12 @@ feats:
         Charisma: 1
       armor: []
       flags: ability,1
-      language: ['Sylvan']
+      languages: ['Sylvan']
       resistance: []
-      skills: ~
+      skills: []
       speed: 0
       spell: ['Misty Step']
-      tool: []
+      tools: []
       weapon: []
     required:
       ability: ~
@@ -367,12 +367,12 @@ feats:
       ability: ~
       armor: []
       flags: ~
-      language: ~
+      languages: []
       resistance: []
-      skills: ~
+      skills: []
       speed: 0
       spell: ~
-      tool: []
+      tools: []
       weapon: []
     required:
       ability: ~
@@ -386,12 +386,12 @@ feats:
       ability: ~
       armor: []
       flags: none
-      language: ~
+      languages: []
       resistance: []
-      skills: ~
+      skills: []
       speed: 0
       spell: ~
-      tool: []
+      tools: []
       weapon: []
     required:
       ability:
@@ -406,12 +406,12 @@ feats:
       ability: ~
       armor: []
       flags: none
-      language: ~
+      languages: []
       resistance: []
-      skills: ~
+      skills: []
       speed: 0
       spell: ~
-      tool: []
+      tools: []
       weapon: []
     required:
       ability: ~
@@ -425,12 +425,12 @@ feats:
       ability: ~
       armor: []
       flags: none
-      language: ~
+      languages: []
       resistance: []
-      skills: ~
+      skills: []
       speed: 0
       spell: ~
-      tool: []
+      tools: []
       weapon: []
     required:
       ability: ~
@@ -445,12 +445,12 @@ feats:
         Strength: 1
       armor: ['Heavy']
       flags: ability,-1|armor,-1
-      language: ~
+      languages: []
       resistance: []
-      skills: ~
+      skills: []
       speed: 0
       spell: ~
-      tool: []
+      tools: []
       weapon: []
     required:
       ability: ~
@@ -466,12 +466,12 @@ feats:
         Strength: 1
       armor: []
       flags: ability,-1
-      language: ~
+      languages: []
       resistance: []
-      skills: ~
+      skills: []
       speed: 0
       spell: ~
-      tool: []
+      tools: []
       weapon: []
     required:
       ability: ~
@@ -487,12 +487,12 @@ feats:
         Constitution: 1
       armor: []
       flags: resistance,-1
-      language: ~
+      languages: []
       resistance: ['Cold', 'Poison']
-      skills: ~
+      skills: []
       speed: 0
       spell: ~
-      tool: []
+      tools: []
       weapon: []
     required:
       ability: ~
@@ -506,12 +506,12 @@ feats:
       ability: ~
       armor: []
       flags: none
-      language: ~
+      languages: []
       resistance: []
-      skills: ~
+      skills: []
       speed: 0
       spell: ~
-      tool: []
+      tools: []
       weapon: []
     required:
       ability:
@@ -527,12 +527,12 @@ feats:
         Intelligence: 1
       armor: []
       flags: ability,-1
-      language: ~
+      languages: []
       resistance: []
-      skills: ~
+      skills: []
       speed: 0
       spell: ~
-      tool: []
+      tools: []
       weapon: []
     required:
       ability: ~
@@ -548,12 +548,12 @@ feats:
         Dexterity: 1
       armor: ['Light']
       flags: ability,1|armor,-1
-      language: ~
+      languages: []
       resistance: []
-      skills: ~
+      skills: []
       speed: 0
       spell: ~
-      tool: []
+      tools: []
       weapon: []
     required:
       ability: ~
@@ -567,8 +567,8 @@ feats:
       ability:
         Intelligence: 1
       armor: []
-      flags: ability,-1|language,3
-      language:
+      flags: ability,-1|languages,3
+      languages:
         - Abyssal
         - Celestial
         - Common
@@ -586,10 +586,10 @@ feats:
         - Sylvan
         - Undercommon
       resistance: []
-      skills: ~
+      skills: []
       speed: 0
       spell: ~
-      tool: []
+      tools: []
       weapon: []
     required:
       ability: ~
@@ -603,12 +603,12 @@ feats:
       ability: ~
       armor: []
       flags: none
-      language: ~
+      languages: []
       resistance: []
-      skills: ~
+      skills: []
       speed: 0
       spell: ~
-      tool: []
+      tools: []
       weapon: []
     required:
       ability: ~
@@ -622,12 +622,12 @@ feats:
       ability: ~
       armor: []
       flags: none
-      language: ~
+      languages: []
       resistance: []
-      skills: ~
+      skills: []
       speed: 0
       spell: ~
-      tool: []
+      tools: []
       weapon: []
     required:
       ability: ~
@@ -641,12 +641,12 @@ feats:
       ability: ~
       armor: []
       flags: none
-      language: ~
+      languages: []
       resistance: []
-      skills: ~
+      skills: []
       speed: 0
       spell: ~
-      tool: []
+      tools: []
       weapon: []
     required:
       ability: ~
@@ -660,12 +660,12 @@ feats:
       ability: ~
       armor: []
       flags: none
-      language: ~
+      languages: []
       resistance: []
-      skills: ~
+      skills: []
       speed: 0
       spell: ~
-      tool: []
+      tools: []
       weapon: []
     required:
       ability: ~
@@ -679,12 +679,12 @@ feats:
       ability: ~
       armor: []
       flags: none
-      language: ~
+      languages: []
       resistance: []
-      skills: ~
+      skills: []
       speed: 0
       spell: ~
-      tool: []
+      tools: []
       weapon: []
     required:
       ability: ~
@@ -699,12 +699,12 @@ feats:
       ability: ~
       armor: []
       flags: none
-      language: ~
+      languages: []
       resistance: []
-      skills: ~
+      skills: []
       speed: 10
       spell: ~
-      tool: []
+      tools: []
       weapon: []
     required:
       ability: ~
@@ -720,12 +720,12 @@ feats:
         Dexterity: 1
       armor: ['Medium', 'Shields']
       flags: ability,1|armor,-1
-      language: ~
+      languages: []
       resistance: []
-      skills: ~
+      skills: []
       speed: 0
       spell: ~
-      tool: []
+      tools: []
       weapon: []
     required:
       ability: ~
@@ -740,12 +740,12 @@ feats:
       ability: ~
       armor: []
       flags: none
-      language: ~
+      languages: []
       resistance: []
-      skills: ~
+      skills: []
       speed: 0
       spell: ~
-      tool: []
+      tools: []
       weapon: []
     required:
       ability: ~
@@ -761,12 +761,12 @@ feats:
         Wisdom: 1
       armor: []
       flags: ability,1
-      language: ~
+      languages: []
       resistance: []
-      skills: ~
+      skills: []
       speed: 0
       spell: ~
-      tool: []
+      tools: []
       weapon: []
     required:
       ability: ~
@@ -782,12 +782,12 @@ feats:
         Constitution: 1
       armor: []
       flags: ability,1
-      language: ~
+      languages: []
       resistance: []
-      skills: ~
+      skills: []
       speed: 0
       spell: ~
-      tool: []
+      tools: []
       weapon: []
     required:
       ability: ~
@@ -801,12 +801,12 @@ feats:
       ability: ~
       armor: []
       flags: none
-      language: ~
+      languages: []
       resistance: []
-      skills: ~
+      skills: []
       speed: 0
       spell: ~
-      tool: []
+      tools: []
       weapon: []
     required:
       ability: ~
@@ -819,8 +819,8 @@ feats:
     perk:
       ability: ~
       armor: []
-      flags: language,1|skill,1|tool,1
-      language:
+      flags: languages,1|skills,1|tools,1
+      languages:
         - Abyssal
         - Celestial
         - Common
@@ -838,7 +838,7 @@ feats:
         - Sylvan
         - Undercommon
       resistance: []
-      skill:
+      skills:
         - Acrobatics
         - Animal Handling
         - Arcana
@@ -859,7 +859,7 @@ feats:
         - Survival
       speed: 0
       spell: ~
-      tool:
+      tools:
         - Artisan's tools - Alchemists supplies
         - Artisan's tools - Brewer's supplies
         - Artisan's tools - Calligrapher's supplies
@@ -917,12 +917,12 @@ feats:
         Charisma: 1
       armor: []
       flags: ability,1|save,-1
-      language: ~
+      languages: []
       resistance: []
-      skills: ~
+      skills: []
       speed: 0
       spell: ~
-      tool: []
+      tools: []
       weapon: []
     required:
       ability: ~
@@ -936,12 +936,12 @@ feats:
       ability: ~
       armor: []
       flags: none
-      language: ~
+      languages: []
       resistance: []
-      skills: ~
+      skills: []
       speed: 0
       spell: ~
-      tool: []
+      tools: []
       weapon: []
     required:
       ability:
@@ -957,12 +957,12 @@ feats:
       ability: ~
       armor: []
       flags: none
-      language: ~
+      languages: []
       resistance: []
-      skills: ~
+      skills: []
       speed: 0
       spell: ~
-      tool: []
+      tools: []
       weapon: []
     required:
       ability: ~
@@ -979,12 +979,12 @@ feats:
         Charisma: 1
       armor: []
       flags: ability,1
-      language: ~
+      languages: []
       resistance: []
-      skills: ~
+      skills: []
       speed: 0
       spell: ~
-      tool: []
+      tools: []
       weapon: []
     required:
       ability: ~
@@ -996,9 +996,9 @@ feats:
   Sentinel:
     perk:
       ability: ~
-      language: ~
+      languages: []
       resistance: []
-      skills: ~
+      skills: []
       speed: 0
       spell: ~
     required:
@@ -1013,12 +1013,12 @@ feats:
       ability: ~
       armor: []
       flags: none
-      language: ~
+      languages: []
       resistance: []
-      skills: ~
+      skills: []
       speed: 0
       spell: ~
-      tool: []
+      tools: []
       weapon: []
     required:
       ability: ~
@@ -1032,12 +1032,12 @@ feats:
       ability: ~
       armor: []
       flags: none
-      language: ~
+      languages: []
       resistance: []
-      skills: ~
+      skills: []
       speed: 0
       spell: ~
-      tool: []
+      tools: []
       weapon: []
     required:
       ability: ~
@@ -1050,10 +1050,10 @@ feats:
     perk:
       ability: ~
       armor: []
-      flags: none
-      language: ~
+      flags: skills&&tools,3
+      languages: []
       resistance: []
-      skill:
+      skills:
         - Acrobatics
         - Animal Handling
         - Arcana
@@ -1074,7 +1074,7 @@ feats:
         - Survival
       speed: 0
       spell: ~
-      tool:
+      tools:
         - Artisan's tools - Alchemists supplies
         - Artisan's tools - Brewer's supplies
         - Artisan's tools - Calligrapher's supplies
@@ -1126,12 +1126,12 @@ feats:
       ability: ~
       armor: []
       flags: none
-      language: ~
+      languages: []
       resistance: []
-      skills: ~
+      skills: []
       speed: 0
       spell: ~
-      tool: []
+      tools: []
       weapon: []
     required:
       ability:
@@ -1146,12 +1146,12 @@ feats:
       ability: ~
       armor: []
       flags: none
-      language: ~
+      languages: []
       resistance: []
-      skills: ~
+      skills: []
       speed: 0
       spell: ~
-      tool: []
+      tools: []
       weapon: []
     required:
       ability: ~
@@ -1167,14 +1167,14 @@ feats:
         Dexterity: 1
       armor: []
       flags: ability,1
-      language: ~
+      languages: []
       resistance: []
       skills:
         - Acrobatics
         - Athletics
       speed: 5
       spell: ~
-      tool: []
+      tools: []
       weapon: []
     required:
       ability: ~
@@ -1188,12 +1188,12 @@ feats:
       ability: ~
       armor: []
       flags: spell,-1
-      language: ~
+      languages: []
       resistance: []
-      skills: ~
+      skills: []
       speed: 0
       spell: ['Blindness/Deafness', 'Blur', 'Disguise', 'Nondetection']
-      tool: []
+      tools: []
       weapon: []
     required:
       ability: ~
@@ -1209,12 +1209,12 @@ feats:
         Constitution: 1
       armor: []
       flags: weapon,-1
-      language: ~
+      languages: []
       resistance: []
-      skills: ~
+      skills: []
       speed: 0
       spell: ~
-      tool: []
+      tools: []
       weapon:
         - Improvised weapons
         - Unarmed strikes
@@ -1230,12 +1230,12 @@ feats:
       ability: ~
       armor: []
       flags: none
-      language: ~
+      languages: []
       resistance: []
-      skills: ~
+      skills: []
       speed: 0
       spell: ~
-      tool: []
+      tools: []
       weapon: []
     required:
       ability: ~
@@ -1249,12 +1249,12 @@ feats:
       ability: ~
       armor: []
       flags: none
-      language: ~
+      languages: []
       resistance: []
-      skills: ~
+      skills: []
       speed: 0
       spell: ~
-      tool: []
+      tools: []
       weapon: []
     required:
       ability: ~
@@ -1270,12 +1270,12 @@ feats:
         Dexterity: 1
       armor: []
       flags: weapon,4
-      language: ~
+      languages: []
       resistance: []
-      skills: ~
+      skills: []
       speed: 0
       spell: ~
-      tool: []
+      tools: []
       weapon:
         Simple:
           - Club
@@ -1328,15 +1328,15 @@ feats:
       ability: ~
       armor: []
       flags: spell,-1
-      language: ~
+      languages: []
       resistance: []
-      skills: ~
+      skills: []
       speed: 0
       spell:
         - ['Druidcraft', 'Guidance', 'Mending', 'Poison Spray', 'Produce Flame', 'Resistance', 'Shillelagh', 'Thorn Whip']
         - Longstrider
         - Pass Without Trace
-      tool: []
+      tools: []
       weapon: []
     required:
       ability: ~

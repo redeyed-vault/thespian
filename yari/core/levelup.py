@@ -11,15 +11,15 @@ class AbilityScoreImprovement:
         armors: str,
         feats: str,
         klass: str,
-        innatemagic: str,
+        spells: str,
         languages: str,
         level: int,
         race: str,
         resistances: str,
         saves: str,
-        score_array: OrderedDict,
+        scores: OrderedDict,
         skills: str,
-        spell_slots: str,
+        spellslots: str,
         subclass: str,
         subrace: str,
         tools: str,
@@ -28,15 +28,15 @@ class AbilityScoreImprovement:
         self.armors = armors
         self.feats = feats
         self.klass = klass
-        self.innatemagic = innatemagic
+        self.spells = spells
         self.languages = languages
         self.level = level
         self.race = race
         self.resistances = resistances
         self.saves = saves
-        self.score_array = score_array
+        self.scores = scores
         self.skills = skills
-        self.spell_slots = spell_slots
+        self.spellslots = spellslots
         self.subclass = subclass
         self.subrace = subrace
         self.tools = tools
@@ -111,7 +111,7 @@ class AbilityScoreImprovement:
                 if flag == "skill":
                     acquired_options = self.skills
                 if flag == "spell":
-                    acquired_options = self.innatemagic
+                    acquired_options = self.spells
                 if flag == "tool":
                     acquired_options = self.tools
                 if flag == "weapon":
@@ -211,7 +211,7 @@ class AbilityScoreImprovement:
             # Check ability requirements
             if requirement == "ability":
                 for ability, required_score in prerequisite.get(requirement).items():
-                    my_score = self.score_array[ability]
+                    my_score = self.scores[ability]
                     if my_score < required_score:
                         return False
 
@@ -220,7 +220,7 @@ class AbilityScoreImprovement:
                 # If caster prerequisite True
                 if prerequisite.get(requirement):
                     # Check if character has spellcasting ability
-                    if self.spell_slots == "0":
+                    if self.spellslots == "0":
                         return False
 
                     # Magic Initiative class check
@@ -239,10 +239,10 @@ class AbilityScoreImprovement:
                         my_score = 0
                         required_score = 0
                         if self.klass in ("Cleric", "Druid"):
-                            my_score = self.score_array.get("Wisdom")
+                            my_score = self.scores.get("Wisdom")
                             required_score = prerequisite.get("abilities").get("Wisdom")
                         elif self.klass == "Wizard":
-                            my_score = self.score_array.get("Intelligence")
+                            my_score = self.scores.get("Intelligence")
                             required_score = prerequisite.get("abilities").get(
                                 "Intelligence"
                             )
@@ -284,7 +284,7 @@ class AbilityScoreImprovement:
         """
         try:
             if isinstance(ability, str):
-                if (self.score_array[ability] + bonus) > 20:
+                if (self.scores[ability] + bonus) > 20:
                     raise ValueError
             else:
                 raise RuntimeError
@@ -303,12 +303,12 @@ class AbilityScoreImprovement:
 
         """
         try:
-            if not isinstance(self.score_array, OrderedDict):
-                raise TypeError("Object 'score_array' is not type 'OrderedDict'.")
+            if not isinstance(self.scores, OrderedDict):
+                raise TypeError("Object 'scores' is not type 'OrderedDict'.")
         except (KeyError, TypeError):
             traceback.print_exc()
-        new_score = self.score_array.get(ability) + bonus
-        self.score_array[ability] = new_score
+        new_score = self.scores.get(ability) + bonus
+        self.scores[ability] = new_score
         _e(f"INFO: Ability '{ability}' is now set to {new_score}.", "green")
 
     def run(self):

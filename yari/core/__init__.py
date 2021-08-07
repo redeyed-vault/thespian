@@ -71,34 +71,34 @@ def main():
     c = MyTapestry()
     c.weave_tapestry(a.data, b.data)
 
-    """
     d = c.view(True)
-    print(d)
     # Run Ability Score Improvement generator
     u = AbilityScoreImprovement(
         armors=d["armors"],
         feats=[],
         klass=d["klass"],
-        innatemagic=d["spells"],
         languages=d["languages"],
         level=d["level"],
         race=d["race"],
         resistances=d["resistances"],
         saves=d["savingthrows"],
-        score_array=d["scores"],
+        scores=d["scores"],
         skills=d["skills"],
-        spell_slots=d["spellslots"],
+        spells=d["spells"],
+        spellslots=d["spellslots"],
         subclass=d["subclass"],
         subrace=d["subrace"],
         tools=d["tools"],
         weapons=d["weapons"],
     )
     u.run()
-    
-    self.armors = u.armors
-    self.feats = u.feats
-    self.innatemagic = u.innatemagic
-    self.languages = u.languages
+
+    d["armors"] = u.armors
+    d["feats"] = u.feats
+    d["languages"] = u.languages
+    d["scores"] = u.scores
+    d["spells"] = u.spells
+    """
     self.resistances = u.resistances
     self.tools = u.tools
     self.weapons = u.weapons
