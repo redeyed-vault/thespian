@@ -457,6 +457,7 @@ races:
       - Primordial
       - Sylvan
       - Undercommon
+    resistances: []
     size: Medium
     skills: []
     speed: 30
