@@ -6,7 +6,6 @@ from .formatting import (
     SpellWriter,
 )
 from .seamstress import MyTapestry
-from .sources import Load
 
 from aiohttp import web
 from bs4 import BeautifulSoup

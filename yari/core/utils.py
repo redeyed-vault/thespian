@@ -1,6 +1,3 @@
-from random import sample
-from typing import Any, Dict, Text, Type, Union
-
 from colorama import init
 from termcolor import colored
 
@@ -9,7 +6,7 @@ init(autoreset=True)
 from .sources import Load
 
 
-def _e(message: Text, color):
+def _e(message, color):
     print(colored(message, color, attrs=["bold"]))
 
 
@@ -28,7 +25,7 @@ def get_character_races() -> tuple:
     return Load.get_row_ids(source_file="races")
 
 
-def prompt(message: Text, options: Union[list, tuple]) -> Type[str]:
+def prompt(message, options):
     """
     User input prompter function
 

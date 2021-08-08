@@ -1,11 +1,9 @@
 from abc import ABC, abstractmethod
-from collections import OrderedDict, namedtuple
-import traceback
+from collections import namedtuple
 
-from .dice import roll
 from .errors import Error
 from .sources import Load
-from .utils import _e, get_character_feats, prompt
+from .utils import _e, prompt
 
 
 class _FlagSeamstress(ABC):
