@@ -4,15 +4,15 @@ feats:
     perk:
       ability:
         Charisma: 1
-      armor: []
-      flags: ability,-1
+      armors: []
+      flags: ability=Charisma,1
       languages: []
-      resistance: []
+      resistances: []
       skills: []
       speed: 0
       spell: ~
       tools: []
-      weapon: []
+      weapons: []
     required:
       ability: ~
       caster: false
@@ -23,15 +23,15 @@ feats:
   Alert:
     perk:
       ability: ~
-      armor: []
+      armors: []
       flags: none
       languages: []
-      resistance: []
+      resistances: []
       skills: []
       speed: 0
       spell: ~
       tools: []
-      weapon: []
+      weapons: []
     required:
       ability: ~
       caster: false
@@ -44,15 +44,15 @@ feats:
       ability:
         Strength: 1
         Dexterity: 1
-      armor: []
-      flags: ability,1
+      armors: []
+      flags: ability=Strength&&Dexterity,1
       languages: []
-      resistance: []
+      resistances: []
       skills: []
       speed: 0
       spell: ~
       tools: []
-      weapon: []
+      weapons: []
     required:
       ability: ~
       caster: false
@@ -63,15 +63,15 @@ feats:
   Bountiful Luck:
     perk:
       ability: ~
-      armor: []
+      armors: []
       flags: none
       languages: []
-      resistance: []
+      resistances: []
       skills: []
       speed: 0
       spell: ~
       tools: []
-      weapon: []
+      weapons: []
     required:
       ability: ~
       caster: false
@@ -82,15 +82,15 @@ feats:
   Charger:
     perk:
       ability: ~
-      armor: []
+      armors: []
       flags: none
       languages: []
-      resistance: []
+      resistances: []
       skills: []
       speed: 0
       spell: ~
       tools: []
-      weapon: []
+      weapons: []
     required:
       ability: ~
       caster: false
@@ -101,15 +101,15 @@ feats:
   Crossbow Expert:
     perk:
       ability: ~
-      armor: []
+      armors: []
       flags: none
       languages: []
-      resistance: []
+      resistances: []
       skills: []
       speed: 0
       spell: ~
       tools: []
-      weapon: []
+      weapons: []
     required:
       ability: ~
       caster: false
@@ -120,15 +120,15 @@ feats:
   Defensive Duelist:
     perk:
       ability: ~
-      armor: []
+      armors: []
       flags: none
       languages: []
-      resistance: []
+      resistances: []
       skills: ~
       speed: 0
       spell: ~
       tools: []
-      weapon: []
+      weapons: []
     required:
       ability:
         Dexterity: 13
@@ -143,15 +143,15 @@ feats:
         Strength: 1
         Constitution: 1
         Charisma: 1
-      armor: []
-      flags: ability,1
+      armors: []
+      flags: ability=Strength&&Constitution&&Charisma,1
       languages: []
-      resistance: []
+      resistances: []
       skills: []
       speed: 0
       spell: ~
       tools: []
-      weapon: []
+      weapons: []
     required:
       ability: ~
       caster: false
@@ -165,15 +165,15 @@ feats:
         Strength: 1
         Constitution: 1
         Charisma: 1
-      armor: []
-      flags: ability,1
+      armors: []
+      flags: ability=Strength&&Dexterity&&Charisma,1
       languages: []
-      resistance: []
+      resistances: []
       skills: []
       speed: 0
       spell: ~
       tools: []
-      weapon: []
+      weapons: []
     required:
       ability: ~
       caster: false
@@ -184,15 +184,15 @@ feats:
   Drow High Magic:
     perk:
       ability: ~
-      armor: []
+      armors: []
       flags: spell,-1
       languages: []
-      resistance: []
+      resistances: []
       skills: []
       speed: 0
       spell: ['Detect Magic', 'Dispel Magic', 'Levitate']
       tools: []
-      weapon: []
+      weapons: []
     required:
       ability: ~
       caster: false
@@ -203,15 +203,15 @@ feats:
   Dual Wielder:
     perk:
       ability: ~
-      armor: []
+      armors: []
       flags: none
       languages: []
-      resistance: []
+      resistances: []
       skills: []
       speed: 0
       spell: ~
       tools: []
-      weapon: []
+      weapons: []
     required:
       ability: ~
       caster: false
@@ -222,15 +222,15 @@ feats:
   Dungeon Delver:
     perk:
       ability: ~
-      armor: []
+      armors: []
       flags: none
       languages: []
-      resistance: ['Traps']
+      resistances: ['Traps']
       skills: []
       speed: 0
       spell: ~
       tools: []
-      weapon: []
+      weapons: []
     required:
       ability: ~
       caster: false
@@ -242,15 +242,15 @@ feats:
     perk:
       ability:
         Constitution: 1
-      armor: []
-      flags: ability,-1
+      armors: []
+      flags: ability=Constitution,1
       languages: []
-      resistance: []
+      resistances: []
       skills: []
       speed: 0
       spell: ~
       tools: []
-      weapon: []
+      weapons: []
     required:
       ability: ~
       caster: false
@@ -262,15 +262,15 @@ feats:
     perk:
       ability:
         Constitution: 1
-      armor: []
-      flags: ability,-1
+      armors: []
+      flags: ability=Constitution,1
       languages: []
-      resistance: []
+      resistances: []
       skills: []
       speed: 0
       spell: ~
       tools: []
-      weapon: []
+      weapons: []
     required:
       ability: ~
       caster: false
@@ -281,15 +281,15 @@ feats:
   Elemental Adept:
     perk:
       ability: ~
-      armor: []
+      armors: []
       flags: none
       languages: []
-      resistance: []
+      resistances: []
       skills: []
       speed: 0
       spell: ~
       tools: []
-      weapon: []
+      weapons: []
     required:
       ability: ~
       caster: true
@@ -304,15 +304,15 @@ feats:
         Intelligence: 1
         Wisdom: 1
         Charisma: 1
-      armor: []
-      flags: ability,1
+      armors: []
+      flags: ability=Dexterity&&Intelligence&&Wisdom&&Charisma,1
       languages: []
-      resistance: []
+      resistances: []
       skills: []
       speed: 0
       spell: ~
       tools: []
-      weapon: []
+      weapons: []
     required:
       ability: ~
       caster: false
@@ -325,15 +325,15 @@ feats:
       ability:
         Dexterity: 1
         Intelligence: 1
-      armor: []
-      flags: ability,1
+      armors: []
+      flags: ability=Dexterity&&Intelligence,1
       languages: []
-      resistance: []
+      resistances: []
       skills: []
       speed: 0
       spell: ~
       tools: []
-      weapon: []
+      weapons: []
     required:
       ability: ~
       caster: false
@@ -346,15 +346,15 @@ feats:
       ability:
         Intelligence: 1
         Charisma: 1
-      armor: []
-      flags: ability,1
+      armors: []
+      flags: ability=Intelligence&&Charisma,1
       languages: ['Sylvan']
-      resistance: []
+      resistances: []
       skills: []
       speed: 0
       spell: ['Misty Step']
       tools: []
-      weapon: []
+      weapons: []
     required:
       ability: ~
       caster: false
@@ -365,15 +365,15 @@ feats:
   Flames of Phlegethos:
     perk:
       ability: ~
-      armor: []
+      armors: []
       flags: ~
       languages: []
-      resistance: []
+      resistances: []
       skills: []
       speed: 0
       spell: ~
       tools: []
-      weapon: []
+      weapons: []
     required:
       ability: ~
       caster: false
@@ -384,15 +384,15 @@ feats:
   Grappler:
     perk:
       ability: ~
-      armor: []
+      armors: []
       flags: none
       languages: []
-      resistance: []
+      resistances: []
       skills: []
       speed: 0
       spell: ~
       tools: []
-      weapon: []
+      weapons: []
     required:
       ability:
         Strength: 13
@@ -404,15 +404,15 @@ feats:
   Great Weapon Master:
     perk:
       ability: ~
-      armor: []
+      armors: []
       flags: none
       languages: []
-      resistance: []
+      resistances: []
       skills: []
       speed: 0
       spell: ~
       tools: []
-      weapon: []
+      weapons: []
     required:
       ability: ~
       caster: false
@@ -423,15 +423,15 @@ feats:
   Healer:
     perk:
       ability: ~
-      armor: []
+      armors: []
       flags: none
       languages: []
-      resistance: []
+      resistances: []
       skills: []
       speed: 0
       spell: ~
       tools: []
-      weapon: []
+      weapons: []
     required:
       ability: ~
       caster: false
@@ -443,15 +443,15 @@ feats:
     perk:
       ability:
         Strength: 1
-      armor: ['Heavy']
-      flags: ability,-1|armor,-1
+      armors: ['Heavy']
+      flags: ability=Strength,1|armors,-1
       languages: []
-      resistance: []
+      resistances: []
       skills: []
       speed: 0
       spell: ~
       tools: []
-      weapon: []
+      weapons: []
     required:
       ability: ~
       caster: false
@@ -464,15 +464,15 @@ feats:
     perk:
       ability:
         Strength: 1
-      armor: []
-      flags: ability,-1
+      armors: []
+      flags: ability=Strength,1
       languages: []
-      resistance: []
+      resistances: []
       skills: []
       speed: 0
       spell: ~
       tools: []
-      weapon: []
+      weapons: []
     required:
       ability: ~
       caster: false
@@ -485,15 +485,15 @@ feats:
     perk:
       ability:
         Constitution: 1
-      armor: []
-      flags: resistance,-1
+      armors: []
+      flags: ability=Constitution|resistances,0
       languages: []
-      resistance: ['Cold', 'Poison']
+      resistances: ['Cold', 'Poison']
       skills: []
       speed: 0
       spell: ~
       tools: []
-      weapon: []
+      weapons: []
     required:
       ability: ~
       caster: false
@@ -504,15 +504,15 @@ feats:
   Inspiring Leader:
     perk:
       ability: ~
-      armor: []
+      armors: []
       flags: none
       languages: []
-      resistance: []
+      resistances: []
       skills: []
       speed: 0
       spell: ~
       tools: []
-      weapon: []
+      weapons: []
     required:
       ability:
         Charisma: 13
@@ -525,15 +525,15 @@ feats:
     perk:
       ability:
         Intelligence: 1
-      armor: []
-      flags: ability,-1
+      armors: []
+      flags: ability=Intelligence,1
       languages: []
-      resistance: []
+      resistances: []
       skills: []
       speed: 0
       spell: ~
       tools: []
-      weapon: []
+      weapons: []
     required:
       ability: ~
       caster: false
@@ -546,15 +546,15 @@ feats:
       ability:
         Strength: 1
         Dexterity: 1
-      armor: ['Light']
-      flags: ability,1|armor,-1
+      armors: ['Light']
+      flags: ability=Strength&&Dexterity,1|armors,0
       languages: []
-      resistance: []
+      resistances: []
       skills: []
       speed: 0
       spell: ~
       tools: []
-      weapon: []
+      weapons: []
     required:
       ability: ~
       caster: false
@@ -566,8 +566,8 @@ feats:
     perk:
       ability:
         Intelligence: 1
-      armor: []
-      flags: ability,-1|languages,3
+      armors: []
+      flags: ability=Intelligence,1|languages,3
       languages:
         - Abyssal
         - Celestial
@@ -585,12 +585,12 @@ feats:
         - Primordial
         - Sylvan
         - Undercommon
-      resistance: []
+      resistances: []
       skills: []
       speed: 0
       spell: ~
       tools: []
-      weapon: []
+      weapons: []
     required:
       ability: ~
       caster: false
@@ -601,15 +601,15 @@ feats:
   Lucky:
     perk:
       ability: ~
-      armor: []
+      armors: []
       flags: none
       languages: []
-      resistance: []
+      resistances: []
       skills: []
       speed: 0
       spell: ~
       tools: []
-      weapon: []
+      weapons: []
     required:
       ability: ~
       caster: false
@@ -620,15 +620,15 @@ feats:
   Mage Slayer:
     perk:
       ability: ~
-      armor: []
+      armors: []
       flags: none
       languages: []
-      resistance: []
+      resistances: []
       skills: []
       speed: 0
       spell: ~
       tools: []
-      weapon: []
+      weapons: []
     required:
       ability: ~
       caster: false
@@ -639,15 +639,15 @@ feats:
   Magic Initiative:
     perk:
       ability: ~
-      armor: []
+      armors: []
       flags: none
       languages: []
-      resistance: []
+      resistances: []
       skills: []
       speed: 0
       spell: ~
       tools: []
-      weapon: []
+      weapons: []
     required:
       ability: ~
       caster: true
@@ -658,15 +658,15 @@ feats:
   Martial Adept:
     perk:
       ability: ~
-      armor: []
+      armors: []
       flags: none
       languages: []
-      resistance: []
+      resistances: []
       skills: []
       speed: 0
       spell: ~
       tools: []
-      weapon: []
+      weapons: []
     required:
       ability: ~
       caster: false
@@ -677,15 +677,15 @@ feats:
   Medium Armor Master:
     perk:
       ability: ~
-      armor: []
+      armors: []
       flags: none
       languages: []
-      resistance: []
+      resistances: []
       skills: []
       speed: 0
       spell: ~
       tools: []
-      weapon: []
+      weapons: []
     required:
       ability: ~
       caster: false
@@ -697,15 +697,15 @@ feats:
   Mobile:
     perk:
       ability: ~
-      armor: []
-      flags: none
+      armors: []
+      flags: speed,0
       languages: []
-      resistance: []
+      resistances: []
       skills: []
       speed: 10
       spell: ~
       tools: []
-      weapon: []
+      weapons: []
     required:
       ability: ~
       caster: false
@@ -718,15 +718,15 @@ feats:
       ability:
         Strength: 1
         Dexterity: 1
-      armor: ['Medium', 'Shields']
-      flags: ability,1|armor,-1
+      armors: ['Medium', 'Shields']
+      flags: ability=Strength&&Dexterity,1|armors,0
       languages: []
-      resistance: []
+      resistances: []
       skills: []
       speed: 0
       spell: ~
       tools: []
-      weapon: []
+      weapons: []
     required:
       ability: ~
       caster: false
@@ -738,15 +738,15 @@ feats:
   Mounted Combatant:
     perk:
       ability: ~
-      armor: []
+      armors: []
       flags: none
       languages: []
-      resistance: []
+      resistances: []
       skills: []
       speed: 0
       spell: ~
       tools: []
-      weapon: []
+      weapons: []
     required:
       ability: ~
       caster: false
@@ -759,15 +759,15 @@ feats:
       ability:
         Intelligence: 1
         Wisdom: 1
-      armor: []
-      flags: ability,1
+      armors: []
+      flags: ability=Intelligence&&Wisdom,1
       languages: []
-      resistance: []
+      resistances: []
       skills: []
       speed: 0
       spell: ~
       tools: []
-      weapon: []
+      weapons: []
     required:
       ability: ~
       caster: false
@@ -780,15 +780,15 @@ feats:
       ability:
         Strength: 1
         Constitution: 1
-      armor: []
-      flags: ability,1
+      armors: []
+      flags: ability=Strength&&Constitution,1
       languages: []
-      resistance: []
+      resistances: []
       skills: []
       speed: 0
       spell: ~
       tools: []
-      weapon: []
+      weapons: []
     required:
       ability: ~
       caster: false
@@ -799,15 +799,15 @@ feats:
   Polearm Master:
     perk:
       ability: ~
-      armor: []
+      armors: []
       flags: none
       languages: []
-      resistance: []
+      resistances: []
       skills: []
       speed: 0
       spell: ~
       tools: []
-      weapon: []
+      weapons: []
     required:
       ability: ~
       caster: false
@@ -818,7 +818,7 @@ feats:
   Prodigy:
     perk:
       ability: ~
-      armor: []
+      armors: []
       flags: languages,1|skills,1|tools,1
       languages:
         - Abyssal
@@ -837,7 +837,7 @@ feats:
         - Primordial
         - Sylvan
         - Undercommon
-      resistance: []
+      resistances: []
       skills:
         - Acrobatics
         - Animal Handling
@@ -898,7 +898,7 @@ feats:
         - Poisoner's kit
         - Thieves' tools
         - Vehicles
-      weapon: []
+      weapons: []
     required:
       ability: ~
       caster: false
@@ -915,15 +915,15 @@ feats:
         Intelligence: 1
         Wisdom: 1
         Charisma: 1
-      armor: []
+      armors: []
       flags: ability,1|save,-1
       languages: []
-      resistance: []
+      resistances: []
       skills: []
       speed: 0
       spell: ~
       tools: []
-      weapon: []
+      weapons: []
     required:
       ability: ~
       caster: false
@@ -934,15 +934,15 @@ feats:
   Ritual Caster:
     perk:
       ability: ~
-      armor: []
+      armors: []
       flags: none
       languages: []
-      resistance: []
+      resistances: []
       skills: []
       speed: 0
       spell: ~
       tools: []
-      weapon: []
+      weapons: []
     required:
       ability:
         Intelligence: 13
@@ -955,15 +955,15 @@ feats:
   Savage Attacker:
     perk:
       ability: ~
-      armor: []
+      armors: []
       flags: none
       languages: []
-      resistance: []
+      resistances: []
       skills: []
       speed: 0
       spell: ~
       tools: []
-      weapon: []
+      weapons: []
     required:
       ability: ~
       caster: false
@@ -977,15 +977,15 @@ feats:
         Dexterity: 1
         Constitution: 1
         Charisma: 1
-      armor: []
-      flags: ability,1
+      armors: []
+      flags: ability=Dexterity&&Constitution&&Charisma,1
       languages: []
-      resistance: []
+      resistances: []
       skills: []
       speed: 0
       spell: ~
       tools: []
-      weapon: []
+      weapons: []
     required:
       ability: ~
       caster: false
@@ -997,7 +997,7 @@ feats:
     perk:
       ability: ~
       languages: []
-      resistance: []
+      resistances: []
       skills: []
       speed: 0
       spell: ~
@@ -1011,15 +1011,15 @@ feats:
   Sharpshooter:
     perk:
       ability: ~
-      armor: []
+      armors: []
       flags: none
       languages: []
-      resistance: []
+      resistances: []
       skills: []
       speed: 0
       spell: ~
       tools: []
-      weapon: []
+      weapons: []
     required:
       ability: ~
       caster: false
@@ -1030,15 +1030,15 @@ feats:
   Shield Master:
     perk:
       ability: ~
-      armor: []
+      armors: []
       flags: none
       languages: []
-      resistance: []
+      resistances: []
       skills: []
       speed: 0
       spell: ~
       tools: []
-      weapon: []
+      weapons: []
     required:
       ability: ~
       caster: false
@@ -1049,10 +1049,10 @@ feats:
   Skilled:
     perk:
       ability: ~
-      armor: []
+      armors: []
       flags: skills&&tools,3
       languages: []
-      resistance: []
+      resistances: []
       skills:
         - Acrobatics
         - Animal Handling
@@ -1113,7 +1113,7 @@ feats:
         - Poisoner's kit
         - Thieves' tools
         - Vehicles
-      weapon: []
+      weapons: []
     required:
       ability: ~
       caster: false
@@ -1124,15 +1124,15 @@ feats:
   Skulker:
     perk:
       ability: ~
-      armor: []
+      armors: []
       flags: none
       languages: []
-      resistance: []
+      resistances: []
       skills: []
       speed: 0
       spell: ~
       tools: []
-      weapon: []
+      weapons: []
     required:
       ability:
         Dexterity: 13
@@ -1144,15 +1144,15 @@ feats:
   Spell Sniper:
     perk:
       ability: ~
-      armor: []
+      armors: []
       flags: none
       languages: []
-      resistance: []
+      resistances: []
       skills: []
       speed: 0
       spell: ~
       tools: []
-      weapon: []
+      weapons: []
     required:
       ability: ~
       caster: true
@@ -1165,17 +1165,17 @@ feats:
       ability:
         Strength: 1
         Dexterity: 1
-      armor: []
-      flags: ability,1
+      armors: []
+      flags: ability=Strength&&Dexterity,1|speed,0
       languages: []
-      resistance: []
+      resistances: []
       skills:
         - Acrobatics
         - Athletics
       speed: 5
       spell: ~
       tools: []
-      weapon: []
+      weapons: []
     required:
       ability: ~
       caster: false
@@ -1186,15 +1186,15 @@ feats:
   Svirfneblin Magic:
     perk:
       ability: ~
-      armor: []
+      armors: []
       flags: spell,-1
       languages: []
-      resistance: []
+      resistances: []
       skills: []
       speed: 0
       spell: ['Blindness/Deafness', 'Blur', 'Disguise', 'Nondetection']
       tools: []
-      weapon: []
+      weapons: []
     required:
       ability: ~
       caster: false
@@ -1207,15 +1207,15 @@ feats:
       ability:
         Strength: 1
         Constitution: 1
-      armor: []
-      flags: weapon,-1
+      armors: []
+      flags: ability=Strength&&Constitution|weapons,0
       languages: []
-      resistance: []
+      resistances: []
       skills: []
       speed: 0
       spell: ~
       tools: []
-      weapon:
+      weapons:
         - Improvised weapons
         - Unarmed strikes
     required:
@@ -1228,15 +1228,15 @@ feats:
   Tough:
     perk:
       ability: ~
-      armor: []
+      armors: []
       flags: none
       languages: []
-      resistance: []
+      resistances: []
       skills: []
       speed: 0
       spell: ~
       tools: []
-      weapon: []
+      weapons: []
     required:
       ability: ~
       caster: false
@@ -1247,15 +1247,15 @@ feats:
   War Caster:
     perk:
       ability: ~
-      armor: []
+      armors: []
       flags: none
       languages: []
-      resistance: []
+      resistances: []
       skills: []
       speed: 0
       spell: ~
       tools: []
-      weapon: []
+      weapons: []
     required:
       ability: ~
       caster: true
@@ -1268,15 +1268,15 @@ feats:
       ability:
         Strength: 1
         Dexterity: 1
-      armor: []
-      flags: weapon,4
+      armors: []
+      flags: ability=Strength&&Dexterity,1|weapons,4
       languages: []
-      resistance: []
+      resistances: []
       skills: []
       speed: 0
       spell: ~
       tools: []
-      weapon:
+      weapons:
         Simple:
           - Club
           - Dagger
@@ -1326,10 +1326,10 @@ feats:
   Wood Elf Magic:
     perk:
       ability: ~
-      armor: []
+      armors: []
       flags: spell,-1
       languages: []
-      resistance: []
+      resistances: []
       skills: []
       speed: 0
       spell:
@@ -1337,7 +1337,7 @@ feats:
         - Longstrider
         - Pass Without Trace
       tools: []
-      weapon: []
+      weapons: []
     required:
       ability: ~
       caster: false
