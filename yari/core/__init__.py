@@ -8,12 +8,9 @@ from .seamstress import (
     ClassSeamstress,
     MyTapestry,
 )
-from .sources import Load
 from .utils import (
     get_character_classes,
     get_character_races,
-    prompt,
-    _e,
 )
 
 
