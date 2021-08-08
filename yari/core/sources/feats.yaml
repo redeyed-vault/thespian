@@ -444,7 +444,7 @@ feats:
       ability:
         Strength: 1
       armors: ['Heavy']
-      flags: ability=Strength,1|armors,-1
+      flags: ability=Strength,1|armors,0
       languages: []
       resistances: []
       skills: []
