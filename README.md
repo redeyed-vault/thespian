@@ -30,7 +30,7 @@ Planning to eventually incorporate content from *Tasha's Cauldron of Everything*
 
 #### INSTALLATION
 
-To use the 'testing' version of Yari, simply clone it:
+To use Yari, simply clone the main repository:
 
 ```git clone https://github.com/taylormarcus/Yari.git```
 
@@ -39,11 +39,11 @@ To use the 'testing' version of Yari, simply clone it:
 
 To run Yari, simply change into the cloned directory and type this command (a complete explanation of possible arguments follows this example):
 
-```python yari -race Elf -klass Fighter -sex Female```
+```python yari -r Elf -k Fighter -s Female```
 
 
 ```
-usage: Yari [-h] -race
+usage: YARI [-h] -race
             {Aasimar,Bugbear,Dragonborn,Dwarf,Elf,Firbolg,Gith,Gnome,Goblin,Goliath,HalfElf,HalfOrc,Halfling,Hobgoblin,Human,Kenku,Kobold,Lizardfolk,Orc,Tabaxi,Tiefling,Triton,Yuanti}
             [-klass {Barbarian,Bard,Cleric,Druid,Fighter,Monk,Paladin,Ranger,Rogue,Sorcerer,Warlock,Wizard}]
             [-sex {Female,Male}] [-port PORT]
