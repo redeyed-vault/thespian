@@ -5,6 +5,58 @@ from .sources import Load
 from .utils import _e, get_character_feats, prompt
 
 
+class FeatFlagParser:
+    def __init__(self, feat):
+        self._flags = Load.get_columns(feat, "perk", "flags", source_file="feats")
+        self._perks = Load.get_columns(feat, "perk", source_file="feats")
+        del self._perks["flags"]
+
+    def _parse_flags(self):
+        parsed_flags = dict()
+        flag_pairs = self._flags.split("|")
+        for flag_pair in flag_pairs:
+            name, increment = flag_pair.split(",")
+            if "=" not in name:
+                parsed_flags[name] = {"increment": increment}
+            else:
+                query_string = name.split("=")
+                name = query_string[0]
+                opts = query_string[1].split("&&")
+                parsed_flags[name] = {"increment": increment, "opts": opts}
+
+        return parsed_flags
+
+    def run(self):
+        parsed_flags = self._parse_flags()
+
+        # No flags parsed
+        if len(parsed_flags) == 0:
+            return
+
+        print(parsed_flags)
+
+        for flag, options in parsed_flags.items():
+            if flag == "ability":
+                increment = options["increment"]
+                opts = options["opts"]
+                for _ in increment:
+                    if len(opts) < 2:
+                        ability_choice = opts[0]
+                    else:
+                        ability_choice = prompt("Choose your bonus ability.", opts)
+                        opts.remove(ability_choice)
+
+                bonus_value = self._perks[flag][ability_choice]
+                parsed_flags[flag] = {ability_choice: bonus_value}
+
+            if flag == "speed":
+                speed_value = self._perks[flag]
+                if speed_value != 0:
+                    parsed_flags[flag] = speed_value
+
+        print(parsed_flags)
+
+
 class AbilityScoreImprovement:
     def __init__(
         self,
