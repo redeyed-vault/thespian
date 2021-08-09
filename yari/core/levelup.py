@@ -1,6 +1,8 @@
 from collections import OrderedDict
 import traceback
 
+from .errors import Error
+from .seamstress import MyTapestry
 from .sources import Load
 from .utils import _e, get_character_feats, prompt
 
@@ -58,41 +60,23 @@ class FeatFlagParser:
 
 
 class AbilityScoreImprovement:
-    def __init__(
-        self,
-        armors: str,
-        feats: str,
-        klass: str,
-        spells: str,
-        languages: str,
-        level: int,
-        race: str,
-        resistances: str,
-        saves: str,
-        scores: OrderedDict,
-        skills: str,
-        spellslots: str,
-        subclass: str,
-        subrace: str,
-        tools: str,
-        weapons: str,
-    ):
-        self.armors = armors
-        self.feats = feats
-        self.klass = klass
-        self.spells = spells
-        self.languages = languages
-        self.level = level
-        self.race = race
-        self.resistances = resistances
-        self.saves = saves
-        self.scores = scores
-        self.skills = skills
-        self.spellslots = spellslots
-        self.subclass = subclass
-        self.subrace = subrace
-        self.tools = tools
-        self.weapons = weapons
+    def __init__(self, tapestry):
+        self.armors = tapestry["armors"]
+        self.feats = tapestry["feats"]
+        self.klass = tapestry["klass"]
+        self.spells = tapestry["spells"]
+        self.languages = tapestry["languages"]
+        self.level = tapestry["level"]
+        self.race = tapestry["race"]
+        self.resistances = tapestry["resistances"]
+        self.savingthrows = tapestry["savingthrows"]
+        self.scores = tapestry["scores"]
+        self.skills = tapestry["skills"]
+        self.spellslots = tapestry["spellslots"]
+        self.subclass = tapestry["subclass"]
+        self.subrace = tapestry["subrace"]
+        self.tools = tapestry["tools"]
+        self.weapons = tapestry["weapons"]
 
     def _add_feat_perks(self, feat: str) -> None:
         """
@@ -130,7 +114,7 @@ class AbilityScoreImprovement:
                             x
                             for x in ability_choices
                             if self._is_adjustable(x, perks.get("ability").get(x))
-                            and x not in self.saves
+                            and x not in self.savingthrows
                         ]
                     else:
                         ability_choices = [
@@ -143,7 +127,7 @@ class AbilityScoreImprovement:
                     )
                     self._set_ability_score(ability, perks.get("ability").get(ability))
                     if "save" in perk_flags:
-                        self.saves.append(ability)
+                        self.savingthrows.append(ability)
             if flag in (
                 "armor",
                 "language",
@@ -381,57 +365,75 @@ class AbilityScoreImprovement:
                 num_of_upgrades += 1
             if self.level >= 19:
                 num_of_upgrades += 1
+
+        # No upgrades available, we're done here.
         if num_of_upgrades == 0:
             return
+
         while num_of_upgrades > 0:
             if num_of_upgrades > 1:
                 print(f"You have {num_of_upgrades} upgrades available.")
             else:
                 print(f"You have 1 upgrade available")
+
             upgrade_path_options = ["Ability", "Feat"]
             upgrade_path = prompt("Choose your upgrade path", upgrade_path_options)
-            if upgrade_path in upgrade_path_options:
-                if upgrade_path == "Ability":
-                    bonus_choice = prompt("Choose bonus value", ["1", "2"])
-                    upgrade_options = (
-                        "Strength",
-                        "Dexterity",
-                        "Constitution",
-                        "Intelligence",
-                        "Wisdom",
-                        "Charisma",
-                    )
-                    bonus_choice = int(bonus_choice)
-                    upgrade_options = [
-                        x
-                        for x in upgrade_options
-                        if self._is_adjustable(x, bonus_choice)
-                    ]
-                    if bonus_choice == 1:
-                        print("You may apply a bonus of 1 to two abilities.")
-                        for _ in range(2):
-                            upgrade_choice = prompt(
-                                "Choose an ability to upgrade", upgrade_options
-                            )
-                            upgrade_options.remove(upgrade_choice)
-                            self._set_ability_score(upgrade_choice, bonus_choice)
-                    elif bonus_choice == 2:
-                        print("You may apply a bonus of 2 to one ability.")
+
+            if upgrade_path not in upgrade_path_options:
+                raise Error(f"Invalid upgrade path '{upgrade_path}' selected!")
+
+            # Path #1: Upgrade an Ability
+            if upgrade_path == "Ability":
+                bonus_choice = prompt(
+                    "Do you want a +1 or +2 ability upgrade?", ["1", "2"]
+                )
+                upgrade_options = (
+                    "Strength",
+                    "Dexterity",
+                    "Constitution",
+                    "Intelligence",
+                    "Wisdom",
+                    "Charisma",
+                )
+                bonus_choice = int(bonus_choice)
+                upgrade_options = [
+                    x for x in upgrade_options if self._is_adjustable(x, bonus_choice)
+                ]
+                # Apply +1 bonus to two different abilities.
+                if bonus_choice == 1:
+                    print("You may apply a +1 to two different abilities.")
+                    for _ in range(2):
                         upgrade_choice = prompt(
-                            "Choose an ability to upgrade", upgrade_options
+                            "Which ability do you want to upgrade?", upgrade_options
                         )
+                        upgrade_options.remove(upgrade_choice)
                         self._set_ability_score(upgrade_choice, bonus_choice)
-                elif upgrade_path == "Feat":
-                    feat_list = get_character_feats()
-                    filtered_feat_options = [
-                        x
-                        for x in feat_list
-                        if self._has_required(x) and x not in self.feats
-                    ]
-                    feat_choice = prompt(
-                        "Choose a feat",
-                        filtered_feat_options,
+                # Apply +2 bonus to one ability.
+                elif bonus_choice == 2:
+                    print("You may apply a +2 to one ability.")
+                    upgrade_choice = prompt(
+                        "Which ability do you want to upgrade?", upgrade_options
                     )
-                    self._add_feat_perks(feat_choice)
-                    self.feats.append(feat_choice)
-                num_of_upgrades -= 1
+                    self._set_ability_score(upgrade_choice, bonus_choice)
+                    _e(
+                        f"You have upgraded the ability '{upgrade_choice}'.",
+                        "green",
+                    )
+
+            # Path #2: Add a new Feat
+            if upgrade_path == "Feat":
+                feat_list = get_character_feats()
+                filtered_feat_options = [
+                    x
+                    for x in feat_list
+                    if self._has_required(x) and x not in self.feats
+                ]
+                feat_choice = prompt(
+                    "Which feat do you wish to acquire?",
+                    filtered_feat_options,
+                )
+                self._add_feat_perks(feat_choice)
+                self.feats.append(feat_choice)
+                _e(f"You have selected the feat '{feat_choice}'.", "green")
+
+            num_of_upgrades -= 1

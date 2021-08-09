@@ -70,36 +70,8 @@ def main():
 
     d = c.view(True)
     # Run Ability Score Improvement generator
-    u = AbilityScoreImprovement(
-        armors=d["armors"],
-        feats=[],
-        klass=d["klass"],
-        languages=d["languages"],
-        level=d["level"],
-        race=d["race"],
-        resistances=d["resistances"],
-        saves=d["savingthrows"],
-        scores=d["scores"],
-        skills=d["skills"],
-        spells=d["spells"],
-        spellslots=d["spellslots"],
-        subclass=d["subclass"],
-        subrace=d["subrace"],
-        tools=d["tools"],
-        weapons=d["weapons"],
-    )
+    u = AbilityScoreImprovement(d)
     u.run()
-
-    d["armors"] = u.armors
-    d["feats"] = u.feats
-    d["languages"] = u.languages
-    d["scores"] = u.scores
-    d["spells"] = u.spells
-    """
-    self.resistances = u.resistances
-    self.tools = u.tools
-    self.weapons = u.weapons
-    """
 
     try:
         with HTTPd(c.view(), port) as http:
