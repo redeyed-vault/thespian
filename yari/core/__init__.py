@@ -56,25 +56,21 @@ def main():
     sex = args.sex
     port = args.port
 
-    # Generate racial and class attributes
     a = RaceSeamstress(race, sex)
     b = ClassSeamstress(klass, a.data)
 
-    # Run Attribute generator
     a.data["scores"] = AttributeGenerator(
         b.data.get("ability"), a.data.get("bonus")
     ).roll()
 
     c = MyTapestry()
-    c.weave_tapestry(a.data, b.data)
+    c.weave(a.data, b.data)
 
-    d = c.view(True)
-    # Run Ability Score Improvement generator
-    u = AbilityScoreImprovement(d)
+    u = AbilityScoreImprovement(c.view(True))
     u.run()
 
     try:
         with HTTPd(c.view(), port) as http:
             http.run()
-    except (OSError, TypeError, ValueError) as e:
+    except (TypeError, ValueError) as e:
         exit(e)

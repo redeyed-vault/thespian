@@ -404,7 +404,7 @@ class MyTapestry:
 
         return self.pattern
 
-    def weave_tapestry(self, a, b=None):
+    def weave(self, a, b=None):
         if type(a) is not dict:
             raise Error("First parameter must be of type 'dict'.")
         if type(b) is not dict and b is not None:
@@ -468,7 +468,7 @@ class ClassSeamstress(MyTapestry):
         b = _SubClassSeamstress(a.get("subclass"), a.get("level")).run(omitted_values)
 
         super().__init__()
-        self.weave_tapestry(a, b)
+        self.weave(a, b)
         self.data = self.view(True)
 
 
@@ -490,5 +490,5 @@ class RaceSeamstress(MyTapestry):
         a["sex"] = sex
 
         super().__init__()
-        self.weave_tapestry(a, b)
+        self.weave(a, b)
         self.data = self.view(True)
