@@ -308,6 +308,7 @@ class AbilityScoreImprovement:
             if requirement == "subrace":
                 if self.subrace not in prerequisite.get(requirement):
                     return False
+
         return True
 
     def _is_adjustable(self, ability: str, bonus: int = 1) -> bool:
@@ -328,6 +329,7 @@ class AbilityScoreImprovement:
             traceback.print_exc()
         except ValueError:
             return False
+
         return True
 
     def _set_ability_score(self, ability: str, bonus: int) -> None:
@@ -343,6 +345,7 @@ class AbilityScoreImprovement:
                 raise TypeError("Object 'scores' is not type 'OrderedDict'.")
         except (KeyError, TypeError):
             traceback.print_exc()
+
         new_score = self.scores.get(ability) + bonus
         self.scores[ability] = new_score
         _e(f"INFO: Ability '{ability}' is now set to {new_score}.", "green")
@@ -374,7 +377,7 @@ class AbilityScoreImprovement:
             if num_of_upgrades > 1:
                 print(f"You have {num_of_upgrades} upgrades available.")
             else:
-                print(f"You have 1 upgrade available")
+                print(f"You have 1 upgrade available.")
 
             upgrade_path_options = ["Ability", "Feat"]
             upgrade_path = prompt("Choose your upgrade path", upgrade_path_options)
@@ -422,14 +425,13 @@ class AbilityScoreImprovement:
 
             # Path #2: Add a new Feat
             if upgrade_path == "Feat":
-                feat_list = get_character_feats()
                 filtered_feat_options = [
                     x
-                    for x in feat_list
+                    for x in get_character_feats()
                     if self._has_required(x) and x not in self.feats
                 ]
                 feat_choice = prompt(
-                    "Which feat do you wish to acquire?",
+                    "Which feat do you want to acquire?",
                     filtered_feat_options,
                 )
                 self._add_feat_perks(feat_choice)
