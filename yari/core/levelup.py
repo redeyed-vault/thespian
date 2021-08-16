@@ -27,16 +27,14 @@ class FeatFlagParser:
 
         return parsed_flags
 
-    def run(self):
-        parsed_flags = self._parse_flags()
+    def weave(self):
+        final_flag = self._parse_flags()
 
         # No flags parsed
-        if len(parsed_flags) == 0:
+        if len(final_flag) == 0:
             return
 
-        print(parsed_flags)
-
-        for flag, options in parsed_flags.items():
+        for flag, options in final_flag.items():
             if flag == "ability":
                 increment = options["increment"]
                 opts = options["opts"]
@@ -48,14 +46,14 @@ class FeatFlagParser:
                         opts.remove(ability_choice)
 
                 bonus_value = self._perks[flag][ability_choice]
-                parsed_flags[flag] = {ability_choice: bonus_value}
+                final_flag[flag] = (ability_choice, bonus_value)
 
             if flag == "speed":
                 speed_value = self._perks[flag]
                 if speed_value != 0:
-                    parsed_flags[flag] = speed_value
+                    final_flag[flag] = speed_value
 
-        print(parsed_flags)
+        return final_flag
 
 
 class AbilityScoreImprovement:
@@ -72,6 +70,7 @@ class AbilityScoreImprovement:
         self.savingthrows = tapestry["savingthrows"]
         self.scores = tapestry["scores"]
         self.skills = tapestry["skills"]
+        self.speed = tapestry["speed"]
         self.spellslots = tapestry["spellslots"]
         self.subclass = tapestry["subclass"]
         self.subrace = tapestry["subrace"]
@@ -79,49 +78,18 @@ class AbilityScoreImprovement:
         self.weapons = tapestry["weapons"]
 
     def _add_feat_perks(self, feat):
-        # Retrieve all perks for the chosen feat
-        perks = Load.get_columns(feat, "perk", source_file="feats")
-        # Set perk flags, if applicable
-        perk_flags = dict()
-        if "flags" not in perks or perks.get("flags") == "none":
-            perk_flags = None
-        else:
-            flags_finder = perks.get("flags").split("|")
-            for flag_pair in flags_finder:
-                key, value = flag_pair.split(",")
-                if key not in perk_flags:
-                    perk_flags[key] = int(value)
-        # If none flag is specified, don't bother
-        if perk_flags is None:
-            return
-        # Iterate through, honoring flags
-        for flag, value in perk_flags.items():
+        a = FeatFlagParser(feat)
+        for flag, options in a.weave().items():
             if flag == "ability":
-                if value == -1:
-                    for ability, bonus in perks.get("ability").items():
-                        if self._is_adjustable(ability, bonus):
-                            self._set_ability_score(ability, bonus)
-                else:
-                    ability_choices = list(perks.get("ability").keys())
-                    if "save" in perk_flags:
-                        ability_choices = [
-                            x
-                            for x in ability_choices
-                            if self._is_adjustable(x, perks.get("ability").get(x))
-                            and x not in self.savingthrows
-                        ]
-                    else:
-                        ability_choices = [
-                            x
-                            for x in ability_choices
-                            if self._is_adjustable(x, perks.get("ability").get(x))
-                        ]
-                    ability = prompt(
-                        f"Choose bonus ability for '{feat}' feat", ability_choices
-                    )
-                    self._set_ability_score(ability, perks.get("ability").get(ability))
-                    if "save" in perk_flags:
-                        self.savingthrows.append(ability)
+                ability, bonus = options
+                self._set_ability_score(ability, bonus)
+            elif flag == "speed":
+                self.speed += options
+        """
+        # Retrieve all perks for the chosen feat
+        for flag, value in perk_flags.items():
+            if "save" in perk_flags:
+                self.savingthrows.append(ability)
             if flag in (
                 "armor",
                 "language",
@@ -182,13 +150,20 @@ class AbilityScoreImprovement:
                         x for x in bonus_options if x not in acquired_options
                     ]
                     _e(f"INFO: {flag} '{option}' chosen.", "green")
+        """
 
     def _has_required(self, feat):
+        def get_feat_requirements(feat_name: str, use_local: bool = True):
+            return Load.get_columns(
+                feat_name, "required", source_file="feats", use_local=use_local
+            )
+
         # Character already has feat
         if feat in self.feats:
             return False
 
         # If Heavily, Lightly, or Moderately Armored feat and a Monk.
+        # "Armor Related" or Weapon Master feat but already proficient.
         if (
             feat
             in (
@@ -199,30 +174,24 @@ class AbilityScoreImprovement:
             and self.klass == "Monk"
         ):
             return False
-        # Chosen feat is "Armor Related" or Weapon Master but already proficient w/ assoc. armor type.
         elif feat in (
             "Heavily Armored",
             "Lightly Armored",
             "Moderately Armored",
             "Weapon Master",
         ):
-            # Character already has heavy armor proficiency.
+            # Heavily Armored: Character already has heavy armor proficiency.
+            # Lightly Armored: Character already has light armor proficiency.
+            # Moderately Armored: Character already has medium armor proficiency.
+            # Weapon Master: Character already has martial weapon proficiency.
             if feat == "Heavily Armored" and "Heavy" in self.armors:
                 return False
-            # Character already has light armor proficiency.
             elif feat == "Lightly Armored" and "Light" in self.armors:
                 return False
-            # Character already has medium armor proficiency.
             elif feat == "Moderately Armored" and "Medium" in self.armors:
                 return False
-            # Character already has martial weapon proficiency.
             elif feat == "Weapon Master" and "Martial" in self.weapons:
                 return False
-
-        def get_feat_requirements(feat_name: str, use_local: bool = True):
-            return Load.get_columns(
-                feat_name, "required", source_file="feats", use_local=use_local
-            )
 
         # Go through ALL prerequisites.
         prerequisite = get_feat_requirements(feat)
@@ -295,7 +264,10 @@ class AbilityScoreImprovement:
 
     def _is_adjustable(self, ability, bonus=1):
         if not isinstance(ability, str):
-            raise Error("First argument 'ability' must be of type 'str'.")
+            raise Error("Argument 'ability' must be of type 'str'.")
+
+        if not isinstance(bonus, int):
+            raise Error("Argument 'bonus' must be of type 'int'.")
 
         if ability not in self.scores:
             raise Error(f"Invalid ability '{ability}' specified.")
@@ -305,32 +277,23 @@ class AbilityScoreImprovement:
 
         return True
 
-    def _set_ability_score(self, ability, bonus):
-        if not isinstance(self.scores, OrderedDict):
-            raise Error("Object 'scores' is not type 'OrderedDict'.")
-
-        new_score = self.scores.get(ability) + bonus
-        self.scores[ability] = new_score
-        _e(f"INFO: Ability '{ability}' is now set to {new_score}.", "green")
-
     def run(self):
-        num_of_upgrades = 0
-        if self.level >= 4:
-            for x in range(1, self.level + 1):
-                if (x % 4) == 0 and x != 20:
-                    num_of_upgrades += 1
-            if self.klass == "Fighter" and self.level >= 6:
-                num_of_upgrades += 1
-            if self.klass == "Rogue" and self.level >= 8:
-                num_of_upgrades += 1
-            if self.klass == "Fighter" and self.level >= 14:
-                num_of_upgrades += 1
-            if self.level >= 19:
-                num_of_upgrades += 1
-
         # No upgrades available, we're done here.
-        if num_of_upgrades == 0:
+        if self.level < 4:
             return
+
+        num_of_upgrades = 0
+        for x in range(1, self.level + 1):
+            if (x % 4) == 0 and x != 20:
+                num_of_upgrades += 1
+        if self.klass == "Fighter" and self.level >= 6:
+            num_of_upgrades += 1
+        if self.klass == "Rogue" and self.level >= 8:
+            num_of_upgrades += 1
+        if self.klass == "Fighter" and self.level >= 14:
+            num_of_upgrades += 1
+        if self.level >= 19:
+            num_of_upgrades += 1
 
         while num_of_upgrades > 0:
             if num_of_upgrades > 1:
@@ -377,7 +340,8 @@ class AbilityScoreImprovement:
                 elif bonus_choice == 2:
                     print("ASI: You may apply a +2 to one ability.")
                     upgrade_choice = prompt(
-                        "ASI: Which ability do you want to upgrade?", ability_upgrade_options
+                        "ASI: Which ability do you want to upgrade?",
+                        ability_upgrade_options,
                     )
                     self._set_ability_score(upgrade_choice, bonus_choice)
                     _e(
@@ -395,6 +359,10 @@ class AbilityScoreImprovement:
 
                 while not self._has_required(feat_choice):
                     feat_options.remove(feat_choice)
+                    _e(
+                        f"INFO: You don't meet the requirements for '{feat_choice}'.",
+                        "yellow",
+                    )
                     feat_choice = prompt("", feat_options)
                 else:
                     self._add_feat_perks(feat_choice)
@@ -402,3 +370,11 @@ class AbilityScoreImprovement:
                     _e(f"INFO: You have selected the feat '{feat_choice}'.", "green")
 
             num_of_upgrades -= 1
+
+    def _set_ability_score(self, ability, bonus=1):
+        if not self._is_adjustable(ability, bonus):
+            _e(f"INFO: Ability '{ability}' is not adjustable.", "yellow")
+
+        new_score = self.scores.get(ability) + bonus
+        self.scores[ability] = new_score
+        _e(f"INFO: Ability '{ability}' is now set to {new_score}.", "green")

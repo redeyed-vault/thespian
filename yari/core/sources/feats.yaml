@@ -916,7 +916,7 @@ feats:
         Wisdom: 1
         Charisma: 1
       armors: []
-      flags: ability,1|save,-1
+      flags: ability=Strength&&Dexterity&&Constitution&&Intelligence&&Wisdom&&Charisma,1|savingthrow,1
       languages: []
       resistances: []
       skills: []
