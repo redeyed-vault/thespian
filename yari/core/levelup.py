@@ -47,8 +47,16 @@ class FeatFlagParser:
 
                 bonus_value = self._perks[flag][ability_choice]
                 final_flag[flag] = (ability_choice, bonus_value)
-
-            if flag == "speed":
+            elif flag in ("armors", "languages", "resistances"):
+                increment = int(options["increment"])
+                if increment <= 1:
+                    final_flag[flag] = self._perks[flag]
+                else:
+                    # TODO: Impementing multiple choices
+                    chosen_options = list()
+                    available_options = self._perks[flag]
+                    print(available_options)
+            elif flag == "speed":
                 speed_value = self._perks[flag]
                 if speed_value != 0:
                     final_flag[flag] = speed_value
@@ -83,6 +91,12 @@ class AbilityScoreImprovement:
             if flag == "ability":
                 ability, bonus = options
                 self._set_ability_score(ability, bonus)
+            elif flag == "armors":
+                self.armors += options
+            elif flag == "languages":
+                self.languages += options
+            elif flag == "resistances":
+                self.resistances += options
             elif flag == "speed":
                 self.speed += options
         """
@@ -100,12 +114,8 @@ class AbilityScoreImprovement:
                 "weapon",
             ):
                 acquired_options = None
-                if flag == "armor":
-                    acquired_options = self.armors
                 if flag == "language":
                     acquired_options = self.languages
-                if flag == "resistance":
-                    acquired_options = self.resistances
                 if flag == "skill":
                     acquired_options = self.skills
                 if flag == "spell":
