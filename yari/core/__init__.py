@@ -1,7 +1,7 @@
 from argparse import ArgumentParser
 
 from .dice import AttributeGenerator
-from .httpd import HTTPd
+from .httpd import CharacterSheetServer
 from .levelup import AbilityScoreImprovement
 from .seamstress import (
     RaceSeamstress,
@@ -70,7 +70,7 @@ def main():
     u.run()
 
     try:
-        with HTTPd(c.view(), port) as http:
+        with CharacterSheetServer(c.view(), port) as http:
             http.run()
     except (TypeError, ValueError) as e:
         exit(e)
