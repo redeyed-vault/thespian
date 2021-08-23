@@ -14,6 +14,11 @@ class FeatFlagParser:
 
     def _parse_flags(self):
         parsed_flags = dict()
+
+        # No flags specified.
+        if self._flags == "none":
+            return parsed_flags
+
         flag_pairs = self._flags.split("|")
         for flag_pair in flag_pairs:
             name, increment = flag_pair.split(",")
@@ -87,7 +92,13 @@ class AbilityScoreImprovement:
 
     def _add_feat_perks(self, feat):
         a = FeatFlagParser(feat)
-        for flag, options in a.weave().items():
+        weave = a.weave()
+
+        # No weave created
+        if weave is None:
+            return
+
+        for flag, options in weave.items():
             if flag == "ability":
                 ability, bonus = options
                 self._set_ability_score(ability, bonus)
