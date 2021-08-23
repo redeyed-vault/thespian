@@ -11,11 +11,11 @@ from aiohttp import web
 from bs4 import BeautifulSoup
 
 
-class HTTPd:
+class CharacterSheetServer:
     def __init__(self, data: MyTapestry, port: int = 5000):
         self.data = data
         self.port = port
-        self.text = ""
+        self.content = ""
 
     def __enter__(self):
         return self
@@ -25,14 +25,14 @@ class HTTPd:
 
     @property
     def _write(self):
-        return self.text
+        return self.content
 
     @_write.setter
     def _write(self, text: str):
-        if self.text != "":
-            self.text += text
+        if self.content != "":
+            self.content += text
         else:
-            self.text = text
+            self.content = text
 
     def run(self, port: int = 8080) -> None:
         def format_race(race, subrace):
@@ -84,12 +84,12 @@ class HTTPd:
 
         self._write = "</body></html>"
 
-        async def index(request):
+        async def character_sheet(request):
             return web.Response(
                 content_type="text/html",
                 text=BeautifulSoup(self._write, "html.parser").prettify(),
             )
 
         app = web.Application()
-        app.router.add_get("/", index)
+        app.router.add_get("/", character_sheet)
         web.run_app(app, host="127.0.0.1", port=port)
