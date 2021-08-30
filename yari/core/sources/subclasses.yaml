@@ -2,6 +2,7 @@ subclasses:
   #####################
   # Barbarian Paths
   #####################
+  # XGtE (pg. 9)
   Path of the Ancestral Guardian:
     armors: []
     bonusmagic: ~
@@ -28,6 +29,7 @@ subclasses:
     skills: []
     tools: []
     weapons: []
+  # XGtE (pg. 10)
   Path of the Storm Herald:
     armors: []
     bonusmagic: ~
@@ -70,6 +72,7 @@ subclasses:
   #####################
   # Bard Colleges
   #####################
+  # XGtE (pg. 14)
   College of Glamour:
     armors: []
     bonusmagic: ~
@@ -112,6 +115,7 @@ subclasses:
       - Survival
     tools: []
     weapons: []
+  # XGtE (pg. 15)
   College of Swords:
     armors: ['Medium']
     bonusmagic: ~
@@ -136,6 +140,7 @@ subclasses:
     skills: []
     tools: []
     weapons: ['Martial']
+  # XGtE (pg. 16)
   College of Whispers:
     armors: []
     bonusmagic: ~
@@ -151,6 +156,7 @@ subclasses:
   #####################
   # Cleric Domains
   #####################
+  # XGtE (pg. 18)
   Forge Domain:
     armors: ['Heavy']
     bonusmagic:
@@ -171,6 +177,7 @@ subclasses:
     skills: []
     tools: ["Artisan's tools - Smith's tools"]
     weapons: []
+  # XGtE (pg. 19)
   Grave Domain:
     armors: []
     bonusmagic:
@@ -377,6 +384,7 @@ subclasses:
     skills: []
     tools: []
     weapons: []
+  # XGtE (pg. 22)
   Circle of the Dreams:
     armors: []
     bonusmagic: ~
@@ -454,6 +462,7 @@ subclasses:
     skills: []
     tools: []
     weapons: []
+  # XGtE (pg. 23)
   Circle of the Shepherd:
     armors: []
     bonusmagic: ~
@@ -504,6 +513,7 @@ subclasses:
   #####################
   # Fighter Archetypes
   #####################
+  # XGtE (pg. 28)
   Arcane Archer:
     armors: []
     bonusmagic: ~
@@ -531,6 +541,7 @@ subclasses:
     skills: []
     tools: []
     weapons: []
+  # XGtE (pg. 30)
   Cavalier:
     armors: []
     bonusmagic: ~
@@ -573,6 +584,7 @@ subclasses:
     skills: []
     tools: []
     weapons: []
+  # XGtE (pg. 31)
   Samurai:
     armors: []
     bonusmagic: ~
@@ -617,6 +629,7 @@ subclasses:
     languages: []
     tools: []
     weapons: []
+  # (XGtE pg. 33)
   Way of the Drunken Master:
     armors: []
     bonusmagic: ~
@@ -652,6 +665,7 @@ subclasses:
     skills: []
     tools: []
     weapons: []
+  # XGtE (pg. 34)
   Way of the Kensei:
     armors: []
     bonusmagic: ~
@@ -678,6 +692,7 @@ subclasses:
     skills: []
     tools: []
     weapons: []
+  # XGtE (pg. 35)
   Way of the Sun Soul:
     armors: []
     bonusmagic: ~
@@ -712,6 +727,7 @@ subclasses:
     skills: []
     tools: []
     weapons: []
+  # XGtE (pg. 37)
   Oath of Conquest:
     armors: []
     bonusmagic:
@@ -749,6 +765,7 @@ subclasses:
     skills: []
     tools: []
     weapons: []
+  # XGtE (pg. 38)
   Oath of Redemption:
     armors: []
     bonusmagic:
@@ -802,6 +819,7 @@ subclasses:
     skills: []
     tools: []
     weapons: []
+  # XGtE (pg. 41)
   Gloom Stalker:
     armors: []
     bonusmagic:
@@ -820,6 +838,7 @@ subclasses:
     skills: []
     tools: []
     weapons: []
+  # XGtE (pg. 42)
   Horizon Walker:
     armors: []
     bonusmagic:
@@ -851,6 +870,7 @@ subclasses:
     skills: []
     tools: []
     weapons: []
+  # XGtE (pg. 43)
   Monster Slayer:
     armors: []
     bonusmagic:
@@ -898,6 +918,7 @@ subclasses:
     skills: []
     tools: ['Disguise kit', "Poisoner's kit"]
     weapons: []
+  # XGtE (pg. 45)
   Inquisitive:
     armors: []
     bonusmagic: ~
@@ -911,6 +932,7 @@ subclasses:
     skills: []
     tools: []
     weapons: []
+  # XGtE (pg. 46)
   Mastermind:
     armors: []
     bonusmagic: ~
@@ -924,6 +946,7 @@ subclasses:
     skills: []
     tools: []
     weapons: []
+  # XGtE (pg. 47)
   Scout:
     armors: []
     bonusmagic: ~
