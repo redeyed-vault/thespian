@@ -1,5 +1,7 @@
 races:
+  #######################
   # Aasimar
+  #######################
   Aasimar:
     ancestry: []
     armors: []
@@ -25,7 +27,9 @@ races:
       - Celestial Resistance
       - Darkvision
     weapons: []
+  #######################
   # Bugbear
+  #######################
   Bugbear:
     ancestry: []
     armors: []
@@ -51,7 +55,9 @@ races:
       - Sneaky
       - Surprise Attack
     weapons: []
+  #######################
   # Dragonborn
+  #######################
   Dragonborn:
     ancestry:
       - Black
@@ -94,7 +100,9 @@ races:
       - Damage Resistance
       - Draconic Ancestry
     weapons: []
+  #######################
   # Dwarf
+  #######################
   Dwarf:
     ancestry: []
     armors: []
@@ -129,7 +137,9 @@ races:
       - Handaxe
       - Throwing hammer
       - Warhammer
+  #######################
   # Elf
+  #######################
   Elf:
     ancestry: []
     armors: []
@@ -159,7 +169,9 @@ races:
       - Keen Senses
       - Trance
     weapons: []
+  #######################
   # Firbolg
+  #######################
   Firbolg:
     ancestry: []
     armors: []
@@ -184,7 +196,9 @@ races:
       - Powerful Build
       - Speech of Beast and Leaf
     weapons: []
+  #######################
   # Gith
+  #######################
   Gith:
     ancestry: []
     armors: []
@@ -205,7 +219,9 @@ races:
     tools: []
     traits: ~
     weapons: []
+  #######################
   # Gnome
+  #######################
   Gnome:
     ancestry: []
     armors: []
@@ -229,7 +245,9 @@ races:
       - Gnome Cunning
       - Darkvision
     weapons: []
+  #######################
   # Goblin
+  #######################
   Goblin:
     ancestry: []
     armors: []
@@ -252,7 +270,9 @@ races:
       - Fury of the Small
       - Nimble Escape
     weapons: []
+  #######################
   # Goliath
+  #######################
   Goliath:
     ancestry: []
     armors: []
@@ -277,7 +297,9 @@ races:
       - Powerful Build
       - Mountain Born
     weapons: []
+  #######################
   # HalfElf
+  #######################
   HalfElf:
     ancestry: []
     armors: []
@@ -333,7 +355,9 @@ races:
       - Languages
       - Skill Versatility
     weapons: []
+  #######################
   # HalfOrc
+  #######################
   HalfOrc:
     ancestry: []
     armors: []
@@ -358,7 +382,9 @@ races:
       - Relentless Endurance
       - Savage Attacks
     weapons: []
+  #######################
   # Halfling
+  #######################
   Halfling:
     ancestry: []
     armors: []
@@ -382,7 +408,9 @@ races:
       - Halfling Nimbleness
       - Lucky
     weapons: []
+  #######################
   # Hobgoblin
+  #######################
   Hobgoblin:
     ancestry: []
     armors: []
@@ -426,7 +454,9 @@ races:
       - War pick
       - Warhammer
       - Whip
+  #######################
   # Human
+  #######################
   Human:
     ancestry: []
     armors: []
@@ -467,7 +497,9 @@ races:
     traits:
       - Languages
     weapons: []
+  #######################
   # Kenku
+  #######################
   Kenku:
     ancestry: []
     armors: []
@@ -491,7 +523,9 @@ races:
       - Kenku Training
       - Mimicry
     weapons: []
+  #######################
   # Kobold
+  #######################
   Kobold:
     ancestry: []
     armors: []
@@ -515,7 +549,9 @@ races:
       - Pack Tactics
       - Sunlight Sensitivity
     weapons: []
+  #######################
   # Lizardfolk
+  #######################
   Lizardfolk:
     ancestry: []
     armors: []
@@ -542,7 +578,9 @@ races:
       - Natural Armor
       - Hungry Jaws
     weapons: []
+  #######################
   # Orc
+  #######################
   Orc:
     ancestry: []
     armors: []
@@ -567,7 +605,9 @@ races:
       - Menacing
       - Powerful Build
     weapons: []
+  #######################
   # Tabaxi (VGtM pg. 113)
+  #######################
   Tabaxi:
     ancestry: []
     armors: []
@@ -609,7 +649,9 @@ races:
       - Cat's Talent
       - Languages
     weapons: []
+  #######################
   # Tiefling
+  #######################
   Tiefling:
     ancestry: []
     armors: []
@@ -639,7 +681,9 @@ races:
       - Darkvision
       - Hellish Resistance
     weapons: []
+  #######################
   # Triton (VGtM pg. 115)
+  #######################
   Triton:
     ancestry: []
     armors: []
@@ -664,7 +708,9 @@ races:
       - Emissary of the Sea
       - Guardians of the Depths
     weapons: []
+  #######################
   # Yuanti
+  #######################
   Yuanti:
     ancestry: []
     armors: []
