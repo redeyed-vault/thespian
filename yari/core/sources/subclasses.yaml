@@ -1,5 +1,7 @@
 subclasses:
+  #####################
   # Barbarian Paths
+  #####################
   Path of the Ancestral Guardian:
     armors: []
     bonusmagic: ~
@@ -65,7 +67,9 @@ subclasses:
     skills: []
     tools: []
     weapons: []
+  #####################
   # Bard Colleges
+  #####################
   College of Glamour:
     armors: []
     bonusmagic: ~
@@ -144,7 +148,9 @@ subclasses:
     skills: []
     tools: []
     weapons: []
+  #####################
   # Cleric Domains
+  #####################
   Forge Domain:
     armors: ['Heavy']
     bonusmagic:
@@ -317,7 +323,9 @@ subclasses:
     skills: []
     tools: []
     weapons: ['Martial']
+  #####################
   # Druid Circles
+  #####################
   Circle of the Arctic:
     armors: []
     bonusmagic:
@@ -493,7 +501,9 @@ subclasses:
     skills: []
     tools: []
     weapons: []
+  #####################
   # Fighter Archetypes
+  #####################
   Arcane Archer:
     armors: []
     bonusmagic: ~
@@ -592,7 +602,9 @@ subclasses:
     skills: ['History', 'Insight', 'Performance', 'Persuasion']
     tools: []
     weapons: []
+  #####################
   # Monk Traditions
+  #####################
   Way of Shadow:
     armors: []
     bonusmagic: ~
@@ -679,7 +691,9 @@ subclasses:
     skills: []
     tools: []
     weapons: []
+  #####################
   # Paladin Oaths
+  #####################
   Oath of the Ancients:
     armors: []
     bonusmagic:
@@ -772,7 +786,9 @@ subclasses:
     skills: []
     tools: []
     weapons: []
+  #####################
   # Ranger Archetypes
+  #####################
   Beast Master:
     armors: []
     bonusmagic: ~
@@ -853,7 +869,9 @@ subclasses:
     skills: []
     tools: []
     weapons: []
+  #####################
   # Rogue Archetypes
+  #####################
   Arcane Trickster:
     armors: []
     bonusmagic: ~
@@ -945,7 +963,9 @@ subclasses:
     skills: []
     tools: []
     weapons: []
+  #####################
   # Sorcerer Origins
+  #####################
   Divine Soul:
     armors: []
     bonusmagic:
@@ -991,6 +1011,7 @@ subclasses:
     skills: []
     tools: []
     weapons: []
+  # XGtE (pg. 51)
   Storm Sorcery:
     armors: []
     bonusmagic: ~
@@ -1017,7 +1038,9 @@ subclasses:
     skills: []
     tools: []
     weapons: []
+  #####################
   # Warlock Pacts
+  #####################
   The Archfey:
     armors: []
     bonusmagic:
@@ -1036,6 +1059,7 @@ subclasses:
     skills: []
     tools: []
     weapons: []
+  # XGtE (pg. 54)
   The Celestial:
     armors: []
     bonusmagic:
@@ -1090,6 +1114,7 @@ subclasses:
     skills: []
     tools: []
     weapons: []
+  # XGtE (pg. 55)
   The Hexblade:
     armors: []
     bonusmagic:
@@ -1108,7 +1133,9 @@ subclasses:
     skills: []
     tools: []
     weapons: []
+  #####################
   # Wizard Schools
+  #####################
   School of Abjuration:
     armors: []
     bonusmagic: ~
@@ -1213,6 +1240,7 @@ subclasses:
     skills: []
     tools: []
     weapons: []
+  # XGtE (pg. 59)
   War Magic:
     armors: []
     bonusmagic: ~
