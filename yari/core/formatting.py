@@ -1,3 +1,5 @@
+from math import floor
+
 from .sources import Load
 
 
@@ -8,8 +10,6 @@ class AttributeWriter:
         self._skills = skills
 
     def _get_attribute_array(self):
-        from math import floor
-
         modifier = floor((self._value - 10) / 2)
         arr = dict()
         arr["ability_checks"] = modifier
@@ -115,15 +115,29 @@ class ListWriter:
 
 
 class ProficiencyWriter:
-    def __init__(self, armors, languages, saving_throws, skills, tools, weapons):
+    def __init__(
+        self, armors, languages, level, saving_throws, scores, skills, tools, weapons
+    ):
         self._armors = armors
         self._languages = languages
+        self._proficiency_bonus = floor((level + 2) / 4)
         self._saving_throws = saving_throws
+        self._scores = scores
         self._skills = skills
         self._tools = tools
         self._weapons = weapons
 
     def _sort_proficiencies(self):
+        def organize_my_skills(my_skills):
+            organized_skill_list = list()
+            for skill in Load.get_columns(source_file="skills"):
+                ability = Load.get_columns(skill, "ability", source_file="skills")
+                if skill not in my_skills:
+                    organized_skill_list.append((skill, ability, False))
+                else:
+                    organized_skill_list.append((skill, ability, True))
+            return organized_skill_list
+
         for this_list in (
             self._armors,
             self._tools,
@@ -140,15 +154,21 @@ class ProficiencyWriter:
             "weapons": self._weapons,
             "languages": self._languages,
             "saving_throws": self._saving_throws,
-            "skills": self._skills,
+            "skills": organize_my_skills(self._skills),
         }
 
     @classmethod
-    def write(cls, armors, languages, saving_throws, skills, tools, weapons):
-        x = cls(armors, languages, saving_throws, skills, tools, weapons)
+    def write(
+        cls, armors, languages, level, saving_throws, scores, skills, tools, weapons
+    ):
+        x = cls(armors, languages, level, saving_throws, scores, skills, tools, weapons)
         types = x._sort_proficiencies()
 
         block = "<p><strong>PROFICIENCIES</strong></p>"
+
+        block += "<p>"
+        block += f"Proficiency Bonus: {x._proficiency_bonus}<br/>"
+        block += "</p>"
 
         for object_type in (
             "armors",
@@ -161,7 +181,18 @@ class ProficiencyWriter:
             block += f"<p><strong>{object_type.capitalize()}</strong></p>"
             block += "<p>"
             for obj in types.get(object_type):
-                block += f"{obj}<br/>"
+                if object_type == "skills":
+                    skill, ability, proficient = obj
+                    base_modifier = floor((x._scores.get(ability) - 10) / 2)
+                    if proficient:
+                        base_modifier += x._proficiency_bonus
+                        block += (
+                            f"<strong>{skill}</strong> {base_modifier} ({ability})<br/>"
+                        )
+                    else:
+                        block += f"{skill} {base_modifier} ({ability})<br/>"
+                else:
+                    block += f"{obj}<br/>"
             block += "</p>"
 
         return block

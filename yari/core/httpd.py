@@ -73,7 +73,14 @@ class CharacterSheetServer:
         self._write = f"<p><strong>Spell Slots: </strong>{d.spellslots}</p>"
 
         self._write = ProficiencyWriter.write(
-            d.armors, d.languages, d.savingthrows, d.skills, d.tools, d.weapons
+            d.armors,
+            d.languages,
+            d.level,
+            d.savingthrows,
+            d.scores,
+            d.skills,
+            d.tools,
+            d.weapons,
         )
         self._write = ListWriter.write("FEATS", d.feats)
         self._write = ListWriter.write("RACIAL TRAITS", d.traits)
