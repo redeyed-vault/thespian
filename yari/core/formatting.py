@@ -1,4 +1,4 @@
-from math import floor
+from math import ceil, floor
 
 from .sources import Load
 
@@ -120,7 +120,7 @@ class ProficiencyWriter:
     ):
         self._armors = armors
         self._languages = languages
-        self._proficiency_bonus = floor((level + 2) / 4)
+        self._proficiency_bonus = ceil((level / 4) + 1)
         self._saving_throws = saving_throws
         self._scores = scores
         self._skills = skills
@@ -167,7 +167,7 @@ class ProficiencyWriter:
         block = "<p><strong>PROFICIENCIES</strong></p>"
 
         block += "<p>"
-        block += f"Proficiency Bonus: {x._proficiency_bonus}<br/>"
+        block += f"<strong>Proficiency Bonus:</strong> {x._proficiency_bonus}<br/>"
         block += "</p>"
 
         for object_type in (
@@ -184,6 +184,7 @@ class ProficiencyWriter:
                 if object_type == "skills":
                     skill, ability, proficient = obj
                     base_modifier = floor((x._scores.get(ability) - 10) / 2)
+
                     if proficient:
                         base_modifier += x._proficiency_bonus
                         block += (
