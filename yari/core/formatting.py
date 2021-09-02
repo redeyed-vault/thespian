@@ -116,7 +116,16 @@ class ListWriter:
 
 class ProficiencyWriter:
     def __init__(
-        self, armors, languages, level, saving_throws, scores, skills, tools, weapons
+        self,
+        armors,
+        languages,
+        level,
+        saving_throws,
+        scores,
+        skills,
+        speed,
+        tools,
+        weapons,
     ):
         self._armors = armors
         self._languages = languages
@@ -124,6 +133,7 @@ class ProficiencyWriter:
         self._saving_throws = saving_throws
         self._scores = scores
         self._skills = skills
+        self._speed = speed
         self._tools = tools
         self._weapons = weapons
 
@@ -159,15 +169,35 @@ class ProficiencyWriter:
 
     @classmethod
     def write(
-        cls, armors, languages, level, saving_throws, scores, skills, tools, weapons
+        cls,
+        armors,
+        languages,
+        level,
+        saving_throws,
+        scores,
+        skills,
+        speed,
+        tools,
+        weapons,
     ):
-        x = cls(armors, languages, level, saving_throws, scores, skills, tools, weapons)
+        x = cls(
+            armors,
+            languages,
+            level,
+            saving_throws,
+            scores,
+            skills,
+            speed,
+            tools,
+            weapons,
+        )
         types = x._sort_proficiencies()
 
         block = "<p><strong>PROFICIENCIES</strong></p>"
 
         block += "<p>"
         block += f"<strong>Proficiency Bonus:</strong> {x._proficiency_bonus}<br/>"
+        block += f"<strong>Speed:</strong> {x._speed}<br/>"
         block += "</p>"
 
         for object_type in (

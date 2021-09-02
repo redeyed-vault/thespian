@@ -36,7 +36,7 @@ class CharacterSheetServer:
 
     def run(self, port: int = 8080) -> None:
         def format_race(race, subrace):
-            if subrace != "":
+            if subrace is not None:
                 race = f"{race}, {subrace}"
             elif race == "HalfElf":
                 race = "Half-Elf"
@@ -79,6 +79,7 @@ class CharacterSheetServer:
             d.savingthrows,
             d.scores,
             d.skills,
+            d.speed,
             d.tools,
             d.weapons,
         )
