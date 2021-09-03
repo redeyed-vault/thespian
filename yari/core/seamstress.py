@@ -88,6 +88,7 @@ class _BaseClassSeamstress(_FlagSeamstress):
                 die_rolls.append(hp_result)
             self.tapestry["hp"] += sum(die_rolls)
 
+        self.tapestry["bonusmagic"] = None
         self.tapestry["klass"] = klass
         self.tapestry["feats"] = list()
         self.tapestry["spellslots"] = self.tapestry.get("spellslots").get(level)
@@ -100,6 +101,11 @@ class _BaseClassSeamstress(_FlagSeamstress):
                 break
             if flag not in self.flags:
                 # _e(f"INFO: Flag '{flag}' not specified. Skipping...", "yellow")
+                continue
+
+            # Ignore subclass if character less than 3rd level.
+            if self.tapestry.get("level") < 3 and flag == "subclass":
+                self.tapestry["subclass"] = None
                 continue
 
             if flag == "ability":
@@ -465,7 +471,10 @@ class MyTapestry:
 class ClassSeamstress(MyTapestry):
     def __init__(self, klass, omitted_values=None):
         a = _BaseClassSeamstress(klass).run(omitted_values)
-        b = _SubClassSeamstress(a.get("subclass"), a.get("level")).run(omitted_values)
+        b = None
+        subclass = a.get("subclass")
+        if subclass is not None:
+            b = _SubClassSeamstress(subclass, a.get("level")).run(omitted_values)
 
         super().__init__()
         self.weave(a, b)
