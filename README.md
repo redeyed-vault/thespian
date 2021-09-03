@@ -30,7 +30,7 @@ Planning to eventually incorporate content from *Tasha's Cauldron of Everything*
 
 #### INSTALLATION
 
-To use Yari, do the following:
+To install Yari, do the following:
 
 ```
 $ git clone https://github.com/taylormarcus/Yari.git
