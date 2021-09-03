@@ -116,43 +116,42 @@ class _BaseClassSeamstress(_FlagSeamstress):
                     self.tapestry[flag][rank] = choice
                     _e(f"You chose the ability > '{choice}'", "green")
                 self.tapestry[flag] = tuple(self.tapestry[flag].values())
-            else:
-                num_of_instances = self.flags.get(flag)
-                flag_options = self.tapestry.get(flag)
-                if type(flag_options) is list:
-                    if type(omitted_values) is dict and flag in omitted_values:
-                        omitted_values = omitted_values.get(flag)
-                        if type(omitted_values) is not list:
-                            continue
-                        flag_options = [
-                            x for x in flag_options if x not in omitted_values
-                        ]
+                continue
 
-                    option_selections = []
-                    for _ in range(num_of_instances):
-                        chosen_option = prompt(
-                            f"Choose class option '{flag}' ({num_of_instances}):",
-                            flag_options,
-                        )
-                        if flag in ("skills", "tools"):
-                            option_selections.append(chosen_option)
-                        else:
-                            option_selections = chosen_option
+            num_of_instances = self.flags.get(flag)
+            flag_options = self.tapestry.get(flag)
+            if type(flag_options) is list:
+                if type(omitted_values) is dict and flag in omitted_values:
+                    omitted_values = omitted_values.get(flag)
+                    if type(omitted_values) is not list:
+                        continue
+                    flag_options = [x for x in flag_options if x not in omitted_values]
 
-                        flag_options.remove(chosen_option)
-                        _e(
-                            f"INFO: You chose > {chosen_option}.",
-                            "green",
-                        )
-
-                    if (
-                        type(option_selections) is list
-                        and type(omitted_values) is list
-                        and len(omitted_values) > 0
-                    ):
-                        self.tapestry[flag] = option_selections + omitted_values
+                option_selections = []
+                for _ in range(num_of_instances):
+                    chosen_option = prompt(
+                        f"Choose class option '{flag}' ({num_of_instances}):",
+                        flag_options,
+                    )
+                    if flag in ("skills", "tools"):
+                        option_selections.append(chosen_option)
                     else:
-                        self.tapestry[flag] = option_selections
+                        option_selections = chosen_option
+
+                    flag_options.remove(chosen_option)
+                    _e(
+                        f"INFO: You chose > {chosen_option}.",
+                        "green",
+                    )
+
+                if (
+                    type(option_selections) is list
+                    and type(omitted_values) is list
+                    and len(omitted_values) > 0
+                ):
+                    self.tapestry[flag] = option_selections + omitted_values
+                else:
+                    self.tapestry[flag] = option_selections
 
         ability = self.tapestry.get("ability")
         if type(ability) is dict:
