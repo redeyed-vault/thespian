@@ -30,16 +30,22 @@ Planning to eventually incorporate content from *Tasha's Cauldron of Everything*
 
 #### INSTALLATION
 
-To use Yari, simply clone the main repository:
+To use Yari, do the following:
 
-```git clone https://github.com/taylormarcus/Yari.git```
+```
+$ git clone https://github.com/taylormarcus/Yari.git
+
+$ cd Yari
+
+$ python -m pip install -r requirements.txt
+```
 
 
 #### USAGE
 
 To run Yari, simply change into the cloned directory and type this command (a complete explanation of possible arguments follows this example):
 
-```python yari -r Elf -k Fighter -s Female```
+```$ python yari -r Elf -k Fighter -s Female```
 
 
 ```
