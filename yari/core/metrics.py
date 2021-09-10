@@ -8,6 +8,8 @@ from .utils import _e
 
 @dataclass
 class AnthropometricCalculator:
+    """Used to calculate the height and weight of characters based upon race/subrace."""
+
     race: str
     sex: str
     subrace: str = None
