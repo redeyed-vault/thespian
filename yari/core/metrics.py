@@ -16,7 +16,7 @@ class AnthropometricCalculator:
 
     def _get_height_and_weight_base(self):
         """Gets the base height/weight information for race/subrace."""
-        base_values = list()
+        base_metric_values = list()
         for characteristic in ("height", "weight"):
             # First, check base race entry for metrics.
             result = Load.get_columns(self.race, characteristic, source_file="metrics")
@@ -31,9 +31,17 @@ class AnthropometricCalculator:
             if result is None:
                 raise Error("No racial base metrics found.")
 
-            base_values.append(result)
+            base_metric_values.append(result)
 
-        height, weight = base_values
+        # If you don't have two base metric values.
+        metric_value_count = len(base_metric_values)
+        if metric_value_count != 2:
+            raise Error(
+                f"Two base metric values must be provided. ({metric_value_count} provided)"
+            )
+
+        # pylint: disable=unbalanced-tuple-unpacking
+        height, weight = base_metric_values
 
         return height, weight
 
