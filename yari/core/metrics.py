@@ -1,43 +1,55 @@
+from dataclasses import dataclass
+
 from .dice import roll
 from .errors import Error
 from .sources import Load
 from .utils import _e
 
 
+@dataclass
 class AnthropometricCalculator:
-    def __init__(self, race, sex, subrace=None):
-        self.race = race
-        self.sex = sex
-        self.subrace = subrace
+    race: str
+    sex: str
+    subrace: str = None
 
-    def _select_base(self):
+    def _get_height_and_weight_base(self):
+        """Gets the base height/weight information for race/subrace."""
         base_values = list()
         for characteristic in ("height", "weight"):
+            # First, check base race entry for metrics.
             result = Load.get_columns(self.race, characteristic, source_file="metrics")
+
+            # If no base race metrics found, check for subrace metrics.
             if result is None:
                 result = Load.get_columns(
                     self.subrace, characteristic, source_file="metrics"
                 )
-                if result is None:
-                    raise Error("No racial base found for height/weight calculation.")
+
+            # If base|sub race metrics not found.
+            if result is None:
+                raise Error("No racial base metrics found.")
+
             base_values.append(result)
 
         height, weight = base_values
+
         return height, weight
 
-    def _select_origin(self):
+    def _get_metric_data_source_race(self):
+        """Returns metric data source's race or subrace."""
         result = Load.get_columns(self.race, source_file="metrics")
         if result is None:
             result = Load.get_columns(self.subrace, source_file="metrics")
             if result is not None:
                 return self.subrace
             else:
-                raise Error("No racial origin could be determined.")
+                raise Error("No racial source could be determined.")
 
         return self.race
 
     def calculate(self, factor_sex=False):
-        height_values, weight_values = self._select_base()
+        """Calculates character's height and weight."""
+        height_values, weight_values = self._get_height_and_weight_base()
         height_pair = height_values.split(",")
         weight_pair = weight_values.split(",")
 
@@ -54,7 +66,7 @@ class AnthropometricCalculator:
         # Unofficial rule for height/weight differential by gender
         if factor_sex:
             dominant_sex = Load.get_columns(
-                self._select_origin(), "dominant", source_file="metrics"
+                self._get_metric_data_source_race(), "dominant", source_file="metrics"
             )
             if dominant_sex is None:
                 dominant_sex = "Male"
