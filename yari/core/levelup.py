@@ -7,12 +7,15 @@ from .utils import _e, get_character_feats, prompt
 
 
 class FeatFlagParser:
+    """Generates and parses feat characteristic flags by feat."""
+
     def __init__(self, feat):
         self._flags = Load.get_columns(feat, "perk", "flags", source_file="feats")
         self._perks = Load.get_columns(feat, "perk", source_file="feats")
         del self._perks["flags"]
 
     def _parse_flags(self):
+        """Generates feat flag characteristics."""
         parsed_flags = dict()
 
         # No flags specified.
@@ -33,6 +36,7 @@ class FeatFlagParser:
         return parsed_flags
 
     def weave(self):
+        """Parses feat flag characteristics."""
         final_flag = self._parse_flags()
 
         # No flags parsed
@@ -58,7 +62,7 @@ class FeatFlagParser:
                     final_flag[flag] = self._perks[flag]
                 else:
                     # TODO: Impementing multiple choices
-                    chosen_options = list()
+                    chosen_options = list()  # pylint: disable=unused-variable
                     available_options = self._perks[flag]
                     print(available_options)
             elif flag == "speed":
@@ -70,6 +74,8 @@ class FeatFlagParser:
 
 
 class AbilityScoreImprovement:
+    """Used to apply ability or feat upgrades to your character."""
+
     def __init__(self, tapestry):
         self.ability = tapestry["ability"]
         self.armors = tapestry["armors"]
@@ -111,6 +117,7 @@ class AbilityScoreImprovement:
             elif flag == "speed":
                 self.speed += options
         """
+        TODO: Sorting this code out elsewhere.
         # Retrieve all perks for the chosen feat
         for flag, value in perk_flags.items():
             if "save" in perk_flags:
