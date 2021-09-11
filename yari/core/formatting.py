@@ -1,42 +1,50 @@
+from dataclasses import dataclass
 from math import ceil, floor
 
 from .sources import Load
 
 
+@dataclass
 class AttributeWriter:
-    def __init__(self, ability, value, skills):
-        self._ability = ability
-        self._value = value
-        self._skills = skills
+    """Formats and prints attribute properties."""
+
+    _ability: str
+    _skills: list
+    _value: int = 0
 
     def _get_attribute_array(self):
+        """Generates attribute properties."""
         modifier = floor((self._value - 10) / 2)
-        arr = dict()
-        arr["ability_checks"] = modifier
-        arr["saving_throws"] = modifier
-        arr["value"] = self._value
 
+        # All attributes have these properties.
+        attr_array = dict()
+        attr_array["ability_checks"] = modifier
+        attr_array["saving_throws"] = modifier
+        attr_array["value"] = self._value
+
+        # Strength has three other unique properties.
         if self._ability == "Strength":
-            arr["carry_capacity"] = self._value * 15
-            arr["push_pull_carry"] = arr["carry_capacity"] * 2
-            arr["maximum_lift"] = arr["push_pull_carry"]
+            attr_array["carry_capacity"] = self._value * 15
+            attr_array["push_pull_carry"] = attr_array["carry_capacity"] * 2
+            attr_array["maximum_lift"] = attr_array["push_pull_carry"]
 
-        arr["skills"] = list()
+        # Add any possessed skill associated with attribute in listing.
+        attr_array["skills"] = list()
         for skill in self._skills:
             primary_ability = Load.get_columns(skill, "ability", source_file="skills")
             if primary_ability != self._ability:
                 continue
 
-            arr["skills"].append((skill, modifier))
+            attr_array["skills"].append((skill, modifier))
 
-        return arr
+        return attr_array
 
     @classmethod
     def write(cls, scores: dict, skills: list):
         attribs = dict()
         x = None
         for attribute in tuple(scores.keys()):
-            x = cls(attribute, scores.get(attribute), skills)
+            x = cls(attribute, skills, scores.get(attribute))
             attribs[attribute] = x._get_attribute_array()
 
         block = ""
@@ -65,9 +73,11 @@ class AttributeWriter:
         return block
 
 
+@dataclass
 class FeatureWriter:
-    def __init__(self, features: dict):
-        self._features = features
+    """Formats and prints class feature properties."""
+
+    _features: dict
 
     def _format_features(self):
         for _, features in self._features.items():
@@ -92,10 +102,12 @@ class FeatureWriter:
         return block
 
 
+@dataclass
 class ListWriter:
-    def __init__(self, header: str, items: list):
-        self._header = header
-        self._items = items
+    """Formats and prints custom list properties."""
+
+    _header: str
+    _items: list
 
     @classmethod
     def write(cls, header: str, items: list):
@@ -115,6 +127,8 @@ class ListWriter:
 
 
 class ProficiencyWriter:
+    """Formats and print proficiency properties."""
+
     def __init__(
         self,
         armors,
@@ -180,6 +194,9 @@ class ProficiencyWriter:
         tools,
         weapons,
     ):
+        def get_modifier(value):
+            return floor((value - 10) / 2)
+
         x = cls(
             armors,
             languages,
@@ -197,6 +214,7 @@ class ProficiencyWriter:
 
         block += "<p>"
         block += f"<strong>Proficiency Bonus:</strong> {x._proficiency_bonus}<br/>"
+        block += f"<strong>Initiative:</strong> {get_modifier(x._scores.get('Dexterity'))}<br/>"
         block += f"<strong>Speed:</strong> {x._speed}<br/>"
         block += "</p>"
 
@@ -213,7 +231,7 @@ class ProficiencyWriter:
             for obj in types.get(object_type):
                 if object_type == "skills":
                     skill, ability, proficient = obj
-                    base_modifier = floor((x._scores.get(ability) - 10) / 2)
+                    base_modifier = get_modifier(x._scores.get(ability))
 
                     if proficient:
                         base_modifier += x._proficiency_bonus
@@ -229,11 +247,13 @@ class ProficiencyWriter:
         return block
 
 
+@dataclass
 class SpellWriter:
-    def __init__(self, klass, level, spells):
-        self._klass = klass
-        self._level = level
-        self._spells = spells
+    """Formats and prints spell list properties."""
+
+    _klass: str
+    _level: int
+    _spells: list
 
     @classmethod
     def write(cls, klass, level, spells):

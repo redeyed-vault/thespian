@@ -44,7 +44,7 @@ def prompt(message, options):
         else:
             raise ValueError
     except KeyboardInterrupt:
-        exit("\nThank you for using YARI! Exiting...")
+        exit("\nHalting...")
     except ValueError:
         return prompt(message, options.values())
     except RecursionError:

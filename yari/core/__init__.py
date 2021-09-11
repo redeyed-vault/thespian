@@ -69,8 +69,5 @@ def main():
     u = AbilityScoreImprovement(c.view(True))
     u.run()
 
-    try:
-        with CharacterSheetServer(c.view(), port) as http:
-            http.run()
-    except (TypeError, ValueError) as e:
-        exit(e)
+    with CharacterSheetServer(c.view(), port) as http:
+        http.run()
