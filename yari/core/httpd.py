@@ -15,6 +15,8 @@ from bs4 import BeautifulSoup
 
 @dataclass
 class CharacterSheetServer:
+    """Starts a local HTTP character sheet display server."""
+
     data: MyTapestry
     port: int = 5000
     content: str = ""
@@ -36,7 +38,9 @@ class CharacterSheetServer:
         else:
             self.content = text
 
-    def run(self) -> None:
+    def run(self):
+        """Starts the HTTP server."""
+
         def format_race(race, subrace):
             if subrace is not None:
                 race = f"{race}, {subrace}"
