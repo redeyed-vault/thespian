@@ -1,3 +1,5 @@
+from dataclasses import dataclass
+
 from .formatting import (
     AttributeWriter,
     FeatureWriter,
@@ -11,11 +13,11 @@ from aiohttp import web
 from bs4 import BeautifulSoup
 
 
+@dataclass
 class CharacterSheetServer:
-    def __init__(self, data: MyTapestry, port: int = 5000):
-        self.data = data
-        self.port = port
-        self.content = ""
+    data: MyTapestry
+    port: int = 5000
+    content: str = ""
 
     def __enter__(self):
         return self
@@ -34,7 +36,7 @@ class CharacterSheetServer:
         else:
             self.content = text
 
-    def run(self, port: int = 8080) -> None:
+    def run(self) -> None:
         def format_race(race, subrace):
             if subrace is not None:
                 race = f"{race}, {subrace}"
@@ -100,4 +102,4 @@ class CharacterSheetServer:
 
         app = web.Application()
         app.router.add_get("/", character_sheet)
-        web.run_app(app, host="127.0.0.1", port=port)
+        web.run_app(app, host="127.0.0.1", port=self.port)

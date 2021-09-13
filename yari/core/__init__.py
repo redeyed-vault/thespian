@@ -48,7 +48,7 @@ def main():
         "-p",
         help="sets HTTP server port",
         type=int,
-        default=8080,
+        default=5000,
     )
     args = app.parse_args()
     race = args.race
