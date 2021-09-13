@@ -35,7 +35,7 @@ To install Yari, do the following:
 ```
 $ git clone https://github.com/taylormarcus/yari-dnd.git
 
-$ cd Yari
+$ cd yari-dnd
 
 $ python -m pip install -r requirements.txt
 ```
