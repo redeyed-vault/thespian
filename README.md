@@ -33,7 +33,7 @@ Planning to eventually incorporate content from *Tasha's Cauldron of Everything*
 To install Yari, do the following:
 
 ```
-$ git clone https://github.com/taylormarcus/Yari.git
+$ git clone https://github.com/taylormarcus/yari-dnd.git
 
 $ cd Yari
 
@@ -202,7 +202,7 @@ INFO: Bonus of 1 applied to 'Constitution' (9).
 INFO: Bonus of 1 applied to 'Intelligence' (12).
 INFO: Bonus of 1 applied to 'Wisdom' (10).
 INFO: Bonus of 1 applied to 'Charisma' (12).
-======== Running on http://127.0.0.1:8080 ========
+======== Running on http://127.0.0.1:5000 ========
 (Press CTRL+C to quit)
 ```
 
