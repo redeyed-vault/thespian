@@ -33,7 +33,7 @@ Planning to eventually incorporate content from *Tasha's Cauldron of Everything*
 To install Yari, do the following:
 
 ```
-$ git clone https://github.com/taylormarcus/yari-dnd.git
+$ git clone https://github.com/mtttech/yari-dnd.git
 
 $ cd yari-dnd
 
