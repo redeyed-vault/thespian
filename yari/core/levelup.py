@@ -6,23 +6,22 @@ from .sources import Load
 from .utils import _e, get_character_feats, prompt
 
 
-class FeatFlagParser:
+class FeatParser:
     """Generates and parses feat characteristic flags by feat."""
 
     def __init__(self, feat):
-        self._flags = Load.get_columns(feat, "perk", "flags", source_file="feats")
         self._perks = Load.get_columns(feat, "perk", source_file="feats")
-        del self._perks["flags"]
 
     def _parse_flags(self):
-        """Generates feat flag characteristics."""
-        parsed_flags = dict()
+        """Generates flag characteristics for the chosen feat."""
+        raw_flags = self._perks.get("flags")
+        del self._perks["flags"]
 
-        # No flags specified.
-        if self._flags == "none":
+        parsed_flags = dict()
+        if raw_flags == "none":
             return parsed_flags
 
-        flag_pairs = self._flags.split("|")
+        flag_pairs = raw_flags.split("|")
         for flag_pair in flag_pairs:
             name, increment = flag_pair.split(",")
             if "=" not in name:
@@ -36,10 +35,8 @@ class FeatFlagParser:
         return parsed_flags
 
     def weave(self):
-        """Parses feat flag characteristics."""
+        """Parses flag characteristics for the chosen feat."""
         final_flag = self._parse_flags()
-
-        # No flags parsed
         if len(final_flag) == 0:
             return
 
@@ -61,7 +58,7 @@ class FeatFlagParser:
                 if increment <= 1:
                     final_flag[flag] = self._perks[flag]
                 else:
-                    # TODO: Impementing multiple choices
+                    # TODO: Implement multiple choices, when applicable
                     chosen_options = list()  # pylint: disable=unused-variable
                     available_options = self._perks[flag]
                     print(available_options)
@@ -97,10 +94,8 @@ class AbilityScoreImprovement:
         self.weapons = tapestry["weapons"]
 
     def _add_feat_perks(self, feat):
-        a = FeatFlagParser(feat)
+        a = FeatParser(feat)
         weave = a.weave()
-
-        # No weave created
         if weave is None:
             return
 
@@ -306,7 +301,6 @@ class AbilityScoreImprovement:
         return True
 
     def run(self):
-        # No upgrades available, we're done here.
         if self.level < 4:
             return
 
