@@ -16,7 +16,7 @@ from .utils import (
 
 def main():
     app = ArgumentParser(
-        prog="YARI", description="A Dungeons & Dragons 5e character generator."
+        description="Generate 5th edition Dungeons & Dragons characters."
     )
     app.add_argument(
         "-race",
