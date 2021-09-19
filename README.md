@@ -8,7 +8,7 @@ Personae is a tool for generating 5th edition Dungeons & Dragons characters. Cur
   * *Volo's Guide to Monsters*
   * *Xanatar's Guide to Everything*
 
-Planning to eventually incorporate content from *Tasha's Cauldron of Everything*.
+TODO: Incorporate *Tasha's Cauldron of Everything*.
 
 
 #### REQUIREMENTS
