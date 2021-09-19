@@ -95,15 +95,12 @@ class _BaseClassSeamstress(_FlagSeamstress):
 
     def _honor_flags(self, omitted_values=None):
         for flag in self.allowed_flags:
-            # _e(f"INFO: Checking for allowed flag '{flag}'...", "yellow")
             if self.flags is None:
-                # _e("INFO: No flags specified. Halting flag checking...", "red")
                 break
             if flag not in self.flags:
-                # _e(f"INFO: Flag '{flag}' not specified. Skipping...", "yellow")
                 continue
 
-            # Ignore subclass if character less than 3rd level.
+            # Ignore subclass selection if character is < 3rd level.
             if self.tapestry.get("level") < 3 and flag == "subclass":
                 self.tapestry["subclass"] = None
                 continue
@@ -112,18 +109,18 @@ class _BaseClassSeamstress(_FlagSeamstress):
                 for rank, abilities in self.tapestry.get(flag).items():
                     if type(abilities) is not list:
                         continue
-                    choice = prompt(f"Choose class option '{flag}':", abilities)
+                    choice = prompt(f"Choose a primary class ability:", abilities)
                     self.tapestry[flag][rank] = choice
-                    _e(f"You chose the ability > '{choice}'", "green")
+                    _e(f"INFO: You chose the primary class ability > '{choice}'", "green")
                 self.tapestry[flag] = tuple(self.tapestry[flag].values())
                 continue
 
             num_of_instances = self.flags.get(flag)
             flag_options = self.tapestry.get(flag)
-            if type(flag_options) is list:
-                if type(omitted_values) is dict and flag in omitted_values:
+            if isinstance(flag_options, list):
+                if isinstance(omitted_values, dict) and flag in omitted_values:
                     omitted_values = omitted_values.get(flag)
-                    if type(omitted_values) is not list:
+                    if not isinstance(omitted_values, list):
                         continue
                     flag_options = [x for x in flag_options if x not in omitted_values]
 
@@ -145,8 +142,8 @@ class _BaseClassSeamstress(_FlagSeamstress):
                     )
 
                 if (
-                    type(option_selections) is list
-                    and type(omitted_values) is list
+                    isinstance(option_selections, list)
+                    and isinstance(omitted_values, list)
                     and len(omitted_values) > 0
                 ):
                     self.tapestry[flag] = option_selections + omitted_values
@@ -154,7 +151,7 @@ class _BaseClassSeamstress(_FlagSeamstress):
                     self.tapestry[flag] = option_selections
 
         ability = self.tapestry.get("ability")
-        if type(ability) is dict:
+        if isinstance(ability, dict):
             self.tapestry["ability"] = tuple(ability.values())
 
         return self.tapestry
@@ -197,8 +194,8 @@ class _SubClassSeamstress(_FlagSeamstress):
         return self.tapestry
 
     def _omit_values(self, values, flag, options):
-        if type(values) is dict:
-            if flag in values and type(values.get(flag)) is list:
+        if isinstance(values, dict):
+            if flag in values and isinstance(values.get(flag), list):
                 options = [x for x in options if x not in values.get(flag)]
 
         return options
@@ -255,7 +252,7 @@ class _BaseRaceSeamstress(_FlagSeamstress):
         base_language_options = self.tapestry.get("languages")
         actual_base_languages = list()
         for language in base_language_options:
-            if type(language) is list:
+            if isinstance(language, list):
                 base_language_options.remove(language)
                 actual_base_languages = language
                 break
@@ -266,7 +263,7 @@ class _BaseRaceSeamstress(_FlagSeamstress):
         # For HalfElf, Human, and Tabaxi characters.
         if len(base_language_options) != 0:
             additional_language = prompt(
-                "What additional language do you want?", base_language_options
+                "What additional language do you speak?", base_language_options
             )
             self.tapestry["languages"].append(additional_language)
             _e(f"INFO: Character language '{additional_language}' chosen.", "green")
@@ -274,7 +271,7 @@ class _BaseRaceSeamstress(_FlagSeamstress):
         # Set base spells
         base_spell_options = self.tapestry.get("spells")
         if len(base_spell_options) != 0:
-            if type(base_spell_options) is dict:
+            if isinstance(base_spell_options, dict):
                 caster_level = int(
                     prompt("What is your caster level?", list(range(1, 21)))
                 )
@@ -308,7 +305,7 @@ class _BaseRaceSeamstress(_FlagSeamstress):
                 num_of_instances = self.flags.get(proficiency)
                 for _ in range(num_of_instances):
                     choice = prompt(
-                        f"Choose your '{proficiency}' proficiency ({num_of_instances})",
+                        f"Choose your '{proficiency}' proficiency ({actual_instances})",
                         base_skill_options,
                     )
                     base_skills.append(choice)
@@ -340,7 +337,7 @@ class _SubRaceSeamstress(_FlagSeamstress):
         base_spell_options = self.tapestry.get("spells")
         if len(base_spell_options) != 0:
             base_spells = []
-            if type(base_spell_options) is dict:
+            if isinstance(base_spell_options, dict):
                 caster_level = int(
                     prompt("What is your caster level?", list(range(1, 21)))
                 )
@@ -349,7 +346,7 @@ class _SubRaceSeamstress(_FlagSeamstress):
                         base_spells += spell_list
                 self.tapestry["spells"] = base_spells
                 _e(f"INFO: You set your caster level to > {caster_level}.", "green")
-            if type(base_spell_options) is list:
+            if isinstance(base_spell_options, list):
                 if "spells" in self.flags:
                     num_of_instances = self.flags.get("spells")
                     for _ in range(num_of_instances):
@@ -410,9 +407,9 @@ class MyTapestry:
         return self.pattern
 
     def weave(self, a, b=None):
-        if type(a) is not dict:
+        if not isinstance(a, dict):
             raise Error("First parameter must be of type 'dict'.")
-        if type(b) is not dict and b is not None:
+        if not isinstance(b, dict) and b is not None:
             raise Error("Second parameter must be of type 'dict' or 'NoneType'.")
 
         # Remove flags index, if applicable
@@ -422,14 +419,14 @@ class MyTapestry:
             del b["flags"]
 
         # Merge a and b dictionaries, if applicable.
-        if type(b) is dict:
+        if isinstance(b, dict):
             for key, value in b.items():
                 # If index not availble in root dictionary.
                 if key not in a:
                     a[key] = value
                     continue
                 # Merge dicts
-                if type(value) is dict:
+                if isinstance(value, dict):
                     a_dict = a.get(key)
                     for subkey, subvalue in value.items():
                         if a_dict is None:
@@ -443,16 +440,16 @@ class MyTapestry:
                             a[key][subkey] = a_dict.get(subkey) + subvalue
                     continue
                 # Merge integers
-                if type(value) is int:
+                if isinstance(value, int):
                     a_int = a.get(key)
-                    if type(a_int) is not int:
+                    if not isinstance(a_int, int):
                         continue
                     if value > a_int:
                         a[key] = value
                 # Merge lists
-                if type(value) is list:
+                if isinstance(value, list):
                     a_list = a.get(key)
-                    if type(a_list) is list:
+                    if isinstance(a_list, list):
                         a[key] = list(set(a_list + value))
 
         # Resort dictionary by keys
