@@ -1,5 +1,7 @@
 feats:
+  #############################
   # Actor (PHB pg.165)
+  #############################
   Actor:
     perk:
       ability:
@@ -19,7 +21,9 @@ feats:
       proficiency: ~
       race: ~
       subrace: ~
+  #############################
   # Alert (PHB pg.165)
+  #############################
   Alert:
     perk:
       ability: ~
@@ -38,7 +42,9 @@ feats:
       proficiency: ~
       race: ~
       subrace: ~
+  #############################
   # Athlete (PHB pg.165)
+  #############################
   Athlete:
     perk:
       ability:
@@ -59,7 +65,9 @@ feats:
       proficiency: ~
       race: ~
       subrace: ~
+  #############################
   # Bountiful Luck (XGtE pg.73)
+  #############################
   Bountiful Luck:
     perk:
       ability: ~
@@ -78,7 +86,9 @@ feats:
       proficiency: ~
       race: ['Halfling']
       subrace: ~
+  #############################
   # Charger (PHB pg.165)
+  #############################
   Charger:
     perk:
       ability: ~
@@ -97,7 +107,9 @@ feats:
       proficiency: ~
       race: ~
       subrace: ~
+  #############################
   # Crossbow Expert (PHB pg.165)
+  #############################
   Crossbow Expert:
     perk:
       ability: ~
@@ -116,7 +128,9 @@ feats:
       proficiency: ~
       race: ~
       subrace: ~
+  #############################
   # Defensive Duelist (PHB pg.165)
+  #############################
   Defensive Duelist:
     perk:
       ability: ~
@@ -136,7 +150,9 @@ feats:
       proficiency: ~
       race: ~
       subrace: ~
+  #############################
   # Dragon Fear (XGtE pg.74)
+  #############################
   Dragon Fear:
     perk:
       ability:
@@ -158,7 +174,9 @@ feats:
       proficiency: ~
       race: ['Dragonborn']
       subrace: ~
+  #############################
   # Dragon Hide (XGtE pg.74)
+  #############################
   Dragon Hide:
     perk:
       ability:
@@ -180,7 +198,9 @@ feats:
       proficiency: ~
       race: ['Dragonborn']
       subrace: ~
+  #############################
   # Drow High Magic (XGtE pg.74)
+  #############################
   Drow High Magic:
     perk:
       ability: ~
@@ -199,7 +219,9 @@ feats:
       proficiency: ~
       race: ['Elf']
       subrace: ['Drow']
+  #############################
   # Dual Wielder (PHB pg.165)
+  #############################
   Dual Wielder:
     perk:
       ability: ~
@@ -218,7 +240,9 @@ feats:
       proficiency: ~
       race: ~
       subrace: ~
+  #############################
   # Dungeon Delver (PHB pg.166)
+  #############################
   Dungeon Delver:
     perk:
       ability: ~
@@ -237,7 +261,9 @@ feats:
       proficiency: ~
       race: ~
       subrace: ~
+  #############################
   # Durable (PHB pg.166)
+  #############################
   Durable:
     perk:
       ability:
@@ -257,7 +283,9 @@ feats:
       proficiency: ~
       race: ~
       subrace: ~
+  #############################
   # Dwarven Fortitude (XGtE pg.74)
+  #############################
   Dwarven Fortitude:
     perk:
       ability:
@@ -277,7 +305,9 @@ feats:
       proficiency: ~
       race: ['Dwarf']
       subrace: ~
+  #############################
   # Elemental Adept (PHB pg.166)
+  #############################
   Elemental Adept:
     perk:
       ability: ~
@@ -296,7 +326,9 @@ feats:
       proficiency: ~
       race: ~
       subrace: ~
+  #############################
   # Elven Accuracy (XGtE pg.74)
+  #############################
   Elven Accuracy:
     perk:
       ability:
@@ -319,7 +351,9 @@ feats:
       proficiency: ~
       race: ['Elf', 'HalfElf']
       subrace: ~
+  #############################
   # Fade Away (XGtE pg.74)
+  #############################
   Fade Away:
     perk:
       ability:
@@ -340,7 +374,9 @@ feats:
       proficiency: ~
       race: ['Gnome']
       subrace: ~
+  #############################
   # Fey Teleportation (XGtE pg.74)
+  #############################
   Fey Teleportation:
     perk:
       ability:
@@ -361,7 +397,9 @@ feats:
       proficiency: ~
       race: ['Elf']
       subrace: ['High']
+  #############################
   # Flames of Phlegethos (XGtE pg.74)
+  #############################
   Flames of Phlegethos:
     perk:
       ability: ~
@@ -380,7 +418,9 @@ feats:
       proficiency: ~
       race: ['Tiefling']
       subrace: ~
+  #############################
   # Grapper (PHB pg.167)
+  #############################
   Grappler:
     perk:
       ability: ~
@@ -400,7 +440,9 @@ feats:
       proficiency: ~
       race: ~
       subrace: ~
+  #############################
   # Great Weapon Master (PHB pg.167)
+  #############################
   Great Weapon Master:
     perk:
       ability: ~
@@ -419,7 +461,9 @@ feats:
       proficiency: ~
       race: ~
       subrace: ~
+  #############################
   # Healer (PHB pg.167)
+  #############################
   Healer:
     perk:
       ability: ~
@@ -438,7 +482,9 @@ feats:
       proficiency: ~
       race: ~
       subrace: ~
+  #############################
   # Heavily Armored (PHB pg.167)
+  #############################
   Heavily Armored:
     perk:
       ability:
@@ -459,7 +505,9 @@ feats:
         armors: ['Medium']
       race: ~
       subrace: ~
+  #############################
   # Heavy Armor Master (PHB pg.167)
+  #############################
   Heavy Armor Master:
     perk:
       ability:
@@ -480,7 +528,9 @@ feats:
         armors: ['Heavy']
       race: ~
       subrace: ~
+  #############################
   # Infernal Constitution (XGtE pg.75)
+  #############################
   Infernal Constitution:
     perk:
       ability:
@@ -500,7 +550,9 @@ feats:
       proficiency: ~
       race: ['Tiefling']
       subrace: ~
+  #############################
   # Inspiring Leader (PHB pg.167)
+  #############################
   Inspiring Leader:
     perk:
       ability: ~
@@ -520,7 +572,9 @@ feats:
       proficiency: ~
       race: ~
       subrace: ~
+  #############################
   # Keen Mind (PHB pg.167)
+  #############################
   Keen Mind:
     perk:
       ability:
@@ -540,7 +594,9 @@ feats:
       proficiency: ~
       race: ~
       subrace: ~
+  #############################
   # Lightly Armored (PHB pg.167)
+  #############################
   Lightly Armored:
     perk:
       ability:
@@ -561,7 +617,9 @@ feats:
       proficiency: ~
       race: ~
       subrace: ~
+  #############################
   # Linguist (PHB pg. 167)
+  #############################
   Linguist:
     perk:
       ability:
@@ -597,7 +655,9 @@ feats:
       proficiency: ~
       race: ~
       subrace: ~
+  #############################
   # Lucky (PHB pg.167)
+  #############################
   Lucky:
     perk:
       ability: ~
@@ -616,7 +676,9 @@ feats:
       proficiency: ~
       race: ~
       subrace: ~
+  #############################
   # Mage Slayer (PHB pg.168)
+  #############################
   Mage Slayer:
     perk:
       ability: ~
@@ -635,7 +697,9 @@ feats:
       proficiency: ~
       race: ~
       subrace: ~
+  #############################
   # Magic Initiative (PHB pg.168)
+  #############################
   Magic Initiative:
     perk:
       ability: ~
@@ -654,7 +718,9 @@ feats:
       proficiency: ~
       race: ~
       subrace: ~
+  #############################
   # Martial Adept (PHB pg.168)
+  #############################
   Martial Adept:
     perk:
       ability: ~
@@ -673,7 +739,9 @@ feats:
       proficiency: ~
       race: ~
       subrace: ~
+  #############################
   # Medium Armor Master (PHB pg.168)
+  #############################
   Medium Armor Master:
     perk:
       ability: ~
@@ -693,7 +761,9 @@ feats:
         armors: ['Medium']
       race: ~
       subrace: ~
+  #############################
   # Mobile (PHB pg.168)
+  #############################
   Mobile:
     perk:
       ability: ~
@@ -712,7 +782,9 @@ feats:
       proficiency: ~
       race: ~
       subrace: ~
+  #############################
   # Moderately Armored (PHB pg.168)
+  #############################
   Moderately Armored:
     perk:
       ability:
@@ -734,7 +806,9 @@ feats:
         armors: ['Light']
       race: ~
       subrace: ~
+  #############################
   # Mounted Combatant (PHB pg.168)
+  #############################
   Mounted Combatant:
     perk:
       ability: ~
@@ -753,7 +827,9 @@ feats:
       proficiency: ~
       race: ~
       subrace: ~
+  #############################
   # Observant (PHB pg.168)
+  #############################
   Observant:
     perk:
       ability:
@@ -774,7 +850,9 @@ feats:
       proficiency: ~
       race: ~
       subrace: ~
+  #############################
   # Orcish Fury (XGtE pg.75)
+  #############################
   Orcish Fury:
     perk:
       ability:
@@ -795,7 +873,9 @@ feats:
       proficiency: ~
       race: ['HalfOrc']
       subrace: ~
+  #############################
   # Polearm Master (PHB pg.168)
+  #############################
   Polearm Master:
     perk:
       ability: ~
@@ -814,7 +894,9 @@ feats:
       proficiency: ~
       race: ~
       subrace: ~
+  #############################
   # Prodigy (XGtE pg.75)
+  #############################
   Prodigy:
     perk:
       ability: ~
@@ -905,7 +987,9 @@ feats:
       proficiency: ~
       race: ['HalfElf', 'HalfOrc', 'Human']
       subrace: ~
+  #############################
   # Resilient (PHB pg.168)
+  #############################
   Resilient:
     perk:
       ability:
@@ -930,7 +1014,9 @@ feats:
       proficiency: ~
       race: ~
       subrace: ~
+  #############################
   # Ritual Caster (PHB pg.169)
+  #############################
   Ritual Caster:
     perk:
       ability: ~
@@ -951,7 +1037,9 @@ feats:
       proficiency: ~
       race: ~
       subrace: ~
+  #############################
   # Savage Attacker (PHB pg.169)
+  #############################
   Savage Attacker:
     perk:
       ability: ~
@@ -970,7 +1058,9 @@ feats:
       proficiency: ~
       race: ~
       subrace: ~
+  #############################
   # Second Chance
+  #############################
   Second Chance:
     perk:
       ability:
@@ -996,6 +1086,7 @@ feats:
   Sentinel:
     perk:
       ability: ~
+      flags: none
       languages: []
       resistances: []
       skills: []
@@ -1007,7 +1098,9 @@ feats:
       proficiency: ~
       race: ~
       subrace: ~
+  #############################
   # Sharpshooter (PHB pg.170)
+  #############################
   Sharpshooter:
     perk:
       ability: ~
@@ -1026,7 +1119,9 @@ feats:
       proficiency: ~
       race: ~
       subrace: ~
+  #############################
   # Shield Master (PHB pg.170)
+  #############################
   Shield Master:
     perk:
       ability: ~
@@ -1045,7 +1140,9 @@ feats:
       proficiency: ~
       race: ~
       subrace: ~
+  #############################
   # Skilled (PHB pg.170)
+  #############################
   Skilled:
     perk:
       ability: ~
@@ -1120,7 +1217,9 @@ feats:
       proficiency: ~
       race: ~
       subrace: ~
+  #############################
   # Skulker (PHB pg.170)
+  #############################
   Skulker:
     perk:
       ability: ~
@@ -1140,7 +1239,9 @@ feats:
       proficiency: ~
       race: ~
       subrace: ~
+  #############################
   # Spell Sniper (PHB pg.170)
+  #############################
   Spell Sniper:
     perk:
       ability: ~
@@ -1159,7 +1260,9 @@ feats:
       proficiency: ~
       race: ~
       subrace: ~
+  #############################
   # Squat Nimbleness (XGtE pg.75)
+  #############################
   Squat Nimbleness:
     perk:
       ability:
@@ -1182,7 +1285,9 @@ feats:
       proficiency: ~
       race: ['Dwarf', 'Gnome', 'Halfling']
       subrace: ~
+  #############################
   # Svirfneblin Magic (MToF pg.114)
+  #############################
   Svirfneblin Magic:
     perk:
       ability: ~
@@ -1201,7 +1306,9 @@ feats:
       proficiency: ~
       race: ['Gnome']
       subrace: ['Deep']
+  #############################
   # Tavern Brawler (PHB pg.170)
+  #############################
   Tavern Brawler:
     perk:
       ability:
@@ -1243,7 +1350,9 @@ feats:
       proficiency: ~
       race: ~
       subrace: ~
+  #############################
   # War Caster (PHB pg.170)
+  #############################
   War Caster:
     perk:
       ability: ~
@@ -1262,7 +1371,9 @@ feats:
       proficiency: ~
       race: ~
       subrace: ~
+  #############################
   # Weapon Master (PHB pg.170)
+  #############################
   Weapon Master:
     perk:
       ability:
@@ -1322,7 +1433,9 @@ feats:
       proficiency: ~
       race: ~
       subrace: ~
+  #############################
   # Wood Elf Magic (PHB pg.170)
+  #############################
   Wood Elf Magic:
     perk:
       ability: ~
