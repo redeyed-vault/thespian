@@ -1,0 +1,205 @@
+backgrounds:
+  Acolyte:
+    equipment:
+      - Holy Symbol
+      - Prayer Book or Wheel
+      - 5 Sticks of Incense
+      - Vestments
+      - Common Clothes
+      - 15 Gold Pieces
+    languages: 2
+    skills: ['Insight', 'Religion']
+    tools: []
+  Charlatan:
+    equipment:
+      - Fine Clothes
+      - Disguise Kit
+      - Con Tools [ten stoppered bottles /w colored liquid, weighted dice, deck of marked cards] or signet ring of imaginary duke]
+      - 15 Gold Pieces
+    languages: 0
+    skills: ['Deception', 'Sleight of Hand']
+    tools:
+      - Disguise kit
+      - Forgery Kit
+  Criminal:
+    equipment:
+      - A Crowbar
+      - Dark Common Clothes w/ Hood
+      - 15 Gold Pieces
+    languages: 0
+    skills: ['Deception', 'Stealth']
+    tools:
+      - Gaming set - Dice set
+      - Gaming set - Dragonchess set
+      - Gaming set - Playing card set
+      - Gaming set - Three-Dragon Ante set
+      - Thieves' tools
+  Entertainer:
+    equipment:
+      - Musical Instrument
+      - Favor of Admirer
+      - Costume
+      - 15 Gold Pieces
+    languages: 0
+    skills: ['Acrobatics', 'Performance']
+    tools:
+      - Disguise kit
+      - Musical instrument - Bagpipes
+      - Musical instrument - Drum
+      - Musical instrument - Dulcimer
+      - Musical instrument - Flute
+      - Musical instrument - Lute
+      - Musical instrument - Lyre
+      - Musical instrument - Horn
+      - Musical instrument - Pan flute
+      - Musical instrument - Shawm
+      - Musical instrument - Viol
+  Folk Hero:
+    equipment:
+      - Artisan's Tools
+      - Shovel
+      - Iron Pot
+      - Common Clothes
+      - 10 Gold Pieces
+    languages: 0
+    skills: ['Animal Handling', 'Survival']
+    tools:
+      - Artisan's tools - Alchemists supplies
+      - Artisan's tools - Brewer's supplies
+      - Artisan's tools - Calligrapher's supplies
+      - Artisan's tools - Carpenter's tools
+      - Artisan's tools - Cartographer's tools
+      - Artisan's tools - Cobbler's tools
+      - Artisan's tools - Cook's utensils
+      - Artisan's tools - Glassblower's tools
+      - Artisan's tools - Jeweler's tools
+      - Artisan's tools - Leatherworker's tools
+      - Artisan's tools - Mason's tools
+      - Artisan's tools - Painter's supplies
+      - Artisan's tools - Potter's tools
+      - Artisan's tools - Smith's tools
+      - Artisan's tools - Tinker's tools
+      - Artisan's tools - Weaver's tools
+      - Artisan's tools - Woodcarver's tools
+      - Vehicle
+  Guild Artisan:
+    equipment:
+      - Artisan's Tools
+      - Letter of Introduction From Guild
+      - Traveler's Clothes
+      - 15 Gold Pieces
+    languages: 1
+    skills: ['Insight', 'Persuasion']
+    tools:
+      - Artisan's tools - Alchemists supplies
+      - Artisan's tools - Brewer's supplies
+      - Artisan's tools - Calligrapher's supplies
+      - Artisan's tools - Carpenter's tools
+      - Artisan's tools - Cartographer's tools
+      - Artisan's tools - Cobbler's tools
+      - Artisan's tools - Cook's utensils
+      - Artisan's tools - Glassblower's tools
+      - Artisan's tools - Jeweler's tools
+      - Artisan's tools - Leatherworker's tools
+      - Artisan's tools - Mason's tools
+      - Artisan's tools - Painter's supplies
+      - Artisan's tools - Potter's tools
+      - Artisan's tools - Smith's tools
+      - Artisan's tools - Tinker's tools
+      - Artisan's tools - Weaver's tools
+      - Artisan's tools - Woodcarver's tools
+  Hermit:
+    equipment:
+      - Scroll Case
+      - Winter Blanket
+      - Common Clothes
+      - Herbalism Kit
+      - 5 Gold Pieces
+    languages: 1
+    skills: ['Medicine', 'Religion']
+    tools:
+      - Herbalism kit
+  Noble:
+    equipment:
+      - Fine Clothes
+      - Signet Ring
+      - Scroll of Pedigree
+      - 25 Gold Pieces
+    languages: 1
+    skills: ['History', 'Persuasion']
+    tools:
+      - Gaming set - Dice set
+      - Gaming set - Dragonchess set
+      - Gaming set - Playing card set
+      - Gaming set - Three-Dragon Ante set
+  Outlander:
+    equipment:
+      - Staff
+      - Hunting Trap
+      - Trophy From Killed Animal
+      - Travelers' Clothes
+      - 10 Gold Pieces
+    languages: 1
+    skills: ['Athletics', 'Survival']
+    tools:
+      - Musical instrument - Bagpipes
+      - Musical instrument - Drum
+      - Musical instrument - Dulcimer
+      - Musical instrument - Flute
+      - Musical instrument - Lute
+      - Musical instrument - Lyre
+      - Musical instrument - Horn
+      - Musical instrument - Pan flute
+      - Musical instrument - Shawm
+      - Musical instrument - Viol
+  Sage:
+    equipment:
+      - Black Ink
+      - Quill
+      - Small Knife
+      - Letter From Dead Colleague w/ Unanswered Question
+      - Common Clothes
+      - 10 Gold Pieces
+    languages: 2
+    skills: ['Arcana', 'History']
+    tools: []
+  Sailor:
+    equipment:
+      - Belaying Pin
+      - 50 Foot Silk Rope
+      - Lucky Charm
+      - Common Clothes
+      - 10 Gold Pieces
+    languages: 0
+    skills: ['Athletics', 'Perception']
+    tools:
+      - Navigator's tools
+      - Vehicle
+  Soldier:
+    equipment:
+      - Rank Insignia
+      - Trophy from Fallen Enemy
+      - Set of Dice or Cards
+      - Common Clothes
+      - 10 Gold Pieces
+    languages: 0
+    skills: ['Athletics', 'Intimidation']
+    tools:
+      - Gaming set - Dice set
+      - Gaming set - Dragonchess set
+      - Gaming set - Playing card set
+      - Gaming set - Three-Dragon Ante set
+      - Vehicle
+  Urchin:
+    equipment:
+      - Small Knife
+      - City Map [home]
+      - Pet Mouse
+      - Token of Remembrance [parents]
+      - Common Clothes
+      - 10 Gold Pieces
+    languages: 0
+    skills: ['Sleight of Hand', 'Stealth']
+    tools:
+      - Disguise kit
+      - Thieves' tools

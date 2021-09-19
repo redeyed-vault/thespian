@@ -1,0 +1,16 @@
+armors:
+  Heavy:
+    - Chain mail
+    - Plate
+    - Ring mail
+    - Splint
+  Light:
+    - Leather
+    - Padded
+    - Studded leather
+  Medium:
+    - Breastplate
+    - Chain shirt
+    - Half plate
+    - Hide
+    - Scale mail

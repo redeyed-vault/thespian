@@ -1,0 +1,746 @@
+classes:
+  Barbarian:
+    ability:
+      1: Strength
+      2: Constitution
+    armors: ['Light', 'Medium', 'Shield']
+    background: Outlander
+    equipment:
+      - (a) Greataxe or (b) Martial
+      - (a) 2 Handaxes or (b) Simple
+      - Explorer's Pack and 4 Javelins
+    features:
+      1: ['Rage', 'Unarmored Defense']
+      2: ['Danger Sense', 'Reckless Attack']
+      3: ['Primal Path']
+      5: ['Extra Attack', 'Fast Movement']
+      7: ['Feral Instinct']
+      9: ['Brutal Critical']
+      11: ['Relentless Rage']
+      13: ['Brutal Critical']
+      15: ['Persistent Rage']
+      17: ['Brutal Critical']
+      18: ['Indomitable Might']
+      20: ['Primal Champion']
+    flags: skills,2|subclass,1
+    hit_die: 12
+    languages: []
+    savingthrows: ['Constitution', 'Strength']
+    skills:
+      - Animal Handling
+      - Athletics
+      - Intimidation
+      - Nature 
+      - Perception
+      - Survival
+    spellslots: ~
+    subclass:
+      - Path of the Ancestral Guardian
+      - Path of the Berserker
+      - Path of the Storm Herald
+      - Path of the Totem Warrior
+      - Path of the Zealot
+    tools: []
+    weapons: ['Simple', 'Martial']
+  Bard:
+    ability:
+      1: Charisma
+      2: Dexterity
+    armors: ['Light']
+    background: Entertainer
+    equipment:
+      - (a) Rapier or (b) Longsword or (c) Simple weapon
+      - (a) Diplomat Pack or (b) Entertainer's Pack
+      - (a) Lute or (b) Musical instrument
+      - Leather Armor and Dagger
+    features:
+      1: ['Bardic Inspiration', 'Spellcasting']
+      2: ['Jack of All Trades', 'Song of Rest']
+      3: ['Bard College', 'Expertise']
+      5: ['Bardic Inspiration', 'Font of Inspiration']
+      6: ['Countercharm']
+      9: ['Song of Rest']
+      10: ['Bardic Inspiration', 'Expertise', 'Magical Secrets']
+      13: ['Song of Rest']
+      14: ['Magical Secrets']
+      15: ['Bardic Inspiration']
+      17: ['Song of Rest']
+      18: ['Magical Secrets']
+      20: ['Superior Inspiration']
+    flags: skills,3|subclass,1
+    hit_die: 8
+    languages: []
+    savingthrows: ['Charisma', 'Dexterity']
+    skills:
+      - Acrobatics
+      - Animal Handling
+      - Arcana
+      - Athletics
+      - Deception
+      - History
+      - Insight
+      - Intimidation
+      - Investigation
+      - Medicine
+      - Nature
+      - Perception
+      - Performance
+      - Persuasion
+      - Religion
+      - Sleight of Hand
+      - Stealth
+      - Survival
+    spellslots:
+      1: 2
+      2: 3
+      3: 4,2
+      4: 4,3
+      5: 4,3,2
+      6: 4,3,3
+      7: 4,3,3,1
+      8: 4,3,3,2
+      9: 4,3,3,3,1
+      10: 4,3,3,3,2
+      11: 4,3,3,3,2,1
+      12: 4,3,3,3,2,1
+      13: 4,3,3,3,2,1,1
+      14: 4,3,3,3,2,1,1
+      15: 4,3,3,3,2,1,1,1
+      16: 4,3,3,3,2,1,1,1
+      17: 4,3,3,3,2,1,1,1,1
+      18: 4,3,3,3,3,1,1,1,1
+      19: 4,3,3,3,3,2,1,1,1
+      20: 4,3,3,3,3,2,2,1,1
+    subclass:
+      - College of Glamour
+      - College of Lore
+      - College of Swords
+      - College of Valor
+      - College of Whispers
+    tools: []
+    weapons: ['Simple', 'Hand Crossbow', 'Longsword', 'Rapier', 'Shortsword']
+  Cleric:
+    ability:
+      1: Wisdom
+      2: ['Constitution', 'Strength']
+    armors: ['Light', 'Medium', 'Shield']
+    background: Acolyte
+    equipment:
+      - (a) Mace or (b) Warhammer (if proficient)
+      - (a) Scale mail or (b) Leather armor or (c) Chain mail (if proficient)
+      - (a) Light crossbow and 20 bolts or (b) Simple weapon
+      - (a) Priest's pack or (b) Explorer's pack
+      - Shield and Holy Symbol
+    features:
+      1: ['Divine Domain', 'Spellcasting']
+      2: ['Channel Divinity - Turn Undead']
+      5: ['Destroy Undead']
+      8: ['Destroy Undead']
+      10: ['Divine Intervention']
+      11: ['Destroy Undead']
+      14: ['Destroy Undead']
+      17: ['Destroy Undead']
+      20: ['Divine Intervention']
+    flags: ability,1|skills,2|subclass,1
+    hit_die: 8
+    languages: []
+    savingthrows: ['Charisma', 'Wisdom']
+    skills:
+      - History
+      - Insight
+      - Medicine
+      - Persuasion
+      - Religion
+    spellslots:
+      1: 2
+      2: 3
+      3: 4,2
+      4: 4,3
+      5: 4,3,2
+      6: 4,3,3
+      7: 4,3,3,1
+      8: 4,3,3,2
+      9: 4,3,3,3,1
+      10: 4,3,3,3,2
+      11: 4,3,3,3,2,1
+      12: 4,3,3,3,2,1
+      13: 4,3,3,3,2,1,1
+      14: 4,3,3,3,2,1,1
+      15: 4,3,3,3,2,1,1,1
+      16: 4,3,3,3,2,1,1,1
+      17: 4,3,3,3,2,1,1,1,1
+      18: 4,3,3,3,3,1,1,1,1
+      19: 4,3,3,3,3,2,1,1,1
+      20: 4,3,3,3,3,2,2,1,1
+    subclass:
+      - Forge Domain
+      - Grave Domain
+      - Knowledge Domain
+      - Life Domain
+      - Light Domain
+      - Nature Domain
+      - Tempest Domain
+      - Trickery Domain
+      - War Domain
+    tools: []
+    weapons: ['Simple']
+  Druid:
+    ability:
+      1: Wisdom
+      2: Constitution
+    armors: ['Light', 'Medium', 'Shield']
+    background: Hermit
+    equipment:
+      - (a) Wooden Shield or (b) Simple weapon
+      - (a) Scimitar or (b) Simple melee weapon
+      - Leather armor, Explorer's pack, Druidic focus
+    features:
+      1: ['Spellcasting']
+      2: ['Druidic Circle', 'Wild Shape']
+      4: ['Wild Shape']
+      8: ['Wild Shape']
+      18: ['Beast Spells', 'Timeless Body']
+      20: ['Archdruid']
+    flags: skills,2|subclass,1
+    hit_die: 8
+    languages: ['Druidic']
+    savingthrows: ['Intelligence', 'Wisdom']
+    skills:
+      - Animal Handling
+      - Arcana
+      - Insight
+      - Medicine
+      - Nature
+      - Perception
+      - Religion
+      - Survival
+    spellslots:
+      1: 2
+      2: 3
+      3: 4,2
+      4: 4,3
+      5: 4,3,2
+      6: 4,3,3
+      7: 4,3,3,1
+      8: 4,3,3,2
+      9: 4,3,3,3,1
+      10: 4,3,3,3,2
+      11: 4,3,3,3,2,1
+      12: 4,3,3,3,2,1
+      13: 4,3,3,3,2,1,1
+      14: 4,3,3,3,2,1,1
+      15: 4,3,3,3,2,1,1,1
+      16: 4,3,3,3,2,1,1,1
+      17: 4,3,3,3,2,1,1,1,1
+      18: 4,3,3,3,3,1,1,1,1
+      19: 4,3,3,3,3,2,1,1,1
+      20: 4,3,3,3,3,2,2,1,1
+    subclass:
+      - Circle of the Arctic
+      - Circle of the Coast
+      - Circle of the Desert
+      - Circle of Dreams
+      - Circle of the Forest
+      - Circle of the Grassland
+      - Circle of the Moon
+      - Circle of the Mountain
+      - Circle of the Shepherd
+      - Circle of the Swamp
+      - Circle of the Underdark
+      - Circle of the Moon
+    tools: ['Herbalism Kit']
+    weapons:
+      - Club
+      - Dagger
+      - Dart
+      - Javelin
+      - Mace
+      - Quarterstaff
+      - Scimitar
+      - Sickle
+      - Sling
+      - Spear
+  Fighter:
+    ability:
+      1: ['Dexterity', 'Strength']
+      2: ['Constitution', 'Intelligence']
+    armors: ['Light', 'Medium', 'Heavy', 'Shield']
+    background: Soldier
+    equipment:
+      - (a) Chain mail or (b) Leather armor, Longbow, 20 arrows
+      - (a) Martial weapon and a shield or (b) 2 Martial weapons
+      - (a) Light crossbow and 20 bolts or (b) 2 handaxes
+      - (a) Dungeoneer's pack or (b) Explorer's pack
+    features:
+      1: ['Fighting Style', 'Second Wind']
+      2: ['Action Surge']
+      3: ['Martial Archetype']
+      5: ['Extra Attack']
+      9: ['Indomitable']
+      11: ['Extra Attack']
+      13: ['Indomitable']
+      17: ['Action Surge', 'Indomitable']
+      20: ['Extra Attack']
+    flags: ability,2|skills,2|subclass,1
+    hit_die: 10
+    languages: []
+    savingthrows: ['Constitution', 'Strength']
+    skills:
+      - Acrobatics
+      - Animal Handling
+      - Athletics
+      - History
+      - Insight
+      - Intimidation
+      - Perception
+      - Survival
+    spellslots:
+      3: 2
+      4: 3
+      5: 3
+      6: 3
+      7: 4,2
+      8: 4,2
+      9: 4,2
+      10: 4,3
+      11: 4,3
+      12: 4,3
+      13: 4,3,2
+      14: 4,3,2
+      15: 4,3,2
+      16: 4,3,3
+      17: 4,3,3
+      18: 4,3,3
+      19: 4,3,3,1
+      20: 4,3,3,1
+    subclass:
+      - Arcane Archer
+      - Cavalier
+      - Champion
+      - Battle Master
+      - Eldritch Knight
+      - Samurai
+    tools: []
+    weapons: ['Simple', 'Martial']
+  Monk:
+    ability:
+      1: Dexterity
+      2: Wisdom
+    armors: []
+    background: Hermit
+    equipment:
+      - (a) Shortsword or (b) Simple weapon
+      - (a) Dungeoneer's pack or (b) Explorer's pack
+      - 10 Darts
+    features:
+      1: ['Martial Arts', 'Unarmored Defense']
+      2: ['Ki', 'Unarmored Movement']
+      3: ['Deflect Missiles', 'Monastic Tradition']
+      4: ['Slow Fall']
+      5: ['Extra Attack']
+      6: ['Ki-Empowered Strikes']
+      7: ['Evasion', 'Stillness of Mind']
+      10: ['Purity of Body']
+      13: ['Tongue of the Sun and Moon']
+      14: ['Diamond Soul']
+      15: ['Timeless Body']
+      17: ['Monastic Tradition']
+      18: ['Empty Body']
+      20: ['Perfect Self']
+    flags: skills,2|subclass,1|tools,1
+    hit_die: 8
+    languages: []
+    savingthrows: ['Dexterity', 'Strength']
+    skills:
+      - Acrobatics
+      - Athletics
+      - History
+      - Insight
+      - Religion
+      - Stealth
+    spellslots: ~
+    subclass:
+      - Way of the Drunken Master
+      - Way of the Four Elements
+      - Way of the Kensei
+      - Way of the Open Hand
+      - Way of the Sun Soul
+      - Way of Shadow
+    tools: ["Artisan's tools - Alchemists supplies", "Artisan's tools - Brewer's supplies", "Artisan's tools - Calligrapher's supplies", "Artisan's tools - Carpenter's tools", "Artisan's tools - Cartographer's tools", "Artisan's tools - Cobbler's tools", "Artisan's tools - Cook's utensils", "Artisan's tools - Glassblower's tools", "Artisan's tools - Jeweler's tools", "Artisan's tools - Leatherworker's tools", "Artisan's tools - Mason's tools", "Artisan's tools - Painter's supplies", "Artisan's tools - Potter's tools", "Artisan's tools - Smith's tools", "Artisan's tools - Tinker's tools", "Artisan's tools - Weaver's tools", "Artisan's tools - Woodcarver's tools", "Musical instrument - Bagpipes", "Musical instrument - Drum", "Musical instrument - Dulcimer", "Musical instrument - Flute", "Musical instrument - Lute", "Musical instrument - Lyre", "Musical instrument - Horn", "Musical instrument - Pan flute", "Musical instrument - Shawm", "Musical instrument - Viol"]
+    weapons: ['Simple', 'Shortsword']
+  Paladin:
+    ability:
+      1: Strength
+      2: Charisma
+    armors: ['Light', 'Medium', 'Heavy', 'Shield']
+    background: Noble
+    equipment:
+      - (a) Martial weapon and shield or (b) 2 Martial weapons
+      - (a) Five javelins or (b) Simple melee weapon
+      - (a) Priest's pack or (b) Explorer's pack
+      - Chain mail and a Holy Symbol
+    features:
+      1: ['Divine Sense', 'Lay on Hands']
+      2: ['Divine Smite', 'Fighting Style', 'Spellcasting']
+      3: ['Divine Health', 'Sacred Oath']
+      5: ['Extra Attack']
+      6: ['Aura of Protection']
+      10: ['Aura of Courage']
+      11: ['Improved Divine Smite']
+      14: ['Cleansing Touch']
+      18: ['Aura of Courage', 'Aura of Protection']
+    flags: skills,2|subclass,1
+    hit_die: 10
+    languages: []
+    savingthrows: ['Charisma', 'Wisdom']
+    skills:
+      - Athletics
+      - Insight
+      - Intimidation
+      - Medicine
+      - Persuasion
+      - Religion
+    spellslots:
+      2: 2
+      3: 3
+      4: 3
+      5: 4,2
+      6: 4,2
+      7: 4,3
+      8: 4,3
+      9: 4,3,2
+      10: 4,3,2
+      11: 4,3,3
+      12: 4,3,3
+      13: 4,3,3,1
+      14: 4,3,3,1
+      15: 4,3,3,2
+      16: 4,3,3,2
+      17: 4,3,3,3,1
+      18: 4,3,3,3,1
+      19: 4,3,3,3,2
+      20: 4,3,3,3,2
+    subclass:
+      - Oath of Conquest
+      - Oath of Devotion
+      - Oath of Redemption
+      - Oath of Vengeance
+      - Oath of the Ancients
+    tools: []
+    weapons: ['Simple', 'Martial']
+  Ranger:
+    ability:
+      1: ['Dexterity', 'Strength']
+      2: Wisdom
+    armors: ['Light', 'Medium', 'Shield']
+    background: Outlander
+    equipment:
+      - (a) Scale mail or (b) Leather armor
+      - (a) Two shortswords or (b) 2 Simple melee weapons
+      - (a) Dungeoneer's pack or (b) Explorer's pack
+      - A Longbow and a quiver of 20 arrows
+    features:
+      1: ['Favored Enemy', 'Natural Explorer']
+      2: ['Fighting Style', 'Spellcasting']
+      3: ['Primeval Awareness', 'Ranger Archetype']
+      5: ['Extra Attack']
+      6: ['Favored Enemy', 'Natural Explorer']
+      8: ["Land's Stride"]
+      10: ['Hide in Plain Sight', 'Natural Explorer']
+      14: ['Favored Enemy', 'Vanish']
+      18: ['Feral Senses']
+      20: ['Foe Slayer']
+    flags: ability,1|skills,3|subclass,1
+    hit_die: 10
+    languages: []
+    savingthrows: ['Dexterity', 'Strength']
+    skills:
+      - Animal Handling
+      - Athletics
+      - Insight
+      - Investigation
+      - Nature
+      - Perception
+      - Sleight of Hand
+      - Stealth
+      - Survival
+    spellslots:
+      2: 2
+      3: 3
+      4: 3
+      5: 4,2
+      6: 4,2
+      7: 4,3
+      8: 4,3
+      9: 4,3,2
+      10: 4,3,2
+      11: 4,3,3
+      12: 4,3,3
+      13: 4,3,3,1
+      14: 4,3,3,1
+      15: 4,3,3,2
+      16: 4,3,3,2
+      17: 4,3,3,3,1
+      18: 4,3,3,3,1
+      19: 4,3,3,3,2
+      20: 4,3,3,3,2
+    subclass:
+      - Beast Master
+      - Gloom Stalker
+      - Horizon Walker
+      - Hunter
+      - Monster Slayer
+    tools: []
+    weapons: ['Simple', 'Martial']
+  Rogue:
+    ability:
+      1: Dexterity
+      2: ['Charisma', 'Intelligence']
+    armors: ['Light']
+    background: Charlatan
+    equipment:
+      - (a) Rapier or (b) Shortsword
+      - (a) Shortbow and quiver of 20 arrows or (b) Shortsword
+      - (a) Burglar's pack or (b) Dungeoneer's pack or (c) Explorer's pack
+      - Leather armor, 2 Daggers and Thieves' tools
+    features:
+      1: ['Expertise', 'Sneak Attack']
+      2: ['Cunning Action']
+      3: ['Roguish Archetype']
+      5: ['Uncanny Dodge']
+      6: ['Expertise']
+      7: ['Evasion']
+      11: ['Reliable Talent']
+      14: ['Blindsense']
+      15: ['Slippery Mind']
+      18: ['Elusive']
+      20: ['Stroke of Luck']
+    flags: ability,1|skills,4|subclass,1
+    hit_die: 8
+    languages: ["Thieves' cant"]
+    savingthrows: ['Dexterity', 'Intelligence']
+    skills:
+      - Acrobatics
+      - Athletics
+      - Deception
+      - Insight
+      - Intimidation
+      - Investigation
+      - Perception
+      - Performance
+      - Persuasion
+      - Sleight of Hand
+      - Stealth
+    spellslots:
+      3: 2
+      4: 3
+      5: 3
+      6: 3
+      7: 4,2
+      8: 4,2
+      9: 4,2
+      10: 4,3
+      11: 4,3
+      12: 4,3
+      13: 4,3,2
+      14: 4,3,2
+      15: 4,3,2
+      16: 4,3,3
+      17: 4,3,3
+      18: 4,3,3
+      19: 4,3,3,1
+      20: 4,3,3,1
+    subclass:
+      - Arcane Trickster
+      - Assassin
+      - Inquisitive
+      - Mastermind
+      - Scout
+      - Swashbuckler
+      - Thief
+    tools: ["Thieves' tools"]
+    weapons: ['Simple', 'Hand Crossbow', 'Longsword', 'Rapier', 'Shortsword']
+  Sorcerer:
+    ability:
+      1: Charisma
+      2: Constitution
+    armors: []
+    background: Hermit
+    equipment:
+      - (a) Light Crossbow and 20 bolts or (b) Simple weapon
+      - (a) Component pouch or (b) Arcane focus
+      - (a) Dungeoneer's pack or (b) Explorer's pack
+      - 2 Daggers
+    features:
+      1: ['Sorcerous Origins', 'Spellcasting']
+      2: ['Font of Magic']
+      3: ['Metamagic']
+      10: ['Metamagic']
+      17: ['Metamagic']
+      20: ['Sorcerous Restoration']
+    flags: skills,2|subclass,1
+    hit_die: 6
+    languages: []
+    savingthrows: ['Charisma', 'Constitution']
+    skills:
+      - Arcana
+      - Deception
+      - Insight
+      - Intimidation
+      - Persuasion
+      - Religion
+    spellslots:
+      1: 2
+      2: 3
+      3: 4,2
+      4: 4,3
+      5: 4,3,2
+      6: 4,3,3
+      7: 4,3,3,1
+      8: 4,3,3,2
+      9: 4,3,3,3,1
+      10: 4,3,3,3,2
+      11: 4,3,3,3,2,1
+      12: 4,3,3,3,2,1
+      13: 4,3,3,3,2,1,1
+      14: 4,3,3,3,2,1,1
+      15: 4,3,3,3,2,1,1,1
+      16: 4,3,3,3,2,1,1,1
+      17: 4,3,3,3,2,1,1,1,1
+      18: 4,3,3,3,3,1,1,1,1
+      19: 4,3,3,3,3,2,1,1,1
+      20: 4,3,3,3,3,2,2,1,1
+    subclass:
+      - Divine Soul
+      - Draconic Bloodline
+      - Shadow Magic
+      - Storm Sorcery
+      - Wild Magic
+    tools: []
+    weapons: ['Dagger', 'Dart', 'Light Crossbow', 'Sling', 'Quarterstaff']
+  Warlock:
+    ability:
+      1: Charisma
+      2: Constitution
+    armors: ['Light']
+    background: Charlatan
+    equipment:
+      - (a) Light Crossbow and 20 bolts or (b) Simple weapon
+      - (a) Component pouch or (b) Arcane focus
+      - (a) Scholar's pack or (b) Dungeoneer's pack
+      - Leather armor, Simple weapon, and 2 Daggers
+    features:
+      1: ['Otherworldly Patron', 'Pact Magic']
+      2: ['Eldritch Invocations']
+      3: ['Pact Boon']
+      11: ['Mystic Arcanum']
+      13: ['Mystic Arcanum']
+      15: ['Mystic Arcanum']
+      17: ['Mystic Arcanum']
+      20: ['Eldritch Master']
+    flags: skills,2|subclass,1
+    hit_die: 8
+    languages: []
+    savingthrows: ['Charisma', 'Wisdom']
+    skills:
+      - Arcana
+      - Deception
+      - History
+      - Intimidation
+      - Investigation
+      - Nature
+      - Religion
+    spellslots:
+      1: 1
+      2: 2
+      3: 2
+      4: 2
+      5: 2
+      6: 2
+      7: 2
+      8: 2
+      9: 2
+      10: 2
+      11: 3
+      12: 3
+      13: 3
+      14: 3
+      15: 3
+      16: 3
+      17: 4
+      18: 4
+      19: 4
+      20: 4
+    subclass:
+      - The Archfey
+      - The Celestial
+      - The Fiend
+      - The Great Old One
+      - The Hexblade
+    tools: []
+    weapons: ['Simple']
+  Wizard:
+    ability:
+      1: Intelligence
+      2: ['Constitution', 'Dexterity']
+    armors: []
+    background: Sage
+    equipment:
+      - (a) Quarterstaff or (b) Dagger
+      - (a) Component pouch or (b) Arcane focus
+      - (a) Scholar's pack or (b) Explorer's pack
+      - Spellbook
+    features:
+      1: ['Arcane Recovery', 'Spellcasting']
+      2: ['Arcane Tradition']
+      18: ['Spell Mastery']
+      20: ['Signature Spell']
+    flags: ability,1|skills,2|subclass,1
+    hit_die: 6
+    languages: []
+    savingthrows: ['Intelligence', 'Wisdom']
+    skills:
+      - Arcana
+      - History
+      - Insight
+      - Investigation
+      - Medicine
+      - Religion
+    spellslots:
+      1: 2
+      2: 3
+      3: 4,2
+      4: 4,3
+      5: 4,3,2
+      6: 4,3,3
+      7: 4,3,3,1
+      8: 4,3,3,2
+      9: 4,3,3,3,1
+      10: 4,3,3,3,2
+      11: 4,3,3,3,2,1
+      12: 4,3,3,3,2,1
+      13: 4,3,3,3,2,1,1
+      14: 4,3,3,3,2,1,1
+      15: 4,3,3,3,2,1,1,1
+      16: 4,3,3,3,2,1,1,1
+      17: 4,3,3,3,2,1,1,1,1
+      18: 4,3,3,3,3,1,1,1,1
+      19: 4,3,3,3,3,2,1,1,1
+      20: 4,3,3,3,3,2,2,1,1
+    subclass:
+      - School of Abjuration
+      - School of Conjuration
+      - School of Divination
+      - School of Enchantment
+      - School of Evocation
+      - School of Illusion
+      - School of Necromancy
+      - School of Transmutation
+      - War Magic
+    tools: []
+    weapons:
+      - Dagger
+      - Dart
+      - Light Crossbow
+      - Sling
+      - Quarterstaff
