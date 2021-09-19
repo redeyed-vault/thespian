@@ -1,7 +1,7 @@
-# Y.A.R.I - "Yet Another RPG Implement"
+# PERSONAE
 
 
-Yari is a tool for generating 5th edition Dungeons & Dragons characters. Currently, Yari supports content from the following rulebooks:
+Personae is a tool for generating 5th edition Dungeons & Dragons characters. Currently, Personae supports content from the following rulebooks:
 
   * *Player's Handbook*
   * *Mordenkainen's Tome of Foes*
@@ -30,12 +30,12 @@ Planning to eventually incorporate content from *Tasha's Cauldron of Everything*
 
 #### INSTALLATION
 
-To install Yari, do the following:
+To install, do the following:
 
 ```
-$ git clone https://github.com/mtttech/yari-dnd.git
+$ git clone https://github.com/mtttech/dndpersonae.git
 
-$ cd yari-dnd
+$ cd dndpersonae
 
 $ python -m pip install -r requirements.txt
 ```
@@ -43,18 +43,18 @@ $ python -m pip install -r requirements.txt
 
 #### USAGE
 
-To run Yari, simply change into the cloned directory and type this command (a complete explanation of possible arguments follows this example):
+Simply change into the cloned directory and type this command (a complete explanation of possible arguments follows this example):
 
-```$ python yari -r Elf -k Fighter -s Female```
+```$ python personae -r Elf -k Fighter -s Female```
 
 
 ```
-usage: YARI [-h] -race
+usage: personae [-h] -race
             {Aasimar,Bugbear,Dragonborn,Dwarf,Elf,Firbolg,Gith,Gnome,Goblin,Goliath,HalfElf,HalfOrc,Halfling,Hobgoblin,Human,Kenku,Kobold,Lizardfolk,Orc,Tabaxi,Tiefling,Triton,Yuanti}
             [-klass {Barbarian,Bard,Cleric,Druid,Fighter,Monk,Paladin,Ranger,Rogue,Sorcerer,Warlock,Wizard}]
             [-sex {Female,Male}] [-port PORT]
 
-A Dungeons & Dragons 5e character generator.
+Generate 5th edition Dungeons & Dragons characters.
 
 optional arguments:
   -h, --help            show this help message and exit
@@ -70,8 +70,8 @@ optional arguments:
 The following is an example of output given during a normal run of the program.
 
 ```
-$ python yari -s Female -r Human
-What is your chosen alignment? 
+$ python personae -s Female -r Human
+What is your chosen alignment?
 
 	0.) Chaotic Evil
 	1.) Chaotic Good
@@ -85,7 +85,7 @@ What is your chosen alignment?
 
 Enter a number >> 2
 INFO: You set your alignment to > Chaotic Neutral.
-What is your background? 
+What is your background?
 
 	0.) Acolyte
 	1.) Charlatan
@@ -103,7 +103,7 @@ What is your background?
 
 Enter a number >> 11
 INFO: Character background 'Soldier' chosen.
-What additional language do you want? 
+What additional language do you want?
 
 	0.) Abyssal
 	1.) Celestial
@@ -126,7 +126,7 @@ Enter a number >> 4
 INFO: Character language 'Dwarvish' chosen.
 INFO: Using a non-dominant gender height differential of -0".
 INFO: Using a non-dominant gender weight differential of -0.19%.
-What level are you? 
+What level are you?
 
 	0.) 1
 	1.) 2
@@ -151,21 +151,21 @@ What level are you?
 
 Enter a number >> 1
 INFO: Your character level has been set to 2.
-Choose class option 'ability': 
+Choose class option 'ability':
 
 	0.) Dexterity
 	1.) Strength
 
 Enter a number >> 1
 You chose the ability > 'Strength'
-Choose class option 'ability': 
+Choose class option 'ability':
 
 	0.) Constitution
 	1.) Intelligence
 
 Enter a number >> 1
 You chose the ability > 'Intelligence'
-Choose class option 'skills' (2): 
+Choose class option 'skills' (2):
 
 	0.) Acrobatics
 	1.) Animal Handling
@@ -178,7 +178,7 @@ Choose class option 'skills' (2):
 
 Enter a number >> 2
 INFO: You chose > Athletics.
-Choose class option 'skills' (2): 
+Choose class option 'skills' (2):
 
 	0.) Acrobatics
 	1.) Animal Handling
