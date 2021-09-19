@@ -2,11 +2,8 @@ from dataclasses import dataclass
 import random
 import re
 
+from .errors import DieArgumentError
 from .utils import _e
-
-
-class DieArgumentError(ValueError):
-    """Handles an invalid die rolling argument."""
 
 
 def roll(string: str):
