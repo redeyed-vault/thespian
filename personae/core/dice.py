@@ -1,3 +1,4 @@
+from dataclasses import dataclass
 import random
 import re
 
@@ -31,13 +32,16 @@ def roll(string: str):
         yield random.randint(1, die_type)
 
 
+@dataclass
 class AttributeGenerator:
-    def __init__(self, ability, bonus, threshold=65):
-        self._ability = ability
-        self._bonus = bonus
-        self.threshold = threshold
+    """Generates values for the six basic attributes."""
+
+    _ability: tuple
+    _bonus: dict
+    _threshold: int = 65
 
     def roll(self):
+        """Rolls 4d6 six times to generate abilty scores."""
         def determine_ability_scores(threshold):
             def _roll():
                 rolls = list(roll("4d6"))
@@ -47,6 +51,7 @@ class AttributeGenerator:
             results = list()
             while sum(results) < threshold or min(results) < 8 or max(results) < 15:
                 results = [_roll() for _ in range(6)]
+
             return results
 
         from collections import OrderedDict
@@ -72,13 +77,14 @@ class AttributeGenerator:
         # Assign primary class abilities first
         # Assign the remaining abilities
         # Apply racial bonuses
-        generated_scores = determine_ability_scores(self.threshold)
+        generated_scores = determine_ability_scores(self._threshold)
         for ability in self._ability:
             value = max(generated_scores)
             score_array[ability] = value
             ability_choices.remove(ability)
             generated_scores.remove(value)
             _e(f"INFO: Ability '{ability}' set to {value}.", "green")
+
         for _ in range(0, 4):
             from random import choice
 
@@ -88,6 +94,7 @@ class AttributeGenerator:
             ability_choices.remove(ability)
             generated_scores.remove(value)
             _e(f"INFO: Ability '{ability}' set to {value}.", "yellow")
+
         for ability, bonus in self._bonus.items():
             value = score_array.get(ability) + bonus
             score_array[ability] = value
