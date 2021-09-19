@@ -32,12 +32,17 @@ def prompt(message, options):
     :param str message:
     :param list,tuple options:
     """
+    import time
+
+    time.sleep(3.0)
+
     try:
+        message = colored(">> " + message, "green", attrs=["bold"])
         options = {x: y for x, y in enumerate(options)}
         options_list = "\n\n"
         for id, option in options.items():
             options_list += f"\t{id}.) {option}\n"
-        options_list += "\nEnter a number >>"
+        options_list += colored("\nPROMPT: Enter a number >>", "green", attrs=["bold"])
         user_value = int(input(f"{message} {options_list} ").strip())
         if user_value in options:
             return options[user_value]
