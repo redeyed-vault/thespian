@@ -1,6 +1,5 @@
 class Error(Exception):
     """Handles general Personae exceptions."""
-    pass
 
 
 class DieArgumentError(ValueError):
