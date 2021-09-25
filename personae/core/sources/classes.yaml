@@ -1,4 +1,7 @@
 classes:
+  #############################
+  # Barbarian
+  #############################
   Barbarian:
     ability:
       1: Strength
@@ -30,7 +33,7 @@ classes:
       - Animal Handling
       - Athletics
       - Intimidation
-      - Nature 
+      - Nature
       - Perception
       - Survival
     spellslots: ~
@@ -42,6 +45,9 @@ classes:
       - Path of the Zealot
     tools: []
     weapons: ['Simple', 'Martial']
+  #############################
+  # Bard
+  #############################
   Bard:
     ability:
       1: Charisma
@@ -119,6 +125,9 @@ classes:
       - College of Whispers
     tools: []
     weapons: ['Simple', 'Hand Crossbow', 'Longsword', 'Rapier', 'Shortsword']
+  #############################
+  # Cleric
+  #############################
   Cleric:
     ability:
       1: Wisdom
@@ -184,6 +193,9 @@ classes:
       - War Domain
     tools: []
     weapons: ['Simple']
+  #############################
+  # Druid
+  #############################
   Druid:
     ability:
       1: Wisdom
@@ -260,6 +272,9 @@ classes:
       - Sickle
       - Sling
       - Spear
+  #############################
+  # Fighter
+  #############################
   Fighter:
     ability:
       1: ['Dexterity', 'Strength']
@@ -322,6 +337,9 @@ classes:
       - Samurai
     tools: []
     weapons: ['Simple', 'Martial']
+  #############################
+  # Monk
+  #############################
   Monk:
     ability:
       1: Dexterity
@@ -366,8 +384,38 @@ classes:
       - Way of the Open Hand
       - Way of the Sun Soul
       - Way of Shadow
-    tools: ["Artisan's tools - Alchemists supplies", "Artisan's tools - Brewer's supplies", "Artisan's tools - Calligrapher's supplies", "Artisan's tools - Carpenter's tools", "Artisan's tools - Cartographer's tools", "Artisan's tools - Cobbler's tools", "Artisan's tools - Cook's utensils", "Artisan's tools - Glassblower's tools", "Artisan's tools - Jeweler's tools", "Artisan's tools - Leatherworker's tools", "Artisan's tools - Mason's tools", "Artisan's tools - Painter's supplies", "Artisan's tools - Potter's tools", "Artisan's tools - Smith's tools", "Artisan's tools - Tinker's tools", "Artisan's tools - Weaver's tools", "Artisan's tools - Woodcarver's tools", "Musical instrument - Bagpipes", "Musical instrument - Drum", "Musical instrument - Dulcimer", "Musical instrument - Flute", "Musical instrument - Lute", "Musical instrument - Lyre", "Musical instrument - Horn", "Musical instrument - Pan flute", "Musical instrument - Shawm", "Musical instrument - Viol"]
+    tools:
+      - Artisan's tools - Alchemists supplies
+      - Artisan's tools - Brewer's supplies
+      - Artisan's tools - Calligrapher's supplies
+      - Artisan's tools - Carpenter's tools
+      - Artisan's tools - Cartographer's tools
+      - Artisan's tools - Cobbler's tools
+      - Artisan's tools - Cook's utensils
+      - Artisan's tools - Glassblower's tools
+      - Artisan's tools - Jeweler's tools
+      - Artisan's tools - Leatherworker's tools
+      - Artisan's tools - Mason's tools
+      - Artisan's tools - Painter's supplies
+      - Artisan's tools - Potter's tools
+      - Artisan's tools - Smith's tools
+      - Artisan's tools - Tinker's tools
+      - Artisan's tools - Weaver's tools
+      - Artisan's tools - Woodcarver's tools
+      - Musical instrument - Bagpipes
+      - Musical instrument - Drum
+      - Musical instrument - Dulcimer
+      - Musical instrument - Flute
+      - Musical instrument - Lute
+      - Musical instrument - Lyre
+      - Musical instrument - Horn
+      - Musical instrument - Pan flute
+      - Musical instrument - Shawm
+      - Musical instrument - Viol
     weapons: ['Simple', 'Shortsword']
+  #############################
+  # Paladin
+  #############################
   Paladin:
     ability:
       1: Strength
@@ -428,6 +476,9 @@ classes:
       - Oath of the Ancients
     tools: []
     weapons: ['Simple', 'Martial']
+  #############################
+  # Ranger
+  #############################
   Ranger:
     ability:
       1: ['Dexterity', 'Strength']
@@ -492,6 +543,9 @@ classes:
       - Monster Slayer
     tools: []
     weapons: ['Simple', 'Martial']
+  #############################
+  # Rogue
+  #############################
   Rogue:
     ability:
       1: Dexterity
@@ -560,6 +614,9 @@ classes:
       - Thief
     tools: ["Thieves' tools"]
     weapons: ['Simple', 'Hand Crossbow', 'Longsword', 'Rapier', 'Shortsword']
+  #############################
+  # Sorcerer
+  #############################
   Sorcerer:
     ability:
       1: Charisma
@@ -618,6 +675,9 @@ classes:
       - Wild Magic
     tools: []
     weapons: ['Dagger', 'Dart', 'Light Crossbow', 'Sling', 'Quarterstaff']
+  #############################
+  # Warlock
+  #############################
   Warlock:
     ability:
       1: Charisma
@@ -679,6 +739,9 @@ classes:
       - The Hexblade
     tools: []
     weapons: ['Simple']
+  #############################
+  # Wizard
+  #############################
   Wizard:
     ability:
       1: Intelligence

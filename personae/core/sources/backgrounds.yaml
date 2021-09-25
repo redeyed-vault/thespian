@@ -1,4 +1,7 @@
 backgrounds:
+  #############################
+  # Acolyte
+  #############################
   Acolyte:
     equipment:
       - Holy Symbol
@@ -10,6 +13,9 @@ backgrounds:
     languages: 2
     skills: ['Insight', 'Religion']
     tools: []
+  #############################
+  # Charlatan
+  #############################
   Charlatan:
     equipment:
       - Fine Clothes
@@ -21,6 +27,9 @@ backgrounds:
     tools:
       - Disguise kit
       - Forgery Kit
+  #############################
+  # Criminal
+  #############################
   Criminal:
     equipment:
       - A Crowbar
@@ -34,6 +43,9 @@ backgrounds:
       - Gaming set - Playing card set
       - Gaming set - Three-Dragon Ante set
       - Thieves' tools
+  #############################
+  # Entertainer
+  #############################
   Entertainer:
     equipment:
       - Musical Instrument
@@ -54,6 +66,9 @@ backgrounds:
       - Musical instrument - Pan flute
       - Musical instrument - Shawm
       - Musical instrument - Viol
+  #############################
+  # Folk Hero
+  #############################
   Folk Hero:
     equipment:
       - Artisan's Tools
@@ -82,6 +97,9 @@ backgrounds:
       - Artisan's tools - Weaver's tools
       - Artisan's tools - Woodcarver's tools
       - Vehicle
+  #############################
+  # Guild Artisan
+  #############################
   Guild Artisan:
     equipment:
       - Artisan's Tools
@@ -108,6 +126,9 @@ backgrounds:
       - Artisan's tools - Tinker's tools
       - Artisan's tools - Weaver's tools
       - Artisan's tools - Woodcarver's tools
+  #############################
+  # Hermit
+  #############################
   Hermit:
     equipment:
       - Scroll Case
@@ -119,6 +140,9 @@ backgrounds:
     skills: ['Medicine', 'Religion']
     tools:
       - Herbalism kit
+  #############################
+  # Noble
+  #############################
   Noble:
     equipment:
       - Fine Clothes
@@ -132,6 +156,9 @@ backgrounds:
       - Gaming set - Dragonchess set
       - Gaming set - Playing card set
       - Gaming set - Three-Dragon Ante set
+  #############################
+  # Outlander
+  #############################
   Outlander:
     equipment:
       - Staff
@@ -152,6 +179,9 @@ backgrounds:
       - Musical instrument - Pan flute
       - Musical instrument - Shawm
       - Musical instrument - Viol
+  #############################
+  # Sage
+  #############################
   Sage:
     equipment:
       - Black Ink
@@ -163,6 +193,9 @@ backgrounds:
     languages: 2
     skills: ['Arcana', 'History']
     tools: []
+  #############################
+  # Sailor
+  #############################
   Sailor:
     equipment:
       - Belaying Pin
@@ -175,6 +208,9 @@ backgrounds:
     tools:
       - Navigator's tools
       - Vehicle
+  #############################
+  # Soldier
+  #############################
   Soldier:
     equipment:
       - Rank Insignia
@@ -190,6 +226,9 @@ backgrounds:
       - Gaming set - Playing card set
       - Gaming set - Three-Dragon Ante set
       - Vehicle
+  #############################
+  # Urchin
+  #############################
   Urchin:
     equipment:
       - Small Knife
