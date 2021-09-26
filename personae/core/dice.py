@@ -43,6 +43,7 @@ class AttributeGenerator:
 
     def roll(self):
         """Rolls 4d6 six times to generate abilty scores."""
+
         def determine_ability_scores(threshold):
             def _roll():
                 rolls = list(roll("4d6"))
