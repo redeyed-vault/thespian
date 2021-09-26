@@ -10,7 +10,8 @@ class FeatParser:
     """Generates and parses feat characteristic flags by feat."""
 
     def __init__(self, feat):
-        self._perks = Load.get_columns(feat, "perk", source_file="feats")
+        self._feat = feat
+        self._perks = Load.get_columns(self._feat, "perk", source_file="feats")
 
     def _parse_flags(self):
         """Generates flag characteristics for the chosen feat."""
@@ -30,43 +31,82 @@ class FeatParser:
                 query_string = name.split("=")
                 name = query_string[0]
                 opts = query_string[1].split("&&")
-                parsed_flags[name] = {"increment": increment, "opts": opts}
+                parsed_flags[name] = {"increment": increment, "player_options": opts}
 
         return parsed_flags
 
     def weave(self):
         """Parses flag characteristics for the chosen feat."""
+
+        def is_sub_menu(available_options):
+            for opt in available_options:
+                if not opt.islower():
+                    return False
+            return True
+
+        def get_sub_menu_options(available_options):
+            if is_sub_menu(available_options):
+                sub_options = dict()
+                for opt in available_options:
+                    sub_options[opt] = Load.get_columns(
+                        self._feat, "perk", opt, source_file="feats"
+                    )
+                return sub_options
+            return False
+
         final_flag = self._parse_flags()
         if len(final_flag) == 0:
             return
 
         for flag, options in final_flag.items():
+
+            if flag in ("ability", "proficiency"):
+                increment = int(options["increment"])
+                menu_options = options["player_options"]
+                if len(menu_options) < 1:
+                    raise Error("Malformed parse instructions error.")
+
             if flag == "ability":
-                increment = options["increment"]
-                opts = options["opts"]
-                for _ in increment:
-                    if len(opts) < 2:
-                        ability_choice = opts[0]
-                    else:
-                        ability_choice = prompt("Choose your bonus ability.", opts)
-                        opts.remove(ability_choice)
+                for _ in range(increment):
+                    if len(menu_options) < 2:
+                        ability_choice = menu_options[0]
+                        continue
+
+                    ability_choice = prompt("Choose your bonus ability.", menu_options)
+                    menu_options.remove(ability_choice)
 
                 bonus_value = self._perks[flag][ability_choice]
                 final_flag[flag] = (ability_choice, bonus_value)
+
+            elif flag == "proficiency":
+                chosen_options = list()
+                submenu_options = None
+                for _ in range(increment):
+                    menu_choice = prompt(f"Choose your bonus: '{flag}'.", menu_options)
+                    if not is_sub_menu(menu_options):
+                        menu_options.remove(menu_choice)
+                    else:
+                        if submenu_options is None:
+                            submenu_options = get_sub_menu_options(menu_options)
+                        submenu_choice = prompt(
+                            f"Choose submenu option: '{menu_choice}'.",
+                            submenu_options.get(menu_choice),
+                        )
+                        chosen_options.append({flag: submenu_choice})
+                        submenu_options[menu_choice].remove(submenu_choice)
+
+                print(chosen_options)
             elif flag in ("armors", "languages", "resistances"):
-                increment = int(options["increment"])
-                if increment <= 1:
-                    final_flag[flag] = self._perks[flag]
-                else:
-                    # TODO: Implement multiple choices, when applicable
-                    chosen_options = list()  # pylint: disable=unused-variable
-                    available_options = self._perks[flag]
-                    print(available_options)
+                if int(options["increment"]) != 0:
+                    continue
+
+                final_flag[flag] = self._perks[flag]
             elif flag == "speed":
                 speed_value = self._perks[flag]
                 if speed_value != 0:
                     final_flag[flag] = speed_value
 
+        print(final_flag)
         return final_flag
 
 
@@ -163,16 +203,6 @@ class AbilityScoreImprovement:
                 if value == -1:
                     acquired_options += bonus_options
                     return
-
-                for _ in range(value):
-                    option = prompt(
-                        f"Choose bonus {flag} for '{feat}' feat", bonus_options
-                    )
-                    acquired_options.append(option)
-                    bonus_options = [
-                        x for x in bonus_options if x not in acquired_options
-                    ]
-                    _e(f"INFO: {flag} '{option}' chosen.", "green")
         """
 
     def _has_required(self, feat):
