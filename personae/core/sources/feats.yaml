@@ -625,7 +625,7 @@ feats:
       ability:
         Intelligence: 1
       armors: []
-      flags: ability=Intelligence,1|languages,3
+      flags: ability=Intelligence,1|proficiency=languages,3
       languages:
         - Abyssal
         - Celestial
@@ -1147,7 +1147,7 @@ feats:
     perk:
       ability: ~
       armors: []
-      flags: skills&&tools,3
+      flags: proficiency=skills&&tools,3
       languages: []
       resistances: []
       skills:
