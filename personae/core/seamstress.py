@@ -111,7 +111,10 @@ class _BaseClassSeamstress(_FlagSeamstress):
                         continue
                     choice = prompt(f"Choose a primary class ability:", abilities)
                     self.tapestry[flag][rank] = choice
-                    _e(f"INFO: You chose the primary class ability > '{choice}'", "green")
+                    _e(
+                        f"INFO: You chose the primary class ability > '{choice}'",
+                        "green",
+                    )
                 self.tapestry[flag] = tuple(self.tapestry[flag].values())
                 continue
 
@@ -305,7 +308,7 @@ class _BaseRaceSeamstress(_FlagSeamstress):
                 num_of_instances = self.flags.get(proficiency)
                 for _ in range(num_of_instances):
                     choice = prompt(
-                        f"Choose your '{proficiency}' proficiency ({actual_instances})",
+                        f"Choose your '{proficiency}' proficiency ({num_of_instances})",
                         base_skill_options,
                     )
                     base_skills.append(choice)
