@@ -64,7 +64,7 @@ class FeatParser:
                 increment = int(options["increment"])
                 menu_options = options["options"]
                 if len(menu_options) < 1:
-                    raise Error("Malformed parse instructions error.")
+                    raise Error("Malformed parser instructions error.")
 
             if flag == "ability":
                 for _ in range(increment):
