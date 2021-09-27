@@ -9,16 +9,15 @@ from .utils import _e, get_character_feats, prompt
 class FeatParser:
     """Generates and parses feat characteristic flags by feat."""
 
-    def __init__(self, feat):
+    def __init__(self, feat, tapestry):
         self._feat = feat
+        self._tapestry = tapestry
         self._perks = Load.get_columns(self._feat, "perk", source_file="feats")
 
     def _parse_flags(self):
         """Generates flag characteristics for the chosen feat."""
-        raw_flags = self._perks.get("flags")
-        del self._perks["flags"]
-
         parsed_flags = dict()
+        raw_flags = self._perks.get("flags")
         if raw_flags == "none":
             return parsed_flags
 
@@ -30,8 +29,8 @@ class FeatParser:
             else:
                 query_string = name.split("=")
                 name = query_string[0]
-                opts = query_string[1].split("&&")
-                parsed_flags[name] = {"increment": increment, "player_options": opts}
+                options = query_string[1].split("&&")
+                parsed_flags[name] = {"increment": increment, "options": options}
 
         return parsed_flags
 
@@ -58,62 +57,80 @@ class FeatParser:
         if len(final_flag) == 0:
             return
 
+        parsed_flag = dict()
         for flag, options in final_flag.items():
 
             if flag in ("ability", "proficiency"):
                 increment = int(options["increment"])
-                menu_options = options["player_options"]
+                menu_options = options["options"]
                 if len(menu_options) < 1:
                     raise Error("Malformed parse instructions error.")
 
             if flag == "ability":
                 for _ in range(increment):
-                    if len(menu_options) < 2:
+                    if len(menu_options) == 1:
                         ability_choice = menu_options[0]
-                        continue
-
-                    ability_choice = prompt("Choose your bonus ability.", menu_options)
-                    menu_options.remove(ability_choice)
+                    else:
+                        ability_choice = prompt(
+                            "Choose your bonus ability.", menu_options
+                        )
+                        menu_options.remove(ability_choice)
 
                 bonus_value = self._perks[flag][ability_choice]
-                final_flag[flag] = (ability_choice, bonus_value)
+                parsed_flag[flag] = (ability_choice, bonus_value)
 
             elif flag == "proficiency":
-                chosen_options = list()
+                chosen_options = dict()
                 submenu_options = None
                 for _ in range(increment):
                     menu_choice = prompt(f"Choose your bonus: '{flag}'.", menu_options)
                     if not is_sub_menu(menu_options):
                         menu_options.remove(menu_choice)
                     else:
+                        # Generate submenu options, if applicable.
                         if submenu_options is None:
                             submenu_options = get_sub_menu_options(menu_options)
+                            submenu_options[menu_choice] = [
+                                x
+                                for x in submenu_options[menu_choice]
+                                if x not in self._tapestry[menu_choice]
+                            ]
+
+                        # Create storage for player selctions, if applicable.
+                        if len(chosen_options) == 0:
+                            for opt in submenu_options:
+                                chosen_options[opt] = list()
+
                         submenu_choice = prompt(
                             f"Choose submenu option: '{menu_choice}'.",
                             submenu_options.get(menu_choice),
                         )
-                        chosen_options.append({flag: submenu_choice})
+                        chosen_options[menu_choice].append(submenu_choice)
                         submenu_options[menu_choice].remove(submenu_choice)
 
-                print(chosen_options)
+                for k, v in chosen_options.items():
+                    parsed_flag[k] = v
+
             elif flag in ("armors", "languages", "resistances"):
                 if int(options["increment"]) != 0:
                     continue
 
-                final_flag[flag] = self._perks[flag]
+                parsed_flag[flag] = self._perks[flag]
+
             elif flag == "speed":
                 speed_value = self._perks[flag]
                 if speed_value != 0:
-                    final_flag[flag] = speed_value
+                    parsed_flag[flag] = speed_value
 
-        print(final_flag)
-        return final_flag
+        # print(parsed_flag)
+        return parsed_flag
 
 
 class AbilityScoreImprovement:
     """Used to apply ability or feat upgrades to your character."""
 
     def __init__(self, tapestry):
+        self._tapestry = tapestry
         self.ability = tapestry["ability"]
         self.armors = tapestry["armors"]
         self.feats = tapestry["feats"]
@@ -134,7 +151,8 @@ class AbilityScoreImprovement:
         self.weapons = tapestry["weapons"]
 
     def _add_feat_perks(self, feat):
-        a = FeatParser(feat)
+        """Applies feat related perks to the character."""
+        a = FeatParser(feat, self._tapestry)
         weave = a.weave()
         if weave is None:
             return
@@ -349,9 +367,9 @@ class AbilityScoreImprovement:
 
         while num_of_upgrades > 0:
             if num_of_upgrades > 1:
-                print(f"ASI: You have {num_of_upgrades} upgrades available.")
+                _e(f"ASI: You have {num_of_upgrades} upgrades available.", "green")
             else:
-                print("ASI: You have 1 upgrade available.")
+                _e("ASI: You have 1 upgrade available.", "green")
 
             upgrade_path_options = ["Ability", "Feat"]
             upgrade_path = prompt(
