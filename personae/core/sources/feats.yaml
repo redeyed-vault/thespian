@@ -901,7 +901,7 @@ feats:
     perk:
       ability: ~
       armors: []
-      flags: languages,1|skills,1|tools,1
+      flags: proficiency=languages,1|proficiency=skills,1|proficiency=tools,1
       languages:
         - Abyssal
         - Celestial
