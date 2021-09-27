@@ -15,7 +15,21 @@ class FeatParser:
         self._perks = Load.get_columns(self._feat, "perk", source_file="feats")
 
     def _parse_flags(self):
-        """Generates flag characteristics for the chosen feat."""
+        """Generates flag characteristics for the chosen feat.
+
+        FLAG PARSER INSTRUCTION SYSTEM
+
+        PIPEBAR: Used to separate flags. i.e: ability=Strength|proficiency=skills
+            Two flags are designated in the above example: 'ability', and 'proficiency'.
+
+        FLAGS: Designates certain instructions for generating a character.
+            - ability
+            - proficiency
+
+        COMMA: Used to identify the number of occurences of a flag. i.e: languages,2
+            The example above means that a player can choose two languages.
+
+        """
         parsed_flags = dict()
         raw_flags = self._perks.get("flags")
         if raw_flags == "none":
