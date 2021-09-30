@@ -48,7 +48,7 @@ class FeatParser:
 
         return parsed_flags
 
-    def weave(self):
+    def run(self):
         """Parses flag characteristics for the chosen feat."""
 
         def is_sub_menu(available_options):
@@ -136,6 +136,15 @@ class FeatParser:
                 if speed_value != 0:
                     parsed_flag[flag] = speed_value
 
+            elif flag == "spells":
+                bonus_spells = self._perks[flag]
+                for index, spell in enumerate(bonus_spells):
+                    if isinstance(spell, list):
+                        spell_choice = prompt("Choose your bonus spell.", spell)
+                        bonus_spells[index] = spell_choice
+                        _e(f"INFO: You selected the spell '{spell_choice}'.", "green")
+                parsed_flag[flag] = bonus_spells
+
         # print(parsed_flag)
         return parsed_flag
 
@@ -158,6 +167,7 @@ class AbilityScoreImprovement:
         self.scores = tapestry["scores"]
         self.skills = tapestry["skills"]
         self.speed = tapestry["speed"]
+        self.spells = tapestry["spells"]
         self.spellslots = tapestry["spellslots"]
         self.subclass = tapestry["subclass"]
         self.subrace = tapestry["subrace"]
@@ -167,7 +177,7 @@ class AbilityScoreImprovement:
     def _add_feat_perks(self, feat):
         """Applies feat related perks to the character."""
         a = FeatParser(feat, self._tapestry)
-        weave = a.weave()
+        weave = a.run()
         if weave is None:
             return
 
@@ -183,6 +193,8 @@ class AbilityScoreImprovement:
                 self.resistances += options
             elif flag == "speed":
                 self.speed += options
+            elif flag == "spells":
+                self.spells += options
         """
         TODO: Sorting this code out elsewhere.
         # Retrieve all perks for the chosen feat
@@ -198,18 +210,6 @@ class AbilityScoreImprovement:
                 "tool",
                 "weapon",
             ):
-                acquired_options = None
-                if flag == "language":
-                    acquired_options = self.languages
-                if flag == "skill":
-                    acquired_options = self.skills
-                if flag == "spell":
-                    acquired_options = self.spells
-                if flag == "tool":
-                    acquired_options = self.tools
-                if flag == "weapon":
-                    acquired_options = self.weapons
-
                 bonus_options = perks.get(flag)
                 if isinstance(bonus_options, dict):
                     weapon_options = []
@@ -413,7 +413,7 @@ class AbilityScoreImprovement:
                 # Apply +1 bonus to two abilities.
                 # Apply +2 bonus to one ability.
                 if bonus_choice == 1:
-                    print("ASI: You may apply a +1 to two different abilities.")
+                    _e("ASI: You may apply a +1 to two different abilities.", "green")
                     for _ in range(2):
                         upgrade_choice = prompt(
                             "ASI: Which ability do you want to upgrade?",
@@ -422,7 +422,7 @@ class AbilityScoreImprovement:
                         ability_upgrade_options.remove(upgrade_choice)
                         self._set_ability_score(upgrade_choice, bonus_choice)
                 elif bonus_choice == 2:
-                    print("ASI: You may apply a +2 to one ability.")
+                    _e("ASI: You may apply a +2 to one ability.", "green")
                     upgrade_choice = prompt(
                         "ASI: Which ability do you want to upgrade?",
                         ability_upgrade_options,
@@ -451,7 +451,7 @@ class AbilityScoreImprovement:
                 else:
                     self._add_feat_perks(feat_choice)
                     self.feats.append(feat_choice)
-                    _e(f"INFO: You have selected the feat '{feat_choice}'.", "green")
+                    _e(f"INFO: You selected the feat '{feat_choice}'.", "green")
 
             num_of_upgrades -= 1
 

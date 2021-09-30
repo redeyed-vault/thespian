@@ -210,7 +210,10 @@ feats:
       resistances: []
       skills: []
       speed: 0
-      spells: ['Detect Magic', 'Dispel Magic', 'Levitate']
+      spells:
+        - Detect Magic
+        - Dispel Magic
+        - Levitate
       tools: []
       weapons: []
     required:
@@ -1297,7 +1300,11 @@ feats:
       resistances: []
       skills: []
       speed: 0
-      spells: ['Blindness/Deafness', 'Blur', 'Disguise', 'Nondetection']
+      spells:
+        - Blindness/Deafness
+        - Blur
+        - Disguise
+        - Nondetection
       tools: []
       weapons: []
     required:
