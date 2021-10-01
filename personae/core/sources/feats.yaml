@@ -422,7 +422,7 @@ feats:
       race: ['Tiefling']
       subrace: ~
   #############################
-  # Grapper (PHB pg.167)
+  # Grappler (PHB pg.167)
   #############################
   Grappler:
     perk:
@@ -493,7 +493,7 @@ feats:
       ability:
         Strength: 1
       armors: ['Heavy']
-      flags: ability=Strength,1|armors,0
+      flags: ability=Strength,1|proficiency=armors,0
       languages: []
       resistances: []
       skills: []
@@ -606,7 +606,7 @@ feats:
         Strength: 1
         Dexterity: 1
       armors: ['Light']
-      flags: ability=Strength&&Dexterity,1|armors,0
+      flags: ability=Strength&&Dexterity,1|proficiency=armors,0
       languages: []
       resistances: []
       skills: []
@@ -794,7 +794,7 @@ feats:
         Strength: 1
         Dexterity: 1
       armors: ['Medium', 'Shields']
-      flags: ability=Strength&&Dexterity,1|armors,0
+      flags: ability=Strength&&Dexterity,1|proficiency=armors,0
       languages: []
       resistances: []
       skills: []
@@ -904,7 +904,7 @@ feats:
     perk:
       ability: ~
       armors: []
-      flags: proficiency=languages,1|proficiency=skills,1|proficiency=tools,1
+      flags: proficiency=languages+skills+tools,1
       languages:
         - Abyssal
         - Celestial
@@ -1322,7 +1322,7 @@ feats:
         Strength: 1
         Constitution: 1
       armors: []
-      flags: ability=Strength&&Constitution|weapons,0
+      flags: ability=Strength&&Constitution|proficiency=weapons,0
       languages: []
       resistances: []
       skills: []
@@ -1387,7 +1387,7 @@ feats:
         Strength: 1
         Dexterity: 1
       armors: []
-      flags: ability=Strength&&Dexterity,1|weapons,4
+      flags: ability=Strength&&Dexterity,1|proficiency=weapons,4
       languages: []
       resistances: []
       skills: []

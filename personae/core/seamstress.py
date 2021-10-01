@@ -91,7 +91,10 @@ class _BaseClassSeamstress(_FlagSeamstress):
         self.tapestry["bonusmagic"] = None
         self.tapestry["klass"] = klass
         self.tapestry["feats"] = list()
-        self.tapestry["spellslots"] = self.tapestry.get("spellslots").get(level)
+        try:
+            self.tapestry["spellslots"] = self.tapestry.get("spellslots").get(level)
+        except AttributeError:
+            self.tapestry["spellslots"] = dict()
 
     def _honor_flags(self, omitted_values=None):
         for flag in self.allowed_flags:

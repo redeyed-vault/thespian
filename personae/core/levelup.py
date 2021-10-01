@@ -1,6 +1,6 @@
 from collections import OrderedDict
 
-from .errors import Error
+from .errors import AbilityScoreImprovementError, FlagParserError
 from .seamstress import MyTapestry
 from .sources import Load
 from .utils import _e, get_character_feats, prompt
@@ -37,14 +37,17 @@ class FeatParser:
 
         flag_pairs = raw_flags.split("|")
         for flag_pair in flag_pairs:
-            name, increment = flag_pair.split(",")
-            if "=" not in name:
-                parsed_flags[name] = {"increment": increment}
+            attribute_name, increment = flag_pair.split(",")
+            if "=" not in attribute_name:
+                parsed_flags[attribute_name] = {"increment": increment}
             else:
-                query_string = name.split("=")
-                name = query_string[0]
-                options = query_string[1].split("&&")
-                parsed_flags[name] = {"increment": increment, "options": options}
+                flag_options = attribute_name.split("=")
+                attribute_name = flag_options[0]
+                options = flag_options[1].split("&&")
+                parsed_flags[attribute_name] = {
+                    "increment": increment,
+                    "options": options,
+                }
 
         return parsed_flags
 
@@ -78,9 +81,14 @@ class FeatParser:
                 increment = int(options["increment"])
                 menu_options = options["options"]
                 if len(menu_options) < 1:
-                    raise Error("Malformed parser instructions error.")
+                    raise FlagParserError("Malformed parser instructions error.")
 
             if flag == "ability":
+                if increment == 0:
+                    raise FlagParserError(
+                        "Flag attribute 'ability' requires a positive integer value."
+                    )
+
                 for _ in range(increment):
                     if len(menu_options) == 1:
                         ability_choice = menu_options[0]
@@ -94,42 +102,45 @@ class FeatParser:
                 parsed_flag[flag] = (ability_choice, bonus_value)
 
             elif flag == "proficiency":
+                # Increment value of 0 means add all listed bonuses.
+                # Increment value other than 0 means add bonus equal to increment value.
                 chosen_options = dict()
                 submenu_options = None
-                for _ in range(increment):
-                    menu_choice = prompt(f"Choose your bonus: '{flag}'.", menu_options)
-                    if not is_sub_menu(menu_options):
-                        menu_options.remove(menu_choice)
-                    else:
-                        # Generate submenu options, if applicable.
-                        if submenu_options is None:
-                            submenu_options = get_sub_menu_options(menu_options)
-                            submenu_options[menu_choice] = [
-                                x
-                                for x in submenu_options[menu_choice]
-                                if x not in self._tapestry[menu_choice]
-                            ]
-
-                        # Create storage for player selctions, if applicable.
-                        if len(chosen_options) == 0:
-                            for opt in submenu_options:
-                                chosen_options[opt] = list()
-
-                        submenu_choice = prompt(
-                            f"Choose submenu option: '{menu_choice}'.",
-                            submenu_options.get(menu_choice),
+                if increment == 0:
+                    chosen_options[menu_options[0]] = Load.get_columns(
+                        self._feat, "perk", menu_options[0], source_file="feats"
+                    )
+                else:
+                    for _ in range(increment):
+                        menu_choice = prompt(
+                            f"Choose your bonus: '{flag}'.", menu_options
                         )
-                        chosen_options[menu_choice].append(submenu_choice)
-                        submenu_options[menu_choice].remove(submenu_choice)
+                        if not is_sub_menu(menu_options):
+                            menu_options.remove(menu_choice)
+                        else:
+                            # Generate submenu options, if applicable.
+                            if submenu_options is None:
+                                submenu_options = get_sub_menu_options(menu_options)
+                                submenu_options[menu_choice] = [
+                                    x
+                                    for x in submenu_options[menu_choice]
+                                    if x not in self._tapestry[menu_choice]
+                                ]
+
+                            # Create storage handler for selections, if applicable.
+                            if len(chosen_options) == 0:
+                                for opt in submenu_options:
+                                    chosen_options[opt] = list()
+
+                            submenu_choice = prompt(
+                                f"Choose submenu option: '{menu_choice}'.",
+                                submenu_options.get(menu_choice),
+                            )
+                            chosen_options[menu_choice].append(submenu_choice)
+                            submenu_options[menu_choice].remove(submenu_choice)
 
                 for k, v in chosen_options.items():
                     parsed_flag[k] = v
-
-            elif flag in ("armors", "languages", "resistances"):
-                if int(options["increment"]) != 0:
-                    continue
-
-                parsed_flag[flag] = self._perks[flag]
 
             elif flag == "speed":
                 speed_value = self._perks[flag]
@@ -202,13 +213,8 @@ class AbilityScoreImprovement:
             if "save" in perk_flags:
                 self.savingthrows.append(ability)
             if flag in (
-                "armor",
-                "language",
                 "resistance",
-                "skill",
                 "spell",
-                "tool",
-                "weapon",
             ):
                 bonus_options = perks.get(flag)
                 if isinstance(bonus_options, dict):
@@ -349,13 +355,19 @@ class AbilityScoreImprovement:
 
     def _is_adjustable(self, ability, bonus=1):
         if not isinstance(ability, str):
-            raise Error("Argument 'ability' must be of type 'str'.")
+            raise AbilityScoreImprovementError(
+                "Argument 'ability' must be of type 'str'."
+            )
 
         if not isinstance(bonus, int):
-            raise Error("Argument 'bonus' must be of type 'int'.")
+            raise AbilityScoreImprovementError(
+                "Argument 'bonus' must be of type 'int'."
+            )
 
         if ability not in self.scores:
-            raise Error(f"Invalid ability '{ability}' specified.")
+            raise AbilityScoreImprovementError(
+                f"Invalid ability '{ability}' specified."
+            )
 
         if (self.scores[ability] + bonus) > 20:
             return False
