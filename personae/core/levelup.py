@@ -103,7 +103,7 @@ class FeatParser:
 
             elif flag == "proficiency":
                 # Increment value of 0 means add all listed bonuses.
-                # Increment value other than 0 means add bonus equal to increment value.
+                # Increment value other than 0 means add # of bonuses == increment value.
                 chosen_options = dict()
                 submenu_options = None
                 if increment == 0:
