@@ -25,6 +25,7 @@ class FeatParser:
         FLAGS: Designates certain instructions for generating a character.
             - ability
             - proficiency
+            - savingthrows
 
         COMMA: Used to identify the number of occurences of a flag. i.e: languages,2
             The example above means that a player can choose two languages.
@@ -37,11 +38,17 @@ class FeatParser:
 
         flag_pairs = raw_flags.split("|")
         for flag_pair in flag_pairs:
+            if "," not in flag_pair:
+                raise FlagParserError(
+                    "Pairs must be formatted in name,value pairs with a ',' separator."
+                )
+
             attribute_name, increment = flag_pair.split(",")
             if "=" not in attribute_name:
                 parsed_flags[attribute_name] = {"increment": increment}
             else:
                 flag_options = attribute_name.split("=")
+                # Allowable flags: ability, proficiency, speed
                 attribute_name = flag_options[0]
                 options = flag_options[1].split("&&")
                 parsed_flags[attribute_name] = {
@@ -89,6 +96,14 @@ class FeatParser:
                         "Flag attribute 'ability' requires a positive integer value."
                     )
 
+                # For the Resilient feat: limits choices based on saving throw proficiencies.
+                if "savingthrows" in final_flag:
+                    menu_options = [
+                        x
+                        for x in menu_options
+                        if x not in self._tapestry.get("savingthrows")
+                    ]
+
                 for _ in range(increment):
                     if len(menu_options) == 1:
                         ability_choice = menu_options[0]
@@ -97,6 +112,18 @@ class FeatParser:
                             "Choose your bonus ability.", menu_options
                         )
                         menu_options.remove(ability_choice)
+                        _e(
+                            f"INFO: You chose the ability >> '{ability_choice}'.",
+                            "green",
+                        )
+
+                    # For the Resilient feat: adds proficiency for chosen ability.
+                    if "savingthrows" in final_flag:
+                        self._tapestry["savingthrows"].append(ability_choice)
+                        _e(
+                            f"INFO: Saving throw proficiency added >> '{ability_choice}'.",
+                            "green",
+                        )
 
                 bonus_value = self._perks[flag][ability_choice]
                 parsed_flag[flag] = (ability_choice, bonus_value)
@@ -161,7 +188,7 @@ class FeatParser:
 
 
 class AbilityScoreImprovement:
-    """Used to apply ability or feat upgrades to your character."""
+    """Used to apply ability and/or feat upgrades."""
 
     def __init__(self, tapestry):
         self._tapestry = tapestry
