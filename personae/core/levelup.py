@@ -31,6 +31,7 @@ class FeatParser:
             - ability
             - proficiency
             - savingthrows
+            - speed
 
         COMMA: Used to identify the number of occurences of a flag. i.e: languages,2
             The example above means that a player can choose two languages.
@@ -53,8 +54,18 @@ class FeatParser:
                 parsed_flags[attribute_name] = {"increment": increment}
             else:
                 flag_options = attribute_name.split(self.ATTRIBUTE_SEPARATOR)
-                # Allowable flags: ability, proficiency, speed
+                # Allowable flags: ability, proficiency, savingthrows, speed
                 attribute_name = flag_options[0]
+                try:
+                    if attribute_name not in (
+                        "ability",
+                        "proficiency",
+                        "savingthrows",
+                        "speed",
+                    ):
+                        raise FlagParserError()
+                except FlagParserError:
+                    pass
                 if self.OPTION_SEPARATOR in flag_options[1]:
                     options = flag_options[1].split(self.OPTION_SEPARATOR)
                 else:
