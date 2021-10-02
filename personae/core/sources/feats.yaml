@@ -386,7 +386,7 @@ feats:
         Intelligence: 1
         Charisma: 1
       armors: []
-      flags: ability=Intelligence&&Charisma,1|languages,0
+      flags: ability=Intelligence&&Charisma,1|proficiency=languages,0
       languages: ['Sylvan']
       resistances: []
       skills: []
@@ -1003,7 +1003,7 @@ feats:
         Wisdom: 1
         Charisma: 1
       armors: []
-      flags: ability=Strength&&Dexterity&&Constitution&&Intelligence&&Wisdom&&Charisma,1|savingthrow,1
+      flags: ability=Strength&&Dexterity&&Constitution&&Intelligence&&Wisdom&&Charisma,1|savingthrows,0
       languages: []
       resistances: []
       skills: []
