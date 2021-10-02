@@ -57,7 +57,7 @@ class CharacterSheetServer:
         d = self.data
 
         self._write = "<!DOCTYPE html>"
-        self._write = "<html><head><title>Yari</title></head><body>"
+        self._write = "<html><head><title>Personae</title></head><body>"
         self._write = "<p>"
         self._write = f"<strong>Race:</strong> {format_race(d.race, d.subrace)}<br/>"
         self._write = f"<strong>Sex: </strong>{d.sex}<br/>"
