@@ -9,6 +9,11 @@ from .utils import _e, get_character_feats, prompt
 class FeatParser:
     """Generates and parses feat characteristic flags by feat."""
 
+    ATTRIBUTE_SEPARATOR = "="
+    FLAG_SEPARATOR = "|"
+    PAIR_SEPARATOR = ","
+    OPTION_SEPARATOR = "&&"
+
     def __init__(self, feat, tapestry):
         self._feat = feat
         self._tapestry = tapestry
@@ -36,21 +41,24 @@ class FeatParser:
         if raw_flags == "none":
             return parsed_flags
 
-        flag_pairs = raw_flags.split("|")
+        flag_pairs = raw_flags.split(self.FLAG_SEPARATOR)
         for flag_pair in flag_pairs:
-            if "," not in flag_pair:
+            if self.PAIR_SEPARATOR not in flag_pair:
                 raise FlagParserError(
                     "Pairs must be formatted in name,value pairs with a ',' separator."
                 )
 
-            attribute_name, increment = flag_pair.split(",")
-            if "=" not in attribute_name:
+            attribute_name, increment = flag_pair.split(self.PAIR_SEPARATOR)
+            if self.ATTRIBUTE_SEPARATOR not in attribute_name:
                 parsed_flags[attribute_name] = {"increment": increment}
             else:
-                flag_options = attribute_name.split("=")
+                flag_options = attribute_name.split(self.ATTRIBUTE_SEPARATOR)
                 # Allowable flags: ability, proficiency, speed
                 attribute_name = flag_options[0]
-                options = flag_options[1].split("&&")
+                if self.OPTION_SEPARATOR in flag_options[1]:
+                    options = flag_options[1].split(self.OPTION_SEPARATOR)
+                else:
+                    options = flag_options[1]
                 parsed_flags[attribute_name] = {
                     "increment": increment,
                     "options": options,
