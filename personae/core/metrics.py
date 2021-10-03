@@ -81,7 +81,7 @@ class AnthropometricCalculator:
             if dominant_sex is None:
                 dominant_sex = "Male"
                 _e(
-                    "INFO: Dominant gender could not be determined. Default to 'Male'.",
+                    "Dominant gender could not be determined. Default to 'Male'.",
                     "yellow",
                 )
 
@@ -94,7 +94,7 @@ class AnthropometricCalculator:
                 height_diff = random.randint(0, 5)
                 height_calculation = height_calculation - height_diff
                 _e(
-                    f'INFO: Using a non-dominant gender height differential of -{height_diff}".',
+                    f'Using a non-dominant gender height differential of -{height_diff}".',
                     "yellow",
                 )
 
@@ -104,7 +104,7 @@ class AnthropometricCalculator:
                     weight_calculation * weight_diff
                 )
                 _e(
-                    f"INFO: Using a non-dominant gender weight differential of -{weight_diff}%.",
+                    f"Using a non-dominant gender weight differential of -{weight_diff}%.",
                     "yellow",
                 )
 

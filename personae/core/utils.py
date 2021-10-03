@@ -7,7 +7,7 @@ from .sources import Load
 
 
 def _e(message, color):
-    print(colored(message, color, attrs=["bold"]))
+    print(colored("[N] " + message, color, attrs=["bold"]))
 
 
 def get_character_classes() -> tuple:
@@ -36,13 +36,15 @@ def prompt(message, options):
 
     time.sleep(3.0)
 
+    message = colored("[*] " + message, "green", attrs=["bold"])
+    options = {x: y for x, y in enumerate(options)}
+    options_list = "\n"
+    for id, option in options.items():
+        options_list += f"[{id}] {option}\n"
+    options_list = colored(options_list, "white", attrs=["bold"])
+    options_list += colored("[P]", "green", attrs=["bold"])
+
     try:
-        message = colored(">> " + message, "green", attrs=["bold"])
-        options = {x: y for x, y in enumerate(options)}
-        options_list = "\n\n"
-        for id, option in options.items():
-            options_list += f"\t{id}.) {option}\n"
-        options_list += colored("\nPROMPT: Enter a number >>", "green", attrs=["bold"])
         user_value = int(input(f"{message} {options_list} ").strip())
         if user_value in options:
             return options[user_value]

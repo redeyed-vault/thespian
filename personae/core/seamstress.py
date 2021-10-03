@@ -44,7 +44,7 @@ class _FlagSeamstress(ABC):
                     for option in flag_options:
                         if option in self.tapestry:
                             self.tapestry[option] = []
-                    _e(f"INFO: You chose the flagging option '{flag_name}'", "green")
+                    _e(f"You chose the flagging option '{flag_name}'", "green")
                 else:
                     raise Error(
                         "If a flag has multiple options available, it must have two or more options."
@@ -70,7 +70,7 @@ class _BaseClassSeamstress(_FlagSeamstress):
         self.tapestry["features"] = {
             x: y for x, y in self.tapestry.get("features").items() if x <= level
         }
-        _e(f"INFO: Your character level has been set to {level}.", "green")
+        _e(f"Your character level has been set to {level}.", "green")
 
         from math import ceil
 
@@ -115,7 +115,7 @@ class _BaseClassSeamstress(_FlagSeamstress):
                     choice = prompt(f"Choose a primary class ability:", abilities)
                     self.tapestry[flag][rank] = choice
                     _e(
-                        f"INFO: You chose the primary class ability > '{choice}'",
+                        f"You chose the primary class ability > '{choice}'",
                         "green",
                     )
                 self.tapestry[flag] = tuple(self.tapestry[flag].values())
@@ -143,7 +143,7 @@ class _BaseClassSeamstress(_FlagSeamstress):
 
                     flag_options.remove(chosen_option)
                     _e(
-                        f"INFO: You chose > {chosen_option}.",
+                        f"You chose > {chosen_option}.",
                         "green",
                     )
 
@@ -193,7 +193,7 @@ class _SubClassSeamstress(_FlagSeamstress):
                 )
                 bonus_options.remove(bonus_choice)
                 bonus_choices.append(bonus_choice)
-                _e(f"INFO: You chose the '{flag}' bonus > {bonus_choice}.", "green")
+                _e(f"You chose the '{flag}' bonus > {bonus_choice}.", "green")
                 if len(bonus_choices) > 0:
                     self.tapestry[flag] = bonus_choices
 
@@ -234,7 +234,7 @@ class _BaseRaceSeamstress(_FlagSeamstress):
         )
         alignment = prompt("What is your chosen alignment?", base_alignment_options)
         self.tapestry["alignment"] = alignment
-        _e(f"INFO: You set your alignment to > {alignment}.", "green")
+        _e(f"You set your alignment to > {alignment}.", "green")
 
         # Set base ancestry, for Dragonborn characters.
         base_ancestry_options = self.tapestry.get("ancestry")
@@ -246,13 +246,13 @@ class _BaseRaceSeamstress(_FlagSeamstress):
             self.tapestry["resistances"] = [
                 self.tapestry.get("resistances").get(ancestry)
             ]
-            _e(f"INFO: You set your draconic ancestry to > {ancestry}.", "green")
+            _e(f"You set your draconic ancestry to > {ancestry}.", "green")
 
         # Set base background
         base_background_options = Load.get_columns(source_file="backgrounds")
         background = prompt("What is your background?", base_background_options)
         self.tapestry["background"] = background
-        _e(f"INFO: Character background '{background}' chosen.", "green")
+        _e(f"Character background '{background}' chosen.", "green")
 
         # Set base languages
         base_language_options = self.tapestry.get("languages")
@@ -272,7 +272,7 @@ class _BaseRaceSeamstress(_FlagSeamstress):
                 "What additional language do you speak?", base_language_options
             )
             self.tapestry["languages"].append(additional_language)
-            _e(f"INFO: Character language '{additional_language}' chosen.", "green")
+            _e(f"Character language '{additional_language}' chosen.", "green")
 
         # Set base spells
         base_spell_options = self.tapestry.get("spells")
@@ -286,7 +286,7 @@ class _BaseRaceSeamstress(_FlagSeamstress):
                     if req_level <= caster_level:
                         base_spells += spell_list
                 self.tapestry["spells"] = base_spells
-                _e(f"INFO: You set your caster level to > {caster_level}.", "green")
+                _e(f"You set your caster level to > {caster_level}.", "green")
 
         # Set base subrace, if applicable
         base_subrace_options = self.tapestry.get("subrace")
@@ -295,7 +295,7 @@ class _BaseRaceSeamstress(_FlagSeamstress):
         else:
             subrace = prompt("Choose your 'subrace'", base_subrace_options)
             self.tapestry["subrace"] = subrace
-            _e(f"INFO: You set your subrace to > {subrace}.", "green")
+            _e(f"You set your subrace to > {subrace}.", "green")
 
         # No flags actually specified in configuration
         if self.flags is None:
@@ -317,7 +317,7 @@ class _BaseRaceSeamstress(_FlagSeamstress):
                     base_skills.append(choice)
                     base_skill_options.remove(choice)
                     _e(
-                        f"INFO: You chose the '{proficiency}' proficiency > {choice}.",
+                        f"You chose the '{proficiency}' proficiency > {choice}.",
                         "green",
                     )
                 self.tapestry[proficiency] = base_skills
@@ -351,7 +351,7 @@ class _SubRaceSeamstress(_FlagSeamstress):
                     if req_level <= caster_level:
                         base_spells += spell_list
                 self.tapestry["spells"] = base_spells
-                _e(f"INFO: You set your caster level to > {caster_level}.", "green")
+                _e(f"You set your caster level to > {caster_level}.", "green")
             if isinstance(base_spell_options, list):
                 if "spells" in self.flags:
                     num_of_instances = self.flags.get("spells")
@@ -381,7 +381,7 @@ class _SubRaceSeamstress(_FlagSeamstress):
                     base_skills.append(choice)
                     base_skill_options.remove(choice)
                     _e(
-                        f"INFO: You chose the '{proficiency}' proficiency > {choice}.",
+                        f"You chose the '{proficiency}' proficiency > {choice}.",
                         "green",
                     )
                 self.tapestry[proficiency] = base_skills

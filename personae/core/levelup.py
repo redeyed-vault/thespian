@@ -137,7 +137,7 @@ class FeatAttributeParser:
                         )
                         menu_options.remove(ability_choice)
                         _e(
-                            f"INFO: You chose the ability >> '{ability_choice}'.",
+                            f"You chose the ability >> '{ability_choice}'.",
                             "green",
                         )
 
@@ -145,7 +145,7 @@ class FeatAttributeParser:
                         if "savingthrows" in final_flag:
                             self._tapestry["savingthrows"].append(ability_choice)
                             _e(
-                                f"INFO: Saving throw proficiency added >> '{ability_choice}'.",
+                                f"Saving throw proficiency added >> '{ability_choice}'.",
                                 "green",
                             )
 
@@ -228,7 +228,7 @@ class FeatAttributeParser:
                     if isinstance(spell, list):
                         spell_choice = prompt("Choose your bonus spell.", spell)
                         bonus_spells[index] = spell_choice
-                        _e(f"INFO: You selected the spell '{spell_choice}'.", "green")
+                        _e(f"You selected the spell '{spell_choice}'.", "green")
                 parsed_flag[flag] = bonus_spells
 
         # _e(parsed_flag, "yellow")
@@ -443,20 +443,20 @@ class AbilityScoreImprovement:
 
         while num_of_upgrades > 0:
             if num_of_upgrades > 1:
-                _e(f"ASI: You have {num_of_upgrades} upgrades available.", "green")
+                _e(f"You have {num_of_upgrades} upgrades available.", "green")
             else:
-                _e("ASI: You have 1 upgrade available.", "green")
+                _e("You have 1 upgrade available.", "green")
 
             upgrade_path_options = ["Ability", "Feat"]
             upgrade_path = prompt(
-                "ASI: Which path do you want to follow?", upgrade_path_options
+                "Which path do you want to follow?", upgrade_path_options
             )
 
             # Path #1: Upgrade an Ability.
             # Path #2: Add a new Feat.
             if upgrade_path == "Ability":
                 bonus_choice = prompt(
-                    "ASI: Do you want an upgrade of a +1 or +2?", ["1", "2"]
+                    "Do you want an upgrade of a +1 or +2?", ["1", "2"]
                 )
                 ability_upgrade_options = (
                     "Strength",
@@ -475,23 +475,23 @@ class AbilityScoreImprovement:
                 # Apply +1 bonus to two abilities.
                 # Apply +2 bonus to one ability.
                 if bonus_choice == 1:
-                    _e("ASI: You may apply a +1 to two different abilities.", "green")
+                    _e("You may apply a +1 to two different abilities.", "green")
                     for _ in range(2):
                         upgrade_choice = prompt(
-                            "ASI: Which ability do you want to upgrade?",
+                            "Which ability do you want to upgrade?",
                             ability_upgrade_options,
                         )
                         ability_upgrade_options.remove(upgrade_choice)
                         self._set_ability_score(upgrade_choice, bonus_choice)
                 elif bonus_choice == 2:
-                    _e("ASI: You may apply a +2 to one ability.", "green")
+                    _e("You may apply a +2 to one ability.", "green")
                     upgrade_choice = prompt(
-                        "ASI: Which ability do you want to upgrade?",
+                        "Which ability do you want to upgrade?",
                         ability_upgrade_options,
                     )
                     self._set_ability_score(upgrade_choice, bonus_choice)
                     _e(
-                        f"INFO: You have upgraded the ability '{upgrade_choice}'.",
+                        f"You have upgraded the ability '{upgrade_choice}'.",
                         "green",
                     )
             elif upgrade_path == "Feat":
@@ -501,28 +501,28 @@ class AbilityScoreImprovement:
                 ]
 
                 feat_choice = prompt(
-                    "ASI: Which feat do you want to acquire?",
+                    "Which feat do you want to acquire?",
                     feat_options,
                 )
 
                 while not self._has_required(feat_choice):
                     feat_options.remove(feat_choice)
                     _e(
-                        f"INFO: You don't meet the requirements for '{feat_choice}'.",
+                        f"You don't meet the requirements for '{feat_choice}'.",
                         "yellow",
                     )
                     feat_choice = prompt("", feat_options)
                 else:
                     self._add_feat_perks(feat_choice)
                     self._tapestry["feats"].append(feat_choice)
-                    _e(f"INFO: You selected the feat '{feat_choice}'.", "green")
+                    _e(f"You selected the feat '{feat_choice}'.", "green")
 
             num_of_upgrades -= 1
 
     def _set_ability_score(self, ability, bonus=1):
         if not self._is_adjustable(ability, bonus):
-            _e(f"INFO: Ability '{ability}' is not adjustable.", "yellow")
+            _e(f"Ability '{ability}' is not adjustable.", "yellow")
 
         new_score = self._tapestry.get("scores").get(ability) + bonus
         self._tapestry["scores"][ability] = new_score
-        _e(f"INFO: Ability '{ability}' is now set to {new_score}.", "green")
+        _e(f"Ability '{ability}' is now set to {new_score}.", "green")
