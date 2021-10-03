@@ -1,4 +1,5 @@
 from collections import OrderedDict
+from dataclasses import dataclass
 
 from .errors import AbilityScoreImprovementError, FlagParserError
 from .seamstress import MyTapestry
@@ -6,13 +7,14 @@ from .sources import Load
 from .utils import _e, get_character_feats, prompt
 
 
-class FeatParser:
+class FeatAttributeParser:
     """Generates and parses feat characteristic flags by feat."""
 
-    ATTRIBUTE_SEPARATOR = "="
-    FLAG_SEPARATOR = "|"
-    PAIR_SEPARATOR = ","
-    OPTION_SEPARATOR = "&&"
+    ATTRIBUTE_FLAG_SEPARATOR = "|"
+    ATTRIBUTE_INCREMENT_SEPARATOR = ","
+    ATTRIBUTE_VALUE_SEPARATOR = "="
+    MULTI_OPTION_SEPARATOR = "&&"
+    MULTI_SELECTION_SEPARATOR = "+"
 
     def __init__(self, feat, tapestry):
         self._feat = feat
@@ -42,18 +44,20 @@ class FeatParser:
         if raw_flags == "none":
             return parsed_flags
 
-        flag_pairs = raw_flags.split(self.FLAG_SEPARATOR)
+        flag_pairs = raw_flags.split(self.ATTRIBUTE_FLAG_SEPARATOR)
         for flag_pair in flag_pairs:
-            if self.PAIR_SEPARATOR not in flag_pair:
+            if self.ATTRIBUTE_INCREMENT_SEPARATOR not in flag_pair:
                 raise FlagParserError(
                     "Pairs must be formatted in name,value pairs with a ',' separator."
                 )
 
-            attribute_name, increment = flag_pair.split(self.PAIR_SEPARATOR)
-            if self.ATTRIBUTE_SEPARATOR not in attribute_name:
+            attribute_name, increment = flag_pair.split(
+                self.ATTRIBUTE_INCREMENT_SEPARATOR
+            )
+            if self.ATTRIBUTE_VALUE_SEPARATOR not in attribute_name:
                 parsed_flags[attribute_name] = {"increment": increment}
             else:
-                flag_options = attribute_name.split(self.ATTRIBUTE_SEPARATOR)
+                flag_options = attribute_name.split(self.ATTRIBUTE_VALUE_SEPARATOR)
                 # Allowable flags: ability, proficiency, savingthrows, speed
                 attribute_name = flag_options[0]
                 try:
@@ -66,8 +70,8 @@ class FeatParser:
                         raise FlagParserError()
                 except FlagParserError:
                     pass
-                if self.OPTION_SEPARATOR in flag_options[1]:
-                    options = flag_options[1].split(self.OPTION_SEPARATOR)
+                if self.MULTI_OPTION_SEPARATOR in flag_options[1]:
+                    options = flag_options[1].split(self.MULTI_OPTION_SEPARATOR)
                 else:
                     options = flag_options[1]
                 parsed_flags[attribute_name] = {
@@ -86,13 +90,14 @@ class FeatParser:
                     return False
             return True
 
+        def get_proficiency_options(prof_type):
+            return Load.get_columns(self._feat, "perk", prof_type, source_file="feats")
+
         def get_sub_menu_options(available_options):
             if is_sub_menu(available_options):
                 sub_options = dict()
                 for opt in available_options:
-                    sub_options[opt] = Load.get_columns(
-                        self._feat, "perk", opt, source_file="feats"
-                    )
+                    sub_options[opt] = get_proficiency_options(opt)
                 return sub_options
             return False
 
@@ -123,10 +128,10 @@ class FeatParser:
                         if x not in self._tapestry.get("savingthrows")
                     ]
 
-                for _ in range(increment):
-                    if len(menu_options) == 1:
-                        ability_choice = menu_options[0]
-                    else:
+                if isinstance(menu_options, str):
+                    ability_choice = menu_options
+                elif isinstance(menu_options, list):
+                    for _ in range(increment):
                         ability_choice = prompt(
                             "Choose your bonus ability.", menu_options
                         )
@@ -136,13 +141,13 @@ class FeatParser:
                             "green",
                         )
 
-                    # For the Resilient feat: adds proficiency for chosen ability.
-                    if "savingthrows" in final_flag:
-                        self._tapestry["savingthrows"].append(ability_choice)
-                        _e(
-                            f"INFO: Saving throw proficiency added >> '{ability_choice}'.",
-                            "green",
-                        )
+                        # For the Resilient feat: adds proficiency for chosen ability.
+                        if "savingthrows" in final_flag:
+                            self._tapestry["savingthrows"].append(ability_choice)
+                            _e(
+                                f"INFO: Saving throw proficiency added >> '{ability_choice}'.",
+                                "green",
+                            )
 
                 bonus_value = self._perks[flag][ability_choice]
                 parsed_flag[flag] = (ability_choice, bonus_value)
@@ -152,11 +157,12 @@ class FeatParser:
                 # Increment value other than 0 means add # of bonuses == increment value.
                 chosen_options = dict()
                 submenu_options = None
-                if increment == 0:
-                    chosen_options[menu_options[0]] = Load.get_columns(
-                        self._feat, "perk", menu_options[0], source_file="feats"
+                if isinstance(menu_options, list) and increment == 0:
+                    chosen_options[menu_options[0]] = get_proficiency_options(
+                        menu_options[0]
                     )
-                else:
+
+                elif isinstance(menu_options, list):
                     for _ in range(increment):
                         menu_choice = prompt(
                             f"Choose your bonus: '{flag}'.", menu_options
@@ -185,6 +191,19 @@ class FeatParser:
                             chosen_options[menu_choice].append(submenu_choice)
                             submenu_options[menu_choice].remove(submenu_choice)
 
+                elif isinstance(menu_options, str):
+                    for prof_type in menu_options.split(self.MULTI_SELECTION_SEPARATOR):
+                        chosen_proficiencies = list()
+                        proficiency_options = get_proficiency_options(prof_type)
+                        for _ in range(increment):
+                            menu_choice = prompt(
+                                f"Choose your bonus: '{flag}'.", proficiency_options
+                            )
+                            chosen_proficiencies.append(menu_choice)
+                            proficiency_options.remove(menu_choice)
+                            _e(f"You chose > '{menu_choice}'.", "green")
+                        chosen_options[prof_type] = chosen_proficiencies
+
                 for k, v in chosen_options.items():
                     parsed_flag[k] = v
 
@@ -206,34 +225,15 @@ class FeatParser:
         return parsed_flag
 
 
+@dataclass
 class AbilityScoreImprovement:
     """Used to apply ability and/or feat upgrades."""
 
-    def __init__(self, tapestry):
-        self._tapestry = tapestry
-        self.ability = tapestry["ability"]
-        self.armors = tapestry["armors"]
-        self.feats = tapestry["feats"]
-        self.klass = tapestry["klass"]
-        self.spells = tapestry["spells"]
-        self.languages = tapestry["languages"]
-        self.level = tapestry["level"]
-        self.race = tapestry["race"]
-        self.resistances = tapestry["resistances"]
-        self.savingthrows = tapestry["savingthrows"]
-        self.scores = tapestry["scores"]
-        self.skills = tapestry["skills"]
-        self.speed = tapestry["speed"]
-        self.spells = tapestry["spells"]
-        self.spellslots = tapestry["spellslots"]
-        self.subclass = tapestry["subclass"]
-        self.subrace = tapestry["subrace"]
-        self.tools = tapestry["tools"]
-        self.weapons = tapestry["weapons"]
+    _tapestry: dict
 
     def _add_feat_perks(self, feat):
-        """Applies feat related perks to the character."""
-        a = FeatParser(feat, self._tapestry)
+        """Applies feat related perks."""
+        a = FeatAttributeParser(feat, self._tapestry)
         weave = a.run()
         if weave is None:
             return
@@ -242,16 +242,8 @@ class AbilityScoreImprovement:
             if flag == "ability":
                 ability, bonus = options
                 self._set_ability_score(ability, bonus)
-            elif flag == "armors":
-                self.armors += options
-            elif flag == "languages":
-                self.languages += options
-            elif flag == "resistances":
-                self.resistances += options
-            elif flag == "speed":
-                self.speed += options
-            elif flag == "spells":
-                self.spells += options
+            else:
+                self._tapestry[flag] += options
         """
         TODO: Sorting this code out elsewhere.
         # Retrieve all perks for the chosen feat
@@ -290,13 +282,15 @@ class AbilityScoreImprovement:
         """
 
     def _has_required(self, feat):
+        """Checks if feat requirements have been met."""
+
         def get_feat_requirements(feat_name: str, use_local: bool = True):
             return Load.get_columns(
                 feat_name, "required", source_file="feats", use_local=use_local
             )
 
         # Character already has feat
-        if feat in self.feats:
+        if feat in self._tapestry["feats"]:
             return False
 
         # If Heavily, Lightly, or Moderately Armored feat and a Monk.
@@ -308,7 +302,7 @@ class AbilityScoreImprovement:
                 "Lightly Armored",
                 "Moderately Armored",
             )
-            and self.klass == "Monk"
+            and self._tapestry["klass"] == "Monk"
         ):
             return False
         elif feat in (
@@ -321,13 +315,13 @@ class AbilityScoreImprovement:
             # Lightly Armored: Character already has light armor proficiency.
             # Moderately Armored: Character already has medium armor proficiency.
             # Weapon Master: Character already has martial weapon proficiency.
-            if feat == "Heavily Armored" and "Heavy" in self.armors:
+            if feat == "Heavily Armored" and "Heavy" in self._tapestry["armors"]:
                 return False
-            elif feat == "Lightly Armored" and "Light" in self.armors:
+            elif feat == "Lightly Armored" and "Light" in self._tapestry["armors"]:
                 return False
-            elif feat == "Moderately Armored" and "Medium" in self.armors:
+            elif feat == "Moderately Armored" and "Medium" in self._tapestry["armors"]:
                 return False
-            elif feat == "Weapon Master" and "Martial" in self.weapons:
+            elif feat == "Weapon Master" and "Martial" in self._tapestry["weapons"]:
                 return False
 
         # Go through ALL prerequisites.
@@ -340,7 +334,7 @@ class AbilityScoreImprovement:
             # Check ability requirements
             if requirement == "ability":
                 for ability, required_score in prerequisite.get(requirement).items():
-                    my_score = self.scores[ability]
+                    my_score = self._tapestry["scores"][ability]
                     if my_score < required_score:
                         return False
 
@@ -349,11 +343,11 @@ class AbilityScoreImprovement:
                 # If caster prerequisite True
                 if prerequisite.get(requirement):
                     # Check if character has spellcasting ability
-                    if self.spellslots == "0":
+                    if self._tapestry["spellslots"] == "0":
                         return False
 
                     # Magic Initiative class check
-                    if feat == "Magic Initiative" and self.klass not in (
+                    if feat == "Magic Initiative" and self._tapestry["klass"] not in (
                         "Bard",
                         "Cleric",
                         "Druid",
@@ -384,17 +378,17 @@ class AbilityScoreImprovement:
                 ):
                     armors = prerequisite.get(requirement).get("armors")
                     for armor in armors:
-                        if armor not in self.armors:
+                        if armor not in self._tapestry["armors"]:
                             return False
 
             # Check race requirements
             if requirement == "race":
-                if self.race not in prerequisite.get(requirement):
+                if self._tapestry["race"] not in prerequisite.get(requirement):
                     return False
 
             # Check subrace requirements
             if requirement == "subrace":
-                if self.subrace not in prerequisite.get(requirement):
+                if self._tapestry["subrace"] not in prerequisite.get(requirement):
                     return False
 
         return True
@@ -410,31 +404,31 @@ class AbilityScoreImprovement:
                 "Argument 'bonus' must be of type 'int'."
             )
 
-        if ability not in self.scores:
+        if ability not in self._tapestry["scores"]:
             raise AbilityScoreImprovementError(
                 f"Invalid ability '{ability}' specified."
             )
 
-        if (self.scores[ability] + bonus) > 20:
+        if (self._tapestry["scores"][ability] + bonus) > 20:
             return False
 
         return True
 
     def run(self):
-        if self.level < 4:
+        if self._tapestry["level"] < 4:
             return
 
         num_of_upgrades = 0
-        for x in range(1, self.level + 1):
+        for x in range(1, self._tapestry["level"] + 1):
             if (x % 4) == 0 and x != 20:
                 num_of_upgrades += 1
-        if self.klass == "Fighter" and self.level >= 6:
+        if self._tapestry["klass"] == "Fighter" and self._tapestry["level"] >= 6:
             num_of_upgrades += 1
-        if self.klass == "Rogue" and self.level >= 8:
+        if self._tapestry["klass"] == "Rogue" and self._tapestry["level"] >= 8:
             num_of_upgrades += 1
-        if self.klass == "Fighter" and self.level >= 14:
+        if self._tapestry["klass"] == "Fighter" and self._tapestry["level"] >= 14:
             num_of_upgrades += 1
-        if self.level >= 19:
+        if self._tapestry["level"] >= 19:
             num_of_upgrades += 1
 
         while num_of_upgrades > 0:
@@ -492,7 +486,9 @@ class AbilityScoreImprovement:
                     )
             elif upgrade_path == "Feat":
                 feat_options = get_character_feats()
-                feat_options = [x for x in feat_options if x not in self.feats]
+                feat_options = [
+                    x for x in feat_options if x not in self._tapestry["feats"]
+                ]
 
                 feat_choice = prompt(
                     "ASI: Which feat do you want to acquire?",
@@ -508,7 +504,7 @@ class AbilityScoreImprovement:
                     feat_choice = prompt("", feat_options)
                 else:
                     self._add_feat_perks(feat_choice)
-                    self.feats.append(feat_choice)
+                    self._tapestry["feats"].append(feat_choice)
                     _e(f"INFO: You selected the feat '{feat_choice}'.", "green")
 
             num_of_upgrades -= 1
@@ -517,6 +513,6 @@ class AbilityScoreImprovement:
         if not self._is_adjustable(ability, bonus):
             _e(f"INFO: Ability '{ability}' is not adjustable.", "yellow")
 
-        new_score = self.scores.get(ability) + bonus
-        self.scores[ability] = new_score
+        new_score = self._tapestry.get("scores").get(ability) + bonus
+        self._tapestry["scores"][ability] = new_score
         _e(f"INFO: Ability '{ability}' is now set to {new_score}.", "green")
