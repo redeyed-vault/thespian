@@ -194,14 +194,26 @@ class FeatAttributeParser:
                 elif isinstance(menu_options, str):
                     for prof_type in menu_options.split(self.MULTI_SELECTION_SEPARATOR):
                         chosen_proficiencies = list()
-                        proficiency_options = get_proficiency_options(prof_type)
+                        # Clear out already chosen options.
+                        proficiency_options = [
+                            x
+                            for x in get_proficiency_options(prof_type)
+                            if x not in self._tapestry[prof_type]
+                        ]
+
                         for _ in range(increment):
+                            # Clear out the temporarily chosen options.
+                            proficiency_options = [
+                                x
+                                for x in proficiency_options
+                                if x not in chosen_proficiencies
+                            ]
                             menu_choice = prompt(
                                 f"Choose your bonus: '{flag}'.", proficiency_options
                             )
                             chosen_proficiencies.append(menu_choice)
                             proficiency_options.remove(menu_choice)
-                            _e(f"You chose > '{menu_choice}'.", "green")
+                            _e(f"You chose the proficiency > '{menu_choice}'.", "green")
                         chosen_options[prof_type] = chosen_proficiencies
 
                 for k, v in chosen_options.items():
@@ -248,8 +260,6 @@ class AbilityScoreImprovement:
         TODO: Sorting this code out elsewhere.
         # Retrieve all perks for the chosen feat
         for flag, value in perk_flags.items():
-            if "save" in perk_flags:
-                self.savingthrows.append(ability)
             if flag in (
                 "resistance",
                 "spell",
@@ -394,6 +404,7 @@ class AbilityScoreImprovement:
         return True
 
     def _is_adjustable(self, ability, bonus=1):
+        """Checks if ability is adjustable <= 20."""
         if not isinstance(ability, str):
             raise AbilityScoreImprovementError(
                 "Argument 'ability' must be of type 'str'."
