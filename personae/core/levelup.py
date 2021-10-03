@@ -157,10 +157,8 @@ class FeatAttributeParser:
                 # Increment value other than 0 means add # of bonuses == increment value.
                 chosen_options = dict()
                 submenu_options = None
-                if isinstance(menu_options, list) and increment == 0:
-                    chosen_options[menu_options[0]] = get_proficiency_options(
-                        menu_options[0]
-                    )
+                if isinstance(menu_options, str) and increment == 0:
+                    chosen_options[menu_options] = get_proficiency_options(menu_options)
 
                 elif isinstance(menu_options, list):
                     for _ in range(increment):
@@ -233,7 +231,8 @@ class FeatAttributeParser:
                         _e(f"INFO: You selected the spell '{spell_choice}'.", "green")
                 parsed_flag[flag] = bonus_spells
 
-        # print(parsed_flag)
+        # _e(parsed_flag, "yellow")
+
         return parsed_flag
 
 

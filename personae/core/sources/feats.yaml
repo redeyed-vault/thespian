@@ -1322,7 +1322,7 @@ feats:
         Strength: 1
         Constitution: 1
       armors: []
-      flags: ability=Strength&&Constitution|proficiency=weapons,0
+      flags: ability=Strength&&Constitution,1|proficiency=weapons,0
       languages: []
       resistances: []
       skills: []
