@@ -137,7 +137,7 @@ class FeatAttributeParser:
                         )
                         menu_options.remove(ability_choice)
                         _e(
-                            f"You chose the ability >> '{ability_choice}'.",
+                            f"Added ability >> {ability_choice}",
                             "green",
                         )
 
@@ -145,7 +145,7 @@ class FeatAttributeParser:
                         if "savingthrows" in final_flag:
                             self._tapestry["savingthrows"].append(ability_choice)
                             _e(
-                                f"Saving throw proficiency added >> '{ability_choice}'.",
+                                f"Added saving throw proficiency >> {ability_choice}",
                                 "green",
                             )
 
@@ -188,6 +188,10 @@ class FeatAttributeParser:
                             )
                             chosen_options[menu_choice].append(submenu_choice)
                             submenu_options[menu_choice].remove(submenu_choice)
+                            _e(
+                                f"Added {flag} ({menu_choice}) >> {submenu_choice}",
+                                "green",
+                            )
 
                 elif isinstance(menu_options, str):
                     for prof_type in menu_options.split(self.MULTI_SELECTION_SEPARATOR):
@@ -211,7 +215,10 @@ class FeatAttributeParser:
                             )
                             chosen_proficiencies.append(menu_choice)
                             proficiency_options.remove(menu_choice)
-                            _e(f"You chose the proficiency > '{menu_choice}'.", "green")
+                            _e(
+                                f"Added {flag} ({prof_type}) >> {menu_choice}",
+                                "green",
+                            )
                         chosen_options[prof_type] = chosen_proficiencies
 
                 for k, v in chosen_options.items():
@@ -228,7 +235,7 @@ class FeatAttributeParser:
                     if isinstance(spell, list):
                         spell_choice = prompt("Choose your bonus spell.", spell)
                         bonus_spells[index] = spell_choice
-                        _e(f"You selected the spell '{spell_choice}'.", "green")
+                        _e(f"Added spell >> {spell_choice}", "green")
                 parsed_flag[flag] = bonus_spells
 
         # _e(parsed_flag, "yellow")
@@ -403,7 +410,7 @@ class AbilityScoreImprovement:
         return True
 
     def _is_adjustable(self, ability, bonus=1):
-        """Checks if ability is adjustable <= 20."""
+        """Checks if ability is adjustable < 20."""
         if not isinstance(ability, str):
             raise AbilityScoreImprovementError(
                 "Argument 'ability' must be of type 'str'."
@@ -491,7 +498,7 @@ class AbilityScoreImprovement:
                     )
                     self._set_ability_score(upgrade_choice, bonus_choice)
                     _e(
-                        f"You have upgraded the ability '{upgrade_choice}'.",
+                        f"Upgraded ability >> {upgrade_choice}",
                         "green",
                     )
             elif upgrade_path == "Feat":
@@ -504,25 +511,26 @@ class AbilityScoreImprovement:
                     "Which feat do you want to acquire?",
                     feat_options,
                 )
+                _e(f"Added feat >> {feat_choice}", "green")
 
                 while not self._has_required(feat_choice):
                     feat_options.remove(feat_choice)
-                    _e(
+                    feat_choice = prompt(
                         f"You don't meet the requirements for '{feat_choice}'.",
-                        "yellow",
+                        feat_options,
                     )
-                    feat_choice = prompt("", feat_options)
                 else:
                     self._add_feat_perks(feat_choice)
                     self._tapestry["feats"].append(feat_choice)
-                    _e(f"You selected the feat '{feat_choice}'.", "green")
+                    _e(f"Added feat >> {feat_choice}", "green")
 
             num_of_upgrades -= 1
 
     def _set_ability_score(self, ability, bonus=1):
+        """Applies a bonus to a specified ability."""
         if not self._is_adjustable(ability, bonus):
             _e(f"Ability '{ability}' is not adjustable.", "yellow")
-
-        new_score = self._tapestry.get("scores").get(ability) + bonus
-        self._tapestry["scores"][ability] = new_score
-        _e(f"Ability '{ability}' is now set to {new_score}.", "green")
+        else:
+            new_score = self._tapestry.get("scores").get(ability) + bonus
+            self._tapestry["scores"][ability] = new_score
+            _e(f"Ability '{ability}' set to >> {new_score}", "green")
