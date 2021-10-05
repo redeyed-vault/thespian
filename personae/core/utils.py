@@ -10,6 +10,32 @@ def _e(message, color):
     print(colored("[N] " + message, color, attrs=["bold"]))
 
 
+def _intro(race, sex, klass, port):
+    def header(value):
+        return colored("[+] " + value, "green", attrs=["bold"])
+
+    def option(value):
+        return colored(value, "yellow", attrs=["bold"])
+
+    print(
+        colored(
+            header("Personae is starting using the following options:\n")
+            + header("Race: ")
+            + option(race)
+            + "\n"
+            + header("Sex: ")
+            + option(sex)
+            + "\n"
+            + header("Class: ")
+            + option(klass)
+            + "\n"
+            + header("Port: ")
+            + option(port),
+            attrs=["bold"],
+        )
+    )
+
+
 def get_character_classes() -> tuple:
     """Returns a tuple of all character classes."""
     return Load.get_row_ids(source_file="classes")
@@ -36,13 +62,13 @@ def prompt(message, options):
 
     time.sleep(3.0)
 
-    message = colored("[*] " + message, "green", attrs=["bold"])
+    message = colored("[P] " + message, "green", attrs=["bold"])
     options = {x: y for x, y in enumerate(options)}
     options_list = "\n"
     for id, option in options.items():
         options_list += f"[{id}] {option}\n"
     options_list = colored(options_list, "white", attrs=["bold"])
-    options_list += colored("[P]", "green", attrs=["bold"])
+    options_list += colored("[*]", "green", attrs=["bold"])
 
     try:
         user_value = int(input(f"{message} {options_list} ").strip())

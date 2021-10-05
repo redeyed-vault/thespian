@@ -11,6 +11,7 @@ from .seamstress import (
 from .utils import (
     get_character_classes,
     get_character_races,
+    _intro,
 )
 
 
@@ -56,6 +57,7 @@ def main():
     sex = args.sex
     port = args.port
 
+    _intro(race, sex, klass, port)
     a = RaceSeamstress(race, sex)
     b = ClassSeamstress(klass, a.data)
 
