@@ -67,8 +67,6 @@ optional arguments:
   -port PORT, -p PORT   sets HTTP server port
 ```
 
-The following is an example of output given during a normal run of the program.
-
 
 #### DISCLAIMER
 
