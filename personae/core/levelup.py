@@ -16,9 +16,9 @@ class FeatAttributeParser:
     MULTI_OPTION_SEPARATOR = "&&"
     MULTI_SELECTION_SEPARATOR = "+"
 
-    def __init__(self, feat, tapestry):
+    def __init__(self, feat, prof):
         self._feat = feat
-        self._tapestry = tapestry
+        self._profile = prof
         self._perks = Load.get_columns(self._feat, "perk", source_file="feats")
 
     def _parse_flags(self):
@@ -67,7 +67,9 @@ class FeatAttributeParser:
                         "savingthrows",
                         "speed",
                     ):
-                        raise FlagParserError()
+                        raise FlagParserError(
+                            f"Illegal flag name '{attribute_name}' specified."
+                        )
                 except FlagParserError:
                     pass
                 if self.MULTI_OPTION_SEPARATOR in flag_options[1]:
@@ -120,12 +122,13 @@ class FeatAttributeParser:
                         "Flag attribute 'ability' requires a positive integer value."
                     )
 
-                # For the Resilient feat: limits choices based on saving throw proficiencies.
+                # For feats that use the 'savingthrows' flag.
+                # Limits choices based on current saving throw proficiencies.
                 if "savingthrows" in final_flag:
                     menu_options = [
                         x
                         for x in menu_options
-                        if x not in self._tapestry.get("savingthrows")
+                        if x not in self._profile.get("savingthrows")
                     ]
 
                 if isinstance(menu_options, str):
@@ -141,9 +144,9 @@ class FeatAttributeParser:
                             "green",
                         )
 
-                        # For the Resilient feat: adds proficiency for chosen ability.
+                        # If 'savingthrows' flag specified, add proficiency for ability saving throw.
                         if "savingthrows" in final_flag:
-                            self._tapestry["savingthrows"].append(ability_choice)
+                            self._profile["savingthrows"].append(ability_choice)
                             _e(
                                 f"Added saving throw proficiency >> {ability_choice}",
                                 "green",
@@ -174,7 +177,7 @@ class FeatAttributeParser:
                                 submenu_options[menu_choice] = [
                                     x
                                     for x in submenu_options[menu_choice]
-                                    if x not in self._tapestry[menu_choice]
+                                    if x not in self._profile[menu_choice]
                                 ]
 
                             # Create storage handler for selections, if applicable.
@@ -200,7 +203,7 @@ class FeatAttributeParser:
                         proficiency_options = [
                             x
                             for x in get_proficiency_options(prof_type)
-                            if x not in self._tapestry[prof_type]
+                            if x not in self._profile[prof_type]
                         ]
 
                         for _ in range(increment):

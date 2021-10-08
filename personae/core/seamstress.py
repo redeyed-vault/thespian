@@ -115,7 +115,7 @@ class _BaseClassSeamstress(_FlagSeamstress):
                     choice = prompt(f"Choose a primary class ability:", abilities)
                     self.tapestry[flag][rank] = choice
                     _e(
-                        f"Set class ability to >> '{choice}'",
+                        f"Class ability set to >> {choice}",
                         "green",
                     )
                 self.tapestry[flag] = tuple(self.tapestry[flag].values())

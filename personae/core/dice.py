@@ -100,6 +100,6 @@ class AttributeGenerator:
         for ability, bonus in self._bonus.items():
             value = score_array.get(ability) + bonus
             score_array[ability] = value
-            _e(f"Bonus of {bonus} applied to '{ability}' ({value}).", "green")
+            _e(f"Applied {bonus} bonus to '{ability}' ({value}).", "green")
 
         return score_array
