@@ -1,7 +1,7 @@
 from dataclasses import dataclass
 
 from .dice import roll
-from .errors import Error
+from .errors import AnthropometricCalculatorError
 from .sources import Load
 from .utils import _e
 
@@ -29,14 +29,14 @@ class AnthropometricCalculator:
 
             # If base|sub race metrics not found.
             if result is None:
-                raise Error("No racial base metrics found.")
+                raise AnthropometricCalculatorError("No racial base metrics found.")
 
             base_metric_values.append(result)
 
         # If you don't have two base metric values.
         metric_value_count = len(base_metric_values)
         if metric_value_count != 2:
-            raise Error(
+            raise AnthropometricCalculatorError(
                 f"Two base metric values must be provided. ({metric_value_count} provided)"
             )
 
@@ -53,7 +53,9 @@ class AnthropometricCalculator:
             if result is not None:
                 return self.subrace
             else:
-                raise Error("No racial source could be determined.")
+                raise AnthropometricCalculatorError(
+                    "No racial source could be determined."
+                )
 
         return self.race
 
