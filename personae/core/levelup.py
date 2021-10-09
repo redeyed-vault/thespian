@@ -160,6 +160,7 @@ class FeatAttributeParser:
                 # Increment value other than 0 means add # of bonuses == increment value.
                 chosen_options = dict()
                 submenu_options = None
+
                 if isinstance(menu_options, str) and increment == 0:
                     chosen_options[menu_options] = get_proficiency_options(menu_options)
 
@@ -191,6 +192,8 @@ class FeatAttributeParser:
                             )
                             chosen_options[menu_choice].append(submenu_choice)
                             submenu_options[menu_choice].remove(submenu_choice)
+                            # Reset the submenu options after use
+                            submenu_options = None
                             _e(
                                 f"Added {flag} ({menu_choice}) >> {submenu_choice}",
                                 "green",
@@ -199,12 +202,27 @@ class FeatAttributeParser:
                 elif isinstance(menu_options, str):
                     for prof_type in menu_options.split(self.MULTI_SELECTION_SEPARATOR):
                         chosen_proficiencies = list()
-                        # Clear out already chosen options.
-                        proficiency_options = [
-                            x
-                            for x in get_proficiency_options(prof_type)
-                            if x not in self._profile[prof_type]
-                        ]
+
+                        # Pull full collection of bonus proficiencies,
+                        proficiency_options = Load.get_columns(
+                            self._feat, "perk", prof_type, source_file="feats"
+                        )
+                        # If collection is dict, sort through sub categories,
+                        # And choose only the unselected options in that category.
+                        # Otherwise, simply sort out the unselected options
+                        if isinstance(proficiency_options, dict):
+                            temp = list()
+                            for types in tuple(proficiency_options.keys()):
+                                if types not in self._profile[prof_type]:
+                                    temp += proficiency_options[types]
+
+                            proficiency_options = temp
+                        else:
+                            proficiency_options = [
+                                x
+                                for x in proficiency_options
+                                if x not in self._profile[prof_type]
+                            ]
 
                         for _ in range(increment):
                             # Clear out the temporarily chosen options.
@@ -214,7 +232,7 @@ class FeatAttributeParser:
                                 if x not in chosen_proficiencies
                             ]
                             menu_choice = prompt(
-                                f"Choose your bonus: '{flag}'.", proficiency_options
+                                f"Choose your bonus: {flag}.", proficiency_options
                             )
                             chosen_proficiencies.append(menu_choice)
                             proficiency_options.remove(menu_choice)
@@ -264,40 +282,6 @@ class AbilityScoreImprovement:
                 self._set_ability_score(ability, bonus)
             else:
                 self._character[flag] += options
-        """
-        TODO: Sorting this code out elsewhere.
-        # Retrieve all perks for the chosen feat
-        for flag, value in perk_flags.items():
-            if flag in (
-                "resistance",
-                "spell",
-            ):
-                bonus_options = perks.get(flag)
-                if isinstance(bonus_options, dict):
-                    weapon_options = []
-                    if "Simple" in bonus_options and "Simple" in acquired_options:
-                        del bonus_options["Simple"]
-                    else:
-                        weapon_options = weapon_options + bonus_options.get("Simple")
-                    if "Martial" in bonus_options and "Martial" in acquired_options:
-                        del bonus_options["Martial"]
-                    else:
-                        weapon_options = weapon_options + bonus_options.get("Martial")
-                    bonus_options = weapon_options
-                if isinstance(bonus_options, list):
-                    for index in range(len(bonus_options)):
-                        if type(bonus_options[index]) is not list:
-                            continue
-                        spell = prompt(
-                            f"Choose bonus {flag} for '{feat}' feat",
-                            bonus_options[index],
-                        )
-                        bonus_options[index] = spell
-                bonus_options = [x for x in bonus_options if x not in acquired_options]
-                if value == -1:
-                    acquired_options += bonus_options
-                    return
-        """
 
     def _has_requirements(self, feat):
         """Checks if feat requirements have been met."""
