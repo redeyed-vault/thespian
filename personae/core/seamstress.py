@@ -234,7 +234,7 @@ class _BaseRaceSeamstress(_FlagSeamstress):
         )
         alignment = prompt("What is your alignment?", base_alignment_options)
         self.tapestry["alignment"] = alignment
-        _e(f"Alignment set to >> {alignment}.", "green")
+        _e(f"Alignment set to >> {alignment}", "green")
 
         # Set base ancestry, for Dragonborn characters.
         base_ancestry_options = self.tapestry.get("ancestry")
@@ -246,13 +246,13 @@ class _BaseRaceSeamstress(_FlagSeamstress):
             self.tapestry["resistances"] = [
                 self.tapestry.get("resistances").get(ancestry)
             ]
-            _e(f"Draconic ancestry set to >> {ancestry}.", "green")
+            _e(f"Draconic ancestry set to >> {ancestry}", "green")
 
         # Set base background
         base_background_options = Load.get_columns(source_file="backgrounds")
         background = prompt("What is your background?", base_background_options)
         self.tapestry["background"] = background
-        _e(f"Background set to >> '{background}' chosen.", "green")
+        _e(f"Background set to >> {background}", "green")
 
         # Set base languages
         base_language_options = self.tapestry.get("languages")
@@ -295,7 +295,7 @@ class _BaseRaceSeamstress(_FlagSeamstress):
         else:
             subrace = prompt("Choose your 'subrace'", base_subrace_options)
             self.tapestry["subrace"] = subrace
-            _e(f"Subrace set to >> {subrace}.", "green")
+            _e(f"Subrace set to >> {subrace}", "green")
 
         # No flags actually specified in configuration
         if self.flags is None:
