@@ -1,8 +1,6 @@
-from collections import OrderedDict
 from dataclasses import dataclass
 
 from .errors import AbilityScoreImprovementError, FlagParserError
-from .seamstress import MyTapestry
 from .sources import Load
 from .utils import _e, get_character_feats, prompt
 
