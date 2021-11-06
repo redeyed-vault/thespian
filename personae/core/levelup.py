@@ -7,14 +7,42 @@ from .sources import Load
 from .utils import _e, get_character_feats, prompt
 
 
-class FeatAttributeParser:
-    """Generates and parses feat characteristic flags by feat."""
+class FeatOptionParser:
+    """Generates and parses feat characteristic flags by feat.
 
-    ATTRIBUTE_FLAG_SEPARATOR = "|"
-    ATTRIBUTE_INCREMENT_SEPARATOR = ","
-    ATTRIBUTE_VALUE_SEPARATOR = "="
-    MULTI_OPTION_SEPARATOR = "&&"
-    MULTI_SELECTION_SEPARATOR = "+"
+    FLAG OPTION PARSER SYSTEM
+
+    PIPEBAR: Used to separate flags. i.e: ability=Strength|proficiency=skills
+        Two flag options are designated in the above example: 'ability', and 'proficiency'.
+
+        ALLOWED FLAG OPTIONS: Designates certain instructions for generating a character.
+            - ability
+            - proficiency
+            - savingthrows
+            - speed
+
+    COMMA: Used to identify the number of occurences of a flag. i.e: languages,2
+        The example above means that a player can choose two languages.
+
+    EQUAL SIGN: Used to separate option parameters. i.e ability=Strength,0
+        The example above means Strength is a designated parameter for the ability option.
+        In this case the character would get an enhancement to Strength.
+        There is more to this and is explained further below.
+
+    DOUBLE AMPERSAND: Used to separater parameter options. i.e ability=Strength&&Dexerity,1
+        The example above means the player can choose a one time ehancement to Strength or Dexterity.
+
+    PLUS SIGN: Used to seperate parameter options. i.e ability=Strength+Dexterity
+        The example above means the player can gain an enhancement in both Strength and Dexterity.
+
+    """
+
+    # Parser Option Separators
+    PARSER_OPTIONS = "|"
+    OPTION_INCREMENT = ","
+    OPTION_PARAMETER = "="
+    PARAM_SINGLE_SELECTION = "&&"
+    PARAM_MULTIPLE_SELECTION = "+"
 
     def __init__(self, feat, prof):
         self._feat = feat
@@ -22,42 +50,24 @@ class FeatAttributeParser:
         self._perks = Load.get_columns(self._feat, "perk", source_file="feats")
 
     def _parse_flags(self):
-        """Generates flag characteristics for the chosen feat.
-
-        FLAG PARSER INSTRUCTION SYSTEM
-
-        PIPEBAR: Used to separate flags. i.e: ability=Strength|proficiency=skills
-            Two flags are designated in the above example: 'ability', and 'proficiency'.
-
-        FLAGS: Designates certain instructions for generating a character.
-            - ability
-            - proficiency
-            - savingthrows
-            - speed
-
-        COMMA: Used to identify the number of occurences of a flag. i.e: languages,2
-            The example above means that a player can choose two languages.
-
-        """
+        """Generates flag characteristics for the chosen feat."""
         parsed_flags = dict()
         raw_flags = self._perks.get("flags")
         if raw_flags == "none":
             return parsed_flags
 
-        flag_pairs = raw_flags.split(self.ATTRIBUTE_FLAG_SEPARATOR)
+        flag_pairs = raw_flags.split(self.PARSER_OPTIONS)
         for flag_pair in flag_pairs:
-            if self.ATTRIBUTE_INCREMENT_SEPARATOR not in flag_pair:
+            if self.OPTION_INCREMENT not in flag_pair:
                 raise FlagParserError(
                     "Pairs must be formatted in name,value pairs with a ',' separator."
                 )
 
-            attribute_name, increment = flag_pair.split(
-                self.ATTRIBUTE_INCREMENT_SEPARATOR
-            )
-            if self.ATTRIBUTE_VALUE_SEPARATOR not in attribute_name:
+            attribute_name, increment = flag_pair.split(self.OPTION_INCREMENT)
+            if self.OPTION_PARAMETER not in attribute_name:
                 parsed_flags[attribute_name] = {"increment": increment}
             else:
-                flag_options = attribute_name.split(self.ATTRIBUTE_VALUE_SEPARATOR)
+                flag_options = attribute_name.split(self.OPTION_PARAMETER)
                 # Allowable flags: ability, proficiency, savingthrows, speed
                 attribute_name = flag_options[0]
                 try:
@@ -72,8 +82,8 @@ class FeatAttributeParser:
                         )
                 except FlagParserError:
                     pass
-                if self.MULTI_OPTION_SEPARATOR in flag_options[1]:
-                    options = flag_options[1].split(self.MULTI_OPTION_SEPARATOR)
+                if self.PARAM_SINGLE_SELECTION in flag_options[1]:
+                    options = flag_options[1].split(self.PARAM_SINGLE_SELECTION)
                 else:
                     options = flag_options[1]
                 parsed_flags[attribute_name] = {
@@ -84,7 +94,7 @@ class FeatAttributeParser:
         return parsed_flags
 
     def run(self):
-        """Parses flag characteristics for the chosen feat."""
+        """Parses the generated flags for the chosen feat."""
 
         def is_sub_menu(available_options):
             for opt in available_options:
@@ -200,7 +210,7 @@ class FeatAttributeParser:
                             )
 
                 elif isinstance(menu_options, str):
-                    for prof_type in menu_options.split(self.MULTI_SELECTION_SEPARATOR):
+                    for prof_type in menu_options.split(self.PARAM_MULTIPLE_SELECTION):
                         chosen_proficiencies = list()
 
                         # Pull full collection of bonus proficiencies,
@@ -272,7 +282,7 @@ class AbilityScoreImprovement:
 
     def _add_feat_perks(self, feat):
         """Applies feat related perks."""
-        parsed_attributes = FeatAttributeParser(feat, self._character).run()
+        parsed_attributes = FeatOptionParser(feat, self._character).run()
         if parsed_attributes is None:
             return
 
