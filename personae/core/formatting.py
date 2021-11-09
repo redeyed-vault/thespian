@@ -49,26 +49,26 @@ class AttributeWriter:
 
         block = ""
         for attribute, attributes in attribs.items():
-            block += f"<p><strong>{attribute}</strong> ({attributes['value']})</p>"
-            block += "<p>"
+            block += f"<h3>{attribute} ({attributes['value']})</h3>"
+            block += "<ul>"
             for index, value in attributes.items():
                 if index == "ability_checks":
-                    block += f"Ability Checks {value}<br/>"
+                    block += f"<li>Ability Checks {value}</li>"
                 if index == "saving_throws":
-                    block += f"Saving Throw Checks {value}<br/>"
+                    block += f"<li>Saving Throw Checks {value}</li>"
                 if index == "carry_capacity":
-                    block += f"Carry Capacity {value}<br/>"
+                    block += f"<li>Carry Capacity {value}</li>"
                 if index == "push_pull_carry":
-                    block += f"Push Pull Carry Capacity {value}<br/>"
+                    block += f"<li>Push Pull Carry Capacity {value}</li>"
                 if index == "maximum_lift":
-                    block += f"Maximum Lift Capacity {value}<br/>"
+                    block += f"<li>Maximum Lift Capacity {value}</li>"
                 if index == "skills":
                     skill_list = attributes.get("skills")
                     if len(skill_list) != 0:
                         for pair in skill_list:
                             skill, modifier = pair
-                            block += f"{skill} Skill Checks {modifier}<br/>"
-            block += "</p>"
+                            block += f"<li>{skill} Skill Checks {modifier}</li>"
+            block += "</ul>"
 
         return block
 
@@ -91,7 +91,7 @@ class FeatureWriter:
         x = cls(features)
         x._format_features()
 
-        block = "<p><strong>CLASS FEATURES</strong></p>"
+        block = "<h2>CLASS FEATURES</h2>"
 
         block += "<p>"
         for level, features in x._features.items():
@@ -112,7 +112,7 @@ class ListWriter:
     @classmethod
     def write(cls, header: str, items: list):
         x = cls(header, items)
-        block = f"<p><strong>{x._header}</strong></p>"
+        block = f"<h2>{x._header}</h2>"
 
         if len(x._items) != 0:
             x._items.sort()
@@ -210,7 +210,7 @@ class ProficiencyWriter:
         )
         types = x._sort_proficiencies()
 
-        block = "<p><strong>PROFICIENCIES</strong></p>"
+        block = "<h2>PROFICIENCIES</h2>"
 
         block += "<p>"
         block += f"<strong>Proficiency Bonus:</strong> {x._proficiency_bonus}<br/>"
@@ -226,8 +226,8 @@ class ProficiencyWriter:
             "saving_throws",
             "skills",
         ):
-            block += f"<p><strong>{object_type.capitalize()}</strong></p>"
-            block += "<p>"
+            block += f"<h3>{object_type.capitalize()}</h3>"
+            block += "<ul>"
             for obj in types.get(object_type):
                 if object_type == "skills":
                     skill, ability, proficient = obj
@@ -235,14 +235,12 @@ class ProficiencyWriter:
 
                     if proficient:
                         base_modifier += x._proficiency_bonus
-                        block += (
-                            f"<strong>{skill}</strong> {base_modifier} ({ability})<br/>"
-                        )
+                        block += f"<li><strong>{skill}</strong> {base_modifier} ({ability})</li>"
                     else:
-                        block += f"{skill} {base_modifier} ({ability})<br/>"
+                        block += f"<li>{skill} {base_modifier} ({ability})</li>"
                 else:
-                    block += f"{obj}<br/>"
-            block += "</p>"
+                    block += f"<li>{obj}</li>"
+            block += "</ul>"
 
         return block
 

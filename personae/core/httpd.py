@@ -57,13 +57,16 @@ class CharacterSheetServer:
         d = self.data
 
         self._write = "<!DOCTYPE html>"
-        self._write = "<html><head><title>Personae</title></head><body>"
+        self._write = "<html><head><title>Personae</title>"
+        self._write = '<link type="text/css" rel="stylesheet" href="/css/style.css">'
+        self._write = "</head><body>"
         self._write = "<p>"
         self._write = f"<strong>Race:</strong> {format_race(d.race, d.subrace)}<br/>"
         self._write = f"<strong>Sex: </strong>{d.sex}<br/>"
         self._write = f"<strong>Alignment: </strong>{d.alignment}<br/>"
         self._write = f"<strong>Background: </strong> {d.background}<br/>"
-        self._write = f"<strong>Height: </strong>{d.height}<br/>"
+        feet, inches = d.height
+        self._write = f"<strong>Height: </strong>{feet}' {inches}\"<br/>"
         self._write = f"<strong>Weight: </strong>{d.weight}<br/>"
         self._write = f"<strong>Size: </strong>{d.size}<br/>"
         self._write = "</p>"
@@ -105,5 +108,6 @@ class CharacterSheetServer:
             )
 
         app = web.Application()
+        app.add_routes([web.static("/css", "personae/core/css/")])
         app.router.add_get("/", character_sheet)
         web.run_app(app, host="127.0.0.1", port=self.port)
