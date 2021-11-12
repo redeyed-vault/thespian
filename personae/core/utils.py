@@ -51,19 +51,31 @@ def get_character_races() -> tuple:
     return Load.get_row_ids(source_file="races")
 
 
-def prompt(message, options):
+def prompt(message, options, selected_options=None):
     """
     User input prompter function
 
     :param str message:
     :param list,tuple options:
+    :param list,tuple selected_options:
+
     """
     import time
 
-    time.sleep(3.0)
+    time.sleep(2.2)
+
+    if selected_options is not None and not isinstance(selected_options, tuple):
+        selected_options = tuple(selected_options)
+
+    if isinstance(selected_options, (list, tuple)):
+        options = [o for o in options if o not in selected_options]
+
+    if not isinstance(options, tuple):
+        options = tuple(options)
 
     message = colored("[P] " + message, "green", attrs=["bold"])
     options = {x: y for x, y in enumerate(options)}
+
     options_list = "\n"
     for id, option in options.items():
         options_list += f"[{id}] {option}\n"
@@ -79,6 +91,6 @@ def prompt(message, options):
     except KeyboardInterrupt:
         exit("\nHalting...")
     except ValueError:
-        return prompt(message, options.values())
+        return prompt(message, options.values(), selected_options)
     except RecursionError:
         return None
