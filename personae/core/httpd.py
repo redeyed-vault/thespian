@@ -60,6 +60,7 @@ class CharacterSheetServer:
         self._write = "<html><head><title>Personae</title>"
         self._write = '<link type="text/css" rel="stylesheet" href="/css/style.css">'
         self._write = "</head><body>"
+        self._write = "<h1>Character Sheet</h1>"
         self._write = "<p>"
         self._write = f"<strong>Race:</strong> {format_race(d.race, d.subrace)}<br/>"
         self._write = f"<strong>Sex: </strong>{d.sex}<br/>"
@@ -108,6 +109,10 @@ class CharacterSheetServer:
             )
 
         app = web.Application()
-        app.add_routes([web.static("/css", "personae/core/css/")])
-        app.router.add_get("/", character_sheet)
+        app.add_routes(
+            [
+                web.static("/css", "personae/core/css/"),
+                web.get("/", character_sheet),
+            ]
+        )
         web.run_app(app, host="127.0.0.1", port=self.port)
