@@ -53,21 +53,21 @@ class AttributeWriter:
             block += "<ul>"
             for index, value in attributes.items():
                 if index == "ability_checks":
-                    block += f"<li>Ability Checks {value}</li>"
+                    block += f"<li>Ability Checks: {value}</li>"
                 if index == "saving_throws":
-                    block += f"<li>Saving Throw Checks {value}</li>"
+                    block += f"<li>Saving Throw Checks: {value}</li>"
                 if index == "carry_capacity":
-                    block += f"<li>Carry Capacity {value}</li>"
+                    block += f"<li>Carry Capacity: {value}</li>"
                 if index == "push_pull_carry":
-                    block += f"<li>Push Pull Carry Capacity {value}</li>"
+                    block += f"<li>Push Pull Carry Capacity: {value}</li>"
                 if index == "maximum_lift":
-                    block += f"<li>Maximum Lift Capacity {value}</li>"
+                    block += f"<li>Maximum Lift Capacity: {value}</li>"
                 if index == "skills":
                     skill_list = attributes.get("skills")
                     if len(skill_list) != 0:
-                        for pair in skill_list:
-                            skill, modifier = pair
-                            block += f"<li>{skill} Skill Checks {modifier}</li>"
+                        for skill_pair in skill_list:
+                            skill, modifier = skill_pair
+                            block += f"<li>{skill} Skill Checks: {modifier}</li>"
             block += "</ul>"
 
         return block
@@ -93,11 +93,11 @@ class FeatureWriter:
 
         block = "<h2>CLASS FEATURES</h2>"
 
-        block += "<p>"
+        block += "<ul>"
         for level, features in x._features.items():
             for feature in features:
-                block += f"{level}.) {feature}<br/>"
-        block += "</p>"
+                block += f"<li>{feature}</li>"
+        block += "</ul>"
 
         return block
 
@@ -116,12 +116,12 @@ class ListWriter:
 
         if len(x._items) != 0:
             x._items.sort()
-            block += "<p>"
+            block += "<ul>"
             for item in x._items:
-                block += f"{item}<br/>"
-            block += "</p>"
+                block += f"<li>{item}</li>"
+            block += "</ul>"
         else:
-            block += "<p></p>"
+            block += "<p>N/A</p>"
 
         return block
 
@@ -218,7 +218,7 @@ class ProficiencyWriter:
         block += f"<strong>Speed:</strong> {x._speed}<br/>"
         block += "</p>"
 
-        for object_type in (
+        for obj_type in (
             "armors",
             "tools",
             "weapons",
@@ -226,20 +226,28 @@ class ProficiencyWriter:
             "saving_throws",
             "skills",
         ):
-            block += f"<h3>{object_type.capitalize()}</h3>"
+            # If obj_type value has underscore, remove it.
+            # Otherwise, leave obj_type value as is.
+            if "_" in obj_type:
+                ref_obj_type = [s.capitalize() for s in obj_type.split("_")]
+                ref_obj_type = " ".join(ref_obj_type)
+                block += f"<h3>{ref_obj_type}</h3>"
+            else:
+                block += f"<h3>{obj_type.capitalize()}</h3>"
+
             block += "<ul>"
-            for obj in types.get(object_type):
-                if object_type == "skills":
-                    skill, ability, proficient = obj
+            for obj_type_attr in types.get(obj_type):
+                if obj_type == "skills":
+                    skill, ability, proficient = obj_type_attr
                     base_modifier = get_modifier(x._scores.get(ability))
 
-                    if proficient:
+                    if proficient and skill in x._skills:
                         base_modifier += x._proficiency_bonus
                         block += f"<li><strong>{skill}</strong> {base_modifier} ({ability})</li>"
                     else:
                         block += f"<li>{skill} {base_modifier} ({ability})</li>"
                 else:
-                    block += f"<li>{obj}</li>"
+                    block += f"<li>{obj_type_attr}</li>"
             block += "</ul>"
 
         return block
