@@ -194,7 +194,6 @@ class _SubClassSeamstress(_FlagSeamstress):
                 bonus_selections.append(bonus_choice)
                 _e(f"Bonus '{bonus_choice}' selected from '{flag}' list.", "green")
 
-            # If selections made, update record with values.
             if len(bonus_selections) > 0:
                 self.tapestry[flag] = bonus_selections
 
@@ -211,7 +210,8 @@ class _BaseRaceSeamstress(_FlagSeamstress):
             race,
             ("armors", "languages", "skills", "subrace", "tools", "weapons"),
         )
-        self.tapestry["race"] = race
+        self._race, self.tapestry["race"] = race
+        # self.tapestry["race"] = race
 
     def _honor_flags(self):
         # Set alignment
@@ -226,7 +226,7 @@ class _BaseRaceSeamstress(_FlagSeamstress):
             "Neutral Good",
             "True Neutral",
         )
-        alignment = prompt("What is your alignment?", base_alignment_options)
+        alignment = prompt("Choose your alignment:", base_alignment_options)
         self.tapestry["alignment"] = alignment
         _e(f"Alignment set to >> {alignment}", "green")
 
@@ -235,7 +235,7 @@ class _BaseRaceSeamstress(_FlagSeamstress):
         if len(base_ancestry_options) == 0:
             self.tapestry["ancestry"] = None
         else:
-            ancestry = prompt("What is your draconic ancestry?", base_ancestry_options)
+            ancestry = prompt("Choose your draconic ancestry:", base_ancestry_options)
             self.tapestry["ancestry"] = ancestry
             self.tapestry["resistances"] = [
                 self.tapestry.get("resistances").get(ancestry)
@@ -244,7 +244,7 @@ class _BaseRaceSeamstress(_FlagSeamstress):
 
         # Set base background
         base_background_options = Load.get_columns(source_file="backgrounds")
-        background = prompt("What is your background?", base_background_options)
+        background = prompt("Choose your background:", base_background_options)
         self.tapestry["background"] = background
         _e(f"Background set to >> {background}", "green")
 
@@ -263,7 +263,7 @@ class _BaseRaceSeamstress(_FlagSeamstress):
         # For HalfElf, Human, and Tabaxi characters.
         if len(base_language_options) != 0:
             additional_language = prompt(
-                "What additional language do you speak?", base_language_options
+                "Choose your additional language:", base_language_options
             )
             self.tapestry["languages"].append(additional_language)
             _e(f"Added language >> {additional_language}", "green")
@@ -273,7 +273,7 @@ class _BaseRaceSeamstress(_FlagSeamstress):
         if len(base_spell_options) != 0:
             if isinstance(base_spell_options, dict):
                 caster_level = int(
-                    prompt("What is your caster level?", list(range(1, 21)))
+                    prompt("Choose your spellcaster level:", list(range(1, 21)))
                 )
                 base_spells = []
                 for req_level, spell_list in base_spell_options.items():
@@ -283,11 +283,13 @@ class _BaseRaceSeamstress(_FlagSeamstress):
                 _e(f"Caster level set to >> {caster_level}", "green")
 
         # Set base subrace, if applicable
+        self.tapestry["subrace"] = None
         base_subrace_options = self.tapestry.get("subrace")
-        if len(base_subrace_options) == 0:
-            self.tapestry["subrace"] = None
-        else:
-            subrace = prompt("Choose your 'subrace'", base_subrace_options)
+        if len(base_subrace_options) > 0:
+            subrace = prompt(
+                f"Choose your '{self._race}' subrace:",
+                base_subrace_options,
+            )
             self.tapestry["subrace"] = subrace
             _e(f"Subrace set to >> {subrace}", "green")
 
@@ -297,24 +299,30 @@ class _BaseRaceSeamstress(_FlagSeamstress):
 
         # Determine bonus armors, skills, tools proficiencies
         for proficiency in ("armors", "skills", "tools", "weapons"):
+            # If proficiency is not a specified flag, move on.
             if proficiency not in self.flags:
                 continue
-            base_skills = list()
-            base_skill_options = self.tapestry.get(proficiency)
-            if len(base_skill_options) > 0:
-                num_of_instances = self.flags.get(proficiency)
-                for _ in range(num_of_instances):
-                    choice = prompt(
-                        f"Choose your '{proficiency}' proficiency ({num_of_instances})",
-                        base_skill_options,
-                    )
-                    base_skills.append(choice)
-                    base_skill_options.remove(choice)
-                    _e(
-                        f"Added proficiency ({proficiency}) >> {choice}",
-                        "green",
-                    )
-                self.tapestry[proficiency] = base_skills
+
+            proficiency_options = self.tapestry.get(proficiency)
+            if len(proficiency_options) == 0:
+                continue
+
+            proficiency_selections = list()
+            num_of_instances = self.flags.get(proficiency)
+            for _ in range(num_of_instances):
+                proficiency_selection = prompt(
+                    f"Choose your '{proficiency}' proficiency ({num_of_instances})",
+                    proficiency_options,
+                    proficiency_selections,
+                )
+                proficiency_selections.append(proficiency_selection)
+                _e(
+                    f"Bonus '{proficiency_selection}' selected from '{proficiency}' list.",
+                    "green",
+                )
+
+            if len(proficiency_selections) > 0:
+                self.tapestry[proficiency] = proficiency_selections
 
         return self.tapestry
 
@@ -387,7 +395,6 @@ class _SubRaceSeamstress(_FlagSeamstress):
                     "green",
                 )
 
-            # Append the selected proficiencies.
             if len(proficiency_selections) > 0:
                 self.tapestry[proficiency] = proficiency_selections
 
