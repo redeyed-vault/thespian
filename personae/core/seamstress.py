@@ -210,7 +210,7 @@ class _BaseRaceSeamstress(_FlagSeamstress):
             race,
             ("armors", "languages", "skills", "subrace", "tools", "weapons"),
         )
-        self._race, self.tapestry["race"] = race
+        self._race = self.tapestry["race"] = race
         # self.tapestry["race"] = race
 
     def _honor_flags(self):
@@ -283,7 +283,6 @@ class _BaseRaceSeamstress(_FlagSeamstress):
                 _e(f"Caster level set to >> {caster_level}", "green")
 
         # Set base subrace, if applicable
-        self.tapestry["subrace"] = None
         base_subrace_options = self.tapestry.get("subrace")
         if len(base_subrace_options) > 0:
             subrace = prompt(
@@ -292,6 +291,8 @@ class _BaseRaceSeamstress(_FlagSeamstress):
             )
             self.tapestry["subrace"] = subrace
             _e(f"Subrace set to >> {subrace}", "green")
+        else:
+            self.tapestry["subrace"] = None
 
         # No flags actually specified in configuration
         if self.flags is None:
@@ -309,6 +310,10 @@ class _BaseRaceSeamstress(_FlagSeamstress):
 
             proficiency_selections = list()
             num_of_instances = self.flags.get(proficiency)
+            _e(
+                f"Allotted bonus total for proficiency '{proficiency}': {num_of_instances}",
+                "green",
+            )
             for _ in range(num_of_instances):
                 proficiency_selection = prompt(
                     f"Choose your '{proficiency}' proficiency ({num_of_instances})",
@@ -383,6 +388,10 @@ class _SubRaceSeamstress(_FlagSeamstress):
                 proficiency_selections += blacklisted_values
 
             num_of_instances = self.flags.get(proficiency)
+            _e(
+                f"Allotted bonus total for proficiency '{proficiency}': {num_of_instances}",
+                "green",
+            )
             for _ in range(num_of_instances):
                 proficiency_selection = prompt(
                     f"Choose a bonus from the '{proficiency}' proficiency list:",
