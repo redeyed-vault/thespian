@@ -182,29 +182,23 @@ class _SubClassSeamstress(_FlagSeamstress):
             if flag not in self.flags:
                 continue
 
-            bonus_choices = list()
-            bonus_options = self.tapestry.get(flag)
-            bonus_options = self._omit_values(omitted_values, flag, bonus_options)
-
+            bonus_selections = list()
             num_of_instances = self.flags.get(flag)
+            _e(f"Allotted bonus total for '{flag}': {num_of_instances}", "green")
             for _ in range(num_of_instances):
                 bonus_choice = prompt(
-                    f"Choose a bonus '{flag}' ({num_of_instances}):", bonus_options
+                    f"Choose a bonus from the '{flag}' selection list:",
+                    self.tapestry.get(flag),
+                    omitted_values.get(flag),
                 )
-                bonus_options.remove(bonus_choice)
-                bonus_choices.append(bonus_choice)
-                _e(f"Added '{flag}' bonus >> {bonus_choice}.", "green")
-                if len(bonus_choices) > 0:
-                    self.tapestry[flag] = bonus_choices
+                bonus_selections.append(bonus_choice)
+                _e(f"Bonus '{bonus_choice}' selected from '{flag}' list.", "green")
+
+            # If selections made, update record with values.
+            if len(bonus_selections) > 0:
+                self.tapestry[flag] = bonus_selections
 
         return self.tapestry
-
-    def _omit_values(self, values, flag, options):
-        if isinstance(values, dict):
-            if flag in values and isinstance(values.get(flag), list):
-                options = [x for x in options if x not in values.get(flag)]
-
-        return options
 
     def run(self, omitted_values=None):
         return self._honor_flags(omitted_values)
@@ -367,24 +361,35 @@ class _SubRaceSeamstress(_FlagSeamstress):
 
         # Determine bonus languages, skills, proficiencies
         for proficiency in ("armors", "languages", "skills", "tools", "weapons"):
+            # If proficiency not a specified flag, move on.
             if proficiency not in self.flags:
                 continue
-            base_skills = list()
-            base_skill_options = self.tapestry.get(proficiency)
-            if len(base_skill_options) > 0:
-                num_of_instances = self.flags.get(proficiency)
-                for _ in range(num_of_instances):
-                    choice = prompt(
-                        f"Choose your proficiency ({proficiency}) ({num_of_instances})",
-                        base_skill_options,
-                    )
-                    base_skills.append(choice)
-                    base_skill_options.remove(choice)
-                    _e(
-                        f"Added proficiency ({proficiency}) >> {choice}",
-                        "green",
-                    )
-                self.tapestry[proficiency] = base_skills
+
+            proficiency_options = self.tapestry.get(proficiency)
+            if len(proficiency_options) == 0:
+                continue
+
+            proficiency_selections = list()
+            blacklisted_values = omitted_values.get(proficiency)
+            if len(blacklisted_values) > 0:
+                proficiency_selections += blacklisted_values
+
+            num_of_instances = self.flags.get(proficiency)
+            for _ in range(num_of_instances):
+                proficiency_selection = prompt(
+                    f"Choose a bonus from the '{proficiency}' proficiency list:",
+                    proficiency_options,
+                    proficiency_selections,
+                )
+                proficiency_selections.append(proficiency_selection)
+                _e(
+                    f"Bonus '{proficiency_selection}' selected from '{proficiency}' list.",
+                    "green",
+                )
+
+            # Append the selected proficiencies.
+            if len(proficiency_selections) > 0:
+                self.tapestry[proficiency] = proficiency_selections
 
         return self.tapestry
 
