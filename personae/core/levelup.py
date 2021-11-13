@@ -427,6 +427,13 @@ class AbilityScoreImprovement:
 
     def run(self):
         """Executes the ability score improvement class."""
+        from math import floor
+
+        # TODO: Incorporate hp into character sheet.
+        # Determine actual hp.
+        modifier = floor((self._character["scores"]["Constitution"] - 10) / 2)
+        self._character["hp"] += modifier * self._character["level"]
+
         if self._character["level"] < 4:
             return
 
