@@ -1,16 +1,18 @@
 from abc import ABC, abstractmethod
 from collections import namedtuple
 
-from .errors import Error
+from .errors import SeamstressError
 from .sources import Load
-from .utils import _e, prompt
+from .utils import _ok, prompt
+
+LEVEL_RANGE = list(range(1, 21))
 
 
-class _FlagSeamstress(ABC):
+class _Seamstress(ABC):
     def __init__(self, database, query_id, allowed_flags):
         result = Load.get_columns(query_id, source_file=database)
         if result is None:
-            raise Error(f"Data could not be found for '{query_id}'.")
+            raise SeamstressError(f"Data could not be found for '{query_id}'.")
 
         self.allowed_flags = allowed_flags
         self.tapestry = result
@@ -28,11 +30,11 @@ class _FlagSeamstress(ABC):
         base_flags = dataset.get("flags").split("|")
         for flag in base_flags:
             if "," not in flag:
-                raise Error("Each flag entry must include a comma.")
+                raise SeamstressError("Each flag entry must include a comma.")
 
             flag_pair = flag.split(",")
             if len(flag_pair) != 2:
-                raise Error("Each flag must be a pair (two values only).")
+                raise SeamstressError("Each flag must be a pair (two values only).")
 
             (flag_name, flag_value) = flag_pair
 
@@ -44,9 +46,9 @@ class _FlagSeamstress(ABC):
                     for option in flag_options:
                         if option in self.tapestry:
                             self.tapestry[option] = []
-                    _e(f"You chose the flagging option '{flag_name}'", "green")
+                    _ok(f"You chose the flagging option '{flag_name}'")
                 else:
-                    raise Error(
+                    raise SeamstressError(
                         "If a flag has multiple options available, it must have two or more options."
                     )
 
@@ -59,24 +61,28 @@ class _FlagSeamstress(ABC):
         pass
 
 
-class _BaseClassSeamstress(_FlagSeamstress):
+class _BaseClassSeamstress(_Seamstress):
     def __init__(self, klass):
         super(_BaseClassSeamstress, self).__init__(
             "classes", klass, ("ability", "skills", "subclass", "tools")
         )
-        # Set base character level and features
-        level = int(prompt("What level are you?", list(range(1, 21))))
+
+        # Set base character level.
+        level = int(prompt("Choose your class level:", LEVEL_RANGE))
         self.tapestry["level"] = level
+        _ok(f"Level set to >> {level}.")
+
+        # Set a dictonary of class features by level.
         self.tapestry["features"] = {
             x: y for x, y in self.tapestry.get("features").items() if x <= level
         }
-        _e(f"Level set to >> {level}.", "green")
 
+        # Set base proficiency bonus.
         from math import ceil
 
         self.tapestry["proficiency"] = ceil((level / 4) + 1)
 
-        # Set base hit die/points
+        # Set base hit die/points.
         hit_die = int(self.tapestry.get("hit_die"))
         self.tapestry["hit_die"] = f"{level}d{hit_die}"
         self.tapestry["hp"] = hit_die
@@ -88,18 +94,24 @@ class _BaseClassSeamstress(_FlagSeamstress):
                 die_rolls.append(hp_result)
             self.tapestry["hp"] += sum(die_rolls)
 
-        self.tapestry["bonusmagic"] = None
-        self.tapestry["klass"] = klass
-        self.tapestry["feats"] = list()
+        # Set base spellslots.
         try:
             self.tapestry["spellslots"] = self.tapestry.get("spellslots").get(level)
         except AttributeError:
             self.tapestry["spellslots"] = dict()
 
+        # Set other base values.
+        self.tapestry["bonusmagic"] = None
+        self.tapestry["klass"] = klass
+        self.tapestry["feats"] = list()
+
     def _honor_flags(self, omitted_values=None):
         for flag in self.allowed_flags:
+            # Halt if no flags specified.
             if self.flags is None:
                 break
+
+            # Skip if specified flag is not defined.
             if flag not in self.flags:
                 continue
 
@@ -108,16 +120,16 @@ class _BaseClassSeamstress(_FlagSeamstress):
                 self.tapestry["subclass"] = None
                 continue
 
+            # Set primary class ability, if applicable.
             if flag == "ability":
                 for rank, abilities in self.tapestry.get(flag).items():
-                    if type(abilities) is not list:
+                    if not isinstance(abilities, list):
                         continue
-                    choice = prompt(f"Choose a primary class ability:", abilities)
-                    self.tapestry[flag][rank] = choice
-                    _e(
-                        f"Class ability set to >> {choice}",
-                        "green",
-                    )
+
+                    ability_selection = prompt(f"Choose a primary ability:", abilities)
+                    self.tapestry[flag][rank] = ability_selection
+                    _ok(f"Primary ability '{ability_selection}' selected.")
+
                 self.tapestry[flag] = tuple(self.tapestry[flag].values())
                 continue
 
@@ -142,10 +154,7 @@ class _BaseClassSeamstress(_FlagSeamstress):
                         option_selections = chosen_option
 
                     flag_options.remove(chosen_option)
-                    _e(
-                        f"Value added >> {chosen_option}.",
-                        "green",
-                    )
+                    _ok(f"Value added >> {chosen_option}.")
 
                 if (
                     isinstance(option_selections, list)
@@ -166,7 +175,7 @@ class _BaseClassSeamstress(_FlagSeamstress):
         return self._honor_flags(omitted_values)
 
 
-class _SubClassSeamstress(_FlagSeamstress):
+class _SubClassSeamstress(_Seamstress):
     def __init__(self, subclass, level=1):
         super(_SubClassSeamstress, self).__init__(
             "subclasses", subclass, ("languages", "skills")
@@ -179,12 +188,13 @@ class _SubClassSeamstress(_FlagSeamstress):
         for flag in self.allowed_flags:
             if self.flags is None:
                 break
+
             if flag not in self.flags:
                 continue
 
             bonus_selections = list()
             num_of_instances = self.flags.get(flag)
-            _e(f"Allotted bonus total for '{flag}': {num_of_instances}", "green")
+            _ok(f"Allotted bonus total for '{flag}': {num_of_instances}")
             for _ in range(num_of_instances):
                 bonus_choice = prompt(
                     f"Choose a bonus from the '{flag}' selection list:",
@@ -192,7 +202,7 @@ class _SubClassSeamstress(_FlagSeamstress):
                     omitted_values.get(flag),
                 )
                 bonus_selections.append(bonus_choice)
-                _e(f"Bonus '{bonus_choice}' selected from '{flag}' list.", "green")
+                _ok(f"Bonus '{bonus_choice}' selected from '{flag}' list.")
 
             if len(bonus_selections) > 0:
                 self.tapestry[flag] = bonus_selections
@@ -203,7 +213,7 @@ class _SubClassSeamstress(_FlagSeamstress):
         return self._honor_flags(omitted_values)
 
 
-class _BaseRaceSeamstress(_FlagSeamstress):
+class _BaseRaceSeamstress(_Seamstress):
     def __init__(self, race):
         super(_BaseRaceSeamstress, self).__init__(
             "races",
@@ -228,7 +238,7 @@ class _BaseRaceSeamstress(_FlagSeamstress):
         )
         alignment = prompt("Choose your alignment:", base_alignment_options)
         self.tapestry["alignment"] = alignment
-        _e(f"Alignment set to >> {alignment}", "green")
+        _ok(f"Alignment set to >> {alignment}")
 
         # Set base ancestry, for Dragonborn characters.
         base_ancestry_options = self.tapestry.get("ancestry")
@@ -240,13 +250,13 @@ class _BaseRaceSeamstress(_FlagSeamstress):
             self.tapestry["resistances"] = [
                 self.tapestry.get("resistances").get(ancestry)
             ]
-            _e(f"Draconic ancestry set to >> {ancestry}", "green")
+            _ok(f"Draconic ancestry set to >> {ancestry}")
 
         # Set base background
         base_background_options = Load.get_columns(source_file="backgrounds")
         background = prompt("Choose your background:", base_background_options)
         self.tapestry["background"] = background
-        _e(f"Background set to >> {background}", "green")
+        _ok(f"Background set to >> {background}")
 
         # Set base languages
         base_language_options = self.tapestry.get("languages")
@@ -266,21 +276,21 @@ class _BaseRaceSeamstress(_FlagSeamstress):
                 "Choose your additional language:", base_language_options
             )
             self.tapestry["languages"].append(additional_language)
-            _e(f"Added language >> {additional_language}", "green")
+            _ok(f"Added language >> {additional_language}")
 
         # Set base spells
         base_spell_options = self.tapestry.get("spells")
         if len(base_spell_options) != 0:
             if isinstance(base_spell_options, dict):
                 caster_level = int(
-                    prompt("Choose your spellcaster level:", list(range(1, 21)))
+                    prompt("Choose your spellcaster level:", LEVEL_RANGE)
                 )
                 base_spells = []
                 for req_level, spell_list in base_spell_options.items():
                     if req_level <= caster_level:
                         base_spells += spell_list
                 self.tapestry["spells"] = base_spells
-                _e(f"Caster level set to >> {caster_level}", "green")
+                _ok(f"Caster level set to >> {caster_level}")
 
         # Set base subrace, if applicable
         base_subrace_options = self.tapestry.get("subrace")
@@ -290,7 +300,7 @@ class _BaseRaceSeamstress(_FlagSeamstress):
                 base_subrace_options,
             )
             self.tapestry["subrace"] = subrace
-            _e(f"Subrace set to >> {subrace}", "green")
+            _ok(f"Subrace set to >> {subrace}")
         else:
             self.tapestry["subrace"] = None
 
@@ -310,9 +320,8 @@ class _BaseRaceSeamstress(_FlagSeamstress):
 
             proficiency_selections = list()
             num_of_instances = self.flags.get(proficiency)
-            _e(
-                f"Allotted bonus total for proficiency '{proficiency}': {num_of_instances}",
-                "green",
+            _ok(
+                f"Allotted bonus total for proficiency '{proficiency}': {num_of_instances}"
             )
             for _ in range(num_of_instances):
                 proficiency_selection = prompt(
@@ -321,9 +330,8 @@ class _BaseRaceSeamstress(_FlagSeamstress):
                     proficiency_selections,
                 )
                 proficiency_selections.append(proficiency_selection)
-                _e(
-                    f"Bonus '{proficiency_selection}' selected from '{proficiency}' list.",
-                    "green",
+                _ok(
+                    f"Bonus '{proficiency_selection}' selected from '{proficiency}' list."
                 )
 
             if len(proficiency_selections) > 0:
@@ -335,7 +343,7 @@ class _BaseRaceSeamstress(_FlagSeamstress):
         return self._honor_flags()
 
 
-class _SubRaceSeamstress(_FlagSeamstress):
+class _SubRaceSeamstress(_Seamstress):
     def __init__(self, subrace):
         super(_SubRaceSeamstress, self).__init__(
             "subraces", subrace, ("language", "spell")
@@ -349,28 +357,30 @@ class _SubRaceSeamstress(_FlagSeamstress):
         # Set base spells
         base_spell_options = self.tapestry.get("spells")
         if len(base_spell_options) != 0:
-            base_spells = []
+            spell_selections = []
+
+            # Spells in dictionary format do automatic selection.
             if isinstance(base_spell_options, dict):
-                caster_level = int(
-                    prompt("What is your caster level?", list(range(1, 21)))
-                )
+                caster_level = int(prompt("Choose your caster level:", LEVEL_RANGE))
                 for req_level, spell_list in base_spell_options.items():
                     if req_level <= caster_level:
-                        base_spells += spell_list
-                self.tapestry["spells"] = base_spells
-                _e(f"Caster level set to >> {caster_level}", "green")
+                        spell_selections += spell_list
+                self.tapestry["spells"] = spell_selections
+                _ok(f"Caster level set to >> {caster_level}")
+
+            # Spells in list format do manual selection.
             if isinstance(base_spell_options, list):
                 if "spells" in self.flags:
                     num_of_instances = self.flags.get("spells")
                     for _ in range(num_of_instances):
-                        spell_choice = prompt(
-                            f"Choose your 'spells' proficiency ({num_of_instances})",
+                        spell_selection = prompt(
+                            f"Choose your bonus spell:",
                             base_spell_options,
+                            spell_selections,
                         )
-                        base_spells.append(spell_choice)
-                        base_spell_options.remove(spell_choice)
-                        _e(f"Added spell >> {spell_choice}", "green")
-                    self.tapestry["spells"] = base_spells
+                        spell_selections.append(spell_selection)
+                        _ok(f"Added spell >> {spell_selection}")
+                    self.tapestry["spells"] = spell_selections
 
         # Determine bonus languages, skills, proficiencies
         for proficiency in ("armors", "languages", "skills", "tools", "weapons"):
@@ -388,9 +398,8 @@ class _SubRaceSeamstress(_FlagSeamstress):
                 proficiency_selections += blacklisted_values
 
             num_of_instances = self.flags.get(proficiency)
-            _e(
-                f"Allotted bonus total for proficiency '{proficiency}': {num_of_instances}",
-                "green",
+            _ok(
+                f"Allotted bonus total for proficiency '{proficiency}': {num_of_instances}"
             )
             for _ in range(num_of_instances):
                 proficiency_selection = prompt(
@@ -399,9 +408,8 @@ class _SubRaceSeamstress(_FlagSeamstress):
                     proficiency_selections,
                 )
                 proficiency_selections.append(proficiency_selection)
-                _e(
-                    f"Bonus '{proficiency_selection}' selected from '{proficiency}' list.",
-                    "green",
+                _ok(
+                    f"Bonus '{proficiency_selection}' selected from '{proficiency}' list."
                 )
 
             if len(proficiency_selections) > 0:

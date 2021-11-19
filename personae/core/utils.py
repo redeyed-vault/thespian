@@ -6,8 +6,16 @@ init(autoreset=True)
 from .sources import Load
 
 
-def _e(message, color):
-    print(colored("[N] " + message, color, attrs=["bold"]))
+def _ok(message):
+    print(colored("[N] " + message, "green", attrs=["bold"]))
+
+
+def _fail(message):
+    print(colored("[N] " + message, "red", attrs=["bold"]))
+
+
+def _warn(message):
+    print(colored("[N] " + message, "yellow", attrs=["bold"]))
 
 
 def _intro(race, sex, klass, port):

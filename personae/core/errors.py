@@ -16,3 +16,7 @@ class DieArgumentError(ValueError):
 
 class FlagParserError(Error):
     """Handles an invalid flag format error."""
+
+
+class SeamstressError(Error):
+    """Handles an invalid seamstress error."""

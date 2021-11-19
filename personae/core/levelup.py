@@ -2,7 +2,7 @@ from dataclasses import dataclass
 
 from .errors import AbilityScoreImprovementError, FlagParserError
 from .sources import Load
-from .utils import _e, get_character_feats, prompt
+from .utils import _ok, _warn, get_character_feats, prompt
 
 
 class FeatOptionParser:
@@ -147,18 +147,12 @@ class FeatOptionParser:
                             "Choose your bonus ability.", menu_options
                         )
                         menu_options.remove(ability_choice)
-                        _e(
-                            f"Added ability >> {ability_choice}",
-                            "green",
-                        )
+                        _ok(f"Added ability >> {ability_choice}")
 
                         # If 'savingthrows' flag specified, add proficiency for ability saving throw.
                         if "savingthrows" in final_flag:
                             self._profile["savingthrows"].append(ability_choice)
-                            _e(
-                                f"Added saving throw proficiency >> {ability_choice}",
-                                "green",
-                            )
+                            _ok(f"Added saving throw proficiency >> {ability_choice}")
 
                 bonus_value = self._perks[flag][ability_choice]
                 parsed_flag[flag] = (ability_choice, bonus_value)
@@ -202,10 +196,7 @@ class FeatOptionParser:
                             submenu_options[menu_choice].remove(submenu_choice)
                             # Reset the submenu options after use
                             submenu_options = None
-                            _e(
-                                f"Added {flag} ({menu_choice}) >> {submenu_choice}",
-                                "green",
-                            )
+                            _ok(f"Added {flag} ({menu_choice}) >> {submenu_choice}")
 
                 elif isinstance(menu_options, str):
                     for prof_type in menu_options.split(self.PARAM_MULTIPLE_SELECTION):
@@ -244,10 +235,7 @@ class FeatOptionParser:
                             )
                             chosen_proficiencies.append(menu_choice)
                             proficiency_options.remove(menu_choice)
-                            _e(
-                                f"Added {flag} ({prof_type}) >> {menu_choice}",
-                                "green",
-                            )
+                            _ok(f"Added {flag} ({prof_type}) >> {menu_choice}")
                         chosen_options[prof_type] = chosen_proficiencies
 
                 for k, v in chosen_options.items():
@@ -264,10 +252,8 @@ class FeatOptionParser:
                     if isinstance(spell, list):
                         spell_choice = prompt("Choose your bonus spell.", spell)
                         bonus_spells[index] = spell_choice
-                        _e(f"Added spell >> {spell_choice}", "green")
+                        _ok(f"Added spell >> {spell_choice}")
                 parsed_flag[flag] = bonus_spells
-
-        # _e(parsed_flag, "yellow")
 
         return parsed_flag
 
@@ -452,9 +438,9 @@ class AbilityScoreImprovement:
 
         while num_of_upgrades > 0:
             if num_of_upgrades > 1:
-                _e(f"You have {num_of_upgrades} upgrades available.", "green")
+                _ok(f"You have {num_of_upgrades} upgrades available.")
             else:
-                _e("You have 1 upgrade available.", "green")
+                _ok("You have 1 upgrade available.")
 
             upgrade_path_options = ["Ability", "Feat"]
             upgrade_path = prompt(
@@ -484,7 +470,7 @@ class AbilityScoreImprovement:
                 # Apply +1 bonus to two abilities.
                 # Apply +2 bonus to one ability.
                 if bonus_choice == 1:
-                    _e("You may apply a +1 to two different abilities.", "green")
+                    _ok("You may apply a +1 to two different abilities.")
                     for _ in range(2):
                         upgrade_choice = prompt(
                             "Which ability do you want to upgrade?",
@@ -493,16 +479,13 @@ class AbilityScoreImprovement:
                         ability_upgrade_options.remove(upgrade_choice)
                         self._set_ability_score(upgrade_choice, bonus_choice)
                 elif bonus_choice == 2:
-                    _e("You may apply a +2 to one ability.", "green")
+                    _ok("You may apply a +2 to one ability.")
                     upgrade_choice = prompt(
                         "Which ability do you want to upgrade?",
                         ability_upgrade_options,
                     )
                     self._set_ability_score(upgrade_choice, bonus_choice)
-                    _e(
-                        f"Upgraded ability >> {upgrade_choice}",
-                        "green",
-                    )
+                    _ok(f"Upgraded ability >> {upgrade_choice}")
             elif upgrade_path == "Feat":
                 feat_options = get_character_feats()
                 feat_options = [
@@ -513,7 +496,7 @@ class AbilityScoreImprovement:
                     "Which feat do you want to acquire?",
                     feat_options,
                 )
-                _e(f"Added feat >> {feat_choice}", "green")
+                _ok(f"Added feat >> {feat_choice}")
 
                 while not self._has_requirements(feat_choice):
                     feat_options.remove(feat_choice)
@@ -524,15 +507,15 @@ class AbilityScoreImprovement:
                 else:
                     self._add_feat_perks(feat_choice)
                     self._character["feats"].append(feat_choice)
-                    _e(f"Added feat >> {feat_choice}", "green")
+                    _ok(f"Added feat >> {feat_choice}")
 
             num_of_upgrades -= 1
 
     def _set_ability_score(self, ability, bonus=1):
         """Applies a bonus to a specified ability."""
         if not self._is_adjustable(ability, bonus):
-            _e(f"Ability '{ability}' is not adjustable.", "yellow")
+            _warn(f"Ability '{ability}' is not adjustable.")
         else:
             new_score = self._character.get("scores").get(ability) + bonus
             self._character["scores"][ability] = new_score
-            _e(f"Ability '{ability}' set to >> {new_score}", "green")
+            _ok(f"Ability '{ability}' set to >> {new_score}")

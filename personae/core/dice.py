@@ -3,7 +3,7 @@ import random
 import re
 
 from .errors import DieArgumentError
-from .utils import _e
+from .utils import _ok, _warn
 
 
 def roll(string: str):
@@ -85,7 +85,7 @@ class AttributeGenerator:
             score_array[ability] = value
             ability_choices.remove(ability)
             generated_scores.remove(value)
-            _e(f"Ability '{ability}' set to >> {value}", "green")
+            _ok(f"Ability '{ability}' set to >> {value}")
 
         for _ in range(0, 4):
             from random import choice
@@ -95,11 +95,11 @@ class AttributeGenerator:
             score_array[ability] = value
             ability_choices.remove(ability)
             generated_scores.remove(value)
-            _e(f"Ability '{ability}' set to >> {value}", "yellow")
+            _warn(f"Ability '{ability}' set to >> {value}")
 
         for ability, bonus in self._bonus.items():
             value = score_array.get(ability) + bonus
             score_array[ability] = value
-            _e(f"Applied {bonus} bonus to '{ability}' ({value}).", "green")
+            _ok(f"Applied {bonus} bonus to '{ability}' ({value}).")
 
         return score_array

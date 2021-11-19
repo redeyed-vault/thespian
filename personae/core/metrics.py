@@ -3,7 +3,7 @@ from dataclasses import dataclass
 from .dice import roll
 from .errors import AnthropometricCalculatorError
 from .sources import Load
-from .utils import _e
+from .utils import _warn
 
 
 @dataclass
@@ -82,10 +82,7 @@ class AnthropometricCalculator:
             )
             if dominant_sex is None:
                 dominant_sex = "Male"
-                _e(
-                    "Dominant gender could not be determined. Default to 'Male'.",
-                    "yellow",
-                )
+                _warn("Dominant gender could not be determined. Default to 'Male'.")
 
             import math
 
@@ -95,9 +92,8 @@ class AnthropometricCalculator:
                 # Subtract 0-5 inches from height
                 height_diff = random.randint(0, 5)
                 height_calculation = height_calculation - height_diff
-                _e(
-                    f'Using a non-dominant gender height differential of -{height_diff}".',
-                    "yellow",
+                _warn(
+                    f'Using a non-dominant gender height differential of -{height_diff}".'
                 )
 
                 # Subtract 15-20% from weight
@@ -105,9 +101,8 @@ class AnthropometricCalculator:
                 weight_calculation = weight_calculation - math.floor(
                     weight_calculation * weight_diff
                 )
-                _e(
-                    f"Using a non-dominant gender weight differential of -{weight_diff}%.",
-                    "yellow",
+                _warn(
+                    f"Using a non-dominant gender weight differential of -{weight_diff}%."
                 )
 
         if height_calculation < 12:
