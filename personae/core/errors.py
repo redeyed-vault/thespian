@@ -10,6 +10,10 @@ class AnthropometricCalculatorError(Error):
     """Handles anthropometric calculator errors."""
 
 
+class BlueprintError(Error):
+    """Handles an invalid seamstress error."""
+
+
 class DieArgumentError(ValueError):
     """Handles an invalid die rolling argument."""
 
