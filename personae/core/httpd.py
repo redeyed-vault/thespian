@@ -7,7 +7,7 @@ from .formatting import (
     ProficiencyWriter,
     SpellWriter,
 )
-from .seamstress import MyTapestry
+from .seamstress import Seamstress
 
 from aiohttp import web
 from bs4 import BeautifulSoup
@@ -17,7 +17,7 @@ from bs4 import BeautifulSoup
 class CharacterSheetServer:
     """Starts a local HTTP character sheet display server."""
 
-    data: MyTapestry
+    data: Seamstress
     port: int = 5000
     content: str = ""
 

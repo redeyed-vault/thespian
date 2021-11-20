@@ -6,7 +6,7 @@ from .levelup import AbilityScoreImprovement
 from .seamstress import (
     RaceSeamstress,
     ClassSeamstress,
-    MyTapestry,
+    Seamstress,
 )
 from .utils import (
     get_character_classes,
@@ -65,7 +65,7 @@ def main():
         b.data.get("ability"), a.data.get("bonus")
     ).roll()
 
-    c = MyTapestry()
+    c = Seamstress()
     c.weave(a.data, b.data)
 
     u = AbilityScoreImprovement(c.view(True))
