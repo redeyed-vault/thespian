@@ -8,7 +8,9 @@ from .utils import _ok, prompt
 LEVEL_RANGE = list(range(1, 21))
 
 
-class _Seamstress(ABC):
+class _Blueprint(ABC):
+    """Generates basic blueprints."""
+
     def __init__(self, database, query_id, allowed_flags):
         result = Load.get_columns(query_id, source_file=database)
         if result is None:
@@ -41,7 +43,7 @@ class _Seamstress(ABC):
             if "&&" in flag_name:
                 flag_options = flag_name.split("&&")
                 if len(flag_options) > 1:
-                    flag_name = prompt("Choose your flag option.", flag_options)
+                    flag_name = prompt("Choose your flag option:", flag_options)
                     flag_options.remove(flag_name)
                     for option in flag_options:
                         if option in self.tapestry:
@@ -61,9 +63,11 @@ class _Seamstress(ABC):
         pass
 
 
-class _BaseClassSeamstress(_Seamstress):
+class _BaseClassBlueprint(_Blueprint):
+    """Generates base class blueprints."""
+
     def __init__(self, klass):
-        super(_BaseClassSeamstress, self).__init__(
+        super(_BaseClassBlueprint, self).__init__(
             "classes", klass, ("ability", "skills", "subclass", "tools")
         )
 
@@ -175,9 +179,11 @@ class _BaseClassSeamstress(_Seamstress):
         return self._honor_flags(omitted_values)
 
 
-class _SubClassSeamstress(_Seamstress):
+class _SubClassBlueprint(_Blueprint):
+    """Generates base subclass blueprints."""
+
     def __init__(self, subclass, level=1):
-        super(_SubClassSeamstress, self).__init__(
+        super(_SubClassBlueprint, self).__init__(
             "subclasses", subclass, ("languages", "skills")
         )
         self.tapestry["features"] = {
@@ -213,9 +219,11 @@ class _SubClassSeamstress(_Seamstress):
         return self._honor_flags(omitted_values)
 
 
-class _BaseRaceSeamstress(_Seamstress):
+class _BaseRaceBlueprint(_Blueprint):
+    """Generates base race blueprints."""
+
     def __init__(self, race):
-        super(_BaseRaceSeamstress, self).__init__(
+        super(_BaseRaceBlueprint, self).__init__(
             "races",
             race,
             ("armors", "languages", "skills", "subrace", "tools", "weapons"),
@@ -343,9 +351,11 @@ class _BaseRaceSeamstress(_Seamstress):
         return self._honor_flags()
 
 
-class _SubRaceSeamstress(_Seamstress):
+class _SubRaceBlueprint(_Blueprint):
+    """Generates base subrace blueprints."""
+
     def __init__(self, subrace):
-        super(_SubRaceSeamstress, self).__init__(
+        super(_SubRaceBlueprint, self).__init__(
             "subraces", subrace, ("language", "spell")
         )
 
@@ -421,7 +431,9 @@ class _SubRaceSeamstress(_Seamstress):
         return self._honor_flags(omitted_values)
 
 
-class MyTapestry:
+class Seamstress:
+    """Builds character data objects (tapestries)."""
+
     def __init__(self):
         self.pattern = None
         self.threads = None
@@ -447,9 +459,11 @@ class MyTapestry:
         if not isinstance(b, dict) and b is not None:
             raise Error("Second parameter must be of type 'dict' or 'NoneType'.")
 
-        # Remove flags index, if applicable
+        # Remove flags index for original data, if applicable.
         if "flags" in a:
             del a["flags"]
+
+        # Remove flags index from "sub" data, if applicable.
         if type(b) is dict and "flags" in b:
             del b["flags"]
 
@@ -460,6 +474,7 @@ class MyTapestry:
                 if key not in a:
                     a[key] = value
                     continue
+
                 # Merge dicts
                 if isinstance(value, dict):
                     a_dict = a.get(key)
@@ -474,6 +489,7 @@ class MyTapestry:
                         else:
                             a[key][subkey] = a_dict.get(subkey) + subvalue
                     continue
+
                 # Merge integers
                 if isinstance(value, int):
                     a_int = a.get(key)
@@ -481,6 +497,7 @@ class MyTapestry:
                         continue
                     if value > a_int:
                         a[key] = value
+
                 # Merge lists
                 if isinstance(value, list):
                     a_list = a.get(key)
@@ -499,27 +516,31 @@ class MyTapestry:
         self.pattern = sorted_dataset
 
 
-class ClassSeamstress(MyTapestry):
+class ClassSeamstress(Seamstress):
+    """Generates character's class weave."""
+
     def __init__(self, klass, omitted_values=None):
-        a = _BaseClassSeamstress(klass).run(omitted_values)
+        a = _BaseClassBlueprint(klass).run(omitted_values)
         b = None
         subclass = a.get("subclass")
         if subclass is not None:
-            b = _SubClassSeamstress(subclass, a.get("level")).run(omitted_values)
+            b = _SubClassBlueprint(subclass, a.get("level")).run(omitted_values)
 
         super().__init__()
         self.weave(a, b)
         self.data = self.view(True)
 
 
-class RaceSeamstress(MyTapestry):
+class RaceSeamstress(Seamstress):
+    """Generates character's racial weave."""
+
     def __init__(self, race, sex):
-        a = _BaseRaceSeamstress(race).run()
+        a = _BaseRaceBlueprint(race).run()
         subrace = a.get("subrace")
         if not isinstance(subrace, str) or subrace == "":
             b = None
         else:
-            b = _SubRaceSeamstress(subrace).run(a)
+            b = _SubRaceBlueprint(subrace).run(a)
 
         from .metrics import AnthropometricCalculator
 
