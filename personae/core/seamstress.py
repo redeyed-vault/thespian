@@ -7,7 +7,6 @@ from .blueprint import (
     SubRaceBlueprint,
 )
 from .errors import SeamstressError
-from .sources import Load
 from .utils import _ok, prompt
 
 
@@ -36,6 +35,7 @@ class Seamstress:
     def weave(self, a, b=None):
         if not isinstance(a, dict):
             raise SeamstressError("First parameter must be of type 'dict'.")
+
         if not isinstance(b, dict) and b is not None:
             raise SeamstressError(
                 "Second parameter must be of type 'dict' or 'NoneType'."
@@ -46,7 +46,7 @@ class Seamstress:
             del a["flags"]
 
         # Remove flags index from "sub" data, if applicable.
-        if type(b) is dict and "flags" in b:
+        if isinstance(b, dict) and "flags" in b:
             del b["flags"]
 
         # Merge a and b dictionaries, if applicable.
