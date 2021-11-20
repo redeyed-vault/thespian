@@ -56,7 +56,7 @@ $ python personae -r Human -s Female -k Fighter
 [+] Sex: Female
 [+] Class: Fighter
 [+] Port: 5000
-[P] What is your alignment?
+[P] Choose your alignment:
 [0] Chaotic Evil
 [1] Chaotic Good
 [2] Chaotic Neutral
@@ -66,9 +66,9 @@ $ python personae -r Human -s Female -k Fighter
 [6] Neutral Evil
 [7] Neutral Good
 [8] True Neutral
-[*] 3
-[N] Alignment set to >> Lawful Evil
-[P] What is your background?
+[*] 2
+[N] Alignment set to >> Chaotic Neutral
+[P] Choose your background:
 [0] Acolyte
 [1] Charlatan
 [2] Criminal
@@ -82,9 +82,9 @@ $ python personae -r Human -s Female -k Fighter
 [10] Sailor
 [11] Soldier
 [12] Urchin
-[*] 4
-[N] Background set to >> Folk Hero
-[P] What additional language do you speak?
+[*] 2
+[N] Background set to >> Criminal
+[P] Choose your additional language:
 [0] Abyssal
 [1] Celestial
 [2] Deep Speech
@@ -101,11 +101,11 @@ $ python personae -r Human -s Female -k Fighter
 [13] Primordial
 [14] Sylvan
 [15] Undercommon
-[*] 3
-[N] Added language >> Draconic
-[N] Using a non-dominant gender height differential of -3".
+[*] 1
+[N] Added language >> Celestial
+[N] Using a non-dominant gender height differential of -1".
 [N] Using a non-dominant gender weight differential of -0.19%.
-[P] What level are you?
+[P] Choose your class level:
 [0] 1
 [1] 2
 [2] 3
@@ -126,18 +126,18 @@ $ python personae -r Human -s Female -k Fighter
 [17] 18
 [18] 19
 [19] 20
-[*] 4
-[N] Level set to >> 5.
-[P] Choose a primary class ability:
+[*] 3
+[N] Level set to >> 4.
+[P] Choose a primary ability:
 [0] Dexterity
 [1] Strength
-[*] 0
-[N] Class ability set to >> Dexterity
-[P] Choose a primary class ability:
+[*] 1
+[N] Primary ability 'Strength' selected.
+[P] Choose a primary ability:
 [0] Constitution
 [1] Intelligence
-[*] 0
-[N] Class ability set to >> Constitution
+[*] 1
+[N] Primary ability 'Intelligence' selected.
 [P] Choose class option 'skills' (2):
 [0] Acrobatics
 [1] Animal Handling
@@ -157,8 +157,8 @@ $ python personae -r Human -s Female -k Fighter
 [4] Intimidation
 [5] Perception
 [6] Survival
-[*] 3
-[N] Value added >> History.
+[*] 2
+[N] Value added >> Athletics.
 [P] Choose class option 'subclass' (1):
 [0] Arcane Archer
 [1] Cavalier
@@ -166,28 +166,20 @@ $ python personae -r Human -s Female -k Fighter
 [3] Battle Master
 [4] Eldritch Knight
 [5] Samurai
-[*] 1
-[N] Value added >> Cavalier.
-[P] Choose a bonus 'skills' (1):
-[0] Animal Handling
-[1] History
-[2] Insight
-[3] Performance
-[4] Persuasion
-[*] 0
-[N] Added 'skills' bonus >> Animal Handling.
-[N] Ability 'Dexterity' set to >> 15
-[N] Ability 'Constitution' set to >> 14
+[*] 3
+[N] Value added >> Battle Master.
+[N] Ability 'Strength' set to >> 17
+[N] Ability 'Intelligence' set to >> 15
+[N] Ability 'Constitution' set to >> 11
+[N] Ability 'Dexterity' set to >> 11
 [N] Ability 'Wisdom' set to >> 14
-[N] Ability 'Strength' set to >> 12
-[N] Ability 'Charisma' set to >> 13
-[N] Ability 'Intelligence' set to >> 9
-[N] Applied 1 bonus to 'Strength' (13).
-[N] Applied 1 bonus to 'Dexterity' (16).
-[N] Applied 1 bonus to 'Constitution' (15).
-[N] Applied 1 bonus to 'Intelligence' (10).
+[N] Ability 'Charisma' set to >> 8
+[N] Applied 1 bonus to 'Strength' (18).
+[N] Applied 1 bonus to 'Dexterity' (12).
+[N] Applied 1 bonus to 'Constitution' (12).
+[N] Applied 1 bonus to 'Intelligence' (16).
 [N] Applied 1 bonus to 'Wisdom' (15).
-[N] Applied 1 bonus to 'Charisma' (14).
+[N] Applied 1 bonus to 'Charisma' (9).
 [N] You have 1 upgrade available.
 [P] Which path do you want to follow?
 [0] Ability
@@ -252,18 +244,15 @@ $ python personae -r Human -s Female -k Fighter
 [55] War Caster
 [56] Weapon Master
 [57] Wood Elf Magic
-[*] 41
-[N] Added feat >> Resilient
+[*] 2
+[N] Added feat >> Athlete
 [P] Choose your bonus ability.
-[0] Dexterity
-[1] Intelligence
-[2] Wisdom
-[3] Charisma
-[*] 1
-[N] Added ability >> Intelligence
-[N] Added saving throw proficiency >> Intelligence
-[N] Ability 'Intelligence' set to >> 11
-[N] Added feat >> Resilient
+[0] Strength
+[1] Dexterity
+[*] 0
+[N] Added ability >> Strength
+[N] Ability 'Strength' set to >> 19
+[N] Added feat >> Athlete
 ======== Running on http://127.0.0.1:5000 ========
 (Press CTRL+C to quit)
 ```
