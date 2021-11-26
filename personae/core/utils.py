@@ -99,7 +99,7 @@ def prompt(message, base_opts, selected_opts=None):
         if user_value not in base_opts:
             raise ValueError()
     except KeyboardInterrupt:
-        _warn("Keyboard interrupt.")
+        print(Fore.YELLOW + Style.BRIGHT + "\n[WW] Keyboard interrupt.")
         exit()
     except ValueError:
         _fail("Invalid selection: " + str(user_value))
