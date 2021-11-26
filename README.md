@@ -23,7 +23,6 @@ TODO: Incorporate *Tasha's Cauldron of Everything*.
   * multidict
   * PyYAML
   * soupsieve
-  * termcolor
   * typing-extensions
   * yarl
 
