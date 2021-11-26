@@ -7,7 +7,7 @@ subraces:
     bonus:
       Strength: 1
     darkvision: 0
-    flags: none
+    guides: none
     languages: []
     resistances: []
     skills: []
@@ -22,7 +22,7 @@ subraces:
     bonus:
       Wisdom: 1
     darkvision: 0
-    flags: none
+    guides: none
     languages: []
     resistances: []
     skills: []
@@ -37,7 +37,7 @@ subraces:
     bonus:
       Constitution: 1
     darkvision: 0
-    flags: none
+    guides: none
     languages: []
     resistances: []
     skills: []
@@ -55,7 +55,7 @@ subraces:
     bonus:
       Strength: 1
     darkvision: 120
-    flags: none
+    guides: none
     languages: [Undercommon]
     resistances:
       - Charm
@@ -78,7 +78,7 @@ subraces:
     bonus:
       Wisdom: 1
     darkvision: 0
-    flags: none
+    guides: none
     languages: []
     resistances: []
     skills: []
@@ -92,7 +92,7 @@ subraces:
     bonus:
       Strength: 2
     darkvision: 0
-    flags: none
+    guides: none
     languages: []
     resistances: []
     skills: []
@@ -109,7 +109,7 @@ subraces:
     bonus:
       Charisma: 1
     darkvision: 120
-    flags: none
+    guides: none
     languages: []
     resistances: []
     skills: []
@@ -132,7 +132,7 @@ subraces:
     bonus:
       Intelligence: 1
     darkvision: 0
-    flags: none
+    guides: none
     languages: []
     resistances: []
     skills: []
@@ -151,7 +151,7 @@ subraces:
     bonus:
       Intelligence: 1
     darkvision: 0
-    flags: languages,1|spells,1
+    guides: languages,1|spells,1
     languages:
       - Abyssal
       - Celestial
@@ -202,7 +202,7 @@ subraces:
     bonus:
       Constitution: 1
     darkvision: 0
-    flags: none
+    guides: none
     languages: ['Aquan']
     resistances: []
     skills: []
@@ -222,7 +222,7 @@ subraces:
     bonus:
       Constitution: 1
     darkvision: 0
-    flags: none
+    guides: none
     languages: []
     resistances: [Necrotic]
     skills: []
@@ -237,7 +237,7 @@ subraces:
     bonus:
       Wisdom: 1
     darkvision: 0
-    flags: none
+    guides: none
     languages: []
     resistances: []
     skills: []
@@ -260,7 +260,7 @@ subraces:
     bonus:
       Strength: 2
     darkvision: 0
-    flags: languages,1
+    guides: languages,1
     languages:
       - Abyssal
       - Celestial
@@ -297,7 +297,7 @@ subraces:
     bonus:
       Wisdom: 2
     darkvision: 0
-    flags: none
+    guides: none
     languages: []
     resistances: [Charm, Fright]
     skills: []
@@ -318,7 +318,7 @@ subraces:
     bonus:
       Dexterity: 1
     darkvision: 120
-    flags: none
+    guides: none
     languages: [Undercommon]
     resistances: []
     skills: []
@@ -334,7 +334,7 @@ subraces:
     bonus:
       Dexterity: 1
     darkvision: 0
-    flags: none
+    guides: none
     languages: []
     resistances: []
     skills: []
@@ -350,7 +350,7 @@ subraces:
     bonus:
       Constitution: 1
     darkvision: 0
-    flags: none
+    guides: none
     languages: []
     resistances: []
     skills: []
@@ -368,7 +368,7 @@ subraces:
     bonus:
       Charisma: 1
     darkvision: 0
-    flags: none
+    guides: none
     languages: []
     resistances: []
     skills: []
@@ -382,7 +382,7 @@ subraces:
     bonus:
       Constitution: 1
     darkvision: 0
-    flags: none
+    guides: none
     languages: []
     resistances: [Poison]
     skills: []
@@ -399,7 +399,7 @@ subraces:
     bonus:
       Intelligence: 1
     darkvision: 0
-    flags: none
+    guides: none
     languages: []
     resistances: []
     skills: []
@@ -416,7 +416,7 @@ subraces:
     bonus:
       Intelligence: 1
     darkvision: 0
-    flags: none
+    guides: none
     languages: []
     resistances: []
     skills: []
@@ -433,7 +433,7 @@ subraces:
     bonus:
       Dexterity: 1
     darkvision: 0
-    flags: none
+    guides: none
     languages: []
     parent: Tiefling
     resistances: []
@@ -451,7 +451,7 @@ subraces:
     bonus:
       Wisdom: 1
     darkvision: 0
-    flags: none
+    guides: none
     languages: []
     parent: Tiefling
     resistances: []
@@ -469,7 +469,7 @@ subraces:
     bonus:
       Dexterity: 1
     darkvision: 0
-    flags: none
+    guides: none
     languages: []
     parent: Tiefling
     resistances: []
@@ -487,7 +487,7 @@ subraces:
     bonus:
       Constitution: 1
     darkvision: 0
-    flags: none
+    guides: none
     languages: []
     parent: Tiefling
     resistances: []
@@ -505,7 +505,7 @@ subraces:
     bonus:
       Intelligence: 1
     darkvision: 0
-    flags: none
+    guides: none
     languages: []
     parent: Tiefling
     resistances: []
@@ -523,7 +523,7 @@ subraces:
     bonus:
       Intelligence: 1
     darkvision: 0
-    flags: none
+    guides: none
     languages: []
     parent: Tiefling
     resistances: []
@@ -541,7 +541,7 @@ subraces:
     bonus:
       Strength: 1
     darkvision: 0
-    flags: none
+    guides: none
     languages: []
     parent: Tiefling
     resistances: []

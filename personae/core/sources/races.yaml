@@ -8,7 +8,7 @@ races:
     bonus:
       Charisma: 2
     darkvision: 60
-    flags: subrace,1
+    guides: subrace,1
     languages:
       - [Common, Celestial]
     resistances: [Necrotic, Radiant]
@@ -37,7 +37,7 @@ races:
       Dexterity: 1
       Strength: 2
     darkvision: 60
-    flags: none
+    guides: none
     languages:
       - [Common, Goblin]
     resistances: []
@@ -75,7 +75,7 @@ races:
       Strength: 2
       Charisma: 1
     darkvision: 0
-    flags: none
+    guides: none
     languages:
       - [Common, Draconic]
     resistances:
@@ -109,7 +109,7 @@ races:
     bonus:
       Constitution: 2
     darkvision: 60
-    flags: subrace,1|tools,1
+    guides: subrace,1|tools,1
     languages:
       - [Common, Dwarvish]
     resistances: [Poison]
@@ -146,7 +146,7 @@ races:
     bonus:
       Dexterity: 2
     darkvision: 60
-    flags: subrace,1
+    guides: subrace,1
     languages:
       - [Common, Elvish]
     resistances: [Charm, Sleep]
@@ -179,7 +179,7 @@ races:
       Strength: 1
       Wisdom: 2
     darkvision: 60
-    flags: none
+    guides: none
     languages:
       - [Common, Elvish, Giant]
     resistances: []
@@ -205,7 +205,7 @@ races:
     bonus:
       Intelligence: 1
     darkvision: 0
-    flags: subrace,1
+    guides: subrace,1
     languages:
       - [Common, Gith]
     resistances: []
@@ -228,7 +228,7 @@ races:
     bonus:
       Intelligence: 2
     darkvision: 60
-    flags: subrace,1
+    guides: subrace,1
     languages:
       - [Common, Gnomish]
     resistances: []
@@ -255,7 +255,7 @@ races:
       Dexterity: 2
       Constitution: 1
     darkvision: 60
-    flags: none
+    guides: none
     languages:
       - [Common, Goblin]
     resistances: []
@@ -280,7 +280,7 @@ races:
       Constitution: 1
       Strength: 2
     darkvision: 60
-    flags: none
+    guides: none
     languages:
       - [Common, Giant]
     resistances: []
@@ -306,7 +306,7 @@ races:
     bonus:
       Charisma: 2
     darkvision: 60
-    flags: ability,1|languages,1|skills,2
+    guides: ability,1|languages,1|skills,2
     languages:
       - [Common, Elvish]
       - Abyssal
@@ -365,7 +365,7 @@ races:
       Strength: 2
       Constitution: 1
     darkvision: 60
-    flags: none
+    guides: none
     languages:
       - [Common, Orc]
     resistances: []
@@ -391,7 +391,7 @@ races:
     bonus:
       Dexterity: 2
     darkvision: 60
-    flags: subrace,1
+    guides: subrace,1
     languages:
       - [Common, Halfling]
     resistances: []
@@ -418,7 +418,7 @@ races:
       Constitution: 2
       Intelligence: 1
     darkvision: 60
-    flags: weapons,2
+    guides: weapons,2
     languages:
       - [Common, Goblin]
     resistances: []
@@ -468,7 +468,7 @@ races:
       Wisdom: 1
       Charisma: 1
     darkvision: 0
-    flags: languages,1
+    guides: languages,1
     languages:
       - [Common] 
       - Abyssal
@@ -507,7 +507,7 @@ races:
       Dexterity: 2
       Wisdom: 1
     darkvision: 0
-    flags: skills,2
+    guides: skills,2
     languages:
       - [Common, Auran]
     resistances: []
@@ -533,7 +533,7 @@ races:
       Dexterity: 2
       Strength: -2
     darkvision: 60
-    flags: none
+    guides: none
     languages:
       - [Common, Draconic]
     resistances: []
@@ -559,7 +559,7 @@ races:
       Constitution: 2
       Wisdom: 1
     darkvision: 0
-    flags: skills,2
+    guides: skills,2
     languages:
       - [Common, Draconic]
     resistances: []
@@ -588,7 +588,7 @@ races:
       Constitution: 1
       Strength: 2
     darkvision: 60
-    flags: none
+    guides: none
     languages:
       - [Common, Orc]
     resistances: []
@@ -615,7 +615,7 @@ races:
       Dexterity: 2
       Charisma: 1
     darkvision: 60
-    flags: languages,1
+    guides: languages,1
     languages:
       - [Common]
       - Abyssal
@@ -658,7 +658,7 @@ races:
     bonus:
       Charisma: 2
     darkvision: 60
-    flags: subrace,1
+    guides: subrace,1
     languages:
       - [Common, Infernal]
     resistances: [Fire]
@@ -692,7 +692,7 @@ races:
       Constitution: 1
       Strength: 1
     darkvision: 0
-    flags: none
+    guides: none
     languages:
       - [Common, Primordial]
     resistances: []
@@ -718,7 +718,7 @@ races:
       Charisma: 2
       Intelligence: 1
     darkvision: 60
-    flags: none
+    guides: none
     languages:
       - [Abyssal, Common, Draconic]
     resistances: []

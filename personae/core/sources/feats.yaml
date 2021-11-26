@@ -7,7 +7,7 @@ feats:
       ability:
         Charisma: 1
       armors: []
-      flags: ability=Charisma,1
+      guides: ability=Charisma,1
       languages: []
       resistances: []
       skills: []
@@ -28,7 +28,7 @@ feats:
     perk:
       ability: ~
       armors: []
-      flags: none
+      guides: none
       languages: []
       resistances: []
       skills: []
@@ -51,7 +51,7 @@ feats:
         Strength: 1
         Dexterity: 1
       armors: []
-      flags: ability=Strength&&Dexterity,1
+      guides: ability=Strength&&Dexterity,1
       languages: []
       resistances: []
       skills: []
@@ -72,7 +72,7 @@ feats:
     perk:
       ability: ~
       armors: []
-      flags: none
+      guides: none
       languages: []
       resistances: []
       skills: []
@@ -93,7 +93,7 @@ feats:
     perk:
       ability: ~
       armors: []
-      flags: none
+      guides: none
       languages: []
       resistances: []
       skills: []
@@ -114,7 +114,7 @@ feats:
     perk:
       ability: ~
       armors: []
-      flags: none
+      guides: none
       languages: []
       resistances: []
       skills: []
@@ -135,7 +135,7 @@ feats:
     perk:
       ability: ~
       armors: []
-      flags: none
+      guides: none
       languages: []
       resistances: []
       skills: ~
@@ -160,7 +160,7 @@ feats:
         Constitution: 1
         Charisma: 1
       armors: []
-      flags: ability=Strength&&Constitution&&Charisma,1
+      guides: ability=Strength&&Constitution&&Charisma,1
       languages: []
       resistances: []
       skills: []
@@ -184,7 +184,7 @@ feats:
         Constitution: 1
         Charisma: 1
       armors: []
-      flags: ability=Strength&&Dexterity&&Charisma,1
+      guides: ability=Strength&&Dexterity&&Charisma,1
       languages: []
       resistances: []
       skills: []
@@ -205,7 +205,7 @@ feats:
     perk:
       ability: ~
       armors: []
-      flags: spells,0
+      guides: spells,0
       languages: []
       resistances: []
       skills: []
@@ -229,7 +229,7 @@ feats:
     perk:
       ability: ~
       armors: []
-      flags: none
+      guides: none
       languages: []
       resistances: []
       skills: []
@@ -250,7 +250,7 @@ feats:
     perk:
       ability: ~
       armors: []
-      flags: resistances,0
+      guides: resistances,0
       languages: []
       resistances: ['Traps']
       skills: []
@@ -272,7 +272,7 @@ feats:
       ability:
         Constitution: 1
       armors: []
-      flags: ability=Constitution,1
+      guides: ability=Constitution,1
       languages: []
       resistances: []
       skills: []
@@ -294,7 +294,7 @@ feats:
       ability:
         Constitution: 1
       armors: []
-      flags: ability=Constitution,1
+      guides: ability=Constitution,1
       languages: []
       resistances: []
       skills: []
@@ -315,7 +315,7 @@ feats:
     perk:
       ability: ~
       armors: []
-      flags: none
+      guides: none
       languages: []
       resistances: []
       skills: []
@@ -340,7 +340,7 @@ feats:
         Wisdom: 1
         Charisma: 1
       armors: []
-      flags: ability=Dexterity&&Intelligence&&Wisdom&&Charisma,1
+      guides: ability=Dexterity&&Intelligence&&Wisdom&&Charisma,1
       languages: []
       resistances: []
       skills: []
@@ -363,7 +363,7 @@ feats:
         Dexterity: 1
         Intelligence: 1
       armors: []
-      flags: ability=Dexterity&&Intelligence,1
+      guides: ability=Dexterity&&Intelligence,1
       languages: []
       resistances: []
       skills: []
@@ -386,7 +386,7 @@ feats:
         Intelligence: 1
         Charisma: 1
       armors: []
-      flags: ability=Intelligence&&Charisma,1|proficiency=languages,0
+      guides: ability=Intelligence&&Charisma,1|proficiency=languages,0
       languages: ['Sylvan']
       resistances: []
       skills: []
@@ -407,7 +407,7 @@ feats:
     perk:
       ability: ~
       armors: []
-      flags: ~
+      guides: none
       languages: []
       resistances: []
       skills: []
@@ -428,7 +428,7 @@ feats:
     perk:
       ability: ~
       armors: []
-      flags: none
+      guides: none
       languages: []
       resistances: []
       skills: []
@@ -450,7 +450,7 @@ feats:
     perk:
       ability: ~
       armors: []
-      flags: none
+      guides: none
       languages: []
       resistances: []
       skills: []
@@ -471,7 +471,7 @@ feats:
     perk:
       ability: ~
       armors: []
-      flags: none
+      guides: none
       languages: []
       resistances: []
       skills: []
@@ -493,7 +493,7 @@ feats:
       ability:
         Strength: 1
       armors: ['Heavy']
-      flags: ability=Strength,1|proficiency=armors,0
+      guides: ability=Strength,1|proficiency=armors,0
       languages: []
       resistances: []
       skills: []
@@ -516,7 +516,7 @@ feats:
       ability:
         Strength: 1
       armors: []
-      flags: ability=Strength,1
+      guides: ability=Strength,1
       languages: []
       resistances: []
       skills: []
@@ -539,7 +539,7 @@ feats:
       ability:
         Constitution: 1
       armors: []
-      flags: ability=Constitution|resistances,0
+      guides: ability=Constitution|resistances,0
       languages: []
       resistances: ['Cold', 'Poison']
       skills: []
@@ -560,7 +560,7 @@ feats:
     perk:
       ability: ~
       armors: []
-      flags: none
+      guides: none
       languages: []
       resistances: []
       skills: []
@@ -583,7 +583,7 @@ feats:
       ability:
         Intelligence: 1
       armors: []
-      flags: ability=Intelligence,1
+      guides: ability=Intelligence,1
       languages: []
       resistances: []
       skills: []
@@ -606,7 +606,7 @@ feats:
         Strength: 1
         Dexterity: 1
       armors: ['Light']
-      flags: ability=Strength&&Dexterity,1|proficiency=armors,0
+      guides: ability=Strength&&Dexterity,1|proficiency=armors,0
       languages: []
       resistances: []
       skills: []
@@ -628,7 +628,7 @@ feats:
       ability:
         Intelligence: 1
       armors: []
-      flags: ability=Intelligence,1|proficiency=languages,3
+      guides: ability=Intelligence,1|proficiency=languages,3
       languages:
         - Abyssal
         - Celestial
@@ -665,7 +665,7 @@ feats:
     perk:
       ability: ~
       armors: []
-      flags: none
+      guides: none
       languages: []
       resistances: []
       skills: []
@@ -686,7 +686,7 @@ feats:
     perk:
       ability: ~
       armors: []
-      flags: none
+      guides: none
       languages: []
       resistances: []
       skills: []
@@ -707,7 +707,7 @@ feats:
     perk:
       ability: ~
       armors: []
-      flags: none
+      guides: none
       languages: []
       resistances: []
       skills: []
@@ -728,7 +728,7 @@ feats:
     perk:
       ability: ~
       armors: []
-      flags: none
+      guides: none
       languages: []
       resistances: []
       skills: []
@@ -749,7 +749,7 @@ feats:
     perk:
       ability: ~
       armors: []
-      flags: none
+      guides: none
       languages: []
       resistances: []
       skills: []
@@ -771,7 +771,7 @@ feats:
     perk:
       ability: ~
       armors: []
-      flags: speed,0
+      guides: speed,0
       languages: []
       resistances: []
       skills: []
@@ -794,7 +794,7 @@ feats:
         Strength: 1
         Dexterity: 1
       armors: ['Medium', 'Shields']
-      flags: ability=Strength&&Dexterity,1|proficiency=armors,0
+      guides: ability=Strength&&Dexterity,1|proficiency=armors,0
       languages: []
       resistances: []
       skills: []
@@ -816,7 +816,7 @@ feats:
     perk:
       ability: ~
       armors: []
-      flags: none
+      guides: none
       languages: []
       resistances: []
       skills: []
@@ -839,7 +839,7 @@ feats:
         Intelligence: 1
         Wisdom: 1
       armors: []
-      flags: ability=Intelligence&&Wisdom,1
+      guides: ability=Intelligence&&Wisdom,1
       languages: []
       resistances: []
       skills: []
@@ -862,7 +862,7 @@ feats:
         Strength: 1
         Constitution: 1
       armors: []
-      flags: ability=Strength&&Constitution,1
+      guides: ability=Strength&&Constitution,1
       languages: []
       resistances: []
       skills: []
@@ -883,7 +883,7 @@ feats:
     perk:
       ability: ~
       armors: []
-      flags: none
+      guides: none
       languages: []
       resistances: []
       skills: []
@@ -904,7 +904,7 @@ feats:
     perk:
       ability: ~
       armors: []
-      flags: proficiency=languages+skills+tools,1
+      guides: proficiency=languages+skills+tools,1
       languages:
         - Abyssal
         - Celestial
@@ -1003,7 +1003,7 @@ feats:
         Wisdom: 1
         Charisma: 1
       armors: []
-      flags: ability=Strength&&Dexterity&&Constitution&&Intelligence&&Wisdom&&Charisma,1|savingthrows,0
+      guides: ability=Strength&&Dexterity&&Constitution&&Intelligence&&Wisdom&&Charisma,1|savingthrows,0
       languages: []
       resistances: []
       skills: []
@@ -1024,7 +1024,7 @@ feats:
     perk:
       ability: ~
       armors: []
-      flags: none
+      guides: none
       languages: []
       resistances: []
       skills: []
@@ -1047,7 +1047,7 @@ feats:
     perk:
       ability: ~
       armors: []
-      flags: none
+      guides: none
       languages: []
       resistances: []
       skills: []
@@ -1071,7 +1071,7 @@ feats:
         Constitution: 1
         Charisma: 1
       armors: []
-      flags: ability=Dexterity&&Constitution&&Charisma,1
+      guides: ability=Dexterity&&Constitution&&Charisma,1
       languages: []
       resistances: []
       skills: []
@@ -1089,7 +1089,7 @@ feats:
   Sentinel:
     perk:
       ability: ~
-      flags: none
+      guides: none
       languages: []
       resistances: []
       skills: []
@@ -1108,7 +1108,7 @@ feats:
     perk:
       ability: ~
       armors: []
-      flags: none
+      guides: none
       languages: []
       resistances: []
       skills: []
@@ -1129,7 +1129,7 @@ feats:
     perk:
       ability: ~
       armors: []
-      flags: none
+      guides: none
       languages: []
       resistances: []
       skills: []
@@ -1150,7 +1150,7 @@ feats:
     perk:
       ability: ~
       armors: []
-      flags: proficiency=skills&&tools,3
+      guides: proficiency=skills&&tools,3
       languages: []
       resistances: []
       skills:
@@ -1227,7 +1227,7 @@ feats:
     perk:
       ability: ~
       armors: []
-      flags: none
+      guides: none
       languages: []
       resistances: []
       skills: []
@@ -1249,7 +1249,7 @@ feats:
     perk:
       ability: ~
       armors: []
-      flags: none
+      guides: none
       languages: []
       resistances: []
       skills: []
@@ -1272,7 +1272,7 @@ feats:
         Strength: 1
         Dexterity: 1
       armors: []
-      flags: ability=Strength&&Dexterity,1|speed,0
+      guides: ability=Strength&&Dexterity,1|speed,0
       languages: []
       resistances: []
       skills:
@@ -1295,7 +1295,7 @@ feats:
     perk:
       ability: ~
       armors: []
-      flags: spells,0
+      guides: spells,0
       languages: []
       resistances: []
       skills: []
@@ -1322,7 +1322,7 @@ feats:
         Strength: 1
         Constitution: 1
       armors: []
-      flags: ability=Strength&&Constitution,1|proficiency=weapons,0
+      guides: ability=Strength&&Constitution,1|proficiency=weapons,0
       languages: []
       resistances: []
       skills: []
@@ -1343,7 +1343,7 @@ feats:
     perk:
       ability: ~
       armors: []
-      flags: none
+      guides: none
       languages: []
       resistances: []
       skills: []
@@ -1364,7 +1364,7 @@ feats:
     perk:
       ability: ~
       armors: []
-      flags: none
+      guides: none
       languages: []
       resistances: []
       skills: []
@@ -1387,7 +1387,7 @@ feats:
         Strength: 1
         Dexterity: 1
       armors: []
-      flags: ability=Strength&&Dexterity,1|proficiency=weapons,4
+      guides: ability=Strength&&Dexterity,1|proficiency=weapons,4
       languages: []
       resistances: []
       skills: []
@@ -1447,7 +1447,7 @@ feats:
     perk:
       ability: ~
       armors: []
-      flags: spells,0
+      guides: spells,0
       languages: []
       resistances: []
       skills: []

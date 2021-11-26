@@ -25,7 +25,7 @@ classes:
       17: ['Brutal Critical']
       18: ['Indomitable Might']
       20: ['Primal Champion']
-    flags: skills,2|subclass,1
+    guides: skills,2|subclass,1
     hit_die: 12
     languages: []
     savingthrows: ['Constitution', 'Strength']
@@ -73,7 +73,7 @@ classes:
       17: ['Song of Rest']
       18: ['Magical Secrets']
       20: ['Superior Inspiration']
-    flags: skills,3|subclass,1
+    guides: skills,3|subclass,1
     hit_die: 8
     languages: []
     savingthrows: ['Charisma', 'Dexterity']
@@ -150,7 +150,7 @@ classes:
       14: ['Destroy Undead']
       17: ['Destroy Undead']
       20: ['Divine Intervention']
-    flags: ability,1|skills,2|subclass,1
+    guides: ability,1|skills,2|subclass,1
     hit_die: 8
     languages: []
     savingthrows: ['Charisma', 'Wisdom']
@@ -213,7 +213,7 @@ classes:
       8: ['Wild Shape']
       18: ['Beast Spells', 'Timeless Body']
       20: ['Archdruid']
-    flags: skills,2|subclass,1
+    guides: skills,2|subclass,1
     hit_die: 8
     languages: ['Druidic']
     savingthrows: ['Intelligence', 'Wisdom']
@@ -296,7 +296,7 @@ classes:
       13: ['Indomitable']
       17: ['Action Surge', 'Indomitable']
       20: ['Extra Attack']
-    flags: ability,2|skills,2|subclass,1
+    guides: ability,2|skills,2|subclass,1
     hit_die: 10
     languages: []
     savingthrows: ['Constitution', 'Strength']
@@ -365,7 +365,7 @@ classes:
       17: ['Monastic Tradition']
       18: ['Empty Body']
       20: ['Perfect Self']
-    flags: skills,2|subclass,1|tools,1
+    guides: skills,2|subclass,1|tools,1
     hit_die: 8
     languages: []
     savingthrows: ['Dexterity', 'Strength']
@@ -437,7 +437,7 @@ classes:
       11: ['Improved Divine Smite']
       14: ['Cleansing Touch']
       18: ['Aura of Courage', 'Aura of Protection']
-    flags: skills,2|subclass,1
+    guides: skills,2|subclass,1
     hit_die: 10
     languages: []
     savingthrows: ['Charisma', 'Wisdom']
@@ -501,7 +501,7 @@ classes:
       14: ['Favored Enemy', 'Vanish']
       18: ['Feral Senses']
       20: ['Foe Slayer']
-    flags: ability,1|skills,3|subclass,1
+    guides: ability,1|skills,3|subclass,1
     hit_die: 10
     languages: []
     savingthrows: ['Dexterity', 'Strength']
@@ -569,7 +569,7 @@ classes:
       15: ['Slippery Mind']
       18: ['Elusive']
       20: ['Stroke of Luck']
-    flags: ability,1|skills,4|subclass,1
+    guides: ability,1|skills,4|subclass,1
     hit_die: 8
     languages: ["Thieves' cant"]
     savingthrows: ['Dexterity', 'Intelligence']
@@ -635,7 +635,7 @@ classes:
       10: ['Metamagic']
       17: ['Metamagic']
       20: ['Sorcerous Restoration']
-    flags: skills,2|subclass,1
+    guides: skills,2|subclass,1
     hit_die: 6
     languages: []
     savingthrows: ['Charisma', 'Constitution']
@@ -698,7 +698,7 @@ classes:
       15: ['Mystic Arcanum']
       17: ['Mystic Arcanum']
       20: ['Eldritch Master']
-    flags: skills,2|subclass,1
+    guides: skills,2|subclass,1
     hit_die: 8
     languages: []
     savingthrows: ['Charisma', 'Wisdom']
@@ -758,7 +758,7 @@ classes:
       2: ['Arcane Tradition']
       18: ['Spell Mastery']
       20: ['Signature Spell']
-    flags: ability,1|skills,2|subclass,1
+    guides: ability,1|skills,2|subclass,1
     hit_die: 6
     languages: []
     savingthrows: ['Intelligence', 'Wisdom']
