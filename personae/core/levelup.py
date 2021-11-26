@@ -440,7 +440,7 @@ class AbilityScoreImprovement:
 
         if self._character["klass"] == "Fighter" and self._character["level"] >= 14:
             num_of_upgrades += 1
-            
+
         if self._character["level"] >= 19:
             num_of_upgrades += 1
 
