@@ -42,12 +42,12 @@ class Seamstress:
             )
 
         # Remove flags index for original data, if applicable.
-        if "flags" in a:
-            del a["flags"]
+        if "guides" in a:
+            del a["guides"]
 
         # Remove flags index from "sub" data, if applicable.
-        if isinstance(b, dict) and "flags" in b:
-            del b["flags"]
+        if isinstance(b, dict) and "guides" in b:
+            del b["guides"]
 
         # Merge a and b dictionaries, if applicable.
         if isinstance(b, dict):

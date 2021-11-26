@@ -8,54 +8,56 @@ LEVEL_RANGE = list(range(1, 21))
 
 
 class _Blueprint(ABC):
-    """Generates basic blueprints."""
+    """Generates basic DnD character blueprint."""
 
-    def __init__(self, database, query_id, allowed_flags):
-        result = Load.get_columns(query_id, source_file=database)
-        if result is None:
-            raise BlueprintError(f"Data could not be found for '{query_id}'.")
+    def __init__(self, db, query_id, allowed_flags):
+        guidelines = Load.get_columns(query_id, source_file=db)
+        if guidelines is None:
+            raise BlueprintError(
+                f"Blueprint guides could not be found for '{query_id}'."
+            )
 
         self.allowed_flags = allowed_flags
-        self.tapestry = result
-        self.flags = self._sew_flags(self.tapestry)
+        self.blueprint = guidelines
+        self.guides = self._draw(self.blueprint)
 
-    @abstractmethod
-    def _honor_flags(self):
-        pass
-
-    def _sew_flags(self, dataset):
-        if "flags" not in dataset or dataset.get("flags") == "none":
+    def _draw(self, bp):
+        if "guides" not in bp or bp.get("guides") == "none":
             return None
 
-        sewn_flags = dict()
-        base_flags = dataset.get("flags").split("|")
-        for flag in base_flags:
-            if "," not in flag:
-                raise BlueprintError("Each flag entry must include a comma.")
+        blueprint = dict()
+        for guide in bp.get("guides").split("|"):
+            if "," not in guide:
+                raise BlueprintError("Each guide entry must include a comma.")
 
-            flag_pair = flag.split(",")
-            if len(flag_pair) != 2:
-                raise BlueprintError("Each flag must be a pair (two values only).")
+            guide_pair = guide.split(",")
+            if len(guide_pair) != 2:
+                raise BlueprintError("Each guide must be a pair (two values only).")
 
-            (flag_name, flag_value) = flag_pair
+            (guide_name, guide_value) = guide_pair
 
-            if "&&" in flag_name:
-                flag_options = flag_name.split("&&")
-                if len(flag_options) > 1:
-                    flag_name = prompt("Choose your flag option:", flag_options)
-                    flag_options.remove(flag_name)
-                    for option in flag_options:
-                        if option in self.tapestry:
-                            self.tapestry[option] = []
-                    _ok(f"You chose the flagging option '{flag_name}'")
+            if "&&" in guide_name:
+                guide_options = guide_name.split("&&")
+                if len(guide_options) > 1:
+                    guide_name = prompt("Choose your guides:", guide_options)
+                    guide_options.remove(guide_name)
+                    for option in guide_options:
+                        if option in self.blueprint:
+                            self.blueprint[option] = []
+
+                    _ok(f"You chose the '{guide_name}' guide.")
                 else:
                     raise BlueprintError(
-                        "If a flag has multiple options available, it must have two or more options."
+                        "If a guide has multiple options available, it must have two or more options."
                     )
 
-            sewn_flags[flag_name] = int(flag_value)
+            blueprint[guide_name] = int(guide_value)
 
-        return sewn_flags
+        return blueprint
+
+    @abstractmethod
+    def _read(self):
+        pass
 
     @abstractmethod
     def run(self):
@@ -72,72 +74,72 @@ class BaseClassBlueprint(_Blueprint):
 
         # Set base character level.
         level = int(prompt("Choose your class level:", LEVEL_RANGE))
-        self.tapestry["level"] = level
+        self.blueprint["level"] = level
         _ok(f"Level set to >> {level}.")
 
         # Set a dictonary of class features by level.
-        self.tapestry["features"] = {
-            x: y for x, y in self.tapestry.get("features").items() if x <= level
+        self.blueprint["features"] = {
+            x: y for x, y in self.blueprint.get("features").items() if x <= level
         }
 
         # Set base proficiency bonus.
         from math import ceil
 
-        self.tapestry["proficiency"] = ceil((level / 4) + 1)
+        self.blueprint["proficiency"] = ceil((level / 4) + 1)
 
         # Set base hit die/points.
-        hit_die = int(self.tapestry.get("hit_die"))
-        self.tapestry["hit_die"] = f"{level}d{hit_die}"
-        self.tapestry["hp"] = hit_die
+        hit_die = int(self.blueprint.get("hit_die"))
+        self.blueprint["hit_die"] = f"{level}d{hit_die}"
+        self.blueprint["hp"] = hit_die
         if level > 1:
             new_level = level - 1
             die_rolls = list()
             for _ in range(0, new_level):
                 hp_result = int((hit_die / 2) + 1)
                 die_rolls.append(hp_result)
-            self.tapestry["hp"] += sum(die_rolls)
+            self.blueprint["hp"] += sum(die_rolls)
 
         # Set base spellslots.
         try:
-            self.tapestry["spellslots"] = self.tapestry.get("spellslots").get(level)
+            self.blueprint["spellslots"] = self.blueprint.get("spellslots").get(level)
         except AttributeError:
-            self.tapestry["spellslots"] = dict()
+            self.blueprint["spellslots"] = dict()
 
         # Set other base values.
-        self.tapestry["bonusmagic"] = None
-        self.tapestry["klass"] = klass
-        self.tapestry["feats"] = list()
+        self.blueprint["bonusmagic"] = None
+        self.blueprint["klass"] = klass
+        self.blueprint["feats"] = list()
 
-    def _honor_flags(self, omitted_values=None):
+    def _read(self, omitted_values=None):
         for flag in self.allowed_flags:
             # Halt if no flags specified.
-            if self.flags is None:
+            if self.guides is None:
                 break
 
             # Skip if specified flag is not defined.
-            if flag not in self.flags:
+            if flag not in self.guides:
                 continue
 
             # Ignore subclass selection if character is < 3rd level.
-            if self.tapestry.get("level") < 3 and flag == "subclass":
-                self.tapestry["subclass"] = None
+            if self.blueprint.get("level") < 3 and flag == "subclass":
+                self.blueprint["subclass"] = None
                 continue
 
             # Set primary class ability, if applicable.
             if flag == "ability":
-                for rank, abilities in self.tapestry.get(flag).items():
+                for rank, abilities in self.blueprint.get(flag).items():
                     if not isinstance(abilities, list):
                         continue
 
                     ability_selection = prompt(f"Choose a primary ability:", abilities)
-                    self.tapestry[flag][rank] = ability_selection
+                    self.blueprint[flag][rank] = ability_selection
                     _ok(f"Primary ability '{ability_selection}' selected.")
 
-                self.tapestry[flag] = tuple(self.tapestry[flag].values())
+                self.blueprint[flag] = tuple(self.blueprint[flag].values())
                 continue
 
-            num_of_instances = self.flags.get(flag)
-            flag_options = self.tapestry.get(flag)
+            num_of_instances = self.guides.get(flag)
+            flag_options = self.blueprint.get(flag)
             if isinstance(flag_options, list):
                 if isinstance(omitted_values, dict) and flag in omitted_values:
                     omitted_values = omitted_values.get(flag)
@@ -164,18 +166,18 @@ class BaseClassBlueprint(_Blueprint):
                     and isinstance(omitted_values, list)
                     and len(omitted_values) > 0
                 ):
-                    self.tapestry[flag] = option_selections + omitted_values
+                    self.blueprint[flag] = option_selections + omitted_values
                 else:
-                    self.tapestry[flag] = option_selections
+                    self.blueprint[flag] = option_selections
 
-        ability = self.tapestry.get("ability")
+        ability = self.blueprint.get("ability")
         if isinstance(ability, dict):
-            self.tapestry["ability"] = tuple(ability.values())
+            self.blueprint["ability"] = tuple(ability.values())
 
-        return self.tapestry
+        return self.blueprint
 
     def run(self, omitted_values=None):
-        return self._honor_flags(omitted_values)
+        return self._read(omitted_values)
 
 
 class SubClassBlueprint(_Blueprint):
@@ -185,37 +187,37 @@ class SubClassBlueprint(_Blueprint):
         super(SubClassBlueprint, self).__init__(
             "subclasses", subclass, ("languages", "skills")
         )
-        self.tapestry["features"] = {
-            x: y for x, y in self.tapestry.get("features").items() if x <= level
+        self.blueprint["features"] = {
+            x: y for x, y in self.blueprint.get("features").items() if x <= level
         }
 
-    def _honor_flags(self, omitted_values=None):
+    def _read(self, omitted_values=None):
         for flag in self.allowed_flags:
-            if self.flags is None:
+            if self.guides is None:
                 break
 
-            if flag not in self.flags:
+            if flag not in self.guides:
                 continue
 
             bonus_selections = list()
-            num_of_instances = self.flags.get(flag)
+            num_of_instances = self.guides.get(flag)
             _ok(f"Allotted bonus total for '{flag}': {num_of_instances}")
             for _ in range(num_of_instances):
                 bonus_choice = prompt(
                     f"Choose a bonus from the '{flag}' selection list:",
-                    self.tapestry.get(flag),
+                    self.blueprint.get(flag),
                     omitted_values.get(flag),
                 )
                 bonus_selections.append(bonus_choice)
                 _ok(f"Bonus '{bonus_choice}' selected from '{flag}' list.")
 
             if len(bonus_selections) > 0:
-                self.tapestry[flag] = bonus_selections
+                self.blueprint[flag] = bonus_selections
 
-        return self.tapestry
+        return self.blueprint
 
     def run(self, omitted_values=None):
-        return self._honor_flags(omitted_values)
+        return self._read(omitted_values)
 
 
 class BaseRaceBlueprint(_Blueprint):
@@ -227,10 +229,10 @@ class BaseRaceBlueprint(_Blueprint):
             race,
             ("armors", "languages", "skills", "subrace", "tools", "weapons"),
         )
-        self._race = self.tapestry["race"] = race
+        self._race = self.blueprint["race"] = race
         # self.tapestry["race"] = race
 
-    def _honor_flags(self):
+    def _read(self):
         # Set alignment
         base_alignment_options = (
             "Chaotic Evil",
@@ -244,29 +246,27 @@ class BaseRaceBlueprint(_Blueprint):
             "True Neutral",
         )
         alignment = prompt("Choose your alignment:", base_alignment_options)
-        self.tapestry["alignment"] = alignment
+        self.blueprint["alignment"] = alignment
         _ok(f"Alignment set to >> {alignment}")
 
         # Set base ancestry, for Dragonborn characters.
-        base_ancestry_options = self.tapestry.get("ancestry")
+        base_ancestry_options = self.blueprint.get("ancestry")
         if len(base_ancestry_options) == 0:
-            self.tapestry["ancestry"] = None
+            self.blueprint["ancestry"] = None
         else:
             ancestry = prompt("Choose your draconic ancestry:", base_ancestry_options)
-            self.tapestry["ancestry"] = ancestry
-            self.tapestry["resistances"] = [
-                self.tapestry.get("resistances").get(ancestry)
-            ]
+            self.blueprint["ancestry"] = ancestry
+            self.blueprint["resistances"] = [self.blueprint.get("resistances").get(ancestry)]
             _ok(f"Draconic ancestry set to >> {ancestry}")
 
         # Set base background
         base_background_options = Load.get_columns(source_file="backgrounds")
         background = prompt("Choose your background:", base_background_options)
-        self.tapestry["background"] = background
+        self.blueprint["background"] = background
         _ok(f"Background set to >> {background}")
 
         # Set base languages
-        base_language_options = self.tapestry.get("languages")
+        base_language_options = self.blueprint.get("languages")
         actual_base_languages = list()
         for language in base_language_options:
             if isinstance(language, list):
@@ -274,7 +274,7 @@ class BaseRaceBlueprint(_Blueprint):
                 actual_base_languages = language
                 break
 
-        self.tapestry["languages"] = actual_base_languages
+        self.blueprint["languages"] = actual_base_languages
 
         # Set additional base language, if applicable.
         # For HalfElf, Human, and Tabaxi characters.
@@ -282,11 +282,11 @@ class BaseRaceBlueprint(_Blueprint):
             additional_language = prompt(
                 "Choose your additional language:", base_language_options
             )
-            self.tapestry["languages"].append(additional_language)
+            self.blueprint["languages"].append(additional_language)
             _ok(f"Added language >> {additional_language}")
 
         # Set base spells
-        base_spell_options = self.tapestry.get("spells")
+        base_spell_options = self.blueprint.get("spells")
         if len(base_spell_options) != 0:
             if isinstance(base_spell_options, dict):
                 caster_level = int(
@@ -296,37 +296,37 @@ class BaseRaceBlueprint(_Blueprint):
                 for req_level, spell_list in base_spell_options.items():
                     if req_level <= caster_level:
                         base_spells += spell_list
-                self.tapestry["spells"] = base_spells
+                self.blueprint["spells"] = base_spells
                 _ok(f"Caster level set to >> {caster_level}")
 
         # Set base subrace, if applicable
-        base_subrace_options = self.tapestry.get("subrace")
+        base_subrace_options = self.blueprint.get("subrace")
         if len(base_subrace_options) > 0:
             subrace = prompt(
                 f"Choose your '{self._race}' subrace:",
                 base_subrace_options,
             )
-            self.tapestry["subrace"] = subrace
+            self.blueprint["subrace"] = subrace
             _ok(f"Subrace set to >> {subrace}")
         else:
-            self.tapestry["subrace"] = None
+            self.blueprint["subrace"] = None
 
         # No flags actually specified in configuration
-        if self.flags is None:
-            return self.tapestry
+        if self.guides is None:
+            return self.blueprint
 
         # Determine bonus armors, skills, tools proficiencies
         for proficiency in ("armors", "skills", "tools", "weapons"):
             # If proficiency is not a specified flag, move on.
-            if proficiency not in self.flags:
+            if proficiency not in self.guides:
                 continue
 
-            proficiency_options = self.tapestry.get(proficiency)
+            proficiency_options = self.blueprint.get(proficiency)
             if len(proficiency_options) == 0:
                 continue
 
             proficiency_selections = list()
-            num_of_instances = self.flags.get(proficiency)
+            num_of_instances = self.guides.get(proficiency)
             _ok(
                 f"Allotted bonus total for proficiency '{proficiency}': {num_of_instances}"
             )
@@ -342,12 +342,12 @@ class BaseRaceBlueprint(_Blueprint):
                 )
 
             if len(proficiency_selections) > 0:
-                self.tapestry[proficiency] = proficiency_selections
+                self.blueprint[proficiency] = proficiency_selections
 
-        return self.tapestry
+        return self.blueprint
 
     def run(self):
-        return self._honor_flags()
+        return self._read()
 
 
 class SubRaceBlueprint(_Blueprint):
@@ -358,13 +358,13 @@ class SubRaceBlueprint(_Blueprint):
             "subraces", subrace, ("language", "spell")
         )
 
-    def _honor_flags(self, omitted_values=None):
+    def _read(self, omitted_values=None):
         # No flags actually specified
-        if self.flags is None:
-            return self.tapestry
+        if self.guides is None:
+            return self.blueprint
 
         # Set base spells
-        base_spell_options = self.tapestry.get("spells")
+        base_spell_options = self.blueprint.get("spells")
         if len(base_spell_options) != 0:
             spell_selections = []
 
@@ -374,13 +374,13 @@ class SubRaceBlueprint(_Blueprint):
                 for req_level, spell_list in base_spell_options.items():
                     if req_level <= caster_level:
                         spell_selections += spell_list
-                self.tapestry["spells"] = spell_selections
+                self.blueprint["spells"] = spell_selections
                 _ok(f"Caster level set to >> {caster_level}")
 
             # Spells in list format do manual selection.
             if isinstance(base_spell_options, list):
-                if "spells" in self.flags:
-                    num_of_instances = self.flags.get("spells")
+                if "spells" in self.guides:
+                    num_of_instances = self.guides.get("spells")
                     for _ in range(num_of_instances):
                         spell_selection = prompt(
                             f"Choose your bonus spell:",
@@ -389,15 +389,15 @@ class SubRaceBlueprint(_Blueprint):
                         )
                         spell_selections.append(spell_selection)
                         _ok(f"Added spell >> {spell_selection}")
-                    self.tapestry["spells"] = spell_selections
+                    self.blueprint["spells"] = spell_selections
 
         # Determine bonus languages, skills, proficiencies
         for proficiency in ("armors", "languages", "skills", "tools", "weapons"):
             # If proficiency not a specified flag, move on.
-            if proficiency not in self.flags:
+            if proficiency not in self.guides:
                 continue
 
-            proficiency_options = self.tapestry.get(proficiency)
+            proficiency_options = self.blueprint.get(proficiency)
             if len(proficiency_options) == 0:
                 continue
 
@@ -406,7 +406,7 @@ class SubRaceBlueprint(_Blueprint):
             if len(blacklisted_values) > 0:
                 proficiency_selections += blacklisted_values
 
-            num_of_instances = self.flags.get(proficiency)
+            num_of_instances = self.guides.get(proficiency)
             _ok(
                 f"Allotted bonus total for proficiency '{proficiency}': {num_of_instances}"
             )
@@ -422,9 +422,9 @@ class SubRaceBlueprint(_Blueprint):
                 )
 
             if len(proficiency_selections) > 0:
-                self.tapestry[proficiency] = proficiency_selections
+                self.blueprint[proficiency] = proficiency_selections
 
-        return self.tapestry
+        return self.blueprint
 
     def run(self, omitted_values=None):
-        return self._honor_flags(omitted_values)
+        return self._read(omitted_values)
