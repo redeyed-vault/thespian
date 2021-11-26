@@ -51,12 +51,12 @@ Using the above example, here's an example program run.
 
 ```
 $ python personae -r Human -s Female -k Fighter
-[+] Personae is starting using the following options:
+[++] Personae is starting using the following options:
 [+] Race: Human
 [+] Sex: Female
 [+] Class: Fighter
 [+] Port: 5000
-[P] Choose your alignment:
+[PP] Choose your alignment:
 [0] Chaotic Evil
 [1] Chaotic Good
 [2] Chaotic Neutral
@@ -66,9 +66,9 @@ $ python personae -r Human -s Female -k Fighter
 [6] Neutral Evil
 [7] Neutral Good
 [8] True Neutral
-[*] 2
-[N] Alignment set to >> Chaotic Neutral
-[P] Choose your background:
+[**] 1
+[N] Alignment set to >> Chaotic Good
+[PP] Choose your background:
 [0] Acolyte
 [1] Charlatan
 [2] Criminal
@@ -82,9 +82,9 @@ $ python personae -r Human -s Female -k Fighter
 [10] Sailor
 [11] Soldier
 [12] Urchin
-[*] 2
-[N] Background set to >> Criminal
-[P] Choose your additional language:
+[**] 11
+[N] Background set to >> Soldier
+[PP] Choose your additional language:
 [0] Abyssal
 [1] Celestial
 [2] Deep Speech
@@ -101,11 +101,11 @@ $ python personae -r Human -s Female -k Fighter
 [13] Primordial
 [14] Sylvan
 [15] Undercommon
-[*] 1
-[N] Added language >> Celestial
-[N] Using a non-dominant gender height differential of -1".
-[N] Using a non-dominant gender weight differential of -0.19%.
-[P] Choose your class level:
+[**] 5
+[N] Added language >> Elvish
+[WW] Using a non-dominant gender height differential of -0".
+[WW] Using a non-dominant gender weight differential of -0.15%.
+[PP] Choose your class level:
 [0] 1
 [1] 2
 [2] 3
@@ -126,19 +126,19 @@ $ python personae -r Human -s Female -k Fighter
 [17] 18
 [18] 19
 [19] 20
-[*] 3
+[**] 3
 [N] Level set to >> 4.
-[P] Choose a primary ability:
+[PP] Choose a primary ability:
 [0] Dexterity
 [1] Strength
-[*] 1
+[**] 1
 [N] Primary ability 'Strength' selected.
-[P] Choose a primary ability:
+[PP] Choose a primary ability:
 [0] Constitution
 [1] Intelligence
-[*] 1
-[N] Primary ability 'Intelligence' selected.
-[P] Choose class option 'skills' (2):
+[**] 0
+[N] Primary ability 'Constitution' selected.
+[PP] Choose class option 'skills' (2):
 [0] Acrobatics
 [1] Animal Handling
 [2] Athletics
@@ -147,112 +147,59 @@ $ python personae -r Human -s Female -k Fighter
 [5] Intimidation
 [6] Perception
 [7] Survival
-[*] 4
-[N] Value added >> Insight.
-[P] Choose class option 'skills' (2):
+[**] 1
+[N] Value added >> Animal Handling.
+[PP] Choose class option 'skills' (2):
 [0] Acrobatics
-[1] Animal Handling
-[2] Athletics
-[3] History
+[1] Athletics
+[2] History
+[3] Insight
 [4] Intimidation
 [5] Perception
 [6] Survival
-[*] 2
+[**] 1
 [N] Value added >> Athletics.
-[P] Choose class option 'subclass' (1):
+[PP] Choose class option 'subclass' (1):
 [0] Arcane Archer
 [1] Cavalier
 [2] Champion
 [3] Battle Master
 [4] Eldritch Knight
 [5] Samurai
-[*] 3
-[N] Value added >> Battle Master.
+[**] 2
+[N] Value added >> Champion.
 [N] Ability 'Strength' set to >> 17
-[N] Ability 'Intelligence' set to >> 15
-[N] Ability 'Constitution' set to >> 11
-[N] Ability 'Dexterity' set to >> 11
-[N] Ability 'Wisdom' set to >> 14
-[N] Ability 'Charisma' set to >> 8
+[N] Ability 'Constitution' set to >> 16
+[WW] Ability 'Charisma' set to >> 10
+[WW] Ability 'Wisdom' set to >> 13
+[WW] Ability 'Intelligence' set to >> 10
+[WW] Ability 'Dexterity' set to >> 11
 [N] Applied 1 bonus to 'Strength' (18).
 [N] Applied 1 bonus to 'Dexterity' (12).
-[N] Applied 1 bonus to 'Constitution' (12).
-[N] Applied 1 bonus to 'Intelligence' (16).
-[N] Applied 1 bonus to 'Wisdom' (15).
-[N] Applied 1 bonus to 'Charisma' (9).
+[N] Applied 1 bonus to 'Constitution' (17).
+[N] Applied 1 bonus to 'Intelligence' (11).
+[N] Applied 1 bonus to 'Wisdom' (14).
+[N] Applied 1 bonus to 'Charisma' (11).
 [N] You have 1 upgrade available.
-[P] Which path do you want to follow?
+[PP] Which path do you want to follow?
 [0] Ability
 [1] Feat
-[*] 1
-[P] Which feat do you want to acquire?
-[0] Actor
-[1] Alert
-[2] Athlete
-[3] Bountiful Luck
-[4] Charger
-[5] Crossbow Expert
-[6] Defensive Duelist
-[7] Dragon Fear
-[8] Dragon Hide
-[9] Drow High Magic
-[10] Dual Wielder
-[11] Dungeon Delver
-[12] Durable
-[13] Dwarven Fortitude
-[14] Elemental Adept
-[15] Elven Accuracy
-[16] Fade Away
-[17] Fey Teleportation
-[18] Flames of Phlegethos
-[19] Grappler
-[20] Great Weapon Master
-[21] Healer
-[22] Heavily Armored
-[23] Heavy Armor Master
-[24] Infernal Constitution
-[25] Inspiring Leader
-[26] Keen Mind
-[27] Lightly Armored
-[28] Linguist
-[29] Lucky
-[30] Mage Slayer
-[31] Magic Initiative
-[32] Martial Adept
-[33] Medium Armor Master
-[34] Mobile
-[35] Moderately Armored
-[36] Mounted Combatant
-[37] Observant
-[38] Orcish Fury
-[39] Polearm Master
-[40] Prodigy
-[41] Resilient
-[42] Ritual Caster
-[43] Savage Attacker
-[44] Second Chance
-[45] Sentinel
-[46] Sharpshooter
-[47] Shield Master
-[48] Skilled
-[49] Skulker
-[50] Spell Sniper
-[51] Squat Nimbleness
-[52] Svirfneblin Magic
-[53] Tavern Brawler
-[54] Tough
-[55] War Caster
-[56] Weapon Master
-[57] Wood Elf Magic
-[*] 2
-[N] Added feat >> Athlete
-[P] Choose your bonus ability.
+[**] 0
+[PP] Do you want an upgrade of a +1 or +2?
+[0] 1
+[1] 2
+[**] 1
+[N] You may apply a +2 to one ability.
+[PP] Which ability do you want to upgrade?
 [0] Strength
 [1] Dexterity
-[*] 0
-[N] Added ability >> Strength
-[N] Ability 'Strength' set to >> 19
-[N] Added feat >> Athlete
+[2] Constitution
+[3] Intelligence
+[4] Wisdom
+[5] Charisma
+[**] 0
+[N] Ability 'Strength' set to >> 20
+[N] Upgraded ability >> Strength
 ======== Running on http://127.0.0.1:5000 ========
 (Press CTRL+C to quit)
 ```
