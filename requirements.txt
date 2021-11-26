@@ -8,6 +8,5 @@ idna
 multidict
 PyYAML
 soupsieve
-termcolor
 typing-extensions
 yarl

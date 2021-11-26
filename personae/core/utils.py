@@ -1,5 +1,4 @@
-from colorama import init
-from termcolor import colored
+from colorama import init, Fore, Style
 
 init(autoreset=True)
 
@@ -7,40 +6,48 @@ from .sources import Load
 
 
 def _ok(message):
-    print(colored("[N] " + message, "green", attrs=["bold"]))
+    print(Fore.GREEN + Style.BRIGHT + "[N] " + message)
 
 
 def _fail(message):
-    print(colored("[N] " + message, "red", attrs=["bold"]))
+    print(Fore.RED + "[ERR] " + message)
 
 
 def _warn(message):
-    print(colored("[N] " + message, "yellow", attrs=["bold"]))
+    print(Fore.YELLOW + Style.BRIGHT + "[WW] " + message)
 
 
 def _intro(race, sex, klass, port):
-    def header(value):
-        return colored("[+] " + value, "green", attrs=["bold"])
-
-    def option(value):
-        return colored(value, "yellow", attrs=["bold"])
-
     print(
-        colored(
-            header("Personae is starting using the following options:\n")
-            + header("Race: ")
-            + option(race)
-            + "\n"
-            + header("Sex: ")
-            + option(sex)
-            + "\n"
-            + header("Class: ")
-            + option(klass)
-            + "\n"
-            + header("Port: ")
-            + option(port),
-            attrs=["bold"],
-        )
+        Fore.GREEN
+        + "[++] Personae is starting using the following options:\n"
+        + Fore.GREEN
+        + Style.BRIGHT
+        + "[+] Race: "
+        + Fore.YELLOW
+        + Style.BRIGHT
+        + race
+        + "\n"
+        + Fore.GREEN
+        + Style.BRIGHT
+        + "[+] Sex: "
+        + Fore.YELLOW
+        + Style.BRIGHT
+        + sex
+        + "\n"
+        + Fore.GREEN
+        + Style.BRIGHT
+        + "[+] Class: "
+        + Fore.YELLOW
+        + Style.BRIGHT
+        + klass
+        + "\n"
+        + Fore.GREEN
+        + Style.BRIGHT
+        + "[+] Port: "
+        + Fore.YELLOW
+        + Style.BRIGHT
+        + str(port)
     )
 
 
@@ -81,23 +88,26 @@ def prompt(message, base_opts, selected_opts=None):
     if not isinstance(base_opts, tuple):
         base_opts = tuple(base_opts)
 
-    message = colored("[P] " + message, "green", attrs=["bold"])
     base_opts = {x: y for x, y in enumerate(base_opts)}
-
-    options_list = "\n"
+    message = "[PP] " + message + "\n"
     for id, option in base_opts.items():
-        options_list += f"[{id}] {option}\n"
-    options_list = colored(options_list, "white", attrs=["bold"])
-    options_list += colored("[*]", "green", attrs=["bold"])
+        message += Style.BRIGHT + f"[{id}] {option}\n"
+    print(Fore.GREEN + message.strip())
 
     try:
-        user_value = int(input(f"{message} {options_list} ").strip())
+        user_value = int(input("[**] "))
         if user_value not in base_opts:
             raise ValueError()
     except KeyboardInterrupt:
-        exit("\nHalting...")
+        _warn("Keyboard interrupt.")
+        exit()
     except ValueError:
-        return prompt(message, base_opts.values(), selected_opts)
+        _fail("Invalid selection: " + str(user_value))
+        return prompt(
+            f"Try again...",
+            base_opts.values(),
+            selected_opts,
+        )
     except RecursionError:
         return None
     else:

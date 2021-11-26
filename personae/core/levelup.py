@@ -84,6 +84,7 @@ class FeatOptionParser:
                     options = flag_options[1].split(self.PARAM_SINGLE_SELECTION)
                 else:
                     options = flag_options[1]
+
                 parsed_flags[attribute_name] = {
                     "increment": increment,
                     "options": options,
@@ -236,6 +237,7 @@ class FeatOptionParser:
                             chosen_proficiencies.append(menu_choice)
                             proficiency_options.remove(menu_choice)
                             _ok(f"Added {flag} ({prof_type}) >> {menu_choice}")
+
                         chosen_options[prof_type] = chosen_proficiencies
 
                 for k, v in chosen_options.items():
@@ -253,6 +255,7 @@ class FeatOptionParser:
                         spell_choice = prompt("Choose your bonus spell.", spell)
                         bonus_spells[index] = spell_choice
                         _ok(f"Added spell >> {spell_choice}")
+
                 parsed_flag[flag] = bonus_spells
 
         return parsed_flag
@@ -301,6 +304,7 @@ class AbilityScoreImprovement:
             and self._character["klass"] == "Monk"
         ):
             return False
+
         elif feat in (
             "Heavily Armored",
             "Lightly Armored",
@@ -427,12 +431,16 @@ class AbilityScoreImprovement:
         for x in range(1, self._character["level"] + 1):
             if (x % 4) == 0 and x != 20:
                 num_of_upgrades += 1
+
         if self._character["klass"] == "Fighter" and self._character["level"] >= 6:
             num_of_upgrades += 1
+
         if self._character["klass"] == "Rogue" and self._character["level"] >= 8:
             num_of_upgrades += 1
+
         if self._character["klass"] == "Fighter" and self._character["level"] >= 14:
             num_of_upgrades += 1
+            
         if self._character["level"] >= 19:
             num_of_upgrades += 1
 
@@ -478,6 +486,7 @@ class AbilityScoreImprovement:
                         )
                         ability_upgrade_options.remove(upgrade_choice)
                         self._set_ability_score(upgrade_choice, bonus_choice)
+
                 elif bonus_choice == 2:
                     _ok("You may apply a +2 to one ability.")
                     upgrade_choice = prompt(
@@ -486,6 +495,7 @@ class AbilityScoreImprovement:
                     )
                     self._set_ability_score(upgrade_choice, bonus_choice)
                     _ok(f"Upgraded ability >> {upgrade_choice}")
+
             elif upgrade_path == "Feat":
                 feat_options = get_character_feats()
                 feat_options = [
