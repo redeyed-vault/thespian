@@ -1,5 +1,6 @@
 # PERSONAE
 
+This project has moved to: (https://gitlab.com/mtttech/thespian)
 
 Personae is a tool for generating 5th edition Dungeons & Dragons characters. Currently, Personae supports content from the following rulebooks:
 
