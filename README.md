@@ -8,9 +8,11 @@ Thespian is a tool for generating 5th edition Dungeons & Dragons characters. Cur
   * *Volo's Guide to Monsters*
   * *Xanathar's Guide to Everything*
 
-TODO: Work out ALL general bugs/inconsistencies before moving forward.
-TODO: Incorporate *Tasha's Cauldron of Everything* rulebook.
-TODO: Incorporate *Sword Coast Adventurer's Guide* rulebook.
+##### Future Goals (TODO List)
+
+  * Work out ALL general bugs/inconsistencies before moving forward.
+  * Incorporate *Tasha's Cauldron of Everything* rulebook.
+  * Incorporate *Sword Coast Adventurer's Guide* rulebook.
 
 
 #### REQUIREMENTS
