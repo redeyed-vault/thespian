@@ -26,7 +26,7 @@ TODO: Incorporate *Sword Coast Adventurer's Guide* rulebook.
 To install, do the following:
 
 ```
-$ git clone https://gitlab.com/mtttech/thespian.git
+$ git clone https://github.com/mtttech/thespian.git
 
 $ cd src/thespian
 
