@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html>
+ <head>
+  <title>
+   thespian
+  </title>
+  <link href="/css/style.css" rel="stylesheet" type="text/css"/>
+ </head>
+ <body>
+  <h1>
+   My Character
+  </h1>
+  <p>
+   <strong>
+    Race:
+   </strong>
+   {{ race }}
+   {% if ancestry != "" %}
+    ({{ ancestry }})
+   {% endif %}
+   <br/>
+   <strong>
+    Subrace:
+   </strong>
+   {% if subrace != "" %}
+    {{ subrace }}
+   {% else %}
+    N/A
+   {% endif %}
+   <br/>
+   <strong>
+    Sex:
+   </strong>
+   {{ sex }}
+   <br/>
+   <strong>
+    Alignment:
+   </strong>
+   {{ alignment }}
+   <br/>
+   <strong>
+    Background:
+   </strong>
+   {{ background }}
+   <br/>
+   <strong>
+    Height:
+   </strong>
+   {{ feet }}' {{ inches }}"
+   <br/>
+   <strong>
+    Weight:
+   </strong>
+   {{ weight }} lbs.
+   <br/>
+   <strong>
+    Size:
+   </strong>
+   {{ size }}
+   <br/>
+  </p>
+  <p>
+   <strong>
+    Class:
+   </strong>
+   {{ class }}
+   <br/>
+   <strong>
+    Subclass:
+   </strong>
+   {% if subclass != "" %}
+    {{ subclass }}
+   {% else %}
+    N/A
+   {% endif %}
+   <br/>
+   <strong>
+    Level:
+   </strong>
+   {{ level }}
+   <br/>
+  </p>
+  <h3>Strength ({{ strength.score }})</h3>
+   <ul>
+     <li>Ability Checks: {{ strength.modifier }}</li>
+     <li>Saving Throw Checks: {{ strength.modifier }}</li>
+     <li>Carry Capacity: {{ strength.properties.carry_capacity }}</li>
+     <li>Push Pull Carry Capacity: {{ strength.properties.push_pull_carry }}</li>
+     <li>Maximum Lift Capacity: {{ strength.properties.maximum_lift }}</li>
+     {% if "Athletics" in strength.skills %}
+      <li>Athletics Skill Checks: {{ strength.modifier }}</li>
+     {% endif %}
+    </ul>
+  <h3>Dexterity ({{ dexterity.score }})</h3>
+   <ul>
+     <li>Ability Checks: {{ dexterity.modifier }}</li>
+     <li>Saving Throw Checks: {{ dexterity.modifier }}</li>
+     {% if "Acrobatics" in dexterity.skills %}
+      <li>Acrobatics Skill Checks: {{ dexterity.modifier }}</li>
+     {% endif %}
+     {% if "Sleight of Hand" in dexterity.skills %}
+      <li>Sleight of Hand Skill Checks: {{ dexterity.modifier }}</li>
+     {% endif %}
+     {% if "Stealth" in dexterity.skills %}
+      <li>Stealth Skill Checks: {{ dexterity.modifier }}</li>
+     {% endif %}
+    </ul>
+  <h3>Constitution ({{ constitution.score }})</h3>
+   <ul>
+     <li>Ability Checks: {{ constitution.modifier }}</li>
+     <li>Saving Throw Checks: {{ constitution.modifier }}</li>
+    </ul>
+  <h3>Intelligence ({{ intelligence.score }})</h3>
+   <ul>
+     <li>Ability Checks: {{ intelligence.modifier }}</li>
+     <li>Saving Throw Checks: {{ intelligence.modifier }}</li>
+     {% if "Arcana" in intelligence.skills %}
+      <li>Arcana Skill Checks: {{ intelligence.modifier }}</li>
+     {% endif %}
+     {% if "History" in intelligence.skills %}
+      <li>History Skill Checks: {{ intelligence.modifier }}</li>
+     {% endif %}
+     {% if "Investigation" in intelligence.skills %}
+      <li>Investigation Skill Checks: {{ intelligence.modifier }}</li>
+     {% endif %}
+     {% if "Nature" in intelligence.skills %}
+      <li>Nature Skill Checks: {{ intelligence.modifier }}</li>
+     {% endif %}
+     {% if "Religion" in intelligence.skills %}
+      <li>Religion Skill Checks: {{ intelligence.modifier }}</li>
+     {% endif %}
+    </ul>
+  <h3>Wisdom ({{ wisdom.score }})</h3>
+   <ul>
+     <li>Ability Checks: {{ wisdom.modifier }}</li>
+     <li>Saving Throw Checks: {{ wisdom.modifier }}</li>
+     {% if "Animal Handling" in wisdom.skills %}
+      <li>Animal Handling Skill Checks: {{ wisdom.modifier }}</li>
+     {% endif %}
+     {% if "Insight" in wisdom.skills %}
+      <li>Insight Skill Checks: {{ wisdom.modifier }}</li>
+     {% endif %}
+     {% if "Medicine" in wisdom.skills %}
+      <li>Medicine Skill Checks: {{ wisdom.modifier }}</li>
+     {% endif %}
+     {% if "Perception" in wisdom.skills %}
+      <li>Perception Skill Checks: {{ wisdom.modifier }}</li>
+     {% endif %}
+     {% if "Survival" in wisdom.skills %}
+      <li>Survival Skill Checks: {{ wisdom.modifier }}</li>
+     {% endif %}
+    </ul>
+  <h3>Charisma ({{ charisma.score }})</h3>
+   <ul>
+     <li>Ability Checks: {{ charisma.modifier }}</li>
+     <li>Saving Throw Checks: {{ charisma.modifier }}</li>
+     {% if "Deception" in charisma.skills %}
+      <li>Deception Skill Checks: {{ charisma.modifier }}</li>
+     {% endif %}
+     {% if "Intimidation" in charisma.skills %}
+      <li>Intimidation Skill Checks: {{ charisma.modifier }}</li>
+     {% endif %}
+     {% if "Performance" in charisma.skills %}
+      <li>Performance Skill Checks: {{ charisma.modifier }}</li>
+     {% endif %}
+     {% if "Persuasion" in charisma.skills %}
+      <li>Persuasion Skill Checks: {{ charisma.modifier }}</li>
+     {% endif %}
+    </ul>
+  <p>
+   <strong>
+     Hit Points:
+   </strong>
+   {{ hit_points }}
+   <br>
+   <strong>
+    Spell Slots:
+   </strong>
+   {{ spellslots }}
+  </p>
+  <h2>
+   PROFICIENCIES
+  </h2>
+  <p>
+   <strong>
+    Proficiency Bonus:
+   </strong>
+   {{ proficiency }}
+   <br/>
+   <strong>
+    Initiative:
+   </strong>
+   {{ initiative }}
+   <br/>
+   <strong>
+    Speed:
+   </strong>
+   {{ speed }}
+   <br/>
+  </p>
+  <h3>
+   Armors
+  </h3>
+  <ul>
+    {% for armor in armors %}
+   <li>
+    {{ armor }}
+   </li>
+    {% endfor %}
+  </ul>
+  <h3>
+   Tools
+  </h3>
+  <ul>
+    {% for tool in tools %}
+   <li>
+       {{ tool }}
+   </li>
+    {% endfor %}
+  </ul>
+  <h3>
+   Weapons
+  </h3>
+  <ul>
+    {% for weapon in weapons %}
+   <li>
+    {{ weapon }}
+   </li>
+    {% endfor %}
+  </ul>
+  <h3>
+   Languages
+  </h3>
+  <ul>
+    {% for language in languages %}
+   <li>
+    {{ language }}
+   </li>
+    {% endfor %}
+  </ul>
+  <h3>
+   Saving Throws
+  </h3>
+  <ul>
+    {% for savingthrow in savingthrows %}
+   <li>
+    {{ savingthrow }}
+   </li>
+    {% endfor %}
+  </ul>
+  <h3>
+   Skills
+  </h3>
+  <ul>
+   {% for skill, attributes in skills.items() %}
+   <li>
+    {% if attributes.is_class_skill %}
+    <strong>
+     {{ skill }}
+    </strong>
+    {% else %}
+     {{ skill }}
+    {% endif %}
+     {{ attributes.rank }} ({{ attributes.ability }})
+   </li>
+   {% endfor %}
+  </ul>
+  <h2>
+   FEATS
+  </h2>
+  <ul>
+   {% if feats|length == 0 %}
+     <li>
+       None
+     </li>
+   {% else %}
+   {% for feat in feats %}
+   <li>
+    {{ feat }}
+   </li>
+   {% endfor %}
+   {% endif %}
+  </ul>
+  <h2>
+   RACIAL TRAITS
+  </h2>
+  <ul>
+    {% for trait in traits %}
+   <li>
+    {{ trait }}
+   </li>
+    {% endfor %}
+  </ul>
+  <h2>
+   INNATE SPELLCASTING
+  </h2>
+  <ul>
+    {% if spells|length == 0 %}
+      <li>
+        None
+      </li>
+    {% else %}
+    {% for spell in spells %}
+    <li>
+      {{ spell }}
+    </li>
+    {% endfor %}
+    {% endif %}
+  </ul>
+  <h2>
+   CLASS FEATURES
+  </h2>
+  <ul>
+    {% for feature in features %}
+   <li>
+    {{ feature }}
+   </li>
+    {% endfor %}
+  </ul>
+  <h2>
+   EQUIPMENT
+  </h2>
+  <ul>
+    {% for item in equipment %}
+   <li>
+    {{ item }}
+   </li>
+    {% endfor %}
+  </ul>
+ </body>
+</html>

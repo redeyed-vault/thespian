@@ -1,12 +1,4 @@
-aiohttp
-async-timeout
-attrs
-beautifulsoup4
-chardet
-colorama
-idna
-multidict
-PyYAML
-soupsieve
-typing-extensions
-yarl
+aiohttp==3.8.1
+aiohttp_jinja2==1.5
+colorama==0.4.4
+Jinja2==3.0.3
