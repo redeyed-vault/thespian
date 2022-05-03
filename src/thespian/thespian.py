@@ -81,7 +81,9 @@ def define_background(background: str):
     return fw
 
 
-def define_class(klass: str, level: int, racial_bonuses: dict, threshold: int, roll_hp: bool = False):
+def define_class(
+    klass: str, level: int, racial_bonuses: dict, threshold: int, roll_hp: bool = False
+):
     """Defines character class parameters."""
     try:
         class_base = SourceTree.classes[klass]
@@ -98,8 +100,6 @@ def define_class(klass: str, level: int, racial_bonuses: dict, threshold: int, r
     fw["klass"] = klass
     fw["proficiency"] = ceil((level / 4) + 1)
     fw["savingthrows"] = class_base["savingthrows"]
-
-    log.info("Calculating hit points...")
 
     if roll_hp:
         log.warn("Hit points will be randomly generated every level after the first.")
@@ -176,7 +176,6 @@ def define_class(klass: str, level: int, racial_bonuses: dict, threshold: int, r
                 fw[guideline] = user_inputs
                 recorder.store(guideline, user_inputs)
 
-    log.info("Generating and assigning ability scores.")
     fw["scores"] = AttributeGenerator(
         fw["ability"], racial_bonuses, threshold
     ).generate()
@@ -531,7 +530,7 @@ def thespian(
     char["subrace"] = subrace
     my_race = define_race(race, sex, background, level)
     if subrace == "":
-        log.warn(f"No subrace available for '{race}'. Ignoring...")
+        log.warn(f"No subrace options are available for '{race}'.")
     else:
         my_subrace = define_subrace(subrace, level)
         merge_dicts(my_race, my_subrace)
@@ -539,7 +538,6 @@ def thespian(
     my_background = define_background(background)
     merge_dicts(my_race, my_background)
 
-    log.info("Generating height and weight parameters.")
     height, weight = AnthropometricCalculator(race, sex, subrace).calculate()
     my_race["height"] = height
     my_race["weight"] = weight
@@ -551,7 +549,7 @@ def thespian(
     my_class = define_class(klass, level, char["bonus"], threshold, roll_hp)
     my_class["subclass"] = subclass
     if subclass == "":
-        log.warn("No subclass available prior to level 3. Ignoring...")
+        log.warn("No subclass options are available prior to level 3.")
     else:
         my_subclass = define_subclass(subclass, level)
         merge_dicts(my_class, my_subclass)

@@ -457,13 +457,10 @@ class AbilityScoreImprovement:
     def run(self) -> None:
         """Executes the ability score improvement class."""
         # Determine actual hp.
-        log.info("Calculating total hit points with Constitution modifier...")
         modifier = get_ability_modifier("Constitution", self.character["scores"])
         log.info(f"You have a Constitution modifier of {modifier}.")
         bonus_hit_points = modifier * self.character["level"]
-        log.info(
-            f"Your modifier*level provide {bonus_hit_points} bonus hit points."
-        )
+        log.info(f"Your modifier*level provide {bonus_hit_points} bonus hit points.")
         total_hit_points = self.character["hit_points"] + bonus_hit_points
         self.character["hit_points"] = total_hit_points
         log.info(f"You have {total_hit_points} total hit points.")
