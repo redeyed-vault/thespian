@@ -356,7 +356,7 @@ dnd5e_sources = {
     # CLASSES
     "classes": {
         "Barbarian": {
-            "ability": {1: "Strength", 2: "Constitution"},
+            "primary_ability": {1: "Strength", 2: "Constitution"},
             "armors": ["Light", "Medium", "Shield"],
             "background": "Outlander",
             "equipment": [
@@ -381,7 +381,7 @@ dnd5e_sources = {
             "guides": "equipment,0|skills,2",
             "hit_die": 12,
             "languages": [],
-            "savingthrows": ["Constitution", "Strength"],
+            "saves": ["Constitution", "Strength"],
             "skills": [
                 "Animal Handling",
                 "Athletics",
@@ -390,7 +390,7 @@ dnd5e_sources = {
                 "Perception",
                 "Survival",
             ],
-            "spellslots": {},
+            "spell_slots": {},
             "subclass": [
                 "Path of the Ancestral " "Guardian",
                 "Path of the Berserker",
@@ -402,7 +402,7 @@ dnd5e_sources = {
             "weapons": ["Simple", "Martial"],
         },
         "Bard": {
-            "ability": {1: "Charisma", 2: "Dexterity"},
+            "primary_ability": {1: "Charisma", 2: "Dexterity"},
             "armors": ["Light"],
             "background": "Entertainer",
             "equipment": [
@@ -429,7 +429,7 @@ dnd5e_sources = {
             "guides": "equipment,0|skills,3",
             "hit_die": 8,
             "languages": [],
-            "savingthrows": ["Charisma", "Dexterity"],
+            "saves": ["Charisma", "Dexterity"],
             "skills": [
                 "Acrobatics",
                 "Animal Handling",
@@ -450,7 +450,7 @@ dnd5e_sources = {
                 "Stealth",
                 "Survival",
             ],
-            "spellslots": {
+            "spell_slots": {
                 1: "2",
                 2: "3",
                 3: "4,2",
@@ -483,7 +483,7 @@ dnd5e_sources = {
             "weapons": ["Simple", "Hand Crossbow", "Longsword", "Rapier", "Shortsword"],
         },
         "Cleric": {
-            "ability": {1: "Wisdom", 2: ["Constitution", "Strength"]},
+            "primary_ability": {1: "Wisdom", 2: ["Constitution", "Strength"]},
             "armors": ["Light", "Medium", "Shield"],
             "background": "Acolyte",
             "equipment": [
@@ -506,12 +506,12 @@ dnd5e_sources = {
                 17: ["Destroy Undead"],
                 20: ["Divine Intervention"],
             },
-            "guides": "ability,0|equipment,0|skills,2",
+            "guides": "primary_ability,0|equipment,0|skills,2",
             "hit_die": 8,
             "languages": [],
-            "savingthrows": ["Charisma", "Wisdom"],
+            "saves": ["Charisma", "Wisdom"],
             "skills": ["History", "Insight", "Medicine", "Persuasion", "Religion"],
-            "spellslots": {
+            "spell_slots": {
                 1: "2",
                 2: "3",
                 3: "4,2",
@@ -548,7 +548,7 @@ dnd5e_sources = {
             "weapons": ["Simple"],
         },
         "Druid": {
-            "ability": {1: "Wisdom", 2: "Constitution"},
+            "primary_ability": {1: "Wisdom", 2: "Constitution"},
             "armors": ["Light", "Medium", "Shield"],
             "background": "Hermit",
             "equipment": [
@@ -567,7 +567,7 @@ dnd5e_sources = {
             "guides": "equipment,0|skills,2",
             "hit_die": 8,
             "languages": ["Druidic"],
-            "savingthrows": ["Intelligence", "Wisdom"],
+            "saves": ["Intelligence", "Wisdom"],
             "skills": [
                 "Animal Handling",
                 "Arcana",
@@ -578,7 +578,7 @@ dnd5e_sources = {
                 "Religion",
                 "Survival",
             ],
-            "spellslots": {
+            "spell_slots": {
                 1: "2",
                 2: "3",
                 3: "4,2",
@@ -629,7 +629,7 @@ dnd5e_sources = {
             ],
         },
         "Fighter": {
-            "ability": {
+            "primary_ability": {
                 1: ["Dexterity", "Strength"],
                 2: ["Constitution", "Intelligence"],
             },
@@ -652,10 +652,10 @@ dnd5e_sources = {
                 17: ["Action Surge", "Indomitable"],
                 20: ["Extra Attack"],
             },
-            "guides": "ability,0|equipment,0|skills,2",
+            "guides": "primary_ability,0|equipment,0|skills,2",
             "hit_die": 10,
             "languages": [],
-            "savingthrows": ["Constitution", "Strength"],
+            "saves": ["Constitution", "Strength"],
             "skills": [
                 "Acrobatics",
                 "Animal Handling",
@@ -666,7 +666,7 @@ dnd5e_sources = {
                 "Perception",
                 "Survival",
             ],
-            "spellslots": {
+            "spell_slots": {
                 1: "0",
                 2: "0",
                 3: "2",
@@ -700,7 +700,7 @@ dnd5e_sources = {
             "weapons": ["Simple", "Martial"],
         },
         "Monk": {
-            "ability": {1: "Dexterity", 2: "Wisdom"},
+            "primary_ability": {1: "Dexterity", 2: "Wisdom"},
             "armors": [],
             "background": "Hermit",
             "equipment": [
@@ -727,7 +727,7 @@ dnd5e_sources = {
             "guides": "equipment,0|skills,2|tools,1",
             "hit_die": 8,
             "languages": [],
-            "savingthrows": ["Dexterity", "Strength"],
+            "saves": ["Dexterity", "Strength"],
             "skills": [
                 "Acrobatics",
                 "Athletics",
@@ -736,7 +736,7 @@ dnd5e_sources = {
                 "Religion",
                 "Stealth",
             ],
-            "spellslots": {},
+            "spell_slots": {},
             "subclass": [
                 "Way of the Drunken Master",
                 "Way of the Four Elements",
@@ -777,7 +777,7 @@ dnd5e_sources = {
             "weapons": ["Simple", "Shortsword"],
         },
         "Paladin": {
-            "ability": {1: "Strength", 2: "Charisma"},
+            "primary_ability": {1: "Strength", 2: "Charisma"},
             "armors": ["Light", "Medium", "Heavy", "Shield"],
             "background": "Noble",
             "equipment": [
@@ -800,7 +800,7 @@ dnd5e_sources = {
             "guides": "equipment,0|skills,2",
             "hit_die": 10,
             "languages": [],
-            "savingthrows": ["Charisma", "Wisdom"],
+            "saves": ["Charisma", "Wisdom"],
             "skills": [
                 "Athletics",
                 "Insight",
@@ -809,7 +809,7 @@ dnd5e_sources = {
                 "Persuasion",
                 "Religion",
             ],
-            "spellslots": {
+            "spell_slots": {
                 1: "0",
                 2: "2",
                 3: "3",
@@ -842,7 +842,7 @@ dnd5e_sources = {
             "weapons": ["Simple", "Martial"],
         },
         "Ranger": {
-            "ability": {1: ["Dexterity", "Strength"], 2: "Wisdom"},
+            "primary_ability": {1: ["Dexterity", "Strength"], 2: "Wisdom"},
             "armors": ["Light", "Medium", "Shield"],
             "background": "Outlander",
             "equipment": [
@@ -863,10 +863,10 @@ dnd5e_sources = {
                 18: ["Feral Senses"],
                 20: ["Foe Slayer"],
             },
-            "guides": "ability,0|equipment,0|skills,3",
+            "guides": "primary_ability,0|equipment,0|skills,3",
             "hit_die": 10,
             "languages": [],
-            "savingthrows": ["Dexterity", "Strength"],
+            "saves": ["Dexterity", "Strength"],
             "skills": [
                 "Animal Handling",
                 "Athletics",
@@ -878,7 +878,7 @@ dnd5e_sources = {
                 "Stealth",
                 "Survival",
             ],
-            "spellslots": {
+            "spell_slots": {
                 1: "0",
                 2: "2",
                 3: "3",
@@ -911,7 +911,7 @@ dnd5e_sources = {
             "weapons": ["Simple", "Martial"],
         },
         "Rogue": {
-            "ability": {1: "Dexterity", 2: ["Charisma", "Intelligence"]},
+            "primary_ability": {1: "Dexterity", 2: ["Charisma", "Intelligence"]},
             "armors": ["Light"],
             "background": "Charlatan",
             "equipment": [
@@ -935,10 +935,10 @@ dnd5e_sources = {
                 18: ["Elusive"],
                 20: ["Stroke of Luck"],
             },
-            "guides": "ability,0|equipment,0|skills,4",
+            "guides": "primary_ability,0|equipment,0|skills,4",
             "hit_die": 8,
             "languages": ["Thieves' cant"],
-            "savingthrows": ["Dexterity", "Intelligence"],
+            "saves": ["Dexterity", "Intelligence"],
             "skills": [
                 "Acrobatics",
                 "Athletics",
@@ -952,7 +952,7 @@ dnd5e_sources = {
                 "Sleight of Hand",
                 "Stealth",
             ],
-            "spellslots": {
+            "spell_slots": {
                 1: "0",
                 2: "0",
                 3: "2",
@@ -987,7 +987,7 @@ dnd5e_sources = {
             "weapons": ["Simple", "Hand Crossbow", "Longsword", "Rapier", "Shortsword"],
         },
         "Sorcerer": {
-            "ability": {1: "Charisma", 2: "Constitution"},
+            "primary_ability": {1: "Charisma", 2: "Constitution"},
             "armors": [],
             "background": "Hermit",
             "equipment": [
@@ -1007,7 +1007,7 @@ dnd5e_sources = {
             "guides": "equipment,0|skills,2",
             "hit_die": 6,
             "languages": [],
-            "savingthrows": ["Charisma", "Constitution"],
+            "saves": ["Charisma", "Constitution"],
             "skills": [
                 "Arcana",
                 "Deception",
@@ -1016,7 +1016,7 @@ dnd5e_sources = {
                 "Persuasion",
                 "Religion",
             ],
-            "spellslots": {
+            "spell_slots": {
                 1: "2",
                 2: "3",
                 3: "4,2",
@@ -1049,7 +1049,7 @@ dnd5e_sources = {
             "weapons": ["Dagger", "Dart", "Light Crossbow", "Sling", "Quarterstaff"],
         },
         "Warlock": {
-            "ability": {1: "Charisma", 2: "Constitution"},
+            "primary_ability": {1: "Charisma", 2: "Constitution"},
             "armors": ["Light"],
             "background": "Charlatan",
             "equipment": [
@@ -1071,7 +1071,7 @@ dnd5e_sources = {
             "guides": "equipment,0|skills,2",
             "hit_die": 8,
             "languages": [],
-            "savingthrows": ["Charisma", "Wisdom"],
+            "saves": ["Charisma", "Wisdom"],
             "skills": [
                 "Arcana",
                 "Deception",
@@ -1081,7 +1081,7 @@ dnd5e_sources = {
                 "Nature",
                 "Religion",
             ],
-            "spellslots": {
+            "spell_slots": {
                 1: "1",
                 2: "2",
                 3: "2",
@@ -1114,7 +1114,7 @@ dnd5e_sources = {
             "weapons": ["Simple"],
         },
         "Wizard": {
-            "ability": {1: "Intelligence", 2: ["Constitution", "Dexterity"]},
+            "primary_ability": {1: "Intelligence", 2: ["Constitution", "Dexterity"]},
             "armors": [],
             "background": "Sage",
             "equipment": [
@@ -1129,10 +1129,10 @@ dnd5e_sources = {
                 18: ["Spell Mastery"],
                 20: ["Signature Spell"],
             },
-            "guides": "ability,0|equipment,0|skills,2",
+            "guides": "primary_ability,0|equipment,0|skills,2",
             "hit_die": 6,
             "languages": [],
-            "savingthrows": ["Intelligence", "Wisdom"],
+            "saves": ["Intelligence", "Wisdom"],
             "skills": [
                 "Arcana",
                 "History",
@@ -1141,7 +1141,7 @@ dnd5e_sources = {
                 "Medicine",
                 "Religion",
             ],
-            "spellslots": {
+            "spell_slots": {
                 1: "2",
                 2: "3",
                 3: "4,2",
@@ -2149,7 +2149,7 @@ dnd5e_sources = {
                     "Wisdom": 1,
                 },
                 "armors": [],
-                "flags": "ability=Strength&&Dexterity&&Constitution&&Intelligence&&Wisdom&&Charisma,1|savingthrows,0",
+                "flags": "ability=Strength&&Dexterity&&Constitution&&Intelligence&&Wisdom&&Charisma,1|saves,0",
                 "languages": [],
                 "resistances": [],
                 "skills": [],

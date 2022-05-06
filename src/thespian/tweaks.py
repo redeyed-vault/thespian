@@ -35,7 +35,7 @@ class FeatOptionParser:
 
             - ability
             - proficiency
-            - savingthrows
+            - saves
             - speed
 
     COMMA: Used to identify the number of occurences of a flag. i.e: languages,2
@@ -104,13 +104,13 @@ class FeatOptionParser:
                 parsed_flags[attribute_name] = {"increment": increment}
             else:
                 flag_options = attribute_name.split(self.OPTION_PARAMETER)
-                # Allowable flags: ability, proficiency, savingthrows, speed
+                # Allowable flags: ability, proficiency, saves, speed
                 attribute_name = flag_options[0]
                 try:
                     if attribute_name not in (
                         "ability",
                         "proficiency",
-                        "savingthrows",
+                        "saves",
                         "speed",
                     ):
                         raise FlagParserError(
@@ -131,54 +131,54 @@ class FeatOptionParser:
 
         return parsed_flags
 
-    def parse(self) -> dict:
-        """Parses the generated flags for the chosen feat."""
-        final_flag = self._parse_flags()
-        if len(final_flag) == 0:
+    def run(self) -> dict:
+        """Honors the specified flags for a feat."""
+        parsed_flag_list = self._parse_flags()
+        if len(parsed_flag_list) == 0:
             return
 
-        parsed_flag = dict()
-        for flag, options in final_flag.items():
+        feat_flags = dict()
+        for flag, options in parsed_flag_list.items():
 
             if flag in ("ability", "proficiency"):
-                increment = int(options["increment"])
-                menu_options = options["options"]
-                if len(menu_options) < 1:
+                flag_increment_count = int(options["increment"])
+                flag_menu_options = options["options"]
+                if len(flag_menu_options) < 1:
                     raise FlagParserError("Malformed parser instructions error.")
 
             if flag == "ability":
-                if increment == 0:
+                if flag_increment_count == 0:
                     raise FlagParserError(
                         "Flag attribute 'ability' requires a positive integer value."
                     )
 
-                # For feats that use the 'savingthrows' flag.
+                # For feats that use the 'saves' flag.
                 # Limits choices based on current saving throw proficiencies.
-                if "savingthrows" in final_flag:
-                    menu_options = [
-                        x for x in menu_options if x not in self.profile["savingthrows"]
+                if "saves" in parsed_flag_list:
+                    flag_menu_options = [
+                        x for x in flag_menu_options if x not in self.profile["saves"]
                     ]
 
-                if isinstance(menu_options, str):
-                    my_ability = menu_options
-                elif isinstance(menu_options, list):
-                    for _ in range(increment):
+                if isinstance(flag_menu_options, str):
+                    my_ability = flag_menu_options
+                elif isinstance(flag_menu_options, list):
+                    for _ in range(flag_increment_count):
                         my_ability = prompt(
                             "Choose the ability you would like to apply a bonus to.",
-                            menu_options,
+                            flag_menu_options,
                         )
-                        menu_options.remove(my_ability)
+                        flag_menu_options.remove(my_ability)
                         log.info(f"You selected the ability '{my_ability}'.")
 
-                        # If 'savingthrows' flag specified, add proficiency for ability saving throw.
-                        if "savingthrows" in final_flag:
-                            self.profile["savingthrows"].append(my_ability)
+                        # If 'saves' flag specified, add proficiency for ability saving throw.
+                        if "saves" in parsed_flag_list:
+                            self.profile["saves"].append(my_ability)
                             log.info(
                                 f"You gained proficiency in the '{my_ability}' saving throw."
                             )
 
                 bonus_value = self.perks[flag][my_ability]
-                parsed_flag[flag] = (my_ability, bonus_value)
+                feat_flags[flag] = (my_ability, bonus_value)
 
             elif flag == "proficiency":
                 # Increment value of 0 means append ALL listed bonuses.
@@ -186,20 +186,20 @@ class FeatOptionParser:
                 chosen_options = dict()
                 submenu_options = None
 
-                if isinstance(menu_options, str) and increment == 0:
-                    chosen_options[menu_options] = self._get_proficiency_options(
-                        menu_options
+                if isinstance(flag_menu_options, str) and flag_increment_count == 0:
+                    chosen_options[flag_menu_options] = self._get_proficiency_options(
+                        flag_menu_options
                     )
-                elif isinstance(menu_options, list):
-                    for _ in range(increment):
-                        my_bonus = prompt(f"Choose your bonus: '{flag}'.", menu_options)
-                        if not self._is_sub_menu(menu_options):
-                            menu_options.remove(my_bonus)
+                elif isinstance(flag_menu_options, list):
+                    for _ in range(flag_increment_count):
+                        my_bonus = prompt(f"Choose your bonus: '{flag}'.", flag_menu_options)
+                        if not self._is_sub_menu(flag_menu_options):
+                            flag_menu_options.remove(my_bonus)
                         else:
                             # Generate submenu options, if applicable.
                             if submenu_options is None:
                                 submenu_options = self._get_sub_menu_options(
-                                    menu_options
+                                    flag_menu_options
                                 )
                                 submenu_options[my_bonus] = [
                                     x
@@ -224,8 +224,8 @@ class FeatOptionParser:
                                 f"You selected the {flag} ({my_bonus}) bonus '{submenu_choice}'."
                             )
 
-                elif isinstance(menu_options, str):
-                    for prof_type in menu_options.split(self.PARAM_MULTIPLE_SELECTION):
+                elif isinstance(flag_menu_options, str):
+                    for prof_type in flag_menu_options.split(self.PARAM_MULTIPLE_SELECTION):
                         chosen_proficiencies = list()
 
                         # Pull full collection of bonus proficiencies,
@@ -249,7 +249,7 @@ class FeatOptionParser:
                                 if x not in self.profile[prof_type]
                             ]
 
-                        for _ in range(increment):
+                        for _ in range(flag_increment_count):
                             # Clear out the temporarily chosen options.
                             proficiency_options = [
                                 x
@@ -268,12 +268,12 @@ class FeatOptionParser:
                         chosen_options[prof_type] = chosen_proficiencies
 
                 for k, v in chosen_options.items():
-                    parsed_flag[k] = v
+                    feat_flags[k] = v
 
             elif flag == "speed":
                 speed_value = self.perks[flag]
                 if speed_value != 0:
-                    parsed_flag[flag] = speed_value
+                    feat_flags[flag] = speed_value
 
             elif flag == "spells":
                 bonus_spells = self.perks[flag]
@@ -283,9 +283,9 @@ class FeatOptionParser:
                         bonus_spells[index] = spell_choice
                         log.info(f"You selected the spell {spell_choice}.")
 
-                parsed_flag[flag] = bonus_spells
+                feat_flags[flag] = bonus_spells
 
-        return parsed_flag
+        return feat_flags
 
 
 @dataclass
@@ -296,7 +296,7 @@ class AbilityScoreImprovement:
 
     def _add_feat_perks(self, feat: str) -> None:
         """Applies feat related perks."""
-        parsed_attributes = FeatOptionParser(feat, self.character).parse()
+        parsed_attributes = FeatOptionParser(feat, self.character).run()
         if parsed_attributes is None:
             return
 

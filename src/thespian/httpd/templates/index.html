@@ -176,7 +176,7 @@
    <strong>
     Spell Slots:
    </strong>
-   {{ spellslots }}
+   {{ spell_slots }}
   </p>
   <h2>
    PROFICIENCIES
@@ -185,7 +185,7 @@
    <strong>
     Proficiency Bonus:
    </strong>
-   {{ proficiency }}
+   {{ proficiency_bonus }}
    <br/>
    <strong>
     Initiative:
@@ -239,12 +239,12 @@
     {% endfor %}
   </ul>
   <h3>
-   Saving Throws
+   Saves
   </h3>
   <ul>
-    {% for savingthrow in savingthrows %}
+    {% for save in saves %}
    <li>
-    {{ savingthrow }}
+    {{ save }}
    </li>
     {% endfor %}
   </ul>

@@ -18,7 +18,7 @@ from sourcetree.utils import (
 )
 from stdio import InputRecorder, initialize, prompt
 
-__version__ = "220501"
+__version__ = "220506"
 
 
 log = logging.getLogger("thespian")
@@ -39,16 +39,16 @@ def define_background(background: str):
     except KeyError:
         raise ValueError(f"Unknown background '{background}'.")
 
-    fw = dict()
+    blueprint = dict()
     guidelines = define_guidelines(background_base["guides"])
     if guidelines is None:
-        return fw
+        return blueprint
 
     for guideline, _ in guidelines.items():
         if guideline not in guidelines:
             continue
-        if guideline not in fw:
-            fw[guideline] = None
+        if guideline not in blueprint:
+            blueprint[guideline] = None
 
         user_inputs = list()
         guide_increment = guidelines[guideline]
@@ -56,7 +56,7 @@ def define_background(background: str):
         # 0 increment items are added entirely.
         if guide_increment == 0:
             user_inputs = background_base[guideline]
-            fw[guideline] = user_inputs
+            blueprint[guideline] = user_inputs
             recorder.store(guideline, user_inputs)
             continue
 
@@ -75,10 +75,10 @@ def define_background(background: str):
             )
             user_inputs.append(stdio)
             log.info(f"{guideline}: You selected '{stdio}'.")
-            fw[guideline] = user_inputs
+            blueprint[guideline] = user_inputs
             recorder.store(guideline, user_inputs)
 
-    return fw
+    return blueprint
 
 
 def define_class(
@@ -90,16 +90,16 @@ def define_class(
     except KeyError:
         raise ValueError(f"Unknown player class '{klass}'.")
 
-    fw = dict()
-    fw["armors"] = class_base["armors"]
-    fw["tools"] = class_base["tools"]
-    fw["weapons"] = class_base["weapons"]
-    fw["bonusmagic"] = None
-    fw["feats"] = list()
-    fw["features"] = {k: v for k, v in class_base["features"].items() if k <= level}
-    fw["klass"] = klass
-    fw["proficiency"] = ceil((level / 4) + 1)
-    fw["savingthrows"] = class_base["savingthrows"]
+    blueprint = dict()
+    blueprint["armors"] = class_base["armors"]
+    blueprint["tools"] = class_base["tools"]
+    blueprint["weapons"] = class_base["weapons"]
+    blueprint["bonusmagic"] = None
+    blueprint["feats"] = list()
+    blueprint["features"] = {k: v for k, v in class_base["features"].items() if k <= level}
+    blueprint["klass"] = klass
+    blueprint["proficiency_bonus"] = ceil((level / 4) + 1)
+    blueprint["saves"] = class_base["saves"]
 
     if roll_hp:
         log.warn("Hit points will be randomly generated every level after the first.")
@@ -107,54 +107,54 @@ def define_class(
         log.warn("Hit points will be assigned a fixed number every level.")
 
     hit_die = int(class_base["hit_die"])
-    fw["hit_die"] = f"{level}d{hit_die}"
-    fw["hit_points"] = hit_die
+    blueprint["hit_die"] = f"{level}d{hit_die}"
+    blueprint["hit_points"] = hit_die
     if level > 1:
-        new_level = level - 1
         die_rolls = list()
-        for _ in range(0, new_level):
+        for _ in range(0, level - 1):
             if not roll_hp:
                 hp_result = int((hit_die / 2) + 1)
             else:
                 hp_result = randint(1, hit_die)
             die_rolls.append(hp_result)
-        fw["hit_points"] += sum(die_rolls)
-    log.info(f"You have {fw['hit_points']} hit points.")
+        blueprint["hit_points"] += sum(die_rolls)
+    log.info(f"You have {blueprint['hit_points']} hit points.")
 
     try:
-        fw["spellslots"] = {
-            k: v for k, v in class_base["spellslots"].items() if k == level
+        blueprint["spell_slots"] = {
+            k: v for k, v in class_base["spell_slots"].items() if k == level
         }
-        fw["spellslots"] = class_base["spellslots"][level]
+        blueprint["spell_slots"] = class_base["spell_slots"][level]
     except KeyError:
-        fw["spellslots"] = "0"
+        blueprint["spell_slots"] = "0"
 
     guidelines = define_guidelines(class_base["guides"])
     if guidelines is not None:
         for guideline, _ in guidelines.items():
             if guideline not in guidelines:
                 continue
-            if guideline not in fw:
-                fw[guideline] = None
+            if guideline not in blueprint:
+                blueprint[guideline] = None
 
             user_inputs = list()
             guide_increment = guidelines[guideline]
 
-            if guideline == "ability":
+            if guideline == "primary_ability":
                 ability_options = list(class_base[guideline].values())
                 for index, option in enumerate(ability_options):
                     if isinstance(option, list):
-                        stdio = prompt("Choose your class' primary ability.", option)
-                        ability_options[index] = stdio
+                        my_ability = prompt("Choose your class' primary ability/abilities.", option)
+                        ability_options[index] = my_ability
                 user_inputs = tuple(ability_options)
-                fw[guideline] = user_inputs
+                blueprint[guideline] = user_inputs
                 recorder.store(guideline, user_inputs)
+                log.info(guideline + ": You selected '" + ", ".join(user_inputs) + "'.")
                 continue
 
             # 0 increment items are added entirely.
             if guide_increment == 0:
                 user_inputs = list(class_base[guideline])
-                fw[guideline] = user_inputs
+                blueprint[guideline] = user_inputs
                 recorder.store(guideline, user_inputs)
                 continue
 
@@ -166,21 +166,21 @@ def define_class(
                     del other_options[index]
 
             for _ in range(guide_increment):
-                stdio = prompt(
+                my_ability = prompt(
                     f"Choose your class' {guideline}.",
                     other_options,
                     recorder.recall(guideline),
                 )
-                user_inputs.append(stdio)
-                log.info(f"{guideline}: You selected '{stdio}'.")
-                fw[guideline] = user_inputs
+                user_inputs.append(my_ability)
+                blueprint[guideline] = user_inputs
                 recorder.store(guideline, user_inputs)
+                log.info(f"{guideline}: You selected '{my_ability}'.")
 
-    fw["scores"] = AttributeGenerator(
-        fw["ability"], racial_bonuses, threshold
+    blueprint["scores"] = AttributeGenerator(
+        blueprint["primary_ability"], racial_bonuses, threshold
     ).generate()
 
-    return fw
+    return blueprint
 
 
 def define_guidelines(guides):
@@ -208,23 +208,23 @@ def define_race(race: str, sex: str, background: str, level: int):
     except KeyError:
         raise ValueError(f"Unknown player race '{race}'.")
 
-    fw = dict()
-    fw["ancestry"] = ""
-    fw["background"] = background
-    fw["level"] = level
-    fw["race"] = race
-    fw["sex"] = sex
+    blueprint = dict()
+    blueprint["ancestry"] = ""
+    blueprint["background"] = background
+    blueprint["level"] = level
+    blueprint["race"] = race
+    blueprint["sex"] = sex
 
-    fw["armors"] = race_base["armors"]
-    fw["bonus"] = race_base["bonus"]
-    fw["languages"] = race_base["languages"]
-    fw["resistances"] = race_base["resistances"]
-    fw["size"] = race_base["size"]
-    fw["speed"] = race_base["speed"]
-    fw["spells"] = race_base["spells"]
-    fw["tools"] = race_base["tools"]
-    fw["traits"] = race_base["traits"]
-    fw["weapons"] = race_base["weapons"]
+    blueprint["armors"] = race_base["armors"]
+    blueprint["bonus"] = race_base["bonus"]
+    blueprint["languages"] = race_base["languages"]
+    blueprint["resistances"] = race_base["resistances"]
+    blueprint["size"] = race_base["size"]
+    blueprint["speed"] = race_base["speed"]
+    blueprint["spells"] = race_base["spells"]
+    blueprint["tools"] = race_base["tools"]
+    blueprint["traits"] = race_base["traits"]
+    blueprint["weapons"] = race_base["weapons"]
 
     alignment_options = (
         "Chaotic Evil",
@@ -238,18 +238,18 @@ def define_race(race: str, sex: str, background: str, level: int):
         "True Neutral",
     )
     alignment = prompt("Choose your alignment:", alignment_options)
-    fw["alignment"] = alignment
+    blueprint["alignment"] = alignment
     log.info(f"Your alignment is '{alignment}'.")
 
     guidelines = define_guidelines(race_base["guides"])
     if guidelines is None:
-        return fw
+        return blueprint
 
     for guideline, _ in guidelines.items():
         if guideline not in guidelines:
             continue
-        if guideline not in fw:
-            fw[guideline] = None
+        if guideline not in blueprint:
+            blueprint[guideline] = None
 
         user_inputs = list()
         guide_increment = guidelines[guideline]
@@ -262,8 +262,8 @@ def define_race(race: str, sex: str, background: str, level: int):
             stdio = prompt("Choose your racial ancestry.", ancestry_options)
             user_inputs.append(stdio)
             ancestry = user_inputs[0]
-            fw[guideline] = ancestry
-            fw["resistances"] = fw["resistances"][ancestry]
+            blueprint[guideline] = ancestry
+            blueprint["resistances"] = blueprint["resistances"][ancestry]
             log.info(f"You chose '{ancestry}' as your dragon ancestry.")
             continue
         elif guideline == "bonus":
@@ -275,7 +275,7 @@ def define_race(race: str, sex: str, background: str, level: int):
                 user_inputs[stdio] = 1
                 log.info(f"You chose '{stdio}' as your racial bonus.")
 
-            fw[guideline] = user_inputs
+            blueprint[guideline] = user_inputs
             continue
 
         # 0 increment items are added entirely.
@@ -293,15 +293,15 @@ def define_race(race: str, sex: str, background: str, level: int):
                     for l, spells in spell_list.items():
                         if l <= level:
                             user_inputs += spells
-                    fw[guideline] = user_inputs
+                    blueprint[guideline] = user_inputs
                     recorder.store(guideline, user_inputs)
                 elif isinstance(spell_list, list):
                     user_inputs += spell_list
-                    fw[guideline] = user_inputs
+                    blueprint[guideline] = user_inputs
                     recorder.store(guideline, user_inputs)
             else:
                 user_inputs = race_base[guideline]
-                fw[guideline] = user_inputs
+                blueprint[guideline] = user_inputs
                 recorder.store(guideline, user_inputs)
             continue
 
@@ -320,10 +320,10 @@ def define_race(race: str, sex: str, background: str, level: int):
             )
             user_inputs.append(stdio)
             log.info(f"{guideline}: You selected '{stdio}'.")
-            fw[guideline] = user_inputs
+            blueprint[guideline] = user_inputs
             recorder.store(guideline, user_inputs)
 
-    return fw
+    return blueprint
 
 
 def define_subclass(subclass: str, level: int):
@@ -333,24 +333,24 @@ def define_subclass(subclass: str, level: int):
     except KeyError:
         raise ValueError(f"Unknown player subclass '{subclass}'.")
 
-    fw = dict()
-    fw["armors"] = subclass_base["armors"]
-    fw["tools"] = subclass_base["tools"]
-    fw["weapons"] = subclass_base["weapons"]
-    fw["bonusmagic"] = dict()
-    fw["feats"] = list()
-    fw["features"] = {k: v for k, v in subclass_base["features"].items() if k <= level}
-    fw["subclass"] = subclass
+    blueprint = dict()
+    blueprint["armors"] = subclass_base["armors"]
+    blueprint["tools"] = subclass_base["tools"]
+    blueprint["weapons"] = subclass_base["weapons"]
+    blueprint["bonusmagic"] = dict()
+    blueprint["feats"] = list()
+    blueprint["features"] = {k: v for k, v in subclass_base["features"].items() if k <= level}
+    blueprint["subclass"] = subclass
 
     guidelines = define_guidelines(subclass_base["guides"])
     if guidelines is None:
-        return fw
+        return blueprint
 
     for guideline, _ in guidelines.items():
         if guideline not in guidelines:
             continue
-        if guideline not in fw:
-            fw[guideline] = None
+        if guideline not in blueprint:
+            blueprint[guideline] = None
 
         user_inputs = list()
         guide_increment = guidelines[guideline]
@@ -358,7 +358,7 @@ def define_subclass(subclass: str, level: int):
         # 0 increment items are added entirely.
         if guide_increment == 0:
             user_inputs = list(subclass_base[guideline])
-            fw[guideline] = user_inputs
+            blueprint[guideline] = user_inputs
             recorder.store(guideline, user_inputs)
             continue
 
@@ -377,10 +377,10 @@ def define_subclass(subclass: str, level: int):
             )
             user_inputs.append(stdio)
             log.info(f"{guideline}: You selected '{stdio}'.")
-            fw[guideline] = user_inputs
+            blueprint[guideline] = user_inputs
             recorder.store(guideline, user_inputs)
 
-    return fw
+    return blueprint
 
 
 def define_subrace(subrace: str, level: int):
@@ -390,12 +390,12 @@ def define_subrace(subrace: str, level: int):
     except KeyError:
         raise ValueError(f"Unknown player subrace '{subrace}'.")
 
-    fw = dict()
-    fw["subrace"] = subrace
-    fw["armors"] = subrace_base["armors"]
-    fw["tools"] = subrace_base["tools"]
-    fw["weapons"] = subrace_base["weapons"]
-    fw["traits"] = subrace_base["traits"]
+    blueprint = dict()
+    blueprint["subrace"] = subrace
+    blueprint["armors"] = subrace_base["armors"]
+    blueprint["tools"] = subrace_base["tools"]
+    blueprint["weapons"] = subrace_base["weapons"]
+    blueprint["traits"] = subrace_base["traits"]
 
     guidelines = define_guidelines(subrace_base["guides"])
     if guidelines is not None:
@@ -421,15 +421,15 @@ def define_subrace(subrace: str, level: int):
                         for l, spells in spell_list.items():
                             if l <= level:
                                 user_inputs += spells
-                        fw[guideline] = user_inputs
+                        blueprint[guideline] = user_inputs
                         recorder.store(guideline, user_inputs)
                     elif isinstance(spell_list, list):
                         user_inputs += spell_list
-                        fw[guideline] = user_inputs
+                        blueprint[guideline] = user_inputs
                         recorder.store(guideline, user_inputs)
                 else:
                     user_inputs = subrace_base[guideline]
-                    fw[guideline] = user_inputs
+                    blueprint[guideline] = user_inputs
                     recorder.store(guideline, user_inputs)
                 continue
 
@@ -448,10 +448,10 @@ def define_subrace(subrace: str, level: int):
                 )
                 user_inputs.append(stdio)
                 log.info(f"{guideline}: You selected '{stdio}'.")
-                fw[guideline] = user_inputs
+                blueprint[guideline] = user_inputs
                 recorder.store(guideline, user_inputs)
 
-    return fw
+    return blueprint
 
 
 def merge_dicts(dict_1: dict, dict_2: dict):
@@ -526,8 +526,8 @@ def thespian(
     """Runs the thespian character generator."""
     initialize(race, subrace, sex, background, klass, subclass, level, threshold, port)
 
-    char = dict()
-    char["subrace"] = subrace
+    blueprint = dict()
+    blueprint["subrace"] = subrace
     my_race = define_race(race, sex, background, level)
     if subrace == "":
         log.warn(f"No subrace options are available for '{race}'.")
@@ -544,9 +544,9 @@ def thespian(
     feet, inches = my_race["height"]
     log.info(f"Your height is {feet}' {inches}\".")
     log.info(f"your weight is {my_race['weight']}.")
-    merge_dicts(char, my_race)
+    merge_dicts(blueprint, my_race)
 
-    my_class = define_class(klass, level, char["bonus"], threshold, roll_hp)
+    my_class = define_class(klass, level, blueprint["bonus"], threshold, roll_hp)
     my_class["subclass"] = subclass
     if subclass == "":
         log.warn("No subclass options are available prior to level 3.")
@@ -554,11 +554,11 @@ def thespian(
         my_subclass = define_subclass(subclass, level)
         merge_dicts(my_class, my_subclass)
 
-    merge_dicts(char, my_class)
-    order_dict(char)
+    merge_dicts(blueprint, my_class)
+    order_dict(blueprint)
 
-    AbilityScoreImprovement(char).run()
-    return namedtuple("MyChar", char.keys())(*char.values())
+    AbilityScoreImprovement(blueprint).run()
+    return namedtuple("MyChar", blueprint.keys())(*blueprint.values())
 
 
 def main():

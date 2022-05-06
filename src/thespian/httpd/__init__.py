@@ -29,7 +29,7 @@ class Server:
         async def index(request: web.Request):
             d = self.data
             feet, inches = d.height
-            prof_bonus = ceil(1 + (d.level / 4))
+            proficiency_bonus = ceil(1 + (d.level / 4))
             features = list()
             for _, feature in d.features.items():
                 features += feature
@@ -48,7 +48,7 @@ class Server:
                 "subclass": d.subclass,
                 "level": d.level,
                 "hit_points": d.hit_points,
-                "proficiency": prof_bonus,
+                "proficiency_bonus": proficiency_bonus,
                 "strength": AttributeWriter.out("Strength", d.scores, d.skills),
                 "dexterity": AttributeWriter.out("Dexterity", d.scores, d.skills),
                 "constitution": AttributeWriter.out("Constitution", d.scores, d.skills),
@@ -61,12 +61,12 @@ class Server:
                 "tools": d.tools,
                 "weapons": d.weapons,
                 "languages": d.languages,
-                "savingthrows": d.savingthrows,
-                "skills": expand_skills(d.skills, d.scores, prof_bonus),
+                "saves": d.saves,
+                "skills": expand_skills(d.skills, d.scores, proficiency_bonus),
                 "feats": d.feats,
                 "traits": d.traits,
                 "features": features,
-                "spellslots": d.spellslots,
+                "spell_slots": d.spell_slots,
                 "bonusmagic": d.bonusmagic,
                 "spells": d.spells,
                 "equipment": d.equipment,
@@ -114,7 +114,7 @@ class AttributeWriter:
         return properties
 
 
-def expand_skills(skills: list, scores: dict, prof_bonus: int = 2):
+def expand_skills(skills: list, scores: dict, proficiency_bonus: int = 2):
     """Creates expanded skill list."""
     expanded_skills = dict()
     for skill in get_skill_list():
@@ -122,7 +122,7 @@ def expand_skills(skills: list, scores: dict, prof_bonus: int = 2):
         modifier = get_ability_modifier(ability, scores)
 
         if skill in skills:
-            rank = prof_bonus + modifier
+            rank = proficiency_bonus + modifier
             class_skill = True
         else:
             rank = modifier
