@@ -13,10 +13,6 @@ from stdio import prompt
 log = logging.getLogger("thespian.tweaks")
 
 
-class AbilityScoreImprovementError(Exception):
-    """Handles ability score improvement errors."""
-
-
 class FlagParserError(Exception):
     """Handles an invalid flag format error."""
 
@@ -320,13 +316,10 @@ class AbilityScoreImprovement:
 
         if self.character["klass"] == "Fighter" and self.character["level"] >= 6:
             upgrade_count += 1
-
         if self.character["klass"] == "Rogue" and self.character["level"] >= 8:
             upgrade_count += 1
-
         if self.character["klass"] == "Fighter" and self.character["level"] >= 14:
             upgrade_count += 1
-
         if self.character["level"] >= 19:
             upgrade_count += 1
 
@@ -437,30 +430,20 @@ class AbilityScoreImprovement:
         return True
 
     def _is_adjustable(self, ability: str, bonus: int = 1) -> bool:
-        """Checks if ability is adjustable < 20."""
+        """Checks if the specified ability is adjustable with the specified bonus (<= 20)."""
         if not isinstance(ability, str):
-            raise AbilityScoreImprovementError(
-                "Argument 'ability' must be of type 'str'."
-            )
-
+            raise TypeError("Argument 'ability' must be of type 'str'.")
         if not isinstance(bonus, int):
-            raise AbilityScoreImprovementError(
-                "Argument 'bonus' must be of type 'int'."
-            )
-
+            raise TypeError("Argument 'bonus' must be of type 'int'.")
         if ability not in self.character["scores"]:
-            raise AbilityScoreImprovementError(
-                f"Invalid ability '{ability}' specified."
-            )
-
+            raise ValueError(f"Invalid ability '{ability}' specified.")
         if (self.character["scores"][ability] + bonus) > 20:
             return False
 
         return True
 
     def run(self) -> None:
-        """Executes the ability score improvement class."""
-        # Determine actual hp.
+        """Executes ability score improvements upon the specified character data."""
         modifier = get_ability_modifier("Constitution", self.character["scores"])
         bonus_hit_points = modifier * self.character["level"]
         total_hit_points = self.character["hit_points"] + bonus_hit_points
@@ -488,6 +471,7 @@ class AbilityScoreImprovement:
                 my_bonus = prompt("Apply how many points?", ["1", "2"])
                 log.info(f"You chose an ability bonus of: +{my_bonus}.")
                 my_bonus = int(my_bonus)
+
                 ability_options = [
                     a
                     for a in (
@@ -546,12 +530,12 @@ class AbilityScoreImprovement:
 
             num_of_upgrades -= 1
 
-    def _set_ability_score(self, ability, bonus=1) -> None:
-        """Applies a bonus to a specified ability."""
+    def _set_ability_score(self, ability: str, bonus: int = 1) -> None:
+        """Applies a bonus to the specified ability (if applicable)."""
         if not self._is_adjustable(ability, bonus):
-            log.warn(f"Ability '{ability}' is not adjustable.")
+            log.warn(f"Ability '{ability}' is not adjustable with a bonus of {bonus}.")
         else:
             new_score = self.character.get("scores").get(ability) + bonus
             self.character["scores"][ability] = new_score
             log.info(f"You applied a +{bonus} bonus to your {ability}.")
-            log.info(f"Your {ability} score is now a {new_score}.")
+            log.info(f"Your {ability} score is now {new_score}.")
