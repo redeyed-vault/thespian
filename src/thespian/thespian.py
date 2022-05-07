@@ -32,7 +32,7 @@ log.addHandler(log_handler)
 recorder = InputRecorder()
 
 
-def define_background(background: str):
+def define_background(background: str) -> dict:
     """Defines character background parameters."""
     try:
         background_base = SourceTree.backgrounds[background]
@@ -83,7 +83,7 @@ def define_background(background: str):
 
 def define_class(
     klass: str, level: int, racial_bonuses: dict, threshold: int, roll_hp: bool = False
-):
+) -> dict:
     """Defines character class parameters."""
     try:
         class_base = SourceTree.classes[klass]
@@ -96,7 +96,9 @@ def define_class(
     blueprint["weapons"] = class_base["weapons"]
     blueprint["bonusmagic"] = None
     blueprint["feats"] = list()
-    blueprint["features"] = {k: v for k, v in class_base["features"].items() if k <= level}
+    blueprint["features"] = {
+        k: v for k, v in class_base["features"].items() if k <= level
+    }
     blueprint["klass"] = klass
     blueprint["proficiency_bonus"] = ceil((level / 4) + 1)
     blueprint["saves"] = class_base["saves"]
@@ -143,7 +145,9 @@ def define_class(
                 ability_options = list(class_base[guideline].values())
                 for index, option in enumerate(ability_options):
                     if isinstance(option, list):
-                        my_ability = prompt("Choose your class' primary ability/abilities.", option)
+                        my_ability = prompt(
+                            "Choose your class' primary ability/abilities.", option
+                        )
                         ability_options[index] = my_ability
                 user_inputs = tuple(ability_options)
                 blueprint[guideline] = user_inputs
@@ -183,7 +187,7 @@ def define_class(
     return blueprint
 
 
-def define_guidelines(guides):
+def define_guidelines(guides) -> dict | None:
     """Defines special racial and class guidelines."""
     if guides is not None:
         creation_guides = dict()
@@ -201,7 +205,7 @@ def define_guidelines(guides):
     return None
 
 
-def define_race(race: str, sex: str, background: str, level: int):
+def define_race(race: str, sex: str, background: str, level: int) -> dict:
     """Define character race parameters."""
     try:
         race_base = SourceTree.races[race]
@@ -326,7 +330,7 @@ def define_race(race: str, sex: str, background: str, level: int):
     return blueprint
 
 
-def define_subclass(subclass: str, level: int):
+def define_subclass(subclass: str, level: int) -> dict:
     """Defines character subclass parameters."""
     try:
         subclass_base = SourceTree.subclasses[subclass]
@@ -339,7 +343,9 @@ def define_subclass(subclass: str, level: int):
     blueprint["weapons"] = subclass_base["weapons"]
     blueprint["bonusmagic"] = dict()
     blueprint["feats"] = list()
-    blueprint["features"] = {k: v for k, v in subclass_base["features"].items() if k <= level}
+    blueprint["features"] = {
+        k: v for k, v in subclass_base["features"].items() if k <= level
+    }
     blueprint["subclass"] = subclass
 
     guidelines = define_guidelines(subclass_base["guides"])
@@ -383,7 +389,7 @@ def define_subclass(subclass: str, level: int):
     return blueprint
 
 
-def define_subrace(subrace: str, level: int):
+def define_subrace(subrace: str, level: int) -> dict:
     """Define character subrace parameters."""
     try:
         subrace_base = SourceTree.subraces[subrace]
@@ -454,7 +460,7 @@ def define_subrace(subrace: str, level: int):
     return blueprint
 
 
-def merge_dicts(dict_1: dict, dict_2: dict):
+def merge_dicts(dict_1: dict, dict_2: dict) -> dict:
     """Merges two dictionaries."""
     if not isinstance(dict_1, dict):
         raise TypeError("First parameter must be of type 'dict'.")
@@ -500,7 +506,7 @@ def merge_dicts(dict_1: dict, dict_2: dict):
     return dict_1
 
 
-def order_dict(iter: dict):
+def order_dict(iter: dict) -> dict:
     """Reorders dict by dictionary keys."""
     reordered_iter = dict()
     iter_keys = sorted(iter)
@@ -522,7 +528,7 @@ def thespian(
     threshold: int,
     port: int,
     roll_hp: bool,
-):
+) -> namedtuple:
     """Runs the thespian character generator."""
     initialize(race, subrace, sex, background, klass, subclass, level, threshold, port)
 

@@ -192,7 +192,9 @@ class FeatOptionParser:
                     )
                 elif isinstance(flag_menu_options, list):
                     for _ in range(flag_increment_count):
-                        my_bonus = prompt(f"Choose your bonus: '{flag}'.", flag_menu_options)
+                        my_bonus = prompt(
+                            f"Choose your bonus: '{flag}'.", flag_menu_options
+                        )
                         if not self._is_sub_menu(flag_menu_options):
                             flag_menu_options.remove(my_bonus)
                         else:
@@ -225,7 +227,9 @@ class FeatOptionParser:
                             )
 
                 elif isinstance(flag_menu_options, str):
-                    for prof_type in flag_menu_options.split(self.PARAM_MULTIPLE_SELECTION):
+                    for prof_type in flag_menu_options.split(
+                        self.PARAM_MULTIPLE_SELECTION
+                    ):
                         chosen_proficiencies = list()
 
                         # Pull full collection of bonus proficiencies,
@@ -458,11 +462,11 @@ class AbilityScoreImprovement:
         """Executes the ability score improvement class."""
         # Determine actual hp.
         modifier = get_ability_modifier("Constitution", self.character["scores"])
-        log.info(f"You have a Constitution modifier of {modifier}.")
         bonus_hit_points = modifier * self.character["level"]
-        log.info(f"Your modifier*level provide {bonus_hit_points} bonus hit points.")
         total_hit_points = self.character["hit_points"] + bonus_hit_points
         self.character["hit_points"] = total_hit_points
+        log.info(f"You have a Constitution modifier of {modifier}.")
+        log.info(f"Your modifier*level provide {bonus_hit_points} bonus hit points.")
         log.info(f"You have {total_hit_points} total hit points.")
 
         if self.character["level"] < 4:

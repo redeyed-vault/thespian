@@ -27,7 +27,7 @@ class AnthropometricCalculator:
     sex: str
     subrace: str = None
 
-    def _get_height_and_weight_base(self):
+    def _get_height_and_weight_base(self) -> tuple:
         """Gets the base height/weight information for race/subrace."""
         base_height = get_base_height(self.race)
         base_weight = get_base_weight(self.race)
@@ -43,7 +43,7 @@ class AnthropometricCalculator:
 
         return (base_height, base_weight)
 
-    def _get_metric_data_source_race(self):
+    def _get_metric_data_source_race(self) -> str:
         """Returns metric data's source race or subrace."""
         result = get_metrics_by_race(self.race)
         if result is None:
