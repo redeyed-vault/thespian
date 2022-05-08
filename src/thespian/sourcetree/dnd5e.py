@@ -3384,7 +3384,7 @@ dnd5e_sources = {
     "subclasses": {
         "Arcane Archer": {
             "armors": [],
-            "bonusmagic": None,
+            "bonus_magic": {},
             "features": {
                 3: ["Arcane " "Archer Lore", "Arcane Shot " "(2 " "options)"],
                 7: ["Curving " "Shot", "Magic Arrow", "Arcane Shot " "(3 " "options)"],
@@ -3400,7 +3400,7 @@ dnd5e_sources = {
         },
         "Arcane Trickster": {
             "armors": [],
-            "bonusmagic": None,
+            "bonus_magic": {},
             "features": {
                 3: ["Mage " "Hand " "Legerdemain", "Spellcasting"],
                 9: ["Magical " "Ambush"],
@@ -3415,7 +3415,7 @@ dnd5e_sources = {
         },
         "Assassin": {
             "armors": [],
-            "bonusmagic": None,
+            "bonus_magic": {},
             "features": {
                 3: ["Assassinate"],
                 9: ["Infiltration " "Expertise"],
@@ -3430,7 +3430,7 @@ dnd5e_sources = {
         },
         "Battle Master": {
             "armors": [],
-            "bonusmagic": None,
+            "bonus_magic": {},
             "features": {
                 3: ["Combat " "Superiority", "Student of " "War"],
                 7: ["Know Your " "Enemy"],
@@ -3445,7 +3445,7 @@ dnd5e_sources = {
         },
         "Beast Master": {
             "armors": [],
-            "bonusmagic": None,
+            "bonus_magic": {},
             "features": {
                 3: ["Ranger's " "Companion"],
                 7: ["Exceptional " "Training"],
@@ -3460,7 +3460,7 @@ dnd5e_sources = {
         },
         "Cavalier": {
             "armors": [],
-            "bonusmagic": None,
+            "bonus_magic": {},
             "features": {
                 3: ["Bonus " "Proficiency", "Born to the " "Saddle", "Unwavering Mark"],
                 7: ["Warding Maneuver"],
@@ -3482,7 +3482,7 @@ dnd5e_sources = {
         },
         "Champion": {
             "armors": [],
-            "bonusmagic": None,
+            "bonus_magic": {},
             "features": {
                 3: ["Improved Critical"],
                 7: ["Remarkable Athlete"],
@@ -3498,7 +3498,7 @@ dnd5e_sources = {
         },
         "Circle of the Arctic": {
             "armors": [],
-            "bonusmagic": {
+            "bonus_magic": {
                 3: ["Hold " "Person", "Spike " "Growth"],
                 5: ["Sleet " "Storm", "Slow"],
                 7: ["Freedom " "of " "Movement", "Ice " "Storm"],
@@ -3518,7 +3518,7 @@ dnd5e_sources = {
         },
         "Circle of the Coast": {
             "armors": [],
-            "bonusmagic": {
+            "bonus_magic": {
                 3: ["Mirror " "Image", "Misty " "Step"],
                 5: ["Water " "Breathing", "Water " "Walk"],
                 7: ["Control " "Water", "Freedom " "of " "Movement"],
@@ -3538,7 +3538,7 @@ dnd5e_sources = {
         },
         "Circle of the Desert": {
             "armors": [],
-            "bonusmagic": {
+            "bonus_magic": {
                 3: ["Blur", "Silence"],
                 5: ["Create " "Food " "and " "Water", "Protection " "From " "Energy"],
                 7: ["Blight", "Hallucinatory " "Terrain"],
@@ -3558,7 +3558,7 @@ dnd5e_sources = {
         },
         "Circle of the Dreams": {
             "armors": [],
-            "bonusmagic": None,
+            "bonus_magic": {},
             "features": {
                 2: ["Balm " "of " "the " "Summer " "Court"],
                 6: ["Hearth " "of " "Moonlight " "and " "Shadow"],
@@ -3573,7 +3573,7 @@ dnd5e_sources = {
         },
         "Circle of the Forest": {
             "armors": [],
-            "bonusmagic": {
+            "bonus_magic": {
                 3: ["Barkskin", "Spider " "Climb"],
                 5: ["Call " "Lightning", "Plant " "Growth"],
                 7: ["Divination", "Freedom " "of " "Movement"],
@@ -3593,7 +3593,7 @@ dnd5e_sources = {
         },
         "Circle of the Grassland": {
             "armors": [],
-            "bonusmagic": {
+            "bonus_magic": {
                 3: ["Invisibility", "Pass " "Without " "Trace"],
                 5: ["Daylight", "Haste"],
                 7: ["Divination", "Freedom " "of " "Movement"],
@@ -3613,7 +3613,7 @@ dnd5e_sources = {
         },
         "Circle of the Moon": {
             "armors": [],
-            "bonusmagic": None,
+            "bonus_magic": {},
             "features": {
                 2: ["Circle " "Forms", "Combat " "Wild " "Shape"],
                 6: ["Primal " "Strike"],
@@ -3628,7 +3628,7 @@ dnd5e_sources = {
         },
         "Circle of the Mountain": {
             "armors": [],
-            "bonusmagic": {
+            "bonus_magic": {
                 3: ["Spider " "Climb", "Spike " "Growth"],
                 5: ["Lightning " "Bolt", "Meld " "Into " "Stone"],
                 7: ["Stone " "Shape", "Stoneskin"],
@@ -3648,7 +3648,7 @@ dnd5e_sources = {
         },
         "Circle of the Shepherd": {
             "armors": [],
-            "bonusmagic": None,
+            "bonus_magic": {},
             "features": {
                 2: ["Speech " "of " "the " "Woods", "Spirit " "Totem"],
                 6: ["Mighty " "Summoner"],
@@ -3663,7 +3663,7 @@ dnd5e_sources = {
         },
         "Circle of the Swamp": {
             "armors": [],
-            "bonusmagic": {
+            "bonus_magic": {
                 3: ["Darkness", "Melf's " "Acid " "Arrow"],
                 5: ["Water " "Walk", "Stinking " "Cloud"],
                 7: ["Freedom " "of " "Movement", "Locate " "Creature"],
@@ -3683,7 +3683,7 @@ dnd5e_sources = {
         },
         "Circle of the Underdark": {
             "armors": [],
-            "bonusmagic": {
+            "bonus_magic": {
                 3: ["Spider " "Climb", "Web"],
                 5: ["Gaseous " "Form", "Stinking " "Cloud"],
                 7: ["Greater " "Invisibility", "Stone " "Shape"],
@@ -3703,7 +3703,7 @@ dnd5e_sources = {
         },
         "College of Glamour": {
             "armors": [],
-            "bonusmagic": None,
+            "bonus_magic": {},
             "features": {
                 3: ["Enthralling " "Performance", "Mantle " "of " "Inspiration"],
                 6: ["Mantle " "of " "Majesty"],
@@ -3717,7 +3717,7 @@ dnd5e_sources = {
         },
         "College of Lore": {
             "armors": [],
-            "bonusmagic": None,
+            "bonus_magic": {},
             "features": {
                 3: ["Cutting " "Words"],
                 6: ["Additional " "Magical " "Secrets"],
@@ -3750,7 +3750,7 @@ dnd5e_sources = {
         },
         "College of Swords": {
             "armors": ["Medium"],
-            "bonusmagic": None,
+            "bonus_magic": {},
             "features": {
                 3: ["Blade " "Flourish", "Bonus " "Proficiencies", "Fighting " "Style"],
                 6: ["Extra " "Attack"],
@@ -3764,7 +3764,7 @@ dnd5e_sources = {
         },
         "College of Valor": {
             "armors": ["Medium", "Shield"],
-            "bonusmagic": None,
+            "bonus_magic": {},
             "features": {
                 3: ["Combat " "Inspiration"],
                 6: ["Extra " "Attack"],
@@ -3778,7 +3778,7 @@ dnd5e_sources = {
         },
         "College of Whispers": {
             "armors": [],
-            "bonusmagic": None,
+            "bonus_magic": {},
             "features": {
                 3: ["Psychic " "Blades", "Words " "of " "Terror"],
                 6: ["Mantle " "of " "Whispers"],
@@ -3792,7 +3792,7 @@ dnd5e_sources = {
         },
         "Divine Soul": {
             "armors": [],
-            "bonusmagic": {
+            "bonus_magic": {
                 "Chaos": ["Bane"],
                 "Evil": ["Inflict " "Wounds"],
                 "Good": ["Cure " "Wounds"],
@@ -3813,7 +3813,7 @@ dnd5e_sources = {
         },
         "Draconic Bloodline": {
             "armors": [],
-            "bonusmagic": None,
+            "bonus_magic": {},
             "features": {
                 1: ["Draconic " "Resilience", "Dragon " "Ancestor"],
                 6: ["Elemental " "Affinity"],
@@ -3828,7 +3828,7 @@ dnd5e_sources = {
         },
         "Eldritch Knight": {
             "armors": [],
-            "bonusmagic": None,
+            "bonus_magic": {},
             "features": {
                 3: ["Spellcasting", "Weapon " "Bond"],
                 7: ["War Magic"],
@@ -3844,7 +3844,7 @@ dnd5e_sources = {
         },
         "Forge Domain": {
             "armors": ["Heavy"],
-            "bonusmagic": {
+            "bonus_magic": {
                 1: ["Identify", "Searing " "Smite"],
                 3: ["Heat Metal", "Magic " "Weapon"],
                 5: ["Elemental " "Weapon", "Protection " "From " "Energy"],
@@ -3867,7 +3867,7 @@ dnd5e_sources = {
         },
         "Gloom Stalker": {
             "armors": [],
-            "bonusmagic": {
+            "bonus_magic": {
                 3: ["Disguise " "Self"],
                 5: ["Rope Trick"],
                 9: ["Fear"],
@@ -3892,7 +3892,7 @@ dnd5e_sources = {
         },
         "Grave Domain": {
             "armors": [],
-            "bonusmagic": {
+            "bonus_magic": {
                 1: ["Bane", "False " "Life"],
                 3: ["Gentle " "Repose", "Ray of " "Enfeeblement"],
                 5: ["Revivify", "Vampiric " "Touch"],
@@ -3914,7 +3914,7 @@ dnd5e_sources = {
         },
         "Horizon Walker": {
             "armors": [],
-            "bonusmagic": {
+            "bonus_magic": {
                 3: ["Protected " "From " "Evil and " "Good"],
                 5: ["Misty Step"],
                 9: ["Haste"],
@@ -3939,7 +3939,7 @@ dnd5e_sources = {
         },
         "Hunter": {
             "armors": [],
-            "bonusmagic": None,
+            "bonus_magic": {},
             "features": {
                 3: ["Hunter's Prey"],
                 7: ["Defensive Tactics"],
@@ -3954,7 +3954,7 @@ dnd5e_sources = {
         },
         "Inquisitive": {
             "armors": [],
-            "bonusmagic": None,
+            "bonus_magic": {},
             "features": {
                 3: ["Ear for " "Deceit", "Eye for " "Detail", "Insightful " "Fighting"],
                 9: ["Steady Eye"],
@@ -3969,7 +3969,7 @@ dnd5e_sources = {
         },
         "Knowledge Domain": {
             "armors": [],
-            "bonusmagic": {
+            "bonus_magic": {
                 1: ["Command", "Identify"],
                 3: ["Augury", "Suggestion"],
                 5: ["Nondetection", "Speak " "with " "Dead"],
@@ -3991,7 +3991,7 @@ dnd5e_sources = {
         },
         "Life Domain": {
             "armors": ["Heavy"],
-            "bonusmagic": {
+            "bonus_magic": {
                 1: ["Bless", "Cure " "Wounds"],
                 3: ["Lesser " "Restoration", "Spiritual " "Weapon"],
                 5: ["Beacon of " "Hope", "Revivify"],
@@ -4013,7 +4013,7 @@ dnd5e_sources = {
         },
         "Light Domain": {
             "armors": [],
-            "bonusmagic": {
+            "bonus_magic": {
                 1: ["Burning " "Hands", "Faerie " "Fire"],
                 3: ["Flaming " "Sphere", "Scorching " "Ray"],
                 5: ["Daylight", "Fireball"],
@@ -4035,7 +4035,7 @@ dnd5e_sources = {
         },
         "Mastermind": {
             "armors": [],
-            "bonusmagic": None,
+            "bonus_magic": {},
             "features": {
                 3: ["Master of " "Intrigue", "Master of " "Tactics"],
                 9: ["Insightful " "Manipulator"],
@@ -4050,7 +4050,7 @@ dnd5e_sources = {
         },
         "Monster Slayer": {
             "armors": [],
-            "bonusmagic": {
+            "bonus_magic": {
                 3: ["Protected " "From " "Evil and " "Good"],
                 5: ["Zone of " "Truth"],
                 9: ["Magic " "Circle"],
@@ -4075,7 +4075,7 @@ dnd5e_sources = {
         },
         "Nature Domain": {
             "armors": ["Heavy"],
-            "bonusmagic": {
+            "bonus_magic": {
                 1: ["Animal " "Friendship", "Speak " "with " "Animals"],
                 3: ["Barkskin", "Spike " "Growth"],
                 5: ["Plant " "Growth", "Wind " "Wall"],
@@ -4097,7 +4097,7 @@ dnd5e_sources = {
         },
         "Oath of Conquest": {
             "armors": [],
-            "bonusmagic": {
+            "bonus_magic": {
                 3: ["Armor " "of " "Agathys", "Command"],
                 5: ["Hold " "Person", "Spiritual " "Weapon"],
                 9: ["Bestow " "Curse", "Fear"],
@@ -4123,7 +4123,7 @@ dnd5e_sources = {
         },
         "Oath of Devotion": {
             "armors": [],
-            "bonusmagic": {
+            "bonus_magic": {
                 3: ["Protected " "From " "Evil " "and " "Good", "Sanctuary"],
                 5: ["Lesser " "Restoration", "Zone " "of " "Truth"],
                 9: ["Beacon " "of " "Hope", "Dispel " "Magic"],
@@ -4147,7 +4147,7 @@ dnd5e_sources = {
         },
         "Oath of Redemption": {
             "armors": [],
-            "bonusmagic": {
+            "bonus_magic": {
                 3: ["Sanctuary", "Sleep"],
                 5: ["Calm " "Emotions", "Hold " "Person"],
                 9: ["Counterspell", "Hypnotic " "Pattern"],
@@ -4173,7 +4173,7 @@ dnd5e_sources = {
         },
         "Oath of Vengeance": {
             "armors": [],
-            "bonusmagic": {
+            "bonus_magic": {
                 3: ["Bane", "Hunter's " "Mark"],
                 5: ["Hold " "Person", "Misty " "Step"],
                 9: ["Haste", "Protection " "From " "Energy"],
@@ -4197,7 +4197,7 @@ dnd5e_sources = {
         },
         "Oath of the Ancients": {
             "armors": [],
-            "bonusmagic": {
+            "bonus_magic": {
                 3: ["Ensnaring " "Strike", "Speak " "With " "Animals"],
                 5: ["Moonbeam", "Misty " "Step"],
                 9: ["Plant " "Growth", "Protection " "From " "Energy"],
@@ -4221,7 +4221,7 @@ dnd5e_sources = {
         },
         "Path of the Ancestral Guardian": {
             "armors": [],
-            "bonusmagic": None,
+            "bonus_magic": {},
             "features": {
                 3: ["Ancestral " "Protectors"],
                 6: ["Spirit " "Shield " "(2d6)"],
@@ -4236,7 +4236,7 @@ dnd5e_sources = {
         },
         "Path of the Berserker": {
             "armors": [],
-            "bonusmagic": None,
+            "bonus_magic": {},
             "features": {
                 3: ["Frenzy"],
                 6: ["Mindless " "Rage"],
@@ -4251,7 +4251,7 @@ dnd5e_sources = {
         },
         "Path of the Storm Herald": {
             "armors": [],
-            "bonusmagic": None,
+            "bonus_magic": {},
             "features": {
                 3: ["Storm " "Aura"],
                 6: ["Storm " "Soul"],
@@ -4266,7 +4266,7 @@ dnd5e_sources = {
         },
         "Path of the Totem Warrior": {
             "armors": [],
-            "bonusmagic": None,
+            "bonus_magic": {},
             "features": {
                 3: ["Beast " "Sense", "Speak " "with " "Animals", "Totem " "Spirit"],
                 6: ["Aspect " "of " "the " "Beast"],
@@ -4281,7 +4281,7 @@ dnd5e_sources = {
         },
         "Path of the Zealot": {
             "armors": [],
-            "bonusmagic": None,
+            "bonus_magic": {},
             "features": {
                 3: ["Divine " "Fury", "Warrior " "of the " "Gods"],
                 6: ["Fanatical " "Focus"],
@@ -4296,7 +4296,7 @@ dnd5e_sources = {
         },
         "Samurai": {
             "armors": [],
-            "bonusmagic": None,
+            "bonus_magic": {},
             "features": {
                 3: ["Bonus Proficiency", "Fighting Spirit " "(5 temp. hp)"],
                 7: ["Elegant Courtier"],
@@ -4328,7 +4328,7 @@ dnd5e_sources = {
         },
         "School of Abjuration": {
             "armors": [],
-            "bonusmagic": None,
+            "bonus_magic": {},
             "features": {
                 2: ["Abjuration " "Savant", "Arcane " "Ward"],
                 6: ["Projected " "Ward"],
@@ -4343,7 +4343,7 @@ dnd5e_sources = {
         },
         "School of Conjuration": {
             "armors": [],
-            "bonusmagic": None,
+            "bonus_magic": {},
             "features": {
                 2: ["Conjuration " "Savant", "Minor " "Conjuration"],
                 6: ["Benign " "Transposition"],
@@ -4358,7 +4358,7 @@ dnd5e_sources = {
         },
         "School of Divination": {
             "armors": [],
-            "bonusmagic": None,
+            "bonus_magic": {},
             "features": {
                 2: ["Divination " "Savant", "Portent"],
                 6: ["Expert " "Divination"],
@@ -4373,7 +4373,7 @@ dnd5e_sources = {
         },
         "School of Enchantment": {
             "armors": [],
-            "bonusmagic": None,
+            "bonus_magic": {},
             "features": {
                 2: ["Enchantment " "Savant", "Hypnotic " "Gaze"],
                 6: ["Instinctive " "Charm"],
@@ -4388,7 +4388,7 @@ dnd5e_sources = {
         },
         "School of Evocation": {
             "armors": [],
-            "bonusmagic": None,
+            "bonus_magic": {},
             "features": {
                 2: ["Evocation " "Savant", "Sculpt " "Spells"],
                 6: ["Potent " "Cantrip"],
@@ -4403,7 +4403,7 @@ dnd5e_sources = {
         },
         "School of Illusion": {
             "armors": [],
-            "bonusmagic": None,
+            "bonus_magic": {},
             "features": {
                 2: ["Illusion " "Savant", "Improved " "Minor " "Illusion"],
                 6: ["Malleable " "Illusions"],
@@ -4418,7 +4418,7 @@ dnd5e_sources = {
         },
         "School of Necromancy": {
             "armors": [],
-            "bonusmagic": None,
+            "bonus_magic": {},
             "features": {
                 2: ["Necromancy " "Savant", "Grim " "Harvest"],
                 6: ["Undead " "Thralls"],
@@ -4433,7 +4433,7 @@ dnd5e_sources = {
         },
         "School of Transmutation": {
             "armors": [],
-            "bonusmagic": None,
+            "bonus_magic": {},
             "features": {
                 2: ["Transmutation " "Savant", "Minor " "Alchemy"],
                 6: ["Transmuter's " "Stone"],
@@ -4448,7 +4448,7 @@ dnd5e_sources = {
         },
         "Scout": {
             "armors": [],
-            "bonusmagic": None,
+            "bonus_magic": {},
             "features": {
                 3: ["Skirmisher", "Survivalist"],
                 9: ["Superior Mobility"],
@@ -4463,7 +4463,7 @@ dnd5e_sources = {
         },
         "Shadow Magic": {
             "armors": [],
-            "bonusmagic": None,
+            "bonus_magic": {},
             "features": {
                 1: ["Eyes of the " "Dark", "Strength of " "the Grave"],
                 3: ["Eyes of the " "Dark " "(darkness)"],
@@ -4479,7 +4479,7 @@ dnd5e_sources = {
         },
         "Storm Sorcery": {
             "armors": [],
-            "bonusmagic": None,
+            "bonus_magic": {},
             "features": {
                 1: ["Wind " "Speaker", "Tempestuous " "Magic"],
                 6: ["Heart of " "the Storm", "Storm " "Guide"],
@@ -4494,7 +4494,7 @@ dnd5e_sources = {
         },
         "Swashbuckler": {
             "armors": [],
-            "bonusmagic": None,
+            "bonus_magic": {},
             "features": {
                 3: ["Fancy " "Footwork", "Rakish " "Audacity"],
                 9: ["Panache"],
@@ -4509,7 +4509,7 @@ dnd5e_sources = {
         },
         "Tempest Domain": {
             "armors": ["Heavy"],
-            "bonusmagic": {
+            "bonus_magic": {
                 1: ["Fog " "Cloud", "Thunderwave"],
                 3: ["Gust of " "Wind", "Shatter"],
                 5: ["Call " "Lightning", "Sleet " "Storm"],
@@ -4531,7 +4531,7 @@ dnd5e_sources = {
         },
         "The Archfey": {
             "armors": [],
-            "bonusmagic": {
+            "bonus_magic": {
                 1: ["Faerie Fire", "Sleep"],
                 2: ["Calm " "Emotions", "Phantasmal " "Force"],
                 3: ["Blink", "Plant " "Growth"],
@@ -4552,7 +4552,7 @@ dnd5e_sources = {
         },
         "The Celestial": {
             "armors": [],
-            "bonusmagic": {
+            "bonus_magic": {
                 1: ["Cure " "Wounds", "Guiding " "Bolt"],
                 2: ["Flaming " "Sphere", "Lesser " "Restoration"],
                 3: ["Daylight", "Revivify"],
@@ -4573,7 +4573,7 @@ dnd5e_sources = {
         },
         "The Fiend": {
             "armors": [],
-            "bonusmagic": {
+            "bonus_magic": {
                 1: ["Burning Hands", "Command"],
                 2: ["Blindness/Deafness", "Scorching " "Ray"],
                 3: ["Fireball", "Stinking " "Cloud"],
@@ -4594,7 +4594,7 @@ dnd5e_sources = {
         },
         "The Great Old One": {
             "armors": [],
-            "bonusmagic": {
+            "bonus_magic": {
                 1: ["Dissonant " "Whispers", "Tasha's " "Hideous " "Laughter"],
                 2: ["Detect " "Thoughts", "Phantasmal " "Force"],
                 3: ["Clairvoyance", "Sending"],
@@ -4615,7 +4615,7 @@ dnd5e_sources = {
         },
         "The Hexblade": {
             "armors": [],
-            "bonusmagic": {
+            "bonus_magic": {
                 1: ["Shield", "Wrathful " "Smite"],
                 2: ["Blur", "Branding " "Smite"],
                 3: ["Blink", "Elemental " "Weapon"],
@@ -4636,7 +4636,7 @@ dnd5e_sources = {
         },
         "Thief": {
             "armors": [],
-            "bonusmagic": None,
+            "bonus_magic": {},
             "features": {
                 3: ["Fast Hands", "Second-Story Work"],
                 9: ["Supreme Sneak"],
@@ -4651,7 +4651,7 @@ dnd5e_sources = {
         },
         "Trickery Domain": {
             "armors": [],
-            "bonusmagic": {
+            "bonus_magic": {
                 1: ["Charm " "Person", "Disguise " "Self"],
                 3: ["Mirror " "Image", "Pass " "Without " "Trace"],
                 5: ["Blink", "Dispel " "Magic"],
@@ -4673,7 +4673,7 @@ dnd5e_sources = {
         },
         "War Domain": {
             "armors": ["Heavy"],
-            "bonusmagic": {
+            "bonus_magic": {
                 1: ["Divine Favor", "Shield of " "Faith"],
                 3: ["Magic Weapon", "Spiritual " "Weapon"],
                 5: ["Crusader's " "Mantle", "Spirit " "Guardians"],
@@ -4695,7 +4695,7 @@ dnd5e_sources = {
         },
         "War Magic": {
             "armors": [],
-            "bonusmagic": None,
+            "bonus_magic": {},
             "features": {
                 2: ["Arcane " "Deflection", "Tactical Wit"],
                 6: ["Power Surge"],
@@ -4710,7 +4710,7 @@ dnd5e_sources = {
         },
         "Way of Shadow": {
             "armors": [],
-            "bonusmagic": None,
+            "bonus_magic": {},
             "features": {
                 3: ["Shadow Arts"],
                 6: ["Shadow Step"],
@@ -4724,7 +4724,7 @@ dnd5e_sources = {
         },
         "Way of the Drunken Master": {
             "armors": [],
-            "bonusmagic": None,
+            "bonus_magic": {},
             "features": {
                 3: ["Bonus " "Proficiencies", "Drunken " "Technique"],
                 6: ["Tipsy " "Sway"],
@@ -4739,7 +4739,7 @@ dnd5e_sources = {
         },
         "Way of the Four Elements": {
             "armors": [],
-            "bonusmagic": None,
+            "bonus_magic": {},
             "features": {
                 3: [
                     "Disciple " "of " "the " "Elements",
@@ -4776,7 +4776,7 @@ dnd5e_sources = {
         },
         "Way of the Kensei": {
             "armors": [],
-            "bonusmagic": None,
+            "bonus_magic": {},
             "features": {
                 3: ["Path of " "the " "Kensei " "(2 " "weapons)"],
                 6: [
@@ -4800,7 +4800,7 @@ dnd5e_sources = {
         },
         "Way of the Open Hand": {
             "armors": [],
-            "bonusmagic": None,
+            "bonus_magic": {},
             "features": {
                 3: ["Open " "Hand " "Technique"],
                 6: ["Wholeness " "of " "Body"],
@@ -4815,7 +4815,7 @@ dnd5e_sources = {
         },
         "Way of the Sun Soul": {
             "armors": [],
-            "bonusmagic": None,
+            "bonus_magic": {},
             "features": {
                 3: ["Radiant " "Sun " "Bolt"],
                 6: ["Searing " "Arc " "Strike"],
@@ -4830,7 +4830,7 @@ dnd5e_sources = {
         },
         "Wild Magic": {
             "armors": [],
-            "bonusmagic": None,
+            "bonus_magic": {},
             "features": {
                 1: ["Tides of Chaos", "Wild Magic " "Surge"],
                 6: ["Bend Luck"],
