@@ -334,7 +334,9 @@ def define_subclass(subclass: str, level: int) -> dict:
     blueprint["armors"] = subclass_base["armors"]
     blueprint["tools"] = subclass_base["tools"]
     blueprint["weapons"] = subclass_base["weapons"]
-    blueprint["bonus_magic"] = dict()
+    blueprint["bonus_magic"] = {
+        l: ", ".join(s) for l, s in subclass_base["bonus_magic"].items() if l <= level
+    }
     blueprint["feats"] = list()
     blueprint["features"] = {
         k: v for k, v in subclass_base["features"].items() if k <= level

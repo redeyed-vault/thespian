@@ -115,7 +115,7 @@ class AttributeWriter:
 
 
 def expand_skills(skills: list, scores: dict, proficiency_bonus: int = 2):
-    """Creates expanded skill list."""
+    """Returns an expanded dict skill list."""
     expanded_skills = dict()
     for skill in get_skill_list():
         ability = get_skill_ability(skill)

@@ -325,9 +325,15 @@
   </h2>
   {% endif %}
   {% if class in ("Cleric", "Druid", "Paladin", "Warlock") %}
-    {% if bonus_magic|length > 0 %}
-      My spells
+    <ul>
+    {% if bonus_magic|length == 0 %}
+      <li>None</li>
+    {% else %}
+      {% for _, spells in bonus_magic.items() %}
+        <li>{{ spells }}</li>
+      {% endfor %}
     {% endif %}
+    </ul>
   {% endif %}
   <h2>
    CLASS FEATURES
