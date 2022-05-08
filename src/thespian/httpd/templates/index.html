@@ -307,6 +307,22 @@
     {% endfor %}
     {% endif %}
   </ul>
+  {% if class == "Cleric" %}
+  <h2>
+    DOMAIN SPELLS
+  </h2>
+  {% elif class == "Paladin" %}
+  <h2>
+    OATH SPELLS
+  </h2>
+  {% elif class == "Warlock" %}
+  <h2>
+    PACT MAGIC
+  </h2>
+  {% endif %}
+  {% if class in ("Cleric", "Paladin", "Warlock") %}
+  My spells
+  {% endif %}
   <h2>
    CLASS FEATURES
   </h2>

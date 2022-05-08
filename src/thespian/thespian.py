@@ -94,7 +94,7 @@ def define_class(
     blueprint["armors"] = class_base["armors"]
     blueprint["tools"] = class_base["tools"]
     blueprint["weapons"] = class_base["weapons"]
-    blueprint["bonusmagic"] = None
+    blueprint["bonus_magic"] = None
     blueprint["feats"] = list()
     blueprint["features"] = {
         k: v for k, v in class_base["features"].items() if k <= level
@@ -334,7 +334,7 @@ def define_subclass(subclass: str, level: int) -> dict:
     blueprint["armors"] = subclass_base["armors"]
     blueprint["tools"] = subclass_base["tools"]
     blueprint["weapons"] = subclass_base["weapons"]
-    blueprint["bonusmagic"] = dict()
+    blueprint["bonus_magic"] = dict()
     blueprint["feats"] = list()
     blueprint["features"] = {
         k: v for k, v in subclass_base["features"].items() if k <= level

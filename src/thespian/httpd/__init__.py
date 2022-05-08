@@ -67,7 +67,7 @@ class Server:
                 "traits": d.traits,
                 "features": features,
                 "spell_slots": d.spell_slots,
-                "bonusmagic": d.bonusmagic,
+                "bonus_magic": d.bonus_magic,
                 "spells": d.spells,
                 "equipment": d.equipment,
             }
