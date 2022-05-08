@@ -4,7 +4,7 @@ import logging
 from math import ceil
 from random import randint
 
-from attributes import AttributeGenerator, get_ability_modifier
+from attributes import AttributeGenerator, generate_hit_points, get_ability_modifier
 from tweaks import AbilityScoreImprovement
 from httpd import Server
 from sourcetree import SourceTree
@@ -171,25 +171,11 @@ def define_class(
     ).generate()
     blueprint["scores"] = attributes
 
-    hit_die = int(class_base["hit_die"])
-    blueprint["hit_die"] = f"{level}d{hit_die}"
-    modifier = get_ability_modifier("Constitution", attributes)
-    blueprint["hit_points"] = hit_die + modifier
-    log.info(f"level 1: you have {blueprint['hit_points']} ({modifier}) hit points.")
-    if level > 1:
-        die_rolls = list()
-        for current_level in range(1, level):
-            if not roll_hp:
-                hp_result = int((hit_die / 2) + 1)
-            else:
-                hp_result = randint(1, hit_die)
-            hp_result = hp_result + modifier
-            if hp_result < 1:
-                hp_result = 1
-            die_rolls.append(hp_result)
-            log.info(f"level {current_level + 1}: you gained {hp_result} ({modifier}) hit points.")
-        blueprint["hit_points"] += sum(die_rolls)
-        log.info(f"You have {blueprint['hit_points']} hit points.")
+    hit_die, hit_points = generate_hit_points(
+        level, class_base["hit_die"], attributes, roll_hp
+    )
+    blueprint["hit_die"] = hit_die
+    blueprint["hit_points"] = hit_points
 
     return blueprint
 

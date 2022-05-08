@@ -82,6 +82,35 @@ class AttributeGenerator:
         return results
 
 
+def generate_hit_points(
+    level: int, hit_die: str, attributes: OrderedDict, roll_hp: bool
+) -> tuple:
+    """Generates the character's hit points."""
+    hit_die = int(hit_die)
+    hit_die_string = f"{level}d{hit_die}"
+    modifier = get_ability_modifier("Constitution", attributes)
+    hit_points = hit_die + modifier
+    log.info(f"level 1: you have {hit_points} ({modifier}) hit points.")
+    if level > 1:
+        die_rolls = list()
+        for current_level in range(1, level):
+            if not roll_hp:
+                hp_result = int((hit_die / 2) + 1)
+            else:
+                hp_result = randint(1, hit_die)
+            hp_result = hp_result + modifier
+            if hp_result < 1:
+                hp_result = 1
+            die_rolls.append(hp_result)
+            log.info(
+                f"level {current_level + 1}: you gained {hp_result} ({modifier}) hit points."
+            )
+        hit_points += sum(die_rolls)
+        log.info(f"You have {hit_points} hit points.")
+
+    return hit_die_string, hit_points
+
+
 def get_ability_modifier(ability: str, scores: dict) -> int:
     """Returns modifier for ability in scores."""
     try:
