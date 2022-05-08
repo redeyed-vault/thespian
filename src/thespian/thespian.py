@@ -18,7 +18,7 @@ from sourcetree.utils import (
 )
 from stdio import InputRecorder, initialize, prompt
 
-__version__ = "220506"
+__version__ = "220507"
 
 
 log = logging.getLogger("thespian")
@@ -180,7 +180,7 @@ def define_class(
     return blueprint
 
 
-def define_guidelines(guides) -> dict | None:
+def define_guidelines(guides: str) -> dict | None:
     """Defines special racial and class guidelines."""
     if guides is not None:
         creation_guides = dict()
