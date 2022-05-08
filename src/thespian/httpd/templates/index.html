@@ -311,6 +311,10 @@
   <h2>
     DOMAIN SPELLS
   </h2>
+  {% elif class == "Druid" %}
+  <h2>
+    CIRCLE SPELLS
+  </h2>
   {% elif class == "Paladin" %}
   <h2>
     OATH SPELLS
@@ -320,8 +324,10 @@
     PACT MAGIC
   </h2>
   {% endif %}
-  {% if class in ("Cleric", "Paladin", "Warlock") %}
-  My spells
+  {% if class in ("Cleric", "Druid", "Paladin", "Warlock") %}
+    {% if bonus_magic|length > 0 %}
+      My spells
+    {% endif %}
   {% endif %}
   <h2>
    CLASS FEATURES
