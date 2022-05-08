@@ -444,14 +444,6 @@ class AbilityScoreImprovement:
 
     def run(self) -> None:
         """Executes ability score improvements upon the specified character data."""
-        modifier = get_ability_modifier("Constitution", self.character["scores"])
-        bonus_hit_points = modifier * self.character["level"]
-        total_hit_points = self.character["hit_points"] + bonus_hit_points
-        self.character["hit_points"] = total_hit_points
-        log.info(f"You have a Constitution modifier of {modifier}.")
-        log.info(f"Your modifier*level provide {bonus_hit_points} bonus hit points.")
-        log.info(f"You have {total_hit_points} total hit points.")
-
         if self.character["level"] < 4:
             return
 
