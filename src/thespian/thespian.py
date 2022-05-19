@@ -2,7 +2,6 @@ from argparse import ArgumentParser, ArgumentDefaultsHelpFormatter, ArgumentType
 from collections import namedtuple
 import logging
 from math import ceil
-from random import randint
 
 from attributes import AttributeGenerator, generate_hit_points, get_ability_modifier
 from tweaks import AbilityScoreImprovement
@@ -18,7 +17,7 @@ from sourcetree.utils import (
 )
 from stdio import InputRecorder, initialize, prompt
 
-__version__ = "220507"
+__version__ = "220519"
 
 
 log = logging.getLogger("thespian")
