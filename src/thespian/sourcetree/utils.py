@@ -86,7 +86,7 @@ def get_pc_subraces(race):
 def get_skill_ability(skill_name):
     """Returns a skill's associated ability."""
     try:
-        return SourceTree.skills.get(skill_name).get("ability")
+        return SourceTree.skills[skill_name]["associated_ability"]
     except AttributeError:
         return None
 
