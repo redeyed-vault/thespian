@@ -15,10 +15,6 @@ from attributes import roll
 log = logging.getLogger("thespian.sourcetree.metrics")
 
 
-class AnthropometricCalculatorError(Exception):
-    """Handles anthropometric calculator errors."""
-
-
 @dataclass
 class AnthropometricCalculator:
     """Used to calculate the height and weight of characters based upon race/subrace."""
@@ -39,7 +35,7 @@ class AnthropometricCalculator:
 
         # If base|sub race metrics info still not found.
         if base_height is None or base_weight is None:
-            raise AnthropometricCalculatorError("No racial base metrics found.")
+            raise ValueError("No racial base metrics found.")
 
         return (base_height, base_weight)
 
@@ -51,9 +47,7 @@ class AnthropometricCalculator:
             if result is not None:
                 return self.subrace
             else:
-                raise AnthropometricCalculatorError(
-                    "No racial source could be determined."
-                )
+                raise ValueError("No racial source could be determined.")
 
         return self.race
 
