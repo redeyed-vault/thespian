@@ -130,7 +130,7 @@ def initialize(
 
 
 def prompt(
-    message: str, prompt_options: (list, tuple), selected_options: (list, tuple) = None
+    message: str, prompt_options: list | tuple, selected_options: list | tuple = None
 ):
     time.sleep(2.2)
 
