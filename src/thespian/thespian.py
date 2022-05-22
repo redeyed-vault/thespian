@@ -14,10 +14,12 @@ from sourcetree.utils import (
     get_pc_races,
     get_pc_subclasses,
     get_pc_subraces,
+    get_skill_ability,
+    get_skill_list,
 )
 from stdio import InputRecorder, initialize, prompt
 
-__version__ = "220519"
+__version__ = "220522"
 
 
 log = logging.getLogger("thespian")
@@ -29,6 +31,35 @@ log_handler.setFormatter(log_format)
 log.addHandler(log_handler)
 
 recorder = InputRecorder()
+
+
+class AttributeWriter:
+    """Formats and prints attribute properties."""
+
+    def __init__(self, attribute: str, scores: dict, skills: list):
+        self.attribute = attribute
+        self.scores = scores
+        self.skills = skills
+        self.properties = dict()
+
+        # Strength has three other unique properties.
+        if attribute == "Strength":
+            strength_score = self.scores[attribute]
+            self.properties["carry_capacity"] = strength_score * 15
+            self.properties["push_pull_carry"] = self.properties["carry_capacity"] * 2
+            self.properties["maximum_lift"] = self.properties["push_pull_carry"]
+
+    @classmethod
+    def out(cls, attribute, scores, skills) -> dict:
+        o = cls(attribute, scores, skills)
+        properties = {
+            "score": o.scores[o.attribute],
+            "modifier": get_ability_modifier(o.attribute, o.scores),
+            "skills": o.skills,
+        }
+        if len(o.properties) > 0:
+            properties["properties"] = o.properties
+        return properties
 
 
 def define_background(background: str) -> dict:
@@ -454,6 +485,28 @@ def define_subrace(subrace: str, level: int) -> dict:
     return blueprint
 
 
+def expand_skills(skills: list, scores: dict, proficiency_bonus: int = 2) -> dict:
+    """Returns an expanded skill list."""
+    expanded_skills = dict()
+    for skill in get_skill_list():
+        ability = get_skill_ability(skill)
+        modifier = get_ability_modifier(ability, scores)
+
+        if skill in skills:
+            rank = proficiency_bonus + modifier
+            class_skill = True
+        else:
+            rank = modifier
+            class_skill = False
+
+        expanded_skills[skill] = {
+            "ability": ability,
+            "rank": rank,
+            "is_class_skill": class_skill,
+        }
+    return expanded_skills
+
+
 def merge_dicts(dict_1: dict, dict_2: dict) -> dict:
     """Merges two dictionaries."""
     if not isinstance(dict_1, dict):
@@ -522,7 +575,7 @@ def thespian(
     threshold: int,
     port: int,
     roll_hp: bool,
-) -> namedtuple:
+) -> dict:
     """Runs the thespian character generator."""
     initialize(race, subrace, sex, background, klass, subclass, level, threshold, port)
 
@@ -534,10 +587,8 @@ def thespian(
     else:
         my_subrace = define_subrace(subrace, level)
         merge_dicts(my_race, my_subrace)
-
     my_background = define_background(background)
     merge_dicts(my_race, my_background)
-
     height, weight = AnthropometricCalculator(race, sex, subrace).calculate()
     my_race["height"] = height
     my_race["weight"] = weight
@@ -553,15 +604,63 @@ def thespian(
     else:
         my_subclass = define_subclass(subclass, level)
         merge_dicts(my_class, my_subclass)
-
     merge_dicts(blueprint, my_class)
     order_dict(blueprint)
-
     AbilityScoreImprovement(blueprint).run()
-    return namedtuple("MyChar", blueprint.keys())(*blueprint.values())
+
+    character = namedtuple("MyCharacter", blueprint.keys())(*blueprint.values())
+    feet, inches = character.height
+    proficiency_bonus = ceil(1 + (character.level / 4))
+    features = list()
+    for _, feature in character.features.items():
+        features += feature
+    return {
+        "race": character.race,
+        "ancestry": character.ancestry,
+        "subrace": character.subrace,
+        "sex": character.sex,
+        "alignment": character.alignment,
+        "background": character.background,
+        "feet": feet,
+        "inches": inches,
+        "weight": character.weight,
+        "size": character.size,
+        "class": character.klass,
+        "subclass": character.subclass,
+        "level": character.level,
+        "hit_points": character.hit_points,
+        "proficiency_bonus": proficiency_bonus,
+        "strength": AttributeWriter.out("Strength", character.scores, character.skills),
+        "dexterity": AttributeWriter.out(
+            "Dexterity", character.scores, character.skills
+        ),
+        "constitution": AttributeWriter.out(
+            "Constitution", character.scores, character.skills
+        ),
+        "intelligence": AttributeWriter.out(
+            "Intelligence", character.scores, character.skills
+        ),
+        "wisdom": AttributeWriter.out("Wisdom", character.scores, character.skills),
+        "charisma": AttributeWriter.out("Charisma", character.scores, character.skills),
+        "speed": character.speed,
+        "initiative": get_ability_modifier("Dexterity", character.scores),
+        "armors": character.armors,
+        "tools": character.tools,
+        "weapons": character.weapons,
+        "languages": character.languages,
+        "saves": character.saves,
+        "skills": expand_skills(character.skills, character.scores, proficiency_bonus),
+        "feats": character.feats,
+        "traits": character.traits,
+        "features": features,
+        "spell_slots": character.spell_slots,
+        "bonus_magic": character.bonus_magic,
+        "spells": character.spells,
+        "equipment": character.equipment,
+    }
 
 
-def main():
+def main() -> None:
     app = ArgumentParser(
         description="Generate 5th edition Dungeons & Dragons characters.",
         formatter_class=ArgumentDefaultsHelpFormatter,
