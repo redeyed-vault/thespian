@@ -200,7 +200,6 @@ def define_class(
         blueprint["primary_ability"], racial_bonuses, threshold
     ).generate()
     blueprint["scores"] = attributes
-
     hit_die, hit_points = generate_hit_points(
         level, class_base["hit_die"], attributes, roll_hp
     )
@@ -212,20 +211,19 @@ def define_class(
 
 def define_guidelines(guides: str) -> dict | None:
     """Defines special racial and class guidelines."""
-    if guides is not None:
-        creation_guides = dict()
-        for guide in guides.split("|"):
-            (guide_name, guide_increment) = guide.split(",")
-            creation_guides[guide_name] = int(guide_increment)
+    if guides is None:
+        return None
+    creation_guides = dict()
+    for guide in guides.split("|"):
+        (guide_name, guide_increment) = guide.split(",")
+        creation_guides[guide_name] = int(guide_increment)
 
-        # Check guideline integrity.
-        for value in tuple(creation_guides.values()):
-            if value < 0:
-                raise ValueError("Guide increment values must be greater than 0.")
+    # Check guideline integrity.
+    for value in tuple(creation_guides.values()):
+        if value < 0:
+            raise ValueError("Guide increment values must be greater than 0.")
 
-        return creation_guides
-
-    return None
+    return creation_guides
 
 
 def define_race(race: str, sex: str, background: str, level: int) -> dict:
@@ -241,7 +239,6 @@ def define_race(race: str, sex: str, background: str, level: int) -> dict:
     blueprint["level"] = level
     blueprint["race"] = race
     blueprint["sex"] = sex
-
     blueprint["armors"] = race_base["armors"]
     blueprint["bonus"] = race_base["bonus"]
     blueprint["languages"] = race_base["languages"]
@@ -284,7 +281,6 @@ def define_race(race: str, sex: str, background: str, level: int) -> dict:
         if guideline == "ancestry":
             if guide_increment != 1:
                 continue
-
             ancestry_options = list(race_base[guideline])
             stdio = prompt("Choose your racial ancestry.", ancestry_options)
             user_inputs.append(stdio)
@@ -508,7 +504,7 @@ def expand_skills(skills: list, scores: dict, proficiency_bonus: int = 2) -> dic
 
 
 def merge_dicts(dict_1: dict, dict_2: dict) -> dict:
-    """Merges two dictionaries."""
+    """Merges dictionaries."""
     if not isinstance(dict_1, dict):
         raise TypeError("First parameter must be of type 'dict'.")
 
@@ -596,7 +592,6 @@ def thespian(
     log.info(f"Your height is {feet}' {inches}\".")
     log.info(f"your weight is {my_race['weight']}.")
     merge_dicts(blueprint, my_race)
-
     my_class = define_class(klass, level, blueprint["bonus"], threshold, roll_hp)
     my_class["subclass"] = subclass
     if subclass == "":
