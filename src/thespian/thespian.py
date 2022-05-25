@@ -62,115 +62,6 @@ class AttributeWriter:
         return properties
 
 
-# Testing - not fully implemented
-def honor_guidelines(
-    guidelines: dict | None,
-    blueprint: dict,
-    blueprint_base: dict,
-    set_unused_guide: bool = True,
-) -> dict:
-    if guidelines is None:
-        return blueprint
-
-    for guideline, _ in guidelines.items():
-        # TODO: Review this later - might be unnecessary
-        # if guideline not in guidelines:
-        #    continue
-
-        # Copy guideline to blueprint, if not specified in blueprint (if allowed).
-        if set_unused_guide and guideline not in blueprint:
-            blueprint[guideline] = None
-
-        user_inputs = list()
-        guide_increment = guidelines[guideline]
-
-        # Special guideline "ancestry": Associated with Dragonborn characters.
-        # Special guideline "bonus": Associated with racial ability bonuses.
-        # Special guideline "primary_ability": Associated with class abilities.
-        if guideline == "ancestry":
-            if guide_increment != 1:
-                continue
-            ancestry_options = list(blueprint_base[guideline])
-            stdio = prompt("Choose your racial ancestry.", ancestry_options)
-            user_inputs.append(stdio)
-            ancestry = user_inputs[0]
-            blueprint[guideline] = ancestry
-            blueprint["resistances"] = blueprint["resistances"][ancestry]
-            log.info(f"You chose '{ancestry}' as your dragon ancestry.")
-            continue
-        elif guideline == "bonus":
-            bonus_options = dict(blueprint_base[guideline])
-            bonus_choices = {k: v for k, v in bonus_options.items() if v < 2}.keys()
-            user_inputs = {k: v for k, v in bonus_options.items() if v > 1}
-            for _ in range(guide_increment):
-                stdio = prompt("Choose your racial bonus.", bonus_choices)
-                user_inputs[stdio] = 1
-                log.info(f"You chose '{stdio}' as your racial bonus.")
-
-            blueprint[guideline] = user_inputs
-            continue
-        elif guideline == "primary_ability":
-            ability_options = list(blueprint_base[guideline].values())
-            for index, option in enumerate(ability_options):
-                if isinstance(option, list):
-                    my_ability = prompt(
-                        "Choose your class' primary ability/abilities.", option
-                    )
-                    ability_options[index] = my_ability
-            user_inputs = tuple(ability_options)
-            blueprint[guideline] = user_inputs
-            recorder.store(guideline, user_inputs)
-            log.info(guideline + ": You selected '" + ", ".join(user_inputs) + "'.")
-            continue
-
-        # Guidelines with a 0 increment add ALL values.
-        if guide_increment == 0:
-            # Guideline "spells" work differently depending on type.
-            # Other guidelines (not "spells") add all their values.
-            if guideline == "spells":
-                spell_list = blueprint_base[guideline]
-                if len(spell_list) == 0:
-                    continue
-                # If dict, add all spells up to character's appropriate level.
-                # If list, add all spells (as list) to character's spell list.
-                if isinstance(spell_list, dict):
-                    spell_list = {k: v for k, v in spell_list.items() if k <= level}
-                    for l, spells in spell_list.items():
-                        if l <= level:
-                            user_inputs += spells
-                    blueprint[guideline] = user_inputs
-                    recorder.store(guideline, user_inputs)
-                elif isinstance(spell_list, list):
-                    user_inputs += spell_list
-                    blueprint[guideline] = user_inputs
-                    recorder.store(guideline, user_inputs)
-            else:
-                user_inputs = blueprint_base[guideline]
-                blueprint[guideline] = user_inputs
-                recorder.store(guideline, user_inputs)
-            continue
-
-        # Remove list type guideline options.
-        other_options = list(blueprint_base[guideline])
-        for index, option in enumerate(other_options):
-            if isinstance(option, list):
-                user_inputs = user_inputs + option
-                del other_options[index]
-
-        for _ in range(guide_increment):
-            #TODO: Fix prompt text for situation usage.
-            stdio = prompt(
-                f"Choose your character's racial {guideline}.",
-                other_options,
-                recorder.recall(guideline),
-            )
-            user_inputs.append(stdio)
-            log.info(f"{guideline}: You selected '{stdio}'.")
-            blueprint[guideline] = user_inputs
-            recorder.store(guideline, user_inputs)
-    return blueprint
-
-
 def define_background(background: str) -> dict:
     """Defines character background parameters."""
     try:
@@ -357,6 +248,115 @@ def expand_skills(skills: list, scores: dict, proficiency_bonus: int = 2) -> dic
             "is_class_skill": class_skill,
         }
     return expanded_skills
+
+
+# Testing - not fully implemented
+def honor_guidelines(
+    guidelines: dict | None,
+    blueprint: dict,
+    blueprint_base: dict,
+    set_unused_guide: bool = True,
+) -> dict:
+    if guidelines is None:
+        return blueprint
+
+    for guideline, _ in guidelines.items():
+        # TODO: Review this later - might be unnecessary
+        # if guideline not in guidelines:
+        #    continue
+
+        # Copy guideline to blueprint, if not specified in blueprint (if allowed).
+        if set_unused_guide and guideline not in blueprint:
+            blueprint[guideline] = None
+
+        user_inputs = list()
+        guide_increment = guidelines[guideline]
+
+        # Special guideline "ancestry": Associated with Dragonborn characters.
+        # Special guideline "bonus": Associated with racial ability bonuses.
+        # Special guideline "primary_ability": Associated with class abilities.
+        if guideline == "ancestry":
+            if guide_increment != 1:
+                continue
+            ancestry_options = list(blueprint_base[guideline])
+            stdio = prompt("Choose your racial ancestry.", ancestry_options)
+            user_inputs.append(stdio)
+            ancestry = user_inputs[0]
+            blueprint[guideline] = ancestry
+            blueprint["resistances"] = blueprint["resistances"][ancestry]
+            log.info(f"You chose '{ancestry}' as your dragon ancestry.")
+            continue
+        elif guideline == "bonus":
+            bonus_options = dict(blueprint_base[guideline])
+            bonus_choices = {k: v for k, v in bonus_options.items() if v < 2}.keys()
+            user_inputs = {k: v for k, v in bonus_options.items() if v > 1}
+            for _ in range(guide_increment):
+                stdio = prompt("Choose your racial bonus.", bonus_choices)
+                user_inputs[stdio] = 1
+                log.info(f"You chose '{stdio}' as your racial bonus.")
+
+            blueprint[guideline] = user_inputs
+            continue
+        elif guideline == "primary_ability":
+            ability_options = list(blueprint_base[guideline].values())
+            for index, option in enumerate(ability_options):
+                if isinstance(option, list):
+                    my_ability = prompt(
+                        "Choose your class' primary ability/abilities.", option
+                    )
+                    ability_options[index] = my_ability
+            user_inputs = tuple(ability_options)
+            blueprint[guideline] = user_inputs
+            recorder.store(guideline, user_inputs)
+            log.info(guideline + ": You selected '" + ", ".join(user_inputs) + "'.")
+            continue
+
+        # Guidelines with a 0 increment add ALL values.
+        if guide_increment == 0:
+            # Guideline "spells" work differently depending on type.
+            # Other guidelines (not "spells") add all their values.
+            if guideline == "spells":
+                spell_list = blueprint_base[guideline]
+                if len(spell_list) == 0:
+                    continue
+                # If dict, add all spells up to character's appropriate level.
+                # If list, add all spells (as list) to character's spell list.
+                if isinstance(spell_list, dict):
+                    spell_list = {k: v for k, v in spell_list.items() if k <= level}
+                    for l, spells in spell_list.items():
+                        if l <= level:
+                            user_inputs += spells
+                    blueprint[guideline] = user_inputs
+                    recorder.store(guideline, user_inputs)
+                elif isinstance(spell_list, list):
+                    user_inputs += spell_list
+                    blueprint[guideline] = user_inputs
+                    recorder.store(guideline, user_inputs)
+            else:
+                user_inputs = blueprint_base[guideline]
+                blueprint[guideline] = user_inputs
+                recorder.store(guideline, user_inputs)
+            continue
+
+        # Remove list type guideline options.
+        other_options = list(blueprint_base[guideline])
+        for index, option in enumerate(other_options):
+            if isinstance(option, list):
+                user_inputs = user_inputs + option
+                del other_options[index]
+
+        for _ in range(guide_increment):
+            # TODO: Fix prompt text for situation usage.
+            stdio = prompt(
+                f"Choose your character's racial {guideline}.",
+                other_options,
+                recorder.recall(guideline),
+            )
+            user_inputs.append(stdio)
+            log.info(f"{guideline}: You selected '{stdio}'.")
+            blueprint[guideline] = user_inputs
+            recorder.store(guideline, user_inputs)
+    return blueprint
 
 
 def merge_dicts(dict_1: dict, dict_2: dict) -> dict:
