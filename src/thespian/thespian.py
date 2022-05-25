@@ -19,7 +19,7 @@ from sourcetree.utils import (
 )
 from stdio import InputRecorder, initialize, prompt
 
-__version__ = "220522"
+__version__ = "220525"
 
 
 log = logging.getLogger("thespian")
@@ -62,6 +62,115 @@ class AttributeWriter:
         return properties
 
 
+# Testing - not fully implemented
+def honor_guidelines(
+    guidelines: dict | None,
+    blueprint: dict,
+    blueprint_base: dict,
+    set_unused_guide: bool = True,
+) -> dict:
+    if guidelines is None:
+        return blueprint
+
+    for guideline, _ in guidelines.items():
+        # TODO: Review this later - might be unnecessary
+        # if guideline not in guidelines:
+        #    continue
+
+        # Copy guideline to blueprint, if not specified in blueprint (if allowed).
+        if set_unused_guide and guideline not in blueprint:
+            blueprint[guideline] = None
+
+        user_inputs = list()
+        guide_increment = guidelines[guideline]
+
+        # Special guideline "ancestry": Associated with Dragonborn characters.
+        # Special guideline "bonus": Associated with racial ability bonuses.
+        # Special guideline "primary_ability": Associated with class abilities.
+        if guideline == "ancestry":
+            if guide_increment != 1:
+                continue
+            ancestry_options = list(blueprint_base[guideline])
+            stdio = prompt("Choose your racial ancestry.", ancestry_options)
+            user_inputs.append(stdio)
+            ancestry = user_inputs[0]
+            blueprint[guideline] = ancestry
+            blueprint["resistances"] = blueprint["resistances"][ancestry]
+            log.info(f"You chose '{ancestry}' as your dragon ancestry.")
+            continue
+        elif guideline == "bonus":
+            bonus_options = dict(blueprint_base[guideline])
+            bonus_choices = {k: v for k, v in bonus_options.items() if v < 2}.keys()
+            user_inputs = {k: v for k, v in bonus_options.items() if v > 1}
+            for _ in range(guide_increment):
+                stdio = prompt("Choose your racial bonus.", bonus_choices)
+                user_inputs[stdio] = 1
+                log.info(f"You chose '{stdio}' as your racial bonus.")
+
+            blueprint[guideline] = user_inputs
+            continue
+        elif guideline == "primary_ability":
+            ability_options = list(blueprint_base[guideline].values())
+            for index, option in enumerate(ability_options):
+                if isinstance(option, list):
+                    my_ability = prompt(
+                        "Choose your class' primary ability/abilities.", option
+                    )
+                    ability_options[index] = my_ability
+            user_inputs = tuple(ability_options)
+            blueprint[guideline] = user_inputs
+            recorder.store(guideline, user_inputs)
+            log.info(guideline + ": You selected '" + ", ".join(user_inputs) + "'.")
+            continue
+
+        # Guidelines with a 0 increment add ALL values.
+        if guide_increment == 0:
+            # Guideline "spells" work differently depending on type.
+            # Other guidelines (not "spells") add all their values.
+            if guideline == "spells":
+                spell_list = blueprint_base[guideline]
+                if len(spell_list) == 0:
+                    continue
+                # If dict, add all spells up to character's appropriate level.
+                # If list, add all spells (as list) to character's spell list.
+                if isinstance(spell_list, dict):
+                    spell_list = {k: v for k, v in spell_list.items() if k <= level}
+                    for l, spells in spell_list.items():
+                        if l <= level:
+                            user_inputs += spells
+                    blueprint[guideline] = user_inputs
+                    recorder.store(guideline, user_inputs)
+                elif isinstance(spell_list, list):
+                    user_inputs += spell_list
+                    blueprint[guideline] = user_inputs
+                    recorder.store(guideline, user_inputs)
+            else:
+                user_inputs = blueprint_base[guideline]
+                blueprint[guideline] = user_inputs
+                recorder.store(guideline, user_inputs)
+            continue
+
+        # Remove list type guideline options.
+        other_options = list(blueprint_base[guideline])
+        for index, option in enumerate(other_options):
+            if isinstance(option, list):
+                user_inputs = user_inputs + option
+                del other_options[index]
+
+        for _ in range(guide_increment):
+            #TODO: Fix prompt text for situation usage.
+            stdio = prompt(
+                f"Choose your character's racial {guideline}.",
+                other_options,
+                recorder.recall(guideline),
+            )
+            user_inputs.append(stdio)
+            log.info(f"{guideline}: You selected '{stdio}'.")
+            blueprint[guideline] = user_inputs
+            recorder.store(guideline, user_inputs)
+    return blueprint
+
+
 def define_background(background: str) -> dict:
     """Defines character background parameters."""
     try:
@@ -71,44 +180,7 @@ def define_background(background: str) -> dict:
 
     blueprint = dict()
     guidelines = define_guidelines(background_base["guides"])
-    if guidelines is None:
-        return blueprint
-
-    for guideline, _ in guidelines.items():
-        if guideline not in guidelines:
-            continue
-        if guideline not in blueprint:
-            blueprint[guideline] = None
-
-        user_inputs = list()
-        guide_increment = guidelines[guideline]
-
-        # 0 increment items are added entirely.
-        if guide_increment == 0:
-            user_inputs = background_base[guideline]
-            blueprint[guideline] = user_inputs
-            recorder.store(guideline, user_inputs)
-            continue
-
-        # Remove options of list type from the guidelines.
-        other_options = list(background_base[guideline])
-        for index, option in enumerate(other_options):
-            if isinstance(option, list):
-                user_inputs = user_inputs + option
-                del other_options[index]
-
-        for _ in range(guide_increment):
-            stdio = prompt(
-                f"Choose your background '{guideline}.",
-                other_options,
-                recorder.recall(guideline),
-            )
-            user_inputs.append(stdio)
-            log.info(f"{guideline}: You selected '{stdio}'.")
-            blueprint[guideline] = user_inputs
-            recorder.store(guideline, user_inputs)
-
-    return blueprint
+    return honor_guidelines(guidelines, blueprint, background_base, False)
 
 
 def define_class(
@@ -147,55 +219,7 @@ def define_class(
         blueprint["spell_slots"] = "0"
 
     guidelines = define_guidelines(class_base["guides"])
-    if guidelines is not None:
-        for guideline, _ in guidelines.items():
-            if guideline not in guidelines:
-                continue
-            if guideline not in blueprint:
-                blueprint[guideline] = None
-
-            user_inputs = list()
-            guide_increment = guidelines[guideline]
-
-            if guideline == "primary_ability":
-                ability_options = list(class_base[guideline].values())
-                for index, option in enumerate(ability_options):
-                    if isinstance(option, list):
-                        my_ability = prompt(
-                            "Choose your class' primary ability/abilities.", option
-                        )
-                        ability_options[index] = my_ability
-                user_inputs = tuple(ability_options)
-                blueprint[guideline] = user_inputs
-                recorder.store(guideline, user_inputs)
-                log.info(guideline + ": You selected '" + ", ".join(user_inputs) + "'.")
-                continue
-
-            # 0 increment items are added entirely.
-            if guide_increment == 0:
-                user_inputs = list(class_base[guideline])
-                blueprint[guideline] = user_inputs
-                recorder.store(guideline, user_inputs)
-                continue
-
-            # Remove options of list type from the guidelines.
-            other_options = list(class_base[guideline])
-            for index, option in enumerate(other_options):
-                if isinstance(option, list):
-                    user_inputs = user_inputs + option
-                    del other_options[index]
-
-            for _ in range(guide_increment):
-                my_ability = prompt(
-                    f"Choose your class' {guideline}.",
-                    other_options,
-                    recorder.recall(guideline),
-                )
-                user_inputs.append(my_ability)
-                blueprint[guideline] = user_inputs
-                recorder.store(guideline, user_inputs)
-                log.info(f"{guideline}: You selected '{my_ability}'.")
-
+    blueprint = honor_guidelines(guidelines, blueprint, class_base)
     attributes = AttributeGenerator(
         blueprint["primary_ability"], racial_bonuses, threshold
     ).generate()
@@ -205,7 +229,6 @@ def define_class(
     )
     blueprint["hit_die"] = hit_die
     blueprint["hit_points"] = hit_points
-
     return blueprint
 
 
@@ -266,86 +289,7 @@ def define_race(race: str, sex: str, background: str, level: int) -> dict:
     log.info(f"Your alignment is '{alignment}'.")
 
     guidelines = define_guidelines(race_base["guides"])
-    if guidelines is None:
-        return blueprint
-
-    for guideline, _ in guidelines.items():
-        if guideline not in guidelines:
-            continue
-        if guideline not in blueprint:
-            blueprint[guideline] = None
-
-        user_inputs = list()
-        guide_increment = guidelines[guideline]
-
-        if guideline == "ancestry":
-            if guide_increment != 1:
-                continue
-            ancestry_options = list(race_base[guideline])
-            stdio = prompt("Choose your racial ancestry.", ancestry_options)
-            user_inputs.append(stdio)
-            ancestry = user_inputs[0]
-            blueprint[guideline] = ancestry
-            blueprint["resistances"] = blueprint["resistances"][ancestry]
-            log.info(f"You chose '{ancestry}' as your dragon ancestry.")
-            continue
-        elif guideline == "bonus":
-            bonus_options = dict(race_base[guideline])
-            bonus_choices = {k: v for k, v in bonus_options.items() if v < 2}.keys()
-            user_inputs = {k: v for k, v in bonus_options.items() if v > 1}
-            for _ in range(guide_increment):
-                stdio = prompt("Choose your racial bonus.", bonus_choices)
-                user_inputs[stdio] = 1
-                log.info(f"You chose '{stdio}' as your racial bonus.")
-
-            blueprint[guideline] = user_inputs
-            continue
-
-        # 0 increment items are added entirely.
-        if guide_increment == 0:
-            if guideline == "spells":
-                spell_list = race_base[guideline]
-                # Ignore guideline if no spells defined.
-                if len(spell_list) == 0:
-                    continue
-
-                # If dict, add all spells up to character's appropriate level.
-                # If list, add all spells to character's spell list.
-                if isinstance(spell_list, dict):
-                    spell_list = {k: v for k, v in spell_list.items() if k <= level}
-                    for l, spells in spell_list.items():
-                        if l <= level:
-                            user_inputs += spells
-                    blueprint[guideline] = user_inputs
-                    recorder.store(guideline, user_inputs)
-                elif isinstance(spell_list, list):
-                    user_inputs += spell_list
-                    blueprint[guideline] = user_inputs
-                    recorder.store(guideline, user_inputs)
-            else:
-                user_inputs = race_base[guideline]
-                blueprint[guideline] = user_inputs
-                recorder.store(guideline, user_inputs)
-            continue
-
-        # Remove list type guideline options.
-        other_options = list(race_base[guideline])
-        for index, option in enumerate(other_options):
-            if isinstance(option, list):
-                user_inputs = user_inputs + option
-                del other_options[index]
-
-        for _ in range(guide_increment):
-            stdio = prompt(
-                f"Choose your character's racial {guideline}.",
-                other_options,
-                recorder.recall(guideline),
-            )
-            user_inputs.append(stdio)
-            log.info(f"{guideline}: You selected '{stdio}'.")
-            blueprint[guideline] = user_inputs
-            recorder.store(guideline, user_inputs)
-
+    blueprint = honor_guidelines(guidelines, blueprint, race_base)
     return blueprint
 
 
@@ -370,43 +314,7 @@ def define_subclass(subclass: str, level: int) -> dict:
     blueprint["subclass"] = subclass
 
     guidelines = define_guidelines(subclass_base["guides"])
-    if guidelines is None:
-        return blueprint
-
-    for guideline, _ in guidelines.items():
-        if guideline not in guidelines:
-            continue
-        if guideline not in blueprint:
-            blueprint[guideline] = None
-
-        user_inputs = list()
-        guide_increment = guidelines[guideline]
-
-        # 0 increment items are added entirely.
-        if guide_increment == 0:
-            user_inputs = list(subclass_base[guideline])
-            blueprint[guideline] = user_inputs
-            recorder.store(guideline, user_inputs)
-            continue
-
-        # Remove options of list type from the guidelines.
-        other_options = list(subclass_base[guideline])
-        for index, option in enumerate(other_options):
-            if isinstance(option, list):
-                user_inputs = user_inputs + option
-                del other_options[index]
-
-        for _ in range(guide_increment):
-            stdio = prompt(
-                f"Choose your class' {guideline}.",
-                other_options,
-                recorder.recall(guideline),
-            )
-            user_inputs.append(stdio)
-            log.info(f"{guideline}: You selected '{stdio}'.")
-            blueprint[guideline] = user_inputs
-            recorder.store(guideline, user_inputs)
-
+    blueprint = honor_guidelines(guidelines, blueprint, subclass_base)
     return blueprint
 
 
@@ -425,59 +333,7 @@ def define_subrace(subrace: str, level: int) -> dict:
     blueprint["traits"] = subrace_base["traits"]
 
     guidelines = define_guidelines(subrace_base["guides"])
-    if guidelines is not None:
-        for guideline, _ in guidelines.items():
-            if guideline not in guidelines:
-                continue
-
-            user_inputs = list()
-            guide_increment = guidelines[guideline]
-
-            # 0 increment items are added entirely.
-            if guide_increment == 0:
-                if guideline == "spells":
-                    spell_list = subrace_base[guideline]
-                    # Ignore if no spells defined.
-                    if len(spell_list) == 0:
-                        continue
-
-                    # If dict, add all spells up to character's appropriate level.
-                    # If list, add all spells to character's spell list.
-                    if isinstance(spell_list, dict):
-                        spell_list = {k: v for k, v in spell_list.items() if k <= level}
-                        for l, spells in spell_list.items():
-                            if l <= level:
-                                user_inputs += spells
-                        blueprint[guideline] = user_inputs
-                        recorder.store(guideline, user_inputs)
-                    elif isinstance(spell_list, list):
-                        user_inputs += spell_list
-                        blueprint[guideline] = user_inputs
-                        recorder.store(guideline, user_inputs)
-                else:
-                    user_inputs = subrace_base[guideline]
-                    blueprint[guideline] = user_inputs
-                    recorder.store(guideline, user_inputs)
-                continue
-
-            # Remove list type guideline options.
-            other_options = list(guidelines[guideline])
-            for index, option in enumerate(other_options):
-                if isinstance(option, list):
-                    user_inputs = user_inputs + option
-                    del other_options[index]
-
-            for _ in range(guide_increment):
-                stdio = prompt(
-                    f"Choose your character's sub-racial {guideline}.",
-                    other_options,
-                    recorder.recall(guideline),
-                )
-                user_inputs.append(stdio)
-                log.info(f"{guideline}: You selected '{stdio}'.")
-                blueprint[guideline] = user_inputs
-                recorder.store(guideline, user_inputs)
-
+    blueprint = honor_guidelines(guidelines, blueprint, subrace_base)
     return blueprint
 
 
