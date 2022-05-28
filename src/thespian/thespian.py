@@ -19,7 +19,7 @@ from sourcetree.utils import (
 )
 from stdio import InputRecorder, initialize, prompt
 
-__version__ = "220525"
+__version__ = "220528"
 
 
 log = logging.getLogger("thespian")
@@ -71,7 +71,7 @@ def define_background(background: str) -> dict:
 
     blueprint = dict()
     guidelines = define_guidelines(background_base["guides"])
-    return honor_guidelines(guidelines, blueprint, background_base, False)
+    return honor_guidelines(guidelines, background_base, blueprint, False)
 
 
 def define_class(
@@ -110,7 +110,7 @@ def define_class(
         blueprint["spell_slots"] = "0"
 
     guidelines = define_guidelines(class_base["guides"])
-    blueprint = honor_guidelines(guidelines, blueprint, class_base)
+    blueprint = honor_guidelines(guidelines, class_base, blueprint)
     attributes = AttributeGenerator(
         blueprint["primary_ability"], racial_bonuses, threshold
     ).generate()
@@ -180,8 +180,7 @@ def define_race(race: str, sex: str, background: str, level: int) -> dict:
     log.info(f"Your alignment is '{alignment}'.")
 
     guidelines = define_guidelines(race_base["guides"])
-    blueprint = honor_guidelines(guidelines, blueprint, race_base)
-    return blueprint
+    return honor_guidelines(guidelines, race_base, blueprint)
 
 
 def define_subclass(subclass: str, level: int) -> dict:
@@ -205,8 +204,7 @@ def define_subclass(subclass: str, level: int) -> dict:
     blueprint["subclass"] = subclass
 
     guidelines = define_guidelines(subclass_base["guides"])
-    blueprint = honor_guidelines(guidelines, blueprint, subclass_base)
-    return blueprint
+    return honor_guidelines(guidelines, subclass_base, blueprint)
 
 
 def define_subrace(subrace: str, level: int) -> dict:
@@ -224,8 +222,7 @@ def define_subrace(subrace: str, level: int) -> dict:
     blueprint["traits"] = subrace_base["traits"]
 
     guidelines = define_guidelines(subrace_base["guides"])
-    blueprint = honor_guidelines(guidelines, blueprint, subrace_base)
-    return blueprint
+    return honor_guidelines(guidelines, subrace_base, blueprint)
 
 
 def expand_skills(skills: list, scores: dict, proficiency_bonus: int = 2) -> dict:
@@ -250,15 +247,14 @@ def expand_skills(skills: list, scores: dict, proficiency_bonus: int = 2) -> dic
     return expanded_skills
 
 
-# Testing - not fully implemented
 def honor_guidelines(
     guidelines: dict | None,
     blueprint: dict,
-    blueprint_base: dict,
-    set_unused_guide: bool = True,
+    output: dict,
+    set_unuset_guidelines: bool = True,
 ) -> dict:
-    if guidelines is None:
-        return blueprint
+    if guidelines is None or not isinstance(guidelines, dict):
+        return output
 
     for guideline, _ in guidelines.items():
         # TODO: Review this later - might be unnecessary
@@ -266,8 +262,8 @@ def honor_guidelines(
         #    continue
 
         # Copy guideline to blueprint, if not specified in blueprint (if allowed).
-        if set_unused_guide and guideline not in blueprint:
-            blueprint[guideline] = None
+        if set_unuset_guidelines and guideline not in output:
+            output[guideline] = None
 
         user_inputs = list()
         guide_increment = guidelines[guideline]
@@ -278,27 +274,27 @@ def honor_guidelines(
         if guideline == "ancestry":
             if guide_increment != 1:
                 continue
-            ancestry_options = list(blueprint_base[guideline])
-            stdio = prompt("Choose your racial ancestry.", ancestry_options)
-            user_inputs.append(stdio)
+            ancestry_options = list(blueprint[guideline])
+            my_selection = prompt("Choose your racial ancestry.", ancestry_options)
+            user_inputs.append(my_selection)
             ancestry = user_inputs[0]
-            blueprint[guideline] = ancestry
-            blueprint["resistances"] = blueprint["resistances"][ancestry]
+            output[guideline] = ancestry
+            output["resistances"] = output["resistances"][ancestry]
             log.info(f"You chose '{ancestry}' as your dragon ancestry.")
             continue
         elif guideline == "bonus":
-            bonus_options = dict(blueprint_base[guideline])
+            bonus_options = dict(blueprint[guideline])
             bonus_choices = {k: v for k, v in bonus_options.items() if v < 2}.keys()
             user_inputs = {k: v for k, v in bonus_options.items() if v > 1}
             for _ in range(guide_increment):
-                stdio = prompt("Choose your racial bonus.", bonus_choices)
-                user_inputs[stdio] = 1
-                log.info(f"You chose '{stdio}' as your racial bonus.")
+                my_selection = prompt("Choose your racial bonus.", bonus_choices)
+                user_inputs[my_selection] = 1
+                log.info(f"You chose '{my_selection}' as your racial bonus.")
 
-            blueprint[guideline] = user_inputs
+            output[guideline] = user_inputs
             continue
         elif guideline == "primary_ability":
-            ability_options = list(blueprint_base[guideline].values())
+            ability_options = list(blueprint[guideline].values())
             for index, option in enumerate(ability_options):
                 if isinstance(option, list):
                     my_ability = prompt(
@@ -306,17 +302,17 @@ def honor_guidelines(
                     )
                     ability_options[index] = my_ability
             user_inputs = tuple(ability_options)
-            blueprint[guideline] = user_inputs
+            output[guideline] = user_inputs
             recorder.store(guideline, user_inputs)
             log.info(guideline + ": You selected '" + ", ".join(user_inputs) + "'.")
             continue
 
         # Guidelines with a 0 increment add ALL values.
         if guide_increment == 0:
-            # Guideline "spells" work differently depending on type.
+            # Guideline "spells" work differently depending on option type (dict|list).
             # Other guidelines (not "spells") add all their values.
             if guideline == "spells":
-                spell_list = blueprint_base[guideline]
+                spell_list = blueprint[guideline]
                 if len(spell_list) == 0:
                     continue
                 # If dict, add all spells up to character's appropriate level.
@@ -326,37 +322,37 @@ def honor_guidelines(
                     for l, spells in spell_list.items():
                         if l <= level:
                             user_inputs += spells
-                    blueprint[guideline] = user_inputs
+                    output[guideline] = user_inputs
                     recorder.store(guideline, user_inputs)
                 elif isinstance(spell_list, list):
                     user_inputs += spell_list
-                    blueprint[guideline] = user_inputs
+                    output[guideline] = user_inputs
                     recorder.store(guideline, user_inputs)
             else:
-                user_inputs = blueprint_base[guideline]
-                blueprint[guideline] = user_inputs
+                user_inputs = blueprint[guideline]
+                output[guideline] = user_inputs
                 recorder.store(guideline, user_inputs)
             continue
 
         # Remove list type guideline options.
-        other_options = list(blueprint_base[guideline])
-        for index, option in enumerate(other_options):
+        guideline_options = list(blueprint[guideline])
+        for index, option in enumerate(guideline_options):
             if isinstance(option, list):
                 user_inputs = user_inputs + option
-                del other_options[index]
+                del guideline_options[index]
 
         for _ in range(guide_increment):
-            # TODO: Fix prompt text for situation usage.
-            stdio = prompt(
-                f"Choose your character's racial {guideline}.",
-                other_options,
+            my_selection = prompt(
+                f"Make a selection from the '{guideline}' options.",
+                guideline_options,
                 recorder.recall(guideline),
             )
-            user_inputs.append(stdio)
-            log.info(f"{guideline}: You selected '{stdio}'.")
-            blueprint[guideline] = user_inputs
+            user_inputs.append(my_selection)
+            log.info(f"{guideline}: You selected '{my_selection}'.")
+            output[guideline] = user_inputs
             recorder.store(guideline, user_inputs)
-    return blueprint
+
+    return output
 
 
 def merge_dicts(dict_1: dict, dict_2: dict) -> dict:
