@@ -17,7 +17,7 @@ from sourcetree.utils import (
     get_skill_ability,
     get_skill_list,
 )
-from stdio import InputRecorder, initialize, prompt
+from stdio import PromptRecorder, initialize, prompt
 
 __version__ = "220528"
 
@@ -30,7 +30,7 @@ log_format = logging.Formatter("%(name)s:%(levelname)s:%(message)s")
 log_handler.setFormatter(log_format)
 log.addHandler(log_handler)
 
-recorder = InputRecorder()
+recorder = PromptRecorder()
 
 
 class AttributeWriter:
@@ -444,6 +444,7 @@ def thespian(
     log.info(f"Your height is {feet}' {inches}\".")
     log.info(f"your weight is {my_race['weight']}.")
     merge_dicts(blueprint, my_race)
+
     my_class = define_class(klass, level, blueprint["bonus"], threshold, roll_hp)
     my_class["subclass"] = subclass
     if subclass == "":
@@ -461,6 +462,7 @@ def thespian(
     features = list()
     for _, feature in character.features.items():
         features += feature
+
     return {
         "race": character.race,
         "ancestry": character.ancestry,

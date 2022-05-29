@@ -1,4 +1,3 @@
-from argparse import ArgumentTypeError
 import time
 
 from colorama import init, Fore, Style
@@ -12,41 +11,32 @@ STATUS_WARNING = -1
 init(autoreset=True)
 
 
-class InputRecorder:
+class PromptRecorder:
     """Stores and recalls user prompt selections."""
 
     inputs: dict = dict()
 
-    def recall(self, tape: str = None):
-        if tape is None:
-            return self.inputs
-
+    def recall(self, tape: str) -> dict:
         try:
             return self.inputs[tape]
         except KeyError:
             self.inputs[tape] = set()
             return self.inputs[tape]
 
-    def store(self, tape: str, data: list):
+    def store(self, tape: str, data: list) -> None:
         if tape not in self.inputs:
             self.inputs[tape] = set(data)
         else:
             self.inputs[tape].update(data)
 
 
-def echo(raw_message: str, status_level: int = STATUS_NORMAL):
-    message = raw_message
+def echo(message: str, status_level: int = STATUS_NORMAL) -> None:
     if status_level == STATUS_ERROR:
-        message = Fore.RED + "[E] " + raw_message
+        message = Fore.RED + "[E] " + message
     elif status_level == STATUS_WARNING:
-        message = Fore.YELLOW + Style.BRIGHT + "[W] " + raw_message
+        message = Fore.YELLOW + Style.BRIGHT + "[W] " + message
     elif status_level == STATUS_NORMAL:
-        message = Fore.GREEN + Style.BRIGHT + "[N] " + raw_message
-    else:
-        raise ValueError(
-            f"Invalid 'status_level' attribute value '{status_level}' specified."
-        )
-
+        message = Fore.GREEN + Style.BRIGHT + "[N] " + message
     print(message)
 
 
@@ -131,51 +121,45 @@ def initialize(
 
 def prompt(
     message: str, prompt_options: list | tuple, selected_options: list | tuple = None
-):
+) -> str:
+    """Runs user prompt menu."""
     time.sleep(2.2)
-
-    if selected_options is not None and not isinstance(selected_options, tuple):
-        selected_options = tuple(selected_options)
 
     # Remove options that are already selected.
     if isinstance(selected_options, (list, tuple)):
         prompt_options = [o for o in prompt_options if o not in selected_options]
 
-    base_opts = {x + 1: y for x, y in enumerate(prompt_options)}
+    prompt_options = {x + 1: y for x, y in enumerate(prompt_options)}
     message = "[P] " + message + "\n"
-    for id, option in base_opts.items():
+    for id, option in prompt_options.items():
         message += Style.BRIGHT + f"[{id}] {option}\n"
     print(Fore.GREEN + message.strip())
 
     try:
-        user_value = input(Fore.WHITE + "[$] " + Style.RESET_ALL)
-        user_value = int(user_value)
+        user_value = int(input(Fore.WHITE + "[$] " + Style.RESET_ALL))
     except ValueError:
         echo(
-            f"Invalid menu selection: '{user_value}'. Non-numeric value specified.",
+            f"Only numeric values are permitted.",
             STATUS_ERROR,
         )
         return prompt(
             f"Please try again...",
-            base_opts.values(),
+            prompt_options.values(),
             selected_options,
         )
-    except (KeyboardInterrupt, RecursionError):
-        echo("Keyboard interrupt.", STATUS_WARNING)
-        exit()
-    else:
-        try:
-            if user_value not in base_opts:
-                raise ArgumentTypeError()
-        except ArgumentTypeError:
-            echo(
-                f"Invalid menu selection: '{user_value}'. Only accepts numeric values 1-{len(base_opts)}.",
-                STATUS_ERROR,
-            )
-            return prompt(
-                f"Please try again...",
-                base_opts.values(),
-                selected_options,
-            )
 
-    return base_opts[user_value]
+    try:
+        if user_value not in prompt_options:
+            raise ValueError()
+    except ValueError:
+        echo(
+            f"Invalid selection. Only values between 1-{len(prompt_options)} are allowed.",
+            STATUS_ERROR,
+        )
+        return prompt(
+            f"Please try again...",
+            prompt_options.values(),
+            selected_options,
+        )
+
+    return prompt_options[user_value]
