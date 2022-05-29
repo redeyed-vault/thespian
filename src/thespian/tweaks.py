@@ -8,7 +8,7 @@ from sourcetree.utils import (
     get_feat_proficiencies,
     get_feat_requirements,
 )
-from stdio import prompt
+from notifications import prompt
 
 log = logging.getLogger("thespian.tweaks")
 

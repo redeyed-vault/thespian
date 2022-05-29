@@ -17,9 +17,9 @@ from sourcetree.utils import (
     get_skill_ability,
     get_skill_list,
 )
-from stdio import PromptRecorder, initialize, prompt
+from notifications import initialize, prompt
 
-__version__ = "220528"
+__version__ = "220529"
 
 
 log = logging.getLogger("thespian")
@@ -29,8 +29,6 @@ log_handler.setLevel(logging.INFO)
 log_format = logging.Formatter("%(name)s:%(levelname)s:%(message)s")
 log_handler.setFormatter(log_format)
 log.addHandler(log_handler)
-
-recorder = PromptRecorder()
 
 
 class AttributeWriter:
@@ -60,6 +58,28 @@ class AttributeWriter:
         if len(o.properties) > 0:
             properties["properties"] = o.properties
         return properties
+
+
+class PromptRecorder:
+    """Stores and recalls user prompt selections."""
+
+    inputs: dict = dict()
+
+    def recall(self, tape: str) -> dict:
+        try:
+            return self.inputs[tape]
+        except KeyError:
+            self.inputs[tape] = set()
+            return self.inputs[tape]
+
+    def store(self, tape: str, data: list) -> None:
+        if tape not in self.inputs:
+            self.inputs[tape] = set(data)
+        else:
+            self.inputs[tape].update(data)
+
+
+recorder = PromptRecorder()
 
 
 def define_background(background: str) -> dict:

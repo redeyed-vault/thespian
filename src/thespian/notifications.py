@@ -11,26 +11,8 @@ STATUS_WARNING = -1
 init(autoreset=True)
 
 
-class PromptRecorder:
-    """Stores and recalls user prompt selections."""
-
-    inputs: dict = dict()
-
-    def recall(self, tape: str) -> dict:
-        try:
-            return self.inputs[tape]
-        except KeyError:
-            self.inputs[tape] = set()
-            return self.inputs[tape]
-
-    def store(self, tape: str, data: list) -> None:
-        if tape not in self.inputs:
-            self.inputs[tape] = set(data)
-        else:
-            self.inputs[tape].update(data)
-
-
 def echo(message: str, status_level: int = STATUS_NORMAL) -> None:
+    """Outputs status messages."""
     if status_level == STATUS_ERROR:
         message = Fore.RED + "[E] " + message
     elif status_level == STATUS_WARNING:
@@ -120,10 +102,16 @@ def initialize(
 
 
 def prompt(
-    message: str, prompt_options: list | tuple, selected_options: list | tuple = None
+    message: str, prompt_options: list | tuple, selected_options: set = None
 ) -> str:
     """Runs user prompt menu."""
     time.sleep(2.2)
+
+    # Sets used to keep the selected_option values unique.
+    # Forces conversion of selected_options to a tuple.
+    # Code breaks otherwise when filtering out already chosen options.
+    if isinstance(selected_options, set):
+        selected_options = tuple(selected_options)
 
     # Remove options that are already selected.
     if isinstance(selected_options, (list, tuple)):
