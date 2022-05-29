@@ -79,9 +79,6 @@ class PromptRecorder:
             self.inputs[tape].update(data)
 
 
-recorder = PromptRecorder()
-
-
 def define_background(background: str) -> dict:
     """Defines character background parameters."""
     try:
@@ -275,6 +272,8 @@ def honor_guidelines(
 ) -> dict:
     if guidelines is None or not isinstance(guidelines, dict):
         return output
+
+    recorder = PromptRecorder()
 
     for guideline, _ in guidelines.items():
         # TODO: Review this later - might be unnecessary
