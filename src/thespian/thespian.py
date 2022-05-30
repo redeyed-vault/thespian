@@ -137,21 +137,25 @@ def define_class(
     return blueprint
 
 
-def define_guidelines(guides: str) -> dict | None:
-    """Defines special racial and class guidelines."""
-    if guides is None:
+def define_guidelines(guideline_string: str) -> dict | None:
+    """Defines special racial and class generation guidelines."""
+    if guideline_string is None:
         return None
-    creation_guides = dict()
-    for guide in guides.split("|"):
-        (guide_name, guide_increment) = guide.split(",")
-        creation_guides[guide_name] = int(guide_increment)
 
-    # Check guideline integrity.
-    for value in tuple(creation_guides.values()):
-        if value < 0:
-            raise ValueError("Guide increment values must be greater than 0.")
+    creation_guidelines = dict()
+    for guide_pair_string in guideline_string.split("|"):
+        guideline_value_pair = guide_pair_string.split(",")
+        if len(guideline_value_pair) != 2:
+            raise ValueError("Malformed guideline. Guidelines must have 2 values.")
+        guideline_name, guide_increment = guideline_value_pair
+        creation_guidelines[guideline_name] = int(guide_increment)
 
-    return creation_guides
+    # Check guideline increment value integrity.
+    for guideline_increment_value in tuple(creation_guidelines.values()):
+        if guideline_increment_value < 0:
+            raise ValueError("Guideline increment values must be greater than 0.")
+
+    return creation_guidelines
 
 
 def define_race(race: str, sex: str, background: str, level: int) -> dict:
@@ -317,6 +321,7 @@ def honor_guidelines(
                         "Choose your class' primary ability/abilities.", option
                     )
                     ability_options[index] = my_ability
+                    log.info(f"{guideline}: You selected '{my_ability}'.")
             user_inputs = tuple(ability_options)
             output[guideline] = user_inputs
             recorder.store(guideline, user_inputs)
@@ -372,7 +377,7 @@ def honor_guidelines(
 
 
 def merge_dicts(dict_1: dict, dict_2: dict) -> dict:
-    """Merges dictionaries."""
+    """Merges two dictionaries."""
     if not isinstance(dict_1, dict):
         raise TypeError("First parameter must be of type 'dict'.")
 
