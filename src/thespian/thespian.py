@@ -19,7 +19,7 @@ from sourcetree.utils import (
 )
 from notifications import initialize, prompt
 
-__version__ = "220529"
+__version__ = "220530"
 
 
 log = logging.getLogger("thespian")
@@ -113,11 +113,6 @@ def define_class(
     blueprint["proficiency_bonus"] = ceil((level / 4) + 1)
     blueprint["saves"] = class_base["saves"]
 
-    if roll_hp:
-        log.warn("Hit points will be randomly generated every level after the first.")
-    else:
-        log.warn("Hit points will be assigned a fixed number every level.")
-
     try:
         blueprint["spell_slots"] = {
             k: v for k, v in class_base["spell_slots"].items() if k == level
@@ -128,10 +123,12 @@ def define_class(
 
     guidelines = define_guidelines(class_base["guides"])
     blueprint = honor_guidelines(guidelines, class_base, blueprint)
+
     attributes = AttributeGenerator(
         blueprint["primary_ability"], racial_bonuses, threshold
     ).generate()
     blueprint["scores"] = attributes
+
     hit_die, hit_points = generate_hit_points(
         level, class_base["hit_die"], attributes, roll_hp
     )
