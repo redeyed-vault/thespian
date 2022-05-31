@@ -31,35 +31,6 @@ log_handler.setFormatter(log_format)
 log.addHandler(log_handler)
 
 
-class AttributeWriter:
-    """Formats and prints attribute properties."""
-
-    def __init__(self, attribute: str, scores: dict, skills: list):
-        self.attribute = attribute
-        self.scores = scores
-        self.skills = skills
-        self.properties = dict()
-
-        # Strength has three other unique properties.
-        if attribute == "Strength":
-            strength_score = self.scores[attribute]
-            self.properties["carry_capacity"] = strength_score * 15
-            self.properties["push_pull_carry"] = self.properties["carry_capacity"] * 2
-            self.properties["maximum_lift"] = self.properties["push_pull_carry"]
-
-    @classmethod
-    def out(cls, attribute, scores, skills) -> dict:
-        o = cls(attribute, scores, skills)
-        properties = {
-            "score": o.scores[o.attribute],
-            "modifier": get_ability_modifier(o.attribute, o.scores),
-            "skills": o.skills,
-        }
-        if len(o.properties) > 0:
-            properties["properties"] = o.properties
-        return properties
-
-
 class PromptRecorder:
     """Stores and recalls user prompt selections."""
 
@@ -243,8 +214,28 @@ def define_subrace(subrace: str, level: int) -> dict:
     return honor_guidelines(guidelines, subrace_base, blueprint)
 
 
+def expand_ability(ability: str, scores: dict, skills: list) -> dict:
+    """Expands an abilities' associated properties & skills."""
+    ability_properties = dict()
+
+    # Strength has three other unique properties.
+    if ability == "Strength":
+        ability_properties["carry_capacity"] = scores[ability] * 15
+        ability_properties["push_pull_carry"] = ability_properties["carry_capacity"] * 2
+        ability_properties["maximum_lift"] = ability_properties["push_pull_carry"]
+
+    expanded_properties = {
+        "score": scores[ability],
+        "modifier": get_ability_modifier(ability, scores),
+        "skills": skills,
+    }
+    if len(ability_properties) > 0:
+        expanded_properties["properties"] = ability_properties
+    return expanded_properties
+
+
 def expand_skills(skills: list, scores: dict, proficiency_bonus: int = 2) -> dict:
-    """Returns an expanded skill list."""
+    """Expands skill list with each skill's associated properties."""
     expanded_skills = dict()
     for skill in get_skill_list():
         ability = get_skill_ability(skill)
@@ -271,6 +262,7 @@ def honor_guidelines(
     output: dict,
     set_unuset_guidelines: bool = True,
 ) -> dict:
+    """Parses and applies character guidelines."""
     if guidelines is None or not isinstance(guidelines, dict):
         return output
 
@@ -480,9 +472,7 @@ def thespian(
     character = namedtuple("MyCharacter", blueprint.keys())(*blueprint.values())
     feet, inches = character.height
     proficiency_bonus = ceil(1 + (character.level / 4))
-    features = list()
-    for _, feature in character.features.items():
-        features += feature
+    features = [k for k in character.features.values()]
 
     return {
         "race": character.race,
@@ -500,18 +490,16 @@ def thespian(
         "level": character.level,
         "hit_points": character.hit_points,
         "proficiency_bonus": proficiency_bonus,
-        "strength": AttributeWriter.out("Strength", character.scores, character.skills),
-        "dexterity": AttributeWriter.out(
-            "Dexterity", character.scores, character.skills
-        ),
-        "constitution": AttributeWriter.out(
+        "strength": expand_ability("Strength", character.scores, character.skills),
+        "dexterity": expand_ability("Dexterity", character.scores, character.skills),
+        "constitution": expand_ability(
             "Constitution", character.scores, character.skills
         ),
-        "intelligence": AttributeWriter.out(
+        "intelligence": expand_ability(
             "Intelligence", character.scores, character.skills
         ),
-        "wisdom": AttributeWriter.out("Wisdom", character.scores, character.skills),
-        "charisma": AttributeWriter.out("Charisma", character.scores, character.skills),
+        "wisdom": expand_ability("Wisdom", character.scores, character.skills),
+        "charisma": expand_ability("Charisma", character.scores, character.skills),
         "speed": character.speed,
         "initiative": get_ability_modifier("Dexterity", character.scores),
         "armors": character.armors,
