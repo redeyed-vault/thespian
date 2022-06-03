@@ -19,7 +19,7 @@ from sourcetree.utils import (
 )
 from notifications import initialize, prompt
 
-__version__ = "220530"
+__version__ = "220603"
 
 
 log = logging.getLogger("thespian")
@@ -347,8 +347,10 @@ def honor_guidelines(
                 recorder.store(guideline, user_inputs)
             continue
 
-        # Remove list type guideline options.
         guideline_options = list(blueprint[guideline])
+
+        # Remove list type guideline options.
+        # These items are then added to the character's pool.
         for index, option in enumerate(guideline_options):
             if isinstance(option, list):
                 user_inputs = user_inputs + option
