@@ -310,7 +310,11 @@
     {% endfor %}
     {% endif %}
   </ul>
-  {% if class == "Cleric" %}
+  {% if class == "Artificer" %}
+  <h2>
+    {{ subclass|upper }} SPELLS
+  </h2>
+  {% elif class == "Cleric" %}
   <h2>
     DOMAIN SPELLS
   </h2>
@@ -327,7 +331,7 @@
     PACT MAGIC
   </h2>
   {% endif %}
-  {% if class in ("Cleric", "Druid", "Paladin", "Warlock") %}
+  {% if class in ("Artificer", "Cleric", "Druid", "Paladin", "Warlock") %}
     <ul>
     {% if bonus_magic|length == 0 %}
       <li>None</li>
