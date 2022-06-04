@@ -3476,7 +3476,7 @@ dnd5e_sources = {
                 17: ["Passwall", "Wall of Force"]
             },
             "features": {
-                3: ["Arcane Armor", "Armor Model"],
+                3: ["Tools of the Trade", "Arcane Armor", "Armor Model"],
                 5: ["Extra Attack"],
                 9: ["Armor Modifications"],
                 15: ["Perfected Armor"],
