@@ -286,6 +286,7 @@ def honor_guidelines(
         if guideline == "ancestry":
             if guide_increment != 1:
                 continue
+
             ancestry_options = list(blueprint[guideline])
             my_selection = prompt("Choose your racial ancestry.", ancestry_options)
             user_inputs.append(my_selection)
@@ -320,7 +321,7 @@ def honor_guidelines(
             log.info(guideline + ": You selected '" + ", ".join(user_inputs) + "'.")
             continue
 
-        # Guidelines with a 0 increment add ALL values.
+        # Guidelines with a 0 increment add ALL values by default.
         if guide_increment == 0:
             # Guideline "spells" work differently depending on option type (dict|list).
             # Other guidelines (not "spells") add all their values.
@@ -349,13 +350,14 @@ def honor_guidelines(
 
         guideline_options = list(blueprint[guideline])
 
-        # Remove list type guideline options.
-        # These items are then added to the character's pool.
+        # Remove list type values from guideline_options.
+        # Add list type values to user_inputs (Automatically added to character's selection pool).
         for index, option in enumerate(guideline_options):
             if isinstance(option, list):
                 user_inputs = user_inputs + option
                 del guideline_options[index]
 
+        # Player can now make additional guideline selections == guide_increment.
         for _ in range(guide_increment):
             my_selection = prompt(
                 f"Make a selection from the '{guideline}' options.",
@@ -474,7 +476,10 @@ def thespian(
     character = namedtuple("MyCharacter", blueprint.keys())(*blueprint.values())
     feet, inches = character.height
     proficiency_bonus = ceil(1 + (character.level / 4))
-    features = [k for k in character.features.values()]
+
+    features = list()
+    for _, feature_list in character.features.items():
+        features += feature_list
 
     return {
         "race": character.race,
