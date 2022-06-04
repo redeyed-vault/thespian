@@ -3396,6 +3396,45 @@ dnd5e_sources = {
     },
     # SUBCLASSES
     "subclasses": {
+        "Alchemist": {
+            "armors": [],
+            "bonus_magic": {
+                3: ["Healing Word", "Ray of Sickness"],
+                5: ["Flaming Sphere", "Melf's Acid Arrow"],
+                9: ["Gaseous Form", "Mass Healing Word"],
+                13: ["Blight", "Death Ward"],
+                17: ["Cloudkill", "Raise Dead"]
+            },
+            "features": {
+                3: ["Tool Proficiency", "Experimental Elixir"],
+                5: ["Alchemical Savant"],
+                9: ["Restorative Reagents"],
+                15: ["Chemical Mastery"],
+            },
+            "guides": "tools,1",
+            "languages": [],
+            "skills": [],
+            "tools": [
+                "Artisan's tools - Alchemists supplies",
+                "Artisan's tools - Brewer's supplies",
+                "Artisan's tools - Calligrapher's supplies",
+                "Artisan's tools - Carpenter's tools",
+                "Artisan's tools - Cartographer's tools",
+                "Artisan's tools - Cobbler's tools",
+                "Artisan's tools - Cook's utensils",
+                "Artisan's tools - Glassblower's tools",
+                "Artisan's tools - Jeweler's tools",
+                "Artisan's tools - Leatherworker's tools",
+                "Artisan's tools - Mason's tools",
+                "Artisan's tools - Painter's supplies",
+                "Artisan's tools - Potter's tools",
+                "Artisan's tools - Smith's tools",
+                "Artisan's tools - Tinker's tools",
+                "Artisan's tools - Weaver's tools",
+                "Artisan's tools - Woodcarver's tools",
+            ],
+            "weapons": [],
+        },
         "Arcane Archer": {
             "armors": [],
             "bonus_magic": {},
