@@ -3466,6 +3466,27 @@ dnd5e_sources = {
             "tools": [],
             "weapons": [],
         },
+        "Armorer": {
+            "armors": ["Heavy"],
+            "bonus_magic": {
+                3: ["Magic Missle", "Thunderwave"],
+                5: ["Mirror Image", "Shatter"],
+                9: ["Hypnotic Pattern", "Lightning Bolt"],
+                13: ["Fire Shield", "Greater Invisibility"],
+                17: ["Passwall", "Wall of Force"]
+            },
+            "features": {
+                3: ["Arcane Armor", "Armor Model"],
+                5: ["Extra Attack"],
+                9: ["Armor Modifications"],
+                15: ["Perfected Armor"],
+            },
+            "guides": None,
+            "languages": [],
+            "skills": [],
+            "tools": [],
+            "weapons": [],
+        },
         "Assassin": {
             "armors": [],
             "bonus_magic": {},
