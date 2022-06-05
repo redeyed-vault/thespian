@@ -1,7 +1,6 @@
 from dataclasses import dataclass
 import logging
 
-from attributes import get_ability_modifier
 from sourcetree.utils import (
     get_feats_list,
     get_feat_perks,
@@ -11,10 +10,6 @@ from sourcetree.utils import (
 from notifications import prompt
 
 log = logging.getLogger("thespian.tweaks")
-
-
-class FlagParserError(Exception):
-    """Handles an invalid flag format error."""
 
 
 class FeatOptionParser:
@@ -93,7 +88,7 @@ class FeatOptionParser:
         flag_pairs = raw_flags.split(self.PARSER_OPTIONS)
         for flag_pair in flag_pairs:
             if self.OPTION_INCREMENT not in flag_pair:
-                raise FlagParserError("Pairs must be formatted in 'name,value' pairs.")
+                raise ValueError("Pairs must be formatted in 'name,value' pairs.")
 
             attribute_name, increment = flag_pair.split(self.OPTION_INCREMENT)
             if self.OPTION_PARAMETER not in attribute_name:
@@ -109,10 +104,10 @@ class FeatOptionParser:
                         "saves",
                         "speed",
                     ):
-                        raise FlagParserError(
+                        raise ValueError(
                             f"Illegal flag name '{attribute_name}' specified."
                         )
-                except FlagParserError:
+                except ValueError:
                     # pass
                     return parsed_flags
                 if self.PARAM_SINGLE_SELECTION in flag_options[1]:
@@ -140,11 +135,11 @@ class FeatOptionParser:
                 flag_increment_count = int(options["increment"])
                 flag_menu_options = options["options"]
                 if len(flag_menu_options) < 1:
-                    raise FlagParserError("Malformed parser instructions error.")
+                    raise ValueError("Malformed parser instructions error.")
 
             if flag == "ability":
                 if flag_increment_count == 0:
-                    raise FlagParserError(
+                    raise ValueError(
                         "Flag attribute 'ability' requires a positive integer value."
                     )
 
@@ -313,7 +308,6 @@ class AbilityScoreImprovement:
         for x in range(1, self.character["level"] + 1):
             if (x % 4) == 0 and x != 20:
                 upgrade_count += 1
-
         if self.character["klass"] == "Fighter" and self.character["level"] >= 6:
             upgrade_count += 1
         if self.character["klass"] == "Rogue" and self.character["level"] >= 8:
@@ -322,7 +316,7 @@ class AbilityScoreImprovement:
             upgrade_count += 1
         if self.character["level"] >= 19:
             upgrade_count += 1
-
+            
         return upgrade_count
 
     def _has_requirements(self, feat: str) -> bool:
