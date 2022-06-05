@@ -3403,7 +3403,7 @@ dnd5e_sources = {
                 5: ["Flaming Sphere", "Melf's Acid Arrow"],
                 9: ["Gaseous Form", "Mass Healing Word"],
                 13: ["Blight", "Death Ward"],
-                17: ["Cloudkill", "Raise Dead"]
+                17: ["Cloudkill", "Raise Dead"],
             },
             "features": {
                 3: ["Tool Proficiency", "Experimental Elixir"],
@@ -3473,7 +3473,7 @@ dnd5e_sources = {
                 5: ["Mirror Image", "Shatter"],
                 9: ["Hypnotic Pattern", "Lightning Bolt"],
                 13: ["Fire Shield", "Greater Invisibility"],
-                17: ["Passwall", "Wall of Force"]
+                17: ["Passwall", "Wall of Force"],
             },
             "features": {
                 3: ["Tools of the Trade", "Arcane Armor", "Armor Model"],
