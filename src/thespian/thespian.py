@@ -205,6 +205,7 @@ def define_subrace(subrace: str, level: int) -> dict:
 
     blueprint = dict()
     blueprint["subrace"] = subrace
+    blueprint["level"] = level
     blueprint["armors"] = subrace_base["armors"]
     blueprint["tools"] = subrace_base["tools"]
     blueprint["weapons"] = subrace_base["weapons"]
@@ -332,6 +333,7 @@ def honor_guidelines(
                 # If dict, add all spells up to character's appropriate level.
                 # If list, add all spells (as list) to character's spell list.
                 if isinstance(spell_list, dict):
+                    level = output["level"]
                     spell_list = {k: v for k, v in spell_list.items() if k <= level}
                     for l, spells in spell_list.items():
                         if l <= level:
