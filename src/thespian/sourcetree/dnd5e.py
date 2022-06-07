@@ -1,3 +1,15 @@
+"""
+    LINE REFERENCE POINTS
+
+        Backgrounds         14
+        Classes             368
+        Feats               1280
+        Metrics             2715
+        Races               2749
+        Skills              3352
+        Subclasses          3409
+        Subraces            4957
+"""
 dnd5e_sources = {
     # BACKGROUNDS
     "backgrounds": {
@@ -3406,33 +3418,15 @@ dnd5e_sources = {
                 17: ["Cloudkill", "Raise Dead"],
             },
             "features": {
-                3: ["Tool Proficiency", "Experimental Elixir"],
+                3: ["Tool Proficiency", "Alchemist Spells", "Experimental Elixir"],
                 5: ["Alchemical Savant"],
                 9: ["Restorative Reagents"],
                 15: ["Chemical Mastery"],
             },
-            "guides": "tools,1",
+            "guides": None,
             "languages": [],
             "skills": [],
-            "tools": [
-                "Artisan's tools - Alchemists supplies",
-                "Artisan's tools - Brewer's supplies",
-                "Artisan's tools - Calligrapher's supplies",
-                "Artisan's tools - Carpenter's tools",
-                "Artisan's tools - Cartographer's tools",
-                "Artisan's tools - Cobbler's tools",
-                "Artisan's tools - Cook's utensils",
-                "Artisan's tools - Glassblower's tools",
-                "Artisan's tools - Jeweler's tools",
-                "Artisan's tools - Leatherworker's tools",
-                "Artisan's tools - Mason's tools",
-                "Artisan's tools - Painter's supplies",
-                "Artisan's tools - Potter's tools",
-                "Artisan's tools - Smith's tools",
-                "Artisan's tools - Tinker's tools",
-                "Artisan's tools - Weaver's tools",
-                "Artisan's tools - Woodcarver's tools",
-            ],
+            "tools": ["Artisan's tools - Alchemists supplies"],
             "weapons": [],
         },
         "Arcane Archer": {
@@ -3476,7 +3470,7 @@ dnd5e_sources = {
                 17: ["Passwall", "Wall of Force"],
             },
             "features": {
-                3: ["Tools of the Trade", "Arcane Armor", "Armor Model"],
+                3: ["Tools of the Trade", "Armorer Spells", "Arcane Armor", "Armor Model"],
                 5: ["Extra Attack"],
                 9: ["Armor Modifications"],
                 15: ["Perfected Armor"],
@@ -3484,7 +3478,28 @@ dnd5e_sources = {
             "guides": None,
             "languages": [],
             "skills": [],
-            "tools": [],
+            "tools": ["Artisan's tools - Smith's tools"],
+            "weapons": [],
+        },
+        "Artillerist": {
+            "armors": [],
+            "bonus_magic": {
+                3: ["Shield", "Thunderwave"],
+                5: ["Scorching Ray", "Shatter"],
+                9: ["Fireball", "Wind Wall"],
+                13: ["Ice Storm", "Wall of Fire"],
+                17: ["Cone of Cold", "Wall of Force"],
+            },
+            "features": {
+                3: ["Tool Proficiency", "Artillerist Spells", "Eldritch Cannon"],
+                5: ["Arcane Firearm"],
+                9: ["Explosive Cannon"],
+                15: ["Fortified Position"],
+            },
+            "guides": None,
+            "languages": [],
+            "skills": [],
+            "tools": ["Artisan's tools - Woodcarver's tools"],
             "weapons": [],
         },
         "Assassin": {
@@ -3516,6 +3531,27 @@ dnd5e_sources = {
             "skills": [],
             "tools": [],
             "weapons": [],
+        },
+        "Battle Smith": {
+            "armors": [],
+            "bonus_magic": {
+                3: ["Heroism", "Shield"],
+                5: ["Branding Smite", "Warding Bond"],
+                9: ["Aura of Vitality", "Conjure Barrage"],
+                13: ["Aura of Purity", "Fire Shield"],
+                17: ["Vanishing Smite", "Mass Cure Wounds"],
+            },
+            "features": {
+                3: ["Tool Proficiency", "Battle Smith Spells", "Battle Ready", "Steel Defender"],
+                5: ["Extra Attack"],
+                9: ["Arcane Jolt"],
+                15: ["Improved Defender"],
+            },
+            "guides": None,
+            "languages": [],
+            "skills": [],
+            "tools": ["Artisan's tools - Smith's tools"],
+            "weapons": ["Martial"],
         },
         "Beast Master": {
             "armors": [],
