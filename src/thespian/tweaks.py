@@ -316,7 +316,7 @@ class AbilityScoreImprovement:
             upgrade_count += 1
         if self.character["level"] >= 19:
             upgrade_count += 1
-            
+
         return upgrade_count
 
     def _has_requirements(self, feat: str) -> bool:

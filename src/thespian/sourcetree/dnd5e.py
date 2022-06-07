@@ -3470,7 +3470,12 @@ dnd5e_sources = {
                 17: ["Passwall", "Wall of Force"],
             },
             "features": {
-                3: ["Tools of the Trade", "Armorer Spells", "Arcane Armor", "Armor Model"],
+                3: [
+                    "Tools of the Trade",
+                    "Armorer Spells",
+                    "Arcane Armor",
+                    "Armor Model",
+                ],
                 5: ["Extra Attack"],
                 9: ["Armor Modifications"],
                 15: ["Perfected Armor"],
@@ -3542,7 +3547,12 @@ dnd5e_sources = {
                 17: ["Vanishing Smite", "Mass Cure Wounds"],
             },
             "features": {
-                3: ["Tool Proficiency", "Battle Smith Spells", "Battle Ready", "Steel Defender"],
+                3: [
+                    "Tool Proficiency",
+                    "Battle Smith Spells",
+                    "Battle Ready",
+                    "Steel Defender",
+                ],
                 5: ["Extra Attack"],
                 9: ["Arcane Jolt"],
                 15: ["Improved Defender"],
