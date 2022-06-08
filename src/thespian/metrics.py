@@ -3,14 +3,13 @@ import logging
 import math
 import random
 
+from attributes import roll
 from getters import (
     get_base_height,
     get_base_weight,
     get_dominant_sex,
     get_metrics_by_race,
 )
-
-from attributes import roll
 
 log = logging.getLogger("thespian.metrics")
 
