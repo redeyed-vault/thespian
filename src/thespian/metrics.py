@@ -3,7 +3,7 @@ import logging
 import math
 import random
 
-from .getters import (
+from getters import (
     get_base_height,
     get_base_weight,
     get_dominant_sex,
