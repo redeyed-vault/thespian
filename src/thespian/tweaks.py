@@ -1,7 +1,7 @@
 from dataclasses import dataclass
 import logging
 
-from sourcetree.utils import (
+from getters import (
     get_feats_list,
     get_feat_perks,
     get_feat_proficiencies,

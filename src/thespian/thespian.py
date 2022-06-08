@@ -4,11 +4,7 @@ import logging
 from math import ceil
 
 from attributes import AttributeGenerator, generate_hit_points, get_ability_modifier
-from tweaks import AbilityScoreImprovement
-from httpd import Server
-from sourcetree import SourceTree
-from sourcetree.metrics import AnthropometricCalculator
-from sourcetree.utils import (
+from getters import (
     get_pc_backgrounds,
     get_pc_classes,
     get_pc_races,
@@ -17,9 +13,13 @@ from sourcetree.utils import (
     get_skill_ability,
     get_skill_list,
 )
+from httpd import Server
+from metrics import AnthropometricCalculator
 from notifications import initialize, prompt
+from sourcetree import SourceTree
+from tweaks import AbilityScoreImprovement
 
-__version__ = "220603"
+__version__ = "220607"
 
 
 log = logging.getLogger("thespian")

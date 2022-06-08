@@ -3,7 +3,7 @@ import logging
 import math
 import random
 
-from .utils import (
+from .getters import (
     get_base_height,
     get_base_weight,
     get_dominant_sex,
@@ -12,7 +12,7 @@ from .utils import (
 
 from attributes import roll
 
-log = logging.getLogger("thespian.sourcetree.metrics")
+log = logging.getLogger("thespian.metrics")
 
 
 @dataclass

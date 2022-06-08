@@ -1,4 +1,4 @@
-from . import SourceTree
+from .sourcetree import SourceTree
 
 
 def get_base_height(race):
