@@ -1,33 +1,9 @@
 from sourcetree import SourceTree
 
 
-def get_base_height(race):
-    """Returns base height values by race."""
-    try:
-        return SourceTree.metrics[race]["height"]
-    except (AttributeError, KeyError, TypeError):
-        return None
-
-
-def get_base_weight(race):
-    """Returns base weight values by race."""
-    try:
-        return SourceTree.metrics[race]["weight"]
-    except (AttributeError, KeyError, TypeError):
-        return None
-
-
 def get_default_background(klass):
     """Returns default background by class."""
     return SourceTree.classes[klass]["background"]
-
-
-def get_dominant_sex(race):
-    """Returns the physically larger gender by race."""
-    try:
-        return SourceTree.metrics[race]["dominant"]
-    except AttributeError:
-        return None
 
 
 def get_feat_perks(feat_name):
@@ -48,11 +24,6 @@ def get_feat_requirements(feat_name):
 def get_feats_list():
     """Returns a tuple of all feats."""
     return tuple(SourceTree.feats.keys())
-
-
-def get_metrics_by_race(race):
-    """Returns metric data by race."""
-    return SourceTree.metrics.get(race)
 
 
 def get_pc_backgrounds():

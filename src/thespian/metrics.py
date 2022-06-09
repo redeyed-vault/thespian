@@ -4,12 +4,7 @@ import math
 import random
 
 from attributes import roll
-from getters import (
-    get_base_height,
-    get_base_weight,
-    get_dominant_sex,
-    get_metrics_by_race,
-)
+from sourcetree import SourceTree
 
 log = logging.getLogger("thespian.metrics")
 
@@ -20,7 +15,7 @@ class AnthropometricCalculator:
 
     race: str
     sex: str
-    subrace: str = None
+    subrace: str | None = None
 
     def _get_height_and_weight_base(self) -> tuple:
         """Gets the base height/weight information for race/subrace."""
@@ -34,23 +29,23 @@ class AnthropometricCalculator:
 
         # If base|sub race metrics info still not found.
         if base_height is None or base_weight is None:
-            raise ValueError("No racial base metrics found.")
+            raise ValueError("No racial/subracial base metrics found.")
 
         return (base_height, base_weight)
 
-    def _get_metric_data_source_race(self) -> str:
-        """Returns metric data's source race or subrace."""
+    def _get_metric_data_source(self) -> str:
+        """Returns metric data's source race/subrace name i.e Human, Drow, etc."""
         result = get_metrics_by_race(self.race)
         if result is None:
             result = get_metrics_by_race(self.subrace)
             if result is not None:
                 return self.subrace
             else:
-                raise ValueError("No racial source could be determined.")
+                raise ValueError("No racial/subracial source could be determined.")
 
         return self.race
 
-    def calculate(self, factor_sex=False) -> tuple:
+    def calculate(self, factor_sex: bool = False) -> tuple:
         """Calculates character's height and weight."""
         height_values, weight_values = self._get_height_and_weight_base()
         height_pair = height_values.split(",")
@@ -68,7 +63,8 @@ class AnthropometricCalculator:
 
         # Unofficial rule for height/weight differential by gender
         if factor_sex:
-            dominant_sex = get_dominant_sex(self._get_metric_data_source_race())
+            dominant_sex = get_dominant_sex(self._get_metric_data_source())
+            # If no dominant sex found, assume Male is the dominant sex.
             if dominant_sex is None:
                 dominant_sex = "Male"
                 log.warn(
@@ -101,3 +97,32 @@ class AnthropometricCalculator:
             height_value = (feet, inches)
 
         return height_value, weight_calculation
+
+
+def get_base_height(race: str) -> str | None:
+    """Returns base height values by race."""
+    try:
+        return SourceTree.metrics[race]["height"]
+    except (AttributeError, KeyError, TypeError):
+        return None
+
+
+def get_base_weight(race: str) -> str | None:
+    """Returns base weight values by race."""
+    try:
+        return SourceTree.metrics[race]["weight"]
+    except (AttributeError, KeyError, TypeError):
+        return None
+
+
+def get_dominant_sex(race: str) -> str | None:
+    """Returns the physically larger gender by race."""
+    try:
+        return SourceTree.metrics[race]["dominant"]
+    except AttributeError:
+        return None
+
+
+def get_metrics_by_race(race: str) -> str | None:
+    """Returns metric data by race."""
+    return SourceTree.metrics.get(race)
