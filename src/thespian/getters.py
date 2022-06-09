@@ -6,26 +6,6 @@ def get_default_background(klass):
     return SourceTree.classes[klass]["background"]
 
 
-def get_feat_perks(feat_name):
-    """Returns perks by feat."""
-    return SourceTree.feats[feat_name]["perk"]
-
-
-def get_feat_proficiencies(feat, prof_type):
-    """Returns bonus proficiencies by feat and proficiency type."""
-    return SourceTree.feats[feat]["perk"][prof_type]
-
-
-def get_feat_requirements(feat_name):
-    """Returns requirements by feat."""
-    return SourceTree.feats[feat_name]["required"]
-
-
-def get_feats_list():
-    """Returns a tuple of all feats."""
-    return tuple(SourceTree.feats.keys())
-
-
 def get_pc_backgrounds():
     """Returns a tuple of all player character backgrounds."""
     return tuple(SourceTree.backgrounds.keys())

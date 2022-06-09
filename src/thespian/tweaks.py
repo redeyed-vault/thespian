@@ -1,13 +1,8 @@
 from dataclasses import dataclass
 import logging
 
-from getters import (
-    get_feats_list,
-    get_feat_perks,
-    get_feat_proficiencies,
-    get_feat_requirements,
-)
 from notifications import prompt
+from sourcetree import SourceTree
 
 log = logging.getLogger("thespian.tweaks")
 
@@ -525,3 +520,23 @@ class AbilityScoreImprovement:
             self.character["scores"][ability] = new_score
             log.info(f"You applied a +{bonus} bonus to your {ability}.")
             log.info(f"Your {ability} score is now {new_score}.")
+
+
+def get_feat_perks(feat_name: str):
+    """Returns perks by feat."""
+    return SourceTree.feats[feat_name]["perk"]
+
+
+def get_feat_proficiencies(feat: str, prof_type: str):
+    """Returns bonus proficiencies by feat and proficiency type."""
+    return SourceTree.feats[feat]["perk"][prof_type]
+
+
+def get_feat_requirements(feat_name: str):
+    """Returns requirements by feat."""
+    return SourceTree.feats[feat_name]["required"]
+
+
+def get_feats_list() -> tuple:
+    """Returns a tuple of all feats."""
+    return tuple(SourceTree.feats.keys())
