@@ -84,6 +84,20 @@ def define_class(
     blueprint["proficiency_bonus"] = ceil((level / 4) + 1)
     blueprint["saves"] = class_base["saves"]
 
+    ability_options = list(class_base["primary_ability"].values())
+    if not all(isinstance(a, str) for a in ability_options):
+        for index, option in enumerate(ability_options):
+            if isinstance(option, list):
+                ranking = ("primary", "secondary")
+                my_ability = prompt(
+                    f"{index}: Choose a {ranking[index]} class attribute.", option
+                )
+                ability_options[index] = my_ability
+                log.info(f"primary ability: You selected '{my_ability}'.")
+
+    ability_options = tuple(ability_options)
+    log.info("primary ability: You selected '" + ", ".join(ability_options) + "'.")
+
     try:
         blueprint["spell_slots"] = {
             k: v for k, v in class_base["spell_slots"].items() if k == level
@@ -96,7 +110,7 @@ def define_class(
     blueprint = honor_guidelines(guidelines, class_base, blueprint)
 
     attributes = AttributeGenerator(
-        blueprint["primary_ability"], racial_bonuses, threshold
+        ability_options, racial_bonuses, threshold
     ).generate()
     blueprint["scores"] = attributes
 
@@ -306,20 +320,6 @@ def honor_guidelines(
                 log.info(f"You chose '{my_selection}' as your racial bonus.")
 
             output[guideline] = user_inputs
-            continue
-        elif guideline == "primary_ability":
-            ability_options = list(blueprint[guideline].values())
-            for index, option in enumerate(ability_options):
-                if isinstance(option, list):
-                    my_ability = prompt(
-                        "Choose your class' primary ability/abilities.", option
-                    )
-                    ability_options[index] = my_ability
-                    log.info(f"{guideline}: You selected '{my_ability}'.")
-            user_inputs = tuple(ability_options)
-            output[guideline] = user_inputs
-            recorder.store(guideline, user_inputs)
-            log.info(guideline + ": You selected '" + ", ".join(user_inputs) + "'.")
             continue
 
         # Guidelines with a 0 increment add ALL values by default.

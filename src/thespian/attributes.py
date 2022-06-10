@@ -59,7 +59,7 @@ class AttributeGenerator:
             log.info(f"Your '{ability}' score was set to {value}.")
 
         for ability, bonus in self.bonus.items():
-            value = my_attributes.get(ability) + bonus
+            value = my_attributes[ability] + bonus
             my_attributes[ability] = value
             log.info(
                 f"A bonus was applied to your '{ability}' score {value} ({bonus})."
