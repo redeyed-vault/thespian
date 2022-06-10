@@ -48,13 +48,8 @@ dnd5e_sources = {
             "equipment": [
                 "Fine Clothes",
                 "Disguise Kit",
-                "Con Tools [ten "
-                "stoppered bottles /w "
-                "colored liquid, "
-                "weighted dice, deck "
-                "of marked cards] or "
-                "signet ring of "
-                "imaginary duke]",
+                "Con Tools [ten stoppered bottles /w colored liquid, weighted "
+                "dice, deck of marked cards] or signet ring of imaginary duke]",
                 "15 Gold Pieces",
             ],
             "guides": "equipment,0|skills,0|tools,0",
