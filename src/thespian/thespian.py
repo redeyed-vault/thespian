@@ -19,7 +19,7 @@ from notifications import initialize, prompt
 from sourcetree import SourceTree
 from tweaks import AbilityScoreImprovement
 
-__version__ = "220607"
+__version__ = "220610"
 
 
 log = logging.getLogger("thespian")
@@ -99,9 +99,6 @@ def define_class(
     log.info("primary ability: You selected '" + ", ".join(ability_options) + "'.")
 
     try:
-        blueprint["spell_slots"] = {
-            k: v for k, v in class_base["spell_slots"].items() if k == level
-        }
         blueprint["spell_slots"] = class_base["spell_slots"][level]
     except KeyError:
         blueprint["spell_slots"] = "0"
