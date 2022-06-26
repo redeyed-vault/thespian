@@ -16,7 +16,7 @@ from getters import (
 from httpd import Server
 from metrics import AnthropometricCalculator
 from notifications import initialize, prompt
-from sourcetree import SourceTree
+from rpgdata import SourceTree
 from tweaks import AbilityScoreImprovement
 
 __version__ = "220610"

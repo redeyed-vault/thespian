@@ -1,4 +1,4 @@
-from sourcetree import SourceTree
+from rpgdata import SourceTree
 
 
 def get_default_background(klass):

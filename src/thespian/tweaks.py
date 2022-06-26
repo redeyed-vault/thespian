@@ -2,7 +2,7 @@ from dataclasses import dataclass
 import logging
 
 from notifications import prompt
-from sourcetree import SourceTree
+from rpgdata import SourceTree
 
 log = logging.getLogger("thespian.tweaks")
 

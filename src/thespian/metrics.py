@@ -4,7 +4,7 @@ import math
 import random
 
 from attributes import roll
-from sourcetree import SourceTree
+from rpgdata import SourceTree
 
 log = logging.getLogger("thespian.metrics")
 
