@@ -19,7 +19,7 @@ from notifications import initialize, prompt
 from rpgdata import SourceTree
 from tweaks import AbilityScoreImprovement
 
-__version__ = "220610"
+__version__ = "220627"
 
 
 log = logging.getLogger("thespian")
@@ -31,23 +31,23 @@ log_handler.setFormatter(log_format)
 log.addHandler(log_handler)
 
 
-class PromptRecorder:
-    """Stores and recalls user prompt selections."""
+class UserPromptRecorder:
+    """Class to store/recall user prompt selections."""
 
-    inputs: dict = dict()
+    prompt_inputs: dict = dict()
 
-    def recall(self, tape: str) -> dict:
+    def recall(self, prompt_category: str) -> dict:
         try:
-            return self.inputs[tape]
+            return self.prompt_inputs[prompt_category]
         except KeyError:
-            self.inputs[tape] = set()
-            return self.inputs[tape]
+            self.prompt_inputs[prompt_category] = set()
+            return self.prompt_inputs[prompt_category]
 
-    def store(self, tape: str, data: list) -> None:
-        if tape not in self.inputs:
-            self.inputs[tape] = set(data)
+    def store(self, prompt_category: str, prompt_inputs: list) -> None:
+        if prompt_category not in self.prompt_inputs:
+            self.prompt_inputs[prompt_category] = set(prompt_inputs)
         else:
-            self.inputs[tape].update(data)
+            self.prompt_inputs[prompt_category].update(prompt_inputs)
 
 
 def define_background(background: str) -> dict:
@@ -278,7 +278,7 @@ def honor_guidelines(
     if guidelines is None or not isinstance(guidelines, dict):
         return output
 
-    recorder = PromptRecorder()
+    recorder = UserPromptRecorder()
 
     for guideline, _ in guidelines.items():
         # TODO: Review this later - might be unnecessary
