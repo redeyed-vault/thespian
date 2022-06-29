@@ -11,7 +11,7 @@ from getters import (
     get_pc_subclasses,
     get_pc_subraces,
     get_skill_ability,
-    get_skill_list,
+    get_skill_list
 )
 from httpd import Server
 from metrics import AnthropometricCalculator
@@ -19,6 +19,7 @@ from notifications import initialize, prompt
 from rpgdata import SourceTree
 from tweaks import AbilityScoreImprovement
 
+__author__ = "Marcus T Taylor"
 __version__ = "220627"
 
 
