@@ -4,7 +4,7 @@ import math
 import random
 
 from attributes import roll
-from rpgdata import SourceTree
+from config import GuidelineSettings
 
 log = logging.getLogger("thespian.metrics")
 
@@ -102,7 +102,7 @@ class AnthropometricCalculator:
 def get_base_height(race: str) -> str | None:
     """Returns base height values by race."""
     try:
-        return SourceTree.metrics[race]["height"]
+        return GuidelineSettings.metrics[race]["height"]
     except (AttributeError, KeyError, TypeError):
         return None
 
@@ -110,7 +110,7 @@ def get_base_height(race: str) -> str | None:
 def get_base_weight(race: str) -> str | None:
     """Returns base weight values by race."""
     try:
-        return SourceTree.metrics[race]["weight"]
+        return GuidelineSettings.metrics[race]["weight"]
     except (AttributeError, KeyError, TypeError):
         return None
 
@@ -118,11 +118,11 @@ def get_base_weight(race: str) -> str | None:
 def get_dominant_sex(race: str) -> str | None:
     """Returns the physically larger gender by race."""
     try:
-        return SourceTree.metrics[race]["dominant"]
+        return GuidelineSettings.metrics[race]["dominant"]
     except AttributeError:
         return None
 
 
 def get_metrics_by_race(race: str) -> str | None:
     """Returns metric data by race."""
-    return SourceTree.metrics.get(race)
+    return GuidelineSettings.metrics.get(race)

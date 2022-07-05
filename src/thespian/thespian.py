@@ -4,7 +4,8 @@ import logging
 from math import ceil
 
 from attributes import AttributeGenerator, generate_hit_points, get_ability_modifier
-from getters import (
+from config import GuidelineSettings
+from config.getters import (
     get_pc_backgrounds,
     get_pc_classes,
     get_pc_races,
@@ -16,7 +17,6 @@ from getters import (
 from httpd import Server
 from metrics import AnthropometricCalculator
 from notifications import initialize, prompt
-from rpgdata import SourceTree
 from tweaks import AbilityScoreImprovement
 
 __author__ = "Marcus T Taylor"
@@ -56,7 +56,7 @@ class UserPromptRecorder:
 def define_background(background: str) -> dict:
     """Defines character background parameters."""
     try:
-        background_base = SourceTree.backgrounds[background]
+        background_base = GuidelineSettings.backgrounds[background]
     except KeyError:
         raise ValueError(f"Unknown background '{background}'.")
 
@@ -70,7 +70,7 @@ def define_class(
 ) -> dict:
     """Defines character class parameters."""
     try:
-        class_base = SourceTree.classes[klass]
+        class_base = GuidelineSettings.classes[klass]
     except KeyError:
         raise ValueError(f"Unknown player class '{klass}'.")
 
@@ -146,7 +146,7 @@ def define_guidelines(guideline_string: str) -> dict | None:
 def define_race(race: str, sex: str, background: str, level: int) -> dict:
     """Define character race parameters."""
     try:
-        race_base = SourceTree.races[race]
+        race_base = GuidelineSettings.races[race]
     except KeyError:
         raise ValueError(f"Unknown player race '{race}'.")
 
@@ -189,7 +189,7 @@ def define_race(race: str, sex: str, background: str, level: int) -> dict:
 def define_subclass(subclass: str, level: int) -> dict:
     """Defines character subclass parameters."""
     try:
-        subclass_base = SourceTree.subclasses[subclass]
+        subclass_base = GuidelineSettings.subclasses[subclass]
     except KeyError:
         raise ValueError(f"Unknown player subclass '{subclass}'.")
 
@@ -213,7 +213,7 @@ def define_subclass(subclass: str, level: int) -> dict:
 def define_subrace(subrace: str, level: int) -> dict:
     """Define character subrace parameters."""
     try:
-        subrace_base = SourceTree.subraces[subrace]
+        subrace_base = GuidelineSettings.subraces[subrace]
     except KeyError:
         raise ValueError(f"Unknown player subrace '{subrace}'.")
 
