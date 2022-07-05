@@ -12,7 +12,7 @@ from config.getters import (
     get_pc_subclasses,
     get_pc_subraces,
     get_skill_ability,
-    get_skill_list
+    get_skill_list,
 )
 from httpd import Server
 from metrics import AnthropometricCalculator
