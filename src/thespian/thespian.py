@@ -270,45 +270,45 @@ def expand_skills(skills: list, scores: dict, proficiency_bonus: int = 2) -> dic
     return expanded_skills
 
 
-def fuse_iterables(original_iterable: dict, merged_iterable: dict) -> dict:
+def fuse_iterables(original_iterable: dict, fused_iterable: dict) -> dict:
     """Fuses a dictionary to the the original dictionary."""
-    if not isinstance(original_iterable, dict) or not isinstance(merged_iterable, dict):
-        raise TypeError("Arguments must both be of type 'dict'.")
+    if not isinstance(original_iterable, dict) or not isinstance(fused_iterable, dict):
+        raise TypeError("Both arguments must be of type 'dict'.")
 
-    for key, value in merged_iterable.items():
-        # If index not availble in root dictionary.
+    for key, value in fused_iterable.items():
+        # If index not availble in root dictionary, create it.
         if key not in original_iterable:
             original_iterable[key] = value
             continue
 
-        # Merge dicts
+        # Fuse dict values
         if isinstance(value, dict):
-            a_dict = original_iterable[key]
+            dict_value = original_iterable[key]
             for subkey, subvalue in value.items():
-                if a_dict is None:
+                if dict_value is None:
                     break
-                if subkey not in a_dict:
+                if subkey not in dict_value:
                     try:
                         original_iterable[key][subkey] = subvalue
                     except IndexError:
                         original_iterable[key] = subvalue
                 else:
-                    original_iterable[key][subkey] = a_dict.get(subkey) + subvalue
+                    original_iterable[key][subkey] = dict_value.get(subkey) + subvalue
             continue
 
-        # Merge integers
+        # Fuse integer values
         if isinstance(value, int):
-            a_int = original_iterable[key]
-            if not isinstance(a_int, int):
+            int_value = original_iterable[key]
+            if not isinstance(int_value, int):
                 continue
-            if value > a_int:
+            if value > int_value:
                 original_iterable[key] = value
 
-        # Merge lists
+        # Fuse list values
         if isinstance(value, list):
-            a_list = original_iterable[key]
-            if isinstance(a_list, list):
-                original_iterable[key] = list(set(a_list + value))
+            list_value = original_iterable[key]
+            if isinstance(list_value, list):
+                original_iterable[key] = list(set(list_value + value))
     return original_iterable
 
 
