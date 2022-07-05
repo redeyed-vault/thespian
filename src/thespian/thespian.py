@@ -139,7 +139,6 @@ def define_guidelines(guideline_string: str) -> dict | None:
     for guideline_increment_value in tuple(creation_guidelines.values()):
         if guideline_increment_value < 0:
             raise ValueError("Guideline increment values must be greater than 0.")
-
     return creation_guidelines
 
 
@@ -271,6 +270,48 @@ def expand_skills(skills: list, scores: dict, proficiency_bonus: int = 2) -> dic
     return expanded_skills
 
 
+def fuse_iterables(original_iterable: dict, merged_iterable: dict) -> dict:
+    """Fuses a dictionary to the the original dictionary."""
+    if not isinstance(original_iterable, dict) or not isinstance(merged_iterable, dict):
+        raise TypeError("Arguments must both be of type 'dict'.")
+
+    for key, value in merged_iterable.items():
+        # If index not availble in root dictionary.
+        if key not in original_iterable:
+            original_iterable[key] = value
+            continue
+
+        # Merge dicts
+        if isinstance(value, dict):
+            a_dict = original_iterable[key]
+            for subkey, subvalue in value.items():
+                if a_dict is None:
+                    break
+                if subkey not in a_dict:
+                    try:
+                        original_iterable[key][subkey] = subvalue
+                    except IndexError:
+                        original_iterable[key] = subvalue
+                else:
+                    original_iterable[key][subkey] = a_dict.get(subkey) + subvalue
+            continue
+
+        # Merge integers
+        if isinstance(value, int):
+            a_int = original_iterable[key]
+            if not isinstance(a_int, int):
+                continue
+            if value > a_int:
+                original_iterable[key] = value
+
+        # Merge lists
+        if isinstance(value, list):
+            a_list = original_iterable[key]
+            if isinstance(a_list, list):
+                original_iterable[key] = list(set(a_list + value))
+    return original_iterable
+
+
 def honor_guidelines(
     guidelines: dict | None,
     blueprint: dict,
@@ -374,52 +415,6 @@ def honor_guidelines(
     return output
 
 
-def merge_dicts(dict_1: dict, dict_2: dict) -> dict:
-    """Merges two dictionaries."""
-    if not isinstance(dict_1, dict):
-        raise TypeError("First parameter must be of type 'dict'.")
-
-    if not isinstance(dict_2, dict):
-        raise TypeError("Second parameter must be of type 'dict'.")
-
-    for key, value in dict_2.items():
-        # If index not availble in root dictionary.
-        if key not in dict_1:
-            dict_1[key] = value
-            continue
-
-        # Merge dicts
-        if isinstance(value, dict):
-            a_dict = dict_1[key]
-            for subkey, subvalue in value.items():
-                if a_dict is None:
-                    break
-                if subkey not in a_dict:
-                    try:
-                        dict_1[key][subkey] = subvalue
-                    except IndexError:
-                        dict_1[key] = subvalue
-                else:
-                    dict_1[key][subkey] = a_dict.get(subkey) + subvalue
-            continue
-
-        # Merge integers
-        if isinstance(value, int):
-            a_int = dict_1[key]
-            if not isinstance(a_int, int):
-                continue
-            if value > a_int:
-                dict_1[key] = value
-
-        # Merge lists
-        if isinstance(value, list):
-            a_list = dict_1[key]
-            if isinstance(a_list, list):
-                dict_1[key] = list(set(a_list + value))
-
-    return dict_1
-
-
 def order_dict(iter: dict) -> dict:
     """Reorders dict by dictionary keys."""
     reordered_iter = dict()
@@ -453,16 +448,16 @@ def thespian(
         log.warn(f"No subrace options are available for '{race}'.")
     else:
         my_subrace = define_subrace(subrace, level)
-        merge_dicts(my_race, my_subrace)
+        fuse_iterables(my_race, my_subrace)
     my_background = define_background(background)
-    merge_dicts(my_race, my_background)
+    fuse_iterables(my_race, my_background)
     height, weight = AnthropometricCalculator(race, sex, subrace).calculate()
     my_race["height"] = height
     my_race["weight"] = weight
     feet, inches = my_race["height"]
     log.info(f"Your height is {feet}' {inches}\".")
     log.info(f"your weight is {my_race['weight']}.")
-    merge_dicts(blueprint, my_race)
+    fuse_iterables(blueprint, my_race)
 
     my_class = define_class(klass, level, blueprint["bonus"], threshold, roll_hp)
     my_class["subclass"] = subclass
@@ -470,8 +465,8 @@ def thespian(
         log.warn("No subclass options are available prior to level 3.")
     else:
         my_subclass = define_subclass(subclass, level)
-        merge_dicts(my_class, my_subclass)
-    merge_dicts(blueprint, my_class)
+        fuse_iterables(my_class, my_subclass)
+    fuse_iterables(blueprint, my_class)
     order_dict(blueprint)
     AbilityScoreImprovement(blueprint).run()
 
