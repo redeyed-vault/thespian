@@ -1,9 +1,6 @@
 from dataclasses import dataclass
-import os
 
-from aiohttp import web
-import aiohttp_jinja2
-import jinja2
+from flask import Flask, redirect, render_template
 
 
 @dataclass
@@ -18,20 +15,14 @@ class Server:
         pass
 
     def run(self) -> None:
-        routes = web.RouteTableDef()
-        routes.static("/css", "src/thespian/httpd/css/")
+        webapp = Flask(__name__)
 
-        @routes.get("/")
-        @aiohttp_jinja2.template("index.html")
-        async def index(request: web.Request):
-            return self.data
+        @webapp.route("/")
+        def index():
+            return redirect("/character")
 
-        app = web.Application()
-        app.add_routes(routes)
-        aiohttp_jinja2.setup(
-            app,
-            loader=jinja2.FileSystemLoader(
-                os.path.join(os.path.dirname(__file__), "templates")
-            ),
-        )
-        web.run_app(app, host="127.0.0.1", port=self.port)
+        @webapp.route("/character")
+        def character():
+            return render_template("index.html", **self.data)
+
+        webapp.run(port=self.port)
