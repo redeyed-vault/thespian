@@ -20,7 +20,7 @@ from rpgdata import SourceTree
 from tweaks import AbilityScoreImprovement
 
 __author__ = "Marcus T Taylor"
-__version__ = "220627"
+__version__ = "220704"
 
 
 log = logging.getLogger("thespian")
@@ -38,6 +38,7 @@ class UserPromptRecorder:
     prompt_inputs: dict = dict()
 
     def recall(self, prompt_category: str) -> dict:
+        """Returns/creates (if non-existent) prompt saved to a specified category."""
         try:
             return self.prompt_inputs[prompt_category]
         except KeyError:
@@ -45,6 +46,7 @@ class UserPromptRecorder:
             return self.prompt_inputs[prompt_category]
 
     def store(self, prompt_category: str, prompt_inputs: list) -> None:
+        """Stores prompts to a specified category."""
         if prompt_category not in self.prompt_inputs:
             self.prompt_inputs[prompt_category] = set(prompt_inputs)
         else:
@@ -642,5 +644,4 @@ def main() -> None:
         port,
         args.roll_hp,
     )
-    with Server(character, port) as http:
-        http.run()
+    Server.run(character, port)

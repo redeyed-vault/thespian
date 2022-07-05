@@ -8,13 +8,9 @@ class Server:
     data: dict
     port: int = 5000
 
-    def __enter__(self):
-        return self
-
-    def __exit__(self, exec_type, value, tb) -> None:
-        pass
-
-    def run(self) -> None:
+    @classmethod
+    def run(cls, content: dict, port: int) -> None:
+        server = cls(content, port)
         webapp = Flask(__name__)
 
         @webapp.route("/")
@@ -23,6 +19,6 @@ class Server:
 
         @webapp.route("/character")
         def character():
-            return render_template("index.html", **self.data)
+            return render_template("index.html", **server.data)
 
-        webapp.run(port=self.port)
+        webapp.run(port=server.port)
