@@ -1,4 +1,2 @@
-aiohttp==3.8.1
-aiohttp_jinja2==1.5
 colorama==0.4.4
-Jinja2==3.0.3
+Flask==2.1.2
