@@ -2,7 +2,12 @@ from dataclasses import dataclass
 import logging
 
 from notifications import prompt
-from config import GuidelineSettings
+from config.getters import (
+    get_feat_perks,
+    get_feat_proficiencies,
+    get_feat_requirements,
+    get_feats_list,
+)
 
 log = logging.getLogger("thespian.tweaks")
 
@@ -280,7 +285,7 @@ class FeatOptionParser:
 
 @dataclass
 class AbilityScoreImprovement:
-    """Used to apply ability and/or feat upgrades."""
+    """Class used to apply ability and/or feat upgrades."""
 
     character: dict
 
@@ -515,28 +520,9 @@ class AbilityScoreImprovement:
         """Applies a bonus to the specified ability (if applicable)."""
         if not self._is_adjustable(ability, bonus):
             log.warn(f"Ability '{ability}' is not adjustable with a bonus of {bonus}.")
-        else:
-            new_score = self.character.get("scores").get(ability) + bonus
-            self.character["scores"][ability] = new_score
-            log.info(f"You applied a +{bonus} bonus to your {ability}.")
-            log.info(f"Your {ability} score is now {new_score}.")
+            return
 
-
-def get_feat_perks(feat_name: str):
-    """Returns perks by feat."""
-    return GuidelineSettings.feats[feat_name]["perk"]
-
-
-def get_feat_proficiencies(feat: str, prof_type: str):
-    """Returns bonus proficiencies by feat and proficiency type."""
-    return GuidelineSettings.feats[feat]["perk"][prof_type]
-
-
-def get_feat_requirements(feat_name: str):
-    """Returns requirements by feat."""
-    return GuidelineSettings.feats[feat_name]["required"]
-
-
-def get_feats_list() -> tuple:
-    """Returns a tuple of all feats."""
-    return tuple(GuidelineSettings.feats.keys())
+        new_score = self.character.get("scores").get(ability) + bonus
+        self.character["scores"][ability] = new_score
+        log.info(f"You applied a +{bonus} bonus to your {ability}.")
+        log.info(f"Your {ability} score is now {new_score}.")

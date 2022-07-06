@@ -14,7 +14,7 @@ def get_entry_background(background: str) -> dict:
 def get_entry_class(klass: str) -> dict:
     """Returns config entry for class."""
     return GuidelineSettings.classes[klass]
-    
+
 
 def get_entry_race(race: str) -> dict:
     """Returns config entry for race."""
@@ -29,6 +29,26 @@ def get_entry_subclass(subclass: str) -> dict:
 def get_entry_subrace(subrace: str) -> dict:
     """Returns config entry for subrace"""
     return GuidelineSettings.subraces[subrace]
+
+
+def get_feat_perks(feat_name: str) -> dict:
+    """Returns perks by feat."""
+    return GuidelineSettings.feats[feat_name]["perk"]
+
+
+def get_feat_proficiencies(feat: str, prof_type: str) -> list:
+    """Returns bonus proficiencies by feat and proficiency type."""
+    return GuidelineSettings.feats[feat]["perk"][prof_type]
+
+
+def get_feat_requirements(feat_name: str) -> dict:
+    """Returns requirements by feat."""
+    return GuidelineSettings.feats[feat_name]["required"]
+
+
+def get_feats_list() -> tuple:
+    """Returns a tuple of all feats."""
+    return tuple(GuidelineSettings.feats.keys())
 
 
 def get_pc_backgrounds() -> tuple:

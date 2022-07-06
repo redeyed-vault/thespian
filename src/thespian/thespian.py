@@ -98,7 +98,8 @@ def define_class(
             if isinstance(option, list):
                 ranking = ("primary", "secondary")
                 my_ability = prompt(
-                    f"{ranking[index].capitalize()}: Choose a {ranking[index]} class attribute.", option
+                    f"{ranking[index].capitalize()}: Choose a {ranking[index]} class attribute.",
+                    option,
                 )
                 ability_options[index] = my_ability
                 log.info(f"primary ability: You selected '{my_ability}'.")
