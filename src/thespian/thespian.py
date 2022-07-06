@@ -4,8 +4,13 @@ import logging
 from math import ceil
 
 from attributes import AttributeGenerator, generate_hit_points, get_ability_modifier
-from config import GuidelineSettings
 from config.getters import (
+    get_default_background,
+    get_entry_background,
+    get_entry_class,
+    get_entry_race,
+    get_entry_subclass,
+    get_entry_subrace,
     get_pc_backgrounds,
     get_pc_classes,
     get_pc_races,
@@ -56,7 +61,7 @@ class UserPromptRecorder:
 def define_background(background: str) -> dict:
     """Defines character background parameters."""
     try:
-        background_base = GuidelineSettings.backgrounds[background]
+        background_base = get_entry_background(background)
     except KeyError:
         raise ValueError(f"Unknown background '{background}'.")
 
@@ -70,7 +75,7 @@ def define_class(
 ) -> dict:
     """Defines character class parameters."""
     try:
-        class_base = GuidelineSettings.classes[klass]
+        class_base = get_entry_class(klass)
     except KeyError:
         raise ValueError(f"Unknown player class '{klass}'.")
 
@@ -145,7 +150,7 @@ def define_guidelines(guideline_string: str) -> dict | None:
 def define_race(race: str, sex: str, background: str, level: int) -> dict:
     """Define character race parameters."""
     try:
-        race_base = GuidelineSettings.races[race]
+        race_base = get_entry_race(race)
     except KeyError:
         raise ValueError(f"Unknown player race '{race}'.")
 
@@ -188,7 +193,7 @@ def define_race(race: str, sex: str, background: str, level: int) -> dict:
 def define_subclass(subclass: str, level: int) -> dict:
     """Defines character subclass parameters."""
     try:
-        subclass_base = GuidelineSettings.subclasses[subclass]
+        subclass_base = get_entry_subclass(subclass)
     except KeyError:
         raise ValueError(f"Unknown player subclass '{subclass}'.")
 
@@ -212,7 +217,7 @@ def define_subclass(subclass: str, level: int) -> dict:
 def define_subrace(subrace: str, level: int) -> dict:
     """Define character subrace parameters."""
     try:
-        subrace_base = GuidelineSettings.subraces[subrace]
+        subrace_base = get_entry_subrace(subrace)
     except KeyError:
         raise ValueError(f"Unknown player subrace '{subrace}'.")
 
@@ -556,8 +561,7 @@ def main() -> None:
         "-b",
         help="Sets your character's background",
         type=str,
-        choices=get_pc_backgrounds(),
-        default="Soldier",
+        default="",
     )
     app.add_argument(
         "-klass",
@@ -612,6 +616,10 @@ def main() -> None:
     level = args.level
     port = args.port
 
+    background = args.background
+    if background == "" or background not in get_pc_backgrounds():
+        background = get_default_background(klass)
+
     if level < 3:
         subclass = ""
     else:
@@ -631,7 +639,7 @@ def main() -> None:
         race,
         subrace,
         args.sex,
-        args.background,
+        background,
         klass,
         subclass,
         level,

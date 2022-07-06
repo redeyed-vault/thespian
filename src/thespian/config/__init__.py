@@ -1,13 +1,15 @@
-from .guidelines import guides
+from .guidelines import guidelines
 
 
 class GuidelineSettings:
-    backgrounds: object = guides["backgrounds"]
-    classes: object = guides["classes"]
-    feats: object = guides["feats"]
-    metrics: object = guides["metrics"]
-    races: object = guides["races"]
-    skills: object = guides["skills"]
-    spell_lists: object = guides["spell_lists"]
-    subclasses: object = guides["subclasses"]
-    subraces: object = guides["subraces"]
+    """Class to hold basic character guideline data."""
+
+    backgrounds: object = guidelines["backgrounds"]
+    classes: object = guidelines["classes"]
+    feats: object = guidelines["feats"]
+    metrics: object = guidelines["metrics"]
+    races: object = guidelines["races"]
+    skills: object = guidelines["skills"]
+    spell_lists: object = guidelines["spell_lists"]
+    subclasses: object = guidelines["subclasses"]
+    subraces: object = guidelines["subraces"]
