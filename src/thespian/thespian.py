@@ -20,7 +20,7 @@ from notifications import initialize, prompt
 from tweaks import AbilityScoreImprovement
 
 __author__ = "Marcus T Taylor"
-__version__ = "220704"
+__version__ = "220706"
 
 
 log = logging.getLogger("thespian")
@@ -93,7 +93,7 @@ def define_class(
             if isinstance(option, list):
                 ranking = ("primary", "secondary")
                 my_ability = prompt(
-                    f"{index}: Choose a {ranking[index]} class attribute.", option
+                    f"{ranking[index].capitalize()}: Choose a {ranking[index]} class attribute.", option
                 )
                 ability_options[index] = my_ability
                 log.info(f"primary ability: You selected '{my_ability}'.")
