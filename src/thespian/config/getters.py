@@ -1,6 +1,30 @@
 from . import GuidelineSettings
 
 
+def get_base_height(race: str) -> str | None:
+    """Returns base height values by race."""
+    try:
+        return GuidelineSettings.metrics[race]["height"]
+    except (AttributeError, KeyError, TypeError):
+        return None
+
+
+def get_base_weight(race: str) -> str | None:
+    """Returns base weight values by race."""
+    try:
+        return GuidelineSettings.metrics[race]["weight"]
+    except (AttributeError, KeyError, TypeError):
+        return None
+
+
+def get_dominant_sex(race: str) -> str | None:
+    """Returns the physically larger gender by race."""
+    try:
+        return GuidelineSettings.metrics[race]["dominant"]
+    except AttributeError:
+        return None
+
+
 def get_default_background(klass: str) -> str:
     """Returns default background by class."""
     return GuidelineSettings.classes[klass]["background"]
@@ -49,6 +73,11 @@ def get_feat_requirements(feat_name: str) -> dict:
 def get_feats_list() -> tuple:
     """Returns a tuple of all feats."""
     return tuple(GuidelineSettings.feats.keys())
+
+
+def get_metrics_by_race(race: str) -> str | None:
+    """Returns metric data by race."""
+    return GuidelineSettings.metrics.get(race)
 
 
 def get_pc_backgrounds() -> tuple:

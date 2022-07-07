@@ -4,14 +4,19 @@ import math
 import random
 
 from attributes import roll
-from config import GuidelineSettings
+from config.getters import (
+    get_base_height,
+    get_base_weight,
+    get_dominant_sex,
+    get_metrics_by_race,
+)
 
 log = logging.getLogger("thespian.metrics")
 
 
 @dataclass
 class AnthropometricCalculator:
-    """Used to calculate the height and weight of characters based upon race/subrace."""
+    """Class to calculate height and weight."""
 
     race: str
     sex: str
@@ -97,32 +102,3 @@ class AnthropometricCalculator:
             height_value = (feet, inches)
 
         return height_value, weight_calculation
-
-
-def get_base_height(race: str) -> str | None:
-    """Returns base height values by race."""
-    try:
-        return GuidelineSettings.metrics[race]["height"]
-    except (AttributeError, KeyError, TypeError):
-        return None
-
-
-def get_base_weight(race: str) -> str | None:
-    """Returns base weight values by race."""
-    try:
-        return GuidelineSettings.metrics[race]["weight"]
-    except (AttributeError, KeyError, TypeError):
-        return None
-
-
-def get_dominant_sex(race: str) -> str | None:
-    """Returns the physically larger gender by race."""
-    try:
-        return GuidelineSettings.metrics[race]["dominant"]
-    except AttributeError:
-        return None
-
-
-def get_metrics_by_race(race: str) -> str | None:
-    """Returns metric data by race."""
-    return GuidelineSettings.metrics.get(race)
