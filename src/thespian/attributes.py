@@ -10,10 +10,10 @@ log = logging.getLogger("thespian.attributes")
 
 @dataclass
 class AttributeGenerator:
-    """Generates values for the six basic attributes."""
+    """Class to generate character's base attributes."""
 
-    ability: tuple | list
-    bonus: dict
+    primary_attributes: tuple | list
+    racial_bonus: dict
     threshold: int = 65
 
     def generate(self) -> OrderedDict:
@@ -35,34 +35,37 @@ class AttributeGenerator:
             "Charisma",
         ]
 
-        # Generate six ability scores
-        # Assign primary class abilities first
-        # Assign the remaining abilities
-        # Apply racial bonuses
+        # Generate six ability scores.
         my_rolls = self._roll_ability_array(self.threshold)
-        for adj_index, ability in enumerate(self.ability):
-            value = max(my_rolls)
-            my_attributes[ability] = value
-            attribute_options.remove(ability)
-            my_rolls.remove(value)
-            adjective_text = ("primary", "secondary")
+
+        # Assign primary/secondary attributes first.
+        for rank_index, attribute in enumerate(self.primary_attributes):
+            attribute_value = max(my_rolls)
+            my_attributes[attribute] = attribute_value
+            attribute_options.remove(attribute)
+            my_rolls.remove(attribute_value)
+
+            ranking_text_labels = ("primary", "secondary")
+            ranking_text = ranking_text_labels[rank_index]
             log.info(
-                f"Your {adjective_text[adj_index]} class ability '{ability}' score was set to {value}."
+                f"Your {ranking_text} class ability '{attribute}' score was set to {attribute_value}."
             )
 
+        # Assign the remaining attributes.
         for _ in range(0, 4):
-            ability = choice(attribute_options)
-            value = choice(my_rolls)
-            my_attributes[ability] = value
-            attribute_options.remove(ability)
-            my_rolls.remove(value)
-            log.info(f"Your '{ability}' score was set to {value}.")
+            attribute_options.remove(attribute)
+            attribute = choice(attribute_options)
+            attribute_value = choice(my_rolls)
+            my_rolls.remove(attribute_value)
+            my_attributes[attribute] = attribute_value
+            log.info(f"Your '{attribute}' score was set to {attribute_value}.")
 
-        for ability, bonus in self.bonus.items():
-            value = my_attributes[ability] + bonus
-            my_attributes[ability] = value
+        # Apply racial bonuses.
+        for attribute, bonus in self.racial_bonus.items():
+            attribute_value = my_attributes[attribute] + bonus
+            my_attributes[attribute] = attribute_value
             log.info(
-                f"A bonus was applied to your '{ability}' score {value} ({bonus})."
+                f"A bonus was applied to your '{attribute}' score {attribute_value} ({bonus})."
             )
 
         return my_attributes
@@ -104,6 +107,7 @@ def generate_hit_points(
             else:
                 hp_result = randint(1, hit_die)
             hp_result = hp_result + modifier
+            
             if hp_result < 1:
                 hp_result = 1
             die_rolls.append(hp_result)
