@@ -71,7 +71,7 @@ class AttributeGenerator:
         """Generates six ability scores."""
 
         def generate_score():
-            rolls = list(roll("4d6"))
+            rolls = roll_die("4d6")
             rolls.remove(min(rolls))
             return sum(rolls)
 
@@ -124,30 +124,22 @@ def get_ability_modifier(ability: str, scores: dict) -> int:
         return 0
 
 
-def roll(string: str):
-    """
-    Rolls die by die string format.
+def roll_die(format: str):
+    """Rolls a die (i.e 4d6)."""
+    if not isinstance(format, str):
+        raise TypeError(f"Argument must be of type 'str'.")
 
-    :param str string: Die string format value i.e: 2d6, 10d8, etc.
+    if not re.search("[0-9]d[0-9]", format):
+        raise ValueError("Invalid die format used (i.e: 4d6).")
 
-    """
-    if not isinstance(string, str):
-        raise TypeError(
-            f"Argument 'string' must be of type 'str', not type '{type(string)}'."
-        )
-
-    if not re.search("[0-9]d[0-9]", string):
-        raise ValueError("Argument 'string' has an invalid format (i.e: 4d6).")
-
-    split_string = string.split("d")
-    num_of_rolls = int(split_string[0])
-    die_type = int(split_string[1])
+    num_of_rolls, die_type = die_string = format.split("d")
+    num_of_rolls = int(num_of_rolls)
+    die_type = int(die_type)
 
     if num_of_rolls < 1:
-        raise ValueError("Argument 'string' has an invalid 'num_of_rolls' value.")
+        raise ValueError("Must make at least 1 roll.")
 
     if die_type not in (1, 4, 6, 8, 10, 12, 20, 100):
-        raise ValueError("Argument 'string' has an invalid 'die_type' value.")
+        raise ValueError("Die type invalid.")
 
-    for _ in range(num_of_rolls):
-        yield randint(1, die_type)
+    return [randint(1, die_type) for r in range(num_of_rolls)]

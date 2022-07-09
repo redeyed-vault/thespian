@@ -3,7 +3,7 @@ import logging
 import math
 import random
 
-from attributes import roll
+from attributes import roll_die
 from config.getters import (
     get_base_height,
     get_base_weight,
@@ -58,12 +58,12 @@ class AnthropometricCalculator:
 
         # Height formula = base + modifier result
         height_base = int(height_pair[0])
-        height_modifier = sum(list(roll(height_pair[1])))
+        height_modifier = sum(roll_die(height_pair[1]))
         height_calculation = height_base + height_modifier
 
         # Weight formula = height modifier * weight modifier + base
         weight_base = int(weight_pair[0])
-        weight_modifier = sum(list(roll(weight_pair[1])))
+        weight_modifier = sum(roll_die(weight_pair[1]))
         weight_calculation = (weight_modifier * height_modifier) + weight_base
 
         # Unofficial rule for height/weight differential by gender
