@@ -13,6 +13,7 @@ Thespian is a tool for generating 5th edition Dungeons & Dragons characters. Cur
 
   * Work out ALL general bugs/inconsistencies before moving forward.
   * Incorporate *Sword Coast Adventurer's Guide* rulebook.
+  * Incorporate spell selection for spellcasters.
 
 
 #### REQUIREMENTS
