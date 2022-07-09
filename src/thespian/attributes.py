@@ -42,6 +42,7 @@ class AttributeGenerator:
         for rank_index, attribute in enumerate(self.primary_attributes):
             attribute_value = max(my_rolls)
             my_attributes[attribute] = attribute_value
+
             attribute_options.remove(attribute)
             my_rolls.remove(attribute_value)
 
@@ -53,16 +54,19 @@ class AttributeGenerator:
 
         # Assign the remaining attributes.
         for _ in range(0, 4):
-            attribute_options.remove(attribute)
             attribute = choice(attribute_options)
+            attribute_options.remove(attribute)
+
             attribute_value = choice(my_rolls)
             my_rolls.remove(attribute_value)
+
             my_attributes[attribute] = attribute_value
             log.info(f"Your '{attribute}' score was set to {attribute_value}.")
 
         # Apply racial bonuses.
         for attribute, bonus in self.racial_bonus.items():
             attribute_value = my_attributes[attribute] + bonus
+            
             my_attributes[attribute] = attribute_value
             log.info(
                 f"A bonus was applied to your '{attribute}' score {attribute_value} ({bonus})."
@@ -107,7 +111,7 @@ def generate_hit_points(
             else:
                 hp_result = randint(1, hit_die)
             hp_result = hp_result + modifier
-            
+
             if hp_result < 1:
                 hp_result = 1
             die_rolls.append(hp_result)
@@ -136,7 +140,7 @@ def roll_die(format: str):
     if not re.search("[0-9]d[0-9]", format):
         raise ValueError("Invalid die format used (i.e: 4d6).")
 
-    num_of_rolls, die_type = die_string = format.split("d")
+    num_of_rolls, die_type = format.split("d")
     num_of_rolls = int(num_of_rolls)
     die_type = int(die_type)
 
