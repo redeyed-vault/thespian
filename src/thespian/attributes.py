@@ -132,7 +132,7 @@ def get_ability_modifier(ability: str, scores: dict) -> int:
         return 0
 
 
-def roll_die(format: str):
+def roll_die(format: str) -> list:
     """Rolls a die (i.e 4d6)."""
     if not isinstance(format, str):
         raise TypeError(f"Argument must be of type 'str'.")
