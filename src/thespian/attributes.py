@@ -66,7 +66,6 @@ class AttributeGenerator:
         # Apply racial bonuses.
         for attribute, bonus in self.racial_bonus.items():
             attribute_value = my_attributes[attribute] + bonus
-            
             my_attributes[attribute] = attribute_value
             log.info(
                 f"A bonus was applied to your '{attribute}' score {attribute_value} ({bonus})."
