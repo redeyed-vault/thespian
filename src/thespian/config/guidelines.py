@@ -1,17 +1,32 @@
 """
     LINE REFERENCE POINTS
 
-        Backgrounds         15
-        Classes             368
-        Feats               1284
-        Metrics             2721
-        Races               2757
-        Skills              3362
-        Spell Lists         3422
-        Subclasses          3433
-        Subraces            5052
+        Alignments          19
+        Backgrounds         33
+        Classes             384
+        Feats               1302
+        Metrics             2739
+        Races               2775
+        Skills              3380
+        Spell Lists         3439
+        Subclasses          3558
+        Subraces            5177
 """
 guidelines = {
+    #################################################################
+    # ALIGNMENTS
+    #################################################################
+    "alignments": {
+        "ce": "Chaotic Evil",
+        "cg": "Chaotic Good",
+        "cn": "Chaotic Neutral",
+        "ne": "Neutral Evil",
+        "ng": "Neutral Good",
+        "tn": "True Neutral",
+        "le": "Lawful Evil",
+        "ln": "Lawful Neutral",
+        "lg": "Lawful Good",
+    },
     #################################################################
     # BACKGROUNDS
     #################################################################
