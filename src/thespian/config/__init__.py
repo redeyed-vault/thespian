@@ -4,6 +4,7 @@ from .guidelines import guidelines
 class GuidelineSettings:
     """Class to hold basic character guideline data."""
 
+    alignments: object = guidelines["alignments"]
     backgrounds: object = guidelines["backgrounds"]
     classes: object = guidelines["classes"]
     feats: object = guidelines["feats"]

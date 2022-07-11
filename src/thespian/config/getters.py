@@ -80,6 +80,11 @@ def get_metrics_by_race(race: str) -> str | None:
     return GuidelineSettings.metrics.get(race)
 
 
+def get_pc_alignments() -> tuple:
+    """Returns a tuple of all player character alignments."""
+    return tuple(GuidelineSettings.alignments.keys())
+
+
 def get_pc_backgrounds() -> tuple:
     """Returns a tuple of all player character backgrounds."""
     return tuple(GuidelineSettings.backgrounds.keys())
@@ -95,17 +100,20 @@ def get_pc_races() -> tuple:
     return tuple(GuidelineSettings.races.keys())
 
 
-def get_pc_subclasses(klass: str) -> tuple:
+def get_pc_subclasses(klass: str = None) -> tuple:
     """Returns a set of all player character subclasses."""
-    return set(GuidelineSettings.classes[klass]["subclass"])
+    try:
+        return set(GuidelineSettings.classes[klass]["subclass"])
+    except KeyError:
+        return set(GuidelineSettings.subclasses.keys())
 
 
-def get_pc_subraces(race: str) -> dict | None:
+def get_pc_subraces(race: str = None) -> dict | None:
     """Returns a set of all player character subraces."""
     try:
         return set(GuidelineSettings.races[race]["subrace"])
-    except AttributeError:
-        return None
+    except (AttributeError, KeyError):
+        return set(GuidelineSettings.subraces.keys())
 
 
 def get_skill_ability(skill_name: str) -> str | None:
