@@ -1,7 +1,9 @@
+from enum import Enum
+
 from .guidelines import guidelines
 
 
-class GuidelineSettings:
+class Guidelines(Enum):
     """Class to hold basic character guideline data."""
 
     alignments: object = guidelines["alignments"]
