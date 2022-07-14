@@ -12,7 +12,7 @@ class ParameterOptionsRouter:
             self.parameter_options[guideline.name] = tuple(guideline.value.keys())
 
     @classmethod
-    def find_parameters(cls, action_query):
+    def find_parameters_by_action(cls, action_query: str) -> dict | None:
         router = cls()
         if len(action_query) < 4:
             raise ValueError("Query must contain at least 4 characters.")
@@ -25,8 +25,8 @@ class ParameterOptionsRouter:
         return None
 
 
-class ThespianInteractivePrompt(ParameterOptionsRouter):
-    """Class for the Thespian interactive prompt."""
+class InteractivePrompt(ParameterOptionsRouter):
+    """Class for the interactive user prompt."""
 
     USER_FUNCTIONS = (
         "alignment",
@@ -39,7 +39,10 @@ class ThespianInteractivePrompt(ParameterOptionsRouter):
         "subclass",
         "subrace",
     )
-    UTILITY_FUNCTIONS = "show"
+    UTILITY_FUNCTIONS = (
+        "help",
+        "show",
+    )
 
     def __init__(self):
         super(ParameterOptionsRouter, self).__init__()
@@ -59,20 +62,15 @@ class ThespianInteractivePrompt(ParameterOptionsRouter):
     def _parse_(self, args) -> tuple:
         """Parses user argument inputs."""
         args = args.split(" ")
-
         if len(args) < 1:
-            raise ValueError(f"Error 1: Invalid number of arguments specified.")
+            raise ValueError(f"Invalid number of arguments specified.")
 
         action = args[0]
+        if action not in self.USER_FUNCTIONS and action not in self.UTILITY_FUNCTIONS:
+            raise ValueError(f"Invalid action specified '{action}'.")
 
         if len(args) == 1:
-            parameter = ""
-
-        if len(args) < 2 and action not in self.UTILITY_FUNCTIONS:
-            raise ValueError(f"Error 1: Invalid action specified '{action}'.")
-
-        if len(args) >= 2 and action not in self.USER_FUNCTIONS:
-            raise ValueError(f"Error 1: Invalid action specified '{action}'.")
+            args.append("")
 
         if len(args) > 2:
             args = args[1:]
@@ -92,39 +90,41 @@ class ThespianInteractivePrompt(ParameterOptionsRouter):
                     parameter = parameter.capitalize()
                 else:
                     raise ValueError("Sex parameter must be either male or female.")
-            else:
-                if parameter not in ParameterOptionsRouter.get_options(action):
-                    raise ValueError(f"Invalid parameter specified for '{action}'.")
 
         return (action, parameter)
 
-    def execute(self) -> dict:
+    def run_prompt(self) -> dict:
         """Executes the interactive program."""
         prompt_text = Fore.GREEN + Style.BRIGHT + "thespian: " + Style.RESET_ALL
         user_input = input(prompt_text)
 
         try:
             action, parameter = self._parse_(user_input)
-        except ValueError:
-            self.execute()
+        except ValueError as e:
+            print(e)
+            self.run_prompt()
 
         if action in self.UTILITY_FUNCTIONS:
             print(self.user_selections)
-            return self.execute()
+            return self.run_prompt()
+
+        allowed_action_parameters = ParameterOptionsRouter.find_parameters_by_action(action)
+        if allowed_action_parameters != None:
+            if parameter not in allowed_action_parameters:
+                print(f"Invalid {action} parameter specified '{parameter}'.")
+                return self.run_prompt()
 
         self.user_selections[action] = parameter
 
-        #print(ParameterOptionsRouter.find_parameters("class"))
-
         if not all(o is not None for o in self.user_selections.values()):
-            return self.execute()
+            return self.run_prompt()
         else:
             return self.user_selections
 
 
 def main():
-    i = ThespianInteractivePrompt()
-    print(i.execute())
+    i = InteractivePrompt()
+    print(i.run_prompt())
 
 
 if __name__ == "__main__":
