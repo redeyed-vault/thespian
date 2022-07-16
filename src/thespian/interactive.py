@@ -1,6 +1,8 @@
 from colorama import init, Fore, Style
 
 from config import Guidelines
+from httpd import Server
+from thespian import thespian
 
 
 class ParameterOptionsRouter:
@@ -9,12 +11,16 @@ class ParameterOptionsRouter:
     def __init__(self):
         self.parameter_options = dict()
         for guideline in Guidelines:
-            self.parameter_options[guideline.name] = tuple(guideline.value.keys())
+            guideline_value = guideline.value
+            if isinstance(guideline_value, dict):
+                self.parameter_options[guideline.name] = tuple(guideline_value.keys())
+            else:
+                self.parameter_options[guideline.name] = tuple(guideline_value)
 
     @classmethod
     def find_parameters_by_action(cls, action_query: str) -> dict | None:
         router = cls()
-        if len(action_query) < 4:
+        if len(action_query) < 3:
             raise ValueError("Query must contain at least 4 characters.")
 
         action_parameter_titles = tuple(router.parameter_options.keys())
@@ -23,6 +29,10 @@ class ParameterOptionsRouter:
                 return router.parameter_options[action]
 
         return None
+
+
+class InteractivePromptValueError(ValueError):
+    """Special ValueError wrapper."""
 
 
 class InteractivePrompt(ParameterOptionsRouter):
@@ -50,7 +60,7 @@ class InteractivePrompt(ParameterOptionsRouter):
         self.user_selections = {
             "alignment": None,
             "background": None,
-            "klass": None,
+            "class": None,
             "level": None,
             "name": None,
             "race": None,
@@ -59,7 +69,7 @@ class InteractivePrompt(ParameterOptionsRouter):
             "subrace": None,
         }
 
-    def _parse_(self, args) -> tuple:
+    def _parse_(self, args: str) -> tuple:
         """Parses user argument inputs."""
         args = args.split(" ")
         if len(args) < 1:
@@ -80,35 +90,50 @@ class InteractivePrompt(ParameterOptionsRouter):
             parameter = args[1]
             if action == "level":
                 parameter = int(parameter)
-                if parameter not in range(1, 21):
-                    raise ValueError("Level parameter must be between 1 - 20.")
+            else:
+                parameter = parameter.capitalize()
+
+            if action == "level" and parameter not in range(1, 21):
+                raise ValueError("Level parameter must be between 1 - 20.")
             elif action == "name" and parameter == "":
-                print("No name was specified.")
-                parameter = "Character"
-            elif action == "sex":
-                if parameter in ("female", "male"):
-                    parameter = parameter.capitalize()
-                else:
-                    raise ValueError("Sex parameter must be either male or female.")
+                parameter = "Nameless One"
+                raise InteractivePromptValueError(
+                    "Name was not set. Using default name."
+                )
+            elif action == "sex" and parameter not in ("Female", "Male"):
+                raise ValueError("Sex parameter must be either male or female.")
 
         return (action, parameter)
 
-    def run_prompt(self) -> dict:
+    def run_prompt(self, message: str = None) -> dict:
         """Executes the interactive program."""
-        prompt_text = Fore.GREEN + Style.BRIGHT + "thespian: " + Style.RESET_ALL
+        if message is not None:
+            prompt_text = (
+                Fore.GREEN
+                + Style.BRIGHT
+                + "thespian: "
+                + Style.RESET_ALL
+                + message
+                + "\n"
+            )
+        else:
+            prompt_text = Fore.GREEN + Style.BRIGHT + "thespian: " + Style.RESET_ALL
         user_input = input(prompt_text)
 
         try:
             action, parameter = self._parse_(user_input)
-        except ValueError as e:
-            print(e)
-            self.run_prompt()
+        except InteractivePromptValueError as e:
+            pass
+        except ValueError:
+            self.run_prompt(e.__str__())
 
         if action in self.UTILITY_FUNCTIONS:
             print(self.user_selections)
             return self.run_prompt()
 
-        allowed_action_parameters = ParameterOptionsRouter.find_parameters_by_action(action)
+        allowed_action_parameters = ParameterOptionsRouter.find_parameters_by_action(
+            action
+        )
         if allowed_action_parameters != None:
             if parameter not in allowed_action_parameters:
                 print(f"Invalid {action} parameter specified '{parameter}'.")
@@ -124,7 +149,18 @@ class InteractivePrompt(ParameterOptionsRouter):
 
 def main():
     i = InteractivePrompt()
-    print(i.run_prompt())
+    output = i.run_prompt()
+    character = thespian(
+        output["race"],
+        output["subrace"],
+        output["sex"],
+        output["background"],
+        output["alignment"],
+        output["class"],
+        output["subclass"],
+        output["level"],
+    )
+    Server.run(character)
 
 
 if __name__ == "__main__":

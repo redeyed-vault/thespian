@@ -4,28 +4,14 @@ import logging
 from math import ceil
 
 from attributes import AttributeGenerator, generate_hit_points, get_ability_modifier
-from config.getters import (
-    get_default_background,
-    get_entry_background,
-    get_entry_class,
-    get_entry_race,
-    get_entry_subclass,
-    get_entry_subrace,
-    get_pc_backgrounds,
-    get_pc_classes,
-    get_pc_races,
-    get_pc_subclasses,
-    get_pc_subraces,
-    get_skill_ability,
-    get_skill_list,
-)
+from config.getters import GuidelineGetters
 from httpd import Server
 from metrics import AnthropometricCalculator
 from notifications import initialize, prompt
 from tweaks import AbilityScoreImprovement
 
 __author__ = "Marcus T Taylor"
-__version__ = "220706"
+__version__ = "220715"
 
 
 log = logging.getLogger("thespian")
@@ -61,7 +47,7 @@ class UserPromptRecorder:
 def define_background(background: str) -> dict:
     """Defines character background parameters."""
     try:
-        background_base = get_entry_background(background)
+        background_base = GuidelineGetters.get_entry_background(background)
     except KeyError:
         raise ValueError(f"Unknown background '{background}'.")
 
@@ -75,7 +61,7 @@ def define_class(
 ) -> dict:
     """Defines character class parameters."""
     try:
-        class_base = get_entry_class(klass)
+        class_base = GuidelineGetters.get_entry_class(klass)
     except KeyError:
         raise ValueError(f"Unknown player class '{klass}'.")
 
@@ -148,16 +134,19 @@ def define_guidelines(guideline_string: str) -> dict | None:
     return creation_guidelines
 
 
-def define_race(race: str, sex: str, background: str, level: int) -> dict:
+def define_race(
+    race: str, sex: str, background: str, alignment: str, level: int
+) -> dict:
     """Define character race parameters."""
     try:
-        race_base = get_entry_race(race)
+        race_base = GuidelineGetters.get_entry_race(race)
     except KeyError:
         raise ValueError(f"Unknown player race '{race}'.")
 
     blueprint = dict()
     blueprint["ancestry"] = ""
     blueprint["background"] = background
+    blueprint["alignment"] = alignment
     blueprint["level"] = level
     blueprint["race"] = race
     blueprint["sex"] = sex
@@ -172,21 +161,6 @@ def define_race(race: str, sex: str, background: str, level: int) -> dict:
     blueprint["traits"] = race_base["traits"]
     blueprint["weapons"] = race_base["weapons"]
 
-    alignment_options = (
-        "Chaotic Evil",
-        "Chaotic Good",
-        "Chaotic Neutral",
-        "Lawful Evil",
-        "Lawful Good",
-        "Lawful Neutral",
-        "Neutral Evil",
-        "Neutral Good",
-        "True Neutral",
-    )
-    alignment = prompt("Choose your alignment:", alignment_options)
-    blueprint["alignment"] = alignment
-    log.info(f"Your alignment is '{alignment}'.")
-
     guidelines = define_guidelines(race_base["guides"])
     return honor_guidelines(guidelines, race_base, blueprint)
 
@@ -194,7 +168,7 @@ def define_race(race: str, sex: str, background: str, level: int) -> dict:
 def define_subclass(subclass: str, level: int) -> dict:
     """Defines character subclass parameters."""
     try:
-        subclass_base = get_entry_subclass(subclass)
+        subclass_base = GuidelineGetters.get_entry_subclass(subclass)
     except KeyError:
         raise ValueError(f"Unknown player subclass '{subclass}'.")
 
@@ -218,7 +192,7 @@ def define_subclass(subclass: str, level: int) -> dict:
 def define_subrace(subrace: str, level: int) -> dict:
     """Define character subrace parameters."""
     try:
-        subrace_base = get_entry_subrace(subrace)
+        subrace_base = GuidelineGetters.get_entry_subrace(subrace)
     except KeyError:
         raise ValueError(f"Unknown player subrace '{subrace}'.")
 
@@ -257,8 +231,8 @@ def expand_ability(ability: str, scores: dict, skills: list) -> dict:
 def expand_skills(skills: list, scores: dict, proficiency_bonus: int = 2) -> dict:
     """Expands skill list with each skill's associated properties."""
     expanded_skills = dict()
-    for skill in get_skill_list():
-        ability = get_skill_ability(skill)
+    for skill in GuidelineGetters.get_all_skills():
+        ability = GuidelineGetters.get_skill_ability(skill)
         modifier = get_ability_modifier(ability, scores)
 
         if skill in skills:
@@ -437,19 +411,21 @@ def thespian(
     subrace: str,
     sex: str,
     background: str,
+    alignment: str,
     klass: str,
     subclass: str,
     level: int,
-    threshold: int,
-    port: int,
-    roll_hp: bool,
+    threshold: int = 65,
+    roll_hp: bool = False,
 ) -> dict:
     """Runs the thespian character generator."""
-    initialize(race, subrace, sex, background, klass, subclass, level, threshold, port)
+    initialize(
+        race, subrace, sex, background, alignment, klass, subclass, level, threshold
+    )
 
     blueprint = dict()
     blueprint["subrace"] = subrace
-    my_race = define_race(race, sex, background, level)
+    my_race = define_race(race, sex, background, alignment, level)
     if subrace == "":
         log.warn(f"No subrace options are available for '{race}'.")
     else:
@@ -539,7 +515,7 @@ def main() -> None:
         "-r",
         help="Sets your character's race",
         type=str,
-        choices=get_pc_races(),
+        choices=GuidelineGetters.get_all_races(),
         default="Human",
     )
     app.add_argument(
@@ -569,7 +545,7 @@ def main() -> None:
         "-k",
         help="Sets your character's class",
         type=str,
-        choices=get_pc_classes(),
+        choices=GuidelineGetters.get_all_classes(),
         default="Fighter",
     )
     app.add_argument(
@@ -595,13 +571,6 @@ def main() -> None:
         default=65,
     )
     app.add_argument(
-        "-port",
-        "-p",
-        help="Sets server's port",
-        type=int,
-        default=5000,
-    )
-    app.add_argument(
         "--roll-hp",
         action="store_true",
         default=False,
@@ -615,22 +584,21 @@ def main() -> None:
     klass = args.klass
     subclass = args.subclass
     level = args.level
-    port = args.port
 
     background = args.background
-    if background == "" or background not in get_pc_backgrounds():
-        background = get_default_background(klass)
+    if background == "" or background not in GuidelineGetters.get_all_backgrounds():
+        background = GuidelineGetters.get_default_background(klass)
 
     if level < 3:
         subclass = ""
     else:
-        subclasses = get_pc_subclasses(klass)
+        subclasses = GuidelineGetters.get_all_subclasses(klass)
         if subclass not in subclasses:
             raise ArgumentTypeError(
                 f"Invalid subclass option '{subclass}'. Valid options for {klass} > {subclasses}"
             )
 
-    subraces = get_pc_subraces(race)
+    subraces = GuidelineGetters.get_all_subraces(race)
     if len(subraces) != 0 and subrace not in subraces:
         raise ArgumentTypeError(
             f"Invalid subrace option '{subrace}'. Valid options for {race} > {subraces}"
@@ -645,7 +613,6 @@ def main() -> None:
         subclass,
         level,
         args.threshold,
-        port,
         args.roll_hp,
     )
-    Server.run(character, port)
+    Server.run(character)

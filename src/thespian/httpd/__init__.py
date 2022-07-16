@@ -6,11 +6,10 @@ from flask import Flask, redirect, render_template
 @dataclass
 class Server:
     data: dict
-    port: int = 5000
 
     @classmethod
-    def run(cls, content: dict, port: int) -> None:
-        server = cls(content, port)
+    def run(cls, content: dict) -> None:
+        server = cls(content)
         webapp = Flask(__name__)
 
         @webapp.route("/")
@@ -21,4 +20,4 @@ class Server:
         def character():
             return render_template("index.html", **server.data)
 
-        webapp.run(port=server.port)
+        webapp.run()

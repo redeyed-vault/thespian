@@ -4,7 +4,7 @@ from .guidelines import guidelines
 
 
 class Guidelines(Enum):
-    """Class to hold basic character guideline data."""
+    """Class to handle character guideline data."""
 
     alignments: object = guidelines["alignments"]
     backgrounds: object = guidelines["backgrounds"]

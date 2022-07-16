@@ -4,12 +4,7 @@ import math
 import random
 
 from attributes import roll_die
-from config.getters import (
-    get_base_height,
-    get_base_weight,
-    get_dominant_sex,
-    get_metrics_by_race,
-)
+from config.getters import GuidelineGetters
 
 log = logging.getLogger("thespian.metrics")
 
@@ -24,13 +19,13 @@ class AnthropometricCalculator:
 
     def _get_height_and_weight_base(self) -> tuple:
         """Gets the base height/weight information for race/subrace."""
-        base_height = get_base_height(self.race)
-        base_weight = get_base_weight(self.race)
+        base_height = GuidelineGetters.get_base_height(self.race)
+        base_weight = GuidelineGetters.get_base_weight(self.race)
 
         # If no base race metrics found, check for subrace metrics.
         if base_height is None or base_weight is None:
-            base_height = get_base_height(self.subrace)
-            base_weight = get_base_weight(self.subrace)
+            base_height = GuidelineGetters.get_base_height(self.subrace)
+            base_weight = GuidelineGetters.get_base_weight(self.subrace)
 
         # If base|sub race metrics info still not found.
         if base_height is None or base_weight is None:
@@ -40,9 +35,9 @@ class AnthropometricCalculator:
 
     def _get_metric_data_source(self) -> str:
         """Returns metric data's source race/subrace name i.e Human, Drow, etc."""
-        result = get_metrics_by_race(self.race)
+        result = GuidelineGetters.get_metrics_by_race(self.race)
         if result is None:
-            result = get_metrics_by_race(self.subrace)
+            result = GuidelineGetters.get_metrics_by_race(self.subrace)
             if result is not None:
                 return self.subrace
             else:
@@ -68,7 +63,9 @@ class AnthropometricCalculator:
 
         # Unofficial rule for height/weight differential by gender
         if factor_sex:
-            dominant_sex = get_dominant_sex(self._get_metric_data_source())
+            dominant_sex = GuidelineGetters.get_dominant_sex(
+                self._get_metric_data_source()
+            )
             # If no dominant sex found, assume Male is the dominant sex.
             if dominant_sex is None:
                 dominant_sex = "Male"

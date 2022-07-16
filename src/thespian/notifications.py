@@ -27,11 +27,11 @@ def initialize(
     subrace: str,
     sex: str,
     background: str,
+    alignment: str,
     klass: str,
     subclass: str,
     level: int,
     threshold: int,
-    port: int,
 ):
     print(
         Fore.GREEN
@@ -66,6 +66,13 @@ def initialize(
         + "\n"
         + Fore.GREEN
         + Style.BRIGHT
+        + "[+] Alignment: "
+        + Fore.YELLOW
+        + Style.BRIGHT
+        + alignment
+        + "\n"
+        + Fore.GREEN
+        + Style.BRIGHT
         + "[+] Class: "
         + Fore.YELLOW
         + Style.BRIGHT
@@ -91,13 +98,6 @@ def initialize(
         + Fore.YELLOW
         + Style.BRIGHT
         + str(threshold)
-        + "\n"
-        + Fore.GREEN
-        + Style.BRIGHT
-        + "[+] Port: "
-        + Fore.YELLOW
-        + Style.BRIGHT
-        + str(port)
     )
 
 

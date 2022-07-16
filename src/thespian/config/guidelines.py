@@ -16,17 +16,17 @@ guidelines = {
     #################################################################
     # ALIGNMENTS
     #################################################################
-    "alignments": {
-        "ce": "Chaotic Evil",
-        "cg": "Chaotic Good",
-        "cn": "Chaotic Neutral",
-        "ne": "Neutral Evil",
-        "ng": "Neutral Good",
-        "tn": "True Neutral",
-        "le": "Lawful Evil",
-        "ln": "Lawful Neutral",
-        "lg": "Lawful Good",
-    },
+    "alignments": [
+        "Chaotic Evil",
+        "Chaotic Good",
+        "Chaotic Neutral",
+        "Neutral Evil",
+        "Neutral Good",
+        "True Neutral",
+        "Lawful Evil",
+        "Lawful Neutral",
+        "Lawful Good",
+    ],
     #################################################################
     # BACKGROUNDS
     #################################################################
