@@ -4,7 +4,7 @@ import logging
 from math import ceil
 
 from attributes import AttributeGenerator, generate_hit_points, get_ability_modifier
-from config.getters import GuidelineGetters
+from guides import GuidelineGetters
 from httpd import Server
 from metrics import AnthropometricCalculator
 from notifications import initialize, prompt

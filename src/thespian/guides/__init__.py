@@ -1,4 +1,21 @@
-from . import Guidelines
+from enum import Enum
+
+from .guidelines import guidelines
+
+
+class _Guidelines(Enum):
+    """Class to handle character guideline data."""
+
+    alignments: object = guidelines["alignments"]
+    backgrounds: object = guidelines["backgrounds"]
+    classes: object = guidelines["classes"]
+    feats: object = guidelines["feats"]
+    metrics: object = guidelines["metrics"]
+    races: object = guidelines["races"]
+    skills: object = guidelines["skills"]
+    spell_lists: object = guidelines["spell_lists"]
+    subclasses: object = guidelines["subclasses"]
+    subraces: object = guidelines["subraces"]
 
 
 class GuidelineGetters:
@@ -6,7 +23,7 @@ class GuidelineGetters:
 
     def __init__(self):
         self.guideline_options = dict()
-        for guideline in Guidelines:
+        for guideline in _Guidelines:
             self.guideline_options[guideline.name] = guideline.value
 
     def _read_(self, category: str) -> dict:

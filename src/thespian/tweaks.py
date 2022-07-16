@@ -2,7 +2,7 @@ from dataclasses import dataclass
 import logging
 
 from notifications import prompt
-from config.getters import GuidelineGetters
+from guides import GuidelineGetters
 
 log = logging.getLogger("thespian.tweaks")
 
