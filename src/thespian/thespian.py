@@ -11,7 +11,7 @@ from notifications import initialize, prompt
 from tweaks import AbilityScoreImprovement
 
 __author__ = "Marcus T Taylor"
-__version__ = "220715"
+__version__ = "220716"
 
 
 log = logging.getLogger("thespian")
