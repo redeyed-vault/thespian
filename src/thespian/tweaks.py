@@ -2,7 +2,7 @@ from dataclasses import dataclass
 import logging
 
 from notifications import prompt
-from guides import GuidelineGetters
+from guides import GuidelineReader
 
 log = logging.getLogger("thespian.tweaks")
 
@@ -50,11 +50,11 @@ class FeatOptionParser:
     def __init__(self, feat, prof):
         self.feat = feat
         self.profile = prof
-        self.perks = GuidelineGetters.get_feat_perks(self.feat)
+        self.perks = GuidelineReader.get_feat_perks(self.feat)
 
     def _get_proficiency_options(self, prof_type: str) -> list:
         """Returns a list of bonus proficiencies for a feat by proficiency type."""
-        return GuidelineGetters.get_feat_proficiencies(self.feat, prof_type)
+        return GuidelineReader.get_feat_proficiencies(self.feat, prof_type)
 
     def _get_sub_menu_options(self, available_options) -> dict | bool:
         """Creates a dictionary of sub menu options, if applicable."""
@@ -219,7 +219,7 @@ class FeatOptionParser:
                         chosen_proficiencies = list()
 
                         # Pull full collection of bonus proficiencies,
-                        proficiency_options = GuidelineGetters.get_feat_proficiencies(
+                        proficiency_options = GuidelineReader.get_feat_proficiencies(
                             self.feat, prof_type
                         )
                         # If collection is dict, sort through sub categories,
@@ -354,7 +354,7 @@ class AbilityScoreImprovement:
                 return False
 
         # Cycle through ALL prerequisites for the feat.
-        prerequisite = GuidelineGetters.get_feat_requirements(feat)
+        prerequisite = GuidelineReader.get_feat_requirements(feat)
         for requirement, _ in prerequisite.items():
             # Ignore requirements that are None
             if prerequisite.get(requirement) is None:
@@ -487,7 +487,7 @@ class AbilityScoreImprovement:
             elif my_path == "Choose Feat":
                 feat_options = [
                     x
-                    for x in GuidelineGetters.get_all_feats()
+                    for x in GuidelineReader.get_all_feats()
                     if x not in self.character["feats"]
                 ]
 

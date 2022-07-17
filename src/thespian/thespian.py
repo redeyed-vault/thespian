@@ -4,7 +4,7 @@ import logging
 from math import ceil
 
 from attributes import AttributeGenerator, generate_hit_points, get_ability_modifier
-from guides import GuidelineGetters
+from guides import GuidelineReader
 from httpd import Server
 from metrics import AnthropometricCalculator
 from notifications import initialize, prompt
@@ -47,7 +47,7 @@ class UserPromptRecorder:
 def define_background(background: str) -> dict:
     """Defines character background parameters."""
     try:
-        background_base = GuidelineGetters.get_entry_background(background)
+        background_base = GuidelineReader.get_entry_background(background)
     except KeyError:
         raise ValueError(f"Unknown background '{background}'.")
 
@@ -61,7 +61,7 @@ def define_class(
 ) -> dict:
     """Defines character class parameters."""
     try:
-        class_base = GuidelineGetters.get_entry_class(klass)
+        class_base = GuidelineReader.get_entry_class(klass)
     except KeyError:
         raise ValueError(f"Unknown player class '{klass}'.")
 
@@ -137,7 +137,7 @@ def define_race(
 ) -> dict:
     """Define character race parameters."""
     try:
-        race_base = GuidelineGetters.get_entry_race(race)
+        race_base = GuidelineReader.get_entry_race(race)
     except KeyError:
         raise ValueError(f"Unknown player race '{race}'.")
 
@@ -166,7 +166,7 @@ def define_race(
 def define_subclass(subclass: str, level: int) -> dict:
     """Defines character subclass parameters."""
     try:
-        subclass_base = GuidelineGetters.get_entry_subclass(subclass)
+        subclass_base = GuidelineReader.get_entry_subclass(subclass)
     except KeyError:
         raise ValueError(f"Unknown player subclass '{subclass}'.")
 
@@ -190,7 +190,7 @@ def define_subclass(subclass: str, level: int) -> dict:
 def define_subrace(subrace: str, level: int) -> dict:
     """Define character subrace parameters."""
     try:
-        subrace_base = GuidelineGetters.get_entry_subrace(subrace)
+        subrace_base = GuidelineReader.get_entry_subrace(subrace)
     except KeyError:
         raise ValueError(f"Unknown player subrace '{subrace}'.")
 
@@ -229,8 +229,8 @@ def expand_ability(ability: str, scores: dict, skills: list) -> dict:
 def expand_skills(skills: list, scores: dict, proficiency_bonus: int = 2) -> dict:
     """Expands skill list with each skill's associated properties."""
     expanded_skills = dict()
-    for skill in GuidelineGetters.get_all_skills():
-        ability = GuidelineGetters.get_skill_ability(skill)
+    for skill in GuidelineReader.get_all_skills():
+        ability = GuidelineReader.get_skill_ability(skill)
         modifier = get_ability_modifier(ability, scores)
 
         if skill in skills:
@@ -510,7 +510,7 @@ def main() -> None:
         "-r",
         help="Sets your character's race",
         type=str,
-        choices=GuidelineGetters.get_all_races(),
+        choices=GuidelineReader.get_all_races(),
         default="Human",
     )
     app.add_argument(
@@ -540,7 +540,7 @@ def main() -> None:
         "-k",
         help="Sets your character's class",
         type=str,
-        choices=GuidelineGetters.get_all_classes(),
+        choices=GuidelineReader.get_all_classes(),
         default="Fighter",
     )
     app.add_argument(
@@ -574,19 +574,19 @@ def main() -> None:
     level = args.level
 
     background = args.background
-    if background == "" or background not in GuidelineGetters.get_all_backgrounds():
-        background = GuidelineGetters.get_default_background(klass)
+    if background == "" or background not in GuidelineReader.get_all_backgrounds():
+        background = GuidelineReader.get_default_background(klass)
 
     if level < 3:
         subclass = ""
     else:
-        subclasses = GuidelineGetters.get_all_subclasses(klass)
+        subclasses = GuidelineReader.get_all_subclasses(klass)
         if subclass not in subclasses:
             raise ArgumentTypeError(
                 f"Invalid subclass option '{subclass}'. Valid options for {klass} > {subclasses}"
             )
 
-    subraces = GuidelineGetters.get_all_subraces(race)
+    subraces = GuidelineReader.get_all_subraces(race)
     if len(subraces) != 0 and subrace not in subraces:
         raise ArgumentTypeError(
             f"Invalid subrace option '{subrace}'. Valid options for {race} > {subraces}"

@@ -3,8 +3,8 @@ from enum import Enum
 from .guidelines import guidelines
 
 
-class _Guidelines(Enum):
-    """Class to handle character guideline data."""
+class _GuidelineData(Enum):
+    """Class to hold character guideline data."""
 
     alignments: object = guidelines["alignments"]
     backgrounds: object = guidelines["backgrounds"]
@@ -18,17 +18,18 @@ class _Guidelines(Enum):
     subraces: object = guidelines["subraces"]
 
 
-class GuidelineGetters:
-    """Class to hande guideline info retrieval."""
+class GuidelineReader:
+    """Class to retrieve guideline data."""
 
     def __init__(self):
-        self.guideline_options = dict()
-        for guideline in _Guidelines:
-            self.guideline_options[guideline.name] = guideline.value
+        self.guidelines = dict()
+        for guideline in _GuidelineData:
+            self.guidelines[guideline.name] = guideline.value
 
-    def _read_(self, category: str) -> dict:
+    def _read_(self, category: str) -> dict | None:
+        """Main getter wrapper."""
         try:
-            return self.guideline_options[category]
+            return self.guidelines[category]
         except KeyError:
             return None
 
@@ -78,7 +79,7 @@ class GuidelineGetters:
             return tuple(getter._read_("subclasses").keys())
 
     @classmethod
-    def get_all_subraces(cls, race: str = None) -> dict | None:
+    def get_all_subraces(cls, race: str = None) -> tuple:
         """Returns a set of all player character subraces."""
         getter = cls()
         try:
@@ -114,7 +115,7 @@ class GuidelineGetters:
             return None
 
     @classmethod
-    def get_default_background(cls, klass: str) -> str:
+    def get_default_background(cls, klass: str) -> str | None:
         """Returns default background by class."""
         try:
             getter = cls()
@@ -123,7 +124,7 @@ class GuidelineGetters:
             return None
 
     @classmethod
-    def get_entry_background(cls, background: str) -> dict:
+    def get_entry_background(cls, background: str) -> dict | None:
         """Returns config entry for background."""
         try:
             getter = cls()
@@ -132,7 +133,7 @@ class GuidelineGetters:
             return None
 
     @classmethod
-    def get_entry_class(cls, klass: str) -> dict:
+    def get_entry_class(cls, klass: str) -> dict | None:
         """Returns config entry for class."""
         try:
             getter = cls()
@@ -141,7 +142,7 @@ class GuidelineGetters:
             return None
 
     @classmethod
-    def get_entry_race(cls, race: str) -> dict:
+    def get_entry_race(cls, race: str) -> dict | None:
         """Returns config entry for race."""
         try:
             getter = cls()
@@ -150,7 +151,7 @@ class GuidelineGetters:
             return None
 
     @classmethod
-    def get_entry_subclass(cls, subclass: str) -> dict:
+    def get_entry_subclass(cls, subclass: str) -> dict | None:
         """Returns config entry for subclass."""
         try:
             getter = cls()
@@ -159,7 +160,7 @@ class GuidelineGetters:
             return None
 
     @classmethod
-    def get_entry_subrace(cls, subrace: str) -> dict:
+    def get_entry_subrace(cls, subrace: str) -> dict | None:
         """Returns config entry for subrace"""
         try:
             getter = cls()
@@ -168,7 +169,7 @@ class GuidelineGetters:
             return None
 
     @classmethod
-    def get_feat_perks(cls, feat_name: str) -> dict:
+    def get_feat_perks(cls, feat_name: str) -> dict | None:
         """Returns perks by feat."""
         try:
             getter = cls()
@@ -177,7 +178,7 @@ class GuidelineGetters:
             return None
 
     @classmethod
-    def get_feat_proficiencies(cls, feat: str, prof_type: str) -> list:
+    def get_feat_proficiencies(cls, feat: str, prof_type: str) -> list | None:
         """Returns bonus proficiencies by feat and proficiency type."""
         try:
             getter = cls()
@@ -186,7 +187,7 @@ class GuidelineGetters:
             return None
 
     @classmethod
-    def get_feat_requirements(cls, feat_name: str) -> dict:
+    def get_feat_requirements(cls, feat_name: str) -> dict | None:
         """Returns requirements by feat."""
         try:
             getter = cls()
