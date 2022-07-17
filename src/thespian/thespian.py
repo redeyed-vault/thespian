@@ -57,7 +57,7 @@ def define_background(background: str) -> dict:
 
 
 def define_class(
-    klass: str, level: int, racial_bonuses: dict, threshold: int, roll_hp: bool = False
+    klass: str, level: int, racial_bonuses: dict, roll_hp: bool = False
 ) -> dict:
     """Defines character class parameters."""
     try:
@@ -101,9 +101,7 @@ def define_class(
     guidelines = define_guidelines(class_base["guides"])
     blueprint = honor_guidelines(guidelines, class_base, blueprint)
 
-    attributes = AttributeGenerator(
-        ability_options, racial_bonuses, threshold
-    ).generate()
+    attributes = AttributeGenerator(ability_options, racial_bonuses).generate()
     blueprint["scores"] = attributes
 
     hit_die, hit_points = generate_hit_points(
@@ -415,13 +413,10 @@ def thespian(
     klass: str,
     subclass: str,
     level: int,
-    threshold: int = 65,
     roll_hp: bool = False,
 ) -> dict:
     """Runs the thespian character generator."""
-    initialize(
-        race, subrace, sex, background, alignment, klass, subclass, level, threshold
-    )
+    initialize(race, subrace, sex, background, alignment, klass, subclass, level)
 
     blueprint = dict()
     blueprint["subrace"] = subrace
@@ -441,7 +436,7 @@ def thespian(
     log.info(f"your weight is {my_race['weight']}.")
     fuse_iterables(blueprint, my_race)
 
-    my_class = define_class(klass, level, blueprint["bonus"], threshold, roll_hp)
+    my_class = define_class(klass, level, blueprint["bonus"], roll_hp)
     my_class["subclass"] = subclass
     if subclass == "":
         log.warn("No subclass options are available prior to level 3.")
@@ -564,13 +559,6 @@ def main() -> None:
         default=1,
     )
     app.add_argument(
-        "-threshold",
-        "-t",
-        help="Sets the minimum ability score threshold",
-        type=int,
-        default=65,
-    )
-    app.add_argument(
         "--roll-hp",
         action="store_true",
         default=False,
@@ -612,7 +600,6 @@ def main() -> None:
         klass,
         subclass,
         level,
-        args.threshold,
         args.roll_hp,
     )
     Server.run(character)

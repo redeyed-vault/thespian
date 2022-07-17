@@ -31,7 +31,6 @@ def initialize(
     klass: str,
     subclass: str,
     level: int,
-    threshold: int,
 ):
     print(
         Fore.GREEN
@@ -91,13 +90,6 @@ def initialize(
         + Fore.YELLOW
         + Style.BRIGHT
         + str(level)
-        + "\n"
-        + Fore.GREEN
-        + Style.BRIGHT
-        + "[+] Threshold: "
-        + Fore.YELLOW
-        + Style.BRIGHT
-        + str(threshold)
     )
 
 

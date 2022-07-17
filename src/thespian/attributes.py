@@ -1,5 +1,4 @@
 from collections import OrderedDict
-from dataclasses import dataclass
 import logging
 from math import floor
 from random import choice, randint
@@ -8,72 +7,46 @@ import re
 log = logging.getLogger("thespian.attributes")
 
 
-@dataclass
 class AttributeGenerator:
-    """Class to generate character's base attributes."""
+    """Class to generate character's attributes."""
 
-    primary_attributes: tuple | list
-    racial_bonus: dict
-    threshold: int = 65
+    def __init__(self, primary_attributes: tuple | list, racial_bonus: dict):
+        self.primary_attributes = primary_attributes
+        self.racial_bonus = racial_bonus
+
+        self.attribute_set = OrderedDict()
+        self.attribute_set["Strength"] = None
+        self.attribute_set["Dexterity"] = None
+        self.attribute_set["Constitution"] = None
+        self.attribute_set["Intelligence"] = None
+        self.attribute_set["Wisdom"] = None
+        self.attribute_set["Charisma"] = None
 
     def generate(self) -> OrderedDict:
-        """Generates and assigns character's ability scores."""
-        my_attributes = OrderedDict()
-        my_attributes["Strength"] = None
-        my_attributes["Dexterity"] = None
-        my_attributes["Constitution"] = None
-        my_attributes["Intelligence"] = None
-        my_attributes["Wisdom"] = None
-        my_attributes["Charisma"] = None
+        """Generates/assigns character attributes."""
+        attribute_options = list(self.attribute_set.keys())
+        result_set = self._roll_attribute_set()
 
-        attribute_options = [
-            "Strength",
-            "Dexterity",
-            "Constitution",
-            "Intelligence",
-            "Wisdom",
-            "Charisma",
-        ]
-
-        # Generate six ability scores.
-        my_rolls = self._roll_ability_array(self.threshold)
-
-        # Assign primary/secondary attributes first.
-        for rank_index, attribute in enumerate(self.primary_attributes):
-            attribute_value = max(my_rolls)
-            my_attributes[attribute] = attribute_value
-
+        for _, attribute in enumerate(self.primary_attributes):
             attribute_options.remove(attribute)
-            my_rolls.remove(attribute_value)
+            attribute_value = max(result_set)
+            result_set.remove(attribute_value)
+            self.attribute_set[attribute] = attribute_value
 
-            ranking_text_labels = ("primary", "secondary")
-            ranking_text = ranking_text_labels[rank_index]
-            log.info(
-                f"Your {ranking_text} class ability '{attribute}' score was set to {attribute_value}."
-            )
-
-        # Assign the remaining attributes.
         for _ in range(0, 4):
             attribute = choice(attribute_options)
             attribute_options.remove(attribute)
+            attribute_value = choice(result_set)
+            result_set.remove(attribute_value)
+            self.attribute_set[attribute] = attribute_value
 
-            attribute_value = choice(my_rolls)
-            my_rolls.remove(attribute_value)
-
-            my_attributes[attribute] = attribute_value
-            log.info(f"Your '{attribute}' score was set to {attribute_value}.")
-
-        # Apply racial bonuses.
         for attribute, bonus in self.racial_bonus.items():
-            attribute_value = my_attributes[attribute] + bonus
-            my_attributes[attribute] = attribute_value
-            log.info(
-                f"A bonus was applied to your '{attribute}' score {attribute_value} ({bonus})."
-            )
+            attribute_value = self.attribute_set[attribute] + bonus
+            self.attribute_set[attribute] = attribute_value
 
-        return my_attributes
+        return self.attribute_set
 
-    def _roll_ability_array(self, threshold: int = 65) -> list:
+    def _roll_attribute_set(self) -> list:
         """Generates six ability scores."""
 
         def generate_score():
@@ -82,7 +55,7 @@ class AttributeGenerator:
             return sum(rolls)
 
         results = list()
-        while sum(results) < threshold or min(results) < 8 or max(results) < 15:
+        while sum(results) < 65 or min(results) < 8 or max(results) < 15:
             results = [generate_score() for _ in range(6)]
 
         return results
