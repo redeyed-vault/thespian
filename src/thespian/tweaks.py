@@ -7,10 +7,8 @@ from guides import GuidelineReader
 log = logging.getLogger("thespian.tweaks")
 
 
-class FeatOptionParser:
-    """Generates and parses feat characteristic flags by feat.
-
-    FLAG OPTION PARSER SYSTEM
+class FeatGuidelineParser:
+    """Class to generate/parse feat characteristic flags.
 
     PIPEBAR: Used to separate flags. i.e: ability=Strength|proficiency=skills
         Two flag options are designated in the above example: 'ability', and 'proficiency'.
@@ -56,21 +54,23 @@ class FeatOptionParser:
         """Returns a list of bonus proficiencies for a feat by proficiency type."""
         return GuidelineReader.get_feat_proficiencies(self.feat, prof_type)
 
-    def _get_sub_menu_options(self, available_options) -> dict | bool:
-        """Creates a dictionary of sub menu options, if applicable."""
-        if self.is_sub_menu(available_options):
-            sub_options = dict()
+    def _create_submenu_options(self, available_options) -> dict | bool:
+        """Creates a dictionary with available_options (if applicable)."""
+        if self._has_submenu_options(available_options):
+            submenu_options = dict()
             for option in available_options:
-                sub_options[option] = self._get_proficiency_options(option)
-            return sub_options
+                submenu_options[option] = self._get_proficiency_options(option)
+            return submenu_options
+
         return False
 
     @staticmethod
-    def _is_sub_menu(available_options) -> bool:
+    def _has_submenu_options(available_options) -> bool:
         """Returns True if sub menu options are available. False otherwise."""
         for option in available_options:
             if not option.islower():
                 return False
+
         return True
 
     def _parse_flags(self) -> dict:
@@ -103,8 +103,8 @@ class FeatOptionParser:
                             f"Illegal flag name '{attribute_name}' specified."
                         )
                 except ValueError:
-                    # pass
                     return parsed_flags
+
                 if self.PARAM_SINGLE_SELECTION in flag_options[1]:
                     options = flag_options[1].split(self.PARAM_SINGLE_SELECTION)
                 else:
@@ -117,7 +117,7 @@ class FeatOptionParser:
 
         return parsed_flags
 
-    def run(self) -> dict:
+    def run_tweaks(self) -> dict:
         """Honors the specified flags for a feat."""
         parsed_flag_list = self._parse_flags()
         if len(parsed_flag_list) == 0:
@@ -125,7 +125,6 @@ class FeatOptionParser:
 
         feat_flags = dict()
         for flag, options in parsed_flag_list.items():
-
             if flag in ("ability", "proficiency"):
                 flag_increment_count = int(options["increment"])
                 flag_menu_options = options["options"]
@@ -150,18 +149,14 @@ class FeatOptionParser:
                 elif isinstance(flag_menu_options, list):
                     for _ in range(flag_increment_count):
                         my_ability = prompt(
-                            "Choose the ability you would like to apply a bonus to.",
+                            "Choose an ability to upgrade.",
                             flag_menu_options,
                         )
                         flag_menu_options.remove(my_ability)
-                        log.info(f"You selected the ability '{my_ability}'.")
 
                         # If 'saves' flag specified, add proficiency for ability saving throw.
                         if "saves" in parsed_flag_list:
                             self.profile["saves"].append(my_ability)
-                            log.info(
-                                f"You gained proficiency in the '{my_ability}' saving throw."
-                            )
 
                 bonus_value = self.perks[flag][my_ability]
                 feat_flags[flag] = (my_ability, bonus_value)
@@ -181,12 +176,12 @@ class FeatOptionParser:
                         my_bonus = prompt(
                             f"Choose your bonus: '{flag}'.", flag_menu_options
                         )
-                        if not self._is_sub_menu(flag_menu_options):
+                        if not self._has_submenu_options(flag_menu_options):
                             flag_menu_options.remove(my_bonus)
                         else:
                             # Generate submenu options, if applicable.
                             if submenu_options is None:
-                                submenu_options = self._get_sub_menu_options(
+                                submenu_options = self._create_submenu_options(
                                     flag_menu_options
                                 )
                                 submenu_options[my_bonus] = [
@@ -208,9 +203,6 @@ class FeatOptionParser:
                             submenu_options[my_bonus].remove(submenu_choice)
                             # Reset the submenu options after use
                             submenu_options = None
-                            log.info(
-                                f"You selected the {flag} ({my_bonus}) bonus '{submenu_choice}'."
-                            )
 
                 elif isinstance(flag_menu_options, str):
                     for prof_type in flag_menu_options.split(
@@ -251,9 +243,6 @@ class FeatOptionParser:
                             )
                             chosen_proficiencies.append(my_bonus)
                             proficiency_options.remove(my_bonus)
-                            log.info(
-                                f"You selected the {flag} ({prof_type}) bonus '{my_bonus}'."
-                            )
 
                         chosen_options[prof_type] = chosen_proficiencies
 
@@ -271,7 +260,6 @@ class FeatOptionParser:
                     if isinstance(spell, list):
                         spell_choice = prompt("Choose your bonus spell.", spell)
                         bonus_spells[index] = spell_choice
-                        log.info(f"You selected the spell {spell_choice}.")
 
                 feat_flags[flag] = bonus_spells
 
@@ -280,13 +268,13 @@ class FeatOptionParser:
 
 @dataclass
 class AbilityScoreImprovement:
-    """Class used to apply ability and/or feat upgrades."""
+    """Class to handle ability/feat upgrades."""
 
     character: dict
 
     def _add_feat_perks(self, feat: str) -> None:
         """Applies feat related perks."""
-        parsed_attributes = FeatOptionParser(feat, self.character).run()
+        parsed_attributes = FeatGuidelineParser(feat, self.character).run_tweaks()
         if parsed_attributes is None:
             return
 
@@ -354,26 +342,29 @@ class AbilityScoreImprovement:
                 return False
 
         # Cycle through ALL prerequisites for the feat.
-        prerequisite = GuidelineReader.get_feat_requirements(feat)
-        for requirement, _ in prerequisite.items():
+        feat_prerequisites = GuidelineReader.get_feat_requirements(feat)
+        for requirement, _ in feat_prerequisites.items():
             # Ignore requirements that are None
-            if prerequisite.get(requirement) is None:
+            if feat_prerequisites[requirement] is None:
                 continue
 
             # Check ability requirements
             if requirement == "ability":
-                for ability, required_score in prerequisite.get(requirement).items():
+                for ability, minimum_score in feat_prerequisites[requirement].items():
                     my_score = self.character["scores"][ability]
-                    if my_score < required_score:
+                    if my_score < minimum_score:
                         return False
 
             # Check caster requirements
             if requirement == "caster":
                 # If no spellcasting ability.
-                if prerequisite[requirement] and self.character["spellslots"] == "0":
+                if (
+                    feat_prerequisites[requirement]
+                    and self.character["spell_slots"] == "0"
+                ):
                     return False
 
-                # Magic Initiative requirements check
+                # Magic Initiative requirements check.
                 if feat == "Magic Initiative" and self.character["klass"] not in (
                     "Bard",
                     "Cleric",
@@ -387,10 +378,13 @@ class AbilityScoreImprovement:
                 # Ritual Caster requirements check
                 if feat == "Ritual Caster":
                     primary_ability = self.ability[0]
-                    my_score = self.scores[primary_ability]
-                    required_score = prerequisite["ability"][primary_ability]
+                    if primary_ability not in ("Intelligence", "Wisdom"):
+                        return False
 
-                    if my_score < required_score:
+                    my_score = self.scores[primary_ability]
+                    minimum_score = feat_prerequisites["ability"][primary_ability]
+
+                    if my_score < minimum_score:
                         return False
 
             # Check proficiency requirements
@@ -401,19 +395,19 @@ class AbilityScoreImprovement:
                     "Medium Armor Master",
                     "Moderately Armored",
                 ):
-                    armors = prerequisite.get(requirement).get("armors")
+                    armors = feat_prerequisites[requirement]["armors"]
                     for armor in armors:
                         if armor not in self.character["armors"]:
                             return False
 
             # Check race requirements
             if requirement == "race":
-                if self.character["race"] not in prerequisite.get(requirement):
+                if self.character["race"] not in feat_prerequisites[requirement]:
                     return False
 
             # Check subrace requirements
             if requirement == "subrace":
-                if self.character["subrace"] not in prerequisite.get(requirement):
+                if self.character["subrace"] not in feat_prerequisites[requirement]:
                     return False
 
         return True
@@ -437,12 +431,8 @@ class AbilityScoreImprovement:
             return
 
         num_of_upgrades = self._count_upgrades()
-        while num_of_upgrades > 0:
-            if num_of_upgrades > 1:
-                log.info(f"You have {num_of_upgrades} upgrades available.")
-            else:
-                log.info("You have 1 upgrade available.")
 
+        while num_of_upgrades > 0:
             my_path = prompt(
                 "Follow which upgrade path?", ["Upgrade Ability", "Choose Feat"]
             )
@@ -450,19 +440,11 @@ class AbilityScoreImprovement:
             # Path #1: Upgrade an Ability.
             if my_path == "Upgrade Ability":
                 my_bonus = prompt("Apply how many points?", ["1", "2"])
-                log.info(f"You chose an ability bonus of: +{my_bonus}.")
                 my_bonus = int(my_bonus)
 
                 ability_options = [
                     a
-                    for a in (
-                        "Strength",
-                        "Dexterity",
-                        "Constitution",
-                        "Intelligence",
-                        "Wisdom",
-                        "Charisma",
-                    )
+                    for a in tuple(self.character["scores"].keys())
                     if self._is_adjustable(a, my_bonus)
                 ]
 
@@ -495,7 +477,6 @@ class AbilityScoreImprovement:
                     "Which feat do you want to acquire?",
                     feat_options,
                 )
-                log.info(f"Checking requirements for the requested feat {my_feat}...")
 
                 while not self._has_requirements(my_feat):
                     feat_options.remove(my_feat)
@@ -509,17 +490,14 @@ class AbilityScoreImprovement:
                 else:
                     self._add_feat_perks(my_feat)
                     self.character["feats"].append(my_feat)
-                    log.info(f"You selected the feat {my_feat}.")
 
             num_of_upgrades -= 1
 
     def _set_ability_score(self, ability: str, bonus: int = 1) -> None:
-        """Applies a bonus to the specified ability (if applicable)."""
+        """Applies a bonus to the ability (if applicable)."""
         if not self._is_adjustable(ability, bonus):
             log.warn(f"Ability '{ability}' is not adjustable with a bonus of {bonus}.")
             return
 
-        new_score = self.character.get("scores").get(ability) + bonus
+        new_score = self.character["scores"][ability] + bonus
         self.character["scores"][ability] = new_score
-        log.info(f"You applied a +{bonus} bonus to your {ability}.")
-        log.info(f"Your {ability} score is now {new_score}.")

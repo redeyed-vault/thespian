@@ -78,20 +78,21 @@ def define_class(
     blueprint["proficiency_bonus"] = ceil((level / 4) + 1)
     blueprint["saves"] = class_base["saves"]
 
+    # Get a list of a classes' primary/secondary abilities.
     ability_options = list(class_base["primary_ability"].values())
+
     if not all(isinstance(a, str) for a in ability_options):
-        for index, option in enumerate(ability_options):
-            if isinstance(option, list):
+        for index, attribute_options in enumerate(ability_options):
+            if isinstance(attribute_options, list):
                 ranking = ("primary", "secondary")
+                ranking_text = ranking[index].capitalize()
                 my_ability = prompt(
-                    f"{ranking[index].capitalize()}: Choose a {ranking[index]} class attribute.",
-                    option,
+                    f"{ranking_text}: Choose a {ranking[index]} class attribute.",
+                    attribute_options,
                 )
                 ability_options[index] = my_ability
-                log.info(f"primary ability: You selected '{my_ability}'.")
 
     ability_options = tuple(ability_options)
-    log.info("primary ability: You selected '" + ", ".join(ability_options) + "'.")
 
     try:
         blueprint["spell_slots"] = class_base["spell_slots"][level]
@@ -101,14 +102,17 @@ def define_class(
     guidelines = define_guidelines(class_base["guides"])
     blueprint = honor_guidelines(guidelines, class_base, blueprint)
 
+    # Generate/assign base attributes to character.
     attributes = AttributeGenerator(ability_options, racial_bonuses).generate()
     blueprint["scores"] = attributes
 
+    # Generate/assign hit die/points to character.
     hit_die, hit_points = generate_hit_points(
         level, class_base["hit_die"], attributes, roll_hp
     )
     blueprint["hit_die"] = hit_die
     blueprint["hit_points"] = hit_points
+
     return blueprint
 
 
@@ -336,7 +340,6 @@ def honor_guidelines(
             for _ in range(guide_increment):
                 my_selection = prompt("Choose your racial bonus.", bonus_choices)
                 user_inputs[my_selection] = 1
-                log.info(f"You chose '{my_selection}' as your racial bonus.")
 
             output[guideline] = user_inputs
             continue
@@ -420,22 +423,31 @@ def thespian(
 
     blueprint = dict()
     blueprint["subrace"] = subrace
+
+    # Define character's racial/subracial (if applicable) data.
     my_race = define_race(race, sex, background, alignment, level)
     if subrace == "":
         log.warn(f"No subrace options are available for '{race}'.")
     else:
         my_subrace = define_subrace(subrace, level)
         fuse_iterables(my_race, my_subrace)
+
+    # Define character's background.
     my_background = define_background(background)
+
+    # Fuse racial/background generated data.
     fuse_iterables(my_race, my_background)
+
+    # Generate character's height/weight.
     height, weight = AnthropometricCalculator(race, sex, subrace).calculate()
     my_race["height"] = height
     my_race["weight"] = weight
     feet, inches = my_race["height"]
-    log.info(f"Your height is {feet}' {inches}\".")
-    log.info(f"your weight is {my_race['weight']}.")
+
+    # Fuse racial data to the blueprint.
     fuse_iterables(blueprint, my_race)
 
+    # Define character's class/subclass data.
     my_class = define_class(klass, level, blueprint["bonus"], roll_hp)
     my_class["subclass"] = subclass
     if subclass == "":
@@ -443,8 +455,13 @@ def thespian(
     else:
         my_subclass = define_subclass(subclass, level)
         fuse_iterables(my_class, my_subclass)
+
+    # Fuse class data to the blueprint.
     fuse_iterables(blueprint, my_class)
+
     order_dict(blueprint)
+
+    # Apply level based upgrades.
     AbilityScoreImprovement(blueprint).run()
 
     character = namedtuple("MyCharacter", blueprint.keys())(*blueprint.values())
