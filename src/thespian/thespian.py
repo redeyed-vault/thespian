@@ -331,7 +331,6 @@ def honor_guidelines(
             ancestry = user_inputs[0]
             output[guideline] = ancestry
             output["resistances"] = output["resistances"][ancestry]
-            log.info(f"You chose '{ancestry}' as your dragon ancestry.")
             continue
         elif guideline == "bonus":
             bonus_options = dict(blueprint[guideline])
@@ -389,7 +388,6 @@ def honor_guidelines(
                 recorder.recall(guideline),
             )
             user_inputs.append(my_selection)
-            log.info(f"{guideline}: You selected '{my_selection}'.")
             output[guideline] = user_inputs
             recorder.store(guideline, user_inputs)
 
