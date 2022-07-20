@@ -117,7 +117,7 @@ class FeatGuidelineParser:
 
         return parsed_flags
 
-    def run_tweaks(self) -> dict:
+    def run(self) -> dict:
         """Honors the specified flags for a feat."""
         parsed_flag_list = self._parse_flags()
         if len(parsed_flag_list) == 0:
@@ -160,7 +160,6 @@ class FeatGuidelineParser:
 
                 bonus_value = self.perks[flag][my_ability]
                 feat_flags[flag] = (my_ability, bonus_value)
-
             elif flag == "proficiency":
                 # Increment value of 0 means append ALL listed bonuses.
                 # Increment values other than 0 means add # of bonuses == increment value.
@@ -169,8 +168,7 @@ class FeatGuidelineParser:
 
                 if isinstance(flag_menu_options, str) and flag_increment_count == 0:
                     chosen_options[flag_menu_options] = self._get_proficiency_options(
-                        flag_menu_options
-                    )
+                        flag_menu_options                    )
                 elif isinstance(flag_menu_options, list):
                     for _ in range(flag_increment_count):
                         my_bonus = prompt(
@@ -203,7 +201,6 @@ class FeatGuidelineParser:
                             submenu_options[my_bonus].remove(submenu_choice)
                             # Reset the submenu options after use
                             submenu_options = None
-
                 elif isinstance(flag_menu_options, str):
                     for prof_type in flag_menu_options.split(
                         self.PARAM_MULTIPLE_SELECTION
@@ -274,7 +271,7 @@ class AbilityScoreImprovement:
 
     def _add_feat_perks(self, feat: str) -> None:
         """Applies feat related perks."""
-        parsed_attributes = FeatGuidelineParser(feat, self.character).run_tweaks()
+        parsed_attributes = FeatGuidelineParser(feat, self.character).run()
         if parsed_attributes is None:
             return
 
@@ -425,7 +422,7 @@ class AbilityScoreImprovement:
 
         return True
 
-    def run(self) -> None:
+    def run_tweaks(self) -> None:
         """Executes ability score improvements upon the specified character data."""
         if self.character["level"] < 4:
             return

@@ -53,6 +53,7 @@ def define_background(background: str) -> dict:
 
     blueprint = dict()
     guidelines = define_guidelines(background_base["guides"])
+    
     return honor_guidelines(guidelines, background_base, blueprint, False)
 
 
@@ -307,10 +308,6 @@ def honor_guidelines(
     recorder = UserPromptRecorder()
 
     for guideline, _ in guidelines.items():
-        # TODO: Review this later - might be unnecessary
-        # if guideline not in guidelines:
-        #    continue
-
         # Copy guideline to blueprint, if not specified in blueprint (if allowed).
         if set_unuset_guidelines and guideline not in output:
             output[guideline] = None
@@ -394,15 +391,17 @@ def honor_guidelines(
     return output
 
 
-def order_dict(iter: dict) -> dict:
+def order_by_dict_keys(iterable: dict) -> dict:
     """Reorders dict by dictionary keys."""
-    reordered_iter = dict()
-    iter_keys = sorted(iter)
-    if len(iter_keys) == 0:
-        return iter
-    for key in iter_keys:
-        reordered_iter[key] = iter[key]
-    return reordered_iter
+    iterable_keys = sorted(iterable)
+    if len(iterable_keys) == 0:
+        return iterable
+
+    reordered_iterable = dict()
+    for key in iterable_keys:
+        reordered_iterable[key] = iterable[key]
+
+    return reordered_iterable
 
 
 def thespian(
@@ -457,10 +456,10 @@ def thespian(
     # Fuse class data to the blueprint.
     fuse_iterables(blueprint, my_class)
 
-    order_dict(blueprint)
+    order_by_dict_keys(blueprint)
 
     # Apply level based upgrades.
-    AbilityScoreImprovement(blueprint).run()
+    AbilityScoreImprovement(blueprint).run_tweaks()
 
     character = namedtuple("MyCharacter", blueprint.keys())(*blueprint.values())
     feet, inches = character.height
