@@ -46,9 +46,8 @@ class UserPromptRecorder:
 
 def define_background(background: str) -> dict:
     """Defines character background parameters."""
-    try:
-        background_base = GuidelineReader.get_entry_background(background)
-    except KeyError:
+    background_base = GuidelineReader.get_entry_background(background)
+    if background_base is None:
         raise ValueError(f"Unknown background '{background}'.")
 
     blueprint = dict()
@@ -61,9 +60,8 @@ def define_class(
     klass: str, level: int, racial_bonuses: dict, roll_hp: bool = False
 ) -> dict:
     """Defines character class parameters."""
-    try:
-        class_base = GuidelineReader.get_entry_class(klass)
-    except KeyError:
+    class_base = GuidelineReader.get_entry_class(klass)
+    if class_base is None:
         raise ValueError(f"Unknown player class '{klass}'.")
 
     blueprint = dict()
@@ -141,9 +139,8 @@ def define_race(
     race: str, sex: str, background: str, alignment: str, level: int
 ) -> dict:
     """Define character race parameters."""
-    try:
-        race_base = GuidelineReader.get_entry_race(race)
-    except KeyError:
+    race_base = GuidelineReader.get_entry_race(race)
+    if race_base is None:
         raise ValueError(f"Unknown player race '{race}'.")
 
     blueprint = dict()
@@ -170,9 +167,8 @@ def define_race(
 
 def define_subclass(subclass: str, level: int) -> dict:
     """Defines character subclass parameters."""
-    try:
-        subclass_base = GuidelineReader.get_entry_subclass(subclass)
-    except KeyError:
+    subclass_base = GuidelineReader.get_entry_subclass(subclass)
+    if subclass_base is None:
         raise ValueError(f"Unknown player subclass '{subclass}'.")
 
     blueprint = dict()
@@ -194,9 +190,8 @@ def define_subclass(subclass: str, level: int) -> dict:
 
 def define_subrace(subrace: str, level: int) -> dict:
     """Define character subrace parameters."""
-    try:
-        subrace_base = GuidelineReader.get_entry_subrace(subrace)
-    except KeyError:
+    subrace_base = GuidelineReader.get_entry_subrace(subrace)
+    if subrace_base is None:
         raise ValueError(f"Unknown player subrace '{subrace}'.")
 
     blueprint = dict()
@@ -208,6 +203,7 @@ def define_subrace(subrace: str, level: int) -> dict:
     blueprint["traits"] = subrace_base["traits"]
 
     guidelines = define_guidelines(subrace_base["guides"])
+
     return honor_guidelines(guidelines, subrace_base, blueprint)
 
 
@@ -228,6 +224,7 @@ def expand_ability(ability: str, scores: dict, skills: list) -> dict:
     }
     if len(ability_properties) > 0:
         expanded_properties["properties"] = ability_properties
+
     return expanded_properties
 
 
@@ -250,6 +247,7 @@ def expand_skills(skills: list, scores: dict, proficiency_bonus: int = 2) -> dic
             "rank": rank,
             "is_class_skill": class_skill,
         }
+
     return expanded_skills
 
 
@@ -292,6 +290,7 @@ def fuse_iterables(original_iterable: dict, fused_iterable: dict) -> dict:
             list_value = original_iterable[key]
             if isinstance(list_value, list):
                 original_iterable[key] = list(set(list_value + value))
+
     return original_iterable
 
 
