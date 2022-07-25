@@ -31,15 +31,15 @@ class FeatFlagParser:
     SEMICOLON: Used to separate flags. i.e: ability=Strength|proficiency=skills
         Two flag options are designated in the above example: 'ability', and 'proficiency'.
 
-    COMMA: Used to identify the number of occurences of a flag. i.e: languages,2
-        The example above means that a player can choose two languages.
-
     EQUAL SIGN: Used to separate option parameters. i.e ability=Strength,0
         The example above means Strength is a designated parameter for the ability option.
         In this case the character would get an enhancement to Strength.
         There is more to this and is explained further below.
 
-    DOUBLE AMPERSAND: Used to seperate parameter options. i.e ability=Strength+Dexterity
+    COMMA: Used to identify the number of occurences of a flag. i.e: languages,2
+        The example above means that a player can choose two languages.
+
+    DOUBLE AMPERSAND: Used to seperate parameter options. i.e ability=Strength+Dexterity,1
         The example above means the player can gain an enhancement in both Strength and Dexterity.
 
     DOUBLE PIPEBAR: Used to separater parameter options. i.e ability=Strength&&Dexerity,1
