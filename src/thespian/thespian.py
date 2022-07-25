@@ -52,7 +52,7 @@ def define_background(background: str) -> dict:
 
     blueprint = dict()
     guidelines = define_guidelines(background_base["guides"])
-    
+
     return honor_guidelines(guidelines, background_base, blueprint, False)
 
 

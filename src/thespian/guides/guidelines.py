@@ -1346,7 +1346,7 @@ guidelines = {
             "perk": {
                 "ability": {"Dexterity": 1, "Strength": 1},
                 "armors": [],
-                "flags": "ability=Strength&&Dexterity,1",
+                "flags": "ability=Strength||Dexterity,1",
                 "languages": [],
                 "resistances": [],
                 "skills": [],
@@ -1451,7 +1451,7 @@ guidelines = {
             "perk": {
                 "ability": {"Charisma": 1, "Constitution": 1, "Strength": 1},
                 "armors": [],
-                "flags": "ability=Strength&&Constitution&&Charisma,1",
+                "flags": "ability=Strength||Constitution||Charisma,1",
                 "languages": [],
                 "resistances": [],
                 "skills": [],
@@ -1472,7 +1472,7 @@ guidelines = {
             "perk": {
                 "ability": {"Charisma": 1, "Constitution": 1, "Strength": 1},
                 "armors": [],
-                "flags": "ability=Strength&&Dexterity&&Charisma,1",
+                "flags": "ability=Strength||Dexterity||Charisma,1",
                 "languages": [],
                 "resistances": [],
                 "skills": [],
@@ -1624,7 +1624,7 @@ guidelines = {
                     "Wisdom": 1,
                 },
                 "armors": [],
-                "flags": "ability=Dexterity&&Intelligence&&Wisdom&&Charisma,1",
+                "flags": "ability=Dexterity||Intelligence||Wisdom||Charisma,1",
                 "languages": [],
                 "resistances": [],
                 "skills": [],
@@ -1645,7 +1645,7 @@ guidelines = {
             "perk": {
                 "ability": {"Dexterity": 1, "Intelligence": 1},
                 "armors": [],
-                "flags": "ability=Dexterity&&Intelligence,1",
+                "flags": "ability=Dexterity||Intelligence,1",
                 "languages": [],
                 "resistances": [],
                 "skills": [],
@@ -1666,7 +1666,7 @@ guidelines = {
             "perk": {
                 "ability": {"Charisma": 1, "Intelligence": 1},
                 "armors": [],
-                "flags": "ability=Intelligence&&Charisma,1|proficiency=languages,0",
+                "flags": "ability=Intelligence||Charisma,1;proficiency=languages,0",
                 "languages": ["Sylvan"],
                 "resistances": [],
                 "skills": [],
@@ -1771,7 +1771,7 @@ guidelines = {
             "perk": {
                 "ability": {"Strength": 1},
                 "armors": ["Heavy"],
-                "flags": "ability=Strength,1|proficiency=armors,0",
+                "flags": "ability=Strength,1;proficiency=armors,0",
                 "languages": [],
                 "resistances": [],
                 "skills": [],
@@ -1813,7 +1813,7 @@ guidelines = {
             "perk": {
                 "ability": {"Constitution": 1},
                 "armors": [],
-                "flags": "ability=Constitution|resistances,0",
+                "flags": "ability=Constitution;resistances,0",
                 "languages": [],
                 "resistances": ["Cold", "Poison"],
                 "skills": [],
@@ -1876,7 +1876,7 @@ guidelines = {
             "perk": {
                 "ability": {"Dexterity": 1, "Strength": 1},
                 "armors": ["Light"],
-                "flags": "ability=Strength&&Dexterity,1|proficiency=armors,0",
+                "flags": "ability=Strength||Dexterity,1;proficiency=armors,0",
                 "languages": [],
                 "resistances": [],
                 "skills": [],
@@ -1897,7 +1897,7 @@ guidelines = {
             "perk": {
                 "ability": {"Intelligence": 1},
                 "armors": [],
-                "flags": "ability=Intelligence,1|proficiency=languages,3",
+                "flags": "ability=Intelligence,1;proficiency=languages,3",
                 "languages": [
                     "Abyssal",
                     "Celestial",
@@ -2061,7 +2061,7 @@ guidelines = {
             "perk": {
                 "ability": {"Dexterity": 1, "Strength": 1},
                 "armors": ["Medium", "Shields"],
-                "flags": "ability=Strength&&Dexterity,1|proficiency=armors,0",
+                "flags": "ability=Strength||Dexterity,1;proficiency=armors,0",
                 "languages": [],
                 "resistances": [],
                 "skills": [],
@@ -2103,7 +2103,7 @@ guidelines = {
             "perk": {
                 "ability": {"Intelligence": 1, "Wisdom": 1},
                 "armors": [],
-                "flags": "ability=Intelligence&&Wisdom,1",
+                "flags": "ability=Intelligence||Wisdom,1",
                 "languages": [],
                 "resistances": [],
                 "skills": [],
@@ -2124,7 +2124,7 @@ guidelines = {
             "perk": {
                 "ability": {"Constitution": 1, "Strength": 1},
                 "armors": [],
-                "flags": "ability=Strength&&Constitution,1",
+                "flags": "ability=Strength||Constitution,1",
                 "languages": [],
                 "resistances": [],
                 "skills": [],
@@ -2166,7 +2166,7 @@ guidelines = {
             "perk": {
                 "ability": None,
                 "armors": [],
-                "flags": "proficiency=languages+skills+tools,1",
+                "flags": "proficiency=languages&&skills&&tools,1",
                 "languages": [
                     "Abyssal",
                     "Celestial",
@@ -2269,7 +2269,7 @@ guidelines = {
                     "Wisdom": 1,
                 },
                 "armors": [],
-                "flags": "ability=Strength&&Dexterity&&Constitution&&Intelligence&&Wisdom&&Charisma,1|saves,0",
+                "flags": "ability=Strength||Dexterity||Constitution||Intelligence||Wisdom||Charisma,1|saves,0",
                 "languages": [],
                 "resistances": [],
                 "skills": [],
@@ -2332,7 +2332,7 @@ guidelines = {
             "perk": {
                 "ability": {"Charisma": 1, "Constitution": 1, "Dexterity": 1},
                 "armors": [],
-                "flags": "ability=Dexterity&&Constitution&&Charisma,1",
+                "flags": "ability=Dexterity||Constitution||Charisma,1",
                 "languages": [],
                 "resistances": [],
                 "skills": [],
@@ -2413,7 +2413,7 @@ guidelines = {
             "perk": {
                 "ability": None,
                 "armors": [],
-                "flags": "proficiency=skills&&tools,3",
+                "flags": "proficiency=skills||tools,3",
                 "languages": [],
                 "resistances": [],
                 "skills": [
@@ -2534,7 +2534,7 @@ guidelines = {
             "perk": {
                 "ability": {"Dexterity": 1, "Strength": 1},
                 "armors": [],
-                "flags": "ability=Strength&&Dexterity,1|speed,0",
+                "flags": "ability=Strength||Dexterity,1;speed,0",
                 "languages": [],
                 "resistances": [],
                 "skills": ["Acrobatics", "Athletics"],
@@ -2576,7 +2576,7 @@ guidelines = {
             "perk": {
                 "ability": {"Constitution": 1, "Strength": 1},
                 "armors": [],
-                "flags": "ability=Strength&&Constitution,1|proficiency=weapons,0",
+                "flags": "ability=Strength||Constitution,1;proficiency=weapons,0",
                 "languages": [],
                 "resistances": [],
                 "skills": [],
@@ -2639,7 +2639,7 @@ guidelines = {
             "perk": {
                 "ability": {"Dexterity": 1, "Strength": 1},
                 "armors": [],
-                "flags": "ability=Strength&&Dexterity,1|proficiency=weapons,4",
+                "flags": "ability=Strength||Dexterity,1;proficiency=weapons,4",
                 "languages": [],
                 "resistances": [],
                 "skills": [],

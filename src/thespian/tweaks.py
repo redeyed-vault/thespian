@@ -8,19 +8,28 @@ log = logging.getLogger("thespian.tweaks")
 
 
 class FeatGuidelineParser:
-    """Class to generate/parse feat characteristic flags.
+    """Class to generate/parse feat characteristic flags."""
 
-    PIPEBAR: Used to separate flags. i.e: ability=Strength|proficiency=skills
+    """
+    ALLOWED FLAG OPTIONS:
+
+        - ability
+        - proficiency
+        - saves
+        - speed
+
+    """
+
+    ALLOWED_FLAGS = (
+        "ability",
+        "proficiency",
+        "saves",
+        "speed",
+    )
+
+    """
+    SEMICOLON: Used to separate flags. i.e: ability=Strength|proficiency=skills
         Two flag options are designated in the above example: 'ability', and 'proficiency'.
-
-        ALLOWED FLAG OPTIONS:
-
-        Designates certain instructions for applying feat related "perks" to a character.
-
-            - ability
-            - proficiency
-            - saves
-            - speed
 
     COMMA: Used to identify the number of occurences of a flag. i.e: languages,2
         The example above means that a player can choose two languages.
@@ -30,20 +39,14 @@ class FeatGuidelineParser:
         In this case the character would get an enhancement to Strength.
         There is more to this and is explained further below.
 
-    DOUBLE AMPERSAND: Used to separater parameter options. i.e ability=Strength&&Dexerity,1
-        The example above means the player can choose a one time ehancement to Strength or Dexterity.
-
-    PLUS SIGN: Used to seperate parameter options. i.e ability=Strength+Dexterity
+    DOUBLE AMPERSAND: Used to seperate parameter options. i.e ability=Strength+Dexterity
         The example above means the player can gain an enhancement in both Strength and Dexterity.
 
-    """
+    DOUBLE PIPEBAR: Used to separater parameter options. i.e ability=Strength&&Dexerity,1
+        The example above means the player can choose a one time ehancement to Strength or Dexterity.
 
-    # Parser Option Separators
-    PARSER_OPTIONS = "|"
-    OPTION_INCREMENT = ","
-    OPTION_PARAMETER = "="
-    PARAM_SINGLE_SELECTION = "&&"
-    PARAM_MULTIPLE_SELECTION = "+"
+    """
+    SEPARATOR_CHARS = (";", "=", ",", "&&", "||")
 
     def __init__(self, feat, prof):
         self.feat = feat
@@ -76,37 +79,28 @@ class FeatGuidelineParser:
     def _parse_flags(self) -> dict:
         """Generates the characteristics for the specified feat."""
         parsed_flags = dict()
+
         raw_flags = self.perks.get("flags")
         if raw_flags is None:
             return parsed_flags
 
-        flag_pairs = raw_flags.split(self.PARSER_OPTIONS)
+        flag_pairs = raw_flags.split(self.SEPARATOR_CHARS[0])
         for flag_pair in flag_pairs:
             if self.OPTION_INCREMENT not in flag_pair:
                 raise ValueError("Pairs must be formatted in 'name,value' pairs.")
 
-            attribute_name, increment = flag_pair.split(self.OPTION_INCREMENT)
+            attribute_name, increment = flag_pair.split(self.SEPARATOR_CHARS[1])
             if self.OPTION_PARAMETER not in attribute_name:
                 parsed_flags[attribute_name] = {"increment": increment}
             else:
-                flag_options = attribute_name.split(self.OPTION_PARAMETER)
+                flag_options = attribute_name.split(self.SEPARATOR_CHARS[2])
                 # Allowable flags: ability, proficiency, saves, speed
                 attribute_name = flag_options[0]
-                try:
-                    if attribute_name not in (
-                        "ability",
-                        "proficiency",
-                        "saves",
-                        "speed",
-                    ):
-                        raise ValueError(
-                            f"Illegal flag name '{attribute_name}' specified."
-                        )
-                except ValueError:
-                    return parsed_flags
+                if attribute_name not in self.ALLOWED_FLAGS:
+                    raise ValueError(f"Illegal flag specified '{attribute_name}'.")
 
-                if self.PARAM_SINGLE_SELECTION in flag_options[1]:
-                    options = flag_options[1].split(self.PARAM_SINGLE_SELECTION)
+                if self.SEPARATOR_CHARS[3] in flag_options[1]:
+                    options = flag_options[1].split(self.SEPARATOR_CHARS[3])
                 else:
                     options = flag_options[1]
 
@@ -168,7 +162,8 @@ class FeatGuidelineParser:
 
                 if isinstance(flag_menu_options, str) and flag_increment_count == 0:
                     chosen_options[flag_menu_options] = self._get_proficiency_options(
-                        flag_menu_options                    )
+                        flag_menu_options
+                    )
                 elif isinstance(flag_menu_options, list):
                     for _ in range(flag_increment_count):
                         my_bonus = prompt(
@@ -202,9 +197,7 @@ class FeatGuidelineParser:
                             # Reset the submenu options after use
                             submenu_options = None
                 elif isinstance(flag_menu_options, str):
-                    for prof_type in flag_menu_options.split(
-                        self.PARAM_MULTIPLE_SELECTION
-                    ):
+                    for prof_type in flag_menu_options.split(self.SEPARATOR_CHARS[4]):
                         chosen_proficiencies = list()
 
                         # Pull full collection of bonus proficiencies,
