@@ -7,7 +7,7 @@ from guides import GuidelineReader
 log = logging.getLogger("thespian.tweaks")
 
 
-class FeatGuidelineParser:
+class FeatFlagParser:
     """Class to generate/parse feat characteristic flags."""
 
     """
@@ -264,7 +264,7 @@ class AbilityScoreImprovement:
 
     def _add_feat_perks(self, feat: str) -> None:
         """Applies feat related perks."""
-        parsed_attributes = FeatGuidelineParser(feat, self.character).run()
+        parsed_attributes = FeatFlagParser(feat, self.character).run()
         if parsed_attributes is None:
             return
 
