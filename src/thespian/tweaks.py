@@ -19,7 +19,6 @@ class FeatFlagParser:
         - speed
 
     """
-
     ALLOWED_FLAGS = (
         "ability",
         "proficiency",
@@ -28,21 +27,21 @@ class FeatFlagParser:
     )
 
     """
-    SEMICOLON: Used to separate flags. i.e: ability=Strength|proficiency=skills
+    SEMICOLON: Used to separate flags. i.e: ability=Strength;proficiency=skills
         Two flag options are designated in the above example: 'ability', and 'proficiency'.
 
-    EQUAL SIGN: Used to separate option parameters. i.e ability=Strength,0
-        The example above means Strength is a designated parameter for the ability option.
+    EQUAL SIGN: Used to separate option parameters. i.e ability=Strength,1
+        The example above means Strength is a designated parameter for the ability flag.
         In this case the character would get an enhancement to Strength.
         There is more to this and is explained further below.
 
-    COMMA: Used to identify the number of occurences of a flag. i.e: languages,2
+    COMMA: Used to set a parameter's number of applications. i.e: languages,2
         The example above means that a player can choose two languages.
 
-    DOUBLE AMPERSAND: Used to seperate parameter options. i.e ability=Strength+Dexterity,1
+    DOUBLE AMPERSAND: Used to seperate parameter options. i.e ability=Strength&&Dexterity,1
         The example above means the player can gain an enhancement in both Strength and Dexterity.
 
-    DOUBLE PIPEBAR: Used to separater parameter options. i.e ability=Strength&&Dexerity,1
+    DOUBLE PIPEBAR: Used to separater parameter options. i.e ability=Strength||Dexerity,1
         The example above means the player can choose a one time ehancement to Strength or Dexterity.
 
     """
@@ -76,26 +75,27 @@ class FeatFlagParser:
 
         return True
 
-    def _parse_flags(self) -> dict:
-        """Generates the characteristics for the specified feat."""
-        parsed_flags = dict()
+    def _translate_(self) -> dict:
+        """Translates 'flags' strings into useable instructions."""
+        translated_flags = dict()
 
-        raw_flags = self.perks.get("flags")
-        if raw_flags is None:
-            return parsed_flags
+        flag_string = self.perks.get("flags")
+        if flag_string is None:
+            return translated_flags
 
-        flag_pairs = raw_flags.split(self.SEPARATOR_CHARS[0])
+        flag_pairs = flag_string.split(self.SEPARATOR_CHARS[0])
         for flag_pair in flag_pairs:
             if self.OPTION_INCREMENT not in flag_pair:
                 raise ValueError("Pairs must be formatted in 'name,value' pairs.")
 
             attribute_name, increment = flag_pair.split(self.SEPARATOR_CHARS[1])
             if self.OPTION_PARAMETER not in attribute_name:
-                parsed_flags[attribute_name] = {"increment": increment}
+                translated_flags[attribute_name] = {"increment": increment}
             else:
                 flag_options = attribute_name.split(self.SEPARATOR_CHARS[2])
-                # Allowable flags: ability, proficiency, saves, speed
                 attribute_name = flag_options[0]
+
+                # Allowable flags: ability, proficiency, saves, speed
                 if attribute_name not in self.ALLOWED_FLAGS:
                     raise ValueError(f"Illegal flag specified '{attribute_name}'.")
 
@@ -104,16 +104,16 @@ class FeatFlagParser:
                 else:
                     options = flag_options[1]
 
-                parsed_flags[attribute_name] = {
+                translated_flags[attribute_name] = {
                     "increment": increment,
                     "options": options,
                 }
 
-        return parsed_flags
+        return translated_flags
 
-    def run(self) -> dict:
+    def parse_flags(self) -> dict:
         """Honors the specified flags for a feat."""
-        parsed_flag_list = self._parse_flags()
+        parsed_flag_list = self._translate_()
         if len(parsed_flag_list) == 0:
             return
 
@@ -264,7 +264,7 @@ class AbilityScoreImprovement:
 
     def _add_feat_perks(self, feat: str) -> None:
         """Applies feat related perks."""
-        parsed_attributes = FeatFlagParser(feat, self.character).run()
+        parsed_attributes = FeatFlagParser(feat, self.character).parse_flags()
         if parsed_attributes is None:
             return
 
