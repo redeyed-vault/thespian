@@ -75,7 +75,7 @@ class FeatFlagParser:
 
         return True
 
-    def _translate_(self) -> dict:
+    def _translate_flags(self) -> dict:
         """Translates 'flags' strings into useable instructions."""
         translated_flags = dict()
 
@@ -113,7 +113,7 @@ class FeatFlagParser:
 
     def parse_flags(self) -> dict:
         """Honors the specified flags for a feat."""
-        parsed_flag_list = self._translate_()
+        parsed_flag_list = self._translate_flags()
         if len(parsed_flag_list) == 0:
             return
 
