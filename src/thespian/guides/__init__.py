@@ -37,7 +37,7 @@ class GuidelineReader:
     def get_all_alignments(cls) -> tuple:
         """Returns a tuple of all player character alignments."""
         getter = cls()
-        return tuple(getter._read_("alignments").keys())
+        return tuple(getter._read_("alignments"))
 
     @classmethod
     def get_all_backgrounds(cls) -> tuple:

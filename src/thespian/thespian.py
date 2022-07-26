@@ -415,7 +415,7 @@ def thespian(
     roll_hp: bool = False,
 ) -> dict:
     """Runs the thespian character generator."""
-    initialize(race, subrace, sex, background, alignment, klass, subclass, level)
+    #initialize(race, subrace, sex, background, alignment, klass, subclass, level)
 
     blueprint = dict()
     blueprint["subrace"] = subrace
@@ -549,6 +549,13 @@ def main() -> None:
         default="",
     )
     app.add_argument(
+        "-alignment",
+        "-a",
+        help="Sets your character's alignment",
+        type=str,
+        default="Chaotic Good",
+    )
+    app.add_argument(
         "-klass",
         "-k",
         help="Sets your character's class",
@@ -586,6 +593,10 @@ def main() -> None:
     subclass = args.subclass
     level = args.level
 
+    alignment = args.alignment
+    if alignment not in GuidelineReader.get_all_alignments():
+        raise ArgumentTypeError()
+
     background = args.background
     if background == "" or background not in GuidelineReader.get_all_backgrounds():
         background = GuidelineReader.get_default_background(klass)
@@ -610,6 +621,7 @@ def main() -> None:
         subrace,
         args.sex,
         background,
+        alignment,
         klass,
         subclass,
         level,
