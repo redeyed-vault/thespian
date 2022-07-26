@@ -11,7 +11,7 @@ from notifications import initialize, prompt
 from tweaks import AbilityScoreImprovement
 
 __author__ = "Marcus T Taylor"
-__version__ = "220716"
+__version__ = "220726"
 
 
 log = logging.getLogger("thespian")
@@ -415,7 +415,7 @@ def thespian(
     roll_hp: bool = False,
 ) -> dict:
     """Runs the thespian character generator."""
-    #initialize(race, subrace, sex, background, alignment, klass, subclass, level)
+    # initialize(race, subrace, sex, background, alignment, klass, subclass, level)
 
     blueprint = dict()
     blueprint["subrace"] = subrace
@@ -521,7 +521,7 @@ def main() -> None:
     app.add_argument(
         "-race",
         "-r",
-        help="Sets your character's race",
+        help="Sets your character's race.",
         type=str,
         choices=GuidelineReader.get_all_races(),
         default="Human",
@@ -529,14 +529,14 @@ def main() -> None:
     app.add_argument(
         "-subrace",
         "-sr",
-        help="Sets your character's subrace",
+        help="Sets your character's subrace.",
         type=str,
         default="",
     )
     app.add_argument(
         "-sex",
         "-s",
-        help="Sets your character's sex",
+        help="Sets your character's sex.",
         type=str,
         choices=("Female", "Male"),
         default="Female",
@@ -544,21 +544,21 @@ def main() -> None:
     app.add_argument(
         "-background",
         "-b",
-        help="Sets your character's background",
+        help="Sets your character's background.",
         type=str,
         default="",
     )
     app.add_argument(
         "-alignment",
         "-a",
-        help="Sets your character's alignment",
+        help="Sets your character's alignment.",
         type=str,
         default="Chaotic Good",
     )
     app.add_argument(
         "-klass",
         "-k",
-        help="Sets your character's class",
+        help="Sets your character's class.",
         type=str,
         choices=GuidelineReader.get_all_classes(),
         default="Fighter",
@@ -566,14 +566,14 @@ def main() -> None:
     app.add_argument(
         "-subclass",
         "-sc",
-        help="Sets your character's subclass",
+        help="Sets your character's subclass.",
         type=str,
         default="",
     )
     app.add_argument(
         "-level",
         "-l",
-        help="Sets your character's level",
+        help="Sets your character's level.",
         type=int,
         choices=list(range(1, 21)),
         default=1,
@@ -583,7 +583,7 @@ def main() -> None:
         action="store_true",
         default=False,
         dest="roll_hp",
-        help="Roll hit points every level after the first",
+        help="Roll hit points every level after the first.",
     )
 
     args = app.parse_args()
@@ -595,7 +595,7 @@ def main() -> None:
 
     alignment = args.alignment
     if alignment not in GuidelineReader.get_all_alignments():
-        raise ArgumentTypeError()
+        raise ArgumentTypeError(f"Invalid alignment specified '{alignment}'.")
 
     background = args.background
     if background == "" or background not in GuidelineReader.get_all_backgrounds():
@@ -606,15 +606,11 @@ def main() -> None:
     else:
         subclasses = GuidelineReader.get_all_subclasses(klass)
         if subclass not in subclasses:
-            raise ArgumentTypeError(
-                f"Invalid subclass option '{subclass}'. Valid options for {klass} > {subclasses}"
-            )
+            raise ArgumentTypeError(f"Invalid {klass} subclass '{subclass}'.")
 
     subraces = GuidelineReader.get_all_subraces(race)
     if len(subraces) != 0 and subrace not in subraces:
-        raise ArgumentTypeError(
-            f"Invalid subrace option '{subrace}'. Valid options for {race} > {subraces}"
-        )
+        raise ArgumentTypeError(f"Invalid {race} subrace '{subrace}'.")
 
     character = thespian(
         race,
