@@ -132,6 +132,7 @@ def define_guidelines(guideline_string: str) -> dict | None:
     for guideline_increment_value in tuple(creation_guidelines.values()):
         if guideline_increment_value < 0:
             raise ValueError("Guideline increment values must be greater than 0.")
+            
     return creation_guidelines
 
 
@@ -455,6 +456,7 @@ def thespian(
     # Fuse class data to the blueprint.
     fuse_iterables(blueprint, my_class)
 
+    # Organize blueprint data keys.
     order_by_dict_keys(blueprint)
 
     # Apply level based upgrades.
