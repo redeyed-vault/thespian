@@ -415,7 +415,7 @@ def thespian(
     roll_hp: bool = False,
 ) -> dict:
     """Runs the thespian character generator."""
-    # initialize(race, subrace, sex, background, alignment, klass, subclass, level)
+    initialize(race, subrace, sex, background, alignment, klass, subclass, level)
 
     blueprint = dict()
     blueprint["subrace"] = subrace

@@ -1,3 +1,4 @@
+from email import message
 import time
 
 from colorama import init, Fore, Style
@@ -32,65 +33,18 @@ def initialize(
     subclass: str,
     level: int,
 ):
-    print(
-        Fore.GREEN
-        + "[++] Thespian is starting using the following options:\n"
-        + Fore.GREEN
-        + Style.BRIGHT
-        + "[+] Race: "
-        + Fore.YELLOW
-        + Style.BRIGHT
-        + race
-        + "\n"
-        + Fore.GREEN
-        + Style.BRIGHT
-        + "[+] Subrace: "
-        + Fore.YELLOW
-        + Style.BRIGHT
-        + subrace
-        + "\n"
-        + Fore.GREEN
-        + Style.BRIGHT
-        + "[+] Sex: "
-        + Fore.YELLOW
-        + Style.BRIGHT
-        + sex
-        + "\n"
-        + Fore.GREEN
-        + Style.BRIGHT
-        + "[+] Background: "
-        + Fore.YELLOW
-        + Style.BRIGHT
-        + background
-        + "\n"
-        + Fore.GREEN
-        + Style.BRIGHT
-        + "[+] Alignment: "
-        + Fore.YELLOW
-        + Style.BRIGHT
-        + alignment
-        + "\n"
-        + Fore.GREEN
-        + Style.BRIGHT
-        + "[+] Class: "
-        + Fore.YELLOW
-        + Style.BRIGHT
-        + klass
-        + "\n"
-        + Fore.GREEN
-        + Style.BRIGHT
-        + "[+] Subclass: "
-        + Fore.YELLOW
-        + Style.BRIGHT
-        + subclass
-        + "\n"
-        + Fore.GREEN
-        + Style.BRIGHT
-        + "[+] Level: "
-        + Fore.YELLOW
-        + Style.BRIGHT
-        + str(level)
-    )
+    print(Fore.GREEN + "[++] Thespian is starting using the following options:")
+
+    readout_header = Fore.GREEN + Style.BRIGHT
+    readout_value = Fore.YELLOW + Style.BRIGHT
+    print(readout_header + "[+] Race: " + readout_value + race)
+    print(readout_header + "[+] Subrace: " + readout_value + subrace)
+    print(readout_header + "[+] Sex: " + readout_value + sex)
+    print(readout_header + "[+] Background: " + readout_value + background)
+    print(readout_header + "[+] Alignment: " + readout_value + alignment)
+    print(readout_header + "[+] Class: " + readout_value + klass)
+    print(readout_header + "[+] Subclass: " + readout_value + subclass)
+    print(readout_header + "[+] Level: " + readout_value + str(level))
 
 
 def prompt(
