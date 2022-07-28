@@ -132,7 +132,7 @@ def define_guidelines(guideline_string: str) -> dict | None:
     for guideline_increment_value in tuple(creation_guidelines.values()):
         if guideline_increment_value < 0:
             raise ValueError("Guideline increment values must be greater than 0.")
-            
+
     return creation_guidelines
 
 

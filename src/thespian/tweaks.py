@@ -275,25 +275,30 @@ class AbilityScoreImprovement:
             else:
                 self.character[flag] += options
 
-    def _count_upgrades(self) -> int:
+    def _get_number_of_upgrades(self) -> int:
         """Returns the number of available upgrades."""
-        upgrade_count = 0
-        for x in range(1, self.character["level"] + 1):
-            if (x % 4) == 0 and x != 20:
-                upgrade_count += 1
-        if self.character["klass"] == "Fighter" and self.character["level"] >= 6:
-            upgrade_count += 1
-        if self.character["klass"] == "Rogue" and self.character["level"] >= 8:
-            upgrade_count += 1
-        if self.character["klass"] == "Fighter" and self.character["level"] >= 14:
-            upgrade_count += 1
-        if self.character["level"] >= 19:
-            upgrade_count += 1
+        level = self.character["level"]
+        number_of_upgrades = 0
+        for _ in range(1, level + 1):
+            if (_ % 4) == 0 and _ != 20:
+                number_of_upgrades += 1
 
-        return upgrade_count
+        klass = self.character["klass"]
+        if klass == "Fighter" and level >= 6:
+            number_of_upgrades += 1
+        if klass == "Rogue" and level >= 8:
+            number_of_upgrades += 1
+        if klass == "Fighter" and level >= 14:
+            number_of_upgrades += 1
+        if level >= 19:
+            number_of_upgrades += 1
+
+        return number_of_upgrades
 
     def _has_requirements(self, feat: str) -> bool:
         """Checks if feat requirements have been met."""
+        klass = self.character["klass"]
+        armors = self.character["armors"]
 
         # Character already has feat
         if feat in self.character["feats"]:
@@ -308,7 +313,7 @@ class AbilityScoreImprovement:
                 "Lightly Armored",
                 "Moderately Armored",
             )
-            and self.character["klass"] == "Monk"
+            and klass == "Monk"
         ):
             return False
 
@@ -322,11 +327,11 @@ class AbilityScoreImprovement:
             # Lightly Armored: Character already has light armor proficiency.
             # Moderately Armored: Character already has medium armor proficiency.
             # Weapon Master: Character already has martial weapon proficiency.
-            if feat == "Heavily Armored" and "Heavy" in self.character["armors"]:
+            if feat == "Heavily Armored" and "Heavy" in armors:
                 return False
-            elif feat == "Lightly Armored" and "Light" in self.character["armors"]:
+            elif feat == "Lightly Armored" and "Light" in armors:
                 return False
-            elif feat == "Moderately Armored" and "Medium" in self.character["armors"]:
+            elif feat == "Moderately Armored" and "Medium" in armors:
                 return False
             elif feat == "Weapon Master" and "Martial" in self.character["weapons"]:
                 return False
@@ -355,7 +360,7 @@ class AbilityScoreImprovement:
                     return False
 
                 # Magic Initiative requirements check.
-                if feat == "Magic Initiative" and self.character["klass"] not in (
+                if feat == "Magic Initiative" and klass not in (
                     "Bard",
                     "Cleric",
                     "Druid",
@@ -385,9 +390,9 @@ class AbilityScoreImprovement:
                     "Medium Armor Master",
                     "Moderately Armored",
                 ):
-                    armors = feat_prerequisites[requirement]["armors"]
-                    for armor in armors:
-                        if armor not in self.character["armors"]:
+                    required_armors = feat_prerequisites[requirement]["armors"]
+                    for armor in required_armors:
+                        if armor not in required_armors:
                             return False
 
             # Check race requirements
@@ -403,14 +408,16 @@ class AbilityScoreImprovement:
         return True
 
     def _is_adjustable(self, ability: str, bonus: int = 1) -> bool:
-        """Checks if the specified ability is adjustable with the specified bonus (<= 20)."""
+        """Checks if an ability is adjustable with the specified bonus (<= 20)."""
         if not isinstance(ability, str):
             raise TypeError("Argument 'ability' must be of type 'str'.")
         if not isinstance(bonus, int):
             raise TypeError("Argument 'bonus' must be of type 'int'.")
-        if ability not in self.character["scores"]:
+
+        attributes = self.character["scores"]
+        if ability not in attributes:
             raise ValueError(f"Invalid ability '{ability}' specified.")
-        if (self.character["scores"][ability] + bonus) > 20:
+        if (attributes[ability] + bonus) > 20:
             return False
 
         return True
@@ -420,7 +427,7 @@ class AbilityScoreImprovement:
         if self.character["level"] < 4:
             return
 
-        num_of_upgrades = self._count_upgrades()
+        num_of_upgrades = self._get_number_of_upgrades()
 
         while num_of_upgrades > 0:
             my_path = prompt(
