@@ -32,25 +32,25 @@ def initialize(
     klass: str,
     subclass: str,
     level: int,
-):
+) -> None:
     print(Fore.GREEN + "[++] Thespian is starting using the following options:")
 
-    readout_header = Fore.GREEN + Style.BRIGHT
+    readout_title = Fore.GREEN + Style.BRIGHT + "[+] "
     readout_value = Fore.YELLOW + Style.BRIGHT
-    print(readout_header + "[+] Race: " + readout_value + race)
-    print(readout_header + "[+] Subrace: " + readout_value + subrace)
-    print(readout_header + "[+] Sex: " + readout_value + sex)
-    print(readout_header + "[+] Background: " + readout_value + background)
-    print(readout_header + "[+] Alignment: " + readout_value + alignment)
-    print(readout_header + "[+] Class: " + readout_value + klass)
-    print(readout_header + "[+] Subclass: " + readout_value + subclass)
-    print(readout_header + "[+] Level: " + readout_value + str(level))
+    print(readout_title + "Race: " + readout_value + race)
+    print(readout_title + "Subrace: " + readout_value + subrace)
+    print(readout_title + "Sex: " + readout_value + sex)
+    print(readout_title + "Background: " + readout_value + background)
+    print(readout_title + "Alignment: " + readout_value + alignment)
+    print(readout_title + "Class: " + readout_value + klass)
+    print(readout_title + "Subclass: " + readout_value + subclass)
+    print(readout_title + "Level: " + readout_value + str(level))
 
 
 def prompt(
     message: str, prompt_options: list | tuple, selected_options: set = None
 ) -> str:
-    """Runs user prompt menu."""
+    """Runs user prompt."""
     time.sleep(2.2)
 
     # Sets used to keep the selected_option values unique.
@@ -84,7 +84,7 @@ def prompt(
 
     try:
         if user_value not in prompt_options:
-            raise ValueError()
+            raise ValueError
     except ValueError:
         echo(
             f"Invalid selection. Only values between 1-{len(prompt_options)} are allowed.",
