@@ -1,4 +1,3 @@
-from email import message
 import time
 
 from colorama import init, Fore, Style
@@ -13,17 +12,18 @@ init(autoreset=True)
 
 
 def echo(message: str, status_level: int = STATUS_NORMAL) -> None:
-    """Outputs status messages."""
+    """Outputs color coded status messages."""
     if status_level == STATUS_ERROR:
         message = Fore.RED + "[E] " + message
     elif status_level == STATUS_WARNING:
         message = Fore.YELLOW + Style.BRIGHT + "[W] " + message
     elif status_level == STATUS_NORMAL:
         message = Fore.GREEN + Style.BRIGHT + "[N] " + message
+
     print(message)
 
 
-def initialize(
+def init_status(
     race: str,
     subrace: str,
     sex: str,
@@ -33,18 +33,19 @@ def initialize(
     subclass: str,
     level: int,
 ) -> None:
+    """Shows Thespian init status."""
     print(Fore.GREEN + "[++] Thespian is starting using the following options:")
 
-    readout_title = Fore.GREEN + Style.BRIGHT + "[+] "
-    readout_value = Fore.YELLOW + Style.BRIGHT
-    print(readout_title + "Race: " + readout_value + race)
-    print(readout_title + "Subrace: " + readout_value + subrace)
-    print(readout_title + "Sex: " + readout_value + sex)
-    print(readout_title + "Background: " + readout_value + background)
-    print(readout_title + "Alignment: " + readout_value + alignment)
-    print(readout_title + "Class: " + readout_value + klass)
-    print(readout_title + "Subclass: " + readout_value + subclass)
-    print(readout_title + "Level: " + readout_value + str(level))
+    status_title = Fore.GREEN + Style.BRIGHT + "[+] "
+    status_value = Fore.YELLOW + Style.BRIGHT
+    print(status_title + "Race: " + status_value + race)
+    print(status_title + "Subrace: " + status_value + subrace)
+    print(status_title + "Sex: " + status_value + sex)
+    print(status_title + "Background: " + status_value + background)
+    print(status_title + "Alignment: " + status_value + alignment)
+    print(status_title + "Class: " + status_value + klass)
+    print(status_title + "Subclass: " + status_value + subclass)
+    print(status_title + "Level: " + status_value + str(level))
 
 
 def prompt(

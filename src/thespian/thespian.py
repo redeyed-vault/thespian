@@ -7,7 +7,7 @@ from attributes import AttributeGenerator, generate_hit_points, get_ability_modi
 from guides import GuidelineReader
 from httpd import Server
 from metrics import AnthropometricCalculator
-from notifications import initialize, prompt
+from notifications import init_status, prompt
 from tweaks import AbilityScoreImprovement
 
 __author__ = "Marcus T Taylor"
@@ -416,7 +416,7 @@ def thespian(
     roll_hp: bool = False,
 ) -> dict:
     """Runs the thespian character generator."""
-    initialize(race, subrace, sex, background, alignment, klass, subclass, level)
+    init_status(race, subrace, sex, background, alignment, klass, subclass, level)
 
     blueprint = dict()
     blueprint["subrace"] = subrace
