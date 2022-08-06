@@ -81,7 +81,7 @@ class AnthropometricCalculator:
                 height_diff = random.randint(0, 5)
                 height_calculation = height_calculation - height_diff
                 log.warn(
-                    f'Using a non-dominant gender height differential of -{height_diff}".',
+                    f'Using a non-dominant gender height differential of -{height_diff} inches.',
                 )
 
                 # Subtract 15-20% lbs from weight.
@@ -89,7 +89,7 @@ class AnthropometricCalculator:
                 weight_diff = math.floor(weight_calculation * weight_diff)
                 weight_calculation = weight_calculation - weight_diff
                 log.warn(
-                    f"Using a non-dominant gender weight differential of -{weight_diff}.",
+                    f"Using a non-dominant gender weight differential of -{weight_diff} pounds.",
                 )
 
         if height_calculation < 12:
