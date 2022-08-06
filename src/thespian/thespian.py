@@ -416,7 +416,9 @@ def thespian(
     fuse_iterables(my_race, my_background)
 
     # Generate character's height/weight.
-    height, weight = AnthropometricCalculator(race, sex, subrace).calculate(use_dominant_sex)
+    height, weight = AnthropometricCalculator(race, sex, subrace).calculate(
+        use_dominant_sex
+    )
     my_race["height"] = height
     my_race["weight"] = weight
     feet, inches = my_race["height"]

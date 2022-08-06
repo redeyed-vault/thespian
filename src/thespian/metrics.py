@@ -43,7 +43,9 @@ class AnthropometricCalculator:
             if result is not None:
                 return self.subrace
             else:
-                raise ValueError("No racial/subracial metric data source could be determined.")
+                raise ValueError(
+                    "No racial/subracial metric data source could be determined."
+                )
 
         return self.race
 
@@ -81,7 +83,7 @@ class AnthropometricCalculator:
                 height_diff = random.randint(0, 5)
                 height_calculation = height_calculation - height_diff
                 log.warn(
-                    f'Using a non-dominant gender height differential of -{height_diff} inches.',
+                    f"Using a non-dominant gender height differential of -{height_diff} inches.",
                 )
 
                 # Subtract 15-20% lbs from weight.
