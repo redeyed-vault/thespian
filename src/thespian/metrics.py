@@ -47,7 +47,7 @@ class AnthropometricCalculator:
 
         return self.race
 
-    def calculate(self, factor_sex: bool = False) -> tuple:
+    def calculate(self, use_dominant_sex: bool = False) -> tuple:
         """Calculates character's height and weight."""
         height_values, weight_values = self._get_height_and_weight_base()
         height_pair = height_values.split(",")
@@ -64,7 +64,7 @@ class AnthropometricCalculator:
         weight_calculation = (weight_modifier * height_modifier) + weight_base
 
         # "Unofficial" rule for height/weight differential by gender
-        if factor_sex:
+        if use_dominant_sex:
             dominant_sex = GuidelineReader.get_dominant_sex(
                 self._get_metric_data_source()
             )
