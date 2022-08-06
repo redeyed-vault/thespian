@@ -7,11 +7,11 @@ from attributes import AttributeGenerator, generate_hit_points, get_ability_modi
 from guides import GuidelineReader
 from httpd import Server
 from metrics import AnthropometricCalculator
-from notifications import init_status, prompt
+from notifications import PromptRecorder, init_status, prompt
 from tweaks import AbilityScoreImprovement
 
 __author__ = "Marcus T Taylor"
-__version__ = "220726"
+__version__ = "220805"
 
 
 log = logging.getLogger("thespian")
@@ -21,27 +21,6 @@ log_handler.setLevel(logging.INFO)
 log_format = logging.Formatter("%(name)s:%(levelname)s:%(message)s")
 log_handler.setFormatter(log_format)
 log.addHandler(log_handler)
-
-
-class UserPromptRecorder:
-    """Class to store/recall user prompt selections."""
-
-    prompt_inputs: dict = dict()
-
-    def recall(self, prompt_category: str) -> dict:
-        """Returns/creates (if non-existent) prompt saved to a specified category."""
-        try:
-            return self.prompt_inputs[prompt_category]
-        except KeyError:
-            self.prompt_inputs[prompt_category] = set()
-            return self.prompt_inputs[prompt_category]
-
-    def store(self, prompt_category: str, prompt_inputs: list) -> None:
-        """Stores prompts to a specified category."""
-        if prompt_category not in self.prompt_inputs:
-            self.prompt_inputs[prompt_category] = set(prompt_inputs)
-        else:
-            self.prompt_inputs[prompt_category].update(prompt_inputs)
 
 
 def define_background(background: str) -> dict:
@@ -305,7 +284,7 @@ def honor_guidelines(
     if guidelines is None or not isinstance(guidelines, dict):
         return output
 
-    recorder = UserPromptRecorder()
+    recorder = PromptRecorder()
 
     for guideline, _ in guidelines.items():
         # Copy guideline to blueprint, if not specified in blueprint (if allowed).
@@ -414,6 +393,7 @@ def thespian(
     subclass: str,
     level: int,
     roll_hp: bool = False,
+    use_dominant_sex: bool = False,
 ) -> dict:
     """Runs the thespian character generator."""
     init_status(race, subrace, sex, background, alignment, klass, subclass, level)
@@ -436,7 +416,7 @@ def thespian(
     fuse_iterables(my_race, my_background)
 
     # Generate character's height/weight.
-    height, weight = AnthropometricCalculator(race, sex, subrace).calculate()
+    height, weight = AnthropometricCalculator(race, sex, subrace).calculate(use_dominant_sex)
     my_race["height"] = height
     my_race["weight"] = weight
     feet, inches = my_race["height"]
@@ -587,6 +567,13 @@ def main() -> None:
         dest="roll_hp",
         help="Roll hit points every level after the first.",
     )
+    app.add_argument(
+        "--use-dominant-sex",
+        action="store_true",
+        default=False,
+        dest="use_dominant_sex",
+        help="Account for height/weight differences based on sex.",
+    )
 
     args = app.parse_args()
     race = args.race
@@ -624,5 +611,6 @@ def main() -> None:
         subclass,
         level,
         args.roll_hp,
+        args.use_dominant_sex,
     )
     Server.run(character)

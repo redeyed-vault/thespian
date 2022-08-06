@@ -41,12 +41,9 @@ $ python -m pip install -r requirements.txt
 $ python src/thespian -h
 usage: thespian (ver. VERSION) [-h]
                               [-race {Aasimar,Bugbear,Dragonborn,Dwarf,Elf,Firbolg,Gith,Gnome,Goblin,Goliath,HalfElf,HalfOrc,Halfling,Hobgoblin,Human,Kenku,Kobold,Lizardfolk,Orc,Tabaxi,Tiefling,Triton,Yuanti}]
-                              [-subrace SUBRACE] [-sex {Female,Male}]
-                              [-background BACKGROUND] [-alignment ALIGNMENT]
+                              [-subrace SUBRACE] [-sex {Female,Male}] [-background BACKGROUND] [-alignment ALIGNMENT]
                               [-klass {Artificer,Barbarian,Bard,Cleric,Druid,Fighter,Monk,Paladin,Ranger,Rogue,Sorcerer,Warlock,Wizard}]
-                              [-subclass SUBCLASS]
-                              [-level {1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20}]
-                              [--roll-hp]
+                              [-subclass SUBCLASS] [-level {1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20}] [--roll-hp] [--use-dominant-sex]
 
 Generate 5th edition Dungeons & Dragons characters.
 
@@ -69,6 +66,7 @@ options:
   -level {1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20}, -l {1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20}
                         Sets your character's level. (default: 1)
   --roll-hp             Roll hit points every level after the first. (default: False)
+  --use-dominant-sex    Account for height/weight differences based on sex. (default: False)
 ```
 
 

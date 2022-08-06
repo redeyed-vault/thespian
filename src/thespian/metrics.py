@@ -11,7 +11,7 @@ log = logging.getLogger("thespian.metrics")
 
 @dataclass
 class AnthropometricCalculator:
-    """Class to calculate height and weight."""
+    """Class to handle height/weight calculations."""
 
     race: str
     sex: str
@@ -29,19 +29,21 @@ class AnthropometricCalculator:
 
         # If base|sub race metrics info still not found.
         if base_height is None or base_weight is None:
-            raise ValueError("No racial/subracial base metrics found.")
+            raise ValueError("No racial/subracial base metric data found.")
 
         return (base_height, base_weight)
 
     def _get_metric_data_source(self) -> str:
         """Returns metric data's source race/subrace name i.e Human, Drow, etc."""
         result = GuidelineReader.get_metrics_by_race(self.race)
+
+        # If metric data source not found by race, try by subrace.
         if result is None:
             result = GuidelineReader.get_metrics_by_race(self.subrace)
             if result is not None:
                 return self.subrace
             else:
-                raise ValueError("No racial/subracial source could be determined.")
+                raise ValueError("No racial/subracial metric data source could be determined.")
 
         return self.race
 
@@ -61,7 +63,7 @@ class AnthropometricCalculator:
         weight_modifier = sum(roll_die(weight_pair[1]))
         weight_calculation = (weight_modifier * height_modifier) + weight_base
 
-        # Unofficial rule for height/weight differential by gender
+        # "Unofficial" rule for height/weight differential by gender
         if factor_sex:
             dominant_sex = GuidelineReader.get_dominant_sex(
                 self._get_metric_data_source()
@@ -84,11 +86,10 @@ class AnthropometricCalculator:
 
                 # Subtract 15-20% lbs from weight.
                 weight_diff = random.randint(15, 20) / 100
-                weight_calculation = weight_calculation - math.floor(
-                    weight_calculation * weight_diff
-                )
+                weight_diff = math.floor(weight_calculation * weight_diff)
+                weight_calculation = weight_calculation - weight_diff
                 log.warn(
-                    f"Using a non-dominant gender weight differential of -{weight_diff}%.",
+                    f"Using a non-dominant gender weight differential of -{weight_diff}.",
                 )
 
         if height_calculation < 12:
