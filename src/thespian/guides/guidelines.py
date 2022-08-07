@@ -1301,10 +1301,10 @@ guidelines = {
     #################################################################
     "feats": {
         "Actor": {
+            "_guides": "feat-perk-ability=Charisma,1",
             "perk": {
                 "ability": {"Charisma": 1},
                 "armors": [],
-                "flags": "ability=Charisma,1",
                 "languages": [],
                 "resistances": [],
                 "skills": [],
@@ -1322,10 +1322,10 @@ guidelines = {
             },
         },
         "Alert": {
+            "_guides": None,
             "perk": {
                 "ability": None,
                 "armors": [],
-                "flags": None,
                 "languages": [],
                 "resistances": [],
                 "skills": [],
@@ -1343,10 +1343,10 @@ guidelines = {
             },
         },
         "Athlete": {
+            "_guides": "feat-perk-ability=Strength||Dexterity,1",
             "perk": {
                 "ability": {"Dexterity": 1, "Strength": 1},
                 "armors": [],
-                "flags": "ability=Strength||Dexterity,1",
                 "languages": [],
                 "resistances": [],
                 "skills": [],
@@ -1364,10 +1364,10 @@ guidelines = {
             },
         },
         "Bountiful Luck": {
+            "_guides": None,
             "perk": {
                 "ability": None,
                 "armors": [],
-                "flags": None,
                 "languages": [],
                 "resistances": [],
                 "skills": [],
@@ -1385,10 +1385,10 @@ guidelines = {
             },
         },
         "Charger": {
+            "_guides": None,
             "perk": {
                 "ability": None,
                 "armors": [],
-                "flags": None,
                 "languages": [],
                 "resistances": [],
                 "skills": [],
@@ -1406,10 +1406,10 @@ guidelines = {
             },
         },
         "Crossbow Expert": {
+            "_guides": None,
             "perk": {
                 "ability": None,
                 "armors": [],
-                "flags": None,
                 "languages": [],
                 "resistances": [],
                 "skills": [],
@@ -1427,10 +1427,10 @@ guidelines = {
             },
         },
         "Defensive Duelist": {
+            "_guides": None,
             "perk": {
                 "ability": None,
                 "armors": [],
-                "flags": None,
                 "languages": [],
                 "resistances": [],
                 "skills": None,
@@ -1448,10 +1448,10 @@ guidelines = {
             },
         },
         "Dragon Fear": {
+            "_guides": "feat-perk-ability=Strength||Constitution||Charisma,1",
             "perk": {
                 "ability": {"Charisma": 1, "Constitution": 1, "Strength": 1},
                 "armors": [],
-                "flags": "ability=Strength||Constitution||Charisma,1",
                 "languages": [],
                 "resistances": [],
                 "skills": [],
@@ -1469,10 +1469,10 @@ guidelines = {
             },
         },
         "Dragon Hide": {
+            "_guides": "feat-perk-ability=Strength||Dexterity||Charisma,1",
             "perk": {
                 "ability": {"Charisma": 1, "Constitution": 1, "Strength": 1},
                 "armors": [],
-                "flags": "ability=Strength||Dexterity||Charisma,1",
                 "languages": [],
                 "resistances": [],
                 "skills": [],
@@ -1490,10 +1490,10 @@ guidelines = {
             },
         },
         "Drow High Magic": {
+            "_guides": "spells,0",
             "perk": {
                 "ability": None,
                 "armors": [],
-                "flags": "spells,0",
                 "languages": [],
                 "resistances": [],
                 "skills": [],
@@ -1511,10 +1511,10 @@ guidelines = {
             },
         },
         "Dual Wielder": {
+            "_guides": None,
             "perk": {
                 "ability": None,
                 "armors": [],
-                "flags": None,
                 "languages": [],
                 "resistances": [],
                 "skills": [],
@@ -1532,10 +1532,10 @@ guidelines = {
             },
         },
         "Dungeon Delver": {
+            "_guides": "resistances,0",
             "perk": {
                 "ability": None,
                 "armors": [],
-                "flags": "resistances,0",
                 "languages": [],
                 "resistances": ["Traps"],
                 "skills": [],
@@ -1553,10 +1553,10 @@ guidelines = {
             },
         },
         "Durable": {
+            "_guides": "feat-perk-ability=Constitution,1",
             "perk": {
                 "ability": {"Constitution": 1},
                 "armors": [],
-                "flags": "ability=Constitution,1",
                 "languages": [],
                 "resistances": [],
                 "skills": [],
@@ -1574,10 +1574,10 @@ guidelines = {
             },
         },
         "Dwarven Fortitude": {
+            "_guides": "feat-perk-ability=Constitution,1",
             "perk": {
                 "ability": {"Constitution": 1},
                 "armors": [],
-                "flags": "ability=Constitution,1",
                 "languages": [],
                 "resistances": [],
                 "skills": [],
@@ -1595,10 +1595,10 @@ guidelines = {
             },
         },
         "Elemental Adept": {
+            "_guides": None,
             "perk": {
                 "ability": None,
                 "armors": [],
-                "flags": None,
                 "languages": [],
                 "resistances": [],
                 "skills": [],
@@ -1616,6 +1616,7 @@ guidelines = {
             },
         },
         "Elven Accuracy": {
+            "_guides": "feat-perk-ability=Dexterity||Intelligence||Wisdom||Charisma,1",
             "perk": {
                 "ability": {
                     "Charisma": 1,
@@ -1624,7 +1625,6 @@ guidelines = {
                     "Wisdom": 1,
                 },
                 "armors": [],
-                "flags": "ability=Dexterity||Intelligence||Wisdom||Charisma,1",
                 "languages": [],
                 "resistances": [],
                 "skills": [],
@@ -1642,10 +1642,10 @@ guidelines = {
             },
         },
         "Fade Away": {
+            "_guides": "feat-perk-ability=Dexterity||Intelligence,1",
             "perk": {
                 "ability": {"Dexterity": 1, "Intelligence": 1},
                 "armors": [],
-                "flags": "ability=Dexterity||Intelligence,1",
                 "languages": [],
                 "resistances": [],
                 "skills": [],
@@ -1663,10 +1663,10 @@ guidelines = {
             },
         },
         "Fey Teleportation": {
+            "_guides": "feat-perk-ability=Intelligence||Charisma,1;proficiency=languages,0",
             "perk": {
                 "ability": {"Charisma": 1, "Intelligence": 1},
                 "armors": [],
-                "flags": "ability=Intelligence||Charisma,1;proficiency=languages,0",
                 "languages": ["Sylvan"],
                 "resistances": [],
                 "skills": [],
@@ -1684,10 +1684,10 @@ guidelines = {
             },
         },
         "Flames of Phlegethos": {
+            "_guides": None,
             "perk": {
                 "ability": None,
                 "armors": [],
-                "flags": None,
                 "languages": [],
                 "resistances": [],
                 "skills": [],
@@ -1705,10 +1705,10 @@ guidelines = {
             },
         },
         "Grappler": {
+            "_guides": None,
             "perk": {
                 "ability": None,
                 "armors": [],
-                "flags": None,
                 "languages": [],
                 "resistances": [],
                 "skills": [],
@@ -1726,10 +1726,10 @@ guidelines = {
             },
         },
         "Great Weapon Master": {
+            "_guides": None,
             "perk": {
                 "ability": None,
                 "armors": [],
-                "flags": None,
                 "languages": [],
                 "resistances": [],
                 "skills": [],
@@ -1747,10 +1747,10 @@ guidelines = {
             },
         },
         "Healer": {
+            "_guides": None,
             "perk": {
                 "ability": None,
                 "armors": [],
-                "flags": None,
                 "languages": [],
                 "resistances": [],
                 "skills": [],
@@ -1768,10 +1768,10 @@ guidelines = {
             },
         },
         "Heavily Armored": {
+            "_guides": "feat-perk-ability=Strength,1;proficiency=armors,0",
             "perk": {
                 "ability": {"Strength": 1},
                 "armors": ["Heavy"],
-                "flags": "ability=Strength,1;proficiency=armors,0",
                 "languages": [],
                 "resistances": [],
                 "skills": [],
@@ -1789,10 +1789,10 @@ guidelines = {
             },
         },
         "Heavy Armor Master": {
+            "_guides": "feat-perk-ability=Strength,1",
             "perk": {
                 "ability": {"Strength": 1},
                 "armors": [],
-                "flags": "ability=Strength,1",
                 "languages": [],
                 "resistances": [],
                 "skills": [],
@@ -1810,10 +1810,10 @@ guidelines = {
             },
         },
         "Infernal Constitution": {
+            "_guides": "feat-perk-ability=Constitution;resistances,0",
             "perk": {
                 "ability": {"Constitution": 1},
                 "armors": [],
-                "flags": "ability=Constitution;resistances,0",
                 "languages": [],
                 "resistances": ["Cold", "Poison"],
                 "skills": [],
@@ -1831,10 +1831,10 @@ guidelines = {
             },
         },
         "Inspiring Leader": {
+            "_guides": None,
             "perk": {
                 "ability": None,
                 "armors": [],
-                "flags": None,
                 "languages": [],
                 "resistances": [],
                 "skills": [],
@@ -1852,10 +1852,10 @@ guidelines = {
             },
         },
         "Keen Mind": {
+            "_guides": "feat-perk-ability=Intelligence,1",
             "perk": {
                 "ability": {"Intelligence": 1},
                 "armors": [],
-                "flags": "ability=Intelligence,1",
                 "languages": [],
                 "resistances": [],
                 "skills": [],
@@ -1873,10 +1873,10 @@ guidelines = {
             },
         },
         "Lightly Armored": {
+            "_guides": "feat-perk-ability=Strength||Dexterity,1;proficiency=armors,0",
             "perk": {
                 "ability": {"Dexterity": 1, "Strength": 1},
                 "armors": ["Light"],
-                "flags": "ability=Strength||Dexterity,1;proficiency=armors,0",
                 "languages": [],
                 "resistances": [],
                 "skills": [],
@@ -1894,10 +1894,10 @@ guidelines = {
             },
         },
         "Linguist": {
+            "_guides": "feat-perk-ability=Intelligence,1;proficiency=languages,3",
             "perk": {
                 "ability": {"Intelligence": 1},
                 "armors": [],
-                "flags": "ability=Intelligence,1;proficiency=languages,3",
                 "languages": [
                     "Abyssal",
                     "Celestial",
@@ -1932,10 +1932,10 @@ guidelines = {
             },
         },
         "Lucky": {
+            "_guides": None,
             "perk": {
                 "ability": None,
                 "armors": [],
-                "flags": None,
                 "languages": [],
                 "resistances": [],
                 "skills": [],
@@ -1953,10 +1953,10 @@ guidelines = {
             },
         },
         "Mage Slayer": {
+            "_guides": None,
             "perk": {
                 "ability": None,
                 "armors": [],
-                "flags": None,
                 "languages": [],
                 "resistances": [],
                 "skills": [],
@@ -1974,10 +1974,10 @@ guidelines = {
             },
         },
         "Magic Initiative": {
+            "_guides": None,
             "perk": {
                 "ability": None,
                 "armors": [],
-                "flags": None,
                 "languages": [],
                 "resistances": [],
                 "skills": [],
@@ -1995,10 +1995,10 @@ guidelines = {
             },
         },
         "Martial Adept": {
+            "_guides": None,
             "perk": {
                 "ability": None,
                 "armors": [],
-                "flags": None,
                 "languages": [],
                 "resistances": [],
                 "skills": [],
@@ -2016,10 +2016,10 @@ guidelines = {
             },
         },
         "Medium Armor Master": {
+            "_guides": None,
             "perk": {
                 "ability": None,
                 "armors": [],
-                "flags": None,
                 "languages": [],
                 "resistances": [],
                 "skills": [],
@@ -2037,10 +2037,10 @@ guidelines = {
             },
         },
         "Mobile": {
+            "_guides": "feat-perk-speed,0",
             "perk": {
                 "ability": None,
                 "armors": [],
-                "flags": "speed,0",
                 "languages": [],
                 "resistances": [],
                 "skills": [],
@@ -2058,10 +2058,10 @@ guidelines = {
             },
         },
         "Moderately Armored": {
+            "_guides": "feat-perk-ability=Strength||Dexterity,1;proficiency=armors,0",
             "perk": {
                 "ability": {"Dexterity": 1, "Strength": 1},
                 "armors": ["Medium", "Shields"],
-                "flags": "ability=Strength||Dexterity,1;proficiency=armors,0",
                 "languages": [],
                 "resistances": [],
                 "skills": [],
@@ -2079,10 +2079,10 @@ guidelines = {
             },
         },
         "Mounted Combatant": {
+            "_guides": None,
             "perk": {
                 "ability": None,
                 "armors": [],
-                "flags": None,
                 "languages": [],
                 "resistances": [],
                 "skills": [],
@@ -2100,10 +2100,10 @@ guidelines = {
             },
         },
         "Observant": {
+            "_guides": "feat-perk-ability=Intelligence||Wisdom,1",
             "perk": {
                 "ability": {"Intelligence": 1, "Wisdom": 1},
                 "armors": [],
-                "flags": "ability=Intelligence||Wisdom,1",
                 "languages": [],
                 "resistances": [],
                 "skills": [],
@@ -2121,10 +2121,10 @@ guidelines = {
             },
         },
         "Orcish Fury": {
+            "_guides": "feat-perk-ability=Strength||Constitution,1",
             "perk": {
                 "ability": {"Constitution": 1, "Strength": 1},
                 "armors": [],
-                "flags": "ability=Strength||Constitution,1",
                 "languages": [],
                 "resistances": [],
                 "skills": [],
@@ -2142,10 +2142,10 @@ guidelines = {
             },
         },
         "Polearm Master": {
+            "_guides": None,
             "perk": {
                 "ability": None,
                 "armors": [],
-                "flags": None,
                 "languages": [],
                 "resistances": [],
                 "skills": [],
@@ -2163,10 +2163,10 @@ guidelines = {
             },
         },
         "Prodigy": {
+            "_guides": "proficiency=languages&&skills&&tools,1",
             "perk": {
                 "ability": None,
                 "armors": [],
-                "flags": "proficiency=languages&&skills&&tools,1",
                 "languages": [
                     "Abyssal",
                     "Celestial",
@@ -2259,6 +2259,7 @@ guidelines = {
             },
         },
         "Resilient": {
+            "_guides": "feat-perk-ability=Strength||Dexterity||Constitution||Intelligence||Wisdom||Charisma,1;feat-perk-savingthrows,0",
             "perk": {
                 "ability": {
                     "Charisma": 1,
@@ -2269,7 +2270,6 @@ guidelines = {
                     "Wisdom": 1,
                 },
                 "armors": [],
-                "flags": "ability=Strength||Dexterity||Constitution||Intelligence||Wisdom||Charisma,1|saves,0",
                 "languages": [],
                 "resistances": [],
                 "skills": [],
@@ -2287,10 +2287,10 @@ guidelines = {
             },
         },
         "Ritual Caster": {
+            "_guides": None,
             "perk": {
                 "ability": None,
                 "armors": [],
-                "flags": None,
                 "languages": [],
                 "resistances": [],
                 "skills": [],
@@ -2308,10 +2308,10 @@ guidelines = {
             },
         },
         "Savage Attacker": {
+            "_guides": None,
             "perk": {
                 "ability": None,
                 "armors": [],
-                "flags": None,
                 "languages": [],
                 "resistances": [],
                 "skills": [],
@@ -2329,10 +2329,10 @@ guidelines = {
             },
         },
         "Second Chance": {
+            "_guides": "feat-perk-ability=Dexterity||Constitution||Charisma,1",
             "perk": {
                 "ability": {"Charisma": 1, "Constitution": 1, "Dexterity": 1},
                 "armors": [],
-                "flags": "ability=Dexterity||Constitution||Charisma,1",
                 "languages": [],
                 "resistances": [],
                 "skills": [],
@@ -2350,9 +2350,9 @@ guidelines = {
             },
         },
         "Sentinel": {
+            "_guides": None,
             "perk": {
                 "ability": None,
-                "flags": None,
                 "languages": [],
                 "resistances": [],
                 "skills": [],
@@ -2368,10 +2368,10 @@ guidelines = {
             },
         },
         "Sharpshooter": {
+            "_guides": None,
             "perk": {
                 "ability": None,
                 "armors": [],
-                "flags": None,
                 "languages": [],
                 "resistances": [],
                 "skills": [],
@@ -2389,10 +2389,10 @@ guidelines = {
             },
         },
         "Shield Master": {
+            "_guides": None,
             "perk": {
                 "ability": None,
                 "armors": [],
-                "flags": None,
                 "languages": [],
                 "resistances": [],
                 "skills": [],
@@ -2410,10 +2410,10 @@ guidelines = {
             },
         },
         "Skilled": {
+            "_guides": "proficiency=skills||tools,3",
             "perk": {
                 "ability": None,
                 "armors": [],
-                "flags": "proficiency=skills||tools,3",
                 "languages": [],
                 "resistances": [],
                 "skills": [
@@ -2489,10 +2489,10 @@ guidelines = {
             },
         },
         "Skulker": {
+            "_guides": None,
             "perk": {
                 "ability": None,
                 "armors": [],
-                "flags": None,
                 "languages": [],
                 "resistances": [],
                 "skills": [],
@@ -2510,10 +2510,10 @@ guidelines = {
             },
         },
         "Spell Sniper": {
+            "_guides": None,
             "perk": {
                 "ability": None,
                 "armors": [],
-                "flags": None,
                 "languages": [],
                 "resistances": [],
                 "skills": [],
@@ -2531,10 +2531,10 @@ guidelines = {
             },
         },
         "Squat Nimbleness": {
+            "_guides": "feat-perk-ability=Strength||Dexterity,1;feat-perk-speed,0",
             "perk": {
                 "ability": {"Dexterity": 1, "Strength": 1},
                 "armors": [],
-                "flags": "ability=Strength||Dexterity,1;speed,0",
                 "languages": [],
                 "resistances": [],
                 "skills": ["Acrobatics", "Athletics"],
@@ -2552,10 +2552,10 @@ guidelines = {
             },
         },
         "Svirfneblin Magic": {
+            "_guides": "spells,0",
             "perk": {
                 "ability": None,
                 "armors": [],
-                "flags": "spells,0",
                 "languages": [],
                 "resistances": [],
                 "skills": [],
@@ -2573,10 +2573,10 @@ guidelines = {
             },
         },
         "Tavern Brawler": {
+            "_guides": "feat-perk-ability=Strength||Constitution,1;proficiency=weapons,0",
             "perk": {
                 "ability": {"Constitution": 1, "Strength": 1},
                 "armors": [],
-                "flags": "ability=Strength||Constitution,1;proficiency=weapons,0",
                 "languages": [],
                 "resistances": [],
                 "skills": [],
@@ -2594,10 +2594,10 @@ guidelines = {
             },
         },
         "Tough": {
+            "_guides": None,
             "perk": {
                 "ability": None,
                 "armors": [],
-                "flags": None,
                 "languages": [],
                 "resistances": [],
                 "skills": [],
@@ -2615,10 +2615,10 @@ guidelines = {
             },
         },
         "War Caster": {
+            "_guides": None,
             "perk": {
                 "ability": None,
                 "armors": [],
-                "flags": None,
                 "languages": [],
                 "resistances": [],
                 "skills": [],
@@ -2636,10 +2636,10 @@ guidelines = {
             },
         },
         "Weapon Master": {
+            "_guides": "feat-perk-ability=Strength||Dexterity,1;proficiency=weapons,4",
             "perk": {
                 "ability": {"Dexterity": 1, "Strength": 1},
                 "armors": [],
-                "flags": "ability=Strength||Dexterity,1;proficiency=weapons,4",
                 "languages": [],
                 "resistances": [],
                 "skills": [],
@@ -2699,10 +2699,10 @@ guidelines = {
             },
         },
         "Wood Elf Magic": {
+            "_guides": "spells,0",
             "perk": {
                 "ability": None,
                 "armors": [],
-                "flags": "spells,0",
                 "languages": [],
                 "resistances": [],
                 "skills": [],
