@@ -9,31 +9,17 @@ log = logging.getLogger("thespian.tweaks")
 
 
 class _GuidelineBuilder(ABC):
-    """Class to build character creation guidelines.
+    """Class to build creation guideline characteristics.
 
-    ===========================
-    = ALLOWED GUIDELINE OPTIONS
-    ===========================
+    ===================================
+    = SEPARATION CHARACTER DESCRIPTIONS
+    ===================================
 
-        - feat-perk-ability
-        - feat-perk-proficiency
-        - feat-perk-savingthrows
-        - feat-perk-speed
+    SEMICOLON: Used to separate flags. i.e: ability=Strength;proficiency=skills
+        Two flag options are designated in the above example: 'ability', and 'proficiency'.
 
-    """
-    ALLOWED_GUIDELINES = (
-        "feat-perk-ability",
-        "feat-perk-proficiency",
-        "feat-perk-savingthrows",
-        "feat-perk-speed",
-    )
-
-    """
-    SEMICOLON: Used to separate flags. i.e: feat-perk-ability=Strength;feat-perk-proficiency=skills
-        Two flag options are designated in the above example: 'feat-perk-ability', and 'feat-perk-proficiency'.
-
-    EQUAL SIGN: Used to separate option parameters. i.e feat-perk-ability=Strength,1
-        The example above means Strength is a designated parameter for the feat-perk-ability flag.
+    EQUAL SIGN: Used to separate option parameters. i.e ability=Strength,1
+        The example above means Strength is a designated parameter for the ability flag.
         In this case the character would get an enhancement to Strength.
         There is more to this and is explained further below.
 
@@ -43,14 +29,14 @@ class _GuidelineBuilder(ABC):
     DOUBLE AMPERSAND: Used to seperate parameter options. i.e ability=Strength&&Dexterity,1
         The example above means the player can gain an enhancement in both Strength and Dexterity.
 
-    DOUBLE PIPEBAR: Used to separater parameter options. i.e feat-perk-ability=Strength||Dexerity,1
+    DOUBLE PIPEBAR: Used to separater parameter options. i.e ability=Strength||Dexerity,1
         The example above means the player can choose a one time ehancement to Strength or Dexterity.
 
     """
     SEPARATOR_CHARS = (";", "=", ",", "&&", "||")
 
     @abstractmethod
-    def build(self, guideline_ctx) -> dict:
+    def build(self, build_name: str, guideline_ctx: str) -> dict:
         pass
 
 
@@ -58,24 +44,25 @@ class FeatGuidelineBuilder(_GuidelineBuilder):
     """Class to build feat creation guidelines."""
 
     @classmethod
-    def build(cls, guideline_string: str) -> dict:
+    def build(cls, build_name: str, guideline_string: str) -> dict:
         """Translates 'guideline' strings into instructions."""
         super(_GuidelineBuilder, cls).__init__(guideline_string)
-        
-        translated_guidelines = dict()
+
+        translated_guides = dict()
 
         if guideline_string is None:
-            return translated_guidelines
+            return translated_guides
 
         # Separate flag string into raw pair strings. CHAR: ";"
         guideline_pairs = guideline_string.split(cls.SEPARATOR_CHARS[0])
 
+        separator_ampersand = cls.SEPARATOR_CHARS[3]
+        separator_comma = cls.SEPARATOR_CHARS[2]
+        separator_equalsign = cls.SEPARATOR_CHARS[1]
+        separator_pipes = cls.SEPARATOR_CHARS[4]
+
         # Cycle through raw string pairs.
         for guideline_pair in guideline_pairs:
-            separator_comma = cls.SEPARATOR_CHARS[2]
-            separator_equalsign = cls.SEPARATOR_CHARS[1]
-            separator_pipe = cls.SEPARATOR_CHARS[4]
-
             # Checks if "pair" is formatted to be splitted. CHAR ","
             if separator_comma not in guideline_pair:
                 raise ValueError("Pairs must be formatted in 'name,value' pairs.")
@@ -85,28 +72,27 @@ class FeatGuidelineBuilder(_GuidelineBuilder):
 
             # Check if flag_name has no equal sign character. CHAR "="
             if separator_equalsign not in guide_name:
-                translated_guidelines[guide_name] = {"increment": guide_increment}
+                translated_guides[guide_name] = {"increment": guide_increment}
             else:
                 guide_options = guide_name.split(separator_equalsign)
                 guide_name = guide_options[0]
 
-                ## Allowable flags: feat-perk-ability, feat-perk-proficiency, feat-perk-savingthrows, feat-perk-speed
-                if guide_name not in cls.ALLOWED_GUIDELINES:
-                    raise ValueError(f"Illegal flag specified '{guide_name}'.")
+                # If double ampersand, save options as tuple
+                # If double pipes, save options as list
+                # If neither, save as is
+                if separator_ampersand in guide_options[1]:
+                    guide_options = tuple(guide_options[1].split(separator_ampersand))
+                elif separator_pipes in guide_options[1]:
+                    guide_options = guide_options[1].split(separator_pipes)
                 else:
-                    guide_name = guide_name.replace("feat-perk-", "")
+                    guide_options = guide_options[1]
 
-                if separator_pipe in guide_options[1]:
-                    options = guide_options[1].split(separator_pipe)
-                else:
-                    options = guide_options[1]
-
-                translated_guidelines[guide_name] = {
+                translated_guides[guide_name] = {
                     "increment": guide_increment,
-                    "options": options,
+                    "options": guide_options,
                 }
 
-        return {"feats": translated_guidelines}
+        return {build_name: translated_guides}
 
 
 class GuidelineParser:
@@ -148,21 +134,21 @@ class GuidelineParser:
 
         feat_flags = dict()
         for flag, options in parsed_flag_list.items():
-            if flag in ("feat-perk-ability", "feat-perk-proficiency"):
+            if flag in ("ability", "proficiency"):
                 flag_increment_count = int(options["increment"])
                 flag_menu_options = options["options"]
                 if len(flag_menu_options) < 1:
                     raise ValueError("Malformed parser instructions error.")
 
-            if flag == "feat-perk-ability":
+            if flag == "ability":
                 if flag_increment_count == 0:
                     raise ValueError(
-                        "Flag attribute 'feat-perk-ability' requires a positive integer value."
+                        "Flag attribute 'ability' requires a positive integer value."
                     )
 
-                # For feats that use the 'feat-perk-savingthrows' flag.
+                # For feats that use the 'savingthrows' flag.
                 # Limits choices based on current saving throw proficiencies.
-                if "feat-perk-savingthrows" in parsed_flag_list:
+                if "savingthrows" in parsed_flag_list:
                     flag_menu_options = [
                         x for x in flag_menu_options if x not in self.profile["saves"]
                     ]
@@ -177,18 +163,18 @@ class GuidelineParser:
                         )
                         flag_menu_options.remove(my_ability)
 
-                        # If 'feat-perk-savingthrows' flag specified, add proficiency for ability saving throw.
-                        if "feat-perk-savingthrows" in parsed_flag_list:
+                        # If 'savingthrows' flag specified, add proficiency for ability saving throw.
+                        if "savingthrows" in parsed_flag_list:
                             self.profile["saves"].append(my_ability)
 
                 bonus_value = self.perks[flag][my_ability]
                 feat_flags[flag] = (my_ability, bonus_value)
-            elif flag == "feat-perk-proficiency":
+            elif flag == "proficiency":
                 # Increment value of 0 means append ALL listed bonuses.
                 # Increment values other than 0 means add # of bonuses == increment value.
                 chosen_options = dict()
                 submenu_options = None
-             
+
                 if isinstance(flag_menu_options, str) and flag_increment_count == 0:
                     chosen_options[flag_menu_options] = self._get_proficiency_options(
                         flag_menu_options
@@ -268,7 +254,7 @@ class GuidelineParser:
                 for k, v in chosen_options.items():
                     feat_flags[k] = v
 
-            elif flag == "feat-perk-speed":
+            elif flag == "speed":
                 speed_value = self.perks[flag]
                 if speed_value != 0:
                     feat_flags[flag] = speed_value
@@ -298,7 +284,7 @@ class AbilityScoreImprovement:
             return
 
         for flag, options in parsed_attributes.items():
-            if flag == "feat-perk-ability":
+            if flag == "ability":
                 ability, bonus = options
                 self._set_ability_score(ability, bonus)
             else:
@@ -530,4 +516,8 @@ class AbilityScoreImprovement:
 
 
 if __name__ == "__main__":
-    print(FeatGuidelineBuilder.build(GuidelineReader.get_entry_guide_string("feats", "Athlete")))
+    print(
+        FeatGuidelineBuilder.build(
+            "feats", GuidelineReader.get_entry_guide_string("feats", "Resilient")
+        )
+    )

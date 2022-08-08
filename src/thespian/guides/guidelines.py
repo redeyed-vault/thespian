@@ -410,7 +410,7 @@ guidelines = {
             "guides": "equipment,0|skills,2|tools,1",
             "hit_die": 8,
             "languages": [],
-            "saves": ["Constitution", "Intelligence"],
+            "savingthrows": ["Constitution", "Intelligence"],
             "skills": [
                 "Arcana",
                 "History",
@@ -495,7 +495,7 @@ guidelines = {
             "guides": "equipment,0|skills,2",
             "hit_die": 12,
             "languages": [],
-            "saves": ["Constitution", "Strength"],
+            "savingthrows": ["Constitution", "Strength"],
             "skills": [
                 "Animal Handling",
                 "Athletics",
@@ -545,7 +545,7 @@ guidelines = {
             "guides": "primary_ability,0|equipment,0|skills,3",
             "hit_die": 8,
             "languages": [],
-            "saves": ["Charisma", "Dexterity"],
+            "savingthrows": ["Charisma", "Dexterity"],
             "skills": [
                 "Acrobatics",
                 "Animal Handling",
@@ -627,7 +627,7 @@ guidelines = {
             "guides": "primary_ability,0|equipment,0|skills,2",
             "hit_die": 8,
             "languages": [],
-            "saves": ["Charisma", "Wisdom"],
+            "savingthrows": ["Charisma", "Wisdom"],
             "skills": ["History", "Insight", "Medicine", "Persuasion", "Religion"],
             "spell_slots": {
                 1: "2",
@@ -685,7 +685,7 @@ guidelines = {
             "guides": "equipment,0|skills,2",
             "hit_die": 8,
             "languages": ["Druidic"],
-            "saves": ["Intelligence", "Wisdom"],
+            "savingthrows": ["Intelligence", "Wisdom"],
             "skills": [
                 "Animal Handling",
                 "Arcana",
@@ -773,7 +773,7 @@ guidelines = {
             "guides": "primary_ability,0|equipment,0|skills,2",
             "hit_die": 10,
             "languages": [],
-            "saves": ["Constitution", "Strength"],
+            "savingthrows": ["Constitution", "Strength"],
             "skills": [
                 "Acrobatics",
                 "Animal Handling",
@@ -845,7 +845,7 @@ guidelines = {
             "guides": "equipment,0|skills,2|tools,1",
             "hit_die": 8,
             "languages": [],
-            "saves": ["Dexterity", "Strength"],
+            "savingthrows": ["Dexterity", "Strength"],
             "skills": [
                 "Acrobatics",
                 "Athletics",
@@ -918,7 +918,7 @@ guidelines = {
             "guides": "equipment,0|skills,2",
             "hit_die": 10,
             "languages": [],
-            "saves": ["Charisma", "Wisdom"],
+            "savingthrows": ["Charisma", "Wisdom"],
             "skills": [
                 "Athletics",
                 "Insight",
@@ -984,7 +984,7 @@ guidelines = {
             "guides": "primary_ability,0|equipment,0|skills,3",
             "hit_die": 10,
             "languages": [],
-            "saves": ["Dexterity", "Strength"],
+            "savingthrows": ["Dexterity", "Strength"],
             "skills": [
                 "Animal Handling",
                 "Athletics",
@@ -1056,7 +1056,7 @@ guidelines = {
             "guides": "primary_ability,0|equipment,0|skills,4",
             "hit_die": 8,
             "languages": ["Thieves' cant"],
-            "saves": ["Dexterity", "Intelligence"],
+            "savingthrows": ["Dexterity", "Intelligence"],
             "skills": [
                 "Acrobatics",
                 "Athletics",
@@ -1125,7 +1125,7 @@ guidelines = {
             "guides": "equipment,0|skills,2",
             "hit_die": 6,
             "languages": [],
-            "saves": ["Charisma", "Constitution"],
+            "savingthrows": ["Charisma", "Constitution"],
             "skills": [
                 "Arcana",
                 "Deception",
@@ -1189,7 +1189,7 @@ guidelines = {
             "guides": "equipment,0|skills,2",
             "hit_die": 8,
             "languages": [],
-            "saves": ["Charisma", "Wisdom"],
+            "savingthrows": ["Charisma", "Wisdom"],
             "skills": [
                 "Arcana",
                 "Deception",
@@ -1250,7 +1250,7 @@ guidelines = {
             "guides": "primary_ability,0|equipment,0|skills,2",
             "hit_die": 6,
             "languages": [],
-            "saves": ["Intelligence", "Wisdom"],
+            "savingthrows": ["Intelligence", "Wisdom"],
             "skills": [
                 "Arcana",
                 "History",
@@ -1301,7 +1301,7 @@ guidelines = {
     #################################################################
     "feats": {
         "Actor": {
-            "_guides": "feat-perk-ability=Charisma,1",
+            "_guides": "ability=Charisma,1",
             "perk": {
                 "ability": {"Charisma": 1},
                 "armors": [],
@@ -1343,7 +1343,7 @@ guidelines = {
             },
         },
         "Athlete": {
-            "_guides": "feat-perk-ability=Strength||Dexterity,1",
+            "_guides": "ability=Strength||Dexterity,1",
             "perk": {
                 "ability": {"Dexterity": 1, "Strength": 1},
                 "armors": [],
@@ -1448,7 +1448,7 @@ guidelines = {
             },
         },
         "Dragon Fear": {
-            "_guides": "feat-perk-ability=Strength||Constitution||Charisma,1",
+            "_guides": "ability=Strength||Constitution||Charisma,1",
             "perk": {
                 "ability": {"Charisma": 1, "Constitution": 1, "Strength": 1},
                 "armors": [],
@@ -1469,7 +1469,7 @@ guidelines = {
             },
         },
         "Dragon Hide": {
-            "_guides": "feat-perk-ability=Strength||Dexterity||Charisma,1",
+            "_guides": "ability=Strength||Dexterity||Charisma,1",
             "perk": {
                 "ability": {"Charisma": 1, "Constitution": 1, "Strength": 1},
                 "armors": [],
@@ -1553,7 +1553,7 @@ guidelines = {
             },
         },
         "Durable": {
-            "_guides": "feat-perk-ability=Constitution,1",
+            "_guides": "ability=Constitution,1",
             "perk": {
                 "ability": {"Constitution": 1},
                 "armors": [],
@@ -1574,7 +1574,7 @@ guidelines = {
             },
         },
         "Dwarven Fortitude": {
-            "_guides": "feat-perk-ability=Constitution,1",
+            "_guides": "ability=Constitution,1",
             "perk": {
                 "ability": {"Constitution": 1},
                 "armors": [],
@@ -1616,7 +1616,7 @@ guidelines = {
             },
         },
         "Elven Accuracy": {
-            "_guides": "feat-perk-ability=Dexterity||Intelligence||Wisdom||Charisma,1",
+            "_guides": "ability=Dexterity||Intelligence||Wisdom||Charisma,1",
             "perk": {
                 "ability": {
                     "Charisma": 1,
@@ -1642,7 +1642,7 @@ guidelines = {
             },
         },
         "Fade Away": {
-            "_guides": "feat-perk-ability=Dexterity||Intelligence,1",
+            "_guides": "ability=Dexterity||Intelligence,1",
             "perk": {
                 "ability": {"Dexterity": 1, "Intelligence": 1},
                 "armors": [],
@@ -1663,7 +1663,7 @@ guidelines = {
             },
         },
         "Fey Teleportation": {
-            "_guides": "feat-perk-ability=Intelligence||Charisma,1;proficiency=languages,0",
+            "_guides": "ability=Intelligence||Charisma,1;proficiency=languages,0",
             "perk": {
                 "ability": {"Charisma": 1, "Intelligence": 1},
                 "armors": [],
@@ -1768,7 +1768,7 @@ guidelines = {
             },
         },
         "Heavily Armored": {
-            "_guides": "feat-perk-ability=Strength,1;proficiency=armors,0",
+            "_guides": "ability=Strength,1;proficiency=armors,0",
             "perk": {
                 "ability": {"Strength": 1},
                 "armors": ["Heavy"],
@@ -1789,7 +1789,7 @@ guidelines = {
             },
         },
         "Heavy Armor Master": {
-            "_guides": "feat-perk-ability=Strength,1",
+            "_guides": "ability=Strength,1",
             "perk": {
                 "ability": {"Strength": 1},
                 "armors": [],
@@ -1810,7 +1810,7 @@ guidelines = {
             },
         },
         "Infernal Constitution": {
-            "_guides": "feat-perk-ability=Constitution;resistances,0",
+            "_guides": "ability=Constitution;resistances,0",
             "perk": {
                 "ability": {"Constitution": 1},
                 "armors": [],
@@ -1852,7 +1852,7 @@ guidelines = {
             },
         },
         "Keen Mind": {
-            "_guides": "feat-perk-ability=Intelligence,1",
+            "_guides": "ability=Intelligence,1",
             "perk": {
                 "ability": {"Intelligence": 1},
                 "armors": [],
@@ -1873,7 +1873,7 @@ guidelines = {
             },
         },
         "Lightly Armored": {
-            "_guides": "feat-perk-ability=Strength||Dexterity,1;proficiency=armors,0",
+            "_guides": "ability=Strength||Dexterity,1;proficiency=armors,0",
             "perk": {
                 "ability": {"Dexterity": 1, "Strength": 1},
                 "armors": ["Light"],
@@ -1894,7 +1894,7 @@ guidelines = {
             },
         },
         "Linguist": {
-            "_guides": "feat-perk-ability=Intelligence,1;proficiency=languages,3",
+            "_guides": "ability=Intelligence,1;proficiency=languages,3",
             "perk": {
                 "ability": {"Intelligence": 1},
                 "armors": [],
@@ -2037,7 +2037,7 @@ guidelines = {
             },
         },
         "Mobile": {
-            "_guides": "feat-perk-speed,0",
+            "_guides": "speed,0",
             "perk": {
                 "ability": None,
                 "armors": [],
@@ -2058,7 +2058,7 @@ guidelines = {
             },
         },
         "Moderately Armored": {
-            "_guides": "feat-perk-ability=Strength||Dexterity,1;proficiency=armors,0",
+            "_guides": "ability=Strength||Dexterity,1;proficiency=armors,0",
             "perk": {
                 "ability": {"Dexterity": 1, "Strength": 1},
                 "armors": ["Medium", "Shields"],
@@ -2100,7 +2100,7 @@ guidelines = {
             },
         },
         "Observant": {
-            "_guides": "feat-perk-ability=Intelligence||Wisdom,1",
+            "_guides": "ability=Intelligence||Wisdom,1",
             "perk": {
                 "ability": {"Intelligence": 1, "Wisdom": 1},
                 "armors": [],
@@ -2121,7 +2121,7 @@ guidelines = {
             },
         },
         "Orcish Fury": {
-            "_guides": "feat-perk-ability=Strength||Constitution,1",
+            "_guides": "ability=Strength||Constitution,1",
             "perk": {
                 "ability": {"Constitution": 1, "Strength": 1},
                 "armors": [],
@@ -2259,7 +2259,7 @@ guidelines = {
             },
         },
         "Resilient": {
-            "_guides": "feat-perk-ability=Strength||Dexterity||Constitution||Intelligence||Wisdom||Charisma,1;feat-perk-savingthrows,0",
+            "_guides": "ability=Strength||Dexterity||Constitution||Intelligence||Wisdom||Charisma,1;savingthrows,0",
             "perk": {
                 "ability": {
                     "Charisma": 1,
@@ -2329,7 +2329,7 @@ guidelines = {
             },
         },
         "Second Chance": {
-            "_guides": "feat-perk-ability=Dexterity||Constitution||Charisma,1",
+            "_guides": "ability=Dexterity||Constitution||Charisma,1",
             "perk": {
                 "ability": {"Charisma": 1, "Constitution": 1, "Dexterity": 1},
                 "armors": [],
@@ -2531,7 +2531,7 @@ guidelines = {
             },
         },
         "Squat Nimbleness": {
-            "_guides": "feat-perk-ability=Strength||Dexterity,1;feat-perk-speed,0",
+            "_guides": "ability=Strength||Dexterity,1;speed,0",
             "perk": {
                 "ability": {"Dexterity": 1, "Strength": 1},
                 "armors": [],
@@ -2573,7 +2573,7 @@ guidelines = {
             },
         },
         "Tavern Brawler": {
-            "_guides": "feat-perk-ability=Strength||Constitution,1;proficiency=weapons,0",
+            "_guides": "ability=Strength||Constitution,1;proficiency=weapons,0",
             "perk": {
                 "ability": {"Constitution": 1, "Strength": 1},
                 "armors": [],
@@ -2636,7 +2636,7 @@ guidelines = {
             },
         },
         "Weapon Master": {
-            "_guides": "feat-perk-ability=Strength||Dexterity,1;proficiency=weapons,4",
+            "_guides": "ability=Strength||Dexterity,1;proficiency=weapons,4",
             "perk": {
                 "ability": {"Dexterity": 1, "Strength": 1},
                 "armors": [],

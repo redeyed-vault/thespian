@@ -54,7 +54,7 @@ def define_class(
     }
     blueprint["klass"] = klass
     blueprint["proficiency_bonus"] = ceil((level / 4) + 1)
-    blueprint["saves"] = class_base["saves"]
+    blueprint["savingthrows"] = class_base["savingthrows"]
 
     # Get a list of a classes' primary/secondary abilities.
     ability_options = list(class_base["primary_ability"].values())
@@ -484,7 +484,7 @@ def thespian(
         "tools": character.tools,
         "weapons": character.weapons,
         "languages": character.languages,
-        "saves": character.saves,
+        "savingthrows": character.savingthrows,
         "skills": expand_skills(character.skills, character.scores, proficiency_bonus),
         "feats": character.feats,
         "traits": character.traits,

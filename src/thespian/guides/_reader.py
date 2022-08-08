@@ -123,8 +123,7 @@ class GuidelineReader:
             return getter._read_("classes")[klass]
         except KeyError:
             return None
-            
-    
+
     @classmethod
     def get_entry_guide_string(cls, category: str, entry: str) -> str | None:
         """Returns config entry for class."""
