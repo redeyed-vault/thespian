@@ -33,6 +33,7 @@ class _GuidelineBuilder(ABC):
         The example above means the player can choose a one time ehancement to Strength or Dexterity.
 
     """
+
     SEPARATOR_CHARS = (";", "=", ",", "&&", "||")
 
     @abstractmethod
@@ -72,7 +73,7 @@ class FeatGuidelineBuilder(_GuidelineBuilder):
 
             # Check if flag_name has no equal sign character. CHAR "="
             if separator_equalsign not in guide_name:
-                translated_guides[guide_name] = {"increment": guide_increment}
+                translated_guides[guide_name] = {"increment": int(guide_increment)}
             else:
                 guide_options = guide_name.split(separator_equalsign)
                 guide_name = guide_options[0]
@@ -88,19 +89,21 @@ class FeatGuidelineBuilder(_GuidelineBuilder):
                     guide_options = guide_options[1]
 
                 translated_guides[guide_name] = {
-                    "increment": guide_increment,
+                    "increment": int(guide_increment),
                     "options": guide_options,
                 }
 
         return {build_name: translated_guides}
 
 
-class GuidelineParser:
+class FeatGuidelineParser(FeatGuidelineBuilder):
     """Class to parse character creation guidelines."""
 
-    def __init__(self, feat, prof):
+    def __init__(self, feat, my_character):
         self.feat = feat
-        self.profile = prof
+        super(FeatGuidelineBuilder, self).__init__()
+        self.my_character = my_character
+        self.guidelines = GuidelineReader.get_entry_guide_string("feats", self.feat)
         self.perks = GuidelineReader.get_feat_perks(self.feat)
 
     def _get_proficiency_options(self, prof_type: str) -> list:
@@ -126,76 +129,91 @@ class GuidelineParser:
 
         return True
 
-    def parse_flags(self) -> dict:
+    def parse(self) -> dict:
         """Honors the specified flags for a feat."""
-        parsed_flag_list = self._translate_flags()
-        if len(parsed_flag_list) == 0:
+        parsed_guidelines = self.build("feats", self.guidelines)["feats"]
+        if len(parsed_guidelines) == 0:
             return
 
-        feat_flags = dict()
-        for flag, options in parsed_flag_list.items():
-            if flag in ("ability", "proficiency"):
-                flag_increment_count = int(options["increment"])
-                flag_menu_options = options["options"]
-                if len(flag_menu_options) < 1:
-                    raise ValueError("Malformed parser instructions error.")
+        feat_guidelines = dict()
 
-            if flag == "ability":
-                if flag_increment_count == 0:
+        for guide_name, guide_options in parsed_guidelines.items():
+            if guide_name in ("ability", "proficiency"):
+                guideline_increment = guide_options["increment"]
+                guideline_menu_options = guide_options["options"]
+
+                # Guideline option menu is empty.
+                if len(guideline_menu_options) < 1:
+                    raise ValueError("Malformed parser instructions error.")
+        
+            if guide_name == "ability":
+                if guideline_increment == 0:
                     raise ValueError(
                         "Flag attribute 'ability' requires a positive integer value."
                     )
 
                 # For feats that use the 'savingthrows' flag.
                 # Limits choices based on current saving throw proficiencies.
-                if "savingthrows" in parsed_flag_list:
-                    flag_menu_options = [
-                        x for x in flag_menu_options if x not in self.profile["saves"]
+                if "savingthrows" in parsed_guidelines:
+                    guideline_menu_options = [
+                        x
+                        for x in guideline_menu_options
+                        if x not in self.my_character["savingthrows"]
                     ]
 
-                if isinstance(flag_menu_options, str):
-                    my_ability = flag_menu_options
-                elif isinstance(flag_menu_options, list):
-                    for _ in range(flag_increment_count):
+                if isinstance(guideline_menu_options, str):
+                    my_ability = guideline_menu_options
+                elif isinstance(guideline_menu_options, list):
+                    for _ in range(guideline_increment):
                         my_ability = prompt(
                             "Choose an ability to upgrade.",
-                            flag_menu_options,
+                            guideline_menu_options,
                         )
-                        flag_menu_options.remove(my_ability)
+                        guideline_menu_options.remove(my_ability)
 
                         # If 'savingthrows' flag specified, add proficiency for ability saving throw.
-                        if "savingthrows" in parsed_flag_list:
-                            self.profile["saves"].append(my_ability)
+                        if "savingthrows" in parsed_guidelines:
+                            self.my_character["savingthrows"].append(my_ability)
 
-                bonus_value = self.perks[flag][my_ability]
-                feat_flags[flag] = (my_ability, bonus_value)
-            elif flag == "proficiency":
+                bonus_value = self.perks[guide_name][my_ability]
+                feat_guidelines[guide_name] = (my_ability, bonus_value)
+            elif guide_name == "proficiency":
                 # Increment value of 0 means append ALL listed bonuses.
                 # Increment values other than 0 means add # of bonuses == increment value.
                 chosen_options = dict()
                 submenu_options = None
 
-                if isinstance(flag_menu_options, str) and flag_increment_count == 0:
-                    chosen_options[flag_menu_options] = self._get_proficiency_options(
-                        flag_menu_options
+                #
+                # Double ampersand options - saved in tuple format.
+                #
+                #
+                if isinstance(guideline_menu_options, str) and guideline_increment == 0:
+                    chosen_options[guideline_menu_options] = self._get_proficiency_options(
+                        guideline_menu_options
                     )
-                elif isinstance(flag_menu_options, list):
-                    for _ in range(flag_increment_count):
+                elif isinstance(guideline_menu_options, tuple):
+                    for perk_bonus in guideline_menu_options:
+                        perk_bonus_options = GuidelineReader.get_feat_perks(self.feat)[perk_bonus]
+                        #print(perk_bonus_options)
+                        for _ in range(guideline_increment):
+                            print("Slap")
+                elif isinstance(guideline_menu_options, list):
+                    for _ in range(guideline_increment):
                         my_bonus = prompt(
-                            f"Choose your bonus: '{flag}'.", flag_menu_options
+                            f"Choose your bonus: '{guide_name}'.", guideline_menu_options
                         )
-                        if not self._has_submenu_options(flag_menu_options):
-                            flag_menu_options.remove(my_bonus)
+                        if not self._has_submenu_options(guideline_menu_options):
+                            guideline_menu_options.remove(my_bonus)
                         else:
                             # Generate submenu options, if applicable.
                             if submenu_options is None:
                                 submenu_options = self._create_submenu_options(
-                                    flag_menu_options
+                                    guideline_menu_options
                                 )
                                 submenu_options[my_bonus] = [
                                     x
                                     for x in submenu_options[my_bonus]
-                                    if x not in self.profile[my_bonus]
+                                    if x not in self.my_character[my_bonus]
                                 ]
 
                             # Create storage handler for selections, if applicable.
@@ -211,8 +229,8 @@ class GuidelineParser:
                             submenu_options[my_bonus].remove(submenu_choice)
                             # Reset the submenu options after use
                             submenu_options = None
-                elif isinstance(flag_menu_options, str):
-                    for prof_type in flag_menu_options.split(self.SEPARATOR_CHARS[4]):
+                elif isinstance(guideline_menu_options, str):
+                    for prof_type in guideline_menu_options.split(self.SEPARATOR_CHARS[4]):
                         chosen_proficiencies = list()
 
                         # Pull full collection of bonus proficiencies,
@@ -225,7 +243,7 @@ class GuidelineParser:
                         if isinstance(proficiency_options, dict):
                             temp = list()
                             for types in tuple(proficiency_options.keys()):
-                                if types not in self.profile[prof_type]:
+                                if types not in self.my_character[prof_type]:
                                     temp += proficiency_options[types]
 
                             proficiency_options = temp
@@ -233,10 +251,10 @@ class GuidelineParser:
                             proficiency_options = [
                                 x
                                 for x in proficiency_options
-                                if x not in self.profile[prof_type]
+                                if x not in self.my_character[prof_type]
                             ]
 
-                        for _ in range(flag_increment_count):
+                        for _ in range(guideline_increment):
                             # Clear out the temporarily chosen options.
                             proficiency_options = [
                                 x
@@ -244,7 +262,7 @@ class GuidelineParser:
                                 if x not in chosen_proficiencies
                             ]
                             my_bonus = prompt(
-                                f"Choose your bonus: {flag}.", proficiency_options
+                                f"Choose your bonus: {guide_name}.", proficiency_options
                             )
                             chosen_proficiencies.append(my_bonus)
                             proficiency_options.remove(my_bonus)
@@ -252,23 +270,23 @@ class GuidelineParser:
                         chosen_options[prof_type] = chosen_proficiencies
 
                 for k, v in chosen_options.items():
-                    feat_flags[k] = v
+                    feat_guidelines[k] = v
 
-            elif flag == "speed":
-                speed_value = self.perks[flag]
+            elif guide_name == "speed":
+                speed_value = self.perks[guide_name]
                 if speed_value != 0:
-                    feat_flags[flag] = speed_value
+                    feat_guidelines[guide_name] = speed_value
 
-            elif flag == "spells":
-                bonus_spells = self.perks[flag]
+            elif guide_name == "spells":
+                bonus_spells = self.perks[guide_name]
                 for index, spell in enumerate(bonus_spells):
                     if isinstance(spell, list):
                         spell_choice = prompt("Choose your bonus spell.", spell)
                         bonus_spells[index] = spell_choice
 
-                feat_flags[flag] = bonus_spells
+                feat_guidelines[guide_name] = bonus_spells
 
-        return feat_flags
+        return feat_guidelines
 
 
 @dataclass
@@ -279,7 +297,7 @@ class AbilityScoreImprovement:
 
     def _add_feat_perks(self, feat: str) -> None:
         """Applies feat related perks."""
-        parsed_attributes = GuidelineParser(feat, self.character).parse_flags()
+        parsed_attributes = FeatGuidelineParser(feat, self.character).parse()
         if parsed_attributes is None:
             return
 
@@ -516,8 +534,12 @@ class AbilityScoreImprovement:
 
 
 if __name__ == "__main__":
+    """
     print(
         FeatGuidelineBuilder.build(
-            "feats", GuidelineReader.get_entry_guide_string("feats", "Resilient")
+            "feats", GuidelineReader.get_entry_guide_string("feats", "Prodigy")
         )
     )
+    """
+    x = FeatGuidelineParser("Prodigy", {})
+    x.parse()
