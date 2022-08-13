@@ -1301,9 +1301,9 @@ guidelines = {
     #################################################################
     "feats": {
         "Actor": {
-            "_guides": "ability=Charisma,1",
+            "_guides": "scores=Charisma,1",
             "perk": {
-                "ability": {"Charisma": 1},
+                "scores": {"Charisma": 1},
                 "armors": [],
                 "languages": [],
                 "resistances": [],
@@ -1324,7 +1324,7 @@ guidelines = {
         "Alert": {
             "_guides": None,
             "perk": {
-                "ability": None,
+                "scores": None,
                 "armors": [],
                 "languages": [],
                 "resistances": [],
@@ -1343,9 +1343,9 @@ guidelines = {
             },
         },
         "Athlete": {
-            "_guides": "ability=Strength||Dexterity,1",
+            "_guides": "scores=Strength||Dexterity,1",
             "perk": {
-                "ability": {"Dexterity": 1, "Strength": 1},
+                "scores": {"Dexterity": 1, "Strength": 1},
                 "armors": [],
                 "languages": [],
                 "resistances": [],
@@ -1366,7 +1366,7 @@ guidelines = {
         "Bountiful Luck": {
             "_guides": None,
             "perk": {
-                "ability": None,
+                "scores": None,
                 "armors": [],
                 "languages": [],
                 "resistances": [],
@@ -1387,7 +1387,7 @@ guidelines = {
         "Charger": {
             "_guides": None,
             "perk": {
-                "ability": None,
+                "scores": None,
                 "armors": [],
                 "languages": [],
                 "resistances": [],
@@ -1408,7 +1408,7 @@ guidelines = {
         "Crossbow Expert": {
             "_guides": None,
             "perk": {
-                "ability": None,
+                "scores": None,
                 "armors": [],
                 "languages": [],
                 "resistances": [],
@@ -1429,7 +1429,7 @@ guidelines = {
         "Defensive Duelist": {
             "_guides": None,
             "perk": {
-                "ability": None,
+                "scores": None,
                 "armors": [],
                 "languages": [],
                 "resistances": [],
@@ -1448,9 +1448,9 @@ guidelines = {
             },
         },
         "Dragon Fear": {
-            "_guides": "ability=Strength||Constitution||Charisma,1",
+            "_guides": "scores=Strength||Constitution||Charisma,1",
             "perk": {
-                "ability": {"Charisma": 1, "Constitution": 1, "Strength": 1},
+                "scores": {"Charisma": 1, "Constitution": 1, "Strength": 1},
                 "armors": [],
                 "languages": [],
                 "resistances": [],
@@ -1469,9 +1469,9 @@ guidelines = {
             },
         },
         "Dragon Hide": {
-            "_guides": "ability=Strength||Dexterity||Charisma,1",
+            "_guides": "scores=Strength||Dexterity||Charisma,1",
             "perk": {
-                "ability": {"Charisma": 1, "Constitution": 1, "Strength": 1},
+                "scores": {"Charisma": 1, "Constitution": 1, "Strength": 1},
                 "armors": [],
                 "languages": [],
                 "resistances": [],
@@ -1492,7 +1492,7 @@ guidelines = {
         "Drow High Magic": {
             "_guides": "spells,0",
             "perk": {
-                "ability": None,
+                "scores": None,
                 "armors": [],
                 "languages": [],
                 "resistances": [],
@@ -1513,7 +1513,7 @@ guidelines = {
         "Dual Wielder": {
             "_guides": None,
             "perk": {
-                "ability": None,
+                "scores": None,
                 "armors": [],
                 "languages": [],
                 "resistances": [],
@@ -1534,7 +1534,7 @@ guidelines = {
         "Dungeon Delver": {
             "_guides": "resistances,0",
             "perk": {
-                "ability": None,
+                "scores": None,
                 "armors": [],
                 "languages": [],
                 "resistances": ["Traps"],
@@ -1553,9 +1553,9 @@ guidelines = {
             },
         },
         "Durable": {
-            "_guides": "ability=Constitution,1",
+            "_guides": "scores=Constitution,1",
             "perk": {
-                "ability": {"Constitution": 1},
+                "scores": {"Constitution": 1},
                 "armors": [],
                 "languages": [],
                 "resistances": [],
@@ -1574,9 +1574,9 @@ guidelines = {
             },
         },
         "Dwarven Fortitude": {
-            "_guides": "ability=Constitution,1",
+            "_guides": "scores=Constitution,1",
             "perk": {
-                "ability": {"Constitution": 1},
+                "scores": {"Constitution": 1},
                 "armors": [],
                 "languages": [],
                 "resistances": [],
@@ -1597,7 +1597,7 @@ guidelines = {
         "Elemental Adept": {
             "_guides": None,
             "perk": {
-                "ability": None,
+                "scores": None,
                 "armors": [],
                 "languages": [],
                 "resistances": [],
@@ -1616,9 +1616,9 @@ guidelines = {
             },
         },
         "Elven Accuracy": {
-            "_guides": "ability=Dexterity||Intelligence||Wisdom||Charisma,1",
+            "_guides": "scores=Dexterity||Intelligence||Wisdom||Charisma,1",
             "perk": {
-                "ability": {
+                "scores": {
                     "Charisma": 1,
                     "Dexterity": 1,
                     "Intelligence": 1,
@@ -1642,9 +1642,9 @@ guidelines = {
             },
         },
         "Fade Away": {
-            "_guides": "ability=Dexterity||Intelligence,1",
+            "_guides": "scores=Dexterity||Intelligence,1",
             "perk": {
-                "ability": {"Dexterity": 1, "Intelligence": 1},
+                "scores": {"Dexterity": 1, "Intelligence": 1},
                 "armors": [],
                 "languages": [],
                 "resistances": [],
@@ -1663,9 +1663,9 @@ guidelines = {
             },
         },
         "Fey Teleportation": {
-            "_guides": "ability=Intelligence||Charisma,1;proficiency=languages,0",
+            "_guides": "scores=Intelligence||Charisma,1;proficiency=languages,0",
             "perk": {
-                "ability": {"Charisma": 1, "Intelligence": 1},
+                "scores": {"Charisma": 1, "Intelligence": 1},
                 "armors": [],
                 "languages": ["Sylvan"],
                 "resistances": [],
@@ -1686,7 +1686,7 @@ guidelines = {
         "Flames of Phlegethos": {
             "_guides": None,
             "perk": {
-                "ability": None,
+                "scores": None,
                 "armors": [],
                 "languages": [],
                 "resistances": [],
@@ -1707,7 +1707,7 @@ guidelines = {
         "Grappler": {
             "_guides": None,
             "perk": {
-                "ability": None,
+                "scores": None,
                 "armors": [],
                 "languages": [],
                 "resistances": [],
@@ -1728,7 +1728,7 @@ guidelines = {
         "Great Weapon Master": {
             "_guides": None,
             "perk": {
-                "ability": None,
+                "scores": None,
                 "armors": [],
                 "languages": [],
                 "resistances": [],
@@ -1749,7 +1749,7 @@ guidelines = {
         "Healer": {
             "_guides": None,
             "perk": {
-                "ability": None,
+                "scores": None,
                 "armors": [],
                 "languages": [],
                 "resistances": [],
@@ -1768,9 +1768,9 @@ guidelines = {
             },
         },
         "Heavily Armored": {
-            "_guides": "ability=Strength,1;proficiency=armors,0",
+            "_guides": "scores=Strength,1;proficiency=armors,0",
             "perk": {
-                "ability": {"Strength": 1},
+                "scores": {"Strength": 1},
                 "armors": ["Heavy"],
                 "languages": [],
                 "resistances": [],
@@ -1789,9 +1789,9 @@ guidelines = {
             },
         },
         "Heavy Armor Master": {
-            "_guides": "ability=Strength,1",
+            "_guides": "scores=Strength,1",
             "perk": {
-                "ability": {"Strength": 1},
+                "scores": {"Strength": 1},
                 "armors": [],
                 "languages": [],
                 "resistances": [],
@@ -1810,9 +1810,9 @@ guidelines = {
             },
         },
         "Infernal Constitution": {
-            "_guides": "ability=Constitution;resistances,0",
+            "_guides": "scores=Constitution;resistances,0",
             "perk": {
-                "ability": {"Constitution": 1},
+                "scores": {"Constitution": 1},
                 "armors": [],
                 "languages": [],
                 "resistances": ["Cold", "Poison"],
@@ -1833,7 +1833,7 @@ guidelines = {
         "Inspiring Leader": {
             "_guides": None,
             "perk": {
-                "ability": None,
+                "scores": None,
                 "armors": [],
                 "languages": [],
                 "resistances": [],
@@ -1852,9 +1852,9 @@ guidelines = {
             },
         },
         "Keen Mind": {
-            "_guides": "ability=Intelligence,1",
+            "_guides": "scores=Intelligence,1",
             "perk": {
-                "ability": {"Intelligence": 1},
+                "scores": {"Intelligence": 1},
                 "armors": [],
                 "languages": [],
                 "resistances": [],
@@ -1873,9 +1873,9 @@ guidelines = {
             },
         },
         "Lightly Armored": {
-            "_guides": "ability=Strength||Dexterity,1;proficiency=armors,0",
+            "_guides": "scores=Strength||Dexterity,1;proficiency=armors,0",
             "perk": {
-                "ability": {"Dexterity": 1, "Strength": 1},
+                "scores": {"Dexterity": 1, "Strength": 1},
                 "armors": ["Light"],
                 "languages": [],
                 "resistances": [],
@@ -1894,9 +1894,9 @@ guidelines = {
             },
         },
         "Linguist": {
-            "_guides": "ability=Intelligence,1;proficiency=languages,3",
+            "_guides": "scores=Intelligence,1;proficiency=languages,3",
             "perk": {
-                "ability": {"Intelligence": 1},
+                "scores": {"Intelligence": 1},
                 "armors": [],
                 "languages": [
                     "Abyssal",
@@ -1934,7 +1934,7 @@ guidelines = {
         "Lucky": {
             "_guides": None,
             "perk": {
-                "ability": None,
+                "scores": None,
                 "armors": [],
                 "languages": [],
                 "resistances": [],
@@ -1955,7 +1955,7 @@ guidelines = {
         "Mage Slayer": {
             "_guides": None,
             "perk": {
-                "ability": None,
+                "scores": None,
                 "armors": [],
                 "languages": [],
                 "resistances": [],
@@ -1976,7 +1976,7 @@ guidelines = {
         "Magic Initiative": {
             "_guides": None,
             "perk": {
-                "ability": None,
+                "scores": None,
                 "armors": [],
                 "languages": [],
                 "resistances": [],
@@ -1997,7 +1997,7 @@ guidelines = {
         "Martial Adept": {
             "_guides": None,
             "perk": {
-                "ability": None,
+                "scores": None,
                 "armors": [],
                 "languages": [],
                 "resistances": [],
@@ -2018,7 +2018,7 @@ guidelines = {
         "Medium Armor Master": {
             "_guides": None,
             "perk": {
-                "ability": None,
+                "scores": None,
                 "armors": [],
                 "languages": [],
                 "resistances": [],
@@ -2039,7 +2039,7 @@ guidelines = {
         "Mobile": {
             "_guides": "speed,0",
             "perk": {
-                "ability": None,
+                "scores": None,
                 "armors": [],
                 "languages": [],
                 "resistances": [],
@@ -2058,9 +2058,9 @@ guidelines = {
             },
         },
         "Moderately Armored": {
-            "_guides": "ability=Strength||Dexterity,1;proficiency=armors,0",
+            "_guides": "scores=Strength||Dexterity,1;proficiency=armors,0",
             "perk": {
-                "ability": {"Dexterity": 1, "Strength": 1},
+                "scores": {"Dexterity": 1, "Strength": 1},
                 "armors": ["Medium", "Shields"],
                 "languages": [],
                 "resistances": [],
@@ -2081,7 +2081,7 @@ guidelines = {
         "Mounted Combatant": {
             "_guides": None,
             "perk": {
-                "ability": None,
+                "scores": None,
                 "armors": [],
                 "languages": [],
                 "resistances": [],
@@ -2100,9 +2100,9 @@ guidelines = {
             },
         },
         "Observant": {
-            "_guides": "ability=Intelligence||Wisdom,1",
+            "_guides": "scores=Intelligence||Wisdom,1",
             "perk": {
-                "ability": {"Intelligence": 1, "Wisdom": 1},
+                "scores": {"Intelligence": 1, "Wisdom": 1},
                 "armors": [],
                 "languages": [],
                 "resistances": [],
@@ -2121,9 +2121,9 @@ guidelines = {
             },
         },
         "Orcish Fury": {
-            "_guides": "ability=Strength||Constitution,1",
+            "_guides": "scores=Strength||Constitution,1",
             "perk": {
-                "ability": {"Constitution": 1, "Strength": 1},
+                "scores": {"Constitution": 1, "Strength": 1},
                 "armors": [],
                 "languages": [],
                 "resistances": [],
@@ -2144,7 +2144,7 @@ guidelines = {
         "Polearm Master": {
             "_guides": None,
             "perk": {
-                "ability": None,
+                "scores": None,
                 "armors": [],
                 "languages": [],
                 "resistances": [],
@@ -2165,7 +2165,7 @@ guidelines = {
         "Prodigy": {
             "_guides": "proficiency=languages&&skills&&tools,1",
             "perk": {
-                "ability": None,
+                "scores": None,
                 "armors": [],
                 "languages": [
                     "Abyssal",
@@ -2259,10 +2259,10 @@ guidelines = {
             },
         },
         "Resilient": {
-            "_guides": "ability=Strength||Dexterity||Constitution"
+            "_guides": "scores=Strength||Dexterity||Constitution"
             "||Intelligence||Wisdom||Charisma,1;savingthrows,0",
             "perk": {
-                "ability": {
+                "scores": {
                     "Charisma": 1,
                     "Constitution": 1,
                     "Dexterity": 1,
@@ -2290,7 +2290,7 @@ guidelines = {
         "Ritual Caster": {
             "_guides": None,
             "perk": {
-                "ability": None,
+                "scores": None,
                 "armors": [],
                 "languages": [],
                 "resistances": [],
@@ -2311,7 +2311,7 @@ guidelines = {
         "Savage Attacker": {
             "_guides": None,
             "perk": {
-                "ability": None,
+                "scores": None,
                 "armors": [],
                 "languages": [],
                 "resistances": [],
@@ -2330,9 +2330,9 @@ guidelines = {
             },
         },
         "Second Chance": {
-            "_guides": "ability=Dexterity||Constitution||Charisma,1",
+            "_guides": "scores=Dexterity||Constitution||Charisma,1",
             "perk": {
-                "ability": {"Charisma": 1, "Constitution": 1, "Dexterity": 1},
+                "scores": {"Charisma": 1, "Constitution": 1, "Dexterity": 1},
                 "armors": [],
                 "languages": [],
                 "resistances": [],
@@ -2353,7 +2353,7 @@ guidelines = {
         "Sentinel": {
             "_guides": None,
             "perk": {
-                "ability": None,
+                "scores": None,
                 "languages": [],
                 "resistances": [],
                 "skills": [],
@@ -2371,7 +2371,7 @@ guidelines = {
         "Sharpshooter": {
             "_guides": None,
             "perk": {
-                "ability": None,
+                "scores": None,
                 "armors": [],
                 "languages": [],
                 "resistances": [],
@@ -2392,7 +2392,7 @@ guidelines = {
         "Shield Master": {
             "_guides": None,
             "perk": {
-                "ability": None,
+                "scores": None,
                 "armors": [],
                 "languages": [],
                 "resistances": [],
@@ -2413,7 +2413,7 @@ guidelines = {
         "Skilled": {
             "_guides": "proficiency=skills||tools,3",
             "perk": {
-                "ability": None,
+                "scores": None,
                 "armors": [],
                 "languages": [],
                 "resistances": [],
@@ -2492,7 +2492,7 @@ guidelines = {
         "Skulker": {
             "_guides": None,
             "perk": {
-                "ability": None,
+                "scores": None,
                 "armors": [],
                 "languages": [],
                 "resistances": [],
@@ -2513,7 +2513,7 @@ guidelines = {
         "Spell Sniper": {
             "_guides": None,
             "perk": {
-                "ability": None,
+                "scores": None,
                 "armors": [],
                 "languages": [],
                 "resistances": [],
@@ -2532,9 +2532,9 @@ guidelines = {
             },
         },
         "Squat Nimbleness": {
-            "_guides": "ability=Strength||Dexterity,1;speed,0",
+            "_guides": "scores=Strength||Dexterity,1;speed,0",
             "perk": {
-                "ability": {"Dexterity": 1, "Strength": 1},
+                "scores": {"Dexterity": 1, "Strength": 1},
                 "armors": [],
                 "languages": [],
                 "resistances": [],
@@ -2555,7 +2555,7 @@ guidelines = {
         "Svirfneblin Magic": {
             "_guides": "spells,0",
             "perk": {
-                "ability": None,
+                "scores": None,
                 "armors": [],
                 "languages": [],
                 "resistances": [],
@@ -2574,9 +2574,9 @@ guidelines = {
             },
         },
         "Tavern Brawler": {
-            "_guides": "ability=Strength||Constitution,1;proficiency=weapons,0",
+            "_guides": "scores=Strength||Constitution,1;proficiency=weapons,0",
             "perk": {
-                "ability": {"Constitution": 1, "Strength": 1},
+                "scores": {"Constitution": 1, "Strength": 1},
                 "armors": [],
                 "languages": [],
                 "resistances": [],
@@ -2597,7 +2597,7 @@ guidelines = {
         "Tough": {
             "_guides": None,
             "perk": {
-                "ability": None,
+                "scores": None,
                 "armors": [],
                 "languages": [],
                 "resistances": [],
@@ -2618,7 +2618,7 @@ guidelines = {
         "War Caster": {
             "_guides": None,
             "perk": {
-                "ability": None,
+                "scores": None,
                 "armors": [],
                 "languages": [],
                 "resistances": [],
@@ -2637,9 +2637,9 @@ guidelines = {
             },
         },
         "Weapon Master": {
-            "_guides": "ability=Strength||Dexterity,1;proficiency=weapons,4",
+            "_guides": "scores=Strength||Dexterity,1;proficiency=weapons,4",
             "perk": {
-                "ability": {"Dexterity": 1, "Strength": 1},
+                "scores": {"Dexterity": 1, "Strength": 1},
                 "armors": [],
                 "languages": [],
                 "resistances": [],
@@ -2702,7 +2702,7 @@ guidelines = {
         "Wood Elf Magic": {
             "_guides": "spells,0",
             "perk": {
-                "ability": None,
+                "scores": None,
                 "armors": [],
                 "languages": [],
                 "resistances": [],

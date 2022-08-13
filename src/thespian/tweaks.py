@@ -32,13 +32,14 @@ class _GuidelineBuilder:
         The example above means the player can choose a one time ehancement to Strength or Dexterity.
 
     """
+
     SEPARATOR_CHARS = (";", "=", ",", "&&", "||")
 
     @classmethod
     def build(cls, build_name: str, guideline_string: str) -> dict:
         """Translates 'guideline' strings into instructions."""
         if guideline_string is None:
-            return {build_name: dict()}
+            return dict()
 
         # Init
         super(_GuidelineBuilder, cls).__init__(guideline_string)
@@ -103,21 +104,19 @@ class FeatGuidelineParser(_GuidelineBuilder):
 
     def _get_submenu_options(self, available_options) -> dict | bool:
         """Creates a dictionary with available_options (if applicable)."""
-        if self._has_submenu_options(available_options):
+        if self._has_submenu(available_options):
             submenu_options = dict()
             for option in available_options:
                 submenu_options[option] = self._get_proficiency_options(option)
             return submenu_options
-
         return False
 
     @staticmethod
-    def _has_submenu_options(available_options) -> bool:
+    def _has_submenu(available_options) -> bool:
         """Returns True if sub menu options are available. False otherwise."""
         for option in available_options:
             if not option.islower():
                 return False
-
         return True
 
     def parse(self) -> dict:
@@ -129,26 +128,29 @@ class FeatGuidelineParser(_GuidelineBuilder):
         feat_guidelines = dict()
 
         for guide_name, guide_options in parsed_guidelines.items():
-            if guide_name in ("ability", "proficiency"):
+            if guide_name in ("proficiency", "scores"):
                 guideline_increment = guide_options["increment"]
-                if guideline_increment == 0:
+                if guideline_increment < 0:
                     raise ValueError("Guideline 'increment' requires a positive value.")
 
                 guideline_options = guide_options["options"]
                 if len(guideline_options) < 1:
-                    raise ValueError("No guideline options defined.")
+                    raise ValueError("Guideline 'options' is undefined.")
 
-            if guide_name == "ability":
-                if isinstance(guideline_options, str):
-                    my_ability = guideline_options
-                elif isinstance(guideline_options, list):
-                    for _ in range(guideline_increment):
-                        my_ability = prompt(
-                            "Choose an ability to upgrade.",
-                            guideline_options,
-                            self.my_character["savingthrows"],
-                        )
-                        guideline_options.remove(my_ability)
+            if guide_name == "scores":
+                if len(guideline_options) == 1:
+                    my_ability = guideline_options[0]
+                    print(my_ability)
+                    continue
+
+                for _ in range(guideline_increment):
+                    my_ability = prompt(
+                        "Choose an ability to upgrade.",
+                        guideline_options,
+                        self.my_character["savingthrows"],
+                    )
+                    guideline_options.remove(my_ability)
+                    print(my_ability)
 
                 # If 'savingthrows' guideline specified
                 # Add proficiency for ability saving throw.
@@ -189,7 +191,7 @@ class FeatGuidelineParser(_GuidelineBuilder):
                             f"Choose your bonus: '{guide_name}'.",
                             guideline_options,
                         )
-                        if not self._has_submenu_options(guideline_options):
+                        if not self._has_submenu(guideline_options):
                             guideline_options.remove(my_bonus)
                         else:
                             # Generate submenu options, if applicable.
@@ -522,6 +524,6 @@ class AbilityScoreImprovement:
 
 if __name__ == "__main__":
     x = FeatGuidelineParser(
-        "Resilient", {"languages": [], "savingthrows": ["Constitution", "Strength"]}
+        "Linguist", {"languages": [], "savingthrows": ["Constitution", "Strength"]}
     )
     x.parse()
