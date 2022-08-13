@@ -2259,7 +2259,8 @@ guidelines = {
             },
         },
         "Resilient": {
-            "_guides": "ability=Strength||Dexterity||Constitution||Intelligence||Wisdom||Charisma,1;savingthrows,0",
+            "_guides": "ability=Strength||Dexterity||Constitution"
+            "||Intelligence||Wisdom||Charisma,1;savingthrows,0",
             "perk": {
                 "ability": {
                     "Charisma": 1,

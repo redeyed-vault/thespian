@@ -1,4 +1,3 @@
-from abc import ABC, abstractmethod
 from dataclasses import dataclass
 import logging
 
@@ -8,7 +7,7 @@ from guides import GuidelineReader
 log = logging.getLogger("thespian.tweaks")
 
 
-class _GuidelineBuilder(ABC):
+class _GuidelineBuilder:
     """Class to build creation guideline characteristics.
 
     ===================================
@@ -33,26 +32,18 @@ class _GuidelineBuilder(ABC):
         The example above means the player can choose a one time ehancement to Strength or Dexterity.
 
     """
-
     SEPARATOR_CHARS = (";", "=", ",", "&&", "||")
-
-    @abstractmethod
-    def build(self, build_name: str, guideline_ctx: str) -> dict:
-        pass
-
-
-class FeatGuidelineBuilder(_GuidelineBuilder):
-    """Class to build feat creation guidelines."""
 
     @classmethod
     def build(cls, build_name: str, guideline_string: str) -> dict:
         """Translates 'guideline' strings into instructions."""
+        if guideline_string is None:
+            return {build_name: dict()}
+
+        # Init
         super(_GuidelineBuilder, cls).__init__(guideline_string)
 
-        translated_guides = dict()
-
-        if guideline_string is None:
-            return translated_guides
+        guidelines = dict()
 
         # Separate flag string into raw pair strings. CHAR: ";"
         guideline_pairs = guideline_string.split(cls.SEPARATOR_CHARS[0])
@@ -73,35 +64,35 @@ class FeatGuidelineBuilder(_GuidelineBuilder):
 
             # Check if flag_name has no equal sign character. CHAR "="
             if separator_equalsign not in guide_name:
-                translated_guides[guide_name] = {"increment": int(guide_increment)}
+                guidelines[guide_name] = {"increment": int(guide_increment)}
             else:
                 guide_options = guide_name.split(separator_equalsign)
                 guide_name = guide_options[0]
 
                 # If double ampersand, save options as tuple
                 # If double pipes, save options as list
-                # If neither, save as is
+                # If neither, encase option in list
                 if separator_ampersand in guide_options[1]:
                     guide_options = tuple(guide_options[1].split(separator_ampersand))
                 elif separator_pipes in guide_options[1]:
                     guide_options = guide_options[1].split(separator_pipes)
                 else:
-                    guide_options = guide_options[1]
+                    guide_options = [guide_options[1]]
 
-                translated_guides[guide_name] = {
+                guidelines[guide_name] = {
                     "increment": int(guide_increment),
                     "options": guide_options,
                 }
 
-        return {build_name: translated_guides}
+        return {build_name: guidelines}
 
 
-class FeatGuidelineParser(FeatGuidelineBuilder):
-    """Class to parse character creation guidelines."""
+class FeatGuidelineParser(_GuidelineBuilder):
+    """Class to parse feat guidelines."""
 
     def __init__(self, feat, my_character):
         self.feat = feat
-        super(FeatGuidelineBuilder, self).__init__()
+        super(_GuidelineBuilder, self).__init__()
         self.my_character = my_character
         self.guidelines = GuidelineReader.get_entry_guide_string("feats", self.feat)
         self.perks = GuidelineReader.get_feat_perks(self.feat)
@@ -110,7 +101,7 @@ class FeatGuidelineParser(FeatGuidelineBuilder):
         """Returns a list of bonus proficiencies for a feat by proficiency type."""
         return GuidelineReader.get_feat_proficiencies(self.feat, prof_type)
 
-    def _create_submenu_options(self, available_options) -> dict | bool:
+    def _get_submenu_options(self, available_options) -> dict | bool:
         """Creates a dictionary with available_options (if applicable)."""
         if self._has_submenu_options(available_options):
             submenu_options = dict()
@@ -140,40 +131,29 @@ class FeatGuidelineParser(FeatGuidelineBuilder):
         for guide_name, guide_options in parsed_guidelines.items():
             if guide_name in ("ability", "proficiency"):
                 guideline_increment = guide_options["increment"]
-                guideline_menu_options = guide_options["options"]
-
-                # Guideline option menu is empty.
-                if len(guideline_menu_options) < 1:
-                    raise ValueError("Malformed parser instructions error.")
-        
-            if guide_name == "ability":
                 if guideline_increment == 0:
-                    raise ValueError(
-                        "Flag attribute 'ability' requires a positive integer value."
-                    )
+                    raise ValueError("Guideline 'increment' requires a positive value.")
 
-                # For feats that use the 'savingthrows' flag.
-                # Limits choices based on current saving throw proficiencies.
-                if "savingthrows" in parsed_guidelines:
-                    guideline_menu_options = [
-                        x
-                        for x in guideline_menu_options
-                        if x not in self.my_character["savingthrows"]
-                    ]
+                guideline_options = guide_options["options"]
+                if len(guideline_options) < 1:
+                    raise ValueError("No guideline options defined.")
 
-                if isinstance(guideline_menu_options, str):
-                    my_ability = guideline_menu_options
-                elif isinstance(guideline_menu_options, list):
+            if guide_name == "ability":
+                if isinstance(guideline_options, str):
+                    my_ability = guideline_options
+                elif isinstance(guideline_options, list):
                     for _ in range(guideline_increment):
                         my_ability = prompt(
                             "Choose an ability to upgrade.",
-                            guideline_menu_options,
+                            guideline_options,
+                            self.my_character["savingthrows"],
                         )
-                        guideline_menu_options.remove(my_ability)
+                        guideline_options.remove(my_ability)
 
-                        # If 'savingthrows' flag specified, add proficiency for ability saving throw.
-                        if "savingthrows" in parsed_guidelines:
-                            self.my_character["savingthrows"].append(my_ability)
+                # If 'savingthrows' guideline specified
+                # Add proficiency for ability saving throw.
+                if "savingthrows" in parsed_guidelines:
+                    self.my_character["savingthrows"].append(my_ability)
 
                 bonus_value = self.perks[guide_name][my_ability]
                 feat_guidelines[guide_name] = (my_ability, bonus_value)
@@ -185,30 +165,37 @@ class FeatGuidelineParser(FeatGuidelineBuilder):
 
                 #
                 # Double ampersand options - saved in tuple format.
+                # Double pipe options - saved in list format.
                 #
-                #
-                if isinstance(guideline_menu_options, str) and guideline_increment == 0:
-                    chosen_options[guideline_menu_options] = self._get_proficiency_options(
-                        guideline_menu_options
+                if isinstance(guideline_options, str) and guideline_increment == 0:
+                    chosen_options[guideline_options] = self._get_proficiency_options(
+                        guideline_options
                     )
-                elif isinstance(guideline_menu_options, tuple):
-                    for perk_bonus in guideline_menu_options:
-                        perk_bonus_options = GuidelineReader.get_feat_perks(self.feat)[perk_bonus]
-                        #print(perk_bonus_options)
+                elif isinstance(guideline_options, tuple):
+                    for perk_bonus in guideline_options:
+                        perk_bonus_options = GuidelineReader.get_feat_perks(self.feat)[
+                            perk_bonus
+                        ]
                         for _ in range(guideline_increment):
-                            print("Slap")
-                elif isinstance(guideline_menu_options, list):
+                            my_bonus = prompt(
+                                f"Choose your bonus: '{perk_bonus}'.",
+                                perk_bonus_options,
+                            )
+                            # self.my_character[perk_bonus]
+                            print(my_bonus)
+                elif isinstance(guideline_options, list):
                     for _ in range(guideline_increment):
                         my_bonus = prompt(
-                            f"Choose your bonus: '{guide_name}'.", guideline_menu_options
+                            f"Choose your bonus: '{guide_name}'.",
+                            guideline_options,
                         )
-                        if not self._has_submenu_options(guideline_menu_options):
-                            guideline_menu_options.remove(my_bonus)
+                        if not self._has_submenu_options(guideline_options):
+                            guideline_options.remove(my_bonus)
                         else:
                             # Generate submenu options, if applicable.
                             if submenu_options is None:
-                                submenu_options = self._create_submenu_options(
-                                    guideline_menu_options
+                                submenu_options = self._get_submenu_options(
+                                    guideline_options
                                 )
                                 submenu_options[my_bonus] = [
                                     x
@@ -229,8 +216,8 @@ class FeatGuidelineParser(FeatGuidelineBuilder):
                             submenu_options[my_bonus].remove(submenu_choice)
                             # Reset the submenu options after use
                             submenu_options = None
-                elif isinstance(guideline_menu_options, str):
-                    for prof_type in guideline_menu_options.split(self.SEPARATOR_CHARS[4]):
+                elif isinstance(guideline_options, str):
+                    for prof_type in guideline_options.split(self.SEPARATOR_CHARS[4]):
                         chosen_proficiencies = list()
 
                         # Pull full collection of bonus proficiencies,
@@ -534,12 +521,7 @@ class AbilityScoreImprovement:
 
 
 if __name__ == "__main__":
-    """
-    print(
-        FeatGuidelineBuilder.build(
-            "feats", GuidelineReader.get_entry_guide_string("feats", "Prodigy")
-        )
+    x = FeatGuidelineParser(
+        "Resilient", {"languages": [], "savingthrows": ["Constitution", "Strength"]}
     )
-    """
-    x = FeatGuidelineParser("Prodigy", {})
     x.parse()
