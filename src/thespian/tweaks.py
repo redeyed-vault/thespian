@@ -135,12 +135,12 @@ class FeatGuidelineParser(_GuidelineBuilder):
 
                 guideline_options = guide_options["options"]
                 if len(guideline_options) < 1:
-                    raise ValueError("Guideline 'options' is undefined.")
+                    raise ValueError("Guideline 'options' cannot be undefined.")
 
             if guide_name == "scores":
                 if len(guideline_options) == 1:
                     my_ability = guideline_options[0]
-                    print(my_ability)
+                    feat_guidelines["scores"] = {my_ability: guideline_increment}
                     continue
 
                 for increment_count in range(guideline_increment):
@@ -155,7 +155,7 @@ class FeatGuidelineParser(_GuidelineBuilder):
                 # If 'savingthrows' guideline specified
                 # Add proficiency for ability saving throw.
                 if "savingthrows" in parsed_guidelines:
-                    self.my_character["savingthrows"].append(my_ability)
+                    feat_guidelines["savingthrows"].append(my_ability)
 
                 bonus_value = self.perks[guide_name][my_ability]
                 feat_guidelines[guide_name] = (my_ability, bonus_value)
@@ -200,6 +200,7 @@ class FeatGuidelineParser(_GuidelineBuilder):
                         my_bonus = prompt(
                             f"Choose your bonus: '{guide_name} >> {proficiency_type}' ({increment_count + 1}):",
                             guideline_options,
+                            self.my_character[proficiency_type],
                         )
 
                         if not self._has_submenu(guideline_options):
@@ -497,6 +498,6 @@ class AbilityScoreImprovement:
 
 if __name__ == "__main__":
     x = FeatGuidelineParser(
-        "Linguist", {"languages": [], "savingthrows": ["Constitution", "Strength"]}
+        "Linguist", {"languages": ["Common"], "savingthrows": ["Constitution", "Strength"]}
     )
     x.parse()
