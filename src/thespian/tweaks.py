@@ -161,41 +161,23 @@ class FeatGuidelineParser(_GuidelineBuilder):
                 feat_guidelines[guide_name] = (my_ability, bonus_value)
 
             if guide_name == "proficiency":
-                # Increment value of 0 means append ALL listed bonuses.
-                # Increment values other than 0 means add # of bonuses == increment value.
-                chosen_options = dict()
-                submenu_options = None
-
                 # Get the type of proficiency bonus to apply.
                 proficiency_type = guideline_options[0]
 
                 # Get a list of the applicable proficiency selection options.
                 guideline_options = self._get_proficiency_options(proficiency_type)
 
-                #
                 # Double ampersand options - saved in tuple format.
                 # Double pipe options - saved in list format.
                 #
-                if len(guideline_options) == 0:
-                    chosen_options[proficiency_type] = self._get_proficiency_options(
-                        proficiency_type
-                    )
-                    continue
+                if isinstance(guideline_options, tuple) and guideline_increment == 0:
+                    feat_guidelines[guide_name] = list(guideline_options)
+                elif isinstance(guideline_options, list) and guideline_increment > 0:
+                    # Increment value of 0 means append ALL listed bonuses.
+                    # Increment values other than 0 means add # of bonuses == increment value.
+                    chosen_options = dict()
+                    submenu_options = None
 
-                if isinstance(guideline_options, tuple):
-                    for perk_bonus in guideline_options:
-                        perk_bonus_options = GuidelineReader.get_feat_perks(self.feat)[
-                            perk_bonus
-                        ]
-                        for increment_count in range(guideline_increment):
-                            my_bonus = prompt(
-                                f"Choose your bonus: '{perk_bonus}'.",
-                                perk_bonus_options,
-                            )
-                            # self.my_character[perk_bonus]
-                            print(my_bonus)
-
-                if isinstance(guideline_options, list):
                     for increment_count in range(guideline_increment):
                         my_bonus = prompt(
                             f"Choose your bonus: '{guide_name} >> {proficiency_type}' ({increment_count + 1}):",
