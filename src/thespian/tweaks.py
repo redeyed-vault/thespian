@@ -143,9 +143,9 @@ class FeatGuidelineParser(_GuidelineBuilder):
                     print(my_ability)
                     continue
 
-                for _ in range(guideline_increment):
+                for increment_count in range(guideline_increment):
                     my_ability = prompt(
-                        "Choose an ability to upgrade.",
+                        "Choose an ability score to upgrade.",
                         guideline_options,
                         self.my_character["savingthrows"],
                     )
@@ -159,38 +159,49 @@ class FeatGuidelineParser(_GuidelineBuilder):
 
                 bonus_value = self.perks[guide_name][my_ability]
                 feat_guidelines[guide_name] = (my_ability, bonus_value)
-            elif guide_name == "proficiency":
+
+            if guide_name == "proficiency":
                 # Increment value of 0 means append ALL listed bonuses.
                 # Increment values other than 0 means add # of bonuses == increment value.
                 chosen_options = dict()
                 submenu_options = None
 
+                # Get the type of proficiency bonus to apply.
+                proficiency_type = guideline_options[0]
+
+                # Get a list of the applicable proficiency selection options.
+                guideline_options = self._get_proficiency_options(proficiency_type)
+
                 #
                 # Double ampersand options - saved in tuple format.
                 # Double pipe options - saved in list format.
                 #
-                if isinstance(guideline_options, str) and guideline_increment == 0:
-                    chosen_options[guideline_options] = self._get_proficiency_options(
-                        guideline_options
+                if len(guideline_options) == 0:
+                    chosen_options[proficiency_type] = self._get_proficiency_options(
+                        proficiency_type
                     )
-                elif isinstance(guideline_options, tuple):
+                    continue
+
+                if isinstance(guideline_options, tuple):
                     for perk_bonus in guideline_options:
                         perk_bonus_options = GuidelineReader.get_feat_perks(self.feat)[
                             perk_bonus
                         ]
-                        for _ in range(guideline_increment):
+                        for increment_count in range(guideline_increment):
                             my_bonus = prompt(
                                 f"Choose your bonus: '{perk_bonus}'.",
                                 perk_bonus_options,
                             )
                             # self.my_character[perk_bonus]
                             print(my_bonus)
-                elif isinstance(guideline_options, list):
-                    for _ in range(guideline_increment):
+
+                if isinstance(guideline_options, list):
+                    for increment_count in range(guideline_increment):
                         my_bonus = prompt(
-                            f"Choose your bonus: '{guide_name}'.",
+                            f"Choose your bonus: '{guide_name} >> {proficiency_type}' ({increment_count + 1}):",
                             guideline_options,
                         )
+
                         if not self._has_submenu(guideline_options):
                             guideline_options.remove(my_bonus)
                         else:
@@ -216,47 +227,9 @@ class FeatGuidelineParser(_GuidelineBuilder):
                             )
                             chosen_options[my_bonus].append(submenu_choice)
                             submenu_options[my_bonus].remove(submenu_choice)
+
                             # Reset the submenu options after use
                             submenu_options = None
-                elif isinstance(guideline_options, str):
-                    for prof_type in guideline_options.split(self.SEPARATOR_CHARS[4]):
-                        chosen_proficiencies = list()
-
-                        # Pull full collection of bonus proficiencies,
-                        proficiency_options = GuidelineReader.get_feat_proficiencies(
-                            self.feat, prof_type
-                        )
-                        # If collection is dict, sort through sub categories,
-                        # And choose only the unselected options in that category.
-                        # Otherwise, simply sort out the unselected options
-                        if isinstance(proficiency_options, dict):
-                            temp = list()
-                            for types in tuple(proficiency_options.keys()):
-                                if types not in self.my_character[prof_type]:
-                                    temp += proficiency_options[types]
-
-                            proficiency_options = temp
-                        else:
-                            proficiency_options = [
-                                x
-                                for x in proficiency_options
-                                if x not in self.my_character[prof_type]
-                            ]
-
-                        for _ in range(guideline_increment):
-                            # Clear out the temporarily chosen options.
-                            proficiency_options = [
-                                x
-                                for x in proficiency_options
-                                if x not in chosen_proficiencies
-                            ]
-                            my_bonus = prompt(
-                                f"Choose your bonus: {guide_name}.", proficiency_options
-                            )
-                            chosen_proficiencies.append(my_bonus)
-                            proficiency_options.remove(my_bonus)
-
-                        chosen_options[prof_type] = chosen_proficiencies
 
                 for k, v in chosen_options.items():
                     feat_guidelines[k] = v
