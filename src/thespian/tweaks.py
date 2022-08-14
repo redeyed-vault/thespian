@@ -128,14 +128,13 @@ class FeatGuidelineParser(_GuidelineBuilder):
         feat_guidelines = dict()
 
         for guide_name, guide_options in parsed_guidelines.items():
-            if guide_name in ("proficiency", "scores"):
-                guideline_increment = guide_options["increment"]
-                if guideline_increment < 0:
-                    raise ValueError("Guideline 'increment' requires a positive value.")
+            guideline_increment = guide_options["increment"]
+            if guideline_increment < 0:
+                raise ValueError("Guideline 'increment' requires a positive value.")
 
-                guideline_options = guide_options["options"]
-                if len(guideline_options) < 1:
-                    raise ValueError("Guideline 'options' cannot be undefined.")
+            guideline_options = guide_options["options"]
+            if len(guideline_options) < 1:
+                raise ValueError("Guideline 'options' cannot be undefined.")
 
             if guide_name == "scores":
                 if len(guideline_options) == 1:
