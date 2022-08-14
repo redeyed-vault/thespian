@@ -139,25 +139,19 @@ class FeatGuidelineParser(_GuidelineBuilder):
             if guide_name == "scores":
                 if len(guideline_options) == 1:
                     my_ability = guideline_options[0]
-                    feat_guidelines["scores"] = {my_ability: guideline_increment}
-                    continue
+                else:
+                    # If 'savingthrows' guideline specified
+                    # Add proficiency for ability saving throw.
+                    if "savingthrows" in parsed_guidelines:
+                        feat_guidelines["savingthrows"].append(my_ability)
 
-                for increment_count in range(guideline_increment):
                     my_ability = prompt(
                         "Choose an ability score to upgrade.",
                         guideline_options,
                         self.my_character["savingthrows"],
                     )
-                    guideline_options.remove(my_ability)
-                    print(my_ability)
-
-                # If 'savingthrows' guideline specified
-                # Add proficiency for ability saving throw.
-                if "savingthrows" in parsed_guidelines:
-                    feat_guidelines["savingthrows"].append(my_ability)
-
-                bonus_value = self.perks[guide_name][my_ability]
-                feat_guidelines[guide_name] = (my_ability, bonus_value)
+                feat_guidelines[guide_name] = {my_ability: guideline_increment}
+                print(my_ability)
 
             if guide_name == "proficiency":
                 # Get the type of proficiency bonus to apply.
@@ -168,7 +162,6 @@ class FeatGuidelineParser(_GuidelineBuilder):
 
                 # Double ampersand options - saved in tuple format.
                 # Double pipe options - saved in list format.
-                #
                 if isinstance(guideline_options, tuple) and guideline_increment == 0:
                     feat_guidelines[guide_name] = list(guideline_options)
                 elif isinstance(guideline_options, list) and guideline_increment > 0:
