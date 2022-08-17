@@ -142,14 +142,18 @@ class FeatGuidelineParser(_GuidelineBuilder):
                 else:
                     # If 'savingthrows' guideline specified
                     # Add proficiency for ability saving throw.
-                    if "savingthrows" in parsed_guidelines:
+                    if "savingthrows" not in parsed_guidelines:
+                        my_ability = prompt(
+                            "Choose an ability score to upgrade.",
+                            guideline_options,
+                        )
+                    else:
+                        my_ability = prompt(
+                            "Choose an ability score to upgrade.",
+                            guideline_options,
+                            self.my_character["savingthrows"],
+                        )
                         feat_guidelines["savingthrows"].append(my_ability)
-
-                    my_ability = prompt(
-                        "Choose an ability score to upgrade.",
-                        guideline_options,
-                        self.my_character["savingthrows"],
-                    )
                 feat_guidelines[guide_name] = {my_ability: guideline_increment}
                 print(my_ability)
 
@@ -160,16 +164,18 @@ class FeatGuidelineParser(_GuidelineBuilder):
                 # Get a list of the applicable proficiency selection options.
                 guideline_options = self._get_proficiency_options(proficiency_type)
 
-                # Double ampersand options - saved in tuple format.
-                # Double pipe options - saved in list format.
+                # Tuple options will be appended as is as a list.
                 if isinstance(guideline_options, tuple) and guideline_increment == 0:
                     feat_guidelines[guide_name] = list(guideline_options)
-                elif isinstance(guideline_options, list) and guideline_increment > 0:
-                    # Increment value of 0 means append ALL listed bonuses.
-                    # Increment values other than 0 means add # of bonuses == increment value.
-                    chosen_options = dict()
-                    submenu_options = None
+                
+                # Increment value of 0 means append ALL listed bonuses.
+                # Increment values other than 0 means add # of bonuses == increment value.
+                chosen_options = dict()
 
+                # List/dict options allow the  user to choose what to append.
+                if isinstance(guideline_options, dict) and guideline_increment > 0:
+                    print("pssst")
+                elif isinstance(guideline_options, list) and guideline_increment > 0:
                     for increment_count in range(guideline_increment):
                         my_bonus = prompt(
                             f"Choose your bonus: '{guide_name} >> {proficiency_type}' ({increment_count + 1}):",
@@ -205,9 +211,6 @@ class FeatGuidelineParser(_GuidelineBuilder):
 
                             # Reset the submenu options after use
                             submenu_options = None
-
-                for k, v in chosen_options.items():
-                    feat_guidelines[k] = v
 
             elif guide_name == "speed":
                 speed_value = self.perks[guide_name]
@@ -472,6 +475,7 @@ class AbilityScoreImprovement:
 
 if __name__ == "__main__":
     x = FeatGuidelineParser(
-        "Linguist", {"languages": ["Common"], "savingthrows": ["Constitution", "Strength"]}
+        "Weapon Master",
+        {"languages": ["Common"], "savingthrows": ["Constitution", "Strength"]},
     )
     x.parse()
