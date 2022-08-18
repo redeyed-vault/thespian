@@ -102,23 +102,6 @@ class FeatGuidelineParser(_GuidelineBuilder):
         """Returns a list of bonus proficiencies for a feat by proficiency type."""
         return GuidelineReader.get_feat_proficiencies(self.feat, prof_type)
 
-    def _get_submenu_options(self, available_options) -> dict | bool:
-        """Creates a dictionary with available_options (if applicable)."""
-        if self._has_submenu(available_options):
-            submenu_options = dict()
-            for option in available_options:
-                submenu_options[option] = self._get_proficiency_options(option)
-            return submenu_options
-        return False
-
-    @staticmethod
-    def _has_submenu(available_options) -> bool:
-        """Returns True if sub menu options are available. False otherwise."""
-        for option in available_options:
-            if not option.islower():
-                return False
-        return True
-
     def parse(self) -> dict:
         """Honors the specified flags for a feat."""
         parsed_guidelines = self.build("feats", self.guidelines)["feats"]
@@ -155,7 +138,6 @@ class FeatGuidelineParser(_GuidelineBuilder):
                         )
                         feat_guidelines["savingthrows"].append(my_ability)
                 feat_guidelines[guide_name] = {my_ability: guideline_increment}
-                print(my_ability)
 
             if guide_name == "proficiency":
                 # Get the type of proficiency bonus to apply.
@@ -167,50 +149,39 @@ class FeatGuidelineParser(_GuidelineBuilder):
                 # Tuple options will be appended as is as a list.
                 if isinstance(guideline_options, tuple) and guideline_increment == 0:
                     feat_guidelines[guide_name] = list(guideline_options)
-                
-                # Increment value of 0 means append ALL listed bonuses.
-                # Increment values other than 0 means add # of bonuses == increment value.
-                chosen_options = dict()
 
-                # List/dict options allow the  user to choose what to append.
-                if isinstance(guideline_options, dict) and guideline_increment > 0:
-                    print("pssst")
-                elif isinstance(guideline_options, list) and guideline_increment > 0:
+                # List/dict options allow the user to choose what to append.
+                if isinstance(guideline_options, list) and guideline_increment > 0:
                     for increment_count in range(guideline_increment):
                         my_bonus = prompt(
                             f"Choose your bonus: '{guide_name} >> {proficiency_type}' ({increment_count + 1}):",
                             guideline_options,
                             self.my_character[proficiency_type],
                         )
+                elif isinstance(guideline_options, dict) and guideline_increment > 0:
+                    # Get the available proficiency groups.
+                    selection_groups = tuple(guideline_options.keys())
 
-                        if not self._has_submenu(guideline_options):
-                            guideline_options.remove(my_bonus)
-                        else:
-                            # Generate submenu options, if applicable.
-                            if submenu_options is None:
-                                submenu_options = self._get_submenu_options(
-                                    guideline_options
-                                )
-                                submenu_options[my_bonus] = [
-                                    x
-                                    for x in submenu_options[my_bonus]
-                                    if x not in self.my_character[my_bonus]
-                                ]
+                    # Create proficiency selection list from applicable groups.
+                    proficiency_selections = []
+                    for group in selection_groups:
+                        if group not in self.my_character[proficiency_type]:
+                            proficiency_selections += guideline_options[group]
 
-                            # Create storage handler for selections, if applicable.
-                            if len(chosen_options) == 0:
-                                for opt in submenu_options:
-                                    chosen_options[opt] = list()
+                    # Replace guideline options with proficiency selections.
+                    # Sort proficiency selections.
+                    guideline_options = proficiency_selections
+                    guideline_options.sort()
 
-                            submenu_choice = prompt(
-                                f"Choose submenu option: '{my_bonus}'.",
-                                submenu_options.get(my_bonus),
-                            )
-                            chosen_options[my_bonus].append(submenu_choice)
-                            submenu_options[my_bonus].remove(submenu_choice)
-
-                            # Reset the submenu options after use
-                            submenu_options = None
+                    feat_guidelines[proficiency_type] = []
+                    for increment_count in range(guideline_increment):
+                        my_bonus = prompt(
+                            f"Choose your bonus: '{guide_name} >> {proficiency_type}' ({increment_count + 1}):",
+                            guideline_options,
+                            self.my_character[proficiency_type],
+                        )
+                        guideline_options.remove(my_bonus)
+                        feat_guidelines[proficiency_type].append(my_bonus)
 
             elif guide_name == "speed":
                 speed_value = self.perks[guide_name]
@@ -476,6 +447,10 @@ class AbilityScoreImprovement:
 if __name__ == "__main__":
     x = FeatGuidelineParser(
         "Weapon Master",
-        {"languages": ["Common"], "savingthrows": ["Constitution", "Strength"]},
+        {
+            "languages": ["Common"],
+            "savingthrows": ["Constitution", "Strength"],
+            "weapons": [],
+        },
     )
     x.parse()
