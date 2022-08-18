@@ -89,11 +89,11 @@ class _GuidelineBuilder:
 
 
 class FeatGuidelineParser(_GuidelineBuilder):
-    """Class to parse feat guidelines."""
+    """Class to handle feat guideline parsing."""
 
-    def __init__(self, feat, my_character):
-        self.feat = feat
+    def __init__(self, feat: str, my_character: dict):
         super(_GuidelineBuilder, self).__init__()
+        self.feat = feat
         self.my_character = my_character
         self.guidelines = GuidelineReader.get_entry_guide_string("feats", self.feat)
         self.perks = GuidelineReader.get_feat_perks(self.feat)
