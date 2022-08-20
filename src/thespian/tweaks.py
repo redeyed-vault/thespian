@@ -138,27 +138,36 @@ class FeatGuidelineParser(_GuidelineBuilder):
                         )
                         feat_guidelines["savingthrows"].append(my_ability)
                 feat_guidelines[guide_name] = {my_ability: guideline_increment}
+            elif guide_name == "speed":
+                feat_guidelines[guide_name] = self.perks[guide_name]
+                continue
 
             if guide_name == "proficiency":
                 # Get the type of proficiency bonus to apply.
+                # Types: armors, languages, resistances, skills, tools, weapons
                 proficiency_type = guideline_options[0]
 
                 # Get a list of the applicable proficiency selection options.
                 guideline_options = self._get_proficiency_options(proficiency_type)
 
+                # Create special placeholder for user selection.
+                feat_guidelines[proficiency_type] = []
+
                 # Tuple options will be appended as is as a list.
                 if isinstance(guideline_options, tuple) and guideline_increment == 0:
                     feat_guidelines[guide_name] = list(guideline_options)
+                    continue
+
+                # Non tuple options must have at least one option.
+                # Otherwise, warn and ignore the guideline.
+                if not isinstance(guideline_options, tuple) and guideline_increment < 1:
+                    logging.warning(
+                        "Invalid 'increment' parameter specified. Ignoring..."
+                    )
+                    continue
 
                 # List/dict options allow the user to choose what to append.
-                if isinstance(guideline_options, list) and guideline_increment > 0:
-                    for increment_count in range(guideline_increment):
-                        my_bonus = prompt(
-                            f"Choose your bonus: '{guide_name} >> {proficiency_type}' ({increment_count + 1}):",
-                            guideline_options,
-                            self.my_character[proficiency_type],
-                        )
-                elif isinstance(guideline_options, dict) and guideline_increment > 0:
+                if isinstance(guideline_options, dict):
                     # Get the available proficiency groups.
                     selection_groups = tuple(guideline_options.keys())
 
@@ -173,29 +182,38 @@ class FeatGuidelineParser(_GuidelineBuilder):
                     guideline_options = proficiency_selections
                     guideline_options.sort()
 
-                    feat_guidelines[proficiency_type] = []
-                    for increment_count in range(guideline_increment):
-                        my_bonus = prompt(
-                            f"Choose your bonus: '{guide_name} >> {proficiency_type}' ({increment_count + 1}):",
-                            guideline_options,
-                            self.my_character[proficiency_type],
-                        )
-                        guideline_options.remove(my_bonus)
-                        feat_guidelines[proficiency_type].append(my_bonus)
+                for increment_count in range(guideline_increment):
+                    my_bonus = prompt(
+                        f"Choose your bonus: '{guide_name} >> {proficiency_type}' ({increment_count + 1}):",
+                        guideline_options,
+                        self.my_character[proficiency_type],
+                    )
 
-            elif guide_name == "speed":
-                speed_value = self.perks[guide_name]
-                if speed_value != 0:
-                    feat_guidelines[guide_name] = speed_value
-
+                    # Handle user's selections.
+                    guideline_options.remove(my_bonus)
+                    feat_guidelines[proficiency_type].append(my_bonus)
             elif guide_name == "spells":
-                bonus_spells = self.perks[guide_name]
-                for index, spell in enumerate(bonus_spells):
-                    if isinstance(spell, list):
-                        spell_choice = prompt("Choose your bonus spell.", spell)
-                        bonus_spells[index] = spell_choice
+                # Get a list of the applicable spell selection options.
+                guideline_options = list(self._get_proficiency_options(guide_name))
 
-                feat_guidelines[guide_name] = bonus_spells
+                # Make spell selections where applicable.
+                for index, spell in enumerate(guideline_options):
+                    if not isinstance(spell, list):
+                        continue
+
+                    my_bonus = prompt(
+                        f"Choose your bonus: '{guide_name}':",
+                        spell,
+                    )
+
+                    # Handle user's spell selections
+                    guideline_options[index] = my_bonus
+
+                guideline_options = tuple(guideline_options)
+
+                # Tuple options will be appended as is as a list.
+                if isinstance(guideline_options, tuple) and guideline_increment == 0:
+                    feat_guidelines[guide_name] = list(guideline_options)
 
         return feat_guidelines
 
@@ -446,7 +464,7 @@ class AbilityScoreImprovement:
 
 if __name__ == "__main__":
     x = FeatGuidelineParser(
-        "Weapon Master",
+        "Wood Elf Magic",
         {
             "languages": ["Common"],
             "savingthrows": ["Constitution", "Strength"],

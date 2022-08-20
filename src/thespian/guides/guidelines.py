@@ -1490,7 +1490,7 @@ guidelines = {
             },
         },
         "Drow High Magic": {
-            "_guides": "spells,0",
+            "_guides": "spells=spells,0",
             "perk": {
                 "scores": None,
                 "armors": [],
@@ -1498,7 +1498,7 @@ guidelines = {
                 "resistances": [],
                 "skills": [],
                 "speed": 0,
-                "spells": ["Detect Magic", "Dispel Magic", "Levitate"],
+                "spells": ("Detect Magic", "Dispel Magic", "Levitate"),
                 "tools": [],
                 "weapons": [],
             },
@@ -2553,7 +2553,7 @@ guidelines = {
             },
         },
         "Svirfneblin Magic": {
-            "_guides": "spells,0",
+            "_guides": "spells=spells,0",
             "perk": {
                 "scores": None,
                 "armors": [],
@@ -2561,7 +2561,7 @@ guidelines = {
                 "resistances": [],
                 "skills": [],
                 "speed": 0,
-                "spells": ["Blindness/Deafness", "Blur", "Disguise", "Nondetection"],
+                "spells": ("Blindness/Deafness", "Blur", "Disguise", "Nondetection"),
                 "tools": [],
                 "weapons": [],
             },
@@ -2700,7 +2700,7 @@ guidelines = {
             },
         },
         "Wood Elf Magic": {
-            "_guides": "spells,0",
+            "_guides": "spells=spells,0",
             "perk": {
                 "scores": None,
                 "armors": [],
@@ -2708,7 +2708,7 @@ guidelines = {
                 "resistances": [],
                 "skills": [],
                 "speed": 0,
-                "spells": [
+                "spells": (
                     [
                         "Druidcraft",
                         "Guidance",
@@ -2721,7 +2721,7 @@ guidelines = {
                     ],
                     "Longstrider",
                     "Pass Without Trace",
-                ],
+                ),
                 "tools": [],
                 "weapons": [],
             },
