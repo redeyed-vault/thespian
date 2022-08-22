@@ -8,22 +8,22 @@ log = logging.getLogger("thespian.attributes")
 
 
 class AttributeGenerator:
-    """Class to generate character's attributes."""
+    """Class to handle the generation of character's attributes."""
 
     def __init__(self, primary_attributes: tuple | list, racial_bonus: dict):
         self.primary_attributes = primary_attributes
         self.racial_bonus = racial_bonus
 
-        self.attribute_set = OrderedDict()
-        self.attribute_set["Strength"] = None
-        self.attribute_set["Dexterity"] = None
-        self.attribute_set["Constitution"] = None
-        self.attribute_set["Intelligence"] = None
-        self.attribute_set["Wisdom"] = None
-        self.attribute_set["Charisma"] = None
-
     def generate(self) -> OrderedDict:
         """Generates/assigns character attributes."""
+        attribute_set = OrderedDict()
+        attribute_set["Strength"] = None
+        attribute_set["Dexterity"] = None
+        attribute_set["Constitution"] = None
+        attribute_set["Intelligence"] = None
+        attribute_set["Wisdom"] = None
+        attribute_set["Charisma"] = None
+
         attribute_options = list(self.attribute_set.keys())
         result_set = self._roll_attribute_set()
 
@@ -31,20 +31,20 @@ class AttributeGenerator:
             attribute_options.remove(attribute)
             attribute_value = max(result_set)
             result_set.remove(attribute_value)
-            self.attribute_set[attribute] = attribute_value
+            attribute_set[attribute] = attribute_value
 
         for _ in range(0, 4):
             attribute = choice(attribute_options)
             attribute_options.remove(attribute)
             attribute_value = choice(result_set)
             result_set.remove(attribute_value)
-            self.attribute_set[attribute] = attribute_value
+            attribute_set[attribute] = attribute_value
 
         for attribute, bonus in self.racial_bonus.items():
-            attribute_value = self.attribute_set[attribute] + bonus
-            self.attribute_set[attribute] = attribute_value
+            attribute_value = attribute_set[attribute] + bonus
+            attribute_set[attribute] = attribute_value
 
-        return self.attribute_set
+        return attribute_set
 
     def _roll_attribute_set(self) -> list:
         """Generates six ability scores."""
@@ -66,18 +66,18 @@ def generate_hit_points(
 ) -> tuple:
     """Generates the character's hit points."""
     if roll_hp:
-        log.warn("Hit points will be randomly generated every level after the first.")
+        log.warning("Hit points will be randomly generated every level after the first.")
     else:
-        log.warn("Hit points will be assigned a fixed number every level.")
+        log.warning("Hit points will be assigned a fixed number every level.")
 
     hit_die = int(hit_die)
     hit_die_string = f"{level}d{hit_die}"
     modifier = get_ability_modifier("Constitution", attributes)
     total_hit_points = hit_die + modifier
-    log.info(f"level 1: you have {total_hit_points} ({modifier}) hit points.")
+
     if level > 1:
         die_rolls = list()
-        for current_level in range(1, level):
+        for _ in range(1, level):
             if not roll_hp:
                 hp_result = int((hit_die / 2) + 1)
             else:
@@ -87,11 +87,7 @@ def generate_hit_points(
             if hp_result < 1:
                 hp_result = 1
             die_rolls.append(hp_result)
-            log.info(
-                f"level {current_level + 1}: you gained {hp_result} ({modifier}) hit points."
-            )
         total_hit_points += sum(die_rolls)
-        log.info(f"You have {total_hit_points} hit points.")
 
     return hit_die_string, total_hit_points
 

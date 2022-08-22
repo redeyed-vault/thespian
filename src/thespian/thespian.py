@@ -404,7 +404,7 @@ def thespian(
     # Define character's racial/subracial (if applicable) data.
     my_race = define_race(race, sex, background, alignment, level)
     if subrace == "":
-        log.warn(f"No subrace options are available for '{race}'.")
+        log.warning(f"No subrace options are available for '{race}'.")
     else:
         my_subrace = define_subrace(subrace, level)
         fuse_iterables(my_race, my_subrace)
@@ -430,7 +430,7 @@ def thespian(
     my_class = define_class(klass, level, blueprint["bonus"], roll_hp)
     my_class["subclass"] = subclass
     if subclass == "":
-        log.warn("No subclass options are available prior to level 3.")
+        log.warning("No subclass options are available prior to level 3.")
     else:
         my_subclass = define_subclass(subclass, level)
         fuse_iterables(my_class, my_subclass)

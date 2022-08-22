@@ -23,7 +23,7 @@ class AbilityScoreImprovement:
         for flag, options in parsed_attributes.items():
             if flag == "ability":
                 ability, bonus = options
-                self._set_ability_score(ability, bonus)
+                self._set_attribute(ability, bonus)
             else:
                 self.character[flag] += options
 
@@ -206,13 +206,13 @@ class AbilityScoreImprovement:
                             ability_options,
                         )
                         ability_options.remove(my_ability)
-                        self._set_ability_score(my_ability, my_bonus)
+                        self._set_attribute(my_ability, my_bonus)
                 elif my_bonus == 2:
                     my_ability = prompt(
                         "Which ability?",
                         ability_options,
                     )
-                    self._set_ability_score(my_ability, my_bonus)
+                    self._set_attribute(my_ability, my_bonus)
 
             # Path #2: Add a new Feat.
             elif my_path == "Choose Feat":
@@ -242,7 +242,7 @@ class AbilityScoreImprovement:
 
             num_of_upgrades -= 1
 
-    def _set_ability_score(self, ability: str, bonus: int = 1) -> None:
+    def _set_attribute(self, ability: str, bonus: int = 1) -> None:
         """Applies a bonus to the ability (if applicable)."""
         if not self._is_adjustable(ability, bonus):
             log.warn(f"Ability '{ability}' is not adjustable with a bonus of {bonus}.")
@@ -261,4 +261,4 @@ if __name__ == "__main__":
             "weapons": [],
         },
     )
-    print(x.parse())
+    x.set(x.parse())

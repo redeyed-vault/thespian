@@ -10,26 +10,31 @@ log = logging.getLogger("thespian.parsers")
 class FeatGuidelineParser(_GuidelineBuilder):
     """Class to handle feat guideline parsing."""
 
-    def __init__(self, feat: str, my_character: dict):
+    def __init__(self, feat: str, character_base: dict):
         super(_GuidelineBuilder, self).__init__()
         self.feat = feat
-        self.my_character = my_character
-        self.guidelines = GuidelineReader.get_entry_guide_string("feats", self.feat)
-        self.perks = GuidelineReader.get_feat_perks(self.feat)
+        self.character_base = character_base
 
     def _get_perk_options(self, prof_type: str) -> list:
         """Returns a list of bonus proficiencies for a feat by proficiency type."""
         return GuidelineReader.get_feat_proficiencies(self.feat, prof_type)
 
-    def parse(self) -> dict:
-        """Honors the specified flags for a feat."""
-        parsed_guidelines = self.build("feats", self.guidelines)["feats"]
-        if len(parsed_guidelines) == 0:
-            return
+    def parse(self) -> dict | None:
+        """Creates guideline definitions from the raw guidelines based upon user's input (where applicable)."""
+        # Gets the guideline definition string for the desired feat.
+        feat_guidelines = GuidelineReader.get_entry_guide_string("feats", self.feat)
 
+        # Forms the guideline string definition into a dictionary.
+        raw_guidelines = self.build("feats", feat_guidelines)["feats"]
+
+        # Check if definitions present, otherwise stop parsing.
+        if len(raw_guidelines) == 0:
+            return None
+
+        # Used as a placeholder to store parsed definitions.
         feat_guidelines = dict()
 
-        for guide_name, guide_options in parsed_guidelines.items():
+        for guide_name, guide_options in raw_guidelines.items():
             guideline_increment = guide_options["increment"]
             if guideline_increment < 0:
                 raise ValueError("Guideline 'increment' requires a positive value.")
@@ -44,7 +49,7 @@ class FeatGuidelineParser(_GuidelineBuilder):
                 else:
                     # If 'savingthrows' guideline specified
                     # Add proficiency for ability saving throw.
-                    if "savingthrows" not in parsed_guidelines:
+                    if "savingthrows" not in raw_guidelines:
                         my_ability = prompt(
                             "Choose an ability score to upgrade.",
                             guideline_options,
@@ -53,12 +58,13 @@ class FeatGuidelineParser(_GuidelineBuilder):
                         my_ability = prompt(
                             "Choose an ability score to upgrade.",
                             guideline_options,
-                            self.my_character["savingthrows"],
+                            self.character_base["savingthrows"],
                         )
                         feat_guidelines["savingthrows"].append(my_ability)
                 feat_guidelines[guide_name] = {my_ability: guideline_increment}
             elif guide_name == "speed":
-                feat_guidelines[guide_name] = self.perks[guide_name]
+                feat_perks = GuidelineReader.get_feat_perks(self.feat)
+                feat_guidelines[guide_name] = feat_perks[guide_name]
                 continue
 
             if guide_name == "proficiency":
@@ -93,7 +99,7 @@ class FeatGuidelineParser(_GuidelineBuilder):
                     # Create proficiency selection list from applicable groups.
                     proficiency_selections = []
                     for group in selection_groups:
-                        if group not in self.my_character[proficiency_type]:
+                        if group not in self.character_base[proficiency_type]:
                             proficiency_selections += guideline_options[group]
 
                     # Replace guideline options with proficiency selections.
@@ -105,7 +111,7 @@ class FeatGuidelineParser(_GuidelineBuilder):
                     my_bonus = prompt(
                         f"Choose your bonus: '{guide_name} >> {proficiency_type}' ({increment_count + 1}):",
                         guideline_options,
-                        self.my_character[proficiency_type],
+                        self.character_base[proficiency_type],
                     )
 
                     # Handle user's selections.
@@ -127,7 +133,7 @@ class FeatGuidelineParser(_GuidelineBuilder):
 
                     # Handle user's spell selections
                     guideline_options[index] = my_spell
-  
+
                 # Sort the spell list alphabetically.
                 guideline_options.sort()
 
@@ -135,3 +141,6 @@ class FeatGuidelineParser(_GuidelineBuilder):
                 feat_guidelines[guide_name] = guideline_options
 
         return feat_guidelines
+
+    def set(self, guidelines):
+        print(guidelines)

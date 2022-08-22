@@ -33,10 +33,10 @@ class _GuidelineBuilder:
     SEPARATOR_CHARS = (";", "=", ",", "&&", "||")
 
     @classmethod
-    def build(cls, build_name: str, guideline_string: str) -> dict:
+    def build(cls, build_name: str, guideline_string: str) -> dict | None:
         """Translates 'guideline' strings into instructions."""
         if guideline_string is None:
-            return dict()
+            return None
 
         # Init
         super(_GuidelineBuilder, cls).__init__(guideline_string)
