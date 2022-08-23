@@ -1667,7 +1667,7 @@ guidelines = {
             "perk": {
                 "scores": {"Charisma": 1, "Intelligence": 1},
                 "armors": [],
-                "languages": ("Sylvan"),
+                "languages": ("Sylvan",),
                 "resistances": [],
                 "skills": [],
                 "speed": 0,
@@ -1771,7 +1771,7 @@ guidelines = {
             "_guides": "scores=Strength,1;proficiency=armors,0",
             "perk": {
                 "scores": {"Strength": 1},
-                "armors": ("Heavy"),
+                "armors": ("Heavy",),
                 "languages": [],
                 "resistances": [],
                 "skills": [],
@@ -1815,7 +1815,10 @@ guidelines = {
                 "scores": {"Constitution": 1},
                 "armors": [],
                 "languages": [],
-                "resistances": ("Cold", "Poison"),
+                "resistances": (
+                    "Cold",
+                    "Poison",
+                ),
                 "skills": [],
                 "speed": 0,
                 "spells": [],
@@ -1876,7 +1879,7 @@ guidelines = {
             "_guides": "scores=Strength||Dexterity,1;proficiency=armors,0",
             "perk": {
                 "scores": {"Dexterity": 1, "Strength": 1},
-                "armors": ("Light"),
+                "armors": ("Light",),
                 "languages": [],
                 "resistances": [],
                 "skills": [],
@@ -2061,7 +2064,10 @@ guidelines = {
             "_guides": "scores=Strength||Dexterity,1;proficiency=armors,0",
             "perk": {
                 "scores": {"Dexterity": 1, "Strength": 1},
-                "armors": ("Medium", "Shields"),
+                "armors": (
+                    "Medium",
+                    "Shields",
+                ),
                 "languages": [],
                 "resistances": [],
                 "skills": [],

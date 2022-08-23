@@ -66,12 +66,11 @@ def generate_hit_points(
 ) -> tuple:
     """Generates the character's hit points."""
     if roll_hp:
-        log.warning("Hit points will be randomly generated every level after the first.")
+        log.warning("HP will be randomly generated after level one.")
     else:
-        log.warning("Hit points will be assigned a fixed number every level.")
+        log.warning("HP will be assigned a fixed value every level.")
 
     hit_die = int(hit_die)
-    hit_die_string = f"{level}d{hit_die}"
     modifier = get_ability_modifier("Constitution", attributes)
     total_hit_points = hit_die + modifier
 
@@ -89,7 +88,7 @@ def generate_hit_points(
             die_rolls.append(hp_result)
         total_hit_points += sum(die_rolls)
 
-    return hit_die_string, total_hit_points
+    return f"{level}d{hit_die}", total_hit_points
 
 
 def get_ability_modifier(ability: str, scores: dict) -> int:

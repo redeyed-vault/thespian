@@ -51,12 +51,12 @@ class FeatGuidelineParser(_GuidelineBuilder):
                     # Add proficiency for ability saving throw.
                     if "savingthrows" not in raw_guidelines:
                         my_ability = prompt(
-                            "Choose an ability score to upgrade.",
+                            "Choose an attribute to upgrade.",
                             guideline_options,
                         )
                     else:
                         my_ability = prompt(
-                            "Choose an ability score to upgrade.",
+                            "Choose an attribute to upgrade.",
                             guideline_options,
                             self.character_base["savingthrows"],
                         )
@@ -80,7 +80,7 @@ class FeatGuidelineParser(_GuidelineBuilder):
 
                 # Tuple options will be appended as is as a list.
                 if isinstance(guideline_options, tuple) and guideline_increment == 0:
-                    feat_guidelines[guide_name] = list(guideline_options)
+                    feat_guidelines[proficiency_type] = list(guideline_options)
                     continue
 
                 # Non tuple options must have at least one option.
@@ -142,5 +142,24 @@ class FeatGuidelineParser(_GuidelineBuilder):
 
         return feat_guidelines
 
-    def set(self, guidelines):
-        print(guidelines)
+    def set(self, guidelines: dict):
+        for guideline, options in guidelines.items():
+            if isinstance(options, tuple):
+                options = list(options)
+
+            if isinstance(options, dict):
+                attributes = self.character_base[guideline]
+                for attribute, bonus in options.items():
+                    if attribute in attributes:
+                        score = attributes[attribute] + bonus
+                        attributes[attribute] = score
+
+            if isinstance(options, list):
+                # Amend to entries that already exist.
+                # Create needed entries that don't yet exist.
+                if guideline in self.character_base:
+                    self.character_base[guideline] += options
+                else:
+                    self.character_base[guideline] = options
+
+        print(self.character_base)

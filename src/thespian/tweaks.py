@@ -174,20 +174,19 @@ class AbilityScoreImprovement:
 
         return True
 
-    def run_tweaks(self) -> None:
+    def run_tweaks(self) -> None | bool:
         """Executes ability score improvements upon the specified character data."""
         if self.character["level"] < 4:
-            return
+            logging.warning("Character level less than 4. No upgrades available.")
+            return False
 
-        num_of_upgrades = self._get_number_of_upgrades()
+        upgrades_available = self._get_number_of_upgrades()
 
-        while num_of_upgrades > 0:
-            my_path = prompt(
-                "Follow which upgrade path?", ["Upgrade Ability", "Choose Feat"]
-            )
+        while upgrades_available > 0:
+            my_upgrade = prompt("Choose your upgrade:", ["Ability", "Feat"])
 
             # Path #1: Upgrade an Ability.
-            if my_path == "Upgrade Ability":
+            if my_upgrade == "Ability":
                 my_bonus = prompt("Apply how many points?", ["1", "2"])
                 my_bonus = int(my_bonus)
 
@@ -215,7 +214,7 @@ class AbilityScoreImprovement:
                     self._set_attribute(my_ability, my_bonus)
 
             # Path #2: Add a new Feat.
-            elif my_path == "Choose Feat":
+            elif my_upgrade == "Feat":
                 feat_options = [
                     x
                     for x in GuidelineReader.get_all_feats()
@@ -229,7 +228,7 @@ class AbilityScoreImprovement:
 
                 while not self._has_requirements(my_feat):
                     feat_options.remove(my_feat)
-                    log.warn(
+                    log.warning(
                         f"You don't meet the requirements for '{my_feat}'.",
                     )
                     my_feat = prompt(
@@ -240,24 +239,26 @@ class AbilityScoreImprovement:
                     self._add_feat_perks(my_feat)
                     self.character["feats"].append(my_feat)
 
-            num_of_upgrades -= 1
+            # Deincrement upgrade count.
+            upgrades_available -= 1
 
-    def _set_attribute(self, ability: str, bonus: int = 1) -> None:
+    def _set_attribute(self, attribute: str, bonus: int = 1) -> None | bool:
         """Applies a bonus to the ability (if applicable)."""
-        if not self._is_adjustable(ability, bonus):
-            log.warn(f"Ability '{ability}' is not adjustable with a bonus of {bonus}.")
-            return
+        if not self._is_adjustable(attribute, bonus):
+            log.warning(f"Attribute '{attribute}' is not adjustable.")
+            return False
 
-        new_score = self.character["scores"][ability] + bonus
-        self.character["scores"][ability] = new_score
+        new_score = self.character["scores"][attribute] + bonus
+        self.character["scores"][attribute] = new_score
 
 
 if __name__ == "__main__":
     x = FeatGuidelineParser(
-        "Wood Elf Magic",
+        "Tavern Brawler",
         {
             "languages": ["Common"],
             "savingthrows": ["Constitution", "Strength"],
+            "scores": {"Strength": 13, "Charisma": 18},
             "weapons": [],
         },
     )
