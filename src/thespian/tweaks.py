@@ -14,18 +14,26 @@ class AbilityScoreImprovement:
 
     character: dict
 
-    def _add_feat_perks(self, feat: str) -> None:
-        """Applies feat related perks."""
-        parsed_attributes = FeatGuidelineParser(feat, self.character).parse()
-        if parsed_attributes is None:
-            return
+    def _add_feat_perks(self, feat: str) -> dict | None:
+        """Applies perks to character by feat."""
+        self.character["feats"].append(feat)
+        feat_parser = FeatGuidelineParser(feat, self.character)
+        return feat_parser.set(feat_parser.parse())
 
-        for flag, options in parsed_attributes.items():
-            if flag == "ability":
-                ability, bonus = options
-                self._set_attribute(ability, bonus)
-            else:
-                self.character[flag] += options
+    def _get_adjustable_attributes(self, bonus: int) -> list:
+        attributes = (
+            "Strength",
+            "Dexterity",
+            "Constitution",
+            "Intelligence",
+            "Wisdom",
+            "Charisma",
+        )
+        adjustable_attributes = []
+        for attribute in attributes:
+            if self._is_adjustable(attribute, bonus):
+                adjustable_attributes.append(attribute)
+        return adjustable_attributes
 
     def _get_number_of_upgrades(self) -> int:
         """Returns the number of available upgrades."""
@@ -159,27 +167,34 @@ class AbilityScoreImprovement:
 
         return True
 
-    def _is_adjustable(self, ability: str, bonus: int = 1) -> bool:
-        """Checks if an ability is adjustable with the specified bonus (<= 20)."""
-        if not isinstance(ability, str):
+    def _is_adjustable(self, attribute: str, bonus: int = 1) -> bool:
+        """Checks if attribute is adjustable using the specified bonus (<= 20)."""
+        if not isinstance(attribute, str):
             raise TypeError("Argument 'ability' must be of type 'str'.")
+
         if not isinstance(bonus, int):
             raise TypeError("Argument 'bonus' must be of type 'int'.")
 
+        # Get the character's attributes.
         attributes = self.character["scores"]
-        if ability not in attributes:
-            raise ValueError(f"Invalid ability '{ability}' specified.")
-        if (attributes[ability] + bonus) > 20:
+
+        # If attribute doesen't exist in the set.
+        if attribute not in attributes:
+            raise ValueError(f"Invalid attribute '{attribute}' specified.")
+
+        # Attribute with bonus is over 20.
+        if (attributes[attribute] + bonus) > 20:
             return False
 
         return True
 
-    def run_tweaks(self) -> None | bool:
+    def tweak(self) -> None | bool:
         """Executes ability score improvements upon the specified character data."""
         if self.character["level"] < 4:
             logging.warning("Character level less than 4. No upgrades available.")
             return False
 
+        # Get the number of available upgrades.
         upgrades_available = self._get_number_of_upgrades()
 
         while upgrades_available > 0:
@@ -188,27 +203,22 @@ class AbilityScoreImprovement:
             # Path #1: Upgrade an Ability.
             if my_upgrade == "Ability":
                 my_bonus = prompt("Apply how many points?", ["1", "2"])
-                my_bonus = int(my_bonus)
-
-                ability_options = [
-                    a
-                    for a in tuple(self.character["scores"].keys())
-                    if self._is_adjustable(a, my_bonus)
-                ]
 
                 # Apply +2 bonus to one ability.
                 # Apply +1 bonus to two abilities.
                 if my_bonus == 1:
+                    ability_options = self._get_adjustable_attributes(my_bonus)
                     for _ in range(2):
                         my_ability = prompt(
-                            "Which ability?",
+                            "Apply a +1 to which attribute?",
                             ability_options,
                         )
                         ability_options.remove(my_ability)
                         self._set_attribute(my_ability, my_bonus)
                 elif my_bonus == 2:
+                    ability_options = self._get_adjustable_attributes(my_bonus)
                     my_ability = prompt(
-                        "Which ability?",
+                        "Apply a +2 to which attribute?",
                         ability_options,
                     )
                     self._set_attribute(my_ability, my_bonus)
@@ -237,13 +247,12 @@ class AbilityScoreImprovement:
                     )
                 else:
                     self._add_feat_perks(my_feat)
-                    self.character["feats"].append(my_feat)
 
             # Deincrement upgrade count.
             upgrades_available -= 1
 
     def _set_attribute(self, attribute: str, bonus: int = 1) -> None | bool:
-        """Applies a bonus to the ability (if applicable)."""
+        """Apply a bonus to an attribute (if applicable)."""
         if not self._is_adjustable(attribute, bonus):
             log.warning(f"Attribute '{attribute}' is not adjustable.")
             return False

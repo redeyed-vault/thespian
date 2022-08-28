@@ -71,7 +71,7 @@ def init_status(
 
 def prompt(
     message: str, prompt_options: list | tuple, selected_options: set = None
-) -> str:
+) -> str | int:
     """Runs user prompt."""
     time.sleep(2.2)
 
@@ -87,12 +87,12 @@ def prompt(
 
     prompt_options = {x + 1: y for x, y in enumerate(prompt_options)}
     message = "[P] " + message + "\n"
-    for id, option in prompt_options.items():
-        message += Style.BRIGHT + f"[{id}] {option}\n"
+    for option_number, option_name in prompt_options.items():
+        message += Style.BRIGHT + f"[{option_number}] {option_name}\n"
     print(Fore.GREEN + message.strip())
 
     try:
-        user_value = int(input(Fore.WHITE + "[$] " + Style.RESET_ALL))
+        user_input = int(input(Fore.WHITE + "[$] " + Style.RESET_ALL))
     except ValueError:
         echo(
             f"Only numeric values are permitted.",
@@ -105,7 +105,7 @@ def prompt(
         )
 
     try:
-        if user_value not in prompt_options:
+        if user_input not in prompt_options:
             raise ValueError
     except ValueError:
         echo(
@@ -118,4 +118,8 @@ def prompt(
             selected_options,
         )
 
-    return prompt_options[user_value]
+    user_selection = prompt_options[user_input]
+    if user_selection.isnumeric():
+        return int(user_selection)
+
+    return user_selection

@@ -442,7 +442,7 @@ def thespian(
     order_by_dict_keys(blueprint)
 
     # Apply level based upgrades.
-    AbilityScoreImprovement(blueprint).run_tweaks()
+    AbilityScoreImprovement(blueprint).tweak()
 
     character = namedtuple("MyCharacter", blueprint.keys())(*blueprint.values())
     feet, inches = character.height

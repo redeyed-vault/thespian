@@ -142,7 +142,11 @@ class FeatGuidelineParser(_GuidelineBuilder):
 
         return feat_guidelines
 
-    def set(self, guidelines: dict):
+    def set(self, guidelines: dict) -> dict | None:
+        """Applies feat perks to the character base."""
+        if len(guidelines) == 0:
+            return None
+
         for guideline, options in guidelines.items():
             if isinstance(options, tuple):
                 options = list(options)
@@ -162,4 +166,4 @@ class FeatGuidelineParser(_GuidelineBuilder):
                 else:
                     self.character_base[guideline] = options
 
-        print(self.character_base)
+        return self.character_base
