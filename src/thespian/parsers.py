@@ -22,17 +22,17 @@ class FeatGuidelineParser(_GuidelineBuilder):
     def parse(self) -> dict | None:
         """Creates guideline definitions from the raw guidelines based upon user's input (where applicable)."""
         # Gets the guideline definition string for the desired feat.
-        feat_guidelines = RulesReader.get_entry_guide_string("feats", self.feat)
+        feat_rules = RulesReader.get_entry_guide_string("feats", self.feat)
 
         # Forms the guideline string definition into a dictionary.
-        raw_guidelines = self.build("feats", feat_guidelines)["feats"]
+        raw_guidelines = self.build("feats", feat_rules)["feats"]
 
         # Check if definitions present, otherwise stop parsing.
         if len(raw_guidelines) == 0:
             return None
 
         # Used as a placeholder to store parsed definitions.
-        feat_guidelines = dict()
+        feat_rules = dict()
 
         for guide_name, guide_options in raw_guidelines.items():
             guideline_increment = guide_options["increment"]
@@ -60,11 +60,11 @@ class FeatGuidelineParser(_GuidelineBuilder):
                             guideline_options,
                             self.character_base["savingthrows"],
                         )
-                        feat_guidelines["savingthrows"].append(my_ability)
-                feat_guidelines[guide_name] = {my_ability: guideline_increment}
+                        feat_rules["savingthrows"].append(my_ability)
+                feat_rules[guide_name] = {my_ability: guideline_increment}
             elif guide_name == "speed":
                 feat_perks = RulesReader.get_feat_perks(self.feat)
-                feat_guidelines[guide_name] = feat_perks[guide_name]
+                feat_rules[guide_name] = feat_perks[guide_name]
                 continue
 
             if guide_name == "proficiency":
@@ -76,11 +76,11 @@ class FeatGuidelineParser(_GuidelineBuilder):
                 guideline_options = self._get_perk_options(proficiency_type)
 
                 # Create special placeholder for user selection.
-                feat_guidelines[proficiency_type] = []
+                feat_rules[proficiency_type] = []
 
                 # Tuple options will be appended as is as a list.
                 if isinstance(guideline_options, tuple) and guideline_increment == 0:
-                    feat_guidelines[proficiency_type] = list(guideline_options)
+                    feat_rules[proficiency_type] = list(guideline_options)
                     continue
 
                 # Non tuple options must have at least one option.
@@ -116,7 +116,7 @@ class FeatGuidelineParser(_GuidelineBuilder):
 
                     # Handle user's selections.
                     guideline_options.remove(my_bonus)
-                    feat_guidelines[proficiency_type].append(my_bonus)
+                    feat_rules[proficiency_type].append(my_bonus)
             elif guide_name == "spells":
                 # Get a list of the applicable spell selection options.
                 guideline_options = list(self._get_perk_options(guide_name))
@@ -138,9 +138,9 @@ class FeatGuidelineParser(_GuidelineBuilder):
                 guideline_options.sort()
 
                 # Assign selected bonus spells.
-                feat_guidelines[guide_name] = guideline_options
+                feat_rules[guide_name] = guideline_options
 
-        return feat_guidelines
+        return feat_rules
 
     def set(self, guidelines: dict) -> dict | None:
         """Applies feat perks to the character base."""

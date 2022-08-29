@@ -33,18 +33,19 @@ class _GuidelineBuilder:
     SEPARATOR_CHARS = (";", "=", ",", "&&", "||")
 
     @classmethod
-    def build(cls, build_name: str, guideline_string: str) -> dict | None:
-        """Translates 'guideline' strings into instructions."""
-        if guideline_string is None:
+    def build(cls, build_name: str, rules_string: str) -> dict | None:
+        """Translates rule strings into guideline instructions."""
+        if rules_string is None:
             return None
 
         # Init
-        super(_GuidelineBuilder, cls).__init__(guideline_string)
+        super(_GuidelineBuilder, cls).__init__(rules_string)
 
+        # Stores guidelines.
         guidelines = dict()
 
         # Separate flag string into raw pair strings. CHAR: ";"
-        guideline_pairs = guideline_string.split(cls.SEPARATOR_CHARS[0])
+        guideline_pairs = rules_string.split(cls.SEPARATOR_CHARS[0])
 
         separator_ampersand = cls.SEPARATOR_CHARS[3]
         separator_comma = cls.SEPARATOR_CHARS[2]
@@ -77,6 +78,7 @@ class _GuidelineBuilder:
                 else:
                     guide_options = [guide_options[1]]
 
+                # Apply the guidelines.
                 guidelines[guide_name] = {
                     "increment": int(guide_increment),
                     "options": guide_options,
