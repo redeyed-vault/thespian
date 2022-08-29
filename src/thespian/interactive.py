@@ -1,6 +1,6 @@
 from colorama import init, Fore, Style
 
-from guides import _GuidelineDataLoader
+from characters import _RulesLoader
 from httpd import Server
 from thespian import thespian
 
@@ -10,7 +10,7 @@ class ParameterOptionsRouter:
 
     def __init__(self):
         self.parameter_options = dict()
-        for guideline in _GuidelineDataLoader:
+        for guideline in _RulesLoader:
             guideline_value = guideline.value
             if isinstance(guideline_value, dict):
                 self.parameter_options[guideline.name] = tuple(guideline_value.keys())
