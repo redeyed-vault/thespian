@@ -14,13 +14,14 @@ class AbilityScoreImprovement:
 
     character: dict
 
-    def _add_feat_perks(self, feat: str) -> dict | None:
-        """Applies perks to character by feat."""
+    def _add_feat_perks(self, feat: str) -> bool | dict | None:
+        """Applies applicable perks to character by the specified feat."""
         self.character["feats"].append(feat)
         feat_parser = FeatGuidelineParser(feat, self.character)
         return feat_parser.set(feat_parser.parse())
 
     def _get_adjustable_attributes(self, bonus: int) -> list:
+        """Returns a list of all adjustable attributes using the specified bonus."""
         attributes = (
             "Strength",
             "Dexterity",
@@ -60,7 +61,7 @@ class AbilityScoreImprovement:
         klass = self.character["klass"]
         armors = self.character["armors"]
 
-        # Character already has feat
+        # Character already has feat.
         if feat in self.character["feats"]:
             return False
 
@@ -198,11 +199,11 @@ class AbilityScoreImprovement:
         upgrades_available = self._get_number_of_upgrades()
 
         while upgrades_available > 0:
-            my_upgrade = prompt("Choose your upgrade:", ["Ability", "Feat"])
+            my_upgrade = prompt(f"What would you like to upgrade? ({upgrades_available})", ["Ability", "Feat"])
 
             # Path #1: Upgrade an Ability.
             if my_upgrade == "Ability":
-                my_bonus = prompt("Apply how many points?", ["1", "2"])
+                my_bonus = prompt("Apply how many points to your attribute?", ["1", "2"])
 
                 # Apply +2 bonus to one ability.
                 # Apply +1 bonus to two abilities.
@@ -225,30 +226,28 @@ class AbilityScoreImprovement:
 
             # Path #2: Add a new Feat.
             elif my_upgrade == "Feat":
-                feat_options = [
-                    x
-                    for x in RulesReader.get_all_feats()
-                    if x not in self.character["feats"]
-                ]
+                # Gather a list of all applicable feats.
+                feat_options = RulesReader.get_all_feats()
 
-                my_feat = prompt(
-                    "Which feat do you want to acquire?",
-                    feat_options,
-                )
-
-                while not self._has_requirements(my_feat):
-                    feat_options.remove(my_feat)
-                    log.warning(
-                        f"You don't meet the requirements for '{my_feat}'.",
-                    )
+                my_feat = None
+                while my_feat is None:
+                    # Prompt the user to make a selection.
                     my_feat = prompt(
                         f"Which feat do you want to acquire?",
                         feat_options,
                     )
+
+                    # Remove the offending feat (either player already has it or doesn't meet the requirements).
+                    if not self._has_requirements(my_feat):
+                        log.warning(
+                            f"You don't meet the requirements for '{my_feat}'.",
+                        )
+                        my_feat = None
+                        feat_options.remove(my_feat)
                 else:
                     self._add_feat_perks(my_feat)
 
-            # Deincrement upgrade count.
+            # De-increment upgrade count.
             upgrades_available -= 1
 
     def _set_attribute(self, attribute: str, bonus: int = 1) -> None | bool:
