@@ -5,7 +5,7 @@ log = logging.getLogger("thespian.builder")
 
 
 class _GuidelineBuilder:
-    """Class to build creation guideline characteristics.
+    """Class to handle the creation of character building guidelines.
 
     ===================================
     = SEPARATION CHARACTER DESCRIPTIONS
