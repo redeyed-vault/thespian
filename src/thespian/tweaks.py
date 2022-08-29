@@ -1,9 +1,9 @@
 from dataclasses import dataclass
 import logging
 
+from characters import RulesReader
 from notifications import prompt
 from parsers import FeatGuidelineParser
-from guides import GuidelineReader
 
 log = logging.getLogger("thespian.tweaks")
 
@@ -97,7 +97,7 @@ class AbilityScoreImprovement:
                 return False
 
         # Cycle through ALL prerequisites for the feat.
-        feat_prerequisites = GuidelineReader.get_feat_requirements(feat)
+        feat_prerequisites = RulesReader.get_feat_requirements(feat)
         for requirement, _ in feat_prerequisites.items():
             # Ignore requirements that are None
             if feat_prerequisites[requirement] is None:
@@ -227,7 +227,7 @@ class AbilityScoreImprovement:
             elif my_upgrade == "Feat":
                 feat_options = [
                     x
-                    for x in GuidelineReader.get_all_feats()
+                    for x in RulesReader.get_all_feats()
                     if x not in self.character["feats"]
                 ]
 
@@ -261,14 +261,16 @@ class AbilityScoreImprovement:
         self.character["scores"][attribute] = new_score
 
 
+# Begin test code.
 if __name__ == "__main__":
     x = FeatGuidelineParser(
         "Tavern Brawler",
         {
             "languages": ["Common"],
             "savingthrows": ["Constitution", "Strength"],
-            "scores": {"Strength": 13, "Charisma": 18},
+            "scores": {"Strength": 13, "Constitution": 11, "Charisma": 18},
             "weapons": [],
         },
     )
-    x.set(x.parse())
+    s = x.set(x.parse())
+    print(s)
