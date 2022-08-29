@@ -14,6 +14,7 @@ Thespian is a tool for generating 5th edition Dungeons & Dragons characters. Cur
   * Work out ALL general bugs/inconsistencies before moving forward. **(STATUS: Ongoing)**
   * Incorporate *Sword Coast Adventurer's Guide* rulebook. **(STATUS: Not Started)**
   * Incorporate spell selection for spellcasters. **(STATUS: Ongoing)**
+  * Incorporate any future rulebooks. **(STATUS: Not Started)**
 
 
 #### REQUIREMENTS
@@ -29,7 +30,7 @@ To install, do the following:
 ```
 $ git clone https://github.com/mtttech/thespian.git
 
-$ cd src/thespian
+$ cd thespian
 
 $ python -m pip install -r requirements.txt
 ```
