@@ -2,7 +2,7 @@ import logging
 
 from builder import _GuidelineBuilder
 from notifications import prompt
-from guides import GuidelineReader
+from characters import RulesReader
 
 log = logging.getLogger("thespian.parsers")
 
@@ -17,12 +17,12 @@ class FeatGuidelineParser(_GuidelineBuilder):
 
     def _get_perk_options(self, prof_type: str) -> list:
         """Returns a list of bonus proficiencies for a feat by proficiency type."""
-        return GuidelineReader.get_feat_proficiencies(self.feat, prof_type)
+        return RulesReader.get_feat_proficiencies(self.feat, prof_type)
 
     def parse(self) -> dict | None:
         """Creates guideline definitions from the raw guidelines based upon user's input (where applicable)."""
         # Gets the guideline definition string for the desired feat.
-        feat_guidelines = GuidelineReader.get_entry_guide_string("feats", self.feat)
+        feat_guidelines = RulesReader.get_entry_guide_string("feats", self.feat)
 
         # Forms the guideline string definition into a dictionary.
         raw_guidelines = self.build("feats", feat_guidelines)["feats"]
@@ -63,7 +63,7 @@ class FeatGuidelineParser(_GuidelineBuilder):
                         feat_guidelines["savingthrows"].append(my_ability)
                 feat_guidelines[guide_name] = {my_ability: guideline_increment}
             elif guide_name == "speed":
-                feat_perks = GuidelineReader.get_feat_perks(self.feat)
+                feat_perks = RulesReader.get_feat_perks(self.feat)
                 feat_guidelines[guide_name] = feat_perks[guide_name]
                 continue
 
