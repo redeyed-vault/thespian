@@ -4,7 +4,7 @@ import math
 import random
 
 from attributes import roll_die
-from guides import GuidelineReader
+from character import RulesReader
 
 log = logging.getLogger("thespian.metrics")
 
@@ -19,13 +19,13 @@ class AnthropometricCalculator:
 
     def _get_height_and_weight_base(self) -> tuple:
         """Gets the base height/weight information for race/subrace."""
-        base_height = GuidelineReader.get_base_height(self.race)
-        base_weight = GuidelineReader.get_base_weight(self.race)
+        base_height = RulesReader.get_base_height(self.race)
+        base_weight = RulesReader.get_base_weight(self.race)
 
         # If no base race metrics found, check for subrace metrics.
         if base_height is None or base_weight is None:
-            base_height = GuidelineReader.get_base_height(self.subrace)
-            base_weight = GuidelineReader.get_base_weight(self.subrace)
+            base_height = RulesReader.get_base_height(self.subrace)
+            base_weight = RulesReader.get_base_weight(self.subrace)
 
         # If base|sub race metrics info still not found.
         if base_height is None or base_weight is None:
@@ -35,11 +35,11 @@ class AnthropometricCalculator:
 
     def _get_metric_data_source(self) -> str:
         """Returns metric data's source race/subrace name i.e Human, Drow, etc."""
-        result = GuidelineReader.get_metrics_by_race(self.race)
+        result = RulesReader.get_metrics_by_race(self.race)
 
         # If metric data source not found by race, try by subrace.
         if result is None:
-            result = GuidelineReader.get_metrics_by_race(self.subrace)
+            result = RulesReader.get_metrics_by_race(self.subrace)
             if result is not None:
                 return self.subrace
             else:
@@ -67,13 +67,13 @@ class AnthropometricCalculator:
 
         # "Unofficial" rule for height/weight differential by gender
         if use_dominant_sex:
-            dominant_sex = GuidelineReader.get_dominant_sex(
+            dominant_sex = RulesReader.get_dominant_sex(
                 self._get_metric_data_source()
             )
             # If no dominant sex found, assume Male is the dominant sex.
             if dominant_sex is None:
                 dominant_sex = "Male"
-                log.warn(
+                log.warning(
                     "Dominant gender could not be determined. Default to 'Male'.",
                 )
 
@@ -82,7 +82,7 @@ class AnthropometricCalculator:
                 # Subtract 0-5 inches from height.
                 height_diff = random.randint(0, 5)
                 height_calculation = height_calculation - height_diff
-                log.warn(
+                log.warning(
                     f"Using a non-dominant gender height differential of -{height_diff} inches.",
                 )
 
@@ -90,7 +90,7 @@ class AnthropometricCalculator:
                 weight_diff = random.randint(15, 20) / 100
                 weight_diff = math.floor(weight_calculation * weight_diff)
                 weight_calculation = weight_calculation - weight_diff
-                log.warn(
+                log.warning(
                     f"Using a non-dominant gender weight differential of -{weight_diff} pounds.",
                 )
 
