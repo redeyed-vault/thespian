@@ -67,9 +67,7 @@ class AnthropometricCalculator:
 
         # "Unofficial" rule for height/weight differential by gender
         if use_dominant_sex:
-            dominant_sex = RulesReader.get_dominant_sex(
-                self._get_metric_data_source()
-            )
+            dominant_sex = RulesReader.get_dominant_sex(self._get_metric_data_source())
             # If no dominant sex found, assume Male is the dominant sex.
             if dominant_sex is None:
                 dominant_sex = "Male"

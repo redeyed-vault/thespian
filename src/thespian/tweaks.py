@@ -199,11 +199,16 @@ class AbilityScoreImprovement:
         upgrades_available = self._get_number_of_upgrades()
 
         while upgrades_available > 0:
-            my_upgrade = prompt(f"What would you like to upgrade? ({upgrades_available})", ["Ability", "Feat"])
+            my_upgrade = prompt(
+                f"What would you like to upgrade? ({upgrades_available})",
+                ["Ability", "Feat"],
+            )
 
             # Path #1: Upgrade an Ability.
             if my_upgrade == "Ability":
-                my_bonus = prompt("Apply how many points to your attribute?", ["1", "2"])
+                my_bonus = prompt(
+                    "Apply how many points to your attribute?", ["1", "2"]
+                )
 
                 # Apply +2 bonus to one ability.
                 # Apply +1 bonus to two abilities.
