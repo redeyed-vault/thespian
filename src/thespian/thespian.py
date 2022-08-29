@@ -4,14 +4,14 @@ import logging
 from math import ceil
 
 from attributes import AttributeGenerator, generate_hit_points, get_ability_modifier
-from guides import GuidelineReader
+from characters import RulesReader
 from httpd import Server
 from metrics import AnthropometricCalculator
 from notifications import PromptRecorder, init_status, prompt
 from tweaks import AbilityScoreImprovement
 
 __author__ = "Marcus T Taylor"
-__version__ = "220805"
+__version__ = "220828"
 
 
 log = logging.getLogger("thespian")
@@ -25,7 +25,7 @@ log.addHandler(log_handler)
 
 def define_background(background: str) -> dict:
     """Defines character background parameters."""
-    background_base = GuidelineReader.get_entry_background(background)
+    background_base = RulesReader.get_entry_background(background)
     if background_base is None:
         raise ValueError(f"Unknown background '{background}'.")
 
@@ -39,7 +39,7 @@ def define_class(
     klass: str, level: int, racial_bonuses: dict, roll_hp: bool = False
 ) -> dict:
     """Defines character class parameters."""
-    class_base = GuidelineReader.get_entry_class(klass)
+    class_base = RulesReader.get_entry_class(klass)
     if class_base is None:
         raise ValueError(f"Unknown player class '{klass}'.")
 
@@ -119,7 +119,7 @@ def define_race(
     race: str, sex: str, background: str, alignment: str, level: int
 ) -> dict:
     """Define character race parameters."""
-    race_base = GuidelineReader.get_entry_race(race)
+    race_base = RulesReader.get_entry_race(race)
     if race_base is None:
         raise ValueError(f"Unknown player race '{race}'.")
 
@@ -147,7 +147,7 @@ def define_race(
 
 def define_subclass(subclass: str, level: int) -> dict:
     """Defines character subclass parameters."""
-    subclass_base = GuidelineReader.get_entry_subclass(subclass)
+    subclass_base = RulesReader.get_entry_subclass(subclass)
     if subclass_base is None:
         raise ValueError(f"Unknown player subclass '{subclass}'.")
 
@@ -170,7 +170,7 @@ def define_subclass(subclass: str, level: int) -> dict:
 
 def define_subrace(subrace: str, level: int) -> dict:
     """Define character subrace parameters."""
-    subrace_base = GuidelineReader.get_entry_subrace(subrace)
+    subrace_base = RulesReader.get_entry_subrace(subrace)
     if subrace_base is None:
         raise ValueError(f"Unknown player subrace '{subrace}'.")
 
@@ -211,8 +211,8 @@ def expand_ability(ability: str, scores: dict, skills: list) -> dict:
 def expand_skills(skills: list, scores: dict, proficiency_bonus: int = 2) -> dict:
     """Expands skill list with each skill's associated properties."""
     expanded_skills = dict()
-    for skill in GuidelineReader.get_all_skills():
-        ability = GuidelineReader.get_skill_ability(skill)
+    for skill in RulesReader.get_all_skills():
+        ability = RulesReader.get_skill_ability(skill)
         modifier = get_ability_modifier(ability, scores)
 
         if skill in skills:
@@ -507,7 +507,7 @@ def main() -> None:
         "-r",
         help="Sets your character's race.",
         type=str,
-        choices=GuidelineReader.get_all_races(),
+        choices=RulesReader.get_all_races(),
         default="Human",
     )
     app.add_argument(
@@ -544,7 +544,7 @@ def main() -> None:
         "-k",
         help="Sets your character's class.",
         type=str,
-        choices=GuidelineReader.get_all_classes(),
+        choices=RulesReader.get_all_classes(),
         default="Fighter",
     )
     app.add_argument(
@@ -585,21 +585,21 @@ def main() -> None:
     level = args.level
 
     alignment = args.alignment
-    if alignment not in GuidelineReader.get_all_alignments():
+    if alignment not in RulesReader.get_all_alignments():
         raise ArgumentTypeError(f"Invalid alignment specified '{alignment}'.")
 
     background = args.background
-    if background == "" or background not in GuidelineReader.get_all_backgrounds():
-        background = GuidelineReader.get_default_background(klass)
+    if background == "" or background not in RulesReader.get_all_backgrounds():
+        background = RulesReader.get_default_background(klass)
 
     if level < 3:
         subclass = ""
     else:
-        subclasses = GuidelineReader.get_all_subclasses(klass)
+        subclasses = RulesReader.get_all_subclasses(klass)
         if subclass not in subclasses:
             raise ArgumentTypeError(f"Invalid {klass} subclass '{subclass}'.")
 
-    subraces = GuidelineReader.get_all_subraces(race)
+    subraces = RulesReader.get_all_subraces(race)
     if len(subraces) != 0 and subrace not in subraces:
         raise ArgumentTypeError(f"Invalid {race} subrace '{subrace}'.")
 
