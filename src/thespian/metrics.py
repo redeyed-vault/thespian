@@ -4,7 +4,7 @@ import math
 import random
 
 from attributes import roll_die
-from character import RulesReader
+from characters import RulesReader
 
 log = logging.getLogger("thespian.metrics")
 
