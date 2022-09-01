@@ -24,7 +24,7 @@ class AttributeGenerator:
         attribute_set["Wisdom"] = None
         attribute_set["Charisma"] = None
 
-        attribute_options = list(self.attribute_set.keys())
+        attribute_options = list(attribute_set.keys())
         result_set = self._roll_attribute_set()
 
         for _, attribute in enumerate(self.primary_attributes):
