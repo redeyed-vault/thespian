@@ -1,12 +1,12 @@
-from ._loader import _RulesLoader
+from ._loader import RulesLoader
 
 
 class RulesReader:
-    """Class to retrieve guideline data."""
+    """Class to handle the retrieval of character rules."""
 
     def __init__(self):
         self.guidelines = dict()
-        for guideline in _RulesLoader:
+        for guideline in RulesLoader:
             self.guidelines[guideline.name] = guideline.value
 
     def _read_(self, category: str) -> dict | None:
