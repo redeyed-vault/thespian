@@ -4,7 +4,7 @@ from .rules import rules
 
 
 class RulesLoader(Enum):
-    """Class to hold character guideline data."""
+    """Class to handle the retrieval and storage of rule data."""
 
     alignments: object = rules["alignments"]
     backgrounds: object = rules["backgrounds"]
