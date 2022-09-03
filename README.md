@@ -39,7 +39,7 @@ $ python -m pip install -r requirements.txt
 #### USAGE
 
 ```
-$ python src/thespian -h
+$ python thespian -h
 usage: thespian (ver. VERSION) [-h]
                               [-race {Aasimar,Bugbear,Dragonborn,Dwarf,Elf,Firbolg,Gith,Gnome,Goblin,Goliath,HalfElf,HalfOrc,Halfling,Hobgoblin,Human,Kenku,Kobold,Lizardfolk,Orc,Tabaxi,Tiefling,Triton,Yuanti}]
                               [-subrace SUBRACE] [-sex {Female,Male}] [-background BACKGROUND] [-alignment ALIGNMENT]
