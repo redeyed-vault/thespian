@@ -1,5 +1,5 @@
 from colorama import init, Fore, Style
-import pprint
+from prettytable import PrettyTable
 
 from characters import RulesLoader
 from httpd import Server
@@ -50,25 +50,42 @@ class InteractivePrompt:
     @staticmethod
     def find_parameters_by_action(action_query: str) -> dict | None:
         """Returns all valid parameters for the requested action_query."""
-        parameter_options = dict()
+        ruleset_options = dict()
 
-        for guideline in RulesLoader:
-            guideline_value = guideline.value
-            if isinstance(guideline_value, dict):
-                parameter_options[guideline.name] = tuple(guideline_value.keys())
+        # Load character rulesets.
+        for ruleset in RulesLoader:
+            ruleset_value = ruleset.value
+            if isinstance(ruleset_value, dict):
+                ruleset_options[ruleset.name] = list(ruleset_value.keys())
             else:
-                parameter_options[guideline.name] = tuple(guideline_value)
-    
-        # Queries must contain at least three characters.
-        if len(action_query) < 3:
-            raise PromptValueError("Query must contain at least 4 characters.")
+                ruleset_options[ruleset.name] = ruleset_value
 
-        action_parameter_titles = tuple(parameter_options.keys())
-        for action in action_parameter_titles:
-            if action_query in action:
-                return parameter_options[action]
+            ruleset_options[ruleset.name].sort()
 
-        return None
+        # Action table list.
+        action_parameter_table = {
+            "alignment": "alignments", 
+            "background": "backgrounds", 
+            "class": "classes", 
+            "level": [l for l in range(1, 21)], 
+            "race": "races", 
+            "sex": ["Female", "Male"],
+            "subclass": "subclasses", 
+            "subrace": "subraces"
+        }
+
+        # If query is not in the actions list table.
+        if action_query not in action_parameter_table:
+            return None
+
+        # Get value for action from action/parameter table.
+        action_table_value = action_parameter_table[action_query]
+
+        # If not already in list format, pull allowed parameter from listing.
+        if isinstance(action_table_value, str):
+            action_table_value = ruleset_options[action_table_value]
+        
+        return action_table_value
 
     def _parse_command(self, args: str) -> tuple:
         """Parses user argument inputs."""
@@ -143,13 +160,32 @@ class InteractivePrompt:
         if action in self.FUNCTIONS_UTILITY:
             if action == "help":
                 for action_name in self.FUNCTIONS_CHARACTER:
-                    help_text = self.find_parameters_by_action(action_name)
-                    if help_text is not None:
-                        help_text = set(help_text)
-                    print(f"\t{action_name} <{action_name}> {help_text}")
+                    # Capitalize the parameter value.
+                    action_parameter = action_name.upper()
+
+                    # Get the appropriate values for the specified action.
+                    allowed_param_values = self.find_parameters_by_action(action_name)
+
+                    # If allowed parameter values is a list.
+                    if isinstance(allowed_param_values, list):
+                        # Check if list contains non string values.
+                        # If so, do conversions.
+                        try:
+                            for v in allowed_param_values:
+                                if isinstance(v, int):
+                                    raise ValueError
+                        except ValueError:
+                            allowed_param_values = [str(v) for v in allowed_param_values if isinstance(v, int)]
+
+                        allowed_param_values = ", ".join(allowed_param_values)
+
+                    print('%s <%s> {%s}' % (action_name, action_parameter, allowed_param_values))
             elif action == "show":
-                pp = pprint.PrettyPrinter(indent=4)
-                pp.pprint(self.inputs)
+                show = PrettyTable()
+                show.field_names = ["Input", "Value"]
+                for heading, value in self.inputs.items():
+                    show.add_row([heading, value])
+                print(show)
             return self.run()
 
         allowed_action_parameters = self.find_parameters_by_action(action)
