@@ -20,7 +20,8 @@ Thespian is a tool for generating 5th edition Dungeons & Dragons characters. Cur
 #### REQUIREMENTS
 
   * colorama
-  * flask
+  * Flask
+  * prettytable
 
 
 #### INSTALLATION
