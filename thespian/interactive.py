@@ -26,6 +26,7 @@ class InteractivePrompt:
     )
 
     FUNCTIONS_UTILITY = (
+        "build",
         "help",
         "show",
     )
@@ -87,32 +88,32 @@ class InteractivePrompt:
         
         return action_table_value
 
-    def _parse_command(self, args: str) -> tuple:
+    def _parse_command(self, arguments: str) -> tuple:
         """Parses user argument inputs."""
-        args = args.split(" ")
+        arguments = arguments.split(" ")
 
         # Requires at least one argument.
-        if len(args) < 1:
+        if len(arguments) < 1:
             raise PromptValueError(f"Invalid number of arguments specified.")
 
         # Capture the argument name.
-        action = args[0]
+        action = arguments[0]
 
         # User uses am imvalid actopm.
         if action not in self.FUNCTIONS_CHARACTER and action not in self.FUNCTIONS_UTILITY:
             raise PromptValueError(f"Invalid action specified '{action}'.")
 
         # For actions that don't use parameters.
-        if len(args) == 1:
-            args.append("")
+        if len(arguments) == 1:
+            arguments.append("")
 
-        if len(args) > 2:
-            args = args[1:]
-            args = [a.capitalize() for a in args]
-            parameter = " ".join(args)
+        if len(arguments) > 2:
+            arguments = arguments[1:]
+            arguments = [a.capitalize() for a in arguments]
+            parameter = " ".join(arguments)
         else:
             # Store the action parameter.
-            parameter = args[1]
+            parameter = arguments[1]
 
             # Format parameter to integer if paired with level action.
             # Otherwise just capitalize the first letter.
@@ -158,7 +159,25 @@ class InteractivePrompt:
             self.run(e.__str__())
 
         if action in self.FUNCTIONS_UTILITY:
-            if action == "help":
+            if action == "build":
+                # Keep running the prompt until all values set.
+                # Otherwise return the user's inputs.
+                if not all(o is not None for o in self.inputs.values()):
+                    print("Not all inputs have been set.")
+                else:
+                    output = self.inputs
+                    character = thespian(
+                        output["race"],
+                        output["subrace"],
+                        output["sex"],
+                        output["background"],
+                        output["alignment"],
+                        output["class"],
+                        output["subclass"],
+                        output["level"],
+                    )
+                    Server.run(character)
+            elif action == "help":
                 for action_name in self.FUNCTIONS_CHARACTER:
                     # Capitalize the parameter value.
                     action_parameter = action_name.upper()
@@ -186,6 +205,8 @@ class InteractivePrompt:
                 for heading, value in self.inputs.items():
                     show.add_row([heading, value])
                 print(show)
+
+            # Loop command prompt.
             return self.run()
 
         allowed_action_parameters = self.find_parameters_by_action(action)
@@ -196,28 +217,10 @@ class InteractivePrompt:
 
         self.inputs[action] = parameter
 
-        # Keep running the prompt until all values set.
-        # Otherwise return the user's inputs.
-        if not all(o is not None for o in self.inputs.values()):
-            return self.run()
-        else:
-            return self.inputs
-
 
 def main() -> None:
     console = InteractivePrompt()
-    output = console.run()
-    character = thespian(
-        output["race"],
-        output["subrace"],
-        output["sex"],
-        output["background"],
-        output["alignment"],
-        output["class"],
-        output["subclass"],
-        output["level"],
-    )
-    Server.run(character)
+    console.run()
 
 
 if __name__ == "__main__":
