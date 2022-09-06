@@ -66,14 +66,14 @@ class InteractivePrompt:
 
         # Action table list.
         action_parameter_table = {
-            "alignment": "alignments", 
-            "background": "backgrounds", 
-            "class": "classes", 
-            "level": [l for l in range(1, 21)], 
-            "race": "races", 
+            "alignment": "alignments",
+            "background": "backgrounds",
+            "class": "classes",
+            "level": [l for l in range(1, 21)],
+            "race": "races",
             "sex": ["Female", "Male"],
-            "subclass": "subclasses", 
-            "subrace": "subraces"
+            "subclass": "subclasses",
+            "subrace": "subraces",
         }
 
         # If query is not in the actions list table.
@@ -86,7 +86,7 @@ class InteractivePrompt:
         # If not already in list format, pull allowed parameter from listing.
         if isinstance(table_value, str):
             table_value = ruleset_options[table_value]
-        
+
         return table_value
 
     def _parse_command(self, arguments: str) -> tuple:
@@ -100,8 +100,13 @@ class InteractivePrompt:
         # Capture the argument name.
         action = arguments[0]
 
-        # User uses am imvalid actopm.
-        if action not in self.FUNCTIONS_CHARACTER and action not in self.FUNCTIONS_UTILITY:
+        # User uses am imvalid action.
+        if action == "":
+            raise PromptValueError("No action was specified.")
+        elif (
+            action not in self.FUNCTIONS_CHARACTER
+            and action not in self.FUNCTIONS_UTILITY
+        ):
             raise PromptValueError(f"Invalid action specified '{action}'.")
 
         # For actions that don't use parameters.
@@ -123,21 +128,13 @@ class InteractivePrompt:
             else:
                 parameter = parameter.capitalize()
 
-            if action == "level" and parameter not in range(1, 21):
-                raise PromptValueError("Level parameter must be between 1 - 20.")
-            elif action == "name" and parameter == "":
-                parameter = "Nameless One"
-                raise PromptValueError(
-                    "Name was not set. Using default name."
-                )
-            elif action == "sex" and parameter not in ("Female", "Male"):
-                raise PromptValueError("Sex parameter must be either male or female.")
-
         return (action, parameter)
 
-    def run(self, message: str = None) -> dict:
-        """Executes the interactive program."""
-        if message is not None:
+    def run(self, message: str = None) -> None:
+        """Runs the command prompt."""
+        if message is None:
+            prompt_text = Fore.GREEN + Style.BRIGHT + "thespian: " + Style.RESET_ALL
+        else:
             prompt_text = (
                 Fore.GREEN
                 + Style.BRIGHT
@@ -146,18 +143,33 @@ class InteractivePrompt:
                 + message
                 + "\n"
             )
-        else:
-            prompt_text = Fore.GREEN + Style.BRIGHT + "thespian: " + Style.RESET_ALL
 
         # Run the prompt.
         user_input = input(prompt_text)
 
+        # Store action/parameter values.
         try:
             action, parameter = self._parse_command(user_input)
         except PromptValueError as e:
-            pass
-        except ValueError:
-            self.run(e.__str__())
+            print(e.__str__())
+            self.run()
+
+        if action in self.FUNCTIONS_CHARACTER:
+            if action == "level" and parameter not in range(1, 21):
+                print("Level parameter must be between 1 - 20.")
+            elif action == "name" and parameter == "":
+                parameter = "Nameless One"
+                print("Name was not set. Using default name.")
+            elif action == "sex" and parameter not in ("Female", "Male"):
+                print("Sex parameter must be either male or female.")
+            else:
+                allowed_action_parameters = self.find_parameters_by_action(action)
+                if allowed_action_parameters != None:
+                    if parameter not in allowed_action_parameters:
+                        print(f"Invalid {action} parameter specified '{parameter}'.")
+                        return self.run()
+
+                self.inputs[action] = parameter
 
         if action in self.FUNCTIONS_UTILITY:
             if action == "build":
@@ -195,11 +207,18 @@ class InteractivePrompt:
                                 if isinstance(v, int):
                                     raise ValueError
                         except ValueError:
-                            allowed_param_values = [str(v) for v in allowed_param_values if isinstance(v, int)]
+                            allowed_param_values = [
+                                str(v)
+                                for v in allowed_param_values
+                                if isinstance(v, int)
+                            ]
 
                         allowed_param_values = ", ".join(allowed_param_values)
 
-                    print('%s <%s> {%s}' % (action_name, action_parameter, allowed_param_values))
+                    print(
+                        "%s <%s> {%s}"
+                        % (action_name, action_parameter, allowed_param_values)
+                    )
             elif action == "show":
                 show = PrettyTable()
                 show.field_names = ["Input", "Value"]
@@ -211,16 +230,8 @@ class InteractivePrompt:
                 print("Exiting.")
                 exit()
 
-        allowed_action_parameters = self.find_parameters_by_action(action)
-        if allowed_action_parameters != None:
-            if parameter not in allowed_action_parameters:
-                print(f"Invalid {action} parameter specified '{parameter}'.")
-                return self.run()
-
-        self.inputs[action] = parameter
-
         # Loop command prompt.
-        return self.run()
+        self.run()
 
 
 def main() -> None:
