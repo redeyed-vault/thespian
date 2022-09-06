@@ -80,13 +80,13 @@ class InteractivePrompt:
             return None
 
         # Get value for action from action/parameter table.
-        action_table_value = action_parameter_table[action_query]
+        table_value = action_parameter_table[action_query]
 
         # If not already in list format, pull allowed parameter from listing.
-        if isinstance(action_table_value, str):
-            action_table_value = ruleset_options[action_table_value]
+        if isinstance(table_value, str):
+            table_value = ruleset_options[table_value]
         
-        return action_table_value
+        return table_value
 
     def _parse_command(self, arguments: str) -> tuple:
         """Parses user argument inputs."""
