@@ -29,6 +29,7 @@ class InteractivePrompt:
         "build",
         "help",
         "show",
+        "quit",
     )
 
     def __init__(self) -> None:
@@ -203,11 +204,12 @@ class InteractivePrompt:
                 show = PrettyTable()
                 show.field_names = ["Input", "Value"]
                 for heading, value in self.inputs.items():
-                    show.add_row([heading, value])
+                    if heading not in self.FUNCTIONS_UTILITY:
+                        show.add_row([heading, value])
                 print(show)
-
-            # Loop command prompt.
-            return self.run()
+            elif action == "quit":
+                print("Exiting.")
+                exit()
 
         allowed_action_parameters = self.find_parameters_by_action(action)
         if allowed_action_parameters != None:
@@ -216,6 +218,9 @@ class InteractivePrompt:
                 return self.run()
 
         self.inputs[action] = parameter
+
+        # Loop command prompt.
+        return self.run()
 
 
 def main() -> None:
