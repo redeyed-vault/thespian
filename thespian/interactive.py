@@ -50,7 +50,7 @@ class InteractivePrompt:
         }
 
     @staticmethod
-    def find_parameters_by_action(action_query: str) -> dict | None:
+    def get_params_by_action(action_query: str) -> dict | None:
         """Returns all valid parameters for the requested action_query."""
         ruleset_options = dict()
 
@@ -132,17 +132,12 @@ class InteractivePrompt:
 
     def run(self, message: str = None) -> None:
         """Runs the command prompt."""
-        if message is None:
-            prompt_text = Fore.GREEN + Style.BRIGHT + "thespian: " + Style.RESET_ALL
+        prefix = Fore.GREEN + Style.BRIGHT + "thespian: " + Style.RESET_ALL
+
+        if message is not None:
+            prompt_text = prefix + message + "\n"
         else:
-            prompt_text = (
-                Fore.GREEN
-                + Style.BRIGHT
-                + "thespian: "
-                + Style.RESET_ALL
-                + message
-                + "\n"
-            )
+            prompt_text = prefix
 
         # Run the prompt.
         user_input = input(prompt_text)
@@ -163,7 +158,7 @@ class InteractivePrompt:
             elif action == "sex" and parameter not in ("Female", "Male"):
                 print("Sex parameter must be either male or female.")
             else:
-                allowed_action_parameters = self.find_parameters_by_action(action)
+                allowed_action_parameters = self.get_params_by_action(action)
                 if allowed_action_parameters != None:
                     if parameter not in allowed_action_parameters:
                         print(f"Invalid {action} parameter specified '{parameter}'.")
@@ -196,7 +191,7 @@ class InteractivePrompt:
                     action_parameter = action_name.upper()
 
                     # Get the appropriate values for the specified action.
-                    allowed_param_values = self.find_parameters_by_action(action_name)
+                    allowed_param_values = self.get_params_by_action(action_name)
 
                     # If allowed parameter values is a list.
                     if isinstance(allowed_param_values, list):
