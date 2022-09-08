@@ -49,22 +49,21 @@ class InteractivePrompt:
             "subrace": None,
         }
 
-    @staticmethod
-    def get_params_by_action(action_query: str) -> dict | None:
-        """Returns all valid parameters for the requested action_query."""
-        ruleset_options = dict()
+        # Used to store builder ruleset values.
+        self.ruleset_options = dict()
 
-        # Load character rulesets.
+        # Load character builder rulesets.
         for ruleset in RulesLoader:
             ruleset_value = ruleset.value
             if isinstance(ruleset_value, dict):
-                ruleset_options[ruleset.name] = list(ruleset_value.keys())
+                self.ruleset_options[ruleset.name] = list(ruleset_value.keys())
             else:
-                ruleset_options[ruleset.name] = ruleset_value
+                self.ruleset_options[ruleset.name] = ruleset_value
 
-            ruleset_options[ruleset.name].sort()
+            self.ruleset_options[ruleset.name].sort()
 
-        # Action table list.
+    def get_params_by_action(self, action_query: str) -> dict | None:
+        """Returns all valid parameters for the requested action_query."""
         action_parameter_table = {
             "alignment": "alignments",
             "background": "backgrounds",
@@ -85,7 +84,7 @@ class InteractivePrompt:
 
         # If not already in list format, pull allowed parameter from listing.
         if isinstance(table_value, str):
-            table_value = ruleset_options[table_value]
+            table_value = self.ruleset_options[table_value]
 
         return table_value
 
