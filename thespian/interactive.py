@@ -1,3 +1,5 @@
+import sys
+
 from colorama import init, Fore, Style
 from prettytable import PrettyTable
 
@@ -160,10 +162,11 @@ class InteractivePrompt:
                 allowed_action_parameters = self.get_params_by_action(action)
                 if allowed_action_parameters != None:
                     if parameter not in allowed_action_parameters:
-                        print(f"Invalid {action} parameter specified '{parameter}'.")
+                        print(f"Invalid '{action}' parameter specified '{parameter}'.")
                         return self.run()
 
                 self.inputs[action] = parameter
+                print(f"You set your '{action}' to '{parameter}'.")
 
         if action in self.FUNCTIONS_UTILITY:
             if action == "build":
@@ -221,9 +224,11 @@ class InteractivePrompt:
                         show.add_row([heading, value])
                 print(show)
             elif action == "quit":
-                print("Exiting.")
-                exit()
-
+                try:
+                    sys.exit()
+                except SystemExit:
+                    print("Exiting program.")
+    
         # Loop command prompt.
         self.run()
 
