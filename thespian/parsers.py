@@ -24,8 +24,11 @@ class FeatGuidelineParser(_GuidelineBuilder):
         # Gets the guideline definition string for the desired feat.
         feat_rules = RulesReader.get_entry_guide_string("feats", self.feat)
 
-        # Forms the guideline string definition into a dictionary.
-        raw_guidelines = self.build("feats", feat_rules)["feats"]
+        try:
+            # Forms the guideline string definition into a dictionary.
+            raw_guidelines = self.build("feats", feat_rules)["feats"]
+        except TypeError:
+            return None
 
         # Check if definitions present, otherwise stop parsing.
         if len(raw_guidelines) == 0:
@@ -144,7 +147,10 @@ class FeatGuidelineParser(_GuidelineBuilder):
 
     def set(self, guidelines: dict) -> dict | None:
         """Applies feat perks to the character base."""
-        if len(guidelines) == 0:
+        try:
+            if len(guidelines) == 0:
+                raise TypeError
+        except TypeError:
             return None
 
         for guideline, options in guidelines.items():
