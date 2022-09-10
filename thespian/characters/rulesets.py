@@ -1,16 +1,21 @@
 """
-    LINE REFERENCE POINTS
+=======================================
+# DUNGEONS & DRAGONS (5e) RULESETS
+=======================================
 
-        Alignments          19
-        Backgrounds         33
-        Classes             384
-        Feats               1302
-        Metrics             2739
-        Races               2775
-        Skills              3380
-        Spell Lists         3439
-        Subclasses          3558
-        Subraces            5177
+LINE REFERENCE POINTS
+
+Alignments            24
+Backgrounds           38
+Classes              389
+Feats               1307
+Metrics             2751
+Races               2787
+Skills              3392
+Spell Lists         3451
+Subclasses          3570
+Subraces            5189
+
 """
 rules = {
     #################################################################
