@@ -8,7 +8,7 @@ class _GuidelineBuilder:
     """Class to handle the creation of character building guidelines.
 
     ===================================
-    = SEPARATION CHARACTER DESCRIPTIONS
+    # SEPARATION CHARACTER DESCRIPTIONS
     ===================================
 
     SEMICOLON: Used to separate flags. i.e: ability=Strength;proficiency=skills
