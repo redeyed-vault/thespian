@@ -1,6 +1,6 @@
 from enum import Enum
 
-from .rules import rules
+from .rulesets import rules
 
 
 class RulesLoader(Enum):
