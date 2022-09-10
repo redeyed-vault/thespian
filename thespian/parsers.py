@@ -20,7 +20,7 @@ class FeatGuidelineParser(_GuidelineBuilder):
         return RulesReader.get_feat_proficiencies(self.feat, prof_type)
 
     def parse(self) -> dict | None:
-        """Creates guideline definitions from the raw guidelines based upon user's input (where applicable)."""
+        """Creates guideline definitions from the raw guidelines."""
         # Gets the guideline definition string for the desired feat.
         feat_rules = RulesReader.get_entry_guide_string("feats", self.feat)
 
