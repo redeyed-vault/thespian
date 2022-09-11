@@ -45,6 +45,7 @@ def echo(message: str, status_level: int = STATUS_NORMAL) -> None:
 
 
 def init_status(
+    name: str,
     race: str,
     subrace: str,
     sex: str,
@@ -59,6 +60,7 @@ def init_status(
 
     status_title = Fore.GREEN + Style.BRIGHT + "[+] "
     status_value = Fore.YELLOW + Style.BRIGHT
+    print(status_title + "Name: " + status_value + name)
     print(status_title + "Race: " + status_value + race)
     print(status_title + "Subrace: " + status_value + subrace)
     print(status_title + "Sex: " + status_value + sex)

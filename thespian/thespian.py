@@ -116,7 +116,7 @@ def define_guidelines(guideline_string: str) -> dict | None:
 
 
 def define_race(
-    race: str, sex: str, background: str, alignment: str, level: int
+    name: str, race: str, sex: str, background: str, alignment: str, level: int
 ) -> dict:
     """Define character race parameters."""
     race_base = RulesReader.get_entry_race(race)
@@ -128,6 +128,7 @@ def define_race(
     blueprint["background"] = background
     blueprint["alignment"] = alignment
     blueprint["level"] = level
+    blueprint["name"] = name
     blueprint["race"] = race
     blueprint["sex"] = sex
     blueprint["armors"] = race_base["armors"]
@@ -384,6 +385,7 @@ def order_by_dict_keys(iterable: dict) -> dict:
 
 
 def thespian(
+    name: str,
     race: str,
     subrace: str,
     sex: str,
@@ -396,13 +398,13 @@ def thespian(
     use_dominant_sex: bool = False,
 ) -> dict:
     """Runs the thespian character generator."""
-    init_status(race, subrace, sex, background, alignment, klass, subclass, level)
+    init_status(name, race, subrace, sex, background, alignment, klass, subclass, level)
 
     blueprint = dict()
     blueprint["subrace"] = subrace
 
     # Define character's racial/subracial (if applicable) data.
-    my_race = define_race(race, sex, background, alignment, level)
+    my_race = define_race(name, race, sex, background, alignment, level)
     if subrace == "":
         log.warning(f"No subrace options are available for '{race}'.")
     else:
@@ -453,6 +455,7 @@ def thespian(
         features += feature_list
 
     return {
+        "name": character.name,
         "race": character.race,
         "ancestry": character.ancestry,
         "subrace": character.subrace,
@@ -501,6 +504,13 @@ def main() -> None:
         description="Generate 5th edition Dungeons & Dragons characters.",
         formatter_class=ArgumentDefaultsHelpFormatter,
         prog=f"thespian (ver. {__version__})",
+    )
+    app.add_argument(
+        "-name",
+        "-n",
+        help="Sets your character's name.",
+        type=str,
+        default="Nameless One"
     )
     app.add_argument(
         "-race",
@@ -578,6 +588,7 @@ def main() -> None:
     )
 
     args = app.parse_args()
+    name = args.name
     race = args.race
     subrace = args.subrace
     klass = args.klass
@@ -604,6 +615,7 @@ def main() -> None:
         raise ArgumentTypeError(f"Invalid {race} subrace '{subrace}'.")
 
     character = thespian(
+        name,
         race,
         subrace,
         args.sex,
