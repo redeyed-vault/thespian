@@ -41,34 +41,26 @@ $ python -m pip install -r requirements.txt
 
 ```
 $ python thespian -h
-usage: thespian (ver. VERSION) [-h]
+usage: thespian (ver. VERSION) [-h] [-name NAME]
                               [-race {Aasimar,Bugbear,Dragonborn,Dwarf,Elf,Firbolg,Gith,Gnome,Goblin,Goliath,HalfElf,HalfOrc,Halfling,Hobgoblin,Human,Kenku,Kobold,Lizardfolk,Orc,Tabaxi,Tiefling,Triton,Yuanti}]
-                              [-subrace SUBRACE] [-sex {Female,Male}] [-background BACKGROUND] [-alignment ALIGNMENT]
+                              [-subrace SUBRACE] [-sex {Female,Male}]
+                              [-background BACKGROUND] [-alignment ALIGNMENT]
                               [-klass {Artificer,Barbarian,Bard,Cleric,Druid,Fighter,Monk,Paladin,Ranger,Rogue,Sorcerer,Warlock,Wizard}]
-                              [-subclass SUBCLASS] [-level {1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20}] [--roll-hp] [--use-dominant-sex]
+                              [-subclass SUBCLASS]
+                              [-level {1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20}]
+                              [--roll-hp] [--use-dominant-sex]
 
 Generate 5th edition Dungeons & Dragons characters.
 
 options:
   -h, --help            show this help message and exit
+  -name NAME, -n NAME   Sets your character's name. (default: Nameless One)
   -race {Aasimar,Bugbear,Dragonborn,Dwarf,Elf,Firbolg,Gith,Gnome,Goblin,Goliath,HalfElf,HalfOrc,Halfling,Hobgoblin,Human,Kenku,Kobold,Lizardfolk,Orc,Tabaxi,Tiefling,Triton,Yuanti}, -r {Aasimar,Bugbear,Dragonborn,Dwarf,Elf,Firbolg,Gith,Gnome,Goblin,Goliath,HalfElf,HalfOrc,Halfling,Hobgoblin,Human,Kenku,Kobold,Lizardfolk,Orc,Tabaxi,Tiefling,Triton,Yuanti}
-                        Sets your character's race. (default: Human)
-  -subrace SUBRACE, -sr SUBRACE
-                        Sets your character's subrace. (default: )
-  -sex {Female,Male}, -s {Female,Male}
-                        Sets your character's sex. (default: Female)
-  -background BACKGROUND, -b BACKGROUND
-                        Sets your character's background. (default: )
-  -alignment ALIGNMENT, -a ALIGNMENT
-                        Sets your character's alignment. (default: Chaotic Good)
-  -klass {Artificer,Barbarian,Bard,Cleric,Druid,Fighter,Monk,Paladin,Ranger,Rogue,Sorcerer,Warlock,Wizard}, -k {Artificer,Barbarian,Bard,Cleric,Druid,Fighter,Monk,Paladin,Ranger,Rogue,Sorcerer,Warlock,Wizard}
-                        Sets your character's class. (default: Fighter)
-  -subclass SUBCLASS, -sc SUBCLASS
-                        Sets your character's subclass. (default: )
-  -level {1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20}, -l {1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20}
+,11,12,13,14,15,16,17,18,19,20}
                         Sets your character's level. (default: 1)
-  --roll-hp             Roll hit points every level after the first. (default: False)
-  --use-dominant-sex    Account for height/weight differences based on sex. (default: False)
+  --roll-hp             Roll hit points every level after the first. (default: False)  
+  --use-dominant-sex    Account for height/weight differences based on sex. (default:  
+                        False)
 ```
 
 
