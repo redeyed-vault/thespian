@@ -38,8 +38,8 @@ class InteractivePrompt:
         # Init colorama.
         init(autoreset=True)
 
-        # Store user's selections.
-        self.inputs = {
+        # Store user's character selections.
+        self.character_options = {
             "alignment": None,
             "background": None,
             "class": None,
@@ -165,18 +165,23 @@ class InteractivePrompt:
                         print(f"Invalid '{action}' parameter specified '{parameter}'.")
                         return self.run()
 
-                self.inputs[action] = parameter
+                self.character_options[action] = parameter
                 print(f"You set your '{action}' to '{parameter}'.")
 
+        # build: Runs character options through thespian.
+        # help: Shows application help options.
+        # show: Shows current character option selections.
+        # quit: Closes the application.
         if action in self.FUNCTIONS_UTILITY:
             if action == "build":
                 # Keep running the prompt until all values set.
                 # Otherwise return the user's inputs.
-                if not all(o is not None for o in self.inputs.values()):
+                if not all(o is not None for o in self.character_options.values()):
                     print("Not all inputs have been set.")
                 else:
-                    output = self.inputs
+                    output = self.character_options
                     character = thespian(
+                        output["name"],
                         output["race"],
                         output["subrace"],
                         output["sex"],
@@ -219,7 +224,7 @@ class InteractivePrompt:
             elif action == "show":
                 show = PrettyTable()
                 show.field_names = ["Input", "Value"]
-                for heading, value in self.inputs.items():
+                for heading, value in self.character_options.items():
                     if heading not in self.FUNCTIONS_UTILITY:
                         show.add_row([heading, value])
                 print(show)
