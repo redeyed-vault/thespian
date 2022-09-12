@@ -3,7 +3,7 @@ from enum import Enum
 from .rulesets import rules
 
 
-class RulesLoader(Enum):
+class RulesetLoader(Enum):
     """Class to handle the retrieval and storage of rule data."""
 
     alignments: object = rules["alignments"]

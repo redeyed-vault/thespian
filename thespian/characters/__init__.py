@@ -1,4 +1,2 @@
-from enum import Enum
-
-from ._loader import RulesLoader
-from ._reader import RulesReader
+from ._loader import RulesetLoader
+from ._reader import RulesetReader
