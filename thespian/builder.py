@@ -1,14 +1,8 @@
-import logging
-
-
-log = logging.getLogger("thespian.builder")
-
-
 class _GuidelineBuilder:
     """Class to handle the creation of character building guidelines.
 
     ===================================
-    # SEPARATION CHARACTER DESCRIPTIONS
+    # SEPARATOR DESCRIPTIONS
     ===================================
 
     SEMICOLON: Used to separate flags. i.e: ability=Strength;proficiency=skills
@@ -33,19 +27,19 @@ class _GuidelineBuilder:
     SEPARATOR_CHARS = (";", "=", ",", "&&", "||")
 
     @classmethod
-    def build(cls, build_name: str, rules_string: str) -> dict | None:
+    def build(cls, build_name: str, ruleset_string: str) -> dict | None:
         """Translates rule strings into guideline instructions."""
-        if rules_string is None:
+        if ruleset_string is None:
             return None
 
         # Init
-        super(_GuidelineBuilder, cls).__init__(rules_string)
+        super(_GuidelineBuilder, cls).__init__(ruleset_string)
 
         # Stores guidelines.
         guidelines = dict()
 
         # Separate flag string into raw pair strings. CHAR: ";"
-        guideline_pairs = rules_string.split(cls.SEPARATOR_CHARS[0])
+        guideline_pairs = ruleset_string.split(cls.SEPARATOR_CHARS[0])
 
         separator_ampersand = cls.SEPARATOR_CHARS[3]
         separator_comma = cls.SEPARATOR_CHARS[2]
