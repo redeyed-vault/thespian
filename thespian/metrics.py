@@ -4,7 +4,7 @@ import math
 import random
 
 from attributes import roll_die
-from characters import RulesReader
+from characters import RulesetReader
 
 log = logging.getLogger("thespian.metrics")
 
@@ -19,13 +19,13 @@ class AnthropometricCalculator:
 
     def _get_height_and_weight_base(self) -> tuple:
         """Gets the base height/weight information for race/subrace."""
-        base_height = RulesReader.get_base_height(self.race)
-        base_weight = RulesReader.get_base_weight(self.race)
+        base_height = RulesetReader.get_base_height(self.race)
+        base_weight = RulesetReader.get_base_weight(self.race)
 
         # If no base race metrics found, check for subrace metrics.
         if base_height is None or base_weight is None:
-            base_height = RulesReader.get_base_height(self.subrace)
-            base_weight = RulesReader.get_base_weight(self.subrace)
+            base_height = RulesetReader.get_base_height(self.subrace)
+            base_weight = RulesetReader.get_base_weight(self.subrace)
 
         # If base|sub race metrics info still not found.
         if base_height is None or base_weight is None:
@@ -35,11 +35,11 @@ class AnthropometricCalculator:
 
     def _get_metric_data_source(self) -> str:
         """Returns metric data's source race/subrace name i.e Human, Drow, etc."""
-        result = RulesReader.get_metrics_by_race(self.race)
+        result = RulesetReader.get_metrics_by_race(self.race)
 
         # If metric data source not found by race, try by subrace.
         if result is None:
-            result = RulesReader.get_metrics_by_race(self.subrace)
+            result = RulesetReader.get_metrics_by_race(self.subrace)
             if result is not None:
                 return self.subrace
             else:
@@ -67,7 +67,9 @@ class AnthropometricCalculator:
 
         # "Unofficial" rule for height/weight differential by gender
         if use_dominant_sex:
-            dominant_sex = RulesReader.get_dominant_sex(self._get_metric_data_source())
+            dominant_sex = RulesetReader.get_dominant_sex(
+                self._get_metric_data_source()
+            )
             # If no dominant sex found, assume Male is the dominant sex.
             if dominant_sex is None:
                 dominant_sex = "Male"

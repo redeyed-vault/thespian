@@ -3,7 +3,7 @@ import sys
 from colorama import init, Fore, Style
 from prettytable import PrettyTable
 
-from characters import RulesLoader
+from characters import RulesetLoader
 from httpd import Server
 from thespian import thespian
 
@@ -55,14 +55,13 @@ class InteractivePrompt:
         self.ruleset_options = dict()
 
         # Load character builder rulesets.
-        for ruleset in RulesLoader:
-            ruleset_value = ruleset.value
-            if isinstance(ruleset_value, dict):
-                self.ruleset_options[ruleset.name] = list(ruleset_value.keys())
+        for rule in RulesetLoader:
+            if isinstance(rule.value, dict):
+                self.ruleset_options[rule.name] = list(rule.value.keys())
             else:
-                self.ruleset_options[ruleset.name] = ruleset_value
+                self.ruleset_options[rule.name] = rule.value
 
-            self.ruleset_options[ruleset.name].sort()
+            self.ruleset_options[rule.name].sort()
 
     def get_params_by_action(self, action_query: str) -> dict | None:
         """Returns all valid parameters for the requested action_query."""
@@ -233,7 +232,7 @@ class InteractivePrompt:
                     sys.exit()
                 except SystemExit:
                     print("Exiting program.")
-    
+
         # Loop command prompt.
         self.run()
 

@@ -1,7 +1,7 @@
 from dataclasses import dataclass
 import logging
 
-from characters import RulesReader
+from characters import RulesetReader
 from notifications import prompt
 from parsers import FeatGuidelineParser
 
@@ -98,7 +98,7 @@ class AbilityScoreImprovement:
                 return False
 
         # Cycle through ALL prerequisites for the feat.
-        feat_prerequisites = RulesReader.get_feat_requirements(feat)
+        feat_prerequisites = RulesetReader.get_feat_requirements(feat)
         for requirement, _ in feat_prerequisites.items():
             # Ignore requirements that are None
             if feat_prerequisites[requirement] is None:
@@ -232,7 +232,7 @@ class AbilityScoreImprovement:
             # Path #2: Add a new Feat.
             elif my_upgrade == "Feat":
                 # Gather a list of all applicable feats.
-                feat_options = RulesReader.get_all_feats()
+                feat_options = RulesetReader.get_all_feats()
 
                 my_feat = None
                 while my_feat is None:
