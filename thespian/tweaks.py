@@ -22,24 +22,24 @@ class AbilityScoreImprovement:
 
     def _get_adjustable_attributes(self, bonus: int) -> list:
         """Returns a list of all adjustable attributes using the specified bonus."""
-        attributes = (
+        adjustable_attributes = []
+        for attribute in (
             "Strength",
             "Dexterity",
             "Constitution",
             "Intelligence",
             "Wisdom",
             "Charisma",
-        )
-        adjustable_attributes = []
-        for attribute in attributes:
+        ):
             if self._is_adjustable(attribute, bonus):
                 adjustable_attributes.append(attribute)
         return adjustable_attributes
 
     def _get_number_of_upgrades(self) -> int:
         """Returns the number of available upgrades."""
-        level = self.character["level"]
         number_of_upgrades = 0
+
+        level = self.character["level"]
         for _ in range(1, level + 1):
             if (_ % 4) == 0 and _ != 20:
                 number_of_upgrades += 1
@@ -58,13 +58,13 @@ class AbilityScoreImprovement:
 
     def _has_requirements(self, feat: str) -> bool:
         """Checks if feat requirements have been met."""
-        klass = self.character["klass"]
-        armors = self.character["armors"]
-
         # Character already has feat.
         if feat in self.character["feats"]:
             return False
 
+        klass = self.character["klass"]
+        armors = self.character["armors"]
+        
         # If Heavily, Lightly, or Moderately Armored feat or a Monk.
         # "Armor Related" or Weapon Master feat but already proficient.
         if (
