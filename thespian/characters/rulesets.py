@@ -1306,7 +1306,7 @@ rules = {
     ########################################
     "feats": {
         "Actor": {
-            "_guides": "scores=Charisma,1",
+            "_options": "scores=Charisma,1",
             "perk": {
                 "scores": {"Charisma": 1},
                 "armors": [],
@@ -1327,7 +1327,7 @@ rules = {
             },
         },
         "Alert": {
-            "_guides": None,
+            "_options": None,
             "perk": {
                 "scores": None,
                 "armors": [],
@@ -1348,7 +1348,7 @@ rules = {
             },
         },
         "Athlete": {
-            "_guides": "scores=Strength||Dexterity,1",
+            "_options": "scores=Strength||Dexterity,1",
             "perk": {
                 "scores": {"Dexterity": 1, "Strength": 1},
                 "armors": [],
@@ -1369,7 +1369,7 @@ rules = {
             },
         },
         "Bountiful Luck": {
-            "_guides": None,
+            "_options": None,
             "perk": {
                 "scores": None,
                 "armors": [],
@@ -1390,7 +1390,7 @@ rules = {
             },
         },
         "Charger": {
-            "_guides": None,
+            "_options": None,
             "perk": {
                 "scores": None,
                 "armors": [],
@@ -1411,7 +1411,7 @@ rules = {
             },
         },
         "Crossbow Expert": {
-            "_guides": None,
+            "_options": None,
             "perk": {
                 "scores": None,
                 "armors": [],
@@ -1432,7 +1432,7 @@ rules = {
             },
         },
         "Defensive Duelist": {
-            "_guides": None,
+            "_options": None,
             "perk": {
                 "scores": None,
                 "armors": [],
@@ -1453,7 +1453,7 @@ rules = {
             },
         },
         "Dragon Fear": {
-            "_guides": "scores=Strength||Constitution||Charisma,1",
+            "_options": "scores=Strength||Constitution||Charisma,1",
             "perk": {
                 "scores": {"Charisma": 1, "Constitution": 1, "Strength": 1},
                 "armors": [],
@@ -1474,7 +1474,7 @@ rules = {
             },
         },
         "Dragon Hide": {
-            "_guides": "scores=Strength||Dexterity||Charisma,1",
+            "_options": "scores=Strength||Dexterity||Charisma,1",
             "perk": {
                 "scores": {"Charisma": 1, "Constitution": 1, "Strength": 1},
                 "armors": [],
@@ -1495,7 +1495,7 @@ rules = {
             },
         },
         "Drow High Magic": {
-            "_guides": "spells=spells,0",
+            "_options": "spells=spells,0",
             "perk": {
                 "scores": None,
                 "armors": [],
@@ -1516,7 +1516,7 @@ rules = {
             },
         },
         "Dual Wielder": {
-            "_guides": None,
+            "_options": None,
             "perk": {
                 "scores": None,
                 "armors": [],
@@ -1537,7 +1537,7 @@ rules = {
             },
         },
         "Dungeon Delver": {
-            "_guides": "resistances,0",
+            "_options": "resistances,0",
             "perk": {
                 "scores": None,
                 "armors": [],
@@ -1558,7 +1558,7 @@ rules = {
             },
         },
         "Durable": {
-            "_guides": "scores=Constitution,1",
+            "_options": "scores=Constitution,1",
             "perk": {
                 "scores": {"Constitution": 1},
                 "armors": [],
@@ -1579,7 +1579,7 @@ rules = {
             },
         },
         "Dwarven Fortitude": {
-            "_guides": "scores=Constitution,1",
+            "_options": "scores=Constitution,1",
             "perk": {
                 "scores": {"Constitution": 1},
                 "armors": [],
@@ -1600,7 +1600,7 @@ rules = {
             },
         },
         "Elemental Adept": {
-            "_guides": None,
+            "_options": None,
             "perk": {
                 "scores": None,
                 "armors": [],
@@ -1621,7 +1621,7 @@ rules = {
             },
         },
         "Elven Accuracy": {
-            "_guides": "scores=Dexterity||Intelligence||Wisdom||Charisma,1",
+            "_options": "scores=Dexterity||Intelligence||Wisdom||Charisma,1",
             "perk": {
                 "scores": {
                     "Charisma": 1,
@@ -1647,7 +1647,7 @@ rules = {
             },
         },
         "Fade Away": {
-            "_guides": "scores=Dexterity||Intelligence,1",
+            "_options": "scores=Dexterity||Intelligence,1",
             "perk": {
                 "scores": {"Dexterity": 1, "Intelligence": 1},
                 "armors": [],
@@ -1668,7 +1668,7 @@ rules = {
             },
         },
         "Fey Teleportation": {
-            "_guides": "scores=Intelligence||Charisma,1;proficiency=languages,0",
+            "_options": "scores=Intelligence||Charisma,1;proficiency=languages,0",
             "perk": {
                 "scores": {"Charisma": 1, "Intelligence": 1},
                 "armors": [],
@@ -1689,7 +1689,7 @@ rules = {
             },
         },
         "Flames of Phlegethos": {
-            "_guides": None,
+            "_options": None,
             "perk": {
                 "scores": None,
                 "armors": [],
@@ -1710,7 +1710,7 @@ rules = {
             },
         },
         "Grappler": {
-            "_guides": None,
+            "_options": None,
             "perk": {
                 "scores": None,
                 "armors": [],
@@ -1731,7 +1731,7 @@ rules = {
             },
         },
         "Great Weapon Master": {
-            "_guides": None,
+            "_options": None,
             "perk": {
                 "scores": None,
                 "armors": [],
@@ -1752,7 +1752,7 @@ rules = {
             },
         },
         "Healer": {
-            "_guides": None,
+            "_options": None,
             "perk": {
                 "scores": None,
                 "armors": [],
@@ -1773,7 +1773,7 @@ rules = {
             },
         },
         "Heavily Armored": {
-            "_guides": "scores=Strength,1;proficiency=armors,0",
+            "_options": "scores=Strength,1;proficiency=armors,0",
             "perk": {
                 "scores": {"Strength": 1},
                 "armors": ("Heavy",),
@@ -1794,7 +1794,7 @@ rules = {
             },
         },
         "Heavy Armor Master": {
-            "_guides": "scores=Strength,1",
+            "_options": "scores=Strength,1",
             "perk": {
                 "scores": {"Strength": 1},
                 "armors": [],
@@ -1815,7 +1815,7 @@ rules = {
             },
         },
         "Infernal Constitution": {
-            "_guides": "scores=Constitution;resistances,0",
+            "_options": "scores=Constitution;resistances,0",
             "perk": {
                 "scores": {"Constitution": 1},
                 "armors": [],
@@ -1839,7 +1839,7 @@ rules = {
             },
         },
         "Inspiring Leader": {
-            "_guides": None,
+            "_options": None,
             "perk": {
                 "scores": None,
                 "armors": [],
@@ -1860,7 +1860,7 @@ rules = {
             },
         },
         "Keen Mind": {
-            "_guides": "scores=Intelligence,1",
+            "_options": "scores=Intelligence,1",
             "perk": {
                 "scores": {"Intelligence": 1},
                 "armors": [],
@@ -1881,7 +1881,7 @@ rules = {
             },
         },
         "Lightly Armored": {
-            "_guides": "scores=Strength||Dexterity,1;proficiency=armors,0",
+            "_options": "scores=Strength||Dexterity,1;proficiency=armors,0",
             "perk": {
                 "scores": {"Dexterity": 1, "Strength": 1},
                 "armors": ("Light",),
@@ -1902,7 +1902,7 @@ rules = {
             },
         },
         "Linguist": {
-            "_guides": "scores=Intelligence,1;proficiency=languages,3",
+            "_options": "scores=Intelligence,1;proficiency=languages,3",
             "perk": {
                 "scores": {"Intelligence": 1},
                 "armors": [],
@@ -1940,7 +1940,7 @@ rules = {
             },
         },
         "Lucky": {
-            "_guides": None,
+            "_options": None,
             "perk": {
                 "scores": None,
                 "armors": [],
@@ -1961,7 +1961,7 @@ rules = {
             },
         },
         "Mage Slayer": {
-            "_guides": None,
+            "_options": None,
             "perk": {
                 "scores": None,
                 "armors": [],
@@ -1982,7 +1982,7 @@ rules = {
             },
         },
         "Magic Initiative": {
-            "_guides": None,
+            "_options": None,
             "perk": {
                 "scores": None,
                 "armors": [],
@@ -2003,7 +2003,7 @@ rules = {
             },
         },
         "Martial Adept": {
-            "_guides": None,
+            "_options": None,
             "perk": {
                 "scores": None,
                 "armors": [],
@@ -2024,7 +2024,7 @@ rules = {
             },
         },
         "Medium Armor Master": {
-            "_guides": None,
+            "_options": None,
             "perk": {
                 "scores": None,
                 "armors": [],
@@ -2045,7 +2045,7 @@ rules = {
             },
         },
         "Mobile": {
-            "_guides": "speed,0",
+            "_options": "speed,0",
             "perk": {
                 "scores": None,
                 "armors": [],
@@ -2066,7 +2066,7 @@ rules = {
             },
         },
         "Moderately Armored": {
-            "_guides": "scores=Strength||Dexterity,1;proficiency=armors,0",
+            "_options": "scores=Strength||Dexterity,1;proficiency=armors,0",
             "perk": {
                 "scores": {"Dexterity": 1, "Strength": 1},
                 "armors": (
@@ -2090,7 +2090,7 @@ rules = {
             },
         },
         "Mounted Combatant": {
-            "_guides": None,
+            "_options": None,
             "perk": {
                 "scores": None,
                 "armors": [],
@@ -2111,7 +2111,7 @@ rules = {
             },
         },
         "Observant": {
-            "_guides": "scores=Intelligence||Wisdom,1",
+            "_options": "scores=Intelligence||Wisdom,1",
             "perk": {
                 "scores": {"Intelligence": 1, "Wisdom": 1},
                 "armors": [],
@@ -2132,7 +2132,7 @@ rules = {
             },
         },
         "Orcish Fury": {
-            "_guides": "scores=Strength||Constitution,1",
+            "_options": "scores=Strength||Constitution,1",
             "perk": {
                 "scores": {"Constitution": 1, "Strength": 1},
                 "armors": [],
@@ -2153,7 +2153,7 @@ rules = {
             },
         },
         "Polearm Master": {
-            "_guides": None,
+            "_options": None,
             "perk": {
                 "scores": None,
                 "armors": [],
@@ -2174,7 +2174,7 @@ rules = {
             },
         },
         "Prodigy": {
-            "_guides": "proficiency=languages&&skills&&tools,1",
+            "_options": "proficiency=languages&&skills&&tools,1",
             "perk": {
                 "scores": None,
                 "armors": [],
@@ -2270,7 +2270,7 @@ rules = {
             },
         },
         "Resilient": {
-            "_guides": "scores=Strength||Dexterity||Constitution"
+            "_options": "scores=Strength||Dexterity||Constitution"
             "||Intelligence||Wisdom||Charisma,1;savingthrows,0",
             "perk": {
                 "scores": {
@@ -2299,7 +2299,7 @@ rules = {
             },
         },
         "Ritual Caster": {
-            "_guides": None,
+            "_options": None,
             "perk": {
                 "scores": None,
                 "armors": [],
@@ -2320,7 +2320,7 @@ rules = {
             },
         },
         "Savage Attacker": {
-            "_guides": None,
+            "_options": None,
             "perk": {
                 "scores": None,
                 "armors": [],
@@ -2341,7 +2341,7 @@ rules = {
             },
         },
         "Second Chance": {
-            "_guides": "scores=Dexterity||Constitution||Charisma,1",
+            "_options": "scores=Dexterity||Constitution||Charisma,1",
             "perk": {
                 "scores": {"Charisma": 1, "Constitution": 1, "Dexterity": 1},
                 "armors": [],
@@ -2362,7 +2362,7 @@ rules = {
             },
         },
         "Sentinel": {
-            "_guides": None,
+            "_options": None,
             "perk": {
                 "scores": None,
                 "languages": [],
@@ -2380,7 +2380,7 @@ rules = {
             },
         },
         "Sharpshooter": {
-            "_guides": None,
+            "_options": None,
             "perk": {
                 "scores": None,
                 "armors": [],
@@ -2401,7 +2401,7 @@ rules = {
             },
         },
         "Shield Master": {
-            "_guides": None,
+            "_options": None,
             "perk": {
                 "scores": None,
                 "armors": [],
@@ -2422,7 +2422,7 @@ rules = {
             },
         },
         "Skilled": {
-            "_guides": "proficiency=skills||tools,3",
+            "_options": "proficiency=skills||tools,3",
             "perk": {
                 "scores": None,
                 "armors": [],
@@ -2501,7 +2501,7 @@ rules = {
             },
         },
         "Skulker": {
-            "_guides": None,
+            "_options": None,
             "perk": {
                 "scores": None,
                 "armors": [],
@@ -2522,7 +2522,7 @@ rules = {
             },
         },
         "Spell Sniper": {
-            "_guides": None,
+            "_options": None,
             "perk": {
                 "scores": None,
                 "armors": [],
@@ -2543,7 +2543,7 @@ rules = {
             },
         },
         "Squat Nimbleness": {
-            "_guides": "scores=Strength||Dexterity,1;speed,0",
+            "_options": "scores=Strength||Dexterity,1;speed,0",
             "perk": {
                 "scores": {"Dexterity": 1, "Strength": 1},
                 "armors": [],
@@ -2564,7 +2564,7 @@ rules = {
             },
         },
         "Svirfneblin Magic": {
-            "_guides": "spells=spells,0",
+            "_options": "spells=spells,0",
             "perk": {
                 "scores": None,
                 "armors": [],
@@ -2585,7 +2585,7 @@ rules = {
             },
         },
         "Tavern Brawler": {
-            "_guides": "scores=Strength||Constitution,1;proficiency=weapons,0",
+            "_options": "scores=Strength||Constitution,1;proficiency=weapons,0",
             "perk": {
                 "scores": {"Constitution": 1, "Strength": 1},
                 "armors": [],
@@ -2606,7 +2606,7 @@ rules = {
             },
         },
         "Tough": {
-            "_guides": None,
+            "_options": None,
             "perk": {
                 "scores": None,
                 "armors": [],
@@ -2627,7 +2627,7 @@ rules = {
             },
         },
         "War Caster": {
-            "_guides": None,
+            "_options": None,
             "perk": {
                 "scores": None,
                 "armors": [],
@@ -2648,7 +2648,7 @@ rules = {
             },
         },
         "Weapon Master": {
-            "_guides": "scores=Strength||Dexterity,1;proficiency=weapons,4",
+            "_options": "scores=Strength||Dexterity,1;proficiency=weapons,4",
             "perk": {
                 "scores": {"Dexterity": 1, "Strength": 1},
                 "armors": [],
@@ -2711,7 +2711,7 @@ rules = {
             },
         },
         "Wood Elf Magic": {
-            "_guides": "spells=spells,0",
+            "_options": "spells=spells,0",
             "perk": {
                 "scores": None,
                 "armors": [],

@@ -125,11 +125,11 @@ class RulesetReader:
             return None
 
     @classmethod
-    def get_entry_guide_string(cls, category: str, entry: str) -> str | None:
+    def get_entry_option_string(cls, category: str, entry: str) -> str | None:
         """Returns config entry for class."""
         try:
             getter = cls()
-            return getter._read_(category)[entry]["_guides"]
+            return getter._read_(category)[entry]["_options"]
         except KeyError:
             return None
 

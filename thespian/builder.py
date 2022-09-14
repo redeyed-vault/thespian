@@ -1,5 +1,5 @@
-class _GuidelineBuilder:
-    """Class to handle the creation of character building guidelines.
+class _OptionsBuilder:
+    """Class base that builds guideline instructions from strings.
 
     ===================================
     # SEPARATOR DESCRIPTIONS
@@ -27,19 +27,19 @@ class _GuidelineBuilder:
     SEPARATOR_CHARS = (";", "=", ",", "&&", "||")
 
     @classmethod
-    def build(cls, build_name: str, ruleset_string: str) -> dict | None:
+    def build(cls, build_name: str, option_string: str) -> dict | None:
         """Translates rule strings into guideline instructions."""
-        if ruleset_string is None:
+        if option_string is None:
             return None
 
         # Init
-        super(_GuidelineBuilder, cls).__init__(ruleset_string)
+        super(_OptionsBuilder, cls).__init__(option_string)
 
         # Stores guidelines.
         guidelines = dict()
 
         # Separate flag string into raw pair strings. CHAR: ";"
-        guideline_pairs = ruleset_string.split(cls.SEPARATOR_CHARS[0])
+        guideline_pairs = option_string.split(cls.SEPARATOR_CHARS[0])
 
         separator_ampersand = cls.SEPARATOR_CHARS[3]
         separator_comma = cls.SEPARATOR_CHARS[2]

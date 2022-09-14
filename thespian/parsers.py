@@ -1,16 +1,16 @@
 import logging
 
-from builder import _GuidelineBuilder
+from builder import _OptionsBuilder
 from notifications import prompt
 from characters import RulesetReader
 
 log = logging.getLogger("thespian.parsers")
 
 
-class FeatGuidelineBuilder(_GuidelineBuilder):
+class FeatGuidelineBuilder(_OptionsBuilder):
 
     def __init__(self, feat: str, character_base: dict):
-        super(_GuidelineBuilder, self).__init__()
+        super(_OptionsBuilder, self).__init__()
         self.feat = feat
         self.character_base = character_base
 
@@ -48,7 +48,7 @@ class FeatGuidelineBuilder(_GuidelineBuilder):
     def parse(self) -> dict | None:
         """Creates guideline definitions from the raw guidelines."""
         # Gets the guideline definition string for the desired feat.
-        feat_rules = RulesetReader.get_entry_guide_string("feats", self.feat)
+        feat_rules = RulesetReader.get_entry_option_string("feats", self.feat)
 
         try:
             # Forms the guideline string definition into a dictionary.
