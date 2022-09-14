@@ -7,17 +7,43 @@ from characters import RulesetReader
 log = logging.getLogger("thespian.parsers")
 
 
-class FeatGuidelineParser(_GuidelineBuilder):
-    """Class to handle feat guideline parsing."""
-
+class FeatGuidelines(_GuidelineBuilder):
+    
     def __init__(self, feat: str, character_base: dict):
         super(_GuidelineBuilder, self).__init__()
         self.feat = feat
         self.character_base = character_base
 
-    def _get_perk_options(self, prof_type: str) -> list:
-        """Returns a list of bonus proficiencies for a feat by proficiency type."""
+    def _get_bonus_proficiencies_by_type(self, prof_type: str) -> list:
         return RulesetReader.get_feat_proficiencies(self.feat, prof_type)
+
+    def apply_perks(self, guidelines: dict) -> dict | None:
+        try:
+            if len(guidelines) == 0:
+                raise TypeError
+        except TypeError:
+            return None
+
+        for guideline, options in guidelines.items():
+            if isinstance(options, tuple):
+                options = list(options)
+
+            if isinstance(options, dict):
+                attributes = self.character_base[guideline]
+                for attribute, bonus in options.items():
+                    if attribute in attributes:
+                        score = attributes[attribute] + bonus
+                        attributes[attribute] = score
+
+            if isinstance(options, list):
+                # Amend to entries that already exist.
+                # Create needed entries that don't yet exist.
+                if guideline in self.character_base:
+                    self.character_base[guideline] += options
+                else:
+                    self.character_base[guideline] = options
+
+        return self.character_base
 
     def parse(self) -> dict | None:
         """Creates guideline definitions from the raw guidelines."""
@@ -76,7 +102,7 @@ class FeatGuidelineParser(_GuidelineBuilder):
                 proficiency_type = guideline_options[0]
 
                 # Get a list of the applicable proficiency selection options.
-                guideline_options = self._get_perk_options(proficiency_type)
+                guideline_options = self._get_bonus_proficiencies_by_type(proficiency_type)
 
                 # Create special placeholder for user selection.
                 feat_rules[proficiency_type] = []
@@ -122,7 +148,7 @@ class FeatGuidelineParser(_GuidelineBuilder):
                     feat_rules[proficiency_type].append(my_bonus)
             elif guide_name == "spells":
                 # Get a list of the applicable spell selection options.
-                guideline_options = list(self._get_perk_options(guide_name))
+                guideline_options = list(self._get_bonus_proficiencies_by_type(guide_name))
 
                 # Make spell selections where applicable.
                 for index, spell in enumerate(guideline_options):
@@ -144,32 +170,3 @@ class FeatGuidelineParser(_GuidelineBuilder):
                 feat_rules[guide_name] = guideline_options
 
         return feat_rules
-
-    def set(self, guidelines: dict) -> dict | None:
-        """Applies feat perks to the character base."""
-        try:
-            if len(guidelines) == 0:
-                raise TypeError
-        except TypeError:
-            return None
-
-        for guideline, options in guidelines.items():
-            if isinstance(options, tuple):
-                options = list(options)
-
-            if isinstance(options, dict):
-                attributes = self.character_base[guideline]
-                for attribute, bonus in options.items():
-                    if attribute in attributes:
-                        score = attributes[attribute] + bonus
-                        attributes[attribute] = score
-
-            if isinstance(options, list):
-                # Amend to entries that already exist.
-                # Create needed entries that don't yet exist.
-                if guideline in self.character_base:
-                    self.character_base[guideline] += options
-                else:
-                    self.character_base[guideline] = options
-
-        return self.character_base
