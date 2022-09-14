@@ -3,7 +3,7 @@ import logging
 
 from characters import RulesetReader
 from notifications import prompt
-from parsers import FeatGuidelineParser
+from parsers import FeatGuidelines
 
 log = logging.getLogger("thespian.tweaks")
 
@@ -15,13 +15,11 @@ class AbilityScoreImprovement:
     character: dict
 
     def _add_feat_perks(self, feat: str) -> bool | dict | None:
-        """Applies applicable perks to character by the specified feat."""
         self.character["feats"].append(feat)
-        feat_parser = FeatGuidelineParser(feat, self.character)
-        return feat_parser.set(feat_parser.parse())
+        feat_parser = FeatGuidelines(feat, self.character)
+        return feat_parser.apply_perks(feat_parser.parse())
 
     def _get_adjustable_attributes(self, bonus: int) -> list:
-        """Returns a list of all adjustable attributes using the specified bonus."""
         adjustable_attributes = []
         for attribute in (
             "Strength",
@@ -36,7 +34,6 @@ class AbilityScoreImprovement:
         return adjustable_attributes
 
     def _get_number_of_upgrades(self) -> int:
-        """Returns the number of available upgrades."""
         number_of_upgrades = 0
 
         level = self.character["level"]
@@ -57,14 +54,13 @@ class AbilityScoreImprovement:
         return number_of_upgrades
 
     def _has_requirements(self, feat: str) -> bool:
-        """Checks if feat requirements have been met."""
         # Character already has feat.
         if feat in self.character["feats"]:
             return False
 
         klass = self.character["klass"]
         armors = self.character["armors"]
-        
+
         # If Heavily, Lightly, or Moderately Armored feat or a Monk.
         # "Armor Related" or Weapon Master feat but already proficient.
         if (
@@ -169,7 +165,6 @@ class AbilityScoreImprovement:
         return True
 
     def _is_adjustable(self, attribute: str, bonus: int = 1) -> bool:
-        """Checks if attribute is adjustable using the specified bonus (<= 20)."""
         if not isinstance(attribute, str):
             raise TypeError("Argument 'ability' must be of type 'str'.")
 
@@ -190,7 +185,6 @@ class AbilityScoreImprovement:
         return True
 
     def tweak(self) -> None | bool:
-        """Executes ability score improvements upon the specified character data."""
         if self.character["level"] < 4:
             logging.warning("Character level less than 4. No upgrades available.")
             return False
@@ -256,7 +250,6 @@ class AbilityScoreImprovement:
             upgrades_available -= 1
 
     def _set_attribute(self, attribute: str, bonus: int = 1) -> None | bool:
-        """Apply a bonus to an attribute (if applicable)."""
         if not self._is_adjustable(attribute, bonus):
             log.warning(f"Attribute '{attribute}' is not adjustable.")
             return False
@@ -267,7 +260,7 @@ class AbilityScoreImprovement:
 
 # Begin test code.
 if __name__ == "__main__":
-    x = FeatGuidelineParser(
+    x = FeatGuidelines(
         "Tavern Brawler",
         {
             "languages": ["Common"],
@@ -276,5 +269,5 @@ if __name__ == "__main__":
             "weapons": [],
         },
     )
-    s = x.set(x.parse())
+    s = x.apply_perks(x.parse())
     print(s)
