@@ -7,8 +7,8 @@ from characters import RulesetReader
 log = logging.getLogger("thespian.parsers")
 
 
-class FeatGuidelines(_GuidelineBuilder):
-    
+class FeatGuidelineBuilder(_GuidelineBuilder):
+
     def __init__(self, feat: str, character_base: dict):
         super(_GuidelineBuilder, self).__init__()
         self.feat = feat

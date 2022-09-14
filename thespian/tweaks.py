@@ -3,7 +3,7 @@ import logging
 
 from characters import RulesetReader
 from notifications import prompt
-from parsers import FeatGuidelines
+from parsers import FeatGuidelineBuilder
 
 log = logging.getLogger("thespian.tweaks")
 
@@ -16,7 +16,7 @@ class AbilityScoreImprovement:
 
     def _add_feat_perks(self, feat: str) -> bool | dict | None:
         self.character["feats"].append(feat)
-        feat_parser = FeatGuidelines(feat, self.character)
+        feat_parser = FeatGuidelineBuilder(feat, self.character)
         return feat_parser.apply_perks(feat_parser.parse())
 
     def _get_adjustable_attributes(self, bonus: int) -> list:
@@ -260,7 +260,7 @@ class AbilityScoreImprovement:
 
 # Begin test code.
 if __name__ == "__main__":
-    x = FeatGuidelines(
+    x = FeatGuidelineBuilder(
         "Tavern Brawler",
         {
             "languages": ["Common"],
