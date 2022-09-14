@@ -10,7 +10,6 @@ log = logging.getLogger("thespian.tweaks")
 
 @dataclass
 class AbilityScoreImprovement:
-    """Class to handle ability/feat upgrades."""
 
     character: dict
 
