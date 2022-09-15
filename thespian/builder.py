@@ -1,5 +1,5 @@
-class _OptionsBuilder:
-    """Class base that builds guideline instructions from strings.
+class _RulesetGuidelineBuilder:
+    """Class base that builds guidelines from option string.
 
     ===================================
     # SEPARATOR DESCRIPTIONS
@@ -20,7 +20,7 @@ class _OptionsBuilder:
         The example above means the player can gain an enhancement in both Strength and Dexterity.
 
     DOUBLE PIPEBAR: Used to separater parameter options. i.e ability=Strength||Dexerity,1
-        The example above means the player can choose a one time ehancement to Strength or Dexterity.
+        The example above means the player can choose a +1 enhancement to Strength or Dexterity.
 
     """
 
@@ -33,7 +33,7 @@ class _OptionsBuilder:
             return None
 
         # Init
-        super(_OptionsBuilder, cls).__init__(option_string)
+        super(_RulesetGuidelineBuilder, cls).__init__(option_string)
 
         # Stores guidelines.
         guidelines = dict()

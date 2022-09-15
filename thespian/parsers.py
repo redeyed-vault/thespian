@@ -1,16 +1,16 @@
 import logging
 
-from builder import _OptionsBuilder
+from builder import _RulesetGuidelineBuilder
 from notifications import prompt
 from characters import RulesetReader
 
 log = logging.getLogger("thespian.parsers")
 
 
-class FeatGuidelineBuilder(_OptionsBuilder):
+class FeatGuidelineBuilder(_RulesetGuidelineBuilder):
 
     def __init__(self, feat: str, character_base: dict):
-        super(_OptionsBuilder, self).__init__()
+        super(_RulesetGuidelineBuilder, self).__init__()
         self.feat = feat
         self.character_base = character_base
 
