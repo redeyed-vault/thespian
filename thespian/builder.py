@@ -27,7 +27,7 @@ class _RulesetGuidelineBuilder:
     SEPARATOR_CHARS = (";", "=", ",", "&&", "||")
 
     @classmethod
-    def build(cls, build_name: str, option_string: str) -> dict | None:
+    def build_raw_guidelines(cls, build_name: str, option_string: str) -> dict | None:
         """Translates rule strings into guideline instructions."""
         if option_string is None:
             return None
