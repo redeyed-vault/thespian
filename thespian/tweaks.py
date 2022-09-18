@@ -16,7 +16,7 @@ class AbilityScoreImprovement:
     def _add_feat_perks(self, feat: str) -> bool | dict | None:
         self.character["feats"].append(feat)
         feat_parser = FeatGuidelineBuilder(feat, self.character)
-        return feat_parser.apply_perks(feat_parser.parse())
+        return feat_parser.apply_perks(feat_parser.build_guidelines())
 
     def _get_adjustable_attributes(self, bonus: int) -> list:
         adjustable_attributes = []
@@ -268,5 +268,5 @@ if __name__ == "__main__":
             "weapons": [],
         },
     )
-    s = x.apply_perks(x.parse())
+    s = x.apply_perks(x.build_guidelines())
     print(s)
